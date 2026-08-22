@@ -74,7 +74,7 @@ single-branch, hardening-at-the-end flow.
   (Task 4).
 - Produces: `tests/stacked-prs.sh`, a `grep_flat`-based content gate later tasks extend.
 
-- [ ] **Step 1: Write the failing test.** Create `engineering/tests/stacked-prs.sh` in the
+- [x] **Step 1: Write the failing test.** Create `engineering/tests/stacked-prs.sh` in the
   style of `validate.sh` — a `grep_flat()` helper (`tr '\n' ' ' | tr -s ' ' | grep -qF --`)
   and, for the new skill file `S="$PLUGIN/skills/using-stacked-pull-requests/SKILL.md"`,
   assert each anchor below is present. Make missing anchors fail the script (`exit 1`).
@@ -90,11 +90,11 @@ single-branch, hardening-at-the-end flow.
   - `bottom-up`
   - `## What this does not do`
 
-- [ ] **Step 2: Run it to confirm it fails.**
+- [x] **Step 2: Run it to confirm it fails.**
   Run: `sh engineering/tests/stacked-prs.sh`
   Expected: FAIL (SKILL.md does not exist yet / anchors missing).
 
-- [ ] **Step 3: Write the skill.** Create
+- [x] **Step 3: Write the skill.** Create
   `engineering/skills/using-stacked-pull-requests/SKILL.md` with frontmatter
   `name: using-stacked-pull-requests` and a `description:` opening with `[Foundation]` that
   states, in one line, that it manages stacked pull requests across a plan's tasks
@@ -116,11 +116,11 @@ single-branch, hardening-at-the-end flow.
   - `## What this does not do` — does not write plans, decide which tasks exist, run
     tdd/review/hardening, pick stacked-vs-not (the plan header does), or create the worktree.
 
-- [ ] **Step 4: Run the tests to confirm green.**
+- [x] **Step 4: Run the tests to confirm green.**
   Run: `sh engineering/tests/stacked-prs.sh && sh engineering/tests/frontmatter.sh engineering/skills/using-stacked-pull-requests "[Foundation]"`
   Expected: both PASS.
 
-- [ ] **Step 5: Commit.**
+- [x] **Step 5: Commit.**
   ```bash
   git add engineering/skills/using-stacked-pull-requests/SKILL.md engineering/tests/stacked-prs.sh
   git commit -m "feat: add using-stacked-pull-requests skill"
