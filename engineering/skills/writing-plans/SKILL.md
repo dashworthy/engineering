@@ -91,7 +91,8 @@ fan out across parallel agents.
 
 A stacked plan also changes the shape of each task. In addition to the ordinary steps, a
 stacked task **opens** with a step that starts the task's stacked branch off the previous
-task's branch (before any of the task's commits land), and **closes**, after the commit
+task's branch — or off the trunk, for the first task, which has no previous task — (before
+any of the task's commits land), and **closes**, after the commit
 step, with a step to **submit the stacked PR** for the task via
 `engineering:using-stacked-pull-requests`. The closing Phase 3.5 hardening task is no
 exception — in a stacked plan its work goes up as the top-of-stack PR, on its own branch
