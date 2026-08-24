@@ -3,9 +3,12 @@
 A Claude Code plugin: a complete software-development pipeline that carries a request
 from a vague ask — or a reported defect — all the way to a green, documented branch.
 File-based from end to end: every artifact the pipeline produces is a file on disk.
+The pipeline ends at a green, documented branch — deployment, release, and rollback
+are deliberately out of scope.
 
-This repository is a single-plugin Claude Code marketplace. It publishes one plugin,
-`engineering`, and that plugin carries the whole pipeline.
+This repository is the `dashworthy` Claude Code marketplace. Its primary plugin,
+`engineering`, carries the whole pipeline; a small companion plugin, `laravel`, ships
+Laravel pre-commit hooks (Pint, PHPStan, Pest) and is installed separately.
 
 ## Install
 
@@ -14,7 +17,7 @@ This repository is a single-plugin Claude Code marketplace. It publishes one plu
 /plugin install engineering@dashworthy
 ```
 
-One plugin, one install: `engineering` carries everything.
+One install: `engineering` carries the whole pipeline.
 
 ## What it does
 
@@ -36,11 +39,12 @@ flowchart TD
 
     SIG --> DES["brainstorming<br/>design dialogue"]
     TRI -->|"needs a decision"| DES
-    TRI -. "quick fix" .-> BB
+    TRI -. "quick fix" .-> FIX["diagnosing-bugs"]
 
     DES --> SPEC["to-spec"]
     SPEC --> BB["plan · build · harden · document"]
     BB --> DONE(["green, documented branch"]):::done
+    FIX -. .-> DONE
 ```
 
 Each phase reads what the phase before it produced; none re-decides what an earlier

@@ -31,7 +31,8 @@ required={"name","description","version","author","license"}
 missing=required-set(d)
 assert not missing, f"plugin.json missing keys: {sorted(missing)}"
 assert d["name"]=="engineering", f'name is {d["name"]!r}, expected "engineering"'
-assert d["version"]=="0.3.0", f'version is {d["version"]!r}, expected "0.3.0"'
+import re
+assert re.fullmatch(r"\d+\.\d+\.\d+", str(d["version"])), f'version {d["version"]!r} is not semver'
 assert d["license"]=="MIT", f'license is {d["license"]!r}, expected "MIT"'
 PY
   check $? "plugin.json is well-formed"
@@ -39,16 +40,17 @@ fi
 
 # --- marketplace registration ------------------------------------------------
 
-python3 - "$ROOT/.claude-plugin/marketplace.json" <<'PY'
+python3 - "$ROOT/.claude-plugin/marketplace.json" "$PLUGIN/.claude-plugin/plugin.json" <<'PY'
 import json,sys
 d=json.load(open(sys.argv[1]))
 names=[p["name"] for p in d["plugins"]]
 assert "engineering" in names, f"engineering not registered; found {names}"
 e=[p for p in d["plugins"] if p["name"]=="engineering"][0]
 assert e["source"]=="./engineering", f'source is {e["source"]!r}'
-assert e["version"]=="0.3.0", f'version is {e["version"]!r}'
+pv=json.load(open(sys.argv[2]))["version"]
+assert e["version"]==pv, f'marketplace version {e["version"]!r} != plugin.json {pv!r}'
 PY
-check $? "engineering is registered in the dashworthy marketplace"
+check $? "marketplace engineering entry version matches plugin.json"
 
 # --- references --------------------------------------------------------------
 
@@ -139,8 +141,24 @@ fi
 
 [ -f "$PLUGIN/README.md" ]; check $? "engineering/README.md exists"
 
-# The cutover plan is what updates the root README to list engineering; until then this one
-# check is expected to fail. See the vernacular-absorption task's report for the note.
+# The root README must name the engineering plugin.
 grep_flat "$ROOT/README.md" "engineering"; check $? "root README lists engineering"
+
+# --- README consistency ------------------------------------------------------
+# These pin the facts an earlier gap analysis found drifting: the install URL was
+# wrong in one of three READMEs, and the advertised skill count had no guard.
+
+# Every install snippet points at the same marketplace repo.
+url_root=$(grep 'plugin marketplace add' "$ROOT/README.md" | head -1)
+for r in "$PLUGIN/README.md" "$ROOT/laravel/README.md"; do
+  [ -f "$r" ] || continue
+  u=$(grep 'plugin marketplace add' "$r" | head -1)
+  [ "$u" = "$url_root" ]; check $? "install URL in $(basename "$(dirname "$r")")/README matches root"
+done
+
+# The skill count the root README advertises matches the skills on disk.
+claimed=$(grep -oE '[0-9]+ skills' "$ROOT/README.md" | grep -oE '[0-9]+' | head -1)
+actual=$(find "$PLUGIN/skills" -name SKILL.md | wc -l | tr -d ' ')
+[ "$claimed" = "$actual" ]; check $? "root README skill count ($claimed) matches disk ($actual)"
 
 exit $fail
