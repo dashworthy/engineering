@@ -299,14 +299,14 @@ wired to them.
 **Files:**
 - (No source files — this task runs a hardening skill over the branch's changes.)
 
-- [ ] **Step 1: Run test hardening.** Invoke `engineering:conducting-test-hardening` over the
+- [x] **Step 1: Run test hardening.** Invoke `engineering:conducting-test-hardening` over the
   branch diff. Report whichever exit it reaches — `pass`, `dry`, `cap`, `halt`, or
   `audit-only` — plainly, without translating it into a bare "done."
 
-- [ ] **Step 2: Address its result.** Apply whatever the hardening pass returns per that
+- [x] **Step 2: Address its result.** Apply whatever the hardening pass returns per that
   skill's own loop; do not expand scope beyond the branch's changes.
 
-- [ ] **Step 3: Commit any hardening changes** with a `test:` message if the pass produced any.
+- [x] **Step 3: Commit any hardening changes** with a `test:` message if the pass produced any.
 
 ---
 
