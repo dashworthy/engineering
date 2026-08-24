@@ -101,15 +101,48 @@ sections hasn't been walked and confirmed, the gate hasn't cleared, and nothing 
 it — not even a quick sketch offered as "just to see what it'd look like" — is this
 skill's to hand onward.
 
+## Write the approval marker at gate-pass
+
+The gate above is only as real as the trace it leaves. An approval that lives solely in
+the conversation cannot be checked by anything downstream — `to-spec` would be minting
+`Status: Approved` on faith that it was reached through this skill, which is exactly the
+assumption a bypass defeats. So gate-pass has a terminal, on-disk act: the moment every
+section is approved — and not one moment before — write an approval marker.
+
+Create the brainstorming phase directory for the active run with
+`run-context.sh brainstorming <slug>` and write `.engineering/<run>/brainstorming/APPROVED.md`
+into it. The marker is Tier-2 state, run-scoped through `.engineering/.current-run`, so an
+approval never leaks across runs. Its body carries the approved approach and the rejected
+alternatives — the same design just walked and confirmed — so it doubles as the source
+`to-spec` transcribes into the spec's §6, rather than leaving `to-spec` free to confabulate
+an approach of its own. Shape:
+
+```
+# Design approved — <run-id>
+Approved: <YYYY-MM-DD>
+## Approach
+<1-3 lines>
+## Rejected
+<alternatives and why each lost>
+## Sections approved
+- <section>: yes
+```
+
+Write it only at gate-pass, after full approval. A marker written before every section is
+confirmed is the honor-system gate wearing a file's clothes — the point of the marker is
+that its existence *is* the approval, so minting it early is worse than not minting it at
+all. If approval never completes, no marker is written, and the downstream skills refuse
+on its absence.
+
 ## Handoff
 
-Once every section is approved, hand the finished design to `engineering:to-spec`,
+Once the marker is written, hand the finished design to `engineering:to-spec`,
 which serializes it into the plugin's one Tier-1 spec format. This skill does not write
 the spec itself and does not write into `docs/dashworthy/engineering/specs/` —
 `to-spec` is the plugin's only writer there, and the approved design is exactly the
 material it's built to receive: an approach already chosen and already argued out,
-ready to transcribe rather than invent. Hand it the design and stop; what `to-spec`
-does with it from there is that skill's job, not this one's.
+ready to transcribe rather than invent. Hand it the design and the marker, and stop; what
+`to-spec` does with them from there is that skill's job, not this one's.
 
 ## What this does not do
 
