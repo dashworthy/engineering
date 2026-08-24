@@ -8,7 +8,7 @@ needs a written spec before anyone builds against it.
 |---|---|---|
 | Cause obvious, fix small and localized, low risk | quick fix → `diagnosing-bugs` | **No** |
 | Not reproducible, already implemented, or out of scope | record disposition + close | **No** |
-| Under-specified, or really a feature request in disguise | question → `signal` → `brainstorming` → `to-spec` | **Yes** (feature path) |
+| Under-specified, or really a feature request in disguise | question → `signal` (which carries on into the design gate itself) | **Yes** (feature path) |
 | Real fix but non-trivial — several sites, a design choice, risky/cross-cutting, needs sequencing, or handed to an AFK agent | `brainstorming` → `to-spec` → `writing-plans` | **Yes** |
 
 **Rule of thumb:** *spec when the fix needs a plan or another party will execute it; skip
