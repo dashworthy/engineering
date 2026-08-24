@@ -147,18 +147,18 @@ wired to them.
   PR-submit step convention that `executing-plans` (Task 3) and
   `finishing-a-development-branch` (Task 4) read.
 
-- [ ] **Step 1: Write the failing test.** Add anchors to `stacked-prs.sh` for
+- [x] **Step 1: Write the failing test.** Add anchors to `stacked-prs.sh` for
   `W="$PLUGIN/skills/writing-plans/SKILL.md"`:
   - `PR strategy: stacked`
   - `using-stacked-pull-requests`
   - `not eligible for` (the subagent parallel-mode exclusion)
   - `submit the stacked PR`
 
-- [ ] **Step 2: Run it to confirm it fails.**
+- [x] **Step 2: Run it to confirm it fails.**
   Run: `sh engineering/tests/stacked-prs.sh`
   Expected: FAIL on the four new `writing-plans` anchors.
 
-- [ ] **Step 3: Edit `writing-plans`.** Add a short **PR strategy** section: at plan-writing
+- [x] **Step 3: Edit `writing-plans`.** Add a short **PR strategy** section: at plan-writing
   time, learn whether the plan is stacked (ask, or take it from the spec/caller); when it is,
   record `PR strategy: stacked (one PR per task, via engineering:using-stacked-pull-requests)`
   in the plan's Global Constraints, and state that a stacked plan is **not eligible for**
@@ -169,11 +169,11 @@ wired to them.
   closing Phase 3.5 hardening task also goes up as the top-of-stack PR. Leave non-stacked plans
   exactly as they are. Keep the `[Planning]` tag and valid frontmatter.
 
-- [ ] **Step 4: Run the gates to confirm green.**
+- [x] **Step 4: Run the gates to confirm green.**
   Run: `sh engineering/tests/stacked-prs.sh && sh engineering/tests/plan03.sh`
   Expected: both PASS (`plan03.sh` re-checks `writing-plans` frontmatter/tag).
 
-- [ ] **Step 5: Commit.**
+- [x] **Step 5: Commit.**
   ```bash
   git add engineering/skills/writing-plans/SKILL.md engineering/tests/stacked-prs.sh
   git commit -m "feat: writing-plans emits opt-in stacked-PR plans"
@@ -189,28 +189,28 @@ wired to them.
 - Consumes: the `PR strategy: stacked` line and per-task steps from Task 2; the skill from
   Task 1.
 
-- [ ] **Step 1: Write the failing test.** Add anchors to `stacked-prs.sh` for
+- [x] **Step 1: Write the failing test.** Add anchors to `stacked-prs.sh` for
   `E="$PLUGIN/skills/executing-plans/SKILL.md"`:
   - `PR strategy`
   - `using-stacked-pull-requests`
   - `sequentially` (stacked plans force sequential; no parallel fan-out)
 
-- [ ] **Step 2: Run it to confirm it fails.**
+- [x] **Step 2: Run it to confirm it fails.**
   Run: `sh engineering/tests/stacked-prs.sh`
   Expected: FAIL on the three new `executing-plans` anchors.
 
-- [ ] **Step 3: Edit `executing-plans`.** Add that it reads **PR strategy** from the plan's
+- [x] **Step 3: Edit `executing-plans`.** Add that it reads **PR strategy** from the plan's
   Global Constraints; when it is stacked, it runs the plan **sequentially** and does not offer
   subagent parallel mode, and it honors the per-task branch-start and PR-submit steps the plan
   carries (invoking `engineering:using-stacked-pull-requests`) — adding no PR logic of its own
   beyond running those steps in order. State the branch-per-task interplay plainly so an
   executor does not commit on the wrong branch. Keep `[Planning]` tag and valid frontmatter.
 
-- [ ] **Step 4: Run the gates to confirm green.**
+- [x] **Step 4: Run the gates to confirm green.**
   Run: `sh engineering/tests/stacked-prs.sh && sh engineering/tests/plan03.sh`
   Expected: both PASS.
 
-- [ ] **Step 5: Commit.**
+- [x] **Step 5: Commit.**
   ```bash
   git add engineering/skills/executing-plans/SKILL.md engineering/tests/stacked-prs.sh
   git commit -m "feat: executing-plans honors stacked PR strategy"
@@ -225,27 +225,27 @@ wired to them.
 **Interfaces:**
 - Consumes: the skill from Task 1; the `PR strategy: stacked` marker from Task 2.
 
-- [ ] **Step 1: Write the failing test.** Add anchors to `stacked-prs.sh` for
+- [x] **Step 1: Write the failing test.** Add anchors to `stacked-prs.sh` for
   `F="$PLUGIN/skills/finishing-a-development-branch/SKILL.md"`:
   - `Land the stack`
   - `using-stacked-pull-requests`
 
-- [ ] **Step 2: Run it to confirm it fails.**
+- [x] **Step 2: Run it to confirm it fails.**
   Run: `sh engineering/tests/stacked-prs.sh`
   Expected: FAIL on the two new `finishing` anchors.
 
-- [ ] **Step 3: Edit `finishing-a-development-branch`.** Add that it detects a stacked run
+- [x] **Step 3: Edit `finishing-a-development-branch`.** Add that it detects a stacked run
   (the plan's `PR strategy: stacked` line, or open stacked PRs on the branch); when stacked,
   it offers **Land the stack** — delegating to `engineering:using-stacked-pull-requests` to
   merge bottom-up in order — in place of the single "Open a pull request" option, while
   merge-direct and cleanup remain available per project. Keep `[Foundation]` tag, valid
   frontmatter, and the existing `conducting-test-hardening` reference (acceptance check 7).
 
-- [ ] **Step 4: Run the gates to confirm green.**
+- [x] **Step 4: Run the gates to confirm green.**
   Run: `sh engineering/tests/stacked-prs.sh && sh engineering/tests/frontmatter.sh engineering/skills/finishing-a-development-branch "[Foundation]"`
   Expected: both PASS.
 
-- [ ] **Step 5: Commit.**
+- [x] **Step 5: Commit.**
   ```bash
   git add engineering/skills/finishing-a-development-branch/SKILL.md engineering/tests/stacked-prs.sh
   git commit -m "feat: finishing-a-development-branch lands the stack"
@@ -264,27 +264,27 @@ wired to them.
 **Interfaces:**
 - Consumes: the skill dir from Task 1.
 
-- [ ] **Step 1: Confirm the gap (failing check).**
+- [x] **Step 1: Confirm the gap (failing check).**
   Run: `sh engineering/tests/acceptance.sh`
   Expected: FAIL at check 4 (`skills/README.md missing using-stacked-pull-requests`).
 
-- [ ] **Step 2: Add to the index.** In `engineering/skills/README.md`, add
+- [x] **Step 2: Add to the index.** In `engineering/skills/README.md`, add
   `` `using-stacked-pull-requests` `` to the **Foundation** row of the by-group table.
 
-- [ ] **Step 3: Add to the acceptance tag list.** In `engineering/tests/acceptance.sh`, add
+- [x] **Step 3: Add to the acceptance tag list.** In `engineering/tests/acceptance.sh`, add
   the line `using-stacked-pull-requests:[Foundation]` to the `tagged` heredoc (alongside the
   other Foundation skills), so the final acceptance checklist validates the new skill's
   frontmatter and tag.
 
-- [ ] **Step 4: Wire the content gate into the suite.** In `engineering/tests/suite.sh`, add
+- [x] **Step 4: Wire the content gate into the suite.** In `engineering/tests/suite.sh`, add
   `sh "$d/stacked-prs.sh"` so the new content anchors run as part of the foundation suite
   (which `acceptance.sh` invokes).
 
-- [ ] **Step 5: Run the full acceptance to confirm green.**
+- [x] **Step 5: Run the full acceptance to confirm green.**
   Run: `sh engineering/tests/acceptance.sh`
   Expected: `ENGINEERING ACCEPTANCE: ALL CHECKS PASS`.
 
-- [ ] **Step 6: Commit.**
+- [x] **Step 6: Commit.**
   ```bash
   git add engineering/skills/README.md engineering/tests/acceptance.sh engineering/tests/suite.sh
   git commit -m "chore: register using-stacked-pull-requests in index and acceptance"
