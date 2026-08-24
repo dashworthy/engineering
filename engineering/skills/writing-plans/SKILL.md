@@ -73,6 +73,34 @@ steps assume it. Mark those explicitly as a checkpoint: a place the plan says st
 a second look before continuing, rather than trusting the next step to catch a wrong turn
 two steps later, when it's more expensive to unwind.
 
+## PR strategy
+
+Most plans ship as a single pull request opened at the end. Some plans instead ship as a
+*stack* — one pull request per task, each based on the branch of the task before it — so a
+reviewer can approve and land the tasks in order rather than reading the whole change at
+once. Which one a plan uses is decided at plan-writing time, not left to whoever executes
+it: ask your human partner, or take it from the spec or the caller when they've already
+said.
+
+When the plan is stacked, record it in the plan's Global Constraints as a single line —
+`PR strategy: stacked (one PR per task, via engineering:using-stacked-pull-requests)` — so
+every downstream skill reads the same marker. State in that same section that a stacked
+plan is **not eligible for** `executing-plans`' subagent parallel mode: stacking is linear,
+each task's branch is based on the one before it, so the tasks run sequentially and cannot
+fan out across parallel agents.
+
+A stacked plan also changes the shape of each task. In addition to the ordinary steps, a
+stacked task **opens** with a step that starts the task's stacked branch off the previous
+task's branch — or off the trunk, for the first task, which has no previous task — (before
+any of the task's commits land), and **closes**, after the commit
+step, with a step to **submit the stacked PR** for the task via
+`engineering:using-stacked-pull-requests`. The closing Phase 3.5 hardening task is no
+exception — in a stacked plan its work goes up as the top-of-stack PR, on its own branch
+based on the last build task's branch, like every other task.
+
+Leave non-stacked plans exactly as they are: no PR-strategy line, no per-task branch or
+submit steps, the single-PR-at-the-end flow unchanged. Stacked mode is opt-in per plan.
+
 ## Splitting into a plan set
 
 Some specs cover one subsystem end to end; a single ordered plan fits them. Others cover

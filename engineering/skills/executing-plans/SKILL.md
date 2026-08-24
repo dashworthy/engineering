@@ -105,6 +105,27 @@ translating it into a bare "done." Only once that task is checked off is the pla
 finished; a plan whose last build task is checked but whose hardening task isn't is a plan
 still in progress, not a completed one.
 
+## Stacked plans (PR strategy)
+
+Before starting, read the plan's Global Constraints for a **PR strategy** line. Most plans
+have none — they ship as one pull request at the end, and nothing here changes. When the
+line says `PR strategy: stacked`, the plan ships as one pull request per task, each based on
+the branch of the task before it, and two things follow.
+
+First, a stacked plan runs **sequentially** — task by task, in order — and this skill does
+not offer subagent parallel mode for it. Each task's branch is based on the previous task's
+branch, so the tasks are inherently linear and cannot fan out across parallel agents,
+regardless of whether their files look disjoint.
+
+Second, a stacked plan's tasks carry extra steps the plan author already wrote: a step at
+the top that starts the task's stacked branch off the previous task's branch, and a step at
+the bottom that submits the task's stacked PR. Honor those steps as written — they invoke
+`engineering:using-stacked-pull-requests`, which owns all the branch-and-PR mechanics; this
+skill adds no PR logic of its own beyond running the plan's steps in order. Watch the branch
+model as you go: a task's commits belong on that task's own branch, started by its opening
+step, so run that opening step before the task's commit steps rather than committing onto
+the previous task's branch by accident.
+
 ## Subagent-driven mode
 
 The loop above is sequential by default — one task, start to finish, before the next

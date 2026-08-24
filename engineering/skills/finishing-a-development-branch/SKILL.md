@@ -70,13 +70,22 @@ skipping it is fine.
 ## Present the integration options
 
 Once the branch is green, verified, and either hardened or knowingly waved through, lay out how
-it can re-enter the rest of the repository:
+it can re-enter the rest of the repository.
+
+First detect whether this was a **stacked run**: a plan behind the branch whose Global
+Constraints carry a `PR strategy: stacked` line, or open stacked pull requests already sitting on
+the branch. A stacked run does not re-enter the repository as one pull request, so its options
+list differs — the single "Open a pull request" option is replaced by landing the whole stack:
 
 - **Merge directly** — the branch talks straight to its target with no review gate expected or
   required.
-- **Open a pull request** — the default wherever the project expects review, or the remote's
-  permission model requires one; check whether a PR already exists for this branch before
-  offering to open a second one.
+- **Open a pull request** — for a non-stacked branch, the default wherever the project expects
+  review, or the remote's permission model requires one; check whether a PR already exists for
+  this branch before offering to open a second one.
+- **Land the stack** — for a stacked run, in place of "Open a pull request": delegate to
+  `engineering:using-stacked-pull-requests` to merge the stack bottom-up in order, restacking the
+  rest after each merge. This skill does not reimplement that mechanics; it hands off to the skill
+  that owns it.
 - **Clean up only** — the branch turned out unneeded, its content already landed another way, or
   it was superseded, and the right move is to discard it rather than integrate it at all.
 
@@ -95,6 +104,10 @@ the project into a default this skill invented.
 - **Pull request.** Open it, hand back its link, and stop there. This skill does not chase the
   PR through review or merge it once it exists — a PR that later lands is a fresh invocation of
   this same skill, not a loop this one keeps running in the background.
+- **Land the stack.** Hand off to `engineering:using-stacked-pull-requests` and let it merge the
+  stack bottom-up in order, restacking the remaining PRs after each merge. Report where it
+  stopped — the whole stack landed, or a lower PR that isn't ready held up the ones above it —
+  rather than reducing a partial land to a bare "done."
 - **Cleanup only.** Discarding a branch is destructive in a way the other two options are not,
   so get the user's explicit confirmation on this path specifically before removing anything —
   do not treat silence, or the fact that cleanup was the option picked, as confirmation enough on
