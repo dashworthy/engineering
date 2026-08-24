@@ -77,6 +77,14 @@ grep -q "docs/dashworthy/engineering/specs/" "$eng/skills/to-spec/SKILL.md" || {
 grep -rq "to-spec" "$eng/skills/conducting-discovery" "$eng/skills/sequencing-requirements" || { echo "FAIL: signal must reach to-spec"; fail=1; }
 grep -rq "to-spec" "$eng/skills/triage" || { echo "FAIL: triage must reach to-spec"; fail=1; }
 
+# 6b. to-spec is single-caller via brainstorming, stamps Approved (post-gate input), and carries no
+# stale section-for-section mapping claim.
+grep -q "engineering:brainstorming" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec must name brainstorming as its caller"; fail=1; }
+if grep -qE 'invoked by .*(conducting-discovery|triage)' "$eng/skills/to-spec/SKILL.md"; then echo "FAIL: to-spec names a stale caller (conducting-discovery/triage)"; fail=1; fi
+grep -q "Status: Approved" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec must stamp Status: Approved"; fail=1; }
+if grep -q 'Draft | Approved' "$eng/skills/to-spec/SPEC-FORMAT.md"; then echo "FAIL: SPEC-FORMAT still offers Draft as a status choice"; fail=1; fi
+if grep -q "section for section" "$eng/skills/to-spec/SKILL.md"; then echo "FAIL: stale section-for-section mapping claim"; fail=1; fi
+
 # 7. verity is a planned step, not a session-start hook.
 grep -q "conducting-test-hardening" "$eng/skills/writing-plans/SKILL.md" || { echo "FAIL: writing-plans must bake hardening"; fail=1; }
 grep -q "conducting-test-hardening" "$eng/skills/finishing-a-development-branch/SKILL.md" || { echo "FAIL: finish-time hardening net missing"; fail=1; }
