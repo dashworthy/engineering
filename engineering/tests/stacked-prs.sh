@@ -34,4 +34,11 @@ need "$S" "Land the stack"                               "skill: land-the-stack 
 need "$S" "bottom-up"                                    "skill: land bottom-up in order"
 need "$S" "## What this does not do"                     "skill: does-not-do section"
 
+# --- writing-plans emits stacked-PR plans ------------------------------------
+W="$PLUGIN/skills/writing-plans/SKILL.md"
+need "$W" "PR strategy: stacked"                         "writing-plans: stacked strategy marker"
+need "$W" "using-stacked-pull-requests"                  "writing-plans: names the skill"
+need "$W" "not eligible for"                             "writing-plans: parallel-mode exclusion"
+need "$W" "submit the stacked PR"                        "writing-plans: per-task submit step"
+
 [ "$fail" = 0 ] && echo "STACKED-PRS CONTENT: ALL CHECKS PASS" || { echo "STACKED-PRS CONTENT FAILED"; exit 1; }
