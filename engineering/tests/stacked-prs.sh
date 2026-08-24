@@ -41,4 +41,10 @@ need "$W" "using-stacked-pull-requests"                  "writing-plans: names t
 need "$W" "not eligible for"                             "writing-plans: parallel-mode exclusion"
 need "$W" "submit the stacked PR"                        "writing-plans: per-task submit step"
 
+# --- executing-plans honors the strategy -------------------------------------
+E="$PLUGIN/skills/executing-plans/SKILL.md"
+need "$E" "PR strategy"                                  "executing-plans: reads PR strategy"
+need "$E" "using-stacked-pull-requests"                  "executing-plans: names the skill"
+need "$E" "sequentially"                                 "executing-plans: stacked runs sequentially"
+
 [ "$fail" = 0 ] && echo "STACKED-PRS CONTENT: ALL CHECKS PASS" || { echo "STACKED-PRS CONTENT FAILED"; exit 1; }
