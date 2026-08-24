@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f vendor/bin/phpstan ]; then vendor/bin/phpstan analyse --no-progress --memory-limit=512M 2>&1 | tail -20; fi",
+            "timeout": 120
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Bash(git commit *)",
+            "command": "set -e\n\necho 'Running Pint (formatting)...'\nif [ -f vendor/bin/pint ]; then\n  vendor/bin/pint --dirty\nfi\n\n# Prevent silent formatting changes from slipping into commit\nif ! git diff --quiet; then\n  echo 'Code was reformatted by Pint. Please review and re-commit.'\n  exit 1\nfi\n\necho 'Running PHPStan...'\nif [ -f vendor/bin/phpstan ]; then\n  vendor/bin/phpstan analyse --no-progress --memory-limit=512M\nfi\n\necho 'Running tests...'\nif [ -f vendor/bin/pest ]; then\n  vendor/bin/pest --no-coverage\nelif [ -f vendor/bin/phpunit ]; then\n  vendor/bin/phpunit\nfi\n\necho 'All checks passed. Proceeding with commit.'\n",
+            "timeout": 300
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "laravel",
+  "description": "Pre-commit quality gates for Laravel projects: run Pint, PHPStan, and your test suite before Claude commits, plus PHPStan feedback after every edit.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Andrew Leach",
+    "email": "7387639+andyleach@users.noreply.github.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "php",
+    "pint",
+    "phpstan",
+    "pest",
+    "phpunit",
+    "pre-commit",
+    "hooks",
+    "code-quality"
+  ],
+  "hooks": "./hooks/hooks.json"
+}
