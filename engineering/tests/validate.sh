@@ -31,7 +31,7 @@ required={"name","description","version","author","license"}
 missing=required-set(d)
 assert not missing, f"plugin.json missing keys: {sorted(missing)}"
 assert d["name"]=="engineering", f'name is {d["name"]!r}, expected "engineering"'
-assert d["version"]=="0.1.0", f'version is {d["version"]!r}, expected "0.1.0"'
+assert d["version"]=="0.3.0", f'version is {d["version"]!r}, expected "0.3.0"'
 assert d["license"]=="MIT", f'license is {d["license"]!r}, expected "MIT"'
 PY
   check $? "plugin.json is well-formed"
@@ -46,7 +46,7 @@ names=[p["name"] for p in d["plugins"]]
 assert "engineering" in names, f"engineering not registered; found {names}"
 e=[p for p in d["plugins"] if p["name"]=="engineering"][0]
 assert e["source"]=="./engineering", f'source is {e["source"]!r}'
-assert e["version"]=="0.1.0", f'version is {e["version"]!r}'
+assert e["version"]=="0.3.0", f'version is {e["version"]!r}'
 PY
 check $? "engineering is registered in the dashworthy marketplace"
 
