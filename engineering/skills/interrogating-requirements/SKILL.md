@@ -1,6 +1,6 @@
 ---
 name: interrogating-requirements
-description: "[Discovery] Stage 1 of the signal discovery pipeline, invoked by engineering:conducting-discovery in the main thread — interrogates a vague or underspecified request round by round until every coverage dimension (problem, users, success criteria, constraints, scope, existing context) is filled, then runs a scope-expansion beat and writes sections 1 to 6 of brief.md once, complete. It probes by offering conventional baselines and mining the corrections, and records coverage state and loose ends continuously in open-threads.md so a session that ends early is resumable. It is interactive and cannot run as a dispatched subagent. Runs only as part of the signal pipeline; it does not self-trigger on general feature or build requests."
+description: "[Discovery] Stage 1 of the signal discovery pipeline, invoked by engineering:conducting-discovery in the main thread — interrogates a vague or underspecified request round by round until every coverage dimension (problem, users, success criteria, constraints, scope, existing context) is filled, then runs a scope-expansion beat and writes sections 1 to 6 of brief.md once, complete. It probes by offering a short menu of concrete choices led by the conventional default and mining the corrections, and records coverage state and loose ends continuously in open-threads.md so a session that ends early is resumable. It is interactive and cannot run as a dispatched subagent. Runs only as part of the signal pipeline; it does not self-trigger on general feature or build requests."
 ---
 
 # Interrogating Requirements
@@ -117,54 +117,70 @@ they agreed to.
   Two files, two jobs. §5 may point at a deferred expansion candidate's thread
   handle; that pointer is the only crossing.
 
-## How to Interrogate — Hypothesis, Then Correction
+## How to Interrogate — Offer Choices, Then Mine the Correction
 
-**Do not ask open questions. Offer a hypothesis and invite correction.**
+**Do not ask open questions. Offer a short menu of concrete choices and invite a
+pick or a correction.** Picking off a list costs the user far less than composing an
+answer from a blank prompt — that is the point: they should have to think less, not
+more.
 
-The hypothesis is the **conventional answer**: what most competent practitioners in
-this domain would do, stated plainly, with the reasoning visible.
+Each menu leads with the **conventional answer** — what most competent practitioners
+in this domain would do — marked as the default, with the reasoning visible. Under it
+sit the two or three real alternatives, and an open "or something else" so the list
+never traps them.
 
-> "You want SSO. I'm assuming, like most teams this size, that's to kill the
-> password-reset support load rather than a compliance requirement. Is that the
-> driver, or is something else?"
+> "Auth approach? Most teams this size pick:
+> - **A) SSO** — to kill the password-reset support load (the usual driver)
+> - B) Magic links
+> - C) Password + 2FA
+> - or something else —
+>
+> Pick one, or tell me what's off."
 
-- **They agree** — the ground is standard here. Fill it in and move on. Cheap.
-- **They correct you** — this is a departure. Dig.
+- **They take the default** — the ground is standard here. Fill it in and move on.
+  Cheap.
+- **They take an alternative, or write their own** — this is a departure. Dig.
 
 Departures are where the requirements actually live. Everything else you could have
-guessed, and guessing it is fine — which is precisely what their agreement licenses
-you to do.
+guessed, and offering it as the marked default is precisely what licenses them to
+wave it through.
 
-### Rules for the baseline
+### Rules for the menu
 
-- **Set it at the field default. Never tune it to what the user already told you.**
-  A tuned baseline that draws agreement tells you only that you were listening. A
-  field-default baseline that draws agreement tells you something about the world.
-- **Keep it inline and local.** One baseline per probe, never a lecture up front.
-- **When you do not know what is conventional in this domain, say so inside the
-  probe** rather than inventing a baseline.
+- **Set the default at the field default. Never tune it to what the user already
+  told you.** A tuned default that draws a pick tells you only that you were
+  listening. A field-default one that draws a pick tells you something about the
+  world.
+- **Keep it short and local.** Two to four options for one probe, never a lecture up
+  front, never a batch of separate questions dressed up as a list.
+- **Always leave the open escape.** "or something else —" on every menu. A closed
+  list of your guesses, read back as the only choices, encodes your framing as a
+  requirement.
+- **When you do not know what is conventional in this domain, say so and let the
+  menu be rougher** rather than inventing a confident default.
 
-  > "I don't have a strong sense of what's typical here, so correct me freely: I'd
-  > guess most teams in your position would..."
+  > "I don't have a strong sense of what's typical here, so correct me freely — I'd
+  > guess it's one of these, but the list is a starting point, not the boundary:"
 
-  A wrong baseline makes ordinary practice look like a departure and lets a real
+  A wrong default makes ordinary practice look like a departure and lets a real
   departure pass as unremarkable. It corrupts the depth map in both directions, and
   you will not notice either failure from the inside.
-- **When someone corrects you, get the reason, not just the correction.** The
-  correction tells you what. Only the reason tells you what else it implies.
-- **When agreement arrives fast on something that should have been hard, ask what
-  would make it wrong.** A plausible hypothesis waved through encodes your guess as
-  a requirement — worse than an empty section, because it ships with confidence.
+- **When someone picks against the default, get the reason, not just the pick.** The
+  pick tells you what. Only the reason tells you what else it implies.
+- **When the default is taken fast on something that should have been hard, ask what
+  would make it wrong.** A plausible default waved through encodes your guess as a
+  requirement — worse than an empty section, because it ships with confidence.
 
 ### Rules that do not change
 
-- **One question per turn.** Never batch, never offer "a few things I'm wondering
-  about". Given ten questions a person answers one. Ten at once produces summaries;
-  one at a time produces stories.
-- **Quote the vague phrase back.** "You said 'it should be fast' — fast meaning
-  what? p95 latency under what, on what payload?"
-- **Reject non-answers.** "Whatever makes sense" / "the usual" / "you decide" are
-  not answers.
+- **One question per turn.** The menu is choices *within* one question, not a batch
+  of separate questions. Never fire "a few things I'm wondering about" at once. Given
+  ten questions a person answers one; one question with a handful of options gets
+  picked cleanly.
+- **Quote the vague phrase back — with a menu.** "You said 'it should be fast' — fast
+  meaning what? p95 under 200ms, under 500ms, under 1s, or a number you have in mind?"
+- **Reject non-answers.** "Whatever makes sense" / "the usual" / "you decide" are not
+  answers — offer the menu so there is something concrete to pick instead.
 - **Force the non-goals.** People define scope by what they will build; make them
   state what they will not build.
 
