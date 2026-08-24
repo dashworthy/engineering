@@ -32,6 +32,32 @@ local preview and sanitizes for safety. Stay inside what GitHub actually draws:
 - **When in doubt, preview it** — paste the block into a GitHub issue or PR preview before
   relying on it, rather than trusting a local renderer that runs a newer mermaid.
 
+## Diagram craft
+
+These rules hold in both mediums; the alignment ones bite hardest in ASCII, where nothing is
+drawn for you.
+
+- **Label every edge with what actually moves across it** — a route (`POST /settings/teams`),
+  a param type (`CreateTeamActionParams`), a field (`plan_id`) — not a generic verb like
+  "sends" or "calls". The label is where a diagram earns its keep over a box-and-arrow sketch.
+- **Use the real names** from the material as node labels — the actual file, class, route, or
+  entity — so the diagram is clickable in the reader's head and greppable against the code.
+- **Put a condition or gate on the edge label** (`no →`, `feature off →`, `draft →`), not in
+  its own box. A gate is a branch on an edge, not a step of its own.
+- **Shorten a name that would overflow, and give the full name in the prose beneath.** A box
+  that runs past the width budget breaks the drawing; a footnote in prose costs nothing.
+
+For ASCII specifically:
+
+- **Light box-drawing characters and arrowheads only** (`┌ ┐ └ ┘ ├ ┤ ┬ ┴ ┼ ─ │`, `▶ ◀ ▼ ▲`).
+  Avoid `/` and `\` diagonals — they drift out of alignment the moment a label changes length.
+- **Align every border, lifeline, and arrowhead exactly.** Count the characters before
+  committing to a layout: one column off reads as broken, and a reader who stops trusting the
+  drawing stops trusting the prose beside it.
+- **Stay under ~80 columns and ~15 boxes** — 72 columns inside a docblock, the budget in
+  `clarifying-docblocks`' `references/diagram-rules.md`. If the shape needs more, split it into
+  two diagrams at the natural seam and name the seam.
+
 ## ER diagram
 
 An entity-relationship model: the entities and how they relate, with cardinality.
@@ -110,8 +136,40 @@ the eye follows it first.
 ## Other shapes
 
 ER and process flow are the two anchors, not the boundary. When a sequence of messages or a
-state machine is the shape that prose describes badly, draw it — mermaid `sequenceDiagram` or
-`stateDiagram-v2` on a rendered-markdown destination, ASCII on a plain-text one.
+state machine is the shape that prose describes badly, draw it — mermaid on a rendered-markdown
+destination, ASCII on a plain-text one.
+
+### Sequence — request paths, queue flows, anything crossing a process boundary
+
+Participants across the top, one vertical lifeline each, messages as labelled horizontal
+arrows; a return points back left.
+
+#### mermaid (rendered-markdown destinations)
+
+````
+```mermaid
+sequenceDiagram
+    Client->>Server: POST /orders
+    Server->>Queue: enqueue(job)
+    Server-->>Client: 202 Accepted
+```
+````
+
+#### ASCII (plain-text destinations)
+
+```text
+ Client               Server                Queue
+    │                    │                    │
+    ├─ POST /orders ────▶│                    │
+    │                    ├─ enqueue(job) ────▶│
+    │◀── 202 Accepted ───┤                    │
+```
+
+### Lifecycle — statuses and the transitions between them
+
+One box or bracket per status, the transition name in parentheses on the edge.
+
+#### mermaid (rendered-markdown destinations)
 
 ````
 ```mermaid
@@ -121,6 +179,12 @@ stateDiagram-v2
     Approved --> Superseded : supersede
 ```
 ````
+
+#### ASCII (plain-text destinations)
+
+```text
+[draft] ──(approve)──▶ [approved] ──(supersede)──▶ [superseded]
+```
 
 The rule is unchanged: draw only a shape prose describes badly, ground every mark in real
 material, and pick the medium by whether the destination renders mermaid.
