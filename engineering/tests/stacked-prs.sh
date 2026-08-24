@@ -47,4 +47,9 @@ need "$E" "PR strategy"                                  "executing-plans: reads
 need "$E" "using-stacked-pull-requests"                  "executing-plans: names the skill"
 need "$E" "sequentially"                                 "executing-plans: stacked runs sequentially"
 
+# --- finishing-a-development-branch lands the stack --------------------------
+F="$PLUGIN/skills/finishing-a-development-branch/SKILL.md"
+need "$F" "Land the stack"                               "finishing: land-the-stack option"
+need "$F" "using-stacked-pull-requests"                  "finishing: delegates to the skill"
+
 [ "$fail" = 0 ] && echo "STACKED-PRS CONTENT: ALL CHECKS PASS" || { echo "STACKED-PRS CONTENT FAILED"; exit 1; }
