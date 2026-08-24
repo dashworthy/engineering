@@ -27,6 +27,14 @@ the spec already sitting in context. A plan built from a spec still in draft is 
 built on a decision nobody has actually made; if the spec's own status line doesn't say
 Approved, say so and stop rather than plan around a draft.
 
+The status line alone is not proof — check the trace behind it. Resolve the run from
+`.engineering/.current-run` and confirm the brainstorming approval marker,
+`.engineering/<run>/brainstorming/APPROVED.md`, actually exists. An `Approved` status with
+no marker behind it is the signature of a hand-edited status line or a spec written before
+this mechanism existed — either way the design gate was never cleared, so refuse and stop
+rather than plan it. This mirrors `finishing-a-development-branch`'s rule to prefer the
+trace over the checkbox: the marker is the trace, the status line is only the checkbox.
+
 Read `CONTEXT.md` and `docs/adr/`, at the project root, when either exists. A naming
 convention or a settled boundary recorded there constrains how a task's file paths and
 interfaces get written, the same way it constrains a fresh module boundary in
