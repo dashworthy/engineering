@@ -1,6 +1,6 @@
 ---
 name: to-spec
-description: "[Discovery] The single writer of Tier-1 specs. Given an entrance's accumulated material — a signal discovery brief or a triage isolation record, by path or inline — render the standard spec document to docs/dashworthy/engineering/specs/. Invoked by conducting-discovery at the end of signal, and by triage when a fix is spec-worthy; not a general-purpose writer and does not self-trigger on arbitrary requests."
+description: "[Discovery] The single writer of Tier-1 specs. Given an entrance's accumulated material — a signal discovery brief or a triage isolation record, by path or inline — render the standard spec document to docs/dashworthy/engineering/specs/. Invoked by engineering:brainstorming once a design clears its approval gate — the one caller, reachable from both entrances; not a general-purpose writer and does not self-trigger on arbitrary requests."
 ---
 
 # To Spec
@@ -50,11 +50,23 @@ Follow `SPEC-FORMAT.md`, in this same directory — do not restate its shape her
 reinvent it inline. Every section in that file gets filled; a section with nothing to
 say gets a line explaining why, not silence.
 
-Two source shapes map onto the one format:
-- a **signal** brief's §1–§8 map onto the spec's §1–§8 directly, section for section.
+Two source shapes map onto the one format — and the mapping is by meaning, not by
+section number:
+- a **signal** brief supplies §1–§5 in order; the brief's §6 (Existing Context) becomes
+  the spec's §7, and the brief's §7 (dependency-ordered body) and §8 (how to consume the
+  brief) have no spec section of their own. The spec's §6 (Approach) does not come from
+  the brief at all — it comes from the `brainstorming` design that runs between the brief
+  and this skill.
 - a **triage** isolation record maps onto the same eight sections with two repurposed:
   §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including
   why the smaller fixes on the table were rejected, not only the one that won.
+
+Write the spec's status line as `Status: Approved`, not `Draft`. This skill is only ever
+reached through `engineering:brainstorming`, whose hard gate the design already cleared —
+so the approach in §6 is a decision a human has explicitly approved, and the spec records
+that, rather than shipping a draft `writing-plans` would then refuse to plan. `Draft` is
+for a spec still being shaped by hand outside this skill, not for anything this skill
+writes.
 
 ## What this does not do
 
@@ -72,7 +84,7 @@ Two source shapes map onto the one format:
 
 ## Handoff
 
-Once the spec is written, print its path and stop. The caller — `conducting-discovery`
-at the end of signal, or `triage` when a fix is spec-worthy — takes it from there,
-ordinarily into `writing-plans`. This skill does not chain into planning itself, and does
-not summarize the spec it just wrote beyond that one path.
+Once the spec is written, print its path and stop. The caller — `engineering:brainstorming`,
+which reaches this skill once a design clears its gate on either entrance's path — takes
+it from there, ordinarily into `writing-plans`. This skill does not chain into planning
+itself, and does not summarize the spec it just wrote beyond that one path.

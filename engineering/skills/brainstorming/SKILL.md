@@ -32,6 +32,13 @@ problem, just a request typed straight at this skill — means the interrogation
 should have come first didn't happen; send it back to `signal` or `triage` rather than
 inventing requirements to fill the gap.
 
+On the signal path this skill is reached automatically: once the discovery conductor
+(`engineering:conducting-discovery`) has a finished brief, it hands that brief straight
+here — this is signal's terminal act, the design gate every feature passes through, not a
+step a human has to remember to invoke. On the triage path, a defect the isolation shows
+is spec-worthy is routed straight here. Either way the entry ticket is already on disk
+before this skill's first question.
+
 ## Explore context
 
 Before sketching anything, read what the codebase already has to say. Skim the files

@@ -74,8 +74,34 @@ if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2
 
 # 6. to-spec is the sole Tier-1 writer; both entrances reach it.
 grep -q "docs/dashworthy/engineering/specs/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
-grep -rq "to-spec" "$eng/skills/conducting-discovery" "$eng/skills/sequencing-requirements" || { echo "FAIL: signal must reach to-spec"; fail=1; }
+grep -qE "Hand off to .*engineering:brainstorming" "$eng/skills/conducting-discovery/SKILL.md" || { echo "FAIL: signal's release must hand off to the brainstorming design gate"; fail=1; }
 grep -rq "to-spec" "$eng/skills/triage" || { echo "FAIL: triage must reach to-spec"; fail=1; }
+
+# 6b. to-spec is single-caller via brainstorming, stamps Approved (post-gate input), and carries no
+# stale section-for-section mapping claim.
+grep -q "engineering:brainstorming" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec must name brainstorming as its caller"; fail=1; }
+if grep -qE 'invoked by .*(conducting-discovery|triage)' "$eng/skills/to-spec/SKILL.md"; then echo "FAIL: to-spec names a stale caller (conducting-discovery/triage)"; fail=1; fi
+grep -q "Status: Approved" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec must stamp Status: Approved"; fail=1; }
+if grep -q 'Draft | Approved' "$eng/skills/to-spec/SPEC-FORMAT.md"; then echo "FAIL: SPEC-FORMAT still offers Draft as a status choice"; fail=1; fi
+if grep -q "section for section" "$eng/skills/to-spec/SKILL.md"; then echo "FAIL: stale section-for-section mapping claim"; fail=1; fi
+
+# 6c. to-spec has exactly one imperative caller: engineering:brainstorming. Scan every skill and command
+# for an imperative invocation of engineering:to-spec (verbs dispatch / hand ... to / invoke), which is
+# distinct from the legitimate third-person PROSE mentions ("Brainstorming calls engineering:to-spec",
+# "does it call engineering:to-spec") that describe the wiring without performing it. brainstorming/SKILL.md
+# is the one allowed caller and is excluded. Any other hit means a second caller has crept in — the exact
+# regression (a conductor/command re-dispatching to-spec, bypassing the design gate) this branch removed.
+callers=$(grep -rnEi '(dispatch|hand[^.]*to|invoke|route[^.]*to|send[^.]*to|pass[^.]*to|delegate[^.]*to|run)[^.]*engineering:to-spec' "$eng/commands" "$eng/skills" --include='*.md' | grep -v '/skills/brainstorming/SKILL.md:' || true)
+if [ -n "$callers" ]; then echo "FAIL: only engineering:brainstorming may imperatively invoke to-spec; found other caller(s):"; echo "$callers"; fail=1; fi
+
+# 6d. The single-caller wiring's other half and the two doc surfaces the earlier tasks left unguarded:
+# (a) brainstorming must actually hand off to to-spec (else to-spec has no caller at all); (b) the
+# SPEC-FORMAT template positively stamps Approved (6b only forbids the literal "Draft | Approved" choice,
+# so a bare revert to "**Status:** Draft" would slip past it); (c) the root README's signal sub-diagram
+# routes sequence → brainstorming → to-spec, matching the master diagram.
+grep -qiE "hand[^.]*engineering:to-spec" "$eng/skills/brainstorming/SKILL.md" || { echo "FAIL: brainstorming must hand off to to-spec (single-caller's other half)"; fail=1; }
+grep -qF '**Status:** Approved' "$eng/skills/to-spec/SPEC-FORMAT.md" || { echo "FAIL: SPEC-FORMAT template must stamp **Status:** Approved"; fail=1; }
+grep -qF 'S2 --> BR' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route sequence -> brainstorming -> to-spec"; fail=1; }
 
 # 7. verity is a planned step, not a session-start hook.
 grep -q "conducting-test-hardening" "$eng/skills/writing-plans/SKILL.md" || { echo "FAIL: writing-plans must bake hardening"; fail=1; }
