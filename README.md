@@ -50,11 +50,13 @@ phase already settled. The sections below walk each phase in turn.
 
 ### 1. Discover — `signal`
 
-A vague ask becomes a brief and a spec. Interrogation probes the request one question
-at a time, offering a conventional baseline and mining the correction, until every
-coverage dimension is filled. A scope-expansion beat then surfaces adjacent value.
-Sequencing orders the work by dependency, and `to-spec` renders the spec. A genuinely
-trivial request exits before any brief is written.
+A vague ask becomes a brief, then an approved design, then a spec. Interrogation probes
+the request one question at a time, offering a conventional baseline and mining the
+correction, until every coverage dimension is filled. A scope-expansion beat then
+surfaces adjacent value. Sequencing orders the work by dependency; the finished brief
+then passes through the `brainstorming` design gate — signal's terminal hand-off — and
+only once the design is approved does `to-spec` render the spec. A genuinely trivial
+request exits before any brief is written.
 
 ```mermaid
 flowchart LR
@@ -64,8 +66,9 @@ flowchart LR
     S(["/signal"]):::entry --> S1["interrogate<br/>requirements"]
     S1 -. "trivial" .-> X(["exit — no brief"])
     S1 -->|"gate: 3+ rounds,<br/>6 dimensions"| S2["sequence<br/>(dependency order)"]
-    S2 --> SP["to-spec"]
-    SP --> STOP(["brief + spec"]):::done
+    S2 --> BR["brainstorming<br/>design gate"]
+    BR --> SP["to-spec"]
+    SP --> STOP(["brief → design → spec"]):::done
 ```
 
 ### 2. Triage — `triage`
