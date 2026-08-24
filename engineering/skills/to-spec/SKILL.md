@@ -55,18 +55,31 @@ section number:
 - a **signal** brief supplies §1–§5 in order; the brief's §6 (Existing Context) becomes
   the spec's §7, and the brief's §7 (dependency-ordered body) and §8 (how to consume the
   brief) have no spec section of their own. The spec's §6 (Approach) does not come from
-  the brief at all — it comes from the `brainstorming` design that runs between the brief
-  and this skill.
+  the brief at all — it is transcribed from the brainstorming approval marker,
+  `.engineering/<run>/brainstorming/APPROVED.md`, whose Approach and Rejected sections are
+  exactly §6's content.
 - a **triage** isolation record maps onto the same eight sections with two repurposed:
   §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including
   why the smaller fixes on the table were rejected, not only the one that won.
 
-Write the spec's status line as `Status: Approved`, not `Draft`. This skill is only ever
-reached through `engineering:brainstorming`, whose hard gate the design already cleared —
-so the approach in §6 is a decision a human has explicitly approved, and the spec records
-that, rather than shipping a draft `writing-plans` would then refuse to plan. `Draft` is
-for a spec still being shaped by hand outside this skill, not for anything this skill
-writes.
+The status line is not stamped on faith — it is decided by the approval marker. Resolve the
+active run from `.engineering/.current-run` and look for the brainstorming marker at
+`.engineering/<run>/brainstorming/APPROVED.md`. That file is written by
+`engineering:brainstorming` only at gate-pass, so its presence is the trace of a design a
+human explicitly approved:
+
+- **Marker present:** write `Status: Approved`, and transcribe §6 from the marker's Approach
+  and Rejected sections rather than composing an approach of your own — the marker carries
+  the approved approach and the alternatives it beat, which is exactly §6's content, and
+  reading it from there is what stops this skill confabulating one.
+- **When no approval marker resolves:** write `Status: Draft`. A spec with no marker behind
+  it reached this skill without clearing the design gate — a brief handed straight here, or
+  a hand-run outside the pipeline — and `Draft` is the honest record of that.
+  `writing-plans` then refuses to plan it, which is the intended backstop.
+
+Never stamp `Approved` on the assumption that this skill is only reachable through
+`brainstorming` — that assumption is the defect this rule exists to close. The marker's
+presence is the only thing that earns `Approved`; its absence is `Draft`, every time.
 
 ## What this does not do
 

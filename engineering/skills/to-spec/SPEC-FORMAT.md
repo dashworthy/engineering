@@ -44,5 +44,7 @@ Rules:
 - Never invent content the source material does not support; mark unknowns in §8.
 - A triage-origin spec still fills every section; §1 is the reproduced problem, §6 the fix approach.
 - The topic slug matches the run slug where possible (correspondence, not coupling).
-- The status line is `Approved`: `to-spec` runs only after `brainstorming`'s gate, so the spec it
-  writes records an approved design, and `writing-plans` can plan it without a manual status edit.
+- The status line is marker-conditional, not always `Approved`: it is `Approved` only when the
+  run's brainstorming approval marker (`.engineering/<run>/brainstorming/APPROVED.md`) is present,
+  and `Draft` when no marker resolves. See `SKILL.md`'s status rule — the marker's presence is
+  what earns `Approved`, never the assumption that `to-spec` was reached through `brainstorming`.
