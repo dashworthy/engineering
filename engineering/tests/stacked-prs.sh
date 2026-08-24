@@ -33,6 +33,16 @@ need "$S" "restack"                                      "skill: restack section
 need "$S" "Land the stack"                               "skill: land-the-stack section"
 need "$S" "bottom-up"                                    "skill: land bottom-up in order"
 need "$S" "## What this does not do"                     "skill: does-not-do section"
+need "$S" "Where either is missing, fall back to plain"  "skill: tool fallback rule (not gt-required)"
+need "$S" "task N's branch starts from task N-1's branch" "skill: branch-chain start point"
+need "$S" "it does not spawn a worktree per task"        "skill: single worktree, not per-task"
+need "$S" "<topic>/<NN>-<task-slug>"                     "skill: branch naming convention"
+need "$S" "git switch -c"                                "skill: git start-branch command"
+need "$S" "gt submit"                                    "skill: gt submit command"
+need "$S" "gh pr create --base"                          "skill: gh pr create --base (the flag that stacks)"
+need "$S" "--force-with-lease"                           "skill: restack force-push mechanics"
+need "$S" "gh pr edit --base"                            "skill: restack retargets a deleted parent"
+need "$S" "gh pr merge"                                  "skill: land the bottom PR command"
 
 # --- writing-plans emits stacked-PR plans ------------------------------------
 W="$PLUGIN/skills/writing-plans/SKILL.md"
@@ -40,16 +50,23 @@ need "$W" "PR strategy: stacked"                         "writing-plans: stacked
 need "$W" "using-stacked-pull-requests"                  "writing-plans: names the skill"
 need "$W" "not eligible for"                             "writing-plans: parallel-mode exclusion"
 need "$W" "submit the stacked PR"                        "writing-plans: per-task submit step"
+need "$W" "starts the task's stacked branch off the previous task's branch" "writing-plans: per-task opening branch-start step"
+need "$W" "top-of-stack PR"                              "writing-plans: hardening task tops the stack"
+need "$W" "decided at plan-writing time"                "writing-plans: strategy chosen at plan time"
+need "$W" "Stacked mode is opt-in per plan"             "writing-plans: opt-in, non-stacked unchanged"
 
 # --- executing-plans honors the strategy -------------------------------------
 E="$PLUGIN/skills/executing-plans/SKILL.md"
 need "$E" "PR strategy"                                  "executing-plans: reads PR strategy"
 need "$E" "using-stacked-pull-requests"                  "executing-plans: names the skill"
 need "$E" "sequentially"                                 "executing-plans: stacked runs sequentially"
+need "$E" "run that opening step before the task's commit steps" "executing-plans: commit on the right branch"
 
 # --- finishing-a-development-branch lands the stack --------------------------
 F="$PLUGIN/skills/finishing-a-development-branch/SKILL.md"
 need "$F" "Land the stack"                               "finishing: land-the-stack option"
 need "$F" "using-stacked-pull-requests"                  "finishing: delegates to the skill"
+need "$F" "open stacked pull requests already sitting on the branch" "finishing: detect stacked via open PRs"
+need "$F" "held up the ones above it"                    "finishing: report where a partial land stopped"
 
 [ "$fail" = 0 ] && echo "STACKED-PRS CONTENT: ALL CHECKS PASS" || { echo "STACKED-PRS CONTENT FAILED"; exit 1; }
