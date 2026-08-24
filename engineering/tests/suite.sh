@@ -12,4 +12,5 @@ for s in to-spec:'[Discovery]' conducting-discovery:'[Discovery]' interrogating-
   name=${s%%:*}; tag=${s#*:}
   sh "$d/frontmatter.sh" "$d/../skills/$name" "$tag"
 done
+sh "$d/stacked-prs.sh"
 echo "ALL FOUNDATION CHECKS PASS"
