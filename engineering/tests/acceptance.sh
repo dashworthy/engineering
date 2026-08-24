@@ -85,6 +85,15 @@ grep -q "Status: Approved" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-sp
 if grep -q 'Draft | Approved' "$eng/skills/to-spec/SPEC-FORMAT.md"; then echo "FAIL: SPEC-FORMAT still offers Draft as a status choice"; fail=1; fi
 if grep -q "section for section" "$eng/skills/to-spec/SKILL.md"; then echo "FAIL: stale section-for-section mapping claim"; fail=1; fi
 
+# 6c. to-spec has exactly one imperative caller: engineering:brainstorming. Scan every skill and command
+# for an imperative invocation of engineering:to-spec (verbs dispatch / hand ... to / invoke), which is
+# distinct from the legitimate third-person PROSE mentions ("Brainstorming calls engineering:to-spec",
+# "does it call engineering:to-spec") that describe the wiring without performing it. brainstorming/SKILL.md
+# is the one allowed caller and is excluded. Any other hit means a second caller has crept in — the exact
+# regression (a conductor/command re-dispatching to-spec, bypassing the design gate) this branch removed.
+callers=$(grep -rnEi '(dispatch|hand[^.]*to|invoke|route[^.]*to|send[^.]*to|pass[^.]*to|delegate[^.]*to|run)[^.]*engineering:to-spec' "$eng/commands" "$eng/skills" --include='*.md' | grep -v '/skills/brainstorming/SKILL.md:' || true)
+if [ -n "$callers" ]; then echo "FAIL: only engineering:brainstorming may imperatively invoke to-spec; found other caller(s):"; echo "$callers"; fail=1; fi
+
 # 7. verity is a planned step, not a session-start hook.
 grep -q "conducting-test-hardening" "$eng/skills/writing-plans/SKILL.md" || { echo "FAIL: writing-plans must bake hardening"; fail=1; }
 grep -q "conducting-test-hardening" "$eng/skills/finishing-a-development-branch/SKILL.md" || { echo "FAIL: finish-time hardening net missing"; fail=1; }
