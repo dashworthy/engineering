@@ -1,9 +1,10 @@
 .signal/
 .DS_Store
 
-# .claude/settings.json IS committed — it carries the deny rules that freeze
-# the two plugin directories, and it only helps if it travels with the repo.
-# settings.local.json stays personal: it holds machine-specific absolute paths.
+# .claude/settings.json IS committed — it carries the deny rules that block writes to the
+# retired top-level signal/, verity/, and vernacular/ directories (renamed into the plugin
+# long ago; acceptance.sh asserts they never come back), and it only helps if it travels
+# with the repo. settings.local.json stays personal: it holds machine-specific absolute paths.
 .claude/settings.local.json
 docs/
 .engineering/

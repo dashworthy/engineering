@@ -4,8 +4,10 @@
     "deny": [
       "Edit(./signal/**)",
       "Edit(./verity/**)",
+      "Edit(./vernacular/**)",
       "Write(./signal/**)",
-      "Write(./verity/**)"
+      "Write(./verity/**)",
+      "Write(./vernacular/**)"
     ]
   }
 }
