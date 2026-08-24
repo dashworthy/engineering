@@ -29,9 +29,13 @@
     ## 6. Approach (from the design dialogue)
     The approved approach and the alternatives weighed against it (from `brainstorming`).
     For a triage-origin fix, the chosen fix strategy and why the smaller options were rejected.
+    Where the approach has forks a linear list flattens, include a process-flow diagram
+    (mermaid — a spec renders it); see `engineering:using-diagrams`.
 
     ## 7. Existing context
     Relevant modules, `CONTEXT.md` terms, ADRs. What the work touches.
+    Where the work turns on the shape of the data, include an ER diagram (mermaid — a spec
+    renders it); see `engineering:using-diagrams`.
 
     ## 8. Open questions
     Anything unresolved that does not block starting. Empty is fine.
