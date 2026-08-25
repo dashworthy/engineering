@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: "[Planning] Turn an approved spec in docs/dashworthy/engineering/specs/ into an ordered, bite-sized implementation plan written to docs/dashworthy/engineering/plans/, with TDD integration points, review checkpoints, and a closing test-hardening task. Use after a spec is approved and before building. Reads CONTEXT.md/docs/adr when present."
+description: "[Planning] Turn an approved spec in docs/dashworthy/engineering/specs/ into an ordered, bite-sized implementation plan written to docs/dashworthy/engineering/plans/, with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, and mint the run's plan-approval marker. Use after a spec is approved and before building. Reads CONTEXT.md/docs/adr when present."
 ---
 
 # Writing Plans
@@ -28,10 +28,10 @@ built on a decision nobody has actually made; if the spec's own status line does
 Approved, say so and stop rather than plan around a draft.
 
 The status line alone is not proof — check the trace behind it. Resolve the run from
-`.engineering/.current-run` and confirm the brainstorming approval marker,
-`.engineering/<run>/brainstorming/APPROVED.md`, actually exists. An `Approved` status with
+`.engineering/.current-run` and confirm the spec-approval marker,
+`.engineering/<run>/to-spec/APPROVED.md`, actually exists. An `Approved` status with
 no marker behind it is the signature of a hand-edited status line or a spec written before
-this mechanism existed — either way the design gate was never cleared, so refuse and stop
+this mechanism existed — either way the spec gate was never cleared, so refuse and stop
 rather than plan it. This mirrors `finishing-a-development-branch`'s rule to prefer the
 trace over the checkbox: the marker is the trace, the status line is only the checkbox.
 
@@ -73,13 +73,6 @@ Constraints and any binding decision table — not paraphrased, not summarized �
 task downstream can point back at one shared block instead of each task restating, and
 risking drifting from, what the spec actually said. A task's own text should read as "per
 Global Constraints, this uses X," not repeat the reasoning for X.
-
-**Review checkpoints.** Some steps carry a risk a green test suite can't catch on its
-own — a public interface taking its final shape, a naming decision other tasks will build
-on, a spec section thin enough that the safest read is worth confirming before six more
-steps assume it. Mark those explicitly as a checkpoint: a place the plan says stop and get
-a second look before continuing, rather than trusting the next step to catch a wrong turn
-two steps later, when it's more expensive to unwind.
 
 ## PR strategy
 
@@ -168,8 +161,8 @@ Before calling the plan finished, run a self-review pass over what was just writ
   either forgotten or genuinely out of scope for this plan — decide which, and if it's the
   former, add the task rather than note the gap and move on.
 - **Placeholder scan.** Search the finished plan for anything a task author would have to
-  guess at — `TBD`, `...`, "the appropriate file," a step with no file path, a checkpoint
-  with nothing to check. A plan with a placeholder in it isn't a draft of a finished plan;
+  guess at — `TBD`, `...`, "the appropriate file," a step with no file path, a verification
+  with nothing to run. A plan with a placeholder in it isn't a draft of a finished plan;
   it's an unfinished one that looks done at a glance.
 - **Type consistency.** Confirm every task follows the same shape — a Files block, an
   Interfaces block where the task has one, numbered steps, a closing verification command
@@ -195,8 +188,30 @@ Before calling the plan finished, run a self-review pass over what was just writ
 - It does not **plan around a draft.** A spec whose status isn't Approved doesn't get
   planned; it gets named as the reason nothing was written.
 
+## The plan gate — present the plan, then hold for approval
+
+The plan is the second of the pipeline's two human gates (the first is the spec gate in
+`to-spec`). A written plan is a draft until a human approves it: present the finished plan
+and wait for the human's approval before anything is built against it. If they send it back,
+revise and present again; do not hand an unapproved plan onward.
+
+On approval, create the run's writing-plans phase directory with
+`run-context.sh writing-plans <slug>` and write `.engineering/<run>/writing-plans/APPROVED.md`
+into it — a Tier-2, run-scoped trace that the plan cleared the gate. `executing-plans` reads
+that marker as its precondition and refuses to build without it, so mint it only on approval,
+never before.
+
+**The finish strategy is authorized here too.** Because this is the last human stop before the
+build runs unattended, the plan gate is also where the branch's finish strategy gets settled —
+how it re-enters the repository (merge, pull request, or landing a stack) and whether its
+branch is deleted afterward. Record it in the plan's Global Constraints as a `Finish strategy:`
+line, so `finishing-a-development-branch` carries out a choice the human already authorized
+rather than stopping to ask again at the end. A stacked plan's `PR strategy: stacked` line
+already implies landing the stack; state the cleanup intent alongside it.
+
 ## Handoff
 
-Print the plan's path — or, for a set, every path in sequence — and stop. What happens
-next is `executing-plans`' job, not this skill's: it reads the plan this skill wrote and
+Once the plan is approved and its marker written, print the plan's path — or, for a set,
+every path in sequence — and stop. What happens next is `executing-plans`' job, not this
+skill's: it reads the plan this skill wrote (and the plan-approval marker behind it) and
 works it task by task.
