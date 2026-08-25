@@ -1,0 +1,64 @@
+---
+name: using-code-conventions
+description: "[Build] Put recorded code conventions to work: during design and build, read the standards index and cite the governing convention file inline at the work item in a spec or plan, so the subagent that implements the item reads the rule before writing code. Use whenever a spec or plan describes a work item a recorded convention governs. Reads docs/standards/; it does not discover conventions (identifying-code-conventions) or write them (recording-code-conventions)."
+---
+
+# Using Code Conventions
+
+Say this first, plainly: `Using the using-code-conventions skill to cite the governing conventions.`
+
+## What this guarantees
+
+One thing: when a spec or plan describes a work item that a recorded convention governs, this
+skill **cites the specific convention file inline, right at that work item**, so the subagent
+who builds it reads the rule before writing the code rather than after review catches the
+violation. It reads the standards tree; it never changes it. A convention nobody cites is a
+convention nobody follows — closing that gap, at the moment the work is described, is the whole
+job.
+
+Nothing else is guaranteed. Read `## What this does not do` before assuming this skill discovers
+or records anything.
+
+## Cite the convention inline at the work item
+
+A convention is only useful to a builder if it reaches them at the moment they need it. When a
+spec or plan item is being written — "add a controller action for X," "add a migration for Y" —
+find the convention that governs that kind of work and **name its file, by path, on the item
+itself**: `(convention: docs/standards/controllers/dedicated-form-request.md)`. The citation
+travels with the work, so the subagent dispatched to implement the item opens the rule as part
+of doing the work, and builds to it the first time.
+
+Cite the **file**, not a paraphrase of the rule. Paraphrases drift from the source and go stale
+when the convention is amended; a path always resolves to the current rule, with its What-it-is /
+What-it-is-not boundaries intact. One work item may be governed by more than one convention —
+cite each that applies.
+
+## Match on the When relevant column
+
+The index is the map. Read `docs/standards/index.md` and match each work item against the **When
+relevant** column — that column exists to state the work situation a convention applies to, and
+matching a work item to it is exactly how you decide what to cite. The rule is: **a convention
+governs a work item when the item's kind of work falls under that convention's When relevant
+trigger.** Scan the index once per spec or plan, match each item's work against the triggers, and
+cite the conventions whose trigger the item satisfies. An item no trigger matches gets no
+citation — silence is correct there, not a miss.
+
+## Skip retired conventions
+
+A retired convention no longer binds, so it must never be cited. When scanning the index, **ignore
+every row whose Status is `retired`** — match and cite only active rows. A retired rule kept its
+index row on purpose (so a reader sees it once existed), but citing it would push a builder to
+follow a rule the project has dropped. Active rows are the only ones this skill ever cites.
+
+## What this does not do
+
+- It does not **discover conventions.** Surfacing candidates from code or from the developer's
+  head is `identifying-code-conventions`. This skill only consumes what has already been recorded.
+- It does not **record, amend, or retire conventions.** Writing the standards tree is
+  `recording-code-conventions`, the single writer. This skill reads `docs/standards/`; it never
+  edits it.
+- It does not **enforce at review time.** Flagging a diff that violates a recorded convention is
+  the PR-time step inside `code-review`. This skill works earlier — it puts the rule in front of
+  the builder so the violation is less likely to be written in the first place.
+- It does not **invent conventions to cite.** If no active convention governs a work item, it
+  cites nothing; it does not manufacture a rule to fill the gap.

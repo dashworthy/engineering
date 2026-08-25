@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: "[Planning] Turn an approved spec in docs/dashworthy/engineering/specs/ into an ordered, bite-sized implementation plan written to docs/dashworthy/engineering/plans/, with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, and mint the run's plan-approval marker. Use after a spec is approved and before building. Reads CONTEXT.md/docs/adr when present."
+description: "[Planning] Turn an approved spec in docs/dashworthy/engineering/specs/ into an ordered, bite-sized implementation plan written to docs/dashworthy/engineering/plans/, with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, and mint the run's plan-approval marker. Use after a spec is approved and before building. Reads CONTEXT.md/docs/adr when present, and cites recorded conventions from docs/standards/ inline at each task via using-code-conventions."
 ---
 
 # Writing Plans
@@ -73,6 +73,19 @@ Constraints and any binding decision table — not paraphrased, not summarized �
 task downstream can point back at one shared block instead of each task restating, and
 risking drifting from, what the spec actually said. A task's own text should read as "per
 Global Constraints, this uses X," not repeat the reasoning for X.
+
+## Citing recorded conventions at each task
+
+A recorded convention only reaches the builder if the plan carries it. When the project keeps a
+standards tree at `docs/standards/`, invoke `engineering:using-code-conventions` while shaping
+the plan: it reads the standards index, matches each task's kind of work against the **When
+relevant** column, and cites the governing convention file inline on the task itself —
+`(convention: docs/standards/<area>/<rule>.md)`. The citation travels with the task into
+`executing-plans`, so the subagent that builds it opens the rule before writing code rather than
+after `code-review` catches the violation. Cite the file by path, never a paraphrase, so the
+task always resolves to the current rule. A project with no standards tree gets no citations —
+read when present, skipped when absent, exactly like `CONTEXT.md`; this skill consults the tree
+but never writes it (recording is `recording-code-conventions`).
 
 ## PR strategy
 
