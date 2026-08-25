@@ -7,6 +7,8 @@ argument-hint: what you want built (a feature / build / change request)
 
 Run the full signal discovery pipeline for the request below by invoking the **`engineering:conducting-discovery`** skill and following it exactly. signal is opt-in: it runs here because the user asked for it, so run the whole discovery pipeline — interrogate and sequence first — rather than jumping straight to design.
 
+Before the run directory and the first question, isolate the workspace: invoke `engineering:using-git-worktrees` (it detects existing isolation and no-ops if a worktree this session already entered is in place). signal is an entrance, so the worktree it creates is the one every later phase inherits.
+
 The pipeline you are conducting:
 
 There is **one artifact, `brief.md`, with two writers.** Stage 1 writes §1–§6 in the main thread; stage 2 appends §7 and §8 from a subagent. Neither rewrites the other's sections.

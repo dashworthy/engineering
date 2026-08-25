@@ -1,6 +1,6 @@
 ---
 name: sequencing-requirements
-description: "[Discovery] Stage 2 of the signal discovery pipeline, invoked by engineering:conducting-discovery once stage 1 has written sections 1 to 6 of brief.md with every expansion candidate adjudicated — appends section 7, the body of the work ordered by dependency (what must be understood or built before what, and why), and section 8, the handoff pointer. It also reads open-threads.md so section 7 can cite unresolved threads by handle and section 8 can name the file. It appends only; it never edits stage 1's sections, does not split work into separable units, and does not design or build. Runs only as part of the signal pipeline, dispatched by the conductor; it does not self-trigger on general feature or build requests."
+description: "[Discovery] Appends the dependency-ordered body (§7) and the handoff pointer (§8) to a brief whose §1–§6 requirements are already written. A dispatched stage-2 beat; dispatched only by a discovery conductor, never self-triggered."
 ---
 
 # Sequencing Requirements
@@ -32,7 +32,7 @@ If you are re-dispatched against a brief that already carries a §7 and §8, rep
 
 **You are ordering the body of one document. You are not splitting work into independently-buildable units.**
 
-That distinction is easy to lose, because "sequence the work" sounds like the first step of breaking a feature into buildable pieces. It is not. Splitting work into separately-estimable, separately-buildable units serves a build loop that consumes them one at a time. **signal has no build loop.** It hands off one document and stops. There is nothing downstream for such units to feed, so producing them is work with no consumer — and it changes §7 from a description of the problem's shape into a plan of attack, which is a claim signal does not get to make.
+That distinction is easy to lose, because "sequence the work" sounds like the first step of breaking a feature into buildable pieces. It is not. Splitting work into separately-estimable, separately-buildable units serves a build loop that consumes them one at a time. **Discovery has no build loop.** It hands off one document and stops. There is nothing downstream for such units to feed, so producing them is work with no consumer — and it changes §7 from a description of the problem's shape into a plan of attack, which is a claim discovery does not get to make.
 
 Concretely, do not reach for any of this:
 
@@ -62,7 +62,7 @@ The first six already exist when you are dispatched. Append yours with exactly t
 
 `## 7. The Work, In Dependency Order`, `## 8. How to Consume This Brief`.
 
-**Note for §8:** state plainly that signal's job is finished and that this brief is the input to whatever builds — `engineering:brainstorming` per component, a human, or another pipeline — named as candidate consumers, not as a chosen one. Name `open-threads.md` alongside it as a live companion listing what the interrogation surfaced and, where any threads remain open, what it never resolved, so a reader knows the brief is not the whole record. If the file is absent or every thread on it has been closed, §8 does not name it. Naming an unresolved thread is not a recommendation about what to do with it, and the prohibition below stands unchanged. Make **no claim about what happens next**: no recommended next step, no proposed approach, no effort estimate, no "start with §7.1". §8 is a pointer, not a plan. It is the last thing a downstream reader sees, and the only section that tells them what this document is for.
+**Note for §8:** state plainly that discovery's job is finished and that this brief is the input to whatever builds — `engineering:brainstorming` per component, a human, or another pipeline — named as candidate consumers, not as a chosen one. Name `open-threads.md` alongside it as a live companion listing what the interrogation surfaced and, where any threads remain open, what it never resolved, so a reader knows the brief is not the whole record. If the file is absent or every thread on it has been closed, §8 does not name it. Naming an unresolved thread is not a recommendation about what to do with it, and the prohibition below stands unchanged. Make **no claim about what happens next**: no recommended next step, no proposed approach, no effort estimate, no "start with §7.1". §8 is a pointer, not a plan. It is the last thing a downstream reader sees, and the only section that tells them what this document is for.
 
 ## Section 7 — The Dependency-Ordered Body
 
@@ -108,7 +108,7 @@ If you cannot append §7 and §8 (contradictory requirements, a requirement sect
 
 ## After You Return — Handoff to the design dialogue
 
-Your job ends at the RETURN block above — you do not design, write a spec, or dispatch anything. Once the conductor has your `OK` and a matching line count, it (not you) hands the finished `brief.md` to `engineering:brainstorming`, the shared design dialogue, which recommends a design and calls `engineering:to-spec` — the plugin's sole writer of Tier-1 specs — to draft the spec under `docs/dashworthy/engineering/specs/` and hold the spec-approval gate downstream.
+Your job ends at the RETURN block above — you do not design, write a spec, or dispatch anything. Once the conductor has your `OK` and a matching line count, it (not you) takes the finished `brief.md` onward; where it goes next is the conductor's decision, not yours to describe.
 
 ## Red Flags — STOP
 
