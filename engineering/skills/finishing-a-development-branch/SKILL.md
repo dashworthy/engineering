@@ -57,8 +57,8 @@ from earlier in the session:
 A branch with no plan at all is the unhardened case too, not a lesser one. When any of that
 comes back short, do not fold it silently into "done." Say plainly that this branch has no
 evidence of being test-hardened, and prompt to run `engineering:conducting-test-hardening` now,
-before any integration option is presented — this is where verity's coverage lives now that it
-no longer rides a session-start hook. This is a prompt, not a lock: if the user wants to proceed
+before any integration option is presented — for a branch nothing upstream actually hardened,
+this prompt is the last place the gap gets caught. This is a prompt, not a lock: if the user wants to proceed
 without it, that is theirs to decide explicitly. What this skill does not do is let the gap pass
 unnamed, or decide on the user's behalf that skipping it is fine.
 
