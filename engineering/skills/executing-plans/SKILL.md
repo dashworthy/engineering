@@ -1,6 +1,6 @@
 ---
 name: executing-plans
-description: "[Planning] Execute an implementation plan from docs/dashworthy/engineering/plans/ task by task — each task driven through tdd and gated by code-review — pausing at the plan's review checkpoints and running its closing test-hardening task via conducting-test-hardening. User-invoked via /implement. Supports an optional subagent-driven mode for independent tasks. Working state under .engineering/<run>/implement/."
+description: "[Planning] Execute an implementation plan from docs/dashworthy/engineering/plans/ task by task — each task driven through tdd and gated by code-review — after confirming the plan-approval marker, and running its closing test-hardening task via conducting-test-hardening. Runs to completion with no mid-flow human checkpoints. User-invoked via /implement. Supports an optional subagent-driven mode for independent tasks. Working state under .engineering/<run>/implement/."
 ---
 
 # Executing Plans
@@ -14,8 +14,7 @@ order, until every task is checked off — and for each one that changes behavio
 existed before the code, gated by an independent review before the box gets checked. It
 does not guarantee every task lands on the first try, and it does not guarantee the plan
 was a good plan. It guarantees that nothing on the plan gets marked done without going
-through the cycle the plan was written to enforce, and that the plan's own checkpoints
-stop the run rather than get worked past.
+through the cycle the plan was written to enforce.
 
 Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
 plans, reviews on its own authority, or decides on its own when the work is finished.
@@ -36,6 +35,14 @@ one starts; a later plan in the set may assume something the earlier one produce
 
 A plan already partly checked off is a plan already in progress, not a fresh one — resume
 at its first unchecked step rather than starting over or redoing work already marked done.
+
+Before working any task, confirm the plan cleared its gate: resolve the run from
+`.engineering/.current-run` and check that `.engineering/<run>/writing-plans/APPROVED.md`
+exists. That marker is `writing-plans`' record that a human approved the plan; without it,
+either the plan gate was never cleared or the plan was hand-written outside the pipeline, and
+this skill refuses to build rather than run an unapproved plan to completion unattended — the
+same trace-over-checkbox rule the spec gate uses, one step downstream. This is the last gate;
+once it clears, the plan runs to completion with no further human stops.
 
 ## Run directory
 
@@ -70,9 +77,9 @@ task, in order:
    say counts as passing. A task whose verification doesn't come back clean is not done,
    whatever the code looks like; fix it and check again before moving on.
 4. **Gate with `engineering:code-review`** on the task's own diff. A clean review is what
-   earns the box; a review with findings gets addressed — or, where a finding is a genuine
-   judgment call rather than a fix waiting to happen, gets surfaced to the user rather than
-   argued past — before this step runs again on the corrected diff.
+   earns the box; a review with findings gets addressed and then re-reviewed on the corrected
+   diff before the box is checked. This gate is automated — it does not stop for a human — so a
+   finding is resolved in the diff, not referred upward for a ruling.
 5. **Check the box** — flip the task's `- [ ]` to `- [x]` in the plan file itself. The plan
    is the record of progress; a task that's actually done and still shows unchecked is a
    plan lying about its own state to the next person who opens it.
@@ -80,17 +87,7 @@ task, in order:
    by `writing-plans` carry the exact `git add`/`git commit` invocation as that task's last
    step; run it as written rather than composing a message of your own.
 
-Then move to the next task, unless this one was a checkpoint.
-
-## Review checkpoints
-
-`writing-plans` marks some tasks as checkpoints — a place it judged a green test suite
-wouldn't be enough on its own to trust, and the safer move is a second look before several
-more tasks build on top of it. A checkpoint task gets everything an ordinary task gets —
-tdd, the code-review gate, the box, the commit — and then one thing more: this skill stops
-there and waits. Present what the task produced, plainly, and do not start the next task
-until the user says to continue. A checkpoint worked past without stopping is a checkpoint
-that didn't happen.
+Then move to the next task.
 
 ## Closing hardening (D15)
 
@@ -142,17 +139,13 @@ task in the run reads a file another one in the same run writes) and follow
 `dispatching-parallel-agents` for how the fan-out and the return are structured; that skill
 owns the mechanics of splitting independent work across agents and bringing the results
 back — this skill supplies which tasks qualify and what each dispatched worker still owes:
-the full per-task loop, not a shortcut version of it. A checkpoint task is never folded
-into a parallel run; it stops the plan for a human look precisely because it isn't safe to
-wave through unattended, whether that's one task running alone or three running side by
-side.
+the full per-task loop, not a shortcut version of it.
 
 ## What this does not do
 
-- It does not **write the plan.** The tasks, their order, their checkpoints, and the
-  closing hardening task were all decided by `writing-plans` before this skill ever runs;
-  this skill executes what's already on the page, it doesn't add, remove, or reorder a
-  task itself.
+- It does not **write the plan.** The tasks, their order, and the closing hardening task
+  were all decided by `writing-plans` before this skill ever runs; this skill executes
+  what's already on the page, it doesn't add, remove, or reorder a task itself.
 - It does not **review on its own authority.** Every gate a task passes through is
   `engineering:code-review`'s judgment, dispatched fresh each time, not a shortcut check
   this skill makes itself because a diff looks small.
