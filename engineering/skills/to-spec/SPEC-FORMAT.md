@@ -44,8 +44,8 @@ Rules:
 - Never invent content the source material does not support; mark unknowns in §8.
 - A triage-origin spec still fills every section; §1 is the reproduced problem, §6 the fix approach.
 - The topic slug matches the run slug where possible (correspondence, not coupling).
-- The status line is `Draft` when the spec is written, and the spec gate in `to-spec` flips it
-  to Approved only after the human approves the draft and the run's spec-approval marker
-  (`.engineering/<run>/to-spec/APPROVED.md`) is minted. See `SKILL.md`'s spec-gate rule — the
-  marker and the `Approved` status are promoted together, never on the assumption that reaching
-  `to-spec` implies approval.
+- The status line is `Draft` when the spec is written; the spec gate in `to-spec`
+  flips it to Approved only after the human approves the draft and the run's spec-approval
+  marker (`.engineering/<run>/to-spec/APPROVED.md`) is minted. See `SKILL.md`'s spec-gate rule —
+  the marker and the `Approved` status are promoted together, never on the assumption that
+  reaching `to-spec` implies approval.
