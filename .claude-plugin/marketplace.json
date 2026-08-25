@@ -25,6 +25,16 @@
         "name": "Andrew Leach",
         "email": "7387639+andyleach@users.noreply.github.com"
       }
+    },
+    {
+      "name": "skillsmith",
+      "description": "Author and test Claude skills: concise structure, progressive disclosure, degrees of freedom, honest compliance framing, and pressure-testing skill discovery and compliance.",
+      "version": "0.1.0",
+      "source": "./skillsmith",
+      "author": {
+        "name": "Andrew Leach",
+        "email": "7387639+andyleach@users.noreply.github.com"
+      }
     }
   ]
 }
