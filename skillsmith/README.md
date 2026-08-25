@@ -17,10 +17,3 @@ contact with a distracted agent under time and authority pressure.
 
 Each skill is a short `SKILL.md` overview that points to deeper `references/` files loaded
 only when needed.
-
-## Provenance
-
-The guidance here is synthesized from Anthropic's skill-authoring best practices and the
-superpowers persuasion-principles and skill-testing material, adapted and corrected
-(2026-08). It is this plugin's own prose, not a verbatim copy of any source — where a
-source overstated its evidence, this plugin says so plainly rather than repeating it.

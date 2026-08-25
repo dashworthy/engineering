@@ -97,8 +97,3 @@ it when rushed or second-guessing? — use the **testing-skills** skill.
 - **Time-sensitive wording.** "The new API" and "as of last month" rot. Describe the
   current way plainly and park deprecated approaches in a clearly labelled "old patterns"
   section.
-
-## Provenance
-
-Synthesized and corrected from Anthropic's skill-authoring best practices and the
-superpowers persuasion material (2026-08); this plugin's own prose, not a copy.
