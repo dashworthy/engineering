@@ -236,7 +236,7 @@ Write `brief.md` into the run directory supplied by the conductor, with exactly 
 
 **End the file with exactly one trailing newline and no blank line after your last section.** Stage 2 appends `## 7.` directly onto what you leave, so a stray blank line shifts the boundary between your sections and its by one and produces a mismatch over nothing.
 
-Then hand control back to the conductor that invoked you — signal's `engineering:conducting-discovery`, or triage's under-specified discovery leg.
+Then hand control back to the conductor that invoked you.
 
 ## Red Flags — STOP, Do Not Advance
 
