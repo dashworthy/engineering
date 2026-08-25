@@ -1,6 +1,6 @@
 ---
 name: expanding-scope
-description: "[Discovery] A dispatched beat within the requirements interrogation, dispatched by a discovery conductor — reads the draft requirements supplied inline in its dispatch prompt and surfaces what the requester never thought to say, an adjacent capability, a bigger framing of the same problem, and something undervalued in the current scope, as at most five one-line candidates for the user to rule in scope, out of scope, or defer. Dispatched only by a conductor as part of the interrogation beat; it does not self-trigger on general feature or build requests."
+description: "[Discovery] Surfaces scope-expansion candidates from draft requirements — adjacent capabilities, a bigger framing, undervalued scope — for the user to rule in or out. A dispatched beat of the requirements interrogation; dispatched only by a discovery conductor, never self-triggered."
 ---
 
 # Expanding Scope

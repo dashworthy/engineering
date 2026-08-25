@@ -1,6 +1,6 @@
 ---
 name: triage
-description: "[Triage] Problem-isolation entrance: given a reported defect, isolate the workspace in a worktree, establish or join a run, verify/reproduce the claim, isolate the cause with minimal effort, then take the smallest next step — quick fix (diagnosing-bugs), a discovery leg of its own for an under-specified report (the shared interrogating-requirements primitive, then brainstorming), or spec it (brainstorming then to-spec). A distinct entrance from signal — the two never hand off to each other. User-invoked via /triage. Logs disposition to .engineering/<run>/triage/; file-based, no tracker."
+description: "[Triage] Problem-isolation entrance for a reported defect: verify it reproduces, isolate the cause only as far as routing needs, then take the smallest next step. User-invoked via /triage; file-based, no tracker."
 ---
 
 # Triage

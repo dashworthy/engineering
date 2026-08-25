@@ -1,6 +1,6 @@
 ---
 name: sequencing-requirements
-description: "[Discovery] Stage 2 of a discovery conductor's pipeline, invoked once stage 1 has written sections 1 to 6 of brief.md with every expansion candidate adjudicated — appends section 7, the body of the work ordered by dependency (what must be understood or built before what, and why), and section 8, the handoff pointer. It also reads open-threads.md so section 7 can cite unresolved threads by handle and section 8 can name the file. It appends only; it never edits stage 1's sections, does not split work into separable units, and does not design or build. Dispatched only by a discovery conductor; it does not self-trigger on general feature or build requests."
+description: "[Discovery] Appends the dependency-ordered body (§7) and the handoff pointer (§8) to a brief whose §1–§6 requirements are already written. A dispatched stage-2 beat; dispatched only by a discovery conductor, never self-triggered."
 ---
 
 # Sequencing Requirements
