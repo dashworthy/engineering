@@ -7,7 +7,7 @@
 
     **Date:** <YYYY-MM-DD>
     **Author:** <name>
-    **Status:** Approved
+    **Status:** Draft
     **Origin:** signal (discovery) | triage (<issue ref or one-line problem>)
 
     ## 1. Problem
@@ -44,7 +44,8 @@ Rules:
 - Never invent content the source material does not support; mark unknowns in §8.
 - A triage-origin spec still fills every section; §1 is the reproduced problem, §6 the fix approach.
 - The topic slug matches the run slug where possible (correspondence, not coupling).
-- The status line is marker-conditional, not always `Approved`: it is `Approved` only when the
-  run's brainstorming approval marker (`.engineering/<run>/brainstorming/APPROVED.md`) is present,
-  and `Draft` when no marker resolves. See `SKILL.md`'s status rule — the marker's presence is
-  what earns `Approved`, never the assumption that `to-spec` was reached through `brainstorming`.
+- The status line is `Draft` when the spec is written, and the spec gate in `to-spec` flips it
+  to Approved only after the human approves the draft and the run's spec-approval marker
+  (`.engineering/<run>/to-spec/APPROVED.md`) is minted. See `SKILL.md`'s spec-gate rule — the
+  marker and the `Approved` status are promoted together, never on the assumption that reaching
+  `to-spec` implies approval.
