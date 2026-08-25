@@ -96,4 +96,16 @@ else
   grep -qi "heuristic" "$id" || { echo "FAIL: identifying must state the inference heuristic"; fail=1; }
 fi
 
+# --- Task 4: using-code-conventions — the read/consume side (cites conventions at work items) ---
+u="$skills/using-code-conventions/SKILL.md"
+if [ ! -f "$u" ]; then
+  echo "FAIL: using-code-conventions/SKILL.md missing"; fail=1
+else
+  grep -qxF "name: using-code-conventions" "$u" || { echo "FAIL: using SKILL.md frontmatter name"; fail=1; }
+  # Body markers (whole-line headings), so a gutted body can't false-green off the description.
+  grep -qxF "## Cite the convention inline at the work item" "$u" || { echo "FAIL: using must cite the governing convention inline at the work item"; fail=1; }
+  grep -qxF "## Match on the When relevant column" "$u" || { echo "FAIL: using must match on the index When relevant column"; fail=1; }
+  grep -qxF "## Skip retired conventions" "$u" || { echo "FAIL: using must skip retired rows"; fail=1; }
+fi
+
 [ "$fail" = 0 ] && echo "CONVENTIONS CHECKS PASS" || { echo "CONVENTIONS FAILED"; exit 1; }
