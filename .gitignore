@@ -6,6 +6,5 @@
 # long ago; acceptance.sh asserts they never come back), and it only helps if it travels
 # with the repo. settings.local.json stays personal: it holds machine-specific absolute paths.
 .claude/settings.local.json
-docs/
 .engineering/
 .verity

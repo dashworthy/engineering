@@ -15,10 +15,10 @@ Every step below is written to serve this rule, not the other way around. When a
 and the Iron Rule appear to conflict, the Iron Rule wins and the run halts.
 
 **Ask, don't configure.** There is no file anywhere declaring suites, paths, commands,
-thresholds, or a loop limit for this project. Anything that information used to live in gets
-derived from git and the project itself, or asked of the user, fresh, every run. Never write a
-config file to save yourself asking next time — that file, and the defects it produced, are why
-this run works the way it does now.
+thresholds, or a loop limit for this project. All of it is derived from git and the project
+itself, or asked of the user, fresh, every run. Never write a config file to save yourself
+asking next time — a stored config drifts out of sync with the project, and that drift is
+exactly the kind of defect deriving-or-asking-fresh exists to prevent.
 
 ## Why this runs now
 
@@ -344,5 +344,6 @@ reading anything back from this one.
 - Marking an `unevaluated` item `satisfied` or `rework` instead of leaving it `open`, or
   counting it toward either side of the no-improvement check.
 - Inferring or hard-coding a threshold, a suite list, or a command, or writing a config file, a
-  shell library, or a hook "to make this more reliable next time" — that is exactly the layer
-  that was removed, and exactly what caused most of the defects.
+  shell library, or a hook "to make this more reliable next time" — a stored layer like that
+  drifts out of sync with the project and produces exactly the defects this fresh-every-run
+  discipline exists to prevent.
