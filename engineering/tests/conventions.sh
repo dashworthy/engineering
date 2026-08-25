@@ -132,4 +132,17 @@ else
   grep -qF "engineering:recording-code-conventions" "$recmd" || { echo "FAIL: record-convention must invoke engineering:recording-code-conventions"; fail=1; }
 fi
 
+# --- Task 7: PR-time convention detection inside code-review (additive) ---
+cr="$skills/code-review/SKILL.md"
+if [ ! -f "$cr" ]; then
+  echo "FAIL: code-review/SKILL.md missing"; fail=1
+else
+  grep -qxF "## Convention detection in the diff (additive)" "$cr" || { echo "FAIL: code-review must add the additive convention-detection section"; fail=1; }
+  grep -qF "**Harvest new idioms.**" "$cr" || { echo "FAIL: code-review step must harvest new idioms as candidates"; fail=1; }
+  grep -qF "**Flag violations.**" "$cr" || { echo "FAIL: code-review step must flag violations of recorded conventions"; fail=1; }
+  grep -qiF "PR diff only" "$cr" || { echo "FAIL: code-review step must be scoped to the PR diff only"; fail=1; }
+  grep -qF "recording-code-conventions" "$cr" || { echo "FAIL: code-review harvest must route through recording-code-conventions (the gate)"; fail=1; }
+  grep -qF "using-code-conventions" "$cr" || { echo "FAIL: code-review violation-flagging must read via using-code-conventions"; fail=1; }
+fi
+
 [ "$fail" = 0 ] && echo "CONVENTIONS CHECKS PASS" || { echo "CONVENTIONS FAILED"; exit 1; }
