@@ -122,4 +122,14 @@ else
   grep -qi "augment" "$init" || { echo "FAIL: conventions-init must state re-run augments (never clobbers)"; fail=1; }
 fi
 
+# --- Task 6: record-convention command — thin invoker, dictate one convention from the head ---
+recmd="$eng/commands/record-convention.md"
+if [ ! -f "$recmd" ]; then
+  echo "FAIL: commands/record-convention.md missing"; fail=1
+else
+  grep -q "^description:" "$recmd" || { echo "FAIL: record-convention needs a description:"; fail=1; }
+  grep -q "^argument-hint:" "$recmd" || { echo "FAIL: record-convention needs an argument-hint:"; fail=1; }
+  grep -qF "engineering:recording-code-conventions" "$recmd" || { echo "FAIL: record-convention must invoke engineering:recording-code-conventions"; fail=1; }
+fi
+
 [ "$fail" = 0 ] && echo "CONVENTIONS CHECKS PASS" || { echo "CONVENTIONS FAILED"; exit 1; }
