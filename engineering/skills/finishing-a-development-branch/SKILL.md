@@ -1,6 +1,6 @@
 ---
 name: finishing-a-development-branch
-description: "[Foundation] When work is complete and green, present structured options for integrating the branch (merge / PR / cleanup) and carry out the choice. Use at the end of a piece of work. Safety net: if the branch was never test-hardened, prompt to run conducting-test-hardening before finishing. Model-invoked; no command."
+description: "[Foundation] When work is complete and green, carry out the finish strategy the plan gate authorized (merge / PR / land the stack / cleanup); for a branch with no plan behind it, present the options and ask. Use at the end of a piece of work. Safety net: if the branch was never test-hardened, prompt to run conducting-test-hardening before finishing. Model-invoked; no command."
 ---
 
 # Finishing A Development Branch
@@ -67,12 +67,22 @@ prompt, not a lock: if the user wants to proceed without it, that is theirs to d
 What this skill does not do is let the gap pass unnamed, or decide on the user's behalf that
 skipping it is fine.
 
-## Present the integration options
+## Carry out the finish strategy (or, with no plan, present the options)
 
-Once the branch is green, verified, and either hardened or knowingly waved through, lay out how
-it can re-enter the rest of the repository.
+Once the branch is green, verified, and either hardened or knowingly waved through, it can
+re-enter the rest of the repository. How that happens is, by default, not a fresh question: the
+plan gate already settled it. Read the plan behind this branch — via the active run pointer or a
+plan file under `docs/dashworthy/engineering/plans/` that matches this work — and look in its
+Global Constraints for the `Finish strategy:` line (and any `PR strategy: stacked` line). When
+one is there, it is the human's authorized choice: carry it out without asking again. That
+authorization is exactly what the plan gate exists to collect, so re-prompting here would be the
+extra stop this two-gate model removed.
 
-First detect whether this was a **stacked run**: a plan behind the branch whose Global
+Only when there is **no plan, or no finish strategy recorded on it** — a branch built outside
+the pipeline — fall back to presenting the options and asking, since no gate ever authorized
+one.
+
+Either way, detect whether this was a **stacked run**: a plan behind the branch whose Global
 Constraints carry a `PR strategy: stacked` line, or open stacked pull requests already sitting on
 the branch. A stacked run does not re-enter the repository as one pull request, so its options
 list differs — the single "Open a pull request" option is replaced by landing the whole stack:
@@ -91,9 +101,10 @@ list differs — the single "Open a pull request" option is replaced by landing 
 
 Which of these are actually live options depends on the project, not on this skill's own
 preference — read the remote configuration, any branch protection, and the branch's existing
-state before offering them, rather than presenting all three uncritically every time. Then ask
-which one the user wants. Picking on the user's behalf turns a process decision that belongs to
-the project into a default this skill invented.
+state before acting, rather than treating all three as available every time. When the plan
+authorized a finish strategy, that settles which one runs. Only in the no-plan fallback do you
+ask the user which they want — and even there, pick nothing on their behalf: an unauthorized,
+unasked integration is a process decision this skill invented rather than one a human made.
 
 ## Carry out the choice
 
@@ -108,10 +119,12 @@ the project into a default this skill invented.
   stack bottom-up in order, restacking the remaining PRs after each merge. Report where it
   stopped — the whole stack landed, or a lower PR that isn't ready held up the ones above it —
   rather than reducing a partial land to a bare "done."
-- **Cleanup only.** Discarding a branch is destructive in a way the other two options are not,
-  so get the user's explicit confirmation on this path specifically before removing anything —
-  do not treat silence, or the fact that cleanup was the option picked, as confirmation enough on
-  its own.
+- **Cleanup only.** Discarding a branch is destructive in a way the other options are not. When
+  the plan's finish strategy authorized the cleanup — or a delete-the-branch step after a merge —
+  that authorization is the confirmation; carry it out. Only in the no-plan fallback, where
+  nothing upstream authorized it, get the user's explicit confirmation on this path specifically
+  before removing anything, rather than treating silence, or the fact that cleanup was the option
+  picked, as confirmation enough on its own.
 
 ## What this does not do
 
@@ -126,6 +139,6 @@ the project into a default this skill invented.
   `engineering:code-review` already happened earlier in the branch's life; by the time this
   skill runs, the content is the content that's shipping, and the only open question is how it
   re-enters the rest of the repository.
-- It does not **pick the project's integration policy for it.** Merge, PR, and cleanup are
-  offered as options every time, decided by the user every time — never hard-coded to whichever
-  one this skill used last.
+- It does not **pick the project's integration policy for it.** The finish strategy is the
+  human's — authorized at the plan gate, or, for a branch with no plan behind it, asked here;
+  never hard-coded to whichever one this skill used last.
