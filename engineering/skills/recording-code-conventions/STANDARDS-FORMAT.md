@@ -52,7 +52,7 @@ what stops a rule from being stretched to cover work it was never meant to.>
   standing rule, the PR the convention was harvested from at review time (`PR #NNN`), or
   the ADR that spawned it (`docs/adr/NNNN-...`). This is where a spawning ADR or PR is
   named.>
-- **Lifecycle:** active | amended <YYYY-MM-DD> | retired <YYYY-MM-DD>
+- **Lifecycle:** active | retired <YYYY-MM-DD>
 ```
 
 `Rule` is the one line a downstream builder actually obeys — write it as an instruction,
@@ -64,20 +64,22 @@ convention missing either is not ready to be written.
 attribute the approval. `Source` carries the evidence — a `file:line` for an inferred
 convention, "dictated" for one recorded from the developer's head, a `PR #NNN` for one
 harvested at review time, or an ADR reference for one an architecture decision spawned.
-`Lifecycle` is the single field that says whether the rule is still in force: `active` and
-`amended` are both **in force** — an amended rule still binds, it has merely been revised —
-and only `retired` is out of force. A reader asking "does this rule bind today?" treats
-every non-retired row as binding, which is exactly the test `using-code-conventions` applies
-when it skips retired rows.
+`Lifecycle` is the single field that says whether the rule is still in force, and it is
+binary: `active` means the rule binds, `retired <date>` means it no longer does. There is no
+separate "amended" state — an amendment leaves the rule in force and is recorded by its
+date in the index's **Last amended** column, not by a status change. A reader asking "does
+this rule bind today?" treats every non-`retired` row as binding, which is exactly the test
+`using-code-conventions` applies when it skips retired rows.
 
 ## Lifecycle — amend vs. retire
 
 A convention changes in exactly two ways, and they are different:
 
 - **Amend** — the rule still holds but its wording, boundary, or scope changed. Edit the
-  document **in place**, set `Lifecycle:` to `amended <date>`, and bump the index row's
-  **Status** to `amended` and its **Last amended** column to that date. The document keeps
-  its filename and its index row; the history is the lifecycle line, not a new file.
+  document **in place** and bump the index row's **Last amended** column to that date. The
+  **Status stays `active`** — an amended rule is still in force — and the document keeps its
+  filename and its index row; the amendment's only trace is the new `Last amended` date, not
+  a new file and not a status change.
 - **Retire** — the rule no longer applies. Set `Lifecycle:` to `retired <date>` and set the
   index row's **Status** to `retired`. **The row stays in the index** — retired, not
   deleted — so a reader can see the rule once existed and no longer binds. A superseding
@@ -108,7 +110,7 @@ The eight columns are fixed:
 | **Name** | The convention's short name — matches its document title. |
 | **Topic/category** | The `<topic>` group, matching the document's directory. |
 | **When relevant** | The work situation that makes this rule apply — the trigger a reader matches their task against. This is the column `using-code-conventions` reads to decide what to cite. |
-| **Status** | `active`, `amended`, or `retired` — mirrors the document's `Lifecycle`. `active` and `amended` both mean in force; only `retired` is out of force. |
+| **Status** | `active` or `retired` — mirrors the document's `Lifecycle`. `active` means in force, `retired` means out of force. An amendment does not change it; it bumps `Last amended` instead. |
 | **Date created** | `YYYY-MM-DD` of first approval. |
 | **Last amended** | `YYYY-MM-DD` of the most recent amendment, or `—` if never amended. |
 | **Link** | Relative path from the index to the convention document. |

@@ -25,10 +25,12 @@ else
   for label in "**Who:**" "**When:**" "**Source:**" "**Lifecycle:**"; do
     grep -qF "$label" "$fmt" || { echo "FAIL: STANDARDS-FORMAT provenance missing $label"; fail=1; }
   done
-  # Lifecycle states — active / amended / retired — the amend-vs-supersede resolution.
-  for s in active amended retired; do
+  # Lifecycle is binary — active / retired — and amendment is a separate path recorded
+  # by the Last amended date, not a status of its own (amend-vs-supersede resolution).
+  for s in active retired; do
     grep -qi "$s" "$fmt" || { echo "FAIL: STANDARDS-FORMAT missing lifecycle state '$s'"; fail=1; }
   done
+  grep -qi "amend" "$fmt" || { echo "FAIL: STANDARDS-FORMAT missing the amend path"; fail=1; }
   # The eight index columns (spec §5) verified as one header row, so a broken/missing
   # index header can't pass on stray column words scattered through the prose.
   grep -qF "| Name | Topic/category | When relevant | Status | Date created | Last amended | Link | Source/provenance |" "$fmt" \
