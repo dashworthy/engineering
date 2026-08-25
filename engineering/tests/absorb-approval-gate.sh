@@ -21,6 +21,7 @@ grep_flat() {  # grep_flat <file> <literal phrase>
 BRAIN="$PLUGIN/skills/brainstorming/SKILL.md"
 TOSPEC="$PLUGIN/skills/to-spec/SKILL.md"
 PLANS="$PLUGIN/skills/writing-plans/SKILL.md"
+SPECFMT="$PLUGIN/skills/to-spec/SPEC-FORMAT.md"
 
 # --- brainstorming writes the marker at gate-pass ----------------------------
 grep_flat "$BRAIN" "APPROVED.md"; check $? "brainstorming names the APPROVED.md marker"
@@ -36,6 +37,38 @@ check $? "to-spec no longer assumes it is only ever reached through brainstormin
 
 # --- writing-plans requires the marker, not just the status line -------------
 grep_flat "$PLANS" "APPROVED.md"; check $? "writing-plans requires the APPROVED.md marker"
+
+# --- hardening: guard the enforcement endpoints, not just the marker names ----
+# These back the name-mention checks above with the behavior each name is supposed to
+# carry, so a revert that keeps the word but guts the rule is still caught.
+
+# writing-plans must actually REFUSE on marker absence (the bypass + hand-run backstop),
+# not merely mention the marker.
+grep_flat "$PLANS" "the marker is the trace, the status line is only the checkbox"
+check $? "writing-plans refuses on marker absence (trace over the checkbox), not just names it"
+
+# writing-plans catches a status line hand-edited to Approved after the mint (hand-run row).
+grep_flat "$PLANS" "hand-edited status line"
+check $? "writing-plans catches a hand-edited Approved status line"
+
+# brainstorming writes the marker ONLY at gate-pass, never before — the property that
+# stops an early or fabricated marker standing in for real approval.
+grep_flat "$BRAIN" "Write it only at gate-pass, after full approval"
+check $? "brainstorming writes the marker only at gate-pass, never before"
+
+# to-spec transcribes §6 FROM the marker (closes to-spec confabulating its own approach).
+grep_flat "$TOSPEC" "transcribe §6 from the marker"
+check $? "to-spec transcribes the spec's approach section from the marker"
+
+# to-spec keeps the affirmative marker-decides rule. The negative guard above watches one
+# exact phrasing; this asserts the correct rule is present, so a reverter who reuses the
+# file's live "only reachable through" idiom cannot escape by rewording.
+grep_flat "$TOSPEC" "assumption that this skill is only reachable through"
+check $? "to-spec keeps the explicit no-assumption rule (marker presence, not reachability)"
+
+# SPEC-FORMAT.md's status note must agree with the skill: marker-conditional, not always Approved.
+grep_flat "$SPECFMT" "marker-conditional"
+check $? "SPEC-FORMAT.md documents the status line as marker-conditional"
 
 [ "$fail" = 0 ] && echo "APPROVAL-GATE CONTENT: ALL CHECKS PASS" || echo "APPROVAL-GATE CONTENT: FAILURES ABOVE"
 exit $fail
