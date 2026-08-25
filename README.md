@@ -97,7 +97,7 @@ flowchart TD
 Both entrances meet here. The design phase explores the context, proposes two or three
 approaches with their trade-offs, and recommends one with its reasoning. It holds no
 approval gate of its own: brainstorming hands the recommended design to `to-spec`, where
-the spec gate takes the human's approval — the first of the pipeline's two gates.
+the spec gate takes the human's approval — the pipeline's first human-approval gate.
 
 ```mermaid
 flowchart LR
@@ -106,10 +106,7 @@ flowchart LR
     IN(["brief / isolated defect"]) --> A["explore<br/>context"]
     A --> B["propose 2-3<br/>approaches"]
     B --> C["recommend one,<br/>with reasoning"]
-    C --> SP["to-spec<br/>spec gate"]
-    SP --> G{"approved?"}
-    G -->|"no"| B
-    G -->|"yes"| OUT(["one approved spec"]):::done
+    C --> OUT(["recommended design<br/>→ to-spec (spec gate)"]):::done
 ```
 
 ### 4. Build backbone — `plan → build → harden → document`

@@ -96,7 +96,7 @@ if [ -n "$callers" ]; then echo "FAIL: only engineering:brainstorming may impera
 
 # 6d. The single-caller wiring's other half and the two doc surfaces the earlier tasks left unguarded:
 # (a) brainstorming must actually hand off to to-spec (else to-spec has no caller at all); (b) under the
-# two-gate model the SPEC-FORMAT template stamps **Status:** Draft — the spec is written as a draft and
+# spec-gate model the SPEC-FORMAT template stamps **Status:** Draft — the spec is written as a draft and
 # the spec gate in to-spec flips it to Approved, so a stale template hard-coding Approved (pre-gate) must
 # fail here; (c) the root README's signal sub-diagram routes sequence → brainstorming → to-spec.
 grep -qiE "hand[^.]*engineering:to-spec" "$eng/skills/brainstorming/SKILL.md" || { echo "FAIL: brainstorming must hand off to to-spec (single-caller's other half)"; fail=1; }

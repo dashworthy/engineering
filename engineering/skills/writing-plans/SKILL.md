@@ -190,8 +190,8 @@ Before calling the plan finished, run a self-review pass over what was just writ
 
 ## The plan gate — present the plan, then hold for approval
 
-The plan is the second of the pipeline's two human gates (the first is the spec gate in
-`to-spec`). A written plan is a draft until a human approves it: present the finished plan
+The plan gate is the pipeline's second human-approval gate; the first is the spec gate in
+`to-spec`. A written plan is a draft until a human approves it: present the finished plan
 and wait for the human's approval before anything is built against it. If they send it back,
 revise and present again; do not hand an unapproved plan onward.
 

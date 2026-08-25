@@ -87,7 +87,7 @@ run's spec-approval marker; nothing downstream builds until that marker exists.
 
 So this skill's job ends at a recommendation, not a ratification. Don't stage a
 section-by-section sign-off here or treat the human nodding along as approval — collecting
-that approval is the spec gate's job, and a second gate here would only duplicate it. Hand
+that approval is the spec gate's job, and another gate here would only duplicate it. Hand
 the recommended design to `to-spec` and let it hold the gate.
 
 ## Handoff

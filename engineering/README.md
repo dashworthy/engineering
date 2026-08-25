@@ -4,8 +4,8 @@ A single-plugin software-development pipeline for the `dashworthy` marketplace.
 
 Two entrances open the work — `/signal` (discovery, for a feature or vague ask) and
 `/triage` (problem isolation, for a reported defect). Both pass through a design dialogue
-that recommends an approach, then a spec approved at the first of the pipeline's two gates;
-the second gate approves the plan. From there the work flows through TDD build, test
+that recommends an approach, then a spec approved at the pipeline's first human-approval
+gate, and a plan approved at the second. From there the work flows through TDD build, test
 hardening, and documentation hardening. All artifacts are files; there is no issue-tracker
 integration.
 

@@ -39,8 +39,10 @@ pointer value, or the date is duplicated in the filename. When no run is active,
 slug derived from the spec's own title. `<YYYY-MM-DD>` in the filename is today's date, not the
 run's start date, if the two differ.
 
-This skill never writes into `.engineering/`. That tree belongs to the entrances — it is
-their Tier-2 scratch space. A spec landing there instead of under
+This skill never writes the *spec* into `.engineering/` — that tree is the entrances' Tier-2
+scratch space, and the spec is Tier-1. The one thing it does write under `.engineering/` is
+the run-scoped approval marker (`.engineering/<run>/to-spec/APPROVED.md`), minted at the spec
+gate below. A *spec* landing under `.engineering/` instead of under
 `docs/dashworthy/engineering/specs/` is not a partial version of this skill's job; it is
 a different job this skill does not do.
 
@@ -65,7 +67,7 @@ section number:
 
 This skill does not stamp `Approved` on faith. It writes the spec as a draft, presents it,
 and waits for the human's approval before promoting it — that approval is the spec gate, the
-first of the pipeline's two, and it lives here, on the spec.
+pipeline's first human-approval gate, and it lives here, on the spec.
 
 1. **Write it as a draft.** Set the status line to `Status: Draft` (see `SPEC-FORMAT.md`).
    Transcribe §6 from the recommended design handed off — the chosen approach and the

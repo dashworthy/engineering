@@ -1,8 +1,9 @@
 #!/bin/sh
-# Two-gate approval model: the pipeline has exactly two human-approval gates — one when the
-# spec is created (to-spec), one when the plan is created (writing-plans) — and no others.
-# brainstorming holds no gate and mints no marker; executing-plans runs to completion after
-# the plan gate with no mid-flow human checkpoints. Prose-anchor checks over the shipped SKILL
+# Approval-gate model: the human-approval gates are the spec gate (to-spec, when the spec is
+# created) and the plan gate (writing-plans, when the plan is created). brainstorming holds no
+# gate and mints no marker; executing-plans runs to completion after the plan gate with no
+# mid-flow human checkpoints. These checks pin those specific gates and the stages that hold
+# none — adding a further gate elsewhere would not invalidate them. Prose-anchor checks over the shipped SKILL
 # bodies (the suite's convention for model-executed skills). No script enforces the gates at
 # runtime by design; these assertions keep the enforcing prose from silently regressing.
 # POSIX sh. Run from anywhere: sh engineering/tests/absorb-approval-gate.sh

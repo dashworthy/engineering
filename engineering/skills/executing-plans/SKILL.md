@@ -41,8 +41,9 @@ Before working any task, confirm the plan cleared its gate: resolve the run from
 exists. That marker is `writing-plans`' record that a human approved the plan; without it,
 either the plan gate was never cleared or the plan was hand-written outside the pipeline, and
 this skill refuses to build rather than run an unapproved plan unattended — the
-same trace-over-checkbox rule the spec gate uses, one step downstream. This is the last gate;
-once it clears, the plan runs to completion with no further human stops.
+same trace-over-checkbox rule the spec gate uses, one step downstream. This is the last
+human-approval gate before the build; once it clears, the plan runs to completion with no
+further human stops.
 
 ## Run directory
 
