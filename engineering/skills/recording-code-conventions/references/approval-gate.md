@@ -17,17 +17,19 @@ approver would have rejected on its own, which is the precise failure this gate 
 prevent.
 
 Each candidate is presented with its **Rule**, its **What it is** and **What it is not**
-boundaries (already pinned by the hardening interrogation), and its provenance, and the
-approver answers with one of three verdicts:
+boundaries (already pinned by the hardening interrogation), and its provenance. Put the verdict
+to the approver as a **multiple-choice question** — the three verdicts are the offered choices,
+selected rather than typed out by hand:
 
 - **Approve** — write it as presented.
-- **Edit** — the rule is right but the wording or a boundary is off; the approver states the
-  correction and the corrected version is what gets written (and re-shown if the change is
-  large enough to re-approve).
+- **Edit** — the rule is right but the wording or a boundary is off. This is the one verdict
+  that then needs free text: the approver states the correction, and the corrected version is
+  what gets written (and re-shown as a fresh choice if the change is large enough to re-approve).
 - **Reject** — do not write it. A rejected candidate leaves no file and no index row; if it
   came from inference or a PR harvest, it simply does not become a convention.
 
-Silence is not approval. An unanswered candidate is not written.
+Silence is not approval. An unanswered candidate is not written — a dismissed or skipped
+question is not a verdict, and the candidate waits rather than defaulting to any of the three.
 
 ## Conflict detection — the criterion
 
