@@ -76,4 +76,24 @@ else
   grep -qi "conventional default" "$hard" || { echo "FAIL: hardening-interrogation.md must offer a conventional default (choice-menu style)"; fail=1; }
 fi
 
+# --- Task 3: identifying-code-conventions — the discoverer (surfaces, never codifies) ---
+id="$skills/identifying-code-conventions/SKILL.md"
+if [ ! -f "$id" ]; then
+  echo "FAIL: identifying-code-conventions/SKILL.md missing"; fail=1
+else
+  grep -qxF "name: identifying-code-conventions" "$id" || { echo "FAIL: identifying SKILL.md frontmatter name"; fail=1; }
+  # Two surfacing modes — anchored to the body's bold labels, not substrings that also appear
+  # in the frontmatter description (which would pass even with the body gutted).
+  grep -qiF "observed repetition" "$id" || { echo "FAIL: identifying must describe inference from observed repetition"; fail=1; }
+  grep -qF "**Inference from code.**" "$id" || { echo "FAIL: identifying must have the inference-from-code mode"; fail=1; }
+  grep -qF "**file:line**" "$id" || { echo "FAIL: identifying inference must carry file:line evidence"; fail=1; }
+  grep -qF "**Capture from the developer.**" "$id" || { echo "FAIL: identifying must have the capture-from-the-developer mode"; fail=1; }
+  # Presents each candidate individually and hands it, rough, to the single writer.
+  grep -qxF "## Every candidate, individually, to recording" "$id" || { echo "FAIL: identifying must route each candidate individually to recording"; fail=1; }
+  grep -qiF "hands each candidate" "$id" || { echo "FAIL: identifying must hand each candidate to the writer"; fail=1; }
+  grep -qF "approval-gate.md" "$id" || { echo "FAIL: identifying must name the shared approval-gate.md"; fail=1; }
+  # The inference heuristic (§8): when observed repetition is worth surfacing.
+  grep -qi "heuristic" "$id" || { echo "FAIL: identifying must state the inference heuristic"; fail=1; }
+fi
+
 [ "$fail" = 0 ] && echo "CONVENTIONS CHECKS PASS" || { echo "CONVENTIONS FAILED"; exit 1; }
