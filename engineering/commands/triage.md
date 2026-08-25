@@ -3,10 +3,12 @@ description: Triage a reported defect — verify it reproduces, isolate it to a 
 argument-hint: the problem or defect being reported
 ---
 
-Invoke the **`engineering:triage`** skill and follow it exactly: establish or join a run,
-verify the report reproduces before isolating anything, isolate only as far as routing
-needs, then hand off per `references/spec-decision.md` — a quick fix, a question through
-`signal`, a design conversation, or a closed file with the reason on record.
+Invoke the **`engineering:triage`** skill and follow it exactly: isolate the workspace in a
+worktree first, establish or join a run, verify the report reproduces before isolating
+anything, isolate only as far as routing needs, then hand off per
+`references/spec-decision.md` — a quick fix, triage's own discovery leg for an
+under-specified report (never a hand-off to `signal`), a design conversation, or a closed
+file with the reason on record.
 
 Report: $ARGUMENTS
 

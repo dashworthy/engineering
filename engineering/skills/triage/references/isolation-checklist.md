@@ -54,4 +54,5 @@ prior decision is being followed. Found nothing is the normal result.
 
 Stop isolating the moment the problem can be stated, in one sentence, as one row of
 `references/spec-decision.md`. If a route still can't be picked, that itself is information:
-the report is still under-specified, and the route is `signal`, not more digging here.
+the report is still under-specified, and the route is triage's own discovery leg
+(`interrogating-requirements`, then `brainstorming`) — never `signal` — not more digging here.

@@ -1,6 +1,6 @@
 ---
 name: interrogating-requirements
-description: "[Discovery] Stage 1 of the signal discovery pipeline, invoked by engineering:conducting-discovery in the main thread — interrogates a vague or underspecified request round by round until every coverage dimension (problem, users, success criteria, constraints, scope, existing context) is filled, then runs a scope-expansion beat and writes sections 1 to 6 of brief.md once, complete. It probes by offering a short menu of concrete choices led by the conventional default and mining the corrections, and records coverage state and loose ends continuously in open-threads.md so a session that ends early is resumable. It is interactive and cannot run as a dispatched subagent. Runs only as part of the signal pipeline; it does not self-trigger on general feature or build requests."
+description: "[Discovery] The shared requirements-interrogation primitive, driven in the main thread by a discovery conductor — signal's engineering:conducting-discovery, or triage's under-specified discovery leg. Interrogates a vague or underspecified request round by round until every coverage dimension (problem, users, success criteria, constraints, scope, existing context) is filled, then runs a scope-expansion beat and writes sections 1 to 6 of brief.md once, complete. It probes by offering a short menu of concrete choices led by the conventional default and mining the corrections, and records coverage state and loose ends continuously in open-threads.md so a session that ends early is resumable. It is interactive and cannot run as a dispatched subagent. Driven only by a conductor; it does not self-trigger on general feature or build requests."
 ---
 
 # Interrogating Requirements
@@ -236,7 +236,7 @@ Write `brief.md` into the run directory supplied by the conductor, with exactly 
 
 **End the file with exactly one trailing newline and no blank line after your last section.** Stage 2 appends `## 7.` directly onto what you leave, so a stray blank line shifts the boundary between your sections and its by one and produces a mismatch over nothing.
 
-Then hand control back to `engineering:conducting-discovery`.
+Then hand control back to the conductor that invoked you — signal's `engineering:conducting-discovery`, or triage's under-specified discovery leg.
 
 ## Red Flags — STOP, Do Not Advance
 

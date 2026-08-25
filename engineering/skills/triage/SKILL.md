@@ -1,6 +1,6 @@
 ---
 name: triage
-description: "[Triage] Problem-isolation entrance: given a reported defect, establish or join a run, verify/reproduce the claim, isolate the cause with minimal effort, then take the smallest next step — quick fix (diagnosing-bugs), question (signal), or spec it (brainstorming then to-spec). User-invoked via /triage. Logs disposition to .engineering/<run>/triage/; file-based, no tracker."
+description: "[Triage] Problem-isolation entrance: given a reported defect, isolate the workspace in a worktree, establish or join a run, verify/reproduce the claim, isolate the cause with minimal effort, then take the smallest next step — quick fix (diagnosing-bugs), a discovery leg of its own for an under-specified report (the shared interrogating-requirements primitive, then brainstorming), or spec it (brainstorming then to-spec). A distinct entrance from signal — the two never hand off to each other. User-invoked via /triage. Logs disposition to .engineering/<run>/triage/; file-based, no tracker."
 ---
 
 # Triage
@@ -12,11 +12,17 @@ Say this first, plainly: `Using the triage skill to isolate the problem.`
 Given a reported defect, this skill decides what the smallest next step is, and starts
 it — never more work than that decision requires. It verifies the report is real before
 anything runs against it, isolates it only as far as a routing decision needs, and then
-hands off to whichever skill is actually the right size: a quick fix, the discovery
-pipeline, a design conversation, or nothing at all because the file already says why.
+hands off to whichever skill is actually the right size: a quick fix, an interrogation
+leg of its own, a design conversation, or nothing at all because the file already says why.
 
 Every report that reaches it either gets routed correctly on the first pass, or gets closed
 with a reason written down. Neither outcome leaves a report to sit unexamined.
+
+## Isolate first
+
+Before the run directory, before reading the report closely, before reproducing anything: establish an isolated worktree by invoking `engineering:using-git-worktrees`. Triage is an **entrance** — the base case is always a worktree, so everything a triaged defect leads to (a quick fix, an interrogation leg, a design conversation) happens off the base branch from the first step. Create it first so `run-context.sh` writes `.engineering/<run>/` **inside** that isolation; establish the run first and a later worktree switch orphans it on the base branch.
+
+This step is safe to run unconditionally. `engineering:using-git-worktrees` detects existing isolation and no-ops when a worktree this session already entered is in place — so if signal established the run and its worktree first and the user then reached triage, triage joins that same worktree rather than stacking a second one. The shared worktree is substrate both entrances attach to, not a hand-off between them: triage never invokes signal, and signal never invokes triage.
 
 ## Establish or join a run
 
@@ -92,16 +98,23 @@ In outline, the four destinations:
 
 - **Quick fix** — cause is obvious, the change is small and localized, risk is low. Hand
   off to `diagnosing-bugs` directly; there's no design decision here worth a spec.
-- **Under-specified, or a feature request wearing a bug report's clothes** — hand off to
-  `signal` to interrogate it properly. Signal carries it on from the brief into the design
-  dialogue itself, so triage names only `signal` here, not what follows it.
+- **Under-specified, or a feature request wearing a bug report's clothes** — the report
+  lacks the requirements to act on. Triage runs a **discovery leg of its own**: invoke the
+  shared discovery primitive `engineering:interrogating-requirements` (it self-drives the
+  interrogation and its expansion beat, and writes the requirements — brief.md §1–§6 — into
+  this run's `triage/` directory), then hand to `brainstorming`, the design dialogue both
+  entrances converge on. This is **not** a hand-off to `signal`: triage never invokes the
+  other entrance, it composes the same interrogation primitive signal does. Triage's leg
+  stops at the requirements and lets `brainstorming` → `to-spec` → `writing-plans` order and
+  spec the work downstream — it does not run the sequencing stage (§7–§8) itself. Approval
+  comes downstream — the spec gate in `to-spec` — not here.
 - **A real fix, but not a small one** — several call sites, a design choice, something
   risky or cross-cutting, work that needs sequencing, or work headed for an AFK agent to
   build unattended. Hand off straight to `brainstorming` — the shared design dialogue —
-  then `to-spec`, then `writing-plans`. (This route skips `signal`: the requirements are
-  already clear enough from the isolated defect; what's missing is the fix approach, which
-  is `brainstorming`'s to settle. Approval comes downstream — at the spec gate in `to-spec`
-  and the plan gate in `writing-plans` — not in `brainstorming`.)
+  then `to-spec`, then `writing-plans`. (This route needs no interrogation: the requirements
+  are already clear enough from the isolated defect; what's missing is the fix approach,
+  which is `brainstorming`'s to settle. Approval comes downstream — at the spec gate in
+  `to-spec` and the plan gate in `writing-plans` — not in `brainstorming`.)
 - **Not reproducible, already fixed, or out of scope** — nothing to hand off. Record the
   disposition and the reason in `.engineering/<run>/triage/`, and stop there.
 
@@ -112,8 +125,13 @@ In outline, the four destinations:
   route, and stops there even when curiosity wants to keep going.
 - It does not **design a fix.** A route that needs a design decision goes to
   `brainstorming`; triage does not weigh approaches itself.
-- It does not **interrogate requirements.** An under-specified report goes to `signal`;
-  triage does not turn a vague complaint into requirements on its own.
+- It does not **own a private interrogator.** The under-specified leg drives the shared
+  `engineering:interrogating-requirements` primitive — the same one signal uses — rather
+  than a triage-local copy, so the extraction logic lives in one place and cannot drift.
+  Triage conducts the leg; it does not reimplement the interrogation.
+- It does not **hand off to `signal`.** The two entrances are distinct and never invoke
+  each other. Where an under-specified report needs discovery, triage runs its own leg on
+  the shared primitive; it does not route into the other entrance.
 - It does not **write specs.** `to-spec` is the plugin's only writer of Tier-1 specs;
   triage hands it material and never drafts one itself.
 - It does not **keep any record outside the run directory.** No board, no queue, no

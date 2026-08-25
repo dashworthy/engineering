@@ -8,7 +8,7 @@ needs a written spec before anyone builds against it.
 |---|---|---|
 | Cause obvious, fix small and localized, low risk | quick fix → `diagnosing-bugs` | **No** |
 | Not reproducible, already implemented, or out of scope | record disposition + close | **No** |
-| Under-specified, or really a feature request in disguise | question → `signal` (which carries on into the design dialogue itself) | **Yes** (feature path) |
+| Under-specified, or really a feature request in disguise | triage's own discovery leg → `interrogating-requirements` → `brainstorming` | **Yes** (feature path) |
 | Real fix but non-trivial — several sites, a design choice, risky/cross-cutting, needs sequencing, or handed to an AFK agent | `brainstorming` → `to-spec` → `writing-plans` | **Yes** |
 
 The **Spec?** column follows one rule: spec when the fix needs a plan or another party will
@@ -18,3 +18,8 @@ A row is picked once — by the isolation step, from what it actually found — 
 reasoned toward from a preferred outcome. If two rows both seem to fit, the row asking
 for more (a spec, a question) is the safer read: it costs a conversation, where the cheaper
 row costs a wrong route discovered downstream, after work has already started on it.
+
+The under-specified row is **triage's own discovery leg**, not a hand-off to `signal`.
+Triage and signal are distinct entrances and never invoke each other; where a report needs
+discovery, triage drives the shared `interrogating-requirements` primitive itself and
+converges — like every other route needing design — on `brainstorming`.
