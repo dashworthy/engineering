@@ -102,13 +102,14 @@ In outline, the four destinations:
   off to `diagnosing-bugs` directly; there's no design decision here worth a spec.
 - **Under-specified, or a feature request wearing a bug report's clothes** — hand off to
   `signal` to interrogate it properly. Signal carries it on from the brief into the design
-  gate itself, so triage names only `signal` here, not the gate after it.
+  dialogue itself, so triage names only `signal` here, not what follows it.
 - **A real fix, but not a small one** — several call sites, a design choice, something
   risky or cross-cutting, work that needs sequencing, or work headed for an AFK agent to
-  build unattended. Hand off straight to `brainstorming` — the design gate — then `to-spec`,
-  then `writing-plans`. (This route skips `signal`: the requirements are already clear
-  enough from the isolated defect; what's missing is the fix approach, which is
-  `brainstorming`'s to settle.)
+  build unattended. Hand off straight to `brainstorming` — the shared design dialogue —
+  then `to-spec`, then `writing-plans`. (This route skips `signal`: the requirements are
+  already clear enough from the isolated defect; what's missing is the fix approach, which
+  is `brainstorming`'s to settle. Approval comes downstream — at the spec gate in `to-spec`
+  and the plan gate in `writing-plans` — not in `brainstorming`.)
 - **Not reproducible, already fixed, or out of scope** — nothing to hand off. Record the
   disposition and the reason in `.engineering/<run>/triage/`, and stop there.
 

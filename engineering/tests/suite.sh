@@ -8,6 +8,7 @@ sh "$d/reconcile.sh"
 sh "$d/absorb-signal.sh"
 sh "$d/absorb-vernacular.sh"
 sh "$d/absorb-verity.sh"
+sh "$d/absorb-approval-gate.sh"
 sh "$d/validate.sh"
 for s in to-spec:'[Discovery]' conducting-discovery:'[Discovery]' interrogating-requirements:'[Discovery]' expanding-scope:'[Discovery]' sequencing-requirements:'[Discovery]' clarifying-docblocks:'[Docs]' rewriting-docblock-prose:'[Docs]' verifying-docblock-claims:'[Docs]' conducting-test-hardening:'[Test hardening]' auditing-test-gaps:'[Test hardening]' verifying-test-integrity:'[Test hardening]' writing-tests-from-brief:'[Test hardening]'; do
   name=${s%%:*}; tag=${s#*:}

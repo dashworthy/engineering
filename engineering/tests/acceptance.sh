@@ -81,8 +81,8 @@ grep -rq "to-spec" "$eng/skills/triage" || { echo "FAIL: triage must reach to-sp
 # stale section-for-section mapping claim.
 grep -q "engineering:brainstorming" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec must name brainstorming as its caller"; fail=1; }
 if grep -qE 'invoked by .*(conducting-discovery|triage)' "$eng/skills/to-spec/SKILL.md"; then echo "FAIL: to-spec names a stale caller (conducting-discovery/triage)"; fail=1; fi
-grep -q "Status: Approved" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec must stamp Status: Approved"; fail=1; }
-if grep -q 'Draft | Approved' "$eng/skills/to-spec/SPEC-FORMAT.md"; then echo "FAIL: SPEC-FORMAT still offers Draft as a status choice"; fail=1; fi
+grep -q "Status: Approved" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec must name the Approved status it flips to at the spec gate"; fail=1; }
+grep -q "flips it to Approved" "$eng/skills/to-spec/SPEC-FORMAT.md" || { echo "FAIL: SPEC-FORMAT must document the Draft-then-Approved flip at the spec gate"; fail=1; }
 if grep -q "section for section" "$eng/skills/to-spec/SKILL.md"; then echo "FAIL: stale section-for-section mapping claim"; fail=1; fi
 
 # 6c. to-spec has exactly one imperative caller: engineering:brainstorming. Scan every skill and command
@@ -95,12 +95,12 @@ callers=$(grep -rnEi '(dispatch|hand[^.]*to|invoke|route[^.]*to|send[^.]*to|pass
 if [ -n "$callers" ]; then echo "FAIL: only engineering:brainstorming may imperatively invoke to-spec; found other caller(s):"; echo "$callers"; fail=1; fi
 
 # 6d. The single-caller wiring's other half and the two doc surfaces the earlier tasks left unguarded:
-# (a) brainstorming must actually hand off to to-spec (else to-spec has no caller at all); (b) the
-# SPEC-FORMAT template positively stamps Approved (6b only forbids the literal "Draft | Approved" choice,
-# so a bare revert to "**Status:** Draft" would slip past it); (c) the root README's signal sub-diagram
-# routes sequence → brainstorming → to-spec, matching the master diagram.
+# (a) brainstorming must actually hand off to to-spec (else to-spec has no caller at all); (b) under the
+# spec-gate model the SPEC-FORMAT template stamps **Status:** Draft — the spec is written as a draft and
+# the spec gate in to-spec flips it to Approved, so a stale template hard-coding Approved (pre-gate) must
+# fail here; (c) the root README's signal sub-diagram routes sequence → brainstorming → to-spec.
 grep -qiE "hand[^.]*engineering:to-spec" "$eng/skills/brainstorming/SKILL.md" || { echo "FAIL: brainstorming must hand off to to-spec (single-caller's other half)"; fail=1; }
-grep -qF '**Status:** Approved' "$eng/skills/to-spec/SPEC-FORMAT.md" || { echo "FAIL: SPEC-FORMAT template must stamp **Status:** Approved"; fail=1; }
+grep -qF '**Status:** Draft' "$eng/skills/to-spec/SPEC-FORMAT.md" || { echo "FAIL: SPEC-FORMAT template must stamp **Status:** Draft (written first, flipped to Approved at the spec gate)"; fail=1; }
 grep -qF 'S2 --> BR' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route sequence -> brainstorming -> to-spec"; fail=1; }
 
 # 7. verity is a planned step, not a session-start hook.

@@ -1,6 +1,6 @@
 ---
 name: to-spec
-description: "[Discovery] The single writer of Tier-1 specs. Given an entrance's accumulated material — a signal discovery brief or a triage isolation record, by path or inline — render the standard spec document to docs/dashworthy/engineering/specs/. Invoked by engineering:brainstorming once a design clears its approval gate — the one caller, reachable from both entrances; not a general-purpose writer and does not self-trigger on arbitrary requests."
+description: "[Discovery] The single writer of Tier-1 specs, and the holder of the spec-approval gate. Given an entrance's accumulated material — a signal discovery brief or a triage isolation record, by path or inline — render the standard spec document to docs/dashworthy/engineering/specs/ as a draft, present it, wait for the human to approve, then stamp Approved and mint the run's spec-approval marker. Invoked by engineering:brainstorming with a recommended design — the one caller, reachable from both entrances; not a general-purpose writer and does not self-trigger on arbitrary requests."
 ---
 
 # To Spec
@@ -39,8 +39,10 @@ pointer value, or the date is duplicated in the filename. When no run is active,
 slug derived from the spec's own title. `<YYYY-MM-DD>` in the filename is today's date, not the
 run's start date, if the two differ.
 
-This skill never writes into `.engineering/`. That tree belongs to the entrances — it is
-their Tier-2 scratch space. A spec landing there instead of under
+This skill never writes the *spec* into `.engineering/` — that tree is the entrances' Tier-2
+scratch space, and the spec is Tier-1. The one thing it does write under `.engineering/` is
+the run-scoped approval marker (`.engineering/<run>/to-spec/APPROVED.md`), minted at the spec
+gate below. A *spec* landing under `.engineering/` instead of under
 `docs/dashworthy/engineering/specs/` is not a partial version of this skill's job; it is
 a different job this skill does not do.
 
@@ -55,18 +57,35 @@ section number:
 - a **signal** brief supplies §1–§5 in order; the brief's §6 (Existing Context) becomes
   the spec's §7, and the brief's §7 (dependency-ordered body) and §8 (how to consume the
   brief) have no spec section of their own. The spec's §6 (Approach) does not come from
-  the brief at all — it comes from the `brainstorming` design that runs between the brief
-  and this skill.
+  the brief at all — it is transcribed from the recommended design `brainstorming` hands
+  off (the chosen approach and the alternatives it beat), which is exactly §6's content.
 - a **triage** isolation record maps onto the same eight sections with two repurposed:
   §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including
   why the smaller fixes on the table were rejected, not only the one that won.
 
-Write the spec's status line as `Status: Approved`, not `Draft`. This skill is only ever
-reached through `engineering:brainstorming`, whose hard gate the design already cleared —
-so the approach in §6 is a decision a human has explicitly approved, and the spec records
-that, rather than shipping a draft `writing-plans` would then refuse to plan. `Draft` is
-for a spec still being shaped by hand outside this skill, not for anything this skill
-writes.
+## The spec gate — write a draft, then hold for approval
+
+This skill does not stamp `Approved` on faith. It writes the spec as a draft, presents it,
+and waits for the human's approval before promoting it — that approval is the spec gate, the
+pipeline's first human-approval gate, and it lives here, on the spec.
+
+1. **Write it as a draft.** Set the status line to `Status: Draft` (see `SPEC-FORMAT.md`).
+   Transcribe §6 from the recommended design handed off — the chosen approach and the
+   alternatives it beat — rather than composing an approach of your own.
+2. **Present the draft and wait.** Show the finished spec and wait for the human's approval.
+   This is a real stop: nothing is `Approved`, and no marker is written, until they say so.
+   If they send it back, revise the draft — or hand back to `brainstorming` for a rethink —
+   and present again; do not promote a spec the human has not approved.
+3. **On approval, mint the marker and promote.** Create the run's to-spec phase directory
+   with `run-context.sh to-spec <slug>` and write `.engineering/<run>/to-spec/APPROVED.md`
+   into it — do this only on approval, never before — a Tier-2, run-scoped trace that the
+   spec cleared the gate. Then flip the status line from `Status: Draft` to `Status: Approved`.
+   The marker's existence *is* the approval; never write it on the assumption that reaching
+   this skill implies one.
+
+`writing-plans` reads that marker as its precondition: an `Approved` status with no
+`.engineering/<run>/to-spec/APPROVED.md` behind it is refused downstream, so the marker and
+the status are only ever promoted together, here, at the moment the human approves.
 
 ## What this does not do
 
@@ -84,7 +103,8 @@ writes.
 
 ## Handoff
 
-Once the spec is written, print its path and stop. The caller — `engineering:brainstorming`,
-which reaches this skill once a design clears its gate on either entrance's path — takes
-it from there, ordinarily into `writing-plans`. This skill does not chain into planning
-itself, and does not summarize the spec it just wrote beyond that one path.
+Once the spec is `Approved` and its marker written, print the spec's path and stop —
+ordinarily the work goes on into `writing-plans`, which reads the spec-approval marker as its
+precondition. A spec still sitting in `Draft` because the human has not approved it is not
+handed onward; it waits at the gate. This skill does not chain into planning itself, and does
+not summarize the spec beyond that one path.
