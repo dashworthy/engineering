@@ -20,7 +20,7 @@ as plausible, mechanism-based heuristics worth testing on your own skill (see th
 
 - **Authority** — imperative, non-negotiable framing ("Write code before the test? Delete it
   and start over."). Removes the "is this an exception?" deliberation. Governed by the force
-  rule: reserve it for cliffs. See [degrees-of-freedom.md](degrees-of-freedom.md).
+  rule: reserve it for cliffs (the *Degrees of freedom* reference states the rule).
 - **Commitment** — have the agent state or choose something before acting ("Announce which
   skill you're using"; "Pick A, B, or C"). A stated choice is more likely to be carried
   through than an unstated default.

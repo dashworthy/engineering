@@ -1,6 +1,6 @@
 ---
 name: testing-skills
-description: Test whether a skill is actually discovered, read, and followed — before shipping it — by running its target scenario with and without the skill and under time, sunk-cost, and authority pressure, then closing the rationalizations that break compliance. Use when validating or hardening a skill.
+description: Test whether a skill is actually discovered, read, and followed — before shipping it — by running its target scenario with and without the skill and under time, sunk-cost, authority, and familiarity pressure, then closing the rationalizations that break compliance. Use when validating or hardening a skill.
 ---
 
 # Testing Skills

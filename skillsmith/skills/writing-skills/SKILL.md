@@ -18,7 +18,7 @@ all of that. Spend them on what the agent doesn't already know.
 Assume a capable agent. Before keeping a sentence, ask whether it tells the agent something
 it couldn't infer. Cut explanations of common formats, definitions of ordinary terms, and
 throat-clearing about why the topic matters. A skill that reads like onboarding for a new
-hire is too long; a skill reads like a reference card for an expert.
+hire is too long; a good skill reads like a reference card for an expert.
 
 ## Naming
 
