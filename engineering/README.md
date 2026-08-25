@@ -1,21 +1,29 @@
 # engineering
 
-A single-plugin software-development pipeline for the `dashworthy` marketplace.
+The software-development pipeline plugin of the `dashworthy` marketplace.
 
 Two entrances open the work — `/signal` (discovery, for a feature or vague ask) and
 `/triage` (problem isolation, for a reported defect). Both pass through a design dialogue
 that recommends an approach, then a spec approved at the pipeline's first human-approval
 gate, and a plan approved at the second. From there the work flows through TDD build, test
 hardening, and documentation hardening. All artifacts are files; there is no issue-tracker
-integration.
+integration. The pipeline ends at a green, documented branch — deployment and release are
+out of scope.
 
-<!-- Pipeline diagram, phase table, and non-guarantees are filled in at the cutover plan,
-     mirroring the spec's End-to-end flow section. -->
+| Phase | Skill(s) |
+|---|---|
+| Discover | `signal` (interrogate → sequence → design gate) |
+| Triage | `triage` (verify → isolate → route) |
+| Design | `brainstorming` → `to-spec` |
+| Build | `writing-plans` → `tdd` · `code-review` → `conducting-test-hardening` → docs |
+
+The full pipeline diagram and phase-by-phase walk-through live in the
+[root README](../README.md).
 
 ## Install
 
 ```
-/plugin marketplace add https://github.com/dashworthy/development-skills
+/plugin marketplace add https://github.com/dashworthy/engineering
 /plugin install engineering@dashworthy
 ```
 
