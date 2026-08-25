@@ -158,9 +158,9 @@ The full index lives at
 
 ### Commands
 
-Eight slash commands sit on top of the suite: `/signal`, `/triage`, `/vernacular`,
-`/improve-codebase-architecture`, `/implement`, `/handoff`, `/to-signal`, and
-`/wait-what`.
+10 slash commands sit on top of the suite: `/signal`, `/triage`, `/vernacular`,
+`/improve-codebase-architecture`, `/implement`, `/handoff`, `/to-signal`,
+`/wait-what`, `/conventions-init`, and `/record-convention`.
 
 ## License
 

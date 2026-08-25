@@ -179,4 +179,18 @@ else
   grep -qF "**manual, opt-in hand-off, never automatic**" "$dm" || { echo "FAIL: the spawn trigger must be stated as manual/opt-in, never automatic (§8)"; fail=1; }
 fi
 
+# --- Task 9: writing-plans wires the read side into planning (the [Build] consumer is reachable) ---
+# The read side (using-code-conventions) is [Build]-tagged but consumed at plan-write time: the
+# citation is placed on a task so it travels to the executing subagent. Without a pointer from
+# writing-plans, the skill is reachable only if its own description happens to self-trigger — every
+# sibling consumption point (code-review reads specs, planning reads CONTEXT.md/adr) is wired by
+# an explicit name. This guard keeps that wiring from silently rotting back out.
+wp="$skills/writing-plans/SKILL.md"
+if [ ! -f "$wp" ]; then
+  echo "FAIL: writing-plans/SKILL.md missing"; fail=1
+else
+  grep -qF "using-code-conventions" "$wp" || { echo "FAIL: writing-plans must invoke using-code-conventions to cite governing conventions at each task"; fail=1; }
+  grep -qF "docs/standards" "$wp" || { echo "FAIL: writing-plans must name the standards tree (docs/standards/) it consults"; fail=1; }
+fi
+
 [ "$fail" = 0 ] && echo "CONVENTIONS CHECKS PASS" || { echo "CONVENTIONS FAILED"; exit 1; }

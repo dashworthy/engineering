@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: "[Planning] Turn an approved spec in docs/dashworthy/engineering/specs/ into an ordered, bite-sized implementation plan written to docs/dashworthy/engineering/plans/, with TDD integration points, review checkpoints, and a closing test-hardening task. Use after a spec is approved and before building. Reads CONTEXT.md/docs/adr when present."
+description: "[Planning] Turn an approved spec in docs/dashworthy/engineering/specs/ into an ordered, bite-sized implementation plan written to docs/dashworthy/engineering/plans/, with TDD integration points, review checkpoints, and a closing test-hardening task. Use after a spec is approved and before building. Reads CONTEXT.md/docs/adr when present, and cites recorded conventions from docs/standards/ inline at each task via using-code-conventions."
 ---
 
 # Writing Plans
@@ -72,6 +72,19 @@ on, a spec section thin enough that the safest read is worth confirming before s
 steps assume it. Mark those explicitly as a checkpoint: a place the plan says stop and get
 a second look before continuing, rather than trusting the next step to catch a wrong turn
 two steps later, when it's more expensive to unwind.
+
+## Citing recorded conventions at each task
+
+A recorded convention only reaches the builder if the plan carries it. When the project keeps a
+standards tree at `docs/standards/`, invoke `engineering:using-code-conventions` while shaping
+the plan: it reads the standards index, matches each task's kind of work against the **When
+relevant** column, and cites the governing convention file inline on the task itself —
+`(convention: docs/standards/<area>/<rule>.md)`. The citation travels with the task into
+`executing-plans`, so the subagent that builds it opens the rule before writing code rather than
+after `code-review` catches the violation. Cite the file by path, never a paraphrase, so the
+task always resolves to the current rule. A project with no standards tree gets no citations —
+read when present, skipped when absent, exactly like `CONTEXT.md`; this skill consults the tree
+but never writes it (recording is `recording-code-conventions`).
 
 ## PR strategy
 

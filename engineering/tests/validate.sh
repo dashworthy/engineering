@@ -161,4 +161,16 @@ claimed=$(grep -oE '[0-9]+ skills' "$ROOT/README.md" | grep -oE '[0-9]+' | head 
 actual=$(find "$PLUGIN/skills" -name SKILL.md | wc -l | tr -d ' ')
 [ "$claimed" = "$actual" ]; check $? "root README skill count ($claimed) matches disk ($actual)"
 
+# The command count the root README advertises matches the commands on disk, and every command
+# file is named in the README's command list — the command analogue of the skill guard above.
+# A conventions PR shipped two commands the README never listed and the advertised count still
+# said eight; the skill-count guard had no command twin to catch it.
+cmd_claimed=$(grep -oE '[0-9]+ slash commands' "$ROOT/README.md" | grep -oE '[0-9]+' | head -1)
+cmd_actual=$(find "$PLUGIN/commands" -name '*.md' | wc -l | tr -d ' ')
+[ "$cmd_claimed" = "$cmd_actual" ]; check $? "root README command count ($cmd_claimed) matches disk ($cmd_actual)"
+for c in "$PLUGIN"/commands/*.md; do
+  name=$(basename "$c" .md)
+  grep_flat "$ROOT/README.md" "/$name"; check $? "root README names /$name"
+done
+
 exit $fail
