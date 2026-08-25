@@ -9,8 +9,8 @@ Say this first, plainly: `Using the recording-code-conventions skill to record t
 
 ## What this guarantees
 
-One thing: **every change to the standards tree goes through here, and none of it happens
-without two gates first.** A convention reaches disk only after (1) the hardening
+One thing: **every convention written to the standards tree goes through here, and none of it
+happens without two gates first.** A convention reaches disk only after (1) the hardening
 interrogation has pinned what it is, what it is not, and how it behaves at the edges, and
 (2) the approver has individually said yes to that exact rule and any conflict with an
 existing convention has been resolved. Then, and only then, this skill writes the convention

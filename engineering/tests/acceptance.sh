@@ -11,8 +11,8 @@ sh "$d/suite.sh"
 sh "$d/plan02.sh"
 sh "$d/plan03.sh"
 
-# 2. Eight commands resolve.
-for c in signal triage vernacular improve-codebase-architecture implement handoff to-signal wait-what; do
+# 2. Nine commands resolve.
+for c in signal triage vernacular improve-codebase-architecture implement handoff to-signal wait-what conventions-init; do
   test -f "$eng/commands/$c.md" || { echo "FAIL: missing command /$c"; fail=1; }
 done
 

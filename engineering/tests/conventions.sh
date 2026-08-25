@@ -108,4 +108,18 @@ else
   grep -qxF "## Skip retired conventions" "$u" || { echo "FAIL: using must skip retired rows"; fail=1; }
 fi
 
+# --- Task 5: conventions-init command — thin invoker, onboard an existing codebase ---
+init="$eng/commands/conventions-init.md"
+if [ ! -f "$init" ]; then
+  echo "FAIL: commands/conventions-init.md missing"; fail=1
+else
+  grep -q "^description:" "$init" || { echo "FAIL: conventions-init needs a description:"; fail=1; }
+  grep -q "^argument-hint:" "$init" || { echo "FAIL: conventions-init needs an argument-hint:"; fail=1; }
+  grep -qF "engineering:identifying-code-conventions" "$init" || { echo "FAIL: conventions-init must invoke engineering:identifying-code-conventions"; fail=1; }
+  grep -qF "engineering:recording-code-conventions" "$init" || { echo "FAIL: conventions-init must name the writer half (engineering:recording-code-conventions)"; fail=1; }
+  # §8 init re-run behaviour: first run scaffolds; re-run augments, never clobbers approved rows.
+  grep -qi "first run" "$init" || { echo "FAIL: conventions-init must state first-run scaffolding"; fail=1; }
+  grep -qi "augment" "$init" || { echo "FAIL: conventions-init must state re-run augments (never clobbers)"; fail=1; }
+fi
+
 [ "$fail" = 0 ] && echo "CONVENTIONS CHECKS PASS" || { echo "CONVENTIONS FAILED"; exit 1; }
