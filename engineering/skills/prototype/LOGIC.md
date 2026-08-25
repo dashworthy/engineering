@@ -3,8 +3,7 @@
 A logic prototype answers a question about behavior: does this algorithm produce a
 correct result at the scale involved, does this library actually do what its docs
 claim, does this external service behave the way the design is about to assume it
-does. The test is whether running code and reading its output would settle the
-argument. If it would, this is the shape to reach for.
+does. Reach for it when running code and reading its output would settle the argument.
 
 ## Isolate the one operation
 
@@ -56,9 +55,6 @@ broke.
 
 ## Discard it
 
-Once the assertion passes or fails, the harness has done its job. Delete it, or leave
-it in a scratch location nothing imports from — but do not merge it into the
-application, do not leave its TODOs for later, and do not let "well, it already works"
-talk it into becoming the real implementation. The real implementation still needs its
-own error handling, its own tests, and its own review; none of that was in scope for
-the twenty lines that only had to answer one question.
+Once the assertion passes or fails, the harness is done — don't let a twenty-line spike
+with no error handling, tests, or review talk its way into becoming the real
+implementation. See `prototype/SKILL.md` for the discard rule.

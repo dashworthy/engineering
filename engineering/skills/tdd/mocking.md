@@ -1,13 +1,12 @@
 # Mocking
 
 A mock replaces a real collaborator with a stand-in the test controls. That control is the
-entire appeal — a mock can return exactly the value, error, or delay a test wants, on
-demand, without needing the real thing to cooperate. It is also the entire risk: a test
-built on a mock proves the code behaves correctly against the test's *idea* of the
-collaborator, not against the collaborator itself. The gap between those two is invisible
-from inside a green suite, and it only shows up later, in production, when the real
-collaborator turns out not to agree with the mock. Everything below is about keeping that
-gap small and knowing when it's worth opening at all.
+appeal — a mock returns exactly the value, error, or delay a test wants, on demand, without
+the real thing's cooperation. It is also the risk: a test built on a mock proves the code
+correct against the test's *idea* of the collaborator, not against the collaborator itself.
+That gap is invisible from inside a green suite and shows up later, in production, when the
+real collaborator turns out not to agree with the mock. Everything below is about keeping
+that gap small and knowing when it's worth opening at all.
 
 ## Mock at boundaries you own
 
@@ -35,24 +34,24 @@ result = checkout.pay(cart, pricing)
 assert result.total == 42.00   # proves nothing about whether pricing is ever really called right
 ```
 
-The second example never learns whether `checkout.pay` calls the pricing engine with the
-arguments the engine actually needs, or handles the shape it actually returns — the mock
-was configured to hand back a plausible-looking number no matter what was asked of it.
+The mock hands back a plausible-looking number no matter what it's asked, so the test never
+learns whether `checkout.pay` calls the pricing engine with the arguments it needs or
+handles the shape it returns.
 
 ## Prefer a real collaborator
 
-Before reaching for a mock, check whether the real collaborator is already fast,
-deterministic, and safe to run inside a test — in-process, no network, no shared state with
-other tests. If it is, use it. A real in-memory repository, a real parser, a real
-value object all give the test a truer answer than a mock configured to imitate them, and
-they cost nothing extra to maintain, because they can't drift out of sync with themselves.
+Before reaching for a mock, check the real collaborator against the situations that would
+justify one. Use the real thing unless it is:
 
-Reach for a mock only once the real collaborator fails one of those checks: it's slow (a
-real database round-trip on every test run), nondeterministic (the current time, a random
-ID, network latency), external (a third-party service you don't control and shouldn't call
-from a test suite), or dangerous to run repeatedly (an email sender, a real payment
-charge). Those are the situations a mock earns its keep in — not "the real thing is
-somewhat annoying to set up."
+- **slow** — a real database round-trip on every test run;
+- **nondeterministic** — the current time, a random ID, network latency;
+- **external** — a third-party service you don't control and shouldn't call from a test suite;
+- **dangerous to run repeatedly** — an email sender, a real payment charge.
+
+A real in-memory repository, a real parser, a real value object all give the test a truer
+answer than a mock configured to imitate them, and they cost nothing extra to maintain,
+because they can't drift out of sync with themselves. A mock earns its keep only in those
+four situations — not "the real thing is somewhat annoying to set up."
 
 A lightweight real implementation built for testing — an in-memory store standing in for a
 database, a fake clock you can advance by hand — often serves better than a mock for

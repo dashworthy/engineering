@@ -11,14 +11,9 @@ Say this first, plainly: `Using the code-review skill to review this change.`
 
 One thing: given a change — a diff, a branch, a PR, whatever the caller points at — this
 skill reviews it on two separate axes and returns findings organized by which axis raised
-each one, produced by independent sub-reviewers dispatched in parallel and reconciled back
-into a single report. It does not guarantee the change gets approved, and it does not
-guarantee a spec exists to check it against. It guarantees that when a spec does exist, the
-change gets checked against it, and when it doesn't, that gap is stated rather than quietly
-skipped.
-
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
-fixes anything it finds, or stands in for a human's final call.
+each one, produced by independent sub-reviewers dispatched in parallel and reconciled into a
+single report. When a spec exists the change is checked against it; when none does, that gap
+is stated in the report rather than quietly skipped.
 
 ## The two axes
 
@@ -44,20 +39,15 @@ able to trust that nothing about scope or intent is hiding in them, and the reve
 The Spec axis needs something concrete to check the change against, not a recollection of
 what the conversation probably meant. It looks in one place first: `docs/dashworthy/engineering/specs/`,
 for whichever document plausibly governs the change under review — matched by feature area
-and, when more than one candidate fits, by recency. When the caller already knows which
-document applies, or the change touches ground no spec in that directory covers on its own,
-a path handed to this skill directly overrides the directory search outright; a
-caller-supplied path is never second-guessed against what the directory scan would have
-picked instead.
+and, when more than one candidate fits, by recency. A path handed to this skill directly
+overrides the directory search outright and is never second-guessed against what the scan
+would have picked.
 
 When neither turns anything up — the directory has nothing that fits, or the caller supplied
-no path and none exists yet — the Spec axis does not have a document to check the change
-against, and this skill does not go looking for one anywhere else to make up the gap. It
-reviews Standards-only and says so plainly in the report, as a normal, complete outcome, not
-an apology or a stall. There is no step here that goes hunting through a project's backlog
-for what the change was supposed to be, and no pause to get a document written first — a
-change with nothing filed for it gets the full Standards review it's owed, clearly labeled
-as missing the second axis, and that review stands on its own.
+no path and none exists — the Spec axis has no document to check against, and this skill does
+not go looking elsewhere to fill the gap. It reviews Standards-only and says so plainly, as a
+complete outcome: a change with nothing filed for it still gets the full Standards review it's
+owed, labeled as missing the second axis.
 
 ## Dispatching the sub-reviewers
 
@@ -65,29 +55,21 @@ The two axes are looked at by two different reviewers, not one reviewer switchin
 partway through — a single pass that tries to hold "is this good code" and "is this the
 right code" in mind at once tends to let the louder question crowd out the quieter one.
 Dispatch at least one sub-reviewer per axis, in parallel, following `dispatching-parallel-agents`
-for how the fan-out and the return are structured — that skill owns the mechanics of
-splitting independent work and bringing it back; this skill supplies the split itself, plus
-what each sub-reviewer needs to do its job: the diff, the matched spec document (or the
-plain statement that none was found), and whatever substrate applies.
+for how the fan-out and the return are structured — that skill owns the mechanics; this skill
+supplies the split itself, plus what each sub-reviewer needs: the diff, the matched spec
+document (or the plain statement that none was found), and whatever substrate applies.
 
 Each sub-reviewer returns findings scoped to its own axis and nothing else — a Standards
 reviewer that notices a scope problem hands it back as a Spec-shaped observation rather than
 folding it into its own findings, and vice versa. Reconciling the two returns into one
 report — no duplicate findings, no axis silently dropped because its sub-reviewer came back
-empty — is this skill's job, not something pushed further downstream. A caller asking for a
-review wants one coherent answer, not a pair of transcripts to reconcile themselves.
+empty — is this skill's job, not something pushed downstream.
 
 ## Reading the substrate
 
-`CONTEXT.md`, at the project root, and `docs/adr/`, when present, sharpen the Standards
-axis in particular: a convention already named, a boundary already drawn, a tradeoff already
-argued and settled that the change under review should either respect or explain why it
-doesn't. Read them when they exist; treat what they say as something the change is
-accountable to, not background color.
-
-Neither file is required, and their absence is not a degraded review. Most changes get
-reviewed with no `CONTEXT.md` in sight and no ADR on point — that's the ordinary case, and
-this skill proceeds on the diff and the matched spec alone when that's all there is.
+`CONTEXT.md` and `docs/adr/`, when present, sharpen the Standards axis: a convention,
+boundary, or settled tradeoff the change is accountable to, not background color. Read them
+when they exist; neither is required.
 
 ## Convention detection in the diff (additive)
 
@@ -98,16 +80,12 @@ conventions to bear on the change, two ways:
 
 - **Harvest new idioms.** When the diff introduces the *same* new structural choice in more
   than one independent place — across files or modules, not one file's repeated hunks, and
-  not already recorded as a convention — surface it as a **candidate convention** and route
-  it through the standard path: hand it to `recording-code-conventions`, which runs the
-  hardening interrogation and the individual approval gate before anything is written.
-  Nothing is codified from a diff without the approver's yes, exactly as on every other path.
-  The **harvest heuristic**: harvest a new idiom only when it repeats within the diff across
-  independent sites (a single occurrence — or one file's repeated hunks — is not yet a
-  pattern), it is not already recorded, and it is the kind of choice a later change could
-  plausibly get wrong. A one-off, or a pattern the language or framework forces, is not
-  harvested.
-
+  not already recorded — surface it as a **candidate convention** and hand it to
+  `recording-code-conventions`, which runs the hardening interrogation and the individual
+  approval gate before anything is written. Nothing is codified from a diff without the
+  approver's yes. Harvest only a repeat across independent sites that a later change could
+  plausibly get wrong; a one-off, or a pattern the language or framework forces, is not a
+  candidate.
 - **Flag violations.** Read the standards index — active rows only, using the When-relevant
   matching `using-code-conventions` owns — and flag where the diff **violates an
   already-recorded convention**: code that falls under a convention's When-relevant trigger
@@ -115,21 +93,9 @@ conventions to bear on the change, two ways:
   convention file, so the caller sees exactly which recorded rule the change breaks.
 
 Both halves act only on what the diff touches. Neither writes the standards tree — only
-`recording-code-conventions` does that, through the gate — and neither replaces the two-axis
-review; they add a convention lens to it. The harvest's interactive handoff happens **after**
-the review reconciles: candidates are surfaced in the reconciled report and handed to
-`recording-code-conventions` then, not from inside a parallel sub-reviewer, which only returns
-findings.
-
-## If another `code-review` is already installed
-
-The name `code-review` is not this skill's to reserve. A separately installed plugin can
-register its own skill under the same name, for its own review process, with its own idea of
-what a review checks. Two skills sharing a name is not a naming collision to fix — Claude
-Code resolves it by which plugin a caller means, same as any other namespaced pair, and a
-caller who wants this skill specifically gets it by asking for it specifically. Nothing about
-this skill's behavior changes because another `code-review` exists somewhere else on the
-same machine.
+`recording-code-conventions` does that, through the gate. The harvest's interactive handoff
+happens **after** the review reconciles: candidates are surfaced in the reconciled report and
+handed off then, not from inside a sub-reviewer, which only returns findings.
 
 ## What this does not do
 
@@ -139,12 +105,11 @@ same machine.
   caller, not to this skill.
 - It does not **write the spec it's missing.** When the Spec axis comes up empty, that's the
   end of this skill's involvement with the gap — it reports Standards-only and stops. Getting
-  a spec written, if one is warranted, is a separate decision made by someone else, on their
-  own schedule, not a step this skill takes on the review's behalf.
+  a spec written, if one is warranted, is a separate decision made by someone else, not a step
+  this skill takes on the review's behalf.
 - It does not **decide when a review happens.** Something else — a person, or whatever is
-  driving a larger piece of work — decides a change is ready to be looked at and calls this
-  skill at that moment. This skill starts once called; it does not watch for changes on its
-  own or insist on being run.
+  driving a larger piece of work — decides a change is ready and calls this skill at that
+  moment. It does not watch for changes on its own or insist on being run.
 - It does not **stand in for sign-off.** A clean report on both axes is information a human
   or a downstream process uses to decide whether to proceed, not a merge switch this skill
   throws itself.

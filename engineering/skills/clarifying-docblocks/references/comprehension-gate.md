@@ -5,16 +5,9 @@ Anything that fails none of them is left exactly as it is.
 
 ## The untouchable rule
 
-**Prose that already does its job survives a run unchanged.**
-
-This is an invariant, not a preference. Without it every run rewrites everything, the diff
-becomes noise, the user stops reading it, and the tool is worthless whatever the quality of
-its prose. The report's `left_alone` count is the only evidence the user has that this rule
-still holds.
-
-**When in doubt, leave it.** Rewriting a borderline-adequate description costs the user a
-diff hunk they must read and reject. Leaving a borderline-inadequate one costs nothing they
-did not already have.
+**Prose that already does its job survives a run unchanged; when in doubt, leave it.** This is
+an invariant, not a preference — without it every run rewrites everything and the diff becomes
+noise. The report's `left_alone` count is the user's evidence the rule still holds.
 
 ## The six failure modes
 

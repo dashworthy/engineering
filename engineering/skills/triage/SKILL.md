@@ -15,14 +15,8 @@ anything runs against it, isolates it only as far as a routing decision needs, a
 hands off to whichever skill is actually the right size: a quick fix, the discovery
 pipeline, a design conversation, or nothing at all because the file already says why.
 
-It does not guarantee a fix, and it does not guarantee a confirmed root cause — that is
-`diagnosing-bugs`' job, one step downstream, and triage stops well short of it. What
-triage guarantees is smaller and sharper: every report that reaches it either gets routed
-correctly on the first pass, or gets closed with a reason written down. Neither outcome
-leaves a report to sit unexamined.
-
-Nothing else is guaranteed. Read `## What this does not do` before assuming triage
-decides more than where a report goes next.
+Every report that reaches it either gets routed correctly on the first pass, or gets closed
+with a reason written down. Neither outcome leaves a report to sit unexamined.
 
 ## Establish or join a run
 
@@ -60,15 +54,13 @@ route, find out which of three things is actually true:
 - **Under-specified** — there isn't enough here to try. No steps, no expected-versus-
   actual, no way to tell what "wrong" would even look like.
 
-Acting on a report before knowing which of these three it is means the isolation that
-follows is isolating the wrong thing at least some of the time. The few minutes this
-takes is smaller than the isolation work it would otherwise waste.
+Acting before you know which of the three you have wastes the isolation that follows on the
+wrong thing, and the few minutes it takes is smaller than that waste.
 
 ## Isolate — only as far as routing needs
 
-Triage is not diagnosis. It does not need a confirmed root cause with evidence behind
-it — that is `diagnosing-bugs`' guarantee, not this skill's. Triage needs enough to place
-the problem at a domain concept and pick a route with confidence, and no more than that.
+Triage is not diagnosis: it needs enough to place the problem at a domain concept and pick a
+route with confidence, and no more than that.
 
 Work through `references/isolation-checklist.md` for the mechanics. In outline:
 
@@ -112,20 +104,6 @@ In outline, the four destinations:
   and the plan gate in `writing-plans` — not in `brainstorming`.)
 - **Not reproducible, already fixed, or out of scope** — nothing to hand off. Record the
   disposition and the reason in `.engineering/<run>/triage/`, and stop there.
-
-Route on the least isolation that gets a confident answer. A report doesn't need a
-confirmed root cause to route correctly — it needs enough to place it in one of these
-four buckets, and isolation past that point belongs to whichever skill triage hands off
-to, not to triage itself.
-
-## No tracker — everything file-based
-
-Triage keeps no board, no queue, no external system of record. What a report needed,
-what triage found, and where it went all live as files under
-`.engineering/<run>/triage/` — readable by anyone who opens the run directory, and
-nowhere else. A disposition that only exists in a chat transcript or a tool call's
-return value hasn't happened as far as the next person to look is concerned; write it
-down where the run lives, in plain notes, not in any external system.
 
 ## What this does not do
 

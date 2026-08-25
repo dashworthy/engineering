@@ -1,19 +1,20 @@
 # Stack markers — fallback candidates
 
-This is the weakest of the four evidence sources `detecting-the-stack` consults, and the
-only file in this plugin permitted to name specific tools, languages, or runners — the
-skill body stays ecosystem-neutral so verity itself never hard-codes a stack. Consult this
-table **only after** declared manifest scripts, CI workflow definitions, and runner
-configuration files have all been checked for a given suite and yielded nothing. Every
-command below is a **candidate**, not a fact: it exists to give the user something
-concrete to confirm or correct, not to be trusted unverified. Whatever this table proposes
-stays unverified until the conductor's preflight actually runs it — see Preflight step 5 in
-`conducting-test-hardening`'s `SKILL.md` — and when detection can't infer a command at all,
-that same preflight is where the conductor asks the user directly rather than guessing.
+This is the weakest of the four evidence sources `detecting-the-stack` consults, and the only
+file in this plugin permitted to name specific tools, languages, or runners — the skill body
+stays ecosystem-neutral so verity itself never hard-codes a stack. Consult this table **only
+after** declared manifest scripts, CI workflow definitions, and runner configuration files have
+all been checked for a given suite and yielded nothing. Every command below is a **candidate**,
+not a fact: it exists to give the user something concrete to confirm or correct, not to be trusted
+unverified. Whatever this table proposes stays unverified until the conductor's preflight actually
+runs it — see Preflight step 5 in `conducting-test-hardening`'s `SKILL.md` — and when detection
+can't infer a command at all, that same preflight is where the conductor asks the user directly
+rather than guessing.
 
-A marker file's presence only proposes a suite. It does not excuse skipping the stronger
-sources first — a project with a manifest script for `test` but no coverage script still
-owes that manifest a look before this table is opened for the coverage command alone.
+A marker file establishes an ecosystem, not a suite boundary, and its presence only proposes a
+suite — it does not excuse skipping the stronger sources first. If they already located this
+suite's runner, use this table only to fill in whichever specific field (usually `coverage` or
+`mutation`) they left unanswered.
 
 | Marker file | Ecosystem / runner | Candidate `test` | Candidate `coverage` (+ report flag) | Candidate `mutation` | Candidate BDD (`gherkin`) | Likely report format |
 |---|---|---|---|---|---|---|
@@ -31,12 +32,9 @@ owes that manifest a look before this table is opened for the coverage command a
 
 ## Candidate `test_filter` — required, and the easiest field to leave empty
 
-`test_filter` runs a **single named test in isolation**, and it is not optional: it is what
-`verifying-test-integrity` uses for both of its mandatory mechanical checks. Without it, order
-dependence cannot be checked at all — a test that only passes because an earlier test left state
-behind reads exactly like a clean one, and no amount of inspection separates them. A suite derived
-from this table with `test_filter` left blank is a suite whose tests are verified more weakly than
-any other, permanently and silently. Propose one from this table rather than leaving the field out.
+`test_filter` runs a **single named test in isolation** and is required, not optional (see
+`detecting-the-stack`'s "Deriving commands" for why the verifier's checks depend on it). Propose
+one from the table below rather than leaving the field out.
 
 Each takes a `{filter}` placeholder, matching the column the row's runner appears in above:
 
@@ -62,12 +60,6 @@ actually named the test, exactly as `verifying-test-integrity` requires.
 
 Notes for whoever applies this table:
 
-- A marker file establishes an ecosystem, not a suite boundary by itself. If the stronger
-  evidence sources already located this suite's runner, use this table only to fill in
-  whichever specific field (usually `coverage` or `mutation`) they left unanswered.
-- Where a row lists two candidate reporters or config styles, prefer whichever one other
-  files in the same directory tree already reference (a lockfile, an existing CI step, an
-  ignored report path in version control) over guessing.
-- Every command in this table is unverified until the conductor's preflight actually runs
-  it. Present it to the user as "candidate, needs confirmation," never as a fact already
-  established.
+- Where a row lists two candidate reporters or config styles, prefer whichever one other files in
+  the same directory tree already reference (a lockfile, an existing CI step, an ignored report
+  path in version control) over guessing.

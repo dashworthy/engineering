@@ -3,10 +3,8 @@
 `improve-codebase-architecture` renders exactly one report per pass, to a single `.html`
 file in the OS temp directory. Self-contained means self-contained: nothing in the file
 reaches outside it except the two CDN scripts named below, and nothing in it points back
-into the repository the pass ran against — a file that only makes sense sitting next to the
-codebase that produced it hasn't done its job. Someone should be able to send this file
-anywhere, or open it years later on a machine with no copy of the repo, and still read every
-finding in it.
+into the repository the pass ran against. Someone should be able to send it anywhere, or
+open it years later on a machine with no copy of the repo, and still read every finding.
 
 ## Filename
 
@@ -21,7 +19,7 @@ Two CDN scripts, nothing else external:
 
 - Tailwind's CDN build, for layout and styling — `https://cdn.tailwindcss.com`.
 - Mermaid's CDN build, for the module map — pin a specific version rather than floating on
-  `@latest`, so the same report file renders the same way if it's reopened a year from now.
+  `@latest`.
 
 Everything else — every finding, every before/after snippet, every diagram node and edge —
 is written inline into the one file: no separate CSS file, no separate JSON, no image asset
@@ -50,8 +48,7 @@ sitting next to it that the HTML merely references.
 </html>
 ```
 
-Four sections, in this order, on one scrolling page — no client-side routing, no tabs that
-hide a section behind a click a reader has to know to make.
+Four sections, in this order, on one scrolling page — no tabs or client-side routing.
 
 ### 1. Header
 
@@ -86,11 +83,3 @@ in from another CDN, just the two states written out in monospace. Underneath, o
 sentences on what moved: which cost came out of the caller and went into the module. A
 reader who has never opened the repository should be able to tell, from this section alone,
 what actually changed and why it was worth changing.
-
-## What this file is not
-
-Not a build artifact, not something committed to the repository, not something this skill
-reopens or reads back on a later run. It is written once, at the end of one pass, and its
-only job after that is to be readable by whoever opens it. If a later pass wants to compare
-against an earlier one, that comparison happens by a person reading two report files side by
-side — this format carries no machine-readable state for a future pass to consume.

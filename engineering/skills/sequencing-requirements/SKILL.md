@@ -26,7 +26,7 @@ You are dispatched with two inputs: the path to `brief.md`, and the path to `ope
 
 If you believe a requirement section is genuinely wrong — §3 carries a criterion that cannot be measured, §4 contradicts §5, a section is empty — **that is a `BLOCKED` return with the reason**, not a fix. The conductor routes it back to the user, who is the only one who can answer it. Silently correcting it means the user never learns their requirements were contradictory, and the brief ships an answer nobody gave.
 
-If you are re-dispatched against a brief that already carries a §7 and §8, replace your own two sections with fresh ones. Leave §1–§6 exactly as you found them — if they changed, stage 1 changed them with the user, before you were re-dispatched.
+If you are re-dispatched against a brief that already carries a §7 and §8, replace your own two sections with fresh ones. If §1–§6 differ from before, stage 1 changed them with the user, before you were re-dispatched — leave them.
 
 ## You Are Not Decomposing Work
 
@@ -92,13 +92,13 @@ artifact: <path to brief.md>
 actionable: sections_1_6_lines: <n>
 ```
 
-`sections_1_6_lines` is **the number of lines of §1–§6 as you found them, counted before you write anything.** Count it first, before touching the file.
+`sections_1_6_lines` is **the number of lines of §1–§6 as you found them, counted before you write anything.**
 
 On a first dispatch that is simply the whole file: stage 1 writes from line 1 and stops at §6, ending with one trailing newline and no blank line after it, so what you open is §1–§6 and nothing else. Count the file.
 
 On a **re-dispatch** — a resumed run where the user asked for stage 2 to run again against a brief that already carries a §7 and §8 — the file is not just §1–§6, so counting all of it would report a number that includes sections you are about to replace. Count up to but not including the existing `## 7.` heading instead. (The conductor has no baseline to compare against on that path and will say the check is unavailable, but report the honest number regardless; a field that means different things on different runs is worse than one that is sometimes unused.)
 
-Either way, count before you write, never after. Counting afterwards means locating your own `## 7.` and subtracting, which invites an off-by-one over exactly the boundary this check exists to protect.
+Either way, count before you write — counting afterwards means locating your own `## 7.` and subtracting, inviting an off-by-one over the very boundary this check protects.
 
 Report the number honestly even if you suspect it will not match. A mismatch you disclose is a bug someone can find; one you paper over is a corrupted brief the user reads as their own words.
 
@@ -108,7 +108,7 @@ If you cannot append §7 and §8 (contradictory requirements, a requirement sect
 
 ## After You Return — Handoff to the design dialogue
 
-Your job ends at the RETURN block above; you do not design, write a spec, or dispatch anything yourself. But once the conductor has your `OK` and the line count matches, it hands the finished `brief.md` to `engineering:brainstorming` — the shared design dialogue — with the same path you just returned. Brainstorming weighs the approaches and recommends one; it holds no approval gate of its own, and once its design is settled it calls `engineering:to-spec`, the plugin's sole writer of Tier-1 specs, which renders the spec as a draft under `docs/dashworthy/engineering/specs/` and holds the spec-approval gate — the human approves there, downstream of the brief, and only then is the spec stamped Approved. The brief is the input to the design dialogue, not directly to the spec: signal stops at the brief and the design is shaped and approved before anything is built. That handoff is the conductor's to make, not yours; it is named here so the boundary between "signal appends §7–§8" and "the brief becomes a recommended design, then an approved spec" is not lost between the files that each describe part of it.
+Your job ends at the RETURN block above — you do not design, write a spec, or dispatch anything. Once the conductor has your `OK` and a matching line count, it (not you) hands the finished `brief.md` to `engineering:brainstorming`, the shared design dialogue, which recommends a design and calls `engineering:to-spec` — the plugin's sole writer of Tier-1 specs — to draft the spec under `docs/dashworthy/engineering/specs/` and hold the spec-approval gate downstream.
 
 ## Red Flags — STOP
 

@@ -28,5 +28,5 @@ docblocks live in a narrow gutter, and IDEs fold them. Light box-drawing charact
  *             reject      cache miss --> upstream
 ```
 
-A diagram that overflows the budget is worse than no diagram: it wraps, and a wrapped
-diagram is unreadable in exactly the place a reader most needed it.
+A diagram that overflows the budget wraps, and a wrapped diagram is unreadable in exactly the
+place a reader most needed it.

@@ -12,12 +12,9 @@ Say this first, plainly: `Using the identifying-code-conventions skill to surfac
 One thing: this skill **surfaces candidate conventions and hands them onward — it codifies
 nothing itself.** It finds candidates two ways and hands each one, individually and still
 rough, to `recording-code-conventions`, the single writer, which runs the hardening
-interrogation and the individual approval gate before it writes. This skill never hardens,
-approves, or writes anything. Nothing about "I found a pattern" becomes a convention without
-the approver's yes at that gate — and a candidate the approver rejects leaves no trace.
-
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill writes
-or applies anything.
+interrogation and the individual approval gate before it writes. Nothing about "I found a
+pattern" becomes a convention without the approver's yes at that gate — and a candidate the
+approver rejects leaves no trace.
 
 ## Two ways to surface a candidate
 
@@ -50,20 +47,17 @@ only when all three hold:
    told, there is nothing for a convention to protect. The ones worth codifying are exactly
    the ones a newcomer would miss.
 
-A pattern that fails any of the three is noise, not a candidate. Surfacing noise trains the
-approver to rubber-stamp, which is the failure the individual gate exists to prevent — so the
-heuristic protects the gate by keeping what reaches it worth judging.
+A pattern that fails any of the three is noise, not a candidate — surfacing noise trains the
+approver to rubber-stamp, the very failure the individual gate exists to prevent.
 
 ## Every candidate, individually, to recording
 
-However a candidate surfaced, do not batch. It **hands each candidate individually — one at a
-time, never a batch** — to `recording-code-conventions`, the single writer, and hands it off
-**still rough**. Recording is where the funnel every path shares actually runs: the hardening
-interrogation that pins is / is-not / robustness, and the individual approval gate (the shared
+However a candidate surfaced, **hand each one individually — one at a time, never a batch** —
+to `recording-code-conventions`, the single writer, still rough. Recording is where the funnel
+every path shares actually runs: the hardening interrogation that pins is / is-not / robustness,
+and the individual approval gate (the shared
 `../recording-code-conventions/references/approval-gate.md`) with its conflict check, both run
-inside recording **before** it writes. This skill does none of that — it does not harden, does
-not gate, does not write, and never touches the standards tree. Its whole job ends at handing a
-rough candidate, one at a time, to the writer.
+inside recording **before** it writes.
 
 ## What this does not do
 
@@ -72,8 +66,3 @@ rough candidate, one at a time, to the writer.
   `docs/standards/`.
 - It does not **apply conventions.** Citing a recorded convention at a work item during design
   or build is `using-code-conventions`. This skill is the intake side, not the consume side.
-- It does not **approve on its own authority.** Surfacing a candidate is not accepting it; only
-  the approver's individual yes, at the gate, does that. A confident inference is still just a
-  candidate.
-- It does not **auto-codify a whole codebase.** It surfaces candidates for individual approval;
-  it never batch-writes what it found on the theory that repetition equals consent.

@@ -11,11 +11,7 @@ Say this first, plainly: `Using the to-spec skill to write the spec.`
 
 One thing: given an entrance's finished material, this skill writes exactly one Tier-1
 spec, in exactly one format, at exactly one path. It is the only skill in this plugin
-permitted to write to `docs/dashworthy/engineering/specs/`. A spec found anywhere else
-was not written by this skill and is not a Tier-1 spec.
-
-Nothing else is guaranteed. Read the non-guarantees below before assuming this skill
-does more than that.
+permitted to write to `docs/dashworthy/engineering/specs/`.
 
 ## Inputs
 
@@ -42,9 +38,7 @@ run's start date, if the two differ.
 This skill never writes the *spec* into `.engineering/` — that tree is the entrances' Tier-2
 scratch space, and the spec is Tier-1. The one thing it does write under `.engineering/` is
 the run-scoped approval marker (`.engineering/<run>/to-spec/APPROVED.md`), minted at the spec
-gate below. A *spec* landing under `.engineering/` instead of under
-`docs/dashworthy/engineering/specs/` is not a partial version of this skill's job; it is
-a different job this skill does not do.
+gate below.
 
 ## How it renders
 
@@ -65,13 +59,10 @@ section number:
 
 ## The spec gate — write a draft, then hold for approval
 
-This skill does not stamp `Approved` on faith. It writes the spec as a draft, presents it,
-and waits for the human's approval before promoting it — that approval is the spec gate, the
-pipeline's first human-approval gate, and it lives here, on the spec.
+This is the pipeline's first human-approval gate, and it lives here, on the spec. This
+skill does not stamp `Approved` on faith:
 
 1. **Write it as a draft.** Set the status line to `Status: Draft` (see `SPEC-FORMAT.md`).
-   Transcribe §6 from the recommended design handed off — the chosen approach and the
-   alternatives it beat — rather than composing an approach of your own.
 2. **Present the draft and wait.** Show the finished spec and wait for the human's approval.
    This is a real stop: nothing is `Approved`, and no marker is written, until they say so.
    If they send it back, revise the draft — or hand back to `brainstorming` for a rethink —
@@ -89,9 +80,8 @@ the status are only ever promoted together, here, at the moment the human approv
 
 ## What this does not do
 
-- It does not **design**. An approach worth writing into §6 was already argued out in
-  `brainstorming` before this skill ever runs; this skill transcribes that outcome, it
-  does not weigh alternatives itself.
+- It does not **design**. The §6 approach was argued out in `brainstorming` upstream; this
+  skill transcribes that outcome, it does not weigh alternatives itself.
 - It does not **plan**. Breaking the approved approach into steps is `writing-plans`,
   downstream of the spec this skill produces.
 - It does not **interrogate**. If the material handed to it is missing something a
@@ -104,7 +94,6 @@ the status are only ever promoted together, here, at the moment the human approv
 ## Handoff
 
 Once the spec is `Approved` and its marker written, print the spec's path and stop —
-ordinarily the work goes on into `writing-plans`, which reads the spec-approval marker as its
-precondition. A spec still sitting in `Draft` because the human has not approved it is not
-handed onward; it waits at the gate. This skill does not chain into planning itself, and does
-not summarize the spec beyond that one path.
+ordinarily the work goes on into `writing-plans`. A spec still sitting in `Draft` because
+the human has not approved it is not handed onward; it waits at the gate. This skill does
+not chain into planning itself, and does not summarize the spec beyond that one path.

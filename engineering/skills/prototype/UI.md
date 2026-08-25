@@ -2,9 +2,8 @@
 
 A UI prototype answers a question about a person: can they tell what this is asking of
 them, do they find the thing they're looking for, does a flow make sense walked
-through rather than described. The test is whether putting something in front of
-someone and watching them use it would settle the argument. If it would, this is the
-shape to reach for.
+through rather than described. Reach for it when putting something in front of someone
+and watching them use it would settle the argument.
 
 ## Match fidelity to the question, not the audience
 
@@ -47,9 +46,6 @@ the original question.
 
 ## Discard it
 
-Once the walkthrough answers the question, the mock has done its job. It does not need
-to survive as a design file kept "in case," and it especially does not need to become
-the actual component through incremental polish — a gray-box prototype that quietly
-grows real styling, real state, and real code is a UI built without ever deciding on
-its design properly. Screenshots or a short recording of the walkthrough are enough of
-a record; the mock itself can go.
+Once the walkthrough answers the question, the mock is done — don't let a gray-box mock
+grow real styling, state, and code into the actual component through incremental polish.
+See `prototype/SKILL.md` for the discard rule.

@@ -48,10 +48,9 @@ def test_checkout_confirms_order():
     assert order.status == "confirmed"
 ```
 
-Four tests now exist where one did, and each one's failure names the behavior that broke
-without anyone reading past the test's name. This costs more lines. It buys back every
-minute you'd otherwise spend figuring out which assertion inside a bundled test actually
-failed.
+Now each failure names the behavior that broke without anyone reading past the test's name.
+The extra lines buy back every minute you'd otherwise spend figuring out which assertion
+inside a bundled test actually failed.
 
 A test with more than one assertion is not automatically wrong — several assertions
 checking facets of the *same* behavior (an order's status, its total, and its item count,
@@ -75,11 +74,10 @@ def test_withdrawal_reduces_balance():
     assert account.balance == 70            # assert
 ```
 
-The shape does double duty: it makes a test's intent readable at a glance — arrange is
-context, act is the one thing being tested, assert is the claim — and it makes a bloated
-test visible from its structure alone. A test whose "arrange" section runs twenty lines
-deep, or whose "act" section calls three different methods, is telling you it's arranging
-for or exercising more than one behavior before you've read a single assertion.
+The shape also makes a bloated test visible from its structure alone: an "arrange" section
+that runs twenty lines deep, or an "act" section that calls three different methods, is
+telling you it's arranging for or exercising more than one behavior before you've read a
+single assertion.
 
 ## Naming
 
@@ -127,19 +125,11 @@ test isn't verifying the rule; it's verifying an accident of execution order.
 **After.** Each test builds its own state and shares nothing:
 
 ```
-def test_registration_adds_user():
-    users = UserStore()
-    users.register(make_user("a"))
-    assert users.count() == 1
-
-def test_duplicate_registration_rejected():
-    users = UserStore()
-    users.register(make_user("a"))
-    assert users.register(make_user("a")) is False
+users = UserStore()          # built fresh inside each test — nothing shared, nothing left behind
+users.register(make_user("a"))
 ```
 
-Every test now sets up exactly the state its own behavior needs, and nothing it does
-survives to affect the next one. Order stops mattering; running one test in isolation
-produces the same verdict as running the whole file. If two tests must reuse the same setup
-work, share the arrangement through a helper or a fixture that builds fresh state per test
-— never through a value one test mutates and leaves behind for the next one to find.
+Order stops mattering; running one test in isolation produces the same verdict as running
+the whole file. If two tests must reuse the same setup work, share the arrangement through
+a helper or a fixture that builds fresh state per test — never through a value one test
+mutates and leaves behind for the next one to find.

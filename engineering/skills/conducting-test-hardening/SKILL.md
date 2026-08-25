@@ -22,38 +22,32 @@ this run works the way it does now.
 
 ## Why this runs now
 
-Nothing forces this skill to run. There is no hook that blocks finishing a branch without it —
-the only thing standing between "done" and "actually done" is whether this fires at the moment
-above, on its own, before anyone asks for it by name. If a reason not to run it just occurred to
-you, it is almost certainly one of these:
+Nothing forces this skill to run — no hook blocks finishing a branch without it. It fires at the
+moment above on its own or not at all. The usual reasons not to — "I'll run it after this," "the
+change is too small," "the user's in a hurry," "I already reviewed it myself," "it's just a
+refactor," "I'll mention the gap in my summary" — all resolve the same way: the diff in front of
+you now is the one this audits, so run it before that diff moves. Two excuses carry a specific
+response:
 
 | Excuse | Reality |
 |---|---|
-| "I'll run it after this" | After this becomes after the PR, after merge, after it's forgotten. The diff in front of you right now is the one this audits — run it before that diff moves. |
-| "The change is too small to bother" | Small diffs are exactly where a missing test costs least to write and most to skip silently — nobody re-reviews a two-line change for what it forgot to guard. |
-| "The user is in a hurry" | A hurried user asked for the task finished, not for the testing step quietly dropped. Say what you're about to run and why, then run it. |
 | "The tests already pass" | Passing proves nothing about whether they'd fail if the behavior broke. That gap is the entire reason this skill exists. |
 | "There's no test suite here" | Then say so once detection confirms it, and ask what to run. An unconventional project is a normal preflight outcome, not a reason to skip the audit. |
-| "I already reviewed it myself" | Self-review isn't adversarial. A fresh audit with no investment in the code catches what your own confidence in it papers over. |
-| "It's just a refactor, behavior shouldn't have changed" | Refactors are exactly where behavior silently changes. If it truly didn't, the tests confirm that quickly and cheaply. |
-| "I'll just mention the gap in my summary" | Naming a gap in prose hands the user a to-do item, not finished work. They asked for the tests, not a note that some are missing. |
 
 ## Context discipline
 
 The conductor holds this run's briefs, verdicts, and numbers. It does **not** read diffs or test
-bodies, and it holds no config — there isn't one to hold. Every step that needs to read a diff,
-a test body, a stack's file tree, or a report file is dispatched to a subagent that returns a
+bodies, and it holds no config — there isn't one to hold. Every step that needs to read a diff, a
+test body, a stack's file tree, or a report file is dispatched to a subagent that returns a
 verdict, a count, or a finding — never the raw text. This is what keeps iteration N+1 as cheap as
-iteration 1: the conductor's own context grows by a few brief entries and a handful of numbers
-per iteration, not by the diff and every test file and report it has ever looked at.
+iteration 1.
 
-Three named skills get dispatched by name over the course of a run: `auditing-test-gaps`,
+Three named skills get dispatched by name over a run: `auditing-test-gaps`,
 `writing-tests-from-brief`, `verifying-test-integrity`. Two more dispatches follow a **reference
-document** instead of a skill name, because the work they do (scanning a tree for manifests, or
-reading a coverage or mutation report) belongs out of the conductor's context but isn't its own
-reusable skill: hand a subagent `references/detecting-the-stack.md` for stack detection, or
-`references/measuring-reports.md` for turning a report into numbers, as its complete brief, and
-take back only what each document's own return format specifies.
+document** instead of a skill name, because the work belongs out of the conductor's context but
+isn't its own reusable skill: hand a subagent `references/detecting-the-stack.md` for stack
+detection, or `references/measuring-reports.md` for turning a report into numbers, as its
+complete brief, and take back only what that document's return format specifies.
 
 The one exception to "never read a diff" is mechanical, not analytical: when reconciliation
 halts, it surfaces the touched paths and their diff to the *user* as evidence. The conductor
@@ -140,39 +134,33 @@ Repeat the following per iteration until an exit condition is reached.
   `<suite>-breakage-<nnn>` for breakage findings) and set its `iteration` to the current
   iteration number. A carried item keeps its **original** `id` and gains `carried_from` naming
   the iteration it first appeared in — never a new id, or the conductor loses the ability to
-  tell rework from new work. Rank gap findings with the brief schema's total order: `risk_level`
-  (high, medium, low), then rework items before fresh ones within a level, then `target_file`
-  ascending, then `id` ascending — in that order, with no step skipped, so two runs over the
-  same findings render an identical brief. Write `.engineering/<run>/verity/briefs/<n>.md` from
-  `references/brief-template.md`.
+  tell rework from new work. Rank gap findings by the brief schema's total order (owned by
+  `references/brief-schema.md`): `risk_level` (high, medium, low), then rework items before fresh
+  ones within a level, then `target_file` ascending, then `id` ascending — no step skipped, so
+  two runs over the same findings render an identical brief. Write
+  `.engineering/<run>/verity/briefs/<n>.md` from `references/brief-template.md`.
 - **Halt on breakage.** If the brief contains any breakage finding, present every one to the
   user and STOP — before any writer is dispatched. This is unconditional; there is no setting
   that turns it off. Never write a test that pins in behavior a breakage finding flags as
   suspect, and never fix the flagged code — that decision belongs to the user.
 - **Audit-only exit.** If preflight step 7 settled on audit-only — or the user asks for one at any
-  point before the write phase — stop here: after
-  the brief is written and the breakage check has run, before Write. Report the brief as this
-  run's output and exit `audit-only`. This exit is neither pass nor failure: it does not
-  increment or reset the dry counter and it does not write any test.
+  point before the write phase — stop here: after the brief is written and the breakage check has
+  run, before Write. Report the brief as this run's output and exit `audit-only`. This exit is
+  neither pass nor failure: it does not increment or reset the dry counter and it does not write
+  any test.
 - **Dry check.** An empty brief (no gap, breakage, or ownership findings) increments a dry
   counter; two consecutive empty briefs exits `dry`. Any non-empty brief resets the counter to
   zero.
 - **Snapshot, then Write.** **Immediately before dispatching any writer this iteration**, record
   `git diff --numstat HEAD` (per-file added/deleted counts) and `git status --porcelain` (for the
   untracked files numstat does not cover). This is the only baseline reconciliation compares
-  against, and it is taken fresh every iteration — never once for the whole run. Everything that
-  happened earlier is therefore already in it: the user's own uncommitted work, the coverage files
-  and caches left by preflight's suite runs, and the tests, reports and artifacts produced by
-  previous iterations. A run-scoped baseline would flag all of that as unexplained and halt on
-  iteration 2.
+  against, taken fresh every iteration — never once for the whole run. Everything earlier is
+  therefore already in it: the user's own uncommitted work, the coverage files and caches left by
+  preflight's suite runs, and the tests, reports and artifacts produced by previous iterations. A
+  run-scoped baseline would flag all of that as unexplained and halt on iteration 2. Use numstat,
+  not `git status` alone — Reconcile step 1 gives the reason.
 
-  Use numstat, not `git status` alone, and the reason is not stylistic: a porcelain entry for an
-  already-modified file reads ` M path` both before and after a writer appends to it — byte for
-  byte the same — so a status-only baseline cannot see a writer editing a file that was already
-  dirty. Those are exactly the files a writer is most likely to reach for. Numstat moves
-  (`1 0 app.py` → `2 0 app.py`) and catches it.
-
-  Then: group open and rework gap findings by `target_test_file`. Dispatch one
+  Then group open and rework gap findings by `target_test_file`. Dispatch one
   `writing-tests-from-brief` agent per distinct target file, each carrying only the findings for
   that file. Never dispatch two writers at the same target test file — that is a race on the
   same file with no defined winner.
@@ -281,27 +269,23 @@ while measuring nothing is the false green this whole tool exists to prevent. A 
 this way must name, explicitly, every suite and metric that was excluded from gating rather than
 folding silently into "every participating suite passed."
 
-**A missing tool is not an unmeasurable threshold.** Separate the two, because they call for
-opposite responses. *The project has no coverage command* is a fact about the project — disable
-that gate and report it. *The report exists but the tooling to read it is absent* — most often
-`jq`, which the agents parsing coverage and mutation reports rely on — is a fixable problem on
-this machine, and silently disabling the gate turns a one-line install into a permanently weaker
-run that still reports `pass`. When a report exists and cannot be read for want of a tool, say
-which tool, say how to install it, and ask whether to continue with that gate disabled or stop so
-the user can install it. Never fold it into "the report won't parse."
+**A missing tool is not an unmeasurable threshold.** *No coverage command* is a fact about the
+project — disable that gate and report it. But *a report that exists and cannot be read for want
+of a tool* — most often `jq`, which the agents parsing coverage and mutation reports rely on — is
+fixable on this machine: say which tool, say how to install it, and ask whether to continue with
+that gate disabled or stop so the user can install it. Never fold it into "the report won't
+parse."
 
 **"No improvement" means**, across all participating suites in this iteration: coverage did
 not rise, mutation score did not rise, AND the verifier returned no new `valid` tests. Any one
 of those three moving in any suite is progress; continue the loop. Only when all three are flat
 everywhere does this iteration count as no improvement, which halts.
 
-`unevaluated` counts toward **neither** term — not the satisfied set, not the "new `valid`
-tests" count. Treating it as satisfied would claim a gap is closed when nobody said so;
-treating it as a defect would claim the test is bad when nobody said that either — it is an
-absence of judgment, not a verdict, and the loop carries it forward rather than resolving it
-either way. Consequently, an iteration that produces only `unevaluated` verdicts and no
-coverage or mutation movement counts as no improvement and halts, exactly like an iteration
-that produced nothing at all — it must not loop forever re-attempting tests nobody can judge.
+`unevaluated` (defined in Verify) counts toward **neither** term — not the satisfied set, not
+the "new `valid` tests" count. Consequently, an iteration that produces only `unevaluated`
+verdicts and no coverage or mutation movement counts as no improvement and halts, exactly like
+an iteration that produced nothing at all — it must not loop forever re-attempting tests nobody
+can judge.
 
 ## Carry-forward
 
@@ -312,9 +296,8 @@ unjudged item carries forward exactly like an untouched one, plus the verifier's
 so the next audit knows a prior attempt didn't resolve it. They keep their original `id`s and
 gain `carried_from`. A surviving mutant carries forward only `suite`, `mutant_operator`, and
 `mutant_line` (`file:line`, never a bare line number) — the next `auditing-test-gaps` dispatch
-reads the code at that line and derives `target_symbol`, `behavior`, `test_intent`,
-`target_test_file`, `risk_level`, and `risk` itself, or drops the item and says why if the
-mutant is not worth a test.
+reads the code at that line and derives the finding's fields (per `references/brief-schema.md`),
+or drops the item and says why if the mutant is not worth a test.
 
 An auditor may return `dropped_mutants` — mutants it read and judged not worth a test because
 they are equivalent or the branch is unreachable. Record each as (`suite`, `mutant_operator`,
@@ -348,21 +331,18 @@ reading anything back from this one.
 
 - Reading a diff or a test body in the conductor's own context instead of dispatching it.
 - Modifying application code for any reason, including to "just make the test pass."
-- Writing tests when a breakage finding is open.
+- Writing tests when a breakage finding is open, or proceeding to Reconcile, Verify, or Measure
+  after any writer returns a breakage finding of its own in this iteration's Write phase.
 - Auto-reverting a reconciliation violation instead of surfacing it.
-- Blending coverage or mutation numbers across suites into one figure.
-- Reporting a threshold as met without the command output that proves it.
 - Dispatching two writers at the same target test file.
+- Blending coverage or mutation numbers across suites into one figure.
+- Reporting a threshold as met without the command output that proves it; reporting `pass`
+  without naming every suite or metric that could not be measured, or for a run where a (suite,
+  track) auditor died twice in a row — an unaudited track is the false green the gate exists to
+  prevent.
 - Continuing past the brief into Write when the user asked for an audit only.
-- Reporting `pass` without naming every suite or metric that could not be measured.
-- Proceeding to Reconcile, Verify, or Measure after any writer returns a breakage finding of its
-  own in this iteration's Write phase.
 - Marking an `unevaluated` item `satisfied` or `rework` instead of leaving it `open`, or
   counting it toward either side of the no-improvement check.
-- Reporting `pass` for a run where a (suite, track) auditor died twice in a row, the same way a
-  skipped suite blocks `pass` — an unaudited track is exactly the false green the gate exists
-  to prevent.
-- Inferring or hard-coding a threshold, a suite list, or a command instead of asking the user or
-  deriving it from evidence.
-- Writing a config file, a shell library, or a hook "to make this more reliable next time" —
-  that is exactly the layer that was removed, and exactly what caused most of the defects.
+- Inferring or hard-coding a threshold, a suite list, or a command, or writing a config file, a
+  shell library, or a hook "to make this more reliable next time" — that is exactly the layer
+  that was removed, and exactly what caused most of the defects.

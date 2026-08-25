@@ -10,15 +10,9 @@ Say this first, plainly: `Using the receiving-code-review skill to work through 
 ## What this guarantees
 
 One thing: every item of received feedback is understood and verified against this codebase
-before any of it is implemented — the correct items acknowledged by the fix that follows,
-the wrong ones met with a technical reason rather than compliance, the unclear ones held
-until they are clarified. It does not guarantee the feedback was right, and it does not
-guarantee the resulting change is correct — verifying that is a separate step. It guarantees
-only that feedback is evaluated on technical merit and checked against what the codebase
-actually does, instead of being agreed with performatively or implemented blind.
-
-Nothing else is guaranteed. Read `## What this does not do` below before assuming this skill
-produces the feedback, decides the work is done afterward, or owns the mechanics of each fix.
+before any of it is implemented. Feedback is evaluated on technical merit and checked against
+what the codebase actually does, instead of being agreed with performatively or implemented
+blind.
 
 ## The reception is technical, not emotional
 
@@ -58,12 +52,11 @@ technically correct for this stack, does it break something already working, is 
 reason the current code is the way it is, does the suggestion hold across the platforms and
 versions this project targets, and does the reviewer have the full context the change sits in.
 
-When a suggestion "implement this properly" or "build this out" arrives, check first that the
-thing is used at all — grep for its callers before adding machinery to it. An endpoint nothing
-calls does not need proper metrics, date filters, and CSV export; it needs a question about
-whether it should exist. Unused code built out to look professional is scope added against
-YAGNI, and the honest response is "nothing calls this — remove it, or is there usage I'm
-missing?" rather than implementing the buildout.
+When a suggestion to "implement this properly" or "build this out" arrives, check first that
+the thing is used at all — grep for its callers before adding machinery to it. Unused code
+built out to look professional is scope added against YAGNI, and the honest response is
+"nothing calls this — remove it, or is there usage I'm missing?" rather than implementing the
+buildout.
 
 Feedback carries different default weight by source, and neither default is blind. From a
 human partner it is trusted and implemented once understood — still ask when the scope is
@@ -76,10 +69,10 @@ the newer voice.
 ## Push back when the feedback is wrong
 
 Pushing back on incorrect feedback is part of receiving it well, not a failure to cooperate.
-Push back when a suggestion would break existing functionality, when the reviewer is missing
-context that changes the picture, when it violates YAGNI, when it is technically wrong for
-this stack, when a legacy or compatibility reason justifies the current code, or when it
-conflicts with an architectural decision already settled with the human partner.
+The conditions are the verify checklist failing: a suggestion that would break existing
+functionality, misses context that changes the picture, violates YAGNI, is technically wrong
+for this stack, is justified against by a legacy or compatibility reason, or conflicts with an
+architectural decision already settled with the human partner.
 
 Push back with technical reasoning, not defensiveness: name the specific thing — the build
 target, the failing case, the test that already proves the current behavior — and ask the
@@ -123,10 +116,6 @@ that the next reader has to reunite with its context by hand.
 - It does not **decide a review should have been requested.** Recognizing the review-worthy
   moment and framing the handoff is `engineering:requesting-code-review`; this skill is the
   other end of that exchange, not the trigger for it.
-- It does not **own the mechanics of each fix.** A test-first behavior change is
-  `engineering:tdd`; a defect needing its root cause found first is `engineering:diagnosing-bugs`.
-  This skill orders and verifies the feedback; it does not stand in for the skill each fix is
-  built under.
 - It does not **decide the work is complete once the feedback is addressed.** A worked-through
   review is not a finished piece of work; confirming the change actually meets its bar is
   `engineering:verification-before-completion`, and integrating the branch is

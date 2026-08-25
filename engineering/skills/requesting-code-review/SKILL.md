@@ -13,13 +13,9 @@ One thing: when a piece of work reaches a review-worthy point, this skill frames
 so a reviewer running in its own context can evaluate it — the boundary of what changed, a
 plain statement of what was built, and a pointer to what it was supposed to do — and hands
 that framing off to be reviewed, rather than the coordinator reading the diff inline and
-spending the context it needs to keep driving the work on the evaluation itself. It does not
-guarantee the review comes back clean, and it does not guarantee a spec exists to point the
-reviewer at. It guarantees that the request is framed and dispatched instead of collapsed
-into a self-review that never left the coordinator's own head.
-
-Nothing else is guaranteed. Read `## What this does not do` below before assuming this skill
-performs the review, weighs what comes back, or decides the work is finished.
+spending on the evaluation the context it needs to keep driving the work. The request is
+framed and dispatched instead of collapsed into a self-review that never left the
+coordinator's own head.
 
 ## When a change is review-worthy
 
@@ -43,11 +39,11 @@ A reviewer in its own context knows nothing the request does not carry to it. Th
 make the difference between a review of the actual change and a review of a guess at it:
 
 - **The change boundary** — what to review, stated as something concrete the reviewer can
-  resolve on its own: a base and head commit, a branch, or a PR. The boundary is the
-  difference between "review my work" and "review exactly these commits," and only the second
-  is reviewable. Where commits are the boundary, capture both ends explicitly — the base the
-  change starts from (the previous task's commit, or the trunk) and the head it ends at —
-  rather than leaving the reviewer to infer where the change begins.
+  resolve on its own: a base and head commit, a branch, or a PR. This is the difference
+  between "review my work" and "review exactly these commits," and only the second is
+  reviewable. Where commits are the boundary, capture both ends explicitly — the base the
+  change starts from (the previous task's commit, or the trunk) and the head — rather than
+  leaving the reviewer to infer where the change begins.
 - **A plain description** of what was built — a few sentences, not the session's history. It
   orients the reviewer on intent so a deliberate choice does not read as an oversight.
 - **A pointer to what the work was supposed to do** — the governing spec when one exists, by
@@ -62,13 +58,12 @@ one.
 
 ## Why not just read the diff here
 
-The pull toward reading the diff inline is strong precisely when the coordinator is deepest
-in the work — it feels faster than framing a handoff. It is not. The coordinator's context is
-the scarce resource that keeps the larger piece of work moving; spending it to hold a diff
-and its evaluation at the same time is spending the thing most needed to keep going, on work
-a reviewer in a fresh context does better for having no stake in the code already written.
-Hand off the boundary and the framing; let the diff and the evaluation live in the reviewer's
-context, and let only the findings come back.
+The pull to read the diff inline is strongest when the coordinator is deepest in the work,
+and it feels faster than framing a handoff. It is not: the coordinator's context is the
+scarce resource that keeps the larger work moving, and a reviewer in a fresh context does the
+evaluation better for having no stake in the code already written. Hand off the boundary and
+the framing; let the diff and the evaluation live in the reviewer's context, and let only the
+findings come back.
 
 ## What comes back
 
@@ -82,9 +77,6 @@ handed off; it does not hold the findings, rank them, or start fixing them.
 - It does not **perform the review.** Splitting the change across axes, reading it, and
   producing findings is `engineering:code-review`; this skill frames the request and hands it
   over, and stops there.
-- It does not **act on what the review finds.** Verifying a finding, implementing a fix, or
-  pushing back on a wrong one is `engineering:receiving-code-review`. A review handed off by
-  this skill comes back to that skill, not to this one.
 - It does not **decide the work is complete.** A clean review is information, not a
   completion signal; confirming the work actually meets its bar is
   `engineering:verification-before-completion`, and integrating the finished branch is

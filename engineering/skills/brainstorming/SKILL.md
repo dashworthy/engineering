@@ -11,16 +11,7 @@ Say this first, plainly: `Using the brainstorming skill to shape the design.`
 
 One thing: given a signal brief or a triage problem, this skill produces a recommended
 design — an approach chosen over its rejected alternatives, with the reasoning laid
-out — ready for `to-spec` to serialize. It does not guarantee the first approach
-considered is the one that wins, or that the design lands in one sitting.
-
-This skill holds no approval gate of its own. Approval of the design happens at the spec
-gate in `engineering:to-spec`, where the written spec is presented and the human either
-approves it or sends it back — so a design this skill recommends is a proposal, not a
-ratified decision, until the spec clears that gate.
-
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
-reaches past shaping and recommending the one design in front of it.
+out — ready for `to-spec` to serialize.
 
 ## Starting material
 
@@ -35,12 +26,10 @@ problem, just a request typed straight at this skill — means the interrogation
 should have come first didn't happen; send it back to `signal` or `triage` rather than
 inventing requirements to fill the gap.
 
-On the signal path this skill is reached automatically: once the discovery conductor
-(`engineering:conducting-discovery`) has a finished brief, it hands that brief straight
-here — this is signal's terminal act, the design dialogue every feature passes through, not
-a step a human has to remember to invoke. On the triage path, a defect the isolation shows
-is spec-worthy is routed straight here. Either way the entry ticket is already on disk
-before this skill's first question.
+On the signal path, `engineering:conducting-discovery` hands its finished brief straight
+here automatically once discovery is done; on the triage path, a defect isolated as
+spec-worthy is routed here. Either way the entry ticket is already on disk before this
+skill's first question.
 
 ## Explore context
 
@@ -52,8 +41,7 @@ fights the codebase from day one instead of extending it.
 Read `CONTEXT.md` and `docs/adr/`, at the project root, when either exists. A naming
 convention or a boundary already settled there constrains which approaches are even
 worth proposing — an approach that reopens a decision an ADR already closed isn't a
-fresh option, it's litigation. Neither file is required; most designs get shaped with
-no `CONTEXT.md` in sight, and that's ordinary, not a shortfall.
+fresh option, it's litigation. Neither file is required.
 
 ## Propose approaches, not one approach
 
@@ -81,24 +69,17 @@ output is a recommended design, ready to serialize.
 
 ## No gate here — approval is the spec gate
 
-Design approval happens at the spec gate, not here. `to-spec` writes the spec as a draft,
-presents it, and waits for the human's approval before stamping `Approved` and minting the
-run's spec-approval marker; nothing downstream builds until that marker exists.
+Design approval happens at the spec gate, not here. Hand the recommended design to
+`engineering:to-spec`, which serializes it into the plugin's one Tier-1 spec format,
+writes it as a draft, presents it, and waits for the human's approval before stamping
+`Approved` and minting the run's spec-approval marker; nothing downstream builds until
+that marker exists. This skill does not write the spec and does not write into
+`docs/dashworthy/engineering/specs/` — `to-spec` is the plugin's only writer there.
 
 So this skill's job ends at a recommendation, not a ratification. Don't stage a
-section-by-section sign-off here or treat the human nodding along as approval — collecting
-that approval is the spec gate's job, and another gate here would only duplicate it. Hand
-the recommended design to `to-spec` and let it hold the gate.
-
-## Handoff
-
-Hand the finished design to `engineering:to-spec`, which serializes it into the plugin's
-one Tier-1 spec format and then holds the spec gate. This skill does not write the spec
-itself and does not write into `docs/dashworthy/engineering/specs/` — `to-spec` is the
-plugin's only writer there, and the recommended design is exactly the material it's built
-to receive: an approach already chosen and argued out, ready to transcribe rather than
-invent. Hand it the design and stop; presenting the spec, collecting the human's approval,
-and minting the marker are `to-spec`'s job, not this one's.
+section-by-section sign-off here or treat the human nodding along as approval —
+collecting that approval is the spec gate's job, and another gate here would only
+duplicate it. Hand off the design and stop.
 
 ## What this does not do
 
@@ -117,9 +98,7 @@ and minting the marker are `to-spec`'s job, not this one's.
 - It does not **plan or build.** Nothing past the recommendation is this skill's to
   touch, including sketching what a plan for the design might look like — and it does not
   gate: approval is the spec gate's, downstream in `to-spec`.
-- It is not always required. A triage quick fix small enough to need no spec at
-  all — the isolated problem and its one obvious fix fit in a sentence, with nothing
-  genuinely competing for the choice — can go straight from `triage` to the fix
-  itself, with no design dialogue in between. Reach for that exception only when there
-  is truly nothing to weigh; a quick fix with two live options for how to do it isn't a
-  quick fix in this sense, and belongs here after all.
+- It is not always required. A triage quick fix with one obvious fix and nothing
+  genuinely competing for the choice can go straight from `triage` to the fix itself,
+  skipping this skill. But a quick fix with two live options for how to do it belongs
+  here after all.

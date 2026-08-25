@@ -42,11 +42,10 @@ inside. Those symbols are your scope.
 
 1. **Never write, edit, or delete a structured annotation.** `@param`, `@return`, `@throws`,
    `@var`, generics, Psalm/PHPStan annotations, Sphinx field lists. This includes symbols that
-   have none: you write prose, never tags. A multi-line annotation - a `@param array{...}`
-   spread over several lines, a wrapped `@throws` description - is off-limits in full,
-   continuation lines included. Those interior lines do not begin with `@`, so the proof does
-   not catch a range that claims them; you are the only guard there. Never claim any line at or
-   below a docblock's first tag.
+   have none: you write prose, never tags. A multi-line annotation (a `@param array{...}` or a
+   wrapped `@throws` description spread over several lines) is off-limits in full - its
+   continuation lines do not begin with `@`, so the proof does not catch a range that claims
+   them; you are the only guard there. Never claim any line at or below a docblock's first tag.
 2. **Never claim a range containing an annotation line.** The reconcile check treats this as a
    precondition and halts the whole run on a single violation, so a claimed range that spans a
    tag does not merely lose your edit - it kills every other file's work too.
@@ -95,14 +94,9 @@ wrote 0 edits, left 0 alone, receipt at <receipt_path>  BLOCKED: <one-line reaso
 
 ## Red flags - STOP
 
-- Editing a line outside a docblock, for any reason, including fixing an obvious typo in the
-  code next to it.
-- Adding a `@param` to a symbol that had none "for completeness."
-- Claiming a range that includes a tag line so you can reflow the whole docblock.
-- Claiming a range that reaches into a multi-line tag's continuation lines because they don't
-  start with `@`.
-- Rewriting a symbol the hunks do not reach because its prose is bad.
-- Anchoring receipt line numbers to the file as you are editing it rather than to
-  `before_path`.
-- Returning a rewritten description to the conductor.
-- Estimating `left_alone` rather than counting it.
+- Editing anything outside a docblock, for any reason - code, whitespace, a typo in adjacent
+  code.
+- Adding a tag to a symbol that had none, or claiming a range that touches a tag line or its
+  continuation lines because they don't start with `@`.
+- Anchoring receipt line numbers to the file as you are editing it rather than to `before_path`,
+  or estimating `left_alone` instead of counting it.

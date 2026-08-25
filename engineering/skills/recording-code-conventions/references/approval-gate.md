@@ -2,11 +2,8 @@
 
 The single rule the whole convention system is built on: **nothing is written to the
 standards tree without the approver saying yes to that exact convention, one at a time.**
-Every path that would create, amend, or retire a convention passes through this gate —
-`identifying-code-conventions` surfacing candidates, the `conventions-init` and
-`record-convention` commands, the PR-time harvest inside `code-review`, and the ADR-spawn
-seam in `domain-modeling` all funnel here before any file changes. The gate is defined once, in this file, so every caller means
-the same thing by "approved."
+Every path that would create, amend, or retire a convention passes through this gate before
+any file changes, so every caller means the same thing by "approved."
 
 The approver is a single human — the developer running the pipeline. There is no committee
 and no delegated reviewer role. "The tests pass" is not approval; "it looks like a
@@ -41,8 +38,7 @@ convention silently.**
 The concrete criterion for a contradiction is: **two conventions conflict when a single
 piece of code cannot satisfy both at once** — one requires what the other forbids, or the
 two prescribe different mandatory forms for the *same* situation (overlapping **When
-relevant** triggers with incompatible **Rule** statements). Retired conventions are never in
-conflict — they no longer bind — so the check is scoped to active rows only.
+relevant** triggers with incompatible **Rule** statements).
 
 Two rules that apply to different situations, or that stack without contradicting (one
 narrows a case the other leaves open), are **not** a conflict; do not flag those.

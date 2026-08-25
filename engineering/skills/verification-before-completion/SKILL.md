@@ -14,11 +14,7 @@ One thing: no claim that something is done, fixed, or passing leaves this skill'
 a verification command having actually been run against the code's current state, and without
 that command's output having actually been read — not predicted, not remembered from an earlier
 run, not inferred from the diff looking right. Where that evidence does not exist yet, this
-skill produces it before a success claim goes out, rather than either blocking the claim forever
-or letting it through unverified.
-
-Nothing else is guaranteed. Read `## What this does not do` below before assuming this skill
-decides more than that.
+skill produces it before a success claim goes out.
 
 ## Run the check before saying it passed
 
@@ -26,8 +22,8 @@ The failure mode this closes is specific and common: a change looks obviously co
 report says "done" or "tests pass" before the command that would establish that has been run at
 all this session. Fix an off-by-one and the surrounding code can look fine on inspection, but the
 only fact that actually proves it is the test suite exiting zero — a fact that does not exist
-until it has been asked for. Guessing well is still guessing. Something not run has no output,
-and no output is not evidence, however confident the guess behind it feels.
+until it has been asked for. Guessing well is still guessing: something not run has no output,
+and no output is not evidence.
 
 Work out what "the check" is from the task itself — a test suite, a linter, a type check, a
 build, a manual reproduction of the bug that motivated the fix — and run whatever combination
@@ -63,13 +59,9 @@ unnoticed.
   invented fresh each time this skill runs.
 - It does not **write or harden tests.** `engineering:conducting-test-hardening` asks whether the
   test suite itself would catch a regression if one were introduced — a question about the
-  tests' quality, asked once, typically near the end of a branch's life. This skill asks a
-  narrower and far more frequent question: given the checks that already exist, did the one just
-  run actually pass, on this code, just now. A branch can fail this skill's bar — nobody ran the
-  suite before claiming done — with excellent tests behind it, and can pass this skill's bar —
-  the suite ran and every line of its output was read — while the suite itself is thin and would
-  let a real regression through unnoticed. The two failures are independent; this skill stands in
-  front of only one of them.
+  tests' quality, asked once near the end of a branch's life; this skill asks the narrower, far
+  more frequent question of whether the check that already exists actually passed, on this code,
+  just now. The two failures are independent — a branch can pass one and fail the other.
 - It does not **fix a failing check.** A red run reported honestly is this skill doing its job;
   working out what caused the failure and repairing it is separate work this skill hands back
   rather than absorbing itself.

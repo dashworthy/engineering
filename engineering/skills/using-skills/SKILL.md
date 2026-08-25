@@ -16,33 +16,24 @@ request — and if one does, invokes it before any of those three things happen,
 question asked before the check, or a file read before the check, is this skill's job left
 undone, whatever gets typed or read next.
 
-Nothing else is guaranteed. Read `## What this does not do` below before assuming this skill
-picks the right skill on a caller's behalf, or does that skill's own work for it.
-
 ## Check before the first move, not after
 
-The temptation this closes is specific: the request looks small enough to just answer, or looks
-like it needs a quick look at the code first, with the skill question deferred until it turns
-out to matter. By the time "later" arrives, the clarifying question has already been asked
-unskilled and the file has already been opened unskilled — whatever skill would have shaped
-that first move now arrives too late to shape it, and can only critique a start it never got to
-make. The check belongs before the first tool call and before the first sentence back to the
-user, not folded in once something else has already happened.
+The check belongs before the first tool call and before the first sentence back to the user —
+not deferred until the request "turns out" to need it. By the time "later" arrives, the
+clarifying question has already been asked unskilled and the file has already been opened
+unskilled, and whatever skill would have shaped that first move now arrives too late.
 
-This holds for clarifying questions exactly as much as it holds for action. "I should ask what
-they mean before worrying about which skill applies" sounds like caution, but it is the same
-gap wearing different clothes: a skill for this territory, if one exists, is where the
-questions worth asking get decided — which ones, in what order, and why. Asking first and
-checking second means the questions got invented on the spot instead of found where they
-already lived.
+This holds for clarifying questions exactly as much as it holds for action. A skill for this
+territory, if one exists, is where the questions worth asking get decided — which ones, in what
+order, and why. Asking first and checking second means the questions got invented on the spot
+instead of found where they already lived.
 
 ## Finding the skill that owns the request
 
 Read the request for what kind of work it actually is, not for the words it happens to use, and
 match that against what each candidate skill's own description says it owns — not against a
-guess about what a skill with that name probably does. A skill's description states its scope
-in the same breath as its trigger; a skill whose description doesn't cover the request in front
-of you is not the skill for it, however close its name sounds to the task.
+guess about what a skill with that name probably does. A skill whose description doesn't cover
+the request in front of you is not the skill for it, however close its name sounds to the task.
 
 Nothing in this plugin's territory is a fallback default. If no skill's stated scope covers the
 request, that absence is itself the finding — proceed on the request directly, from the
@@ -66,31 +57,18 @@ instances of the pattern: process first, implementation second, never the revers
 
 ## Red flags
 
-These are the exact shapes the temptation above tends to wear. Treat any of them showing up in
-your own reasoning as the signal to stop and check, not as a legitimate reason to skip the
-check:
+Treat any of these showing up in your own reasoning as the signal to stop and check, not a
+reason to skip the check:
 
-- **"This one's obviously too small to need a skill."** Smallness is not evidence that no skill
-  owns it — it's evidence the answer will be quick once the right skill, if any, is found.
+- **"This one's too small to need a skill"** / **"This will only take a second."** Smallness and
+  duration have nothing to do with whether a skill owns the work; a one-line change inside a
+  skill's stated scope is still that skill's to run.
 - **"Let me explore first, then work out the skill question."** Exploration is action. If a
   skill owns how this codebase should be explored for this kind of request, opening files before
   checking has already spent the move that skill existed to shape.
 - **"I'll just ask one clarifying question first."** A clarifying question is a choice about
-  what's worth asking, made with whatever framing happens to be on hand at the moment — exactly
-  the choice a relevant skill exists to make instead.
-- **"This will only take a second."** Duration has nothing to do with whether a skill owns the
-  work; a one-line change inside a skill's stated scope is still that skill's to run.
-- **"I already know how to do this."** Knowing how is a different question from whether this
-  plugin already owns a deliberate, specific way of doing it — the check is what finds that
-  out, not confidence about the general case.
-
-## Whose discipline this is
-
-This is dashworthy's own discipline for this plugin: it exists because this
-plugin's skills only do their job when they are actually reached, and nothing else in the
-plugin enforces that they are. It does not borrow its shape from anything else in this
-environment — every guarantee above is scoped to what this plugin's own skills own, checked
-against this plugin's own skill descriptions, not a general theory of skills as a concept.
+  what's worth asking, made with whatever framing happens to be on hand — exactly the choice a
+  relevant skill exists to make instead.
 
 ## What this does not do
 

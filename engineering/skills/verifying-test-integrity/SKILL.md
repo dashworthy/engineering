@@ -9,10 +9,8 @@ description: "[Test hardening] Use when dispatched by verity to review newly wri
 
 **Your question is not "does this test pass."** A passing test proves nothing on its own — a
 test asserting `true == true` passes. Your question is whether this test would **fail if the
-behavior it names were broken**. You have never seen the reasoning that produced these tests,
-and that is the point of dispatching you fresh: a writer who just spent an iteration convincing
-themselves a test is right is the worst-positioned reviewer of that test. You have no such
-investment. Use it.
+behavior it names were broken**. You are dispatched fresh, with no investment in the reasoning
+that produced these tests — use that independence.
 
 ## What you receive and return
 
@@ -58,14 +56,12 @@ Both checks are mandatory for every test you're asked to verify, not just the on
 suspicious. A test that looks fine and has never been run in isolation has not been checked for
 order dependence — it has been assumed clean.
 
-**When `suite_commands.test_filter` is unavailable** — stack detection may not have found a way
-to run a single test in isolation, or the project may have no such mechanism at all — do not
-invent a workaround and do not quietly skip the check. Run `suite_commands.test` (the full suite)
-instead and confirm the test's name appears in its output; that still settles never-ran, but it
+**When `suite_commands.test_filter` is unavailable** (no way to run a single test in isolation),
+do not invent a workaround and do not skip the check. Run `suite_commands.test` (the full suite)
+instead and confirm the test's name appears in its output — that still settles never-ran, but it
 **cannot** settle order dependence, because the test never ran alone. Record the isolation check
-as **not performed**, with this reason, in the verdict's evidence. A `valid` verdict reached
-without an isolation check must say so explicitly — silence there reads as a check that happened,
-and it didn't.
+as **not performed**, with this reason, in the verdict's evidence: a `valid` verdict reached
+without an isolation check must say so explicitly, since silence reads as a check that happened.
 
 ## False green needs a method
 
@@ -142,13 +138,10 @@ Return exactly this shape to the conductor:
 }
 ```
 
-`defect` and `line` are required together on every `weak` or `invalid` verdict — the conductor
-writes them back onto the brief item as `prior_defect` and `prior_defect_location`, and
-`verdict` itself becomes `prior_verdict`. `unevaluated` carries no `defect` or `line`; its
-`evidence` is required and must state the concrete blocker, not just that judgment was hard.
-The conductor treats `unevaluated` as unsatisfied and carries the item forward as `open` rather
-than `rework` — it is not known-defective, only unjudged. A verdict missing what its own kind
-requires leaves the next writer or the next audit with nothing to act on.
+`defect` and `line` are required together on every `weak` or `invalid` verdict; the conductor
+writes them back onto the brief item as `prior_defect` and `prior_defect_location`, with
+`verdict` becoming `prior_verdict`. The conductor carries an `unevaluated` item forward as
+`open` rather than `rework` — it is unjudged, not known-defective.
 
 ## Red flags — STOP
 

@@ -10,15 +10,12 @@ pull request.`
 
 ## What this guarantees
 
-One thing: given a task whose work is already committed, this skill puts that task on its own
-branch stacked on the task before it, opens or updates **one pull request per task** based on
-the correct parent branch, keeps the stack current when a lower pull request changes, and —
-when the stack is ready — lands it in order. It reaches that end state through `gt` when the
-repository already uses Graphite and through plain `git` + `gh` when it doesn't; the guarantee
-is the stacked PR sitting on the correct base, not which tool put it there.
-
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill decides
-which tasks exist, whether a plan is stacked at all, or when the work is good enough to land.
+One thing: given a task whose work is already committed, this skill produces **one pull
+request per task**, each based on the correct parent branch, keeps the stack current when a
+lower pull request changes, and lands the stack in order when it's ready. It reaches that end
+state through `gt` when the repository already uses Graphite and through plain `git` + `gh`
+when it doesn't; the guarantee is the stacked PR sitting on the correct base, not which tool
+put it there.
 
 ## When this runs
 
@@ -30,15 +27,13 @@ never reaches here; do not stack a plan that didn't ask to be stacked.
 
 ## Detect the tool
 
-Prefer Graphite when the repository is already set up for it: `gt` is on `PATH` **and** the
-repo is gt-initialized (its `gt` commands resolve against this repo rather than erroring that
-it isn't tracked). Where both hold, use `gt` — its stacks and its restacking are what this skill
-would otherwise reconstruct by hand. Where either is missing, fall back to plain `git` + `gh`;
-`gh` is the baseline and is already assumed by `finishing-a-development-branch`. This is the
-same shape `using-git-worktrees` uses: reach for the better tool when it's actually present,
-fall back to raw git when it isn't, and never make the better tool a requirement. Do not
-install `gt` or initialize Graphite in a repo that hasn't chosen it — portability means this
-skill works in a bare repo with nothing but `git` and `gh`.
+Prefer Graphite when the repository is already set up for it: `gt` on `PATH` **and** the repo
+gt-initialized (its `gt` commands resolve against this repo rather than erroring that it isn't
+tracked). Where both hold, use `gt` — its stacks and restacking are what this skill would
+otherwise reconstruct by hand. Where either is missing, fall back to plain `git` + `gh` (the
+baseline, already assumed by `finishing-a-development-branch`). Same prefer-native-else-raw-git
+shape as `using-git-worktrees`. Do not install `gt` or initialize Graphite in a repo that
+hasn't chosen it — this skill works in a bare repo with nothing but `git` and `gh`.
 
 ## Branch and base model
 
@@ -76,9 +71,7 @@ move — every branch above it now sits on a stale parent and must **restack** o
 With `gt`, `gt restack` (or `gt sync` after a merge) rebases the children and fixes their PR
 bases automatically. With `git` + `gh`, rebase each child branch onto its updated parent in
 order from the bottom up, force-push each with `--force-with-lease`, and, where a parent branch
-was deleted by a merge, retarget the child's PR base with `gh pr edit --base <new-base>`. A
-stack left un-restacked after a lower PR moves is a stack whose upper PRs show a diff against a
-branch that no longer means what they think it does.
+was deleted by a merge, retarget the child's PR base with `gh pr edit --base <new-base>`.
 
 ## Land the stack
 
@@ -88,15 +81,14 @@ once and defeat the point of stacking. With `gt`, `gt merge` walks the stack in 
 restacks between merges. With `git` + `gh`, merge the bottom PR (`gh pr merge`), restack the
 remainder onto the new trunk, and repeat. This is the path `finishing-a-development-branch`
 delegates to when it detects a stacked run and offers **Land the stack** in place of opening a
-single pull request; when it hands off here, walk the stack bottom-up until every task's PR has
-landed.
+single pull request.
 
 ## What this does not do
 
 - It does not **write the plan** or decide which tasks exist. The tasks, their order, and their
   branches were set by `writing-plans`; this skill stacks what the plan already laid out.
-- It does not **decide whether a plan is stacked.** That is the `PR strategy: stacked` line in
-  the plan's Global Constraints; a plan without it is never stacked by this skill.
+- It does not **decide whether a plan is stacked.** That's the `PR strategy: stacked` line —
+  see "When this runs"; a plan without it is never stacked here.
 - It does not **run tdd, code review, or test hardening.** Each task's build, review gate, and
   the closing hardening pass belong to their own skills; this skill runs only after a task's
   work is committed.

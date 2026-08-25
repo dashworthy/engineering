@@ -14,10 +14,6 @@ medium the destination can actually display — a mermaid fenced block where the
 renders markdown, an ASCII drawing everywhere else — and every entity, edge, and step in it
 traces to something already known, not something the diagram invented to look complete.
 
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
-decides what to build, writes the document the diagram lands in, or draws a picture the
-prose beside it didn't already earn.
-
 ## When a diagram earns its place
 
 A diagram is drawn only when the thing has a **shape that prose describes badly**. The test
@@ -32,9 +28,9 @@ Draw for:
 - a fan-out or fan-in
 - a boundary between inside and outside, or a hierarchy
 
-Never draw for a single linear call, a restatement of the sentence above it, or box art
-around a label. A diagram that only repeats the prose beside it is decoration, and
-decoration is noise a reader has to read past to reach the thing that matters.
+Never draw for a single linear call, a restatement of the sentence above it, or box art around
+a label. A diagram that only repeats the prose beside it is decoration, and decoration is noise
+a reader has to read past to reach the thing that matters.
 
 ## The medium fork
 
@@ -53,9 +49,9 @@ pick the medium by one predicate — **does the destination render a fenced merm
   literal unrendered text: use **ASCII**. A mermaid block that never renders is worse than
   a plain drawing, because the reader sees the source instead of the shape.
 
-The predicate is "will this surface render mermaid," not "does the filename end in `.md`."
-A markdown file pasted into a plain-text field renders nothing; a rendered-markdown field
-that isn't a file renders fine. Judge the surface, not the extension.
+The predicate is "will this surface render mermaid," not "does the filename end in `.md`": a
+markdown file pasted into a plain-text field renders nothing, and a rendered-markdown field that
+isn't a file renders fine.
 
 For an ASCII diagram inside a docblock or comment, follow the width budget in
 `clarifying-docblocks`' `references/diagram-rules.md` — 72 columns including the comment
@@ -71,20 +67,17 @@ explore rather than scan. When Claude is in the loop and the destination can tak
 (artifacts draw mermaid natively) at a size the reader can navigate, handed over as a link
 rather than pasted into a doc.
 
-This is an escalation, not the default. Most diagrams belong inline in the spec, ADR, or
-plan, where they sit beside the prose that needs them and travel with the document in git.
-Reach for an artifact only when a static block genuinely can't hold the shape — and when you
-do, still leave a small inline diagram or a one-line pointer in the document itself, so a
-reader who only has the markdown isn't left with a dead end.
+This is an escalation, not the default: most diagrams belong inline in the spec, ADR, or plan,
+where they sit beside the prose that needs them and travel with the document in git. Reach for
+an artifact only when a static block genuinely can't hold the shape — and even then, still leave
+a small inline diagram or a one-line pointer in the document itself, so a reader who only has
+the markdown isn't left with a dead end.
 
 ## The two shapes this skill anchors on
 
-**ER diagrams** — a data model: the entities and how they relate, with cardinality. Reach
-for one when a spec or design turns on the shape of the data and a paragraph of "an order
-has many line items, each tied to one product" reads worse than the picture.
-
+**ER diagrams** — a data model: the entities and how they relate, with cardinality.
 **Process-flow diagrams** — the steps of an approach and where it branches: the order, the
-decisions, the reject paths. Reach for one when the approach has forks a linear list flattens.
+decisions, the reject paths.
 
 `DIAGRAM-FORMAT.md`, in this same directory, carries the concrete templates for both shapes
 in both mediums — copy from there rather than reinventing the syntax. Sequence diagrams and
