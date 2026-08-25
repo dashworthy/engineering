@@ -46,8 +46,3 @@ record which rationalizations survive.
 This is the evaluation-first loop from the **writing-skills** skill, carried out concretely.
 Writing tells you the skill reads correctly; testing tells you it works. Ship on the second,
 not the first.
-
-## Provenance
-
-Adapted from the superpowers CLAUDE.md skill-testing material (2026-08); this plugin's own
-prose.
