@@ -41,6 +41,28 @@ Number ADRs sequentially, continuing from the highest number already under `docs
 Follow `ADR-FORMAT.md`, in this same directory, for the record's shape and its filename
 convention.
 
+## Spawning a convention from an ADR (one-directional)
+
+Some decisions recorded as an ADR are also **standing rules** — not just "we chose X this
+once," but "X is how this is done from here on." When that is true, the ADR can **spawn a
+candidate convention**. This is a **manual, opt-in hand-off, never automatic**: not every ADR
+becomes a convention, and the spawn happens only when the developer judges the decision is a
+repeatable rule worth codifying and chooses to raise it. Firing on every ADR would flood the
+approval gate with candidates nobody asked for — the opposite of the individual-approval
+discipline the convention system is built on.
+
+To spawn one, hand the decision to `recording-code-conventions` as a candidate. It enters the
+same hardening interrogation and the same individual approval gate as any other candidate, and
+nothing is written to the standards tree without the approver's yes. The spawning ADR is
+recorded in the resulting convention's **Source** provenance (`docs/adr/NNNN-…`), so a later
+reader can trace the rule back to the decision that produced it.
+
+The relationship is **one-directional**: an ADR may spawn a convention, but an ADR never
+depends on a convention. ADRs stay fully independent — this skill writes and maintains them
+exactly as before, whether or not any convention was ever spawned from one. A convention
+spawned from an ADR is a separate artifact with its own lifecycle; amending or retiring it
+never reaches back and touches the ADR.
+
 ## Boundary vs signal
 
 `signal` explores what to build — it interrogates a request until the requirements and

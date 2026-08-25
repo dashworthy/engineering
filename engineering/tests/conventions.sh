@@ -145,4 +145,19 @@ else
   grep -qF "using-code-conventions" "$cr" || { echo "FAIL: code-review violation-flagging must read via using-code-conventions"; fail=1; }
 fi
 
+# --- Task 8: ADR -> convention spawn seam in domain-modeling (additive, one-directional) ---
+dm="$skills/domain-modeling/SKILL.md"
+if [ ! -f "$dm" ]; then
+  echo "FAIL: domain-modeling/SKILL.md missing"; fail=1
+else
+  grep -qxF "## Spawning a convention from an ADR (one-directional)" "$dm" || { echo "FAIL: domain-modeling must add the ADR->convention spawn section"; fail=1; }
+  grep -qF "recording-code-conventions" "$dm" || { echo "FAIL: the spawn must enter the gate via recording-code-conventions"; fail=1; }
+  # Anchored to the body's bold label (not the heading, which the section-existence check
+  # above already pins), so the one-directional guarantee prose itself must survive.
+  grep -qF "**one-directional**" "$dm" || { echo "FAIL: the seam body must state the relationship is one-directional"; fail=1; }
+  grep -qiF "provenance" "$dm" || { echo "FAIL: the spawning ADR must be recorded in the convention's provenance"; fail=1; }
+  # The §8 resolution: the trigger is manual, never automatic — anchored to its bold label.
+  grep -qF "**manual, opt-in hand-off, never automatic**" "$dm" || { echo "FAIL: the spawn trigger must be stated as manual/opt-in, never automatic (§8)"; fail=1; }
+fi
+
 [ "$fail" = 0 ] && echo "CONVENTIONS CHECKS PASS" || { echo "CONVENTIONS FAILED"; exit 1; }
