@@ -21,10 +21,11 @@ One plugin, one install: `engineering` carries everything.
 Work enters through one of two doors and leaves through one. A feature or a vague
 request enters at **discover** (`/signal`); a reported defect enters at **triage**
 (`/triage`). Both doors open onto the same **design dialogue** (`brainstorming`), which
-holds a hard approval gate, then hand off to **`to-spec`**, the single writer that turns
-an approved design into one spec document. From that spec, a fixed backbone runs the
-work to done: **plan** it, **build** it test-first, **harden** the tests, and
-**document** the prose the branch touched.
+recommends a design, then hands off to **`to-spec`**, the single writer that turns that
+design into one spec document and holds the pipeline's first approval gate — on the spec.
+From that spec, a fixed backbone runs the work to done: **plan** it, behind the second
+gate; **build** it test-first; **harden** the tests; and **document** the prose the
+branch touched.
 
 ```mermaid
 flowchart TD
@@ -50,13 +51,13 @@ phase already settled. The sections below walk each phase in turn.
 
 ### 1. Discover — `signal`
 
-A vague ask becomes a brief, then an approved design, then a spec. Interrogation probes
-the request one question at a time, offering a conventional baseline and mining the
-correction, until every coverage dimension is filled. A scope-expansion beat then
-surfaces adjacent value. Sequencing orders the work by dependency; the finished brief
-then passes through the `brainstorming` design gate — signal's terminal hand-off — and
-only once the design is approved does `to-spec` render the spec. A genuinely trivial
-request exits before any brief is written.
+A vague ask becomes a brief, then a recommended design, then an approved spec.
+Interrogation probes the request one question at a time, offering a conventional baseline
+and mining the correction, until every coverage dimension is filled. A scope-expansion
+beat then surfaces adjacent value. Sequencing orders the work by dependency; the finished
+brief then passes to `brainstorming` — signal's terminal hand-off — which recommends a
+design and hands it to `to-spec`, where the spec gate takes the human's approval. A
+genuinely trivial request exits before any brief is written.
 
 ```mermaid
 flowchart LR
@@ -66,9 +67,9 @@ flowchart LR
     S(["/signal"]):::entry --> S1["interrogate<br/>requirements"]
     S1 -. "trivial" .-> X(["exit — no brief"])
     S1 -->|"gate: 3+ rounds,<br/>6 dimensions"| S2["sequence<br/>(dependency order)"]
-    S2 --> BR["brainstorming<br/>design gate"]
-    BR --> SP["to-spec"]
-    SP --> STOP(["brief → design → spec"]):::done
+    S2 --> BR["brainstorming<br/>recommend design"]
+    BR --> SP["to-spec<br/>spec gate"]
+    SP --> STOP(["brief → design → approved spec"]):::done
 ```
 
 ### 2. Triage — `triage`
@@ -94,9 +95,9 @@ flowchart TD
 ### 3. Design dialogue — `brainstorming`
 
 Both entrances meet here. The design phase explores the context, proposes two or three
-approaches with their trade-offs, and presents the chosen design section by section. A
-hard approval gate holds the line: the design loops until the human explicitly says yes,
-and only then does `to-spec` write the one spec.
+approaches with their trade-offs, and recommends one with its reasoning. It holds no
+approval gate of its own: brainstorming hands the recommended design to `to-spec`, where
+the spec gate takes the human's approval — the first of the pipeline's two gates.
 
 ```mermaid
 flowchart LR
@@ -104,11 +105,11 @@ flowchart LR
 
     IN(["brief / isolated defect"]) --> A["explore<br/>context"]
     A --> B["propose 2-3<br/>approaches"]
-    B --> C["present section<br/>by section"]
-    C --> G{"approved?"}
+    B --> C["recommend one,<br/>with reasoning"]
+    C --> SP["to-spec<br/>spec gate"]
+    SP --> G{"approved?"}
     G -->|"no"| B
-    G -->|"yes"| SP["to-spec"]
-    SP --> OUT(["one spec"]):::done
+    G -->|"yes"| OUT(["one approved spec"]):::done
 ```
 
 ### 4. Build backbone — `plan → build → harden → document`

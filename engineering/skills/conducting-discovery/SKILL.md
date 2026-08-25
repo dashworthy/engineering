@@ -1,6 +1,6 @@
 ---
 name: conducting-discovery
-description: "[Discovery] The signal discovery conductor — interrogate requirements (with a scope-expansion beat), then sequence them into a dependency-ordered brief, then hand the brief to the design gate (engineering:brainstorming). Use ONLY when the `/signal` command is run, or on a direct request to \"run signal\" / \"use the signal pipeline\" on a request. It does NOT auto-intercept general feature requests. It produces a brief, then hands it to the design gate and stops; it never designs, plans, or builds."
+description: "[Discovery] The signal discovery conductor — interrogate requirements (with a scope-expansion beat), then sequence them into a dependency-ordered brief, then hand the brief to the shared design dialogue (engineering:brainstorming). Use ONLY when the `/signal` command is run, or on a direct request to \"run signal\" / \"use the signal pipeline\" on a request. It does NOT auto-intercept general feature requests. It produces a brief, then hands it to brainstorming and stops; it never designs, plans, or builds."
 ---
 
 # Conducting Discovery
@@ -11,7 +11,7 @@ The conductor for signal's two-stage discovery pipeline: **interrogate → seque
 
 It is **invoked explicitly** — by the `/signal` command, or by a direct request to "run signal" / "use the signal pipeline" on a request. It does **not** auto-intercept general "build X" requests; those go to `engineering:brainstorming` as usual.
 
-Signal produces one artifact — `brief.md` — and stops at it: no review stage, no design stage, no plan stage, no build loop of its own. The one thing that happens after is a hand-off, not a stage of signal's own: once the brief is complete, the conductor hands its path to `engineering:brainstorming`, the design gate that both entrances share. Brainstorming — not the conductor — weighs the approach, holds its hard approval gate, and only once a human has approved the design does it call `engineering:to-spec` to render the committed Tier-1 spec. Walking a finished brief to the next skill is not designing, planning, or building — the conductor does none of those — so this hand-off does not reopen any of the three doors signal keeps closed; it delivers the brief to the door where the design decision gets made.
+Signal produces one artifact — `brief.md` — and stops at it: no review stage, no design stage, no plan stage, no build loop of its own. The one thing that happens after is a hand-off, not a stage of signal's own: once the brief is complete, the conductor hands its path to `engineering:brainstorming`, the design dialogue that both entrances share. Brainstorming — not the conductor — weighs the approaches and recommends one; it holds no approval gate of its own, and once its design is settled it calls `engineering:to-spec` to render the Tier-1 spec as a draft and hold the spec-approval gate, where the human approves it downstream. Walking a finished brief to the next skill is not designing, planning, or building — the conductor does none of those — so this hand-off does not reopen any of the three doors signal keeps closed; it delivers the brief to where the design gets shaped.
 
 **One artifact means one file, written by two hands.** Stage 1 writes `brief.md` §1–§6 in your thread; stage 2 appends §7 and §8 from a subagent. There is no intermediate requirements document, and no stage restates another stage's sections.
 
@@ -23,7 +23,7 @@ Three non-negotiables:
 
 1. **Never read an artifact produced by a dispatched subagent.** Not `brief.md` §7, not §8. You route paths and act on RETURN blocks. Files **written in the main thread are yours to read** — `00-request.md`, and `open-threads.md`, which stage 1 writes in your own session. That is not an exception carved into this rule; it is what the rule has always said. The prohibition is on artifacts a *dispatched subagent* authored. `brief.md` is the one exception that predicate doesn't reach: even though you wrote §1–§6 in the main thread, the file — not the section — is the unit, and stage 2's §7–§8 live inside that same file, so the whole of it stays closed to you. Your context stays small and decision-grade — that is the entire point of the architecture, and it is worth more than your curiosity about any single file.
 2. **Stage 1 is yours.** It is interactive, so it runs in the main thread and you write `brief.md` §1–§6 yourself. **This is the one exception, and it is not a licence to read the rest.** Writing sections from a conversation you were part of is not the same act as reading a file a subagent authored — and §7 and §8, which stage 2 appends to that same file, remain closed to you. Handing content *down* to a subagent — as you do when you dispatch `expanding-scope` with the requirements inline — is likewise not a violation: the rule governs what you read *back*.
-3. **Signal stops at the brief.** No design, no plan, no build, no "and here's how I'd implement it". Its terminal act is handing the brief to the design gate — that hand-off *is* the stop, not a step past it. The conductor delivers; `engineering:brainstorming` designs.
+3. **Signal stops at the brief.** No design, no plan, no build, no "and here's how I'd implement it". Its terminal act is handing the brief to `engineering:brainstorming` — that hand-off *is* the stop, not a step past it. The conductor delivers; brainstorming designs.
 
 ### On rationalizing a read
 
@@ -75,7 +75,7 @@ Run artifacts live at `.engineering/<run>/signal/` in the **user's** project —
 | No `brief.md`, and `00-request.md` records a trivial exit | The request was already judged trivial and no brief was written. Say so, quote the recorded reason, and ask whether they want it interrogated properly this time — do not silently re-run the same judgement. |
 | No `brief.md`, no `open-threads.md` | Stage 1, from the top. Nothing was learned before the run was abandoned, so the questions start again. |
 | No `brief.md`, but `open-threads.md` exists | Stage 1, **warm**. The advancement gate was never met, but the work survived. Hand stage 1 the run directory as usual; its `## Returning Sessions` rules take over — it opens by offering the threads, honors the coverage table, and does not re-ask a dimension already recorded as `filled`. |
-| `brief.md` exists | **Ask** the user: re-run **stage 2** against it, or start over at **stage 1**? Starting over at stage 1 rewrites the file from line 1 and discards any §7–§8 a previous run left, because that body was ordered from requirements about to be replaced. Starting over is still warm: `open-threads.md` survives a stage 1 restart, so the coverage table and the open threads carry across rather than being re-earned. Stage 2 then appends a fresh one. A third answer is possible: if the user says the brief is already complete (§7–§8 present), the resume path is simply the release hand-off — hand it to `engineering:brainstorming`, the design gate, without re-running either stage. Ask which they mean; do not open the file to tell. |
+| `brief.md` exists | **Ask** the user: re-run **stage 2** against it, or start over at **stage 1**? Starting over at stage 1 rewrites the file from line 1 and discards any §7–§8 a previous run left, because that body was ordered from requirements about to be replaced. Starting over is still warm: `open-threads.md` survives a stage 1 restart, so the coverage table and the open threads carry across rather than being re-earned. Stage 2 then appends a fresh one. A third answer is possible: if the user says the brief is already complete (§7–§8 present), the resume path is simply the release hand-off — hand it to `engineering:brainstorming`, the design dialogue, without re-running either stage. Ask which they mean; do not open the file to tell. |
 
 Read `00-request.md` freely — you wrote it. The prohibition is on artifacts a subagent authored.
 
@@ -115,7 +115,7 @@ digraph signal {
     "Stage 2 · SEQUENCE (dispatched) — append §7–§8" [shape=box];
     "Halt and escalate — no brief released" [shape=doublecircle];
     "Hand off to engineering:brainstorming (brief.md path)" [shape=box];
-    "Release brief.md — hand to design gate, signal stops" [shape=doublecircle];
+    "Release brief.md — hand to brainstorming, signal stops" [shape=doublecircle];
 
     "Obtain .engineering/<run>/signal/ via run-context.sh" -> "signal/ dir already has artifacts?";
     "signal/ dir already has artifacts?" -> "Write 00-request.md" [label="no — fresh"];
@@ -134,7 +134,7 @@ digraph signal {
     "User adjudicates every candidate" -> "Rewrite brief.md §1–§6 — dispositions, or why there were none" [label="every candidate IN-SCOPE, NON-GOAL or DEFER"];
     "Rewrite brief.md §1–§6 — dispositions, or why there were none" -> "Stage 2 · SEQUENCE (dispatched) — append §7–§8";
     "Stage 2 · SEQUENCE (dispatched) — append §7–§8" -> "Hand off to engineering:brainstorming (brief.md path)" [label="OK"];
-    "Hand off to engineering:brainstorming (brief.md path)" -> "Release brief.md — hand to design gate, signal stops" [label="OK"];
+    "Hand off to engineering:brainstorming (brief.md path)" -> "Release brief.md — hand to brainstorming, signal stops" [label="OK"];
     "Stage 2 · SEQUENCE (dispatched) — append §7–§8" -> "Halt and escalate — no brief released" [label="BLOCKED"];
     "Stage 2 · SEQUENCE (dispatched) — append §7–§8" -> "Halt and escalate — no brief released" [label="malformed RETURN twice"];
 }
@@ -188,10 +188,10 @@ A `BLOCKED` from stage 2 is usually stage 2 telling you something is wrong with 
 After stage 2 returns `OK` and the line count matches, release:
 
 1. **Confirm the file is actually there** — `test -f <path>`, or an equivalent existence check. Nothing else. A subagent can return `OK` having written nothing, and reporting a path to a file that does not exist is the one failure the user cannot recover from without starting over. **Checking existence is not reading content**: the Iron Rule governs what you read out of the file, not whether you confirm it exists. If it is missing, halt and escalate — do not release a phantom path.
-2. **Hand off to `engineering:brainstorming` with the path to `brief.md`.** Signal does not write a spec itself and does not design — the brief goes to the design gate, where the approach is decided before anything is written. Brainstorming is interactive, so it runs in the **main thread**: this is a hand-off of control to the next skill, not a dispatched subagent you read a RETURN block back from. You do not read `brief.md` to make this hand-off and you do not read it afterward either; you pass the path, exactly as you handed `brief.md`'s path to stage 2. Brainstorming holds its hard approval gate and, once a human has approved the design, calls `engineering:to-spec` — the plugin's sole writer of Tier-1 specs — which writes under `docs/dashworthy/engineering/specs/`. The spec is written there, downstream of the gate, not here.
-3. Report the `brief.md` path — the Tier-2 record, under `.engineering/<run>/signal/` — and say it is going to the design gate. There is no spec path to report yet: `to-spec` runs after brainstorming's approval, not at signal's release. Path, not contents.
+2. **Hand off to `engineering:brainstorming` with the path to `brief.md`.** Signal does not write a spec itself and does not design — the brief goes to the design dialogue, where the approach is shaped before anything is written. Brainstorming is interactive, so it runs in the **main thread**: this is a hand-off of control to the next skill, not a dispatched subagent you read a RETURN block back from. You do not read `brief.md` to make this hand-off and you do not read it afterward either; you pass the path, exactly as you handed `brief.md`'s path to stage 2. Brainstorming recommends a design and calls `engineering:to-spec` — the plugin's sole writer of Tier-1 specs — which writes under `docs/dashworthy/engineering/specs/` as a draft and holds the spec-approval gate. The spec is approved there, downstream, not here, and not in brainstorming.
+3. Report the `brief.md` path — the Tier-2 record, under `.engineering/<run>/signal/` — and say it is going to brainstorming. There is no spec path to report yet: `to-spec` runs after brainstorming, and the spec is approved there, not at signal's release. Path, not contents.
 4. If `open-threads.md` has any unchecked thread, report its path too, with the count — "4 threads still open". You may read it to get that count; stage 1 wrote it in your own session. Do not summarise what the threads say; the count and the path are the handover.
-5. State plainly that signal's job is done: the brief is the input to the design gate, `engineering:brainstorming`, which owns what happens next — ordinarily the approved design, then `to-spec`, then `writing-plans`. Make no claim about the approach yourself.
+5. State plainly that signal's job is done: the brief is the input to the design dialogue, `engineering:brainstorming`, which owns what happens next — ordinarily a recommended design, then `to-spec` and its spec gate, then `writing-plans` and its plan gate. Make no claim about the approach yourself.
 6. Stop.
 
 **Do not read the brief and do not summarise it.** You have never seen §7 or §8 and you do not open them now to describe what you are handing over. The path is the handover. Handing the brief to `brainstorming` with that path is not an exception — you hand it over unread, the same way you hand it to stage 2.
@@ -212,7 +212,7 @@ If the pipeline ran **inline** because subagent dispatch was unavailable, say so
 | No baseline count exists (resumed run, stage 1 did not run) | The check is unavailable, not passed. Release only after saying so explicitly. |
 | Subagent returns a malformed RETURN block | Re-dispatch once with the contract restated. On a second failure: halt for stage 2, degrade for `expanding-scope`. |
 | `brief.md` missing at release despite `status: OK` | Halt and escalate. Never report a path to a file that is not there. |
-| The brief is ready but `engineering:brainstorming` cannot start (design gate unavailable) | Report the `brief.md` path and say the design gate did not open. The brief is safe on disk; the user can bring it to `brainstorming` in a fresh turn. Do not design, and do not write a spec yourself. |
+| The brief is ready but `engineering:brainstorming` cannot start (design dialogue unavailable) | Report the `brief.md` path and say brainstorming did not open. The brief is safe on disk; the user can bring it to `brainstorming` in a fresh turn. Do not design, and do not write a spec yourself. |
 | User abandons mid-run | Artifacts remain on disk. **Stage 1 writes `brief.md` §1–§6 as soon as the advancement gate is met**, so an interrogation that got that far survives — what is on disk is a real brief whose §5 says scope is unsettled. Abandoned before the gate, `open-threads.md` survives with whatever coverage and threads stage 1 had banked, so the next run resumes warm rather than cold. Only a run abandoned before the first answer leaves nothing but `00-request.md`. Say which of the three happened rather than letting the user guess. |
 | No web/subagent capability | Signal requires subagent dispatch. If unavailable, run each stage inline in the main thread and say so — degraded context purity. |
 
@@ -243,9 +243,9 @@ If the pipeline ran **inline** because subagent dispatch was unavailable, say so
 - Treating `open-threads.md` as off-limits. Stage 1 wrote it in your session; it is a main-thread file like `00-request.md`, and refusing to read it breaks warm resume for no gain.
 - Reading `open-threads.md` and then summarising the threads to the user at release. Report the path and the count.
 - Telling the user a pre-gate run was lost when `open-threads.md` is on disk. It was not.
-- Writing or rendering the spec yourself. That is `to-spec`'s job, downstream of `brainstorming`'s gate — signal does not write a spec at all.
-- Releasing without handing the brief to `engineering:brainstorming`, or reporting a spec path at signal's release. There is no spec yet: `to-spec` runs after the design gate, not here.
-- Reading `brief.md` to check the hand-off, or to decide whether it is "ready" for the gate. The hand-off is the same unread pass as stage 2's.
+- Writing or rendering the spec yourself. That is `to-spec`'s job, downstream of `brainstorming` — signal does not write a spec at all.
+- Releasing without handing the brief to `engineering:brainstorming`, or reporting a spec path at signal's release. There is no spec yet: `to-spec` runs after brainstorming, not here.
+- Reading `brief.md` to check the hand-off, or to decide whether it is "ready" to hand off. The hand-off is the same unread pass as stage 2's.
 
 Every one of these means: stop, and route the path instead.
 
@@ -255,9 +255,9 @@ Every one of these means: stop, and route the path instead.
 |---|---|
 | Reading the brief to answer a user question about it | Report the path. If they want it discussed, they can open it or start a new conversation with it. |
 | Making stage 1 a subagent | It is interactive — keep it in the main thread. |
-| Continuing into implementation after release | Signal ends at the brief and hands it to the design gate. Do not design or build. |
+| Continuing into implementation after release | Signal ends at the brief and hands it to brainstorming. Do not design or build. |
 | Waiting for a file from `expanding-scope` | It writes none. Its `actionable` is the whole output; the dispositions go straight into `brief.md` §5. |
 | Adjudicating expansion candidates yourself | The user adjudicates. You relay one checklist and record the answers. |
 | Opening `brief.md` on a resumed run to see how far it got | Ask the user which stage to pick up at. One question, no state, no read. |
-| Trying to write or render the spec at signal | Hand the brief to `engineering:brainstorming`. The spec is written later, by `to-spec`, after the design gate. |
+| Trying to write or render the spec at signal | Hand the brief to `engineering:brainstorming`. The spec is written later, by `to-spec`, after brainstorming. |
 | Tidying stage 2's §7 so the brief reads in one voice | Two writers, two voices. That is the design. |
