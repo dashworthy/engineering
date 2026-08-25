@@ -89,6 +89,38 @@ Neither file is required, and their absence is not a degraded review. Most chang
 reviewed with no `CONTEXT.md` in sight and no ADR on point — that's the ordinary case, and
 this skill proceeds on the diff and the matched spec alone when that's all there is.
 
+## Convention detection in the diff (additive)
+
+This step is **additive** — it runs alongside the two-axis review above and changes nothing
+about it. On every review, and **scoped to the PR diff only** (never the whole repository — a
+whole-repo convention audit is a deliberate non-goal), it brings the project's recorded code
+conventions to bear on the change, two ways:
+
+- **Harvest new idioms.** When the diff introduces the *same* new structural choice in more
+  than one independent place — across files or modules, not one file's repeated hunks, and
+  not already recorded as a convention — surface it as a **candidate convention** and route
+  it through the standard path: hand it to `recording-code-conventions`, which runs the
+  hardening interrogation and the individual approval gate before anything is written.
+  Nothing is codified from a diff without the approver's yes, exactly as on every other path.
+  The **harvest heuristic**: harvest a new idiom only when it repeats within the diff across
+  independent sites (a single occurrence — or one file's repeated hunks — is not yet a
+  pattern), it is not already recorded, and it is the kind of choice a later change could
+  plausibly get wrong. A one-off, or a pattern the language or framework forces, is not
+  harvested.
+
+- **Flag violations.** Read the standards index — active rows only, using the When-relevant
+  matching `using-code-conventions` owns — and flag where the diff **violates an
+  already-recorded convention**: code that falls under a convention's When-relevant trigger
+  but does not follow its rule. A violation is reported on the Standards axis, cited to the
+  convention file, so the caller sees exactly which recorded rule the change breaks.
+
+Both halves act only on what the diff touches. Neither writes the standards tree — only
+`recording-code-conventions` does that, through the gate — and neither replaces the two-axis
+review; they add a convention lens to it. The harvest's interactive handoff happens **after**
+the review reconciles: candidates are surfaced in the reconciled report and handed to
+`recording-code-conventions` then, not from inside a parallel sub-reviewer, which only returns
+findings.
+
 ## If another `code-review` is already installed
 
 The name `code-review` is not this skill's to reserve. A separately installed plugin can
