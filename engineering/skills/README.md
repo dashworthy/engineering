@@ -6,7 +6,7 @@ opens with the matching `[Group]` tag.
 
 | Group | Skills |
 |---|---|
-| Discovery | `conducting-discovery`, `interrogating-requirements`, `expanding-scope`, `sequencing-requirements`, `to-spec`, `domain-modeling` |
+| Discovery | `conducting-discovery`, `interrogating-requirements`, `expanding-scope`, `sequencing-requirements`, `to-spec`, `domain-modeling`, `recording-code-conventions` |
 | Triage | `triage` |
 | Design | `brainstorming`, `codebase-design`, `improve-codebase-architecture`, `prototype` |
 | Planning | `writing-plans`, `executing-plans` |
