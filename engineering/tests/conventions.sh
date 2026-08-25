@@ -17,6 +17,7 @@ if [ ! -f "$fmt" ]; then
 else
   # Boundary fields — the two mandatory headings, matched whole-line so "## What it is"
   # is verified independently of "## What it is not" (a substring grep conflates them).
+  grep -qxF "## Rule" "$fmt" || { echo "FAIL: STANDARDS-FORMAT missing the mandatory '## Rule' heading (the line a builder obeys)"; fail=1; }
   grep -qxF "## What it is" "$fmt" || { echo "FAIL: STANDARDS-FORMAT missing '## What it is' heading"; fail=1; }
   grep -qxF "## What it is not" "$fmt" || { echo "FAIL: STANDARDS-FORMAT missing '## What it is not' heading"; fail=1; }
   # Provenance block — the four fields, anchored to their bold labels so an unrelated
@@ -55,6 +56,9 @@ else
   # gutted section can't false-green on an incidental "amend"/"retire" elsewhere.
   grep -qF "**Amend**" "$sk" || { echo "FAIL: SKILL.md must describe the amend path"; fail=1; }
   grep -qF "**Retire**" "$sk" || { echo "FAIL: SKILL.md must describe the retire path"; fail=1; }
+  # The write is atomic: the convention document and its index row move as one, or the
+  # index drifts (the exact failure STANDARDS-FORMAT calls worse than no index).
+  grep -qF "the two move together or not at all" "$sk" || { echo "FAIL: SKILL.md must state the doc and its index row are written together"; fail=1; }
 fi
 
 if [ ! -f "$gate" ]; then
@@ -64,6 +68,13 @@ else
   grep -qi "conflict" "$gate" || { echo "FAIL: approval-gate.md must name the conflict-detection criterion"; fail=1; }
   grep -qi "contradict" "$gate" || { echo "FAIL: approval-gate.md must define contradiction concretely"; fail=1; }
   grep -qi "individual" "$gate" || { echo "FAIL: approval-gate.md must require per-candidate individual approval"; fail=1; }
+  # The criterion must be the concrete one, not a bare word "contradict": two conventions
+  # conflict when a single piece of code cannot satisfy both at once. Anchored to that phrase.
+  grep -qiF "cannot satisfy both at once" "$gate" || { echo "FAIL: approval-gate.md must state the concrete conflict criterion (one piece of code cannot satisfy both)"; fail=1; }
+  # The three per-candidate verdicts, anchored to their bold labels.
+  grep -qF "**Approve**" "$gate" || { echo "FAIL: approval-gate.md must offer the Approve verdict"; fail=1; }
+  grep -qF "**Edit**" "$gate" || { echo "FAIL: approval-gate.md must offer the Edit verdict"; fail=1; }
+  grep -qF "**Reject**" "$gate" || { echo "FAIL: approval-gate.md must offer the Reject verdict"; fail=1; }
 fi
 
 if [ ! -f "$hard" ]; then
@@ -94,6 +105,10 @@ else
   grep -qF "approval-gate.md" "$id" || { echo "FAIL: identifying must name the shared approval-gate.md"; fail=1; }
   # The inference heuristic (§8): when observed repetition is worth surfacing.
   grep -qi "heuristic" "$id" || { echo "FAIL: identifying must state the inference heuristic"; fail=1; }
+  # The heuristic's actual conditions, anchored to their bold labels — so the whole
+  # condition list can't be deleted while the word "heuristic" survives in the heading.
+  grep -qF "**It recurs across independent sites**" "$id" || { echo "FAIL: identifying heuristic missing the cross-site recurrence condition"; fail=1; }
+  grep -qF "**It was a real choice.**" "$id" || { echo "FAIL: identifying heuristic missing the real-choice condition"; fail=1; }
 fi
 
 # --- Task 4: using-code-conventions — the read/consume side (cites conventions at work items) ---
@@ -106,6 +121,8 @@ else
   grep -qxF "## Cite the convention inline at the work item" "$u" || { echo "FAIL: using must cite the governing convention inline at the work item"; fail=1; }
   grep -qxF "## Match on the When relevant column" "$u" || { echo "FAIL: using must match on the index When relevant column"; fail=1; }
   grep -qxF "## Skip retired conventions" "$u" || { echo "FAIL: using must skip retired rows"; fail=1; }
+  # Cite the file by path, not a paraphrase — a paraphrase goes stale when the rule is amended.
+  grep -qiF "not a paraphrase" "$u" || { echo "FAIL: using must cite the convention file, not a paraphrase of the rule"; fail=1; }
 fi
 
 # --- Task 5: conventions-init command — thin invoker, onboard an existing codebase ---
@@ -120,6 +137,8 @@ else
   # §8 init re-run behaviour: first run scaffolds; re-run augments, never clobbers approved rows.
   grep -qi "first run" "$init" || { echo "FAIL: conventions-init must state first-run scaffolding"; fail=1; }
   grep -qi "augment" "$init" || { echo "FAIL: conventions-init must state re-run augments (never clobbers)"; fail=1; }
+  # The augment claim's teeth: a re-run must never clobber already-approved conventions.
+  grep -qiF "never clobbers" "$init" || { echo "FAIL: conventions-init re-run must state it never clobbers approved rows"; fail=1; }
 fi
 
 # --- Task 6: record-convention command — thin invoker, dictate one convention from the head ---
