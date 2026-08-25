@@ -1,11 +1,12 @@
 ---
-description: Execute an implementation plan task by task — TDD build, code-review gate, pausing at checkpoints, and closing test-hardening.
+description: Execute an implementation plan task by task — TDD build, code-review gate, and closing test-hardening. Runs to completion; the plan gate was the last human stop.
 argument-hint: [plan path, optional — defaults to the most recent plan in docs/dashworthy/engineering/plans/]
 ---
 
 Invoke the **`engineering:executing-plans`** skill and follow it exactly: task by task,
-each one driven through `engineering:tdd` and gated by `engineering:code-review`, pausing
-at every checkpoint, closing with `engineering:conducting-test-hardening`.
+each one driven through `engineering:tdd` and gated by `engineering:code-review`, closing
+with `engineering:conducting-test-hardening`. The plan gate was the last human stop, so
+this runs to completion with no mid-flow checkpoints.
 
 Plan: $ARGUMENTS
 

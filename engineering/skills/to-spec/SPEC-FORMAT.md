@@ -7,7 +7,7 @@
 
     **Date:** <YYYY-MM-DD>
     **Author:** <name>
-    **Status:** Approved
+    **Status:** Draft
     **Origin:** signal (discovery) | triage (<issue ref or one-line problem>)
 
     ## 1. Problem
@@ -44,5 +44,6 @@ Rules:
 - Never invent content the source material does not support; mark unknowns in §8.
 - A triage-origin spec still fills every section; §1 is the reproduced problem, §6 the fix approach.
 - The topic slug matches the run slug where possible (correspondence, not coupling).
-- The status line is `Approved`: `to-spec` runs only after `brainstorming`'s gate, so the spec it
-  writes records an approved design, and `writing-plans` can plan it without a manual status edit.
+- The status line is `Draft` when the spec is written; the spec gate in `to-spec`
+  flips it to Approved after the human approves the draft. See `SKILL.md`'s spec-gate rule
+  for the approval marker that is minted alongside the flip.
