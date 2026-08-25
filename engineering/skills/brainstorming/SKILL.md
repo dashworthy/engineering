@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "[Design] Shape a piece of work into an approved design through dialogue: explore context, propose 2-3 approaches with trade-offs, present the design section by section, and hold a hard approval gate before any spec or plan. Use after signal or triage has gathered material and before to-spec. Weighs how to build it (approach); does not interrogate requirements (signal) or design module internals (codebase-design)."
+description: "[Design] Shape a piece of work into a recommended design through dialogue: explore context, propose 2-3 approaches with trade-offs, and recommend one. Holds no approval gate of its own — design approval is the spec gate in to-spec. Use after signal or triage has gathered material and before to-spec. Weighs how to build it (approach); does not interrogate requirements (signal) or design module internals (codebase-design)."
 ---
 
 # Brainstorming
@@ -9,15 +9,18 @@ Say this first, plainly: `Using the brainstorming skill to shape the design.`
 
 ## What this guarantees
 
-One thing: given a signal brief or a triage problem, this skill produces a design the
-human has explicitly approved — an approach chosen over its rejected alternatives,
-presented and confirmed section by section — before anything downstream is allowed to
-build on it. It does not guarantee the first approach considered is the one that wins,
-or that the design lands in one sitting. It guarantees that nothing gets planned or
-built against a design nobody has said yes to.
+One thing: given a signal brief or a triage problem, this skill produces a recommended
+design — an approach chosen over its rejected alternatives, with the reasoning laid
+out — ready for `to-spec` to serialize. It does not guarantee the first approach
+considered is the one that wins, or that the design lands in one sitting.
+
+This skill holds no approval gate of its own. Approval of the design happens at the spec
+gate in `engineering:to-spec`, where the written spec is presented and the human either
+approves it or sends it back — so a design this skill recommends is a proposal, not a
+ratified decision, until the spec clears that gate.
 
 Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
-reaches past shaping and approving the one design in front of it.
+reaches past shaping and recommending the one design in front of it.
 
 ## Starting material
 
@@ -69,80 +72,37 @@ first piece alone leave something working, with the second piece not yet started
 design that can't answer that question hasn't found its seams yet, and it isn't ready
 to present as one design.
 
-## Present section by section, approve as you go
+## Recommend the design, then hand off
 
-Don't drop a finished design document on the human and ask for one verdict at the
-bottom. Walk it in sections — the chosen approach and why the others lost, the shape of
-the resulting change, what stays explicitly out of scope, whatever the design actually
-divides into — and get each section confirmed before moving to the next. A design
-approved as a stack of small yeses is a design the human actually read; a design
-approved as one big yes at the end is a design skimmed once and rubber-stamped, and the
-gap between those two only shows up later, when the build reaches a section nobody
-looked at.
+Walk the human through the approaches and the trade-offs, recommend one, and take
+whatever correction they offer on the spot — when part of the design comes back wrong,
+fix that part and re-present it. This is a working dialogue, not a sign-off ceremony: its
+output is a recommended design, ready to serialize.
 
-Incremental approval means incremental correction, too. When a section comes back
-wrong, fix that section and re-present it — don't restart the whole design over a
-disagreement about one part of it.
+## No gate here — approval is the spec gate
 
-## The hard gate
+Design approval happens at the spec gate, not here. Older versions of this skill held a
+hard approval gate and walked the design for a stack of small yeses before anything
+downstream could run; that gate has moved onto the artifact a reviewer actually reads.
+`to-spec` writes the spec as a draft, presents it, and waits for the human's approval
+before it stamps `Approved` and mints the run's spec-approval marker — and nothing
+downstream builds until that marker exists.
 
-Nothing downstream of this skill runs until the human has approved the design in
-full — not `writing-plans`, not `tdd`, not `executing-plans`, not any skill or
-hand-written change that builds toward the approach under discussion. This isn't a
-formality to mention and move past. It's the reason this skill exists: every other
-stage in this plugin either produces material that feeds a decision or executes a
-decision already made; this is the one point where the decision itself gets made, out
-loud, by a human, section by section, before a single line of implementation plan gets
-written.
-
-An approach that "seems obviously right" is not an exception. A design that's
-"basically just what we already discussed" is not an exception. If the full set of
-sections hasn't been walked and confirmed, the gate hasn't cleared, and nothing past
-it — not even a quick sketch offered as "just to see what it'd look like" — is this
-skill's to hand onward.
-
-## Write the approval marker at gate-pass
-
-The gate above is only as real as the trace it leaves. An approval that lives solely in
-the conversation cannot be checked by anything downstream — `to-spec` would be minting
-`Status: Approved` on faith that it was reached through this skill, which is exactly the
-assumption a bypass defeats. So gate-pass has a terminal, on-disk act: the moment every
-section is approved — and not one moment before — write an approval marker.
-
-Create the brainstorming phase directory for the active run with
-`run-context.sh brainstorming <slug>` and write `.engineering/<run>/brainstorming/APPROVED.md`
-into it. The marker is Tier-2 state, run-scoped through `.engineering/.current-run`, so an
-approval never leaks across runs. Its body carries the approved approach and the rejected
-alternatives — the same design just walked and confirmed — so it doubles as the source
-`to-spec` transcribes into the spec's §6, rather than leaving `to-spec` free to confabulate
-an approach of its own. Shape:
-
-```
-# Design approved — <run-id>
-Approved: <YYYY-MM-DD>
-## Approach
-<1-3 lines>
-## Rejected
-<alternatives and why each lost>
-## Sections approved
-- <section>: yes
-```
-
-Write it only at gate-pass, after full approval. A marker written before every section is
-confirmed is the honor-system gate wearing a file's clothes — the point of the marker is
-that its existence *is* the approval, so minting it early is worse than not minting it at
-all. If approval never completes, no marker is written, and the downstream skills refuse
-on its absence.
+So this skill's job ends at a recommendation, not a ratification. Do not stage a formal
+section-by-section sign-off here, and do not treat the human nodding along in the dialogue
+as the approval — collecting that approval is the spec gate's job, and staging a second
+gate here is exactly the extra stop this model removed. Hand the recommended design to
+`to-spec` and let it hold the gate.
 
 ## Handoff
 
-Once the marker is written, hand the finished design to `engineering:to-spec`,
-which serializes it into the plugin's one Tier-1 spec format. This skill does not write
-the spec itself and does not write into `docs/dashworthy/engineering/specs/` —
-`to-spec` is the plugin's only writer there, and the approved design is exactly the
-material it's built to receive: an approach already chosen and already argued out,
-ready to transcribe rather than invent. Hand it the design and the marker, and stop; what
-`to-spec` does with them from there is that skill's job, not this one's.
+Hand the finished design to `engineering:to-spec`, which serializes it into the plugin's
+one Tier-1 spec format and then holds the spec gate. This skill does not write the spec
+itself and does not write into `docs/dashworthy/engineering/specs/` — `to-spec` is the
+plugin's only writer there, and the recommended design is exactly the material it's built
+to receive: an approach already chosen and argued out, ready to transcribe rather than
+invent. Hand it the design and stop; presenting the spec, collecting the human's approval,
+and minting the marker are `to-spec`'s job, not this one's.
 
 ## What this does not do
 
@@ -155,12 +115,12 @@ ready to transcribe rather than invent. Hand it the design and the marker, and s
   later, once an approach from this skill has a spec and an actual module in front of
   it to shape. This skill weighs how to build the work at the level of approach, not at
   the level of a single interface's method signatures.
-- It does not **write the spec.** Serializing an approved design into the standard
-  document is `to-spec`'s one job. This skill produces the decision; `to-spec` produces
-  the record of it.
-- It does not **plan or build.** See `## The hard gate` above — nothing past approval
-  is this skill's to touch, including sketching what a plan for the approved design
-  might look like.
+- It does not **write the spec.** Serializing the recommended design into the standard
+  document is `to-spec`'s one job. This skill produces the recommendation; `to-spec`
+  produces the record of it and holds the gate on it.
+- It does not **plan or build.** Nothing past the recommendation is this skill's to
+  touch, including sketching what a plan for the design might look like — and it does not
+  gate: approval is the spec gate's, downstream in `to-spec`.
 - It is not always required. A triage quick fix small enough to need no spec at
   all — the isolated problem and its one obvious fix fit in a sentence, with nothing
   genuinely competing for the choice — can go straight from `triage` to the fix
