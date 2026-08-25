@@ -65,7 +65,7 @@ section number:
 
 This skill does not stamp `Approved` on faith. It writes the spec as a draft, presents it,
 and waits for the human's approval before promoting it — that approval is the spec gate, the
-first of the pipeline's two, and it lives here now, on the spec, not upstream in `brainstorming`.
+first of the pipeline's two, and it lives here, on the spec.
 
 1. **Write it as a draft.** Set the status line to `Status: Draft` (see `SPEC-FORMAT.md`).
    Transcribe §6 from the recommended design handed off — the chosen approach and the

@@ -81,18 +81,14 @@ output is a recommended design, ready to serialize.
 
 ## No gate here — approval is the spec gate
 
-Design approval happens at the spec gate, not here. Older versions of this skill held a
-hard approval gate and walked the design for a stack of small yeses before anything
-downstream could run; that gate has moved onto the artifact a reviewer actually reads.
-`to-spec` writes the spec as a draft, presents it, and waits for the human's approval
-before it stamps `Approved` and mints the run's spec-approval marker — and nothing
-downstream builds until that marker exists.
+Design approval happens at the spec gate, not here. `to-spec` writes the spec as a draft,
+presents it, and waits for the human's approval before stamping `Approved` and minting the
+run's spec-approval marker; nothing downstream builds until that marker exists.
 
-So this skill's job ends at a recommendation, not a ratification. Do not stage a formal
-section-by-section sign-off here, and do not treat the human nodding along in the dialogue
-as the approval — collecting that approval is the spec gate's job, and staging a second
-gate here is exactly the extra stop this model removed. Hand the recommended design to
-`to-spec` and let it hold the gate.
+So this skill's job ends at a recommendation, not a ratification. Don't stage a
+section-by-section sign-off here or treat the human nodding along as approval — collecting
+that approval is the spec gate's job, and a second gate here would only duplicate it. Hand
+the recommended design to `to-spec` and let it hold the gate.
 
 ## Handoff
 

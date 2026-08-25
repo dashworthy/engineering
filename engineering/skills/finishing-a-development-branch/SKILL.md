@@ -67,7 +67,7 @@ prompt, not a lock: if the user wants to proceed without it, that is theirs to d
 What this skill does not do is let the gap pass unnamed, or decide on the user's behalf that
 skipping it is fine.
 
-## Carry out the finish strategy (or, with no plan, present the options)
+## Carry out the plan's finish strategy
 
 Once the branch is green, verified, and either hardened or knowingly waved through, it can
 re-enter the rest of the repository. How that happens is, by default, not a fresh question: the
