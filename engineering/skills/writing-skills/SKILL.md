@@ -18,9 +18,6 @@ Both halves get checked before the skill counts as finished: the frontmatter by 
 `tests/frontmatter.sh` against it, the body by reading it against the shape this document lays
 out.
 
-Nothing else is guaranteed. Read `## What this does not do` below before assuming this skill
-judges more than that.
-
 ## Where a skill lives
 
 Flat under `engineering/skills/<name>/SKILL.md`. This plugin's loader scans that directory
@@ -30,12 +27,11 @@ own directory named for itself, and no two skills share one.
 
 A skill that needs supporting material beyond its one file keeps that material inside its own
 directory, never off in some shared or top-level location. A single companion document sits
-right beside `SKILL.md` — `to-spec` keeps `SPEC-FORMAT.md` there, next to its own `SKILL.md`.
-Several companion documents belong in a `references/` subdirectory of that same skill's
-directory — `triage/references/`, `conducting-test-hardening/references/`, and
-`clarifying-docblocks/references/` are the existing shapes to match. Either way, the material
-stays one level of nesting under the skill's own directory; it is never promoted to a second
-skill of its own, and it is never shared across two skills' directories.
+right beside `SKILL.md` — `to-spec` keeps `SPEC-FORMAT.md` there. Several companion documents
+belong in a `references/` subdirectory of that same skill's directory, as in
+`triage/references/`. Either way, the material stays one level of nesting under the skill's own
+directory; it is never promoted to a second skill of its own, and it is never shared across two
+skills' directories.
 
 ## Frontmatter: exactly two keys
 
@@ -54,23 +50,18 @@ needs to say beyond routing metadata belongs in its body, not bolted onto the fr
   **cross-cutting** skill — one that composes into whichever phase needs it instead of owning a
   stage of its own, the way `research` and `resolving-merge-conflicts` do — carries no
   tag at all, and its description must not start with `[`.
-- A description opening with `[Group]` MUST be wrapped in double quotes. An unquoted YAML value
-  starting with `[` parses as a flow sequence, not a string — the tag would silently turn the
-  whole description into a one-item list, and nothing about that failure looks like an error
-  until something downstream tries to read the field as text. An untagged description doesn't
-  strictly need the quotes for that reason, but wrapping it anyway costs nothing and keeps every
-  skill's frontmatter block uniform to read.
+- A description opening with `[Group]` MUST be wrapped in double quotes: an unquoted YAML value
+  starting with `[` parses as a flow sequence, not a string, silently turning the whole
+  description into a one-item list. An untagged description doesn't strictly need the quotes, but
+  wrap it anyway to keep every skill's frontmatter block uniform.
 
 ## Deciding the group, and recording it twice
 
 Which tag a new process-tied skill gets is a judgment about where in the plugin's real
 processes it actually plugs in — not a lookup this skill or `tests/frontmatter.sh` performs for
-you. Once it's decided, it belongs in two places, not one: the `[Group]` tag inside the skill's
-own frontmatter, and a new entry in the matching row of the table in
-`engineering/skills/README.md`. Those are two independent records of the same fact. A skill
-added to its own frontmatter without a matching README row leaves the human index wrong; a row
-added to the README without the frontmatter tag to match leaves the claim unchecked. Neither
-record updates the other automatically — update both, every time.
+you. Once it's decided, it belongs in two places: the `[Group]` tag inside the skill's own
+frontmatter, and a new entry in the matching row of the table in `engineering/skills/README.md`.
+Neither record updates the other automatically — update both, every time.
 
 ## Body shape: the house style
 
@@ -80,9 +71,14 @@ It exists so whoever is watching a session unfold knows which skill is driving b
 else happens — not throat-clearing to skip past.
 
 Right after it, `## What this guarantees` states the one thing this skill promises will be true
-once it finishes — one thing, not a list dressed up as one. If the honest answer to "what does
-this skill guarantee" takes three sentences naming three different outcomes, that's a sign the
-skill is doing three skills' worth of work, not a sign the section needs to say more.
+once it finishes, positively — one thing, not a list dressed up as one. It does not enumerate
+what the skill fails to guarantee; those belong in `## What this does not do`. The "it does not
+X, it does not Y; it guarantees Z" antithesis states the same boundary twice — write the promise
+once.
+
+The guarantee section does not close with a pointer to the non-guarantee list. The sentence
+"Nothing else is guaranteed. Read `## What this does not do`…" is scaffolding — the section it
+names sits a few lines down in the same short file, and a reader reaches it unaided. Omit it.
 
 Somewhere in the body — most of this plugin's skills put it last, and following that placement
 keeps skills easy to compare at a glance — `## What this does not do` lists, by name, the
@@ -90,6 +86,10 @@ adjacent things a reader might reasonably assume this skill also covers because 
 to what it actually does, and says which other skill owns each one instead. A guarantee written
 without its neighboring non-guarantees invites scope creep on its own: whoever reads only the
 guarantee assumes silence means "handled here too."
+
+A skill that consults `CONTEXT.md` / `docs/adr/` says so in one line — "…when present, <what
+they sharpen>; read them when they exist, neither is required." — not a two-paragraph preamble,
+and without the "not a degraded run" reassurance.
 
 Sibling skills get named with the plugin's own prefix, `engineering:<skill-name>` — never a
 foreign plugin's prefix, even where a similarly named skill exists elsewhere. This plugin's
@@ -117,13 +117,13 @@ judgment stays a careful read against the house style above; no script performs 
 
 Every skill in this plugin is this plugin's own prose, describing this plugin's own conventions
 as they actually stand today — not a fixed text written once and left alone. A skill's process
-is expected to be re-learned as the plugin gets used: a guarantee that turns out drawn too
-broad gets narrowed; a non-guarantee that turns out to matter after all gets folded in properly,
-with its own reasoning, not bolted on as an afterthought; a whole section gets rewritten once
-the way the plugin actually works has moved past what an earlier version of the skill said.
-Treat every `SKILL.md` as this plugin's current-best understanding of its own process, not as
-settled text — and when editing one, write the change in the plugin's own voice, the way its
-sibling skills are written, not by carrying language over from somewhere else.
+is expected to be re-learned as the plugin gets used: a guarantee drawn too broad gets narrowed;
+a non-guarantee that turns out to matter gets folded in properly, with its own reasoning; a
+whole section gets rewritten once the way the plugin works has moved past what an earlier version
+said. But this is about correcting drift from how the plugin actually behaves, not a license for
+unprompted polish — edit a skill because something about it stopped being true, not because it
+could be phrased more elegantly. When editing one, write the change in the plugin's own voice,
+the way its sibling skills are written, not by carrying language over from somewhere else.
 
 ## What this does not do
 
@@ -141,7 +141,5 @@ sibling skills are written, not by carrying language over from somewhere else.
 - It does not **decide which group a new skill belongs to.** That's a judgment about the
   plugin's real process boundaries, made by whoever is authoring the skill against how the
   plugin actually works — not a lookup this skill performs on their behalf.
-- It does not **rewrite a skill just because its prose could read tighter.** The living-works
-  point above is about correcting drift from how the plugin actually behaves, not a license for
-  unprompted polish; edit a skill because something about it stopped being true, not because it
-  could be phrased more elegantly.
+- It does not **rewrite a skill just because its prose could read tighter.** See "Skills are
+  living works" above: edit for drift from how the plugin behaves, not for unprompted polish.

@@ -81,11 +81,9 @@ barrier is reconcile, which needs every receipt.
 
    The comparison is against `HEAD`, not the merge-base: every in-scope file differs from the
    merge-base by definition, since that is what put it in scope. What is at risk is work the
-   branch has not committed yet.
-
-   This is load-bearing. The whole delivery model is "the rewrites land in your working tree,
-   `git diff` is the review, `git checkout` is the undo." That undo is only safe if there is
-   nothing else in the file to lose.
+   branch has not committed yet. This is load-bearing. The whole delivery model is "the rewrites
+   land in your working tree, `git diff` is the review, `git checkout` is the undo," and that undo
+   is only safe if there is nothing else in the file to lose.
 4. **No changed files** - say so plainly and stop.
 5. **Snapshot** every in-scope file to `before/<path>` with `cp`. A copy is a shell operation,
    not a read: the bytes never enter this context, and they are Proof 1's left-hand side.
@@ -95,10 +93,10 @@ barrier is reconcile, which needs every receipt.
 `.engineering/<run>/vernacular/` in the **user's** project - never inside the plugin. `<run>`
 is not yours to name: obtain it by running
 `sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" vernacular`, which prints the absolute path
-of `.engineering/<run>/vernacular/` and creates it if needed. If vernacular runs standalone -
-no earlier phase has run in this session - this same call creates the
-`.engineering/.current-run` pointer itself; if a run is already active, it joins that run
-instead.
+of `.engineering/<run>/vernacular/` and creates it if needed. Run standalone - no earlier phase
+this session - it creates the `.engineering/.current-run` pointer itself; if a run is already
+active, it joins that run. It reads or writes that single pointer file and never enumerates
+prior runs, so "a run never reads a previous run's artifacts" holds with no carve-out.
 
 ```
 before/<path>          byte copies - Proof 1's left-hand side
@@ -109,10 +107,6 @@ report.md              the run's account of itself
 
 `<slug>` is the repository-relative path with `/` replaced by `-`, so two files sharing a
 basename in different directories cannot collide.
-
-`run-context.sh` never enumerates prior runs to pick a name - it reads or writes a single
-pointer file - so "a run never reads a previous run's artifacts" still holds with no
-carve-out.
 
 ## Dispatch
 
@@ -168,13 +162,6 @@ python3 "${CLAUDE_PLUGIN_ROOT}/scripts/reconcile.py" "$RUN_DIR"
 Restore every file the run touched, not only the failing one. A run whose arithmetic is wrong
 about one file has not earned trust about the others.
 
-**guardtower's never-auto-revert rule does not transfer here, and the difference is worth
-knowing so nobody re-imports it.** There, a violation is an unexpected write into a tree the
-tool promised never to touch, and reverting would destroy evidence of a bug worth diagnosing.
-Here the tool writes to source by design, and a proof failure means it has demonstrably
-corrupted a file. Leaving it corrupted is the worse outcome; quarantining preserves everything
-a diagnosis needs.
-
 Read `reconcile.py`'s output lines. **Do not open a quarantined file to see what went wrong.**
 The failure is the finding.
 
@@ -187,7 +174,7 @@ Write `report.md` and tell the user, every run, four things:
 - **Reverted by the verifier**, each with the claim from the receipt's `reverted` array.
 - **Skipped**, with the reason.
 
-The left-alone count is not decoration. It is the only evidence the user has that the gate is
+The left-alone count is not decoration: it is the only evidence the user has that the gate is
 still discriminating rather than rubber-stamping, and a report omitting it makes a run that
 rewrote everything indistinguishable from one that judged carefully.
 
@@ -214,17 +201,10 @@ Invoke `engineering:verification-before-completion` before reporting anything as
 
 ## Red flags - STOP
 
-- Opening a source file, a `before/` copy, or a quarantined file in this context.
 - Reading a receipt's prose fields for anything but the `reverted` claim text.
 - Dispatching a rewriter without `before_path`, so it anchors receipt line numbers to a file it
   is actively editing.
-- Running the rewriter and the verifier as the same dispatch, or skipping verification because
-  the prose "looks fine."
-- Continuing past a `reconcile.py` non-zero exit.
-- Reporting without the left-alone count.
 - Writing a config file to save yourself asking next time.
-- Running a bare `git diff` in the conductor's context, at any context level, instead of the
-  filtered form.
 - Reintroducing language detection - a stack table, a docblock-syntax file, a skip list. It was
   considered and deliberately not built; the proofs are language-independent and must stay so.
 - Widening scope to every docblock in a touched file.

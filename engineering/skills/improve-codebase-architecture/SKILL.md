@@ -11,20 +11,14 @@ Say this first, plainly: `Using the improve-codebase-architecture skill.`
 ## What this guarantees
 
 One thing: given a codebase — or, when a target path is supplied, the tree under it — this
-skill runs one bounded pass. It scans for shallow modules and tangled boundaries, decides
+skill runs one bounded pass: it scans for shallow modules and tangled boundaries, decides
 each finding either deepened or explicitly declined, and ends with one self-contained HTML
-report on disk naming what happened. It does not guarantee every shallow module gets fixed
-today; it guarantees the pass has a fixed start, a fixed end, and a record of every decision
-made in between.
-
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
-reaches further than one scan-decide-report cycle over the codebase in front of it.
+report on disk naming what happened.
 
 ## Scope
 
 Default to the whole repository. When invoked with a target path, scan only that path and
-its descendants — a narrower pass is a legitimate way to run this skill on a large codebase
-a little at a time, not a degraded version of the full one.
+its descendants — a legitimate way to run this skill on a large codebase a little at a time.
 
 ## The pass
 
@@ -66,7 +60,7 @@ A finding the caller decides isn't worth acting on today gets marked declined, w
 reason, instead of acted on — not everything shallow is worth deepening right now, and a
 declined finding still counts as resolved for the purposes of finishing the list. Every
 finding leaves this step in exactly one of two states, deepened or declined; none stays open
-when the list runs out, because the list itself cannot grow back once Scan has closed it.
+when the list runs out.
 
 ### 3. Report
 
@@ -77,15 +71,11 @@ post it anywhere; the path is the handoff.
 
 ## Reading the substrate
 
-Before scanning, check whether `CONTEXT.md`, at the project root, or `docs/adr/` exist. When
-they do, read them: a boundary this pass is about to flag might already sit exactly where
-the project decided it should, for reasons an ADR already argued out, and a rename this pass
-is about to propose might already collide with a name `CONTEXT.md` says is taken. Treat
-what's there as a constraint on this pass's findings, not background reading.
-
-Neither file is required. Most codebases this skill runs against have no `CONTEXT.md` and no
-ADR on point, and the pass proceeds on the code itself when that's true — it does not stall
-waiting for documentation that was never written.
+Before scanning, read `CONTEXT.md`, at the project root, and `docs/adr/` when they exist,
+and treat what's there as a constraint on this pass's findings — a boundary already argued
+out in an ADR the pass shouldn't reopen, or a name `CONTEXT.md` says is taken that a
+proposed rename would collide with; neither is required, and when absent the pass proceeds
+on the code itself.
 
 ## What this does not do
 
@@ -103,8 +93,7 @@ waiting for documentation that was never written.
   this skill starts, not during it.
 - It does not **reopen a closed pass.** Once Scan has produced its finding list, nothing
   discovered while working the list gets appended to it — a fix that surfaces a second,
-  unrelated shallow module is a note for the next run, not a reason to extend this one. A
-  pass that could always find one more thing to check would never reach its report.
+  unrelated shallow module is a note for the next run, not a reason to extend this one.
 - It does not **run without being asked.** `disable-model-invocation: true` means nothing
   else in this plugin, and no in-conversation judgment call, starts this skill on its own;
   it runs only when `/improve-codebase-architecture` is invoked directly.

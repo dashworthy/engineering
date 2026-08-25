@@ -45,7 +45,7 @@ flowchart TD
     DES --> SPEC["to-spec"]
     SPEC --> BB["plan · build · harden · document"]
     BB --> DONE(["green, documented branch"]):::done
-    FIX -. .-> DONE
+    FIX -.-> DONE
 ```
 
 Each phase reads what the phase before it produced; none re-decides what an earlier

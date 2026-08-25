@@ -10,45 +10,38 @@ Say this first, plainly: `Using the tdd skill to drive this implementation.`
 ## What this guarantees
 
 One thing: every behavior this skill builds gets a test that existed first, was watched to
-fail, and only then was made to pass by the smallest change that could pass it. It does not
-guarantee elegant code, a complete feature, or full coverage of everything that could go
-wrong. It guarantees that whatever code exists when a cycle ends, there is a test that
-would have caught its absence.
-
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
-carries a task further than one behavior at a time.
+fail, and only then was made to pass by the smallest change that could pass it. Whatever
+code exists when a cycle ends, there is a test that would have caught its absence.
 
 ## The cycle
 
 **Red.** Write a test for one behavior that does not exist yet, then run it and watch it
-fail. Watching is not optional and not a formality — a test that has never been run red is
-a test whose ability to fail is unproven. Two failures look identical from a passing test
-suite's point of view: a test that catches a real regression, and a test that would pass
-no matter what the code did. Running it red, before the code exists, is the only way to
-tell them apart. If the test passes immediately, it is not testing the behavior you meant
-to add — it is either already satisfied by existing code, or it is not actually exercising
-the path you think it is.
+fail. Watching is not optional: a test that has never been run red is a test whose ability
+to fail is unproven — a test that catches a real regression and a test that would pass no
+matter what the code did look identical from a passing suite's point of view, and running it
+red before the code exists is the only way to tell them apart. If the test passes
+immediately, it is not testing the behavior you meant to add — it is already satisfied by
+existing code, or not exercising the path you think it is.
 
 Fail for the right reason, too. A test that errors on a typo, a missing import, or a
-misconfigured fixture has not told you anything about the behavior — it has told you the
-harness is broken. Fix the harness, rerun, and confirm the failure is now the assertion you
-wrote failing, not something upstream of it.
+misconfigured fixture has told you the harness is broken, not anything about the behavior.
+Fix the harness, rerun, and confirm the failure is now your assertion failing, not something
+upstream of it.
 
 **Green.** Write the smallest amount of code that makes the failing test pass. Smallest is
-not a style preference here — it is what keeps the test meaningful. Code written to satisfy
-a test you can see is code shaped by that test; code written to satisfy a feature you're
-imagining several steps ahead is code no test has yet earned the right to require. Resist
-handling inputs the current test doesn't exercise, generalizing a single case into a
-configurable one, or building the abstraction you're confident the third case will need.
-Let the next test demand that, and write it then — a case that never arrives is a case that
-never needed handling, and you cannot tell which kind you're looking at from here.
+not a style preference — it is what keeps the test meaningful: code written to satisfy a
+test you can see is shaped by that test; code written for a feature you're imagining several
+steps ahead is code no test has yet earned the right to require. Resist handling inputs the
+current test doesn't exercise, generalizing a single case into a configurable one, or
+building the abstraction you're sure the third case will need. Let the next test demand
+that, and write it then.
 
 **Refactor.** With the test green, clean up — rename, remove duplication, restructure —
 while the suite tells you, after every change, whether you preserved behavior. Refactoring
 without a green suite in front of you is not refactoring; it is rewriting on faith. Take
-refactor steps small enough that if the suite goes red, you know which one edit did it, and
-run the suite again after each one rather than batching several changes and finding out
-which of them broke something only once all of them are done.
+steps small enough that if the suite goes red you know which edit did it, and run the suite
+after each one rather than batching changes and finding out which broke something only once
+all are done.
 
 ## One behavior per cycle
 
@@ -69,29 +62,20 @@ lie about what was actually proven.
 
 ## Reading the substrate
 
-`CONTEXT.md`, at the project root, is read when present for the naming and conventions a
-task's tests should match — an existing testing style, a fixture pattern already in use, a
-term the codebase already has a name for. It is never required. Most cycles run with no
-`CONTEXT.md` in sight, and that is the ordinary case: proceed on the behavior in front of
-you and the code immediately around it.
+`CONTEXT.md`, at the project root, is read when present for naming and conventions a task's
+tests should match — a testing style, a fixture pattern, a term the codebase already names.
+Never required; most cycles run without it, on the behavior in front of you and the code
+around it.
 
 ## Boundary: tdd builds, test-hardening hardens
 
-This skill and verity's test-hardening (`conducting-test-hardening`) both produce tests,
-and neither replaces the other. This skill runs *during* implementation, one behavior at a
-time, before the code that satisfies each behavior is written — its tests exist because the
-code didn't yet. Test-hardening runs *after* implementation is already believed finished:
-it audits a diff for behavior nothing pins down, and writes tests to close what it finds —
-tests whose job is to harden code that already exists against changes nobody would notice
-breaking it.
-
-A cycle here proves the code does what one test demands, one test at a time, as the code is
-built. Test-hardening proves the finished diff has no gap where behavior changed and
-nothing would fail. The first without the second leaves the seams between behaviors, and
-whatever a task's tests never thought to ask, unguarded. The second without the first is
-retrofitting tests onto code that was never test-driven, which finds gaps but never gets
-the discipline of a test that shaped the code it now checks. Run this skill while building;
-expect `conducting-test-hardening` to run again before the branch ships.
+This skill and verity's test-hardening (`conducting-test-hardening`) both produce tests and
+neither replaces the other. This skill runs *during* implementation, one behavior at a time,
+before the code that satisfies each behavior exists. Test-hardening runs *after* implementation
+is believed finished: it audits a diff for behavior nothing pins down and writes tests to
+close what it finds. TDD without test-hardening leaves the seams between behaviors unguarded;
+test-hardening without TDD retrofits tests onto code no test shaped. Run this skill while
+building; expect `conducting-test-hardening` to run again before the branch ships.
 
 ## What this does not do
 

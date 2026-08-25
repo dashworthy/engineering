@@ -14,16 +14,12 @@ writes it down in one of exactly two places — `CONTEXT.md` at the repo root, o
 numbered file under `docs/adr/` — so the next skill that needs to know what something is
 called, or why a choice was made, can read it instead of re-deriving it.
 
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
-reaches past naming and recording.
-
 ## CONTEXT.md: the glossary
 
 `CONTEXT.md` is a living list of the terms this project's domain actually uses, each one
-tied to where it shows up in code. It exists so the word a person reaches for and the
-word the code already uses are the same word — a new contributor, or a later skill
-reading the codebase cold, shouldn't have to guess whether "order" and "purchase" mean the
-same thing here.
+tied to where it shows up in code — so a new contributor, or a later skill reading the
+codebase cold, shouldn't have to guess whether "order" and "purchase" mean the same thing
+here.
 
 Write an entry when a term earns its place: it recurs, in conversation or in code, and
 getting it wrong would cause real confusion — not every noun that turns up in a commit
@@ -45,11 +41,11 @@ convention.
 
 Some decisions recorded as an ADR are also **standing rules** — not just "we chose X this
 once," but "X is how this is done from here on." When that is true, the ADR can **spawn a
-candidate convention**. This is a **manual, opt-in hand-off, never automatic**: not every ADR
-becomes a convention, and the spawn happens only when the developer judges the decision is a
-repeatable rule worth codifying and chooses to raise it. Firing on every ADR would flood the
-approval gate with candidates nobody asked for — the opposite of the individual-approval
-discipline the convention system is built on.
+candidate convention**. This is a **manual, opt-in hand-off, never automatic**: the spawn
+happens only when the developer judges the decision a repeatable rule worth codifying and
+chooses to raise it. Firing on every ADR would flood the approval gate with candidates
+nobody asked for — the opposite of the individual-approval discipline the convention system
+is built on.
 
 To spawn one, hand the decision to `recording-code-conventions` as a candidate. It enters the
 same hardening interrogation and the same individual approval gate as any other candidate, and
@@ -57,19 +53,10 @@ nothing is written to the standards tree without the approver's yes. The spawnin
 recorded in the resulting convention's **Source** provenance (`docs/adr/NNNN-…`), so a later
 reader can trace the rule back to the decision that produced it.
 
-The relationship is **one-directional**: an ADR may spawn a convention, but an ADR never
-depends on a convention. ADRs stay fully independent — this skill writes and maintains them
-exactly as before, whether or not any convention was ever spawned from one. A convention
-spawned from an ADR is a separate artifact with its own lifecycle; amending or retiring it
-never reaches back and touches the ADR.
-
-## Boundary vs signal
-
-`signal` explores what to build — it interrogates a request until the requirements and
-their order are settled. This skill doesn't touch that question at all. It runs after, or
-alongside: once something has earned a name worth keeping, or a choice has been made that's
-worth remembering why, this skill is where that lands. signal decides the work; this skill
-decides what the work is called.
+The relationship is **one-directional**: an ADR may spawn a convention but never depends on
+one. A spawned convention is a separate artifact with its own lifecycle; amending or retiring
+it never reaches back and touches the ADR, which this skill writes and maintains exactly as
+before, spawn or no spawn.
 
 ## What this does not do
 
@@ -80,7 +67,9 @@ decides what the work is called.
 - It does not **write specs.** Turning accumulated material into the one Tier-1 document
   is `to-spec`'s job alone. A glossary entry or an ADR might feed a spec later; this skill
   never produces the spec.
-- It does not **explore what to build.** That's `signal`, covered above.
+- It does not **explore what to build.** That's `signal` — it interrogates a request until
+  the requirements and their order are settled. This skill runs after, or alongside: signal
+  decides the work, this skill decides what the work is called.
 - It does not gate anything on its own output. `CONTEXT.md` and `docs/adr/` are a
   convenience for the skills that come after — they make a later `codebase-design` or
   `to-spec` pass faster and more consistent when they're there to read. Neither file is

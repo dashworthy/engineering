@@ -25,7 +25,7 @@ second shape:
   version that takes everything up front and returns a finished result instead.
 
 The goal isn't to generate a bad design to make the good one look better by contrast. Both
-sketches should be shapes you could actually ship. If the second one is obviously worse,
+sketches should be shapes you could actually ship; if the second one is obviously worse,
 you didn't move far enough from the first — try again from a different one of the angles
 above.
 
@@ -80,14 +80,13 @@ silently, from outside. Design B's single `check` walks the rules once and hands
 both facts from that one pass, so the caller never has to know the evaluation was
 expensive or repeatable at all.
 
-Misuse resistance: nothing stops a caller from calling `explain_denial` for an action that
-`has_permission` just said was allowed — Design A will happily hand back an empty or
-nonsensical "reason" for an allowed action, because the two calls have no relationship the
-type system enforces. Design B makes that contradiction unrepresentable: `reason` is only
-ever populated on a `Decision` where `allowed` is `False`, because both came from the same
-evaluation. A caller can't ask for a denial reason on an allowed action, because there's no
-call that lets them ask for a reason in isolation.
+Misuse resistance: nothing stops a Design A caller from asking `explain_denial` for an
+action `has_permission` just said was allowed — it will hand back an empty or nonsensical
+"reason", because the two calls have no relationship the type system enforces. Design B
+makes that contradiction unrepresentable: `reason` is only ever populated on a `Decision`
+where `allowed` is `False`, so there's no way to ask for a denial reason on an allowed
+action.
 
-Design B wins on all three counts, and the reason is the same reason in each case: it
-does not let a decision the module made internally — one evaluation, one policy walk — leak
-back out as two separate things a caller has to keep in sync by hand.
+B wins on all three counts for one reason: it does not let a decision the module made
+internally — one evaluation, one policy walk — leak back out as two separate things a
+caller has to keep in sync by hand.

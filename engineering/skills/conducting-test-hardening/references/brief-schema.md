@@ -33,38 +33,31 @@ from new work.
 | `mutant_operator` | no | Present when `track` is `mutation`: the mutation operator that survived |
 | `mutant_line` | no | Present when `track` is `mutation`: `file:line` of the surviving mutant |
 
-**`behavior` versus `test_intent`.** They are not the same field said twice, and the verifier's
-brief-drift check depends on the difference. `behavior` is what the *code* does that is
-currently unguarded. `test_intent` is what the *test* must assert to guard it. For a boundary
-gap: behavior = "returns the last element when the index equals length-1"; test_intent =
-"assert the value at index length-1 equals the final element, and that index length raises".
-When the verifier checks for drift, `test_intent` is the authoritative anchor.
+**`behavior` versus `test_intent`.** Not the same field said twice — the verifier's brief-drift
+check depends on the difference. `behavior` is what the *code* does that is currently unguarded;
+`test_intent` is what the *test* must assert to guard it. For a boundary gap: behavior =
+"returns the last element when the index equals length-1"; test_intent = "assert the value at
+index length-1 equals the final element, and that index length raises". `test_intent` is the
+authoritative anchor for the drift check.
 
 **Surviving mutants are gap findings with `track: mutation`, but they arrive incomplete.**
 
-A mutation report gives an operator and a location — nothing more. It does not tell you what
-behavior went unguarded, what a test should assert, or which file that test belongs in. So a
-surviving mutant is **evidence pointing at a line, not a finished item**, and the auditor is
-what turns one into the other:
+A mutation report gives only an operator and a location — a surviving mutant is evidence
+pointing at a line, not a finished item. Carried forward with only `suite`, `mutant_operator`,
+and `mutant_line`, it is handed to the next iteration's auditor, which **reads the code at that
+line** and derives `target_symbol`, `behavior`, `test_intent`, `target_test_file`, `risk_level`,
+and `risk` exactly as it would for a gap found in the diff. If the line is not worth a test —
+an equivalent mutant or unreachable branch — the auditor drops the item and says so rather than
+emitting invented fields.
 
-1. The conductor passes surviving mutants to the next iteration's auditor as carry-forward,
-   each carrying only `suite`, `mutant_operator`, and `mutant_line`.
-2. The auditor **reads the code at that line** and derives `target_symbol`, `behavior`,
-   `test_intent`, `target_test_file`, `risk_level`, and `risk` exactly as it would for a gap it
-   found by reading the diff. The mutant tells it where to look; the code tells it what to say.
-3. If the auditor reads the line and concludes the surviving mutant is not worth a test —
-   equivalent mutants and unreachable branches both happen — it drops the item and says so in
-   its return rather than emitting a finding with invented fields.
-
-Never fabricate `behavior` or `test_intent` from an operator name. "ConditionalBoundary survived
-at Foo.ext:42" is not a behavior, and a test written against that string would assert nothing
-meaningful. Once the auditor has derived the fields, the item ranks, dedups, and carries forward
-like any other gap.
+Never fabricate `behavior` or `test_intent` from an operator name: "ConditionalBoundary survived
+at Foo.ext:42" is not a behavior, and a test written against that string asserts nothing. Once
+the fields are derived, the item ranks, dedups, and carries forward like any other gap.
 
 **Ranking must be total, not partial.** Order gap findings by `risk_level` (high, medium, low),
-then rework items before fresh ones within a level, then by `target_file` ascending, then by
-`id` ascending. The last two exist so that two runs over the same findings produce the same
-brief; without them the order of peers is whatever the merge happened to produce.
+then rework before fresh within a level, then `target_file` ascending, then `id` ascending. The
+last two keys exist so two runs over the same findings produce the same brief; without them the
+order of peers is whatever the merge happened to produce.
 
 ## Breakage finding
 

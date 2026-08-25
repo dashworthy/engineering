@@ -1,8 +1,7 @@
 # ADR Format
 
-An ADR — architecture decision record — is a record of one decision, written down once,
-at the moment it's made. It is not a retrospective explanation composed later for someone
-else's benefit; write it while the reasoning is still live.
+An ADR — architecture decision record — records one decision, written down once at the moment
+it's made, while the reasoning is still live.
 
 ## Filename
 

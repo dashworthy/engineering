@@ -11,8 +11,8 @@ needs a written spec before anyone builds against it.
 | Under-specified, or really a feature request in disguise | question → `signal` (which carries on into the design dialogue itself) | **Yes** (feature path) |
 | Real fix but non-trivial — several sites, a design choice, risky/cross-cutting, needs sequencing, or handed to an AFK agent | `brainstorming` → `to-spec` → `writing-plans` | **Yes** |
 
-**Rule of thumb:** *spec when the fix needs a plan or another party will execute it; skip
-the spec when a single obvious change closes it.*
+The **Spec?** column follows one rule: spec when the fix needs a plan or another party will
+execute it; skip it when a single obvious change closes it.
 
 A row is picked once — by the isolation step, from what it actually found — not
 reasoned toward from a preferred outcome. If two rows both seem to fit, the row asking

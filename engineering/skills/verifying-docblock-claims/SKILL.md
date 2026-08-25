@@ -38,16 +38,12 @@ assertion it makes must be supported by that code. These fail:
   drawn instead of written, and it is verified exactly as strictly.
 
 Prose that is vague, or that emphasises the wrong thing, is **not** a failure. You are testing
-truth, not quality. Reverting merely-mediocre prose to worse prose helps nobody.
+truth, not quality.
 
 ## Revert, never repair
 
 An unsupported claim means the docblock goes back to its **original bytes** from
 `before_path`. You do not rewrite it, improve it, or hedge it.
-
-Repairing is a second guess at the thing it just got wrong, by an agent with no more
-information than the one that got it wrong. The original prose was at least honest about being
-unhelpful; a repaired claim is a fresh assertion nobody checked.
 
 ## Amending the receipt
 
@@ -77,11 +73,6 @@ receipt, where the conductor reads it as a field.
 
 ## Red flags - STOP
 
-- Rewriting an unsupported description instead of reverting it.
-- Reverting prose for being vague, clumsy, or not to your taste.
-- Reverting top-down.
-- Renumbering surviving edits after removing one.
 - Editing a line outside the ranges the receipt claims.
-- Returning a description to the conductor instead of a count.
 - Passing a description you could not verify because the code was hard to follow. If you
   cannot support it, it is not supported.

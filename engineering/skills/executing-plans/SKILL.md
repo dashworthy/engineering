@@ -11,13 +11,8 @@ Say this first, plainly: `Using the executing-plans skill to execute the plan.`
 
 One thing: given a plan written by `writing-plans`, this skill works it task by task, in
 order, until every task is checked off — and for each one that changes behavior, a test
-existed before the code, gated by an independent review before the box gets checked. It
-does not guarantee every task lands on the first try, and it does not guarantee the plan
-was a good plan. It guarantees that nothing on the plan gets marked done without going
-through the cycle the plan was written to enforce.
-
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
-plans, reviews on its own authority, or decides on its own when the work is finished.
+existed before the code, gated by an independent review before the box gets checked. Nothing
+on the plan gets marked done without going through the cycle the plan was written to enforce.
 
 ## Finding the plan
 
@@ -38,12 +33,11 @@ at its first unchecked step rather than starting over or redoing work already ma
 
 Before working any task, confirm the plan cleared its gate: resolve the run from
 `.engineering/.current-run` and check that `.engineering/<run>/writing-plans/APPROVED.md`
-exists. That marker is `writing-plans`' record that a human approved the plan; without it,
-either the plan gate was never cleared or the plan was hand-written outside the pipeline, and
-this skill refuses to build rather than run an unapproved plan unattended — the
-same trace-over-checkbox rule the spec gate uses, one step downstream. This is the last
-human-approval gate before the build; once it clears, the plan runs to completion with no
-further human stops.
+exists. Without that marker the plan gate was never cleared (or the plan was hand-written
+outside the pipeline), and this skill refuses to build rather than run an unapproved plan
+unattended — the same trace-over-checkbox rule the spec gate uses, one step downstream. This
+is the last human-approval gate before the build; once it clears, the plan runs to completion
+with no further human stops.
 
 ## Run directory
 
@@ -93,46 +87,38 @@ Then move to the next task.
 ## Closing hardening (D15)
 
 Every plan `writing-plans` writes ends with a Phase 3.5 task whose entire job is invoking
-`engineering:conducting-test-hardening` — that is how a hardening pass is guaranteed to
-happen at all, since nothing else in this plugin forces one. When the per-task loop reaches
-that task, run `engineering:conducting-test-hardening` in place of tdd and code-review; it
-is a different kind of task on purpose, and driving it through the ordinary loop would mean
-running the wrong tool on it. Report whichever exit it reaches — `pass`, `dry`, `cap`,
-`halt`, or `audit-only` — plainly, the same way that skill reports it, rather than
-translating it into a bare "done." Only once that task is checked off is the plan actually
-finished; a plan whose last build task is checked but whose hardening task isn't is a plan
-still in progress, not a completed one.
+`engineering:conducting-test-hardening`. When the per-task loop reaches that task, run
+`engineering:conducting-test-hardening` in place of tdd and code-review — it is a different
+kind of task on purpose, and driving it through the ordinary loop would run the wrong tool on
+it. Report whichever exit it reaches — `pass`, `dry`, `cap`, `halt`, or `audit-only` —
+plainly, the same way that skill reports it, rather than translating it into a bare "done."
+Only once that task is checked off is the plan actually finished; a plan whose last build task
+is checked but whose hardening task isn't is still in progress, not completed.
 
 ## Stacked plans (PR strategy)
 
 Before starting, read the plan's Global Constraints for a **PR strategy** line. Most plans
-have none — they ship as one pull request at the end, and nothing here changes. When the
-line says `PR strategy: stacked`, the plan ships as one pull request per task, each based on
-the branch of the task before it, and two things follow.
+have none — they ship as one pull request at the end, and nothing here changes. When the line
+says `PR strategy: stacked`, two things follow for execution.
 
 First, a stacked plan runs **sequentially** — task by task, in order — and this skill does
-not offer subagent parallel mode for it. Each task's branch is based on the previous task's
-branch, so the tasks are inherently linear and cannot fan out across parallel agents,
-regardless of whether their files look disjoint.
+not offer subagent parallel mode for it, regardless of whether the tasks' files look disjoint.
 
-Second, a stacked plan's tasks carry extra steps the plan author already wrote: a step at
-the top that starts the task's stacked branch off the previous task's branch, and a step at
-the bottom that submits the task's stacked PR. Honor those steps as written — they invoke
+Second, a stacked plan's tasks carry extra steps the plan author already wrote: a step at the
+top that starts the task's stacked branch off the previous task's branch, and a step at the
+bottom that submits the task's stacked PR. Honor those steps as written — they invoke
 `engineering:using-stacked-pull-requests`, which owns all the branch-and-PR mechanics; this
-skill adds no PR logic of its own beyond running the plan's steps in order. Watch the branch
-model as you go: a task's commits belong on that task's own branch, started by its opening
-step, so run that opening step before the task's commit steps rather than committing onto
-the previous task's branch by accident.
+skill adds no PR logic of its own beyond running the plan's steps in order. Run a task's
+opening step before its commit steps, so its commits land on that task's own branch rather
+than the previous task's by accident.
 
 ## Subagent-driven mode
 
-The loop above is sequential by default — one task, start to finish, before the next
-begins — because most plans have tasks that build on each other, and running them out of
-order would mean building on something that isn't there yet. Some plans, or some stretches
-of tasks inside a plan, aren't like that: a run of tasks that touch disjoint files and
-neither reads what the other produces can be worked in parallel instead of one at a time,
-without changing anything about what each task still owes — its own tdd cycle, its own
-code-review gate, its own box, its own commit.
+The loop above is sequential by default. Some plans, or some stretches of tasks inside a plan,
+aren't bound to that: a run of tasks that touch disjoint files and neither reads what the other
+produces can be worked in parallel instead of one at a time, without changing anything about
+what each task still owes — its own tdd cycle, its own code-review gate, its own box, its own
+commit.
 
 Offer this mode rather than assuming it — ask before fanning a stretch of tasks out, don't
 default to it. When the user takes it, identify the run of genuinely independent tasks (no
@@ -147,12 +133,6 @@ the full per-task loop, not a shortcut version of it.
 - It does not **write the plan.** The tasks, their order, and the closing hardening task
   were all decided by `writing-plans` before this skill ever runs; this skill executes
   what's already on the page, it doesn't add, remove, or reorder a task itself.
-- It does not **review on its own authority.** Every gate a task passes through is
-  `engineering:code-review`'s judgment, dispatched fresh each time, not a shortcut check
-  this skill makes itself because a diff looks small.
-- It does not **skip tdd for a task that changes behavior** because the change looks
-  simple or the plan's prose reads like it's obviously correct. Simple changes are exactly
-  where skipping the cycle is cheapest to get away with and costs the most later.
 - It does not **invent a hardening pass beyond the one on the plan.** The Phase 3.5 task is
   the only place this skill dispatches `engineering:conducting-test-hardening`; it does not
   run it again mid-plan on a hunch that something needs hardening early.

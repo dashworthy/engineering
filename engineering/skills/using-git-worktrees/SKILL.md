@@ -11,18 +11,14 @@ Say this first, plainly: `Using the using-git-worktrees skill to isolate the wor
 
 One thing: before a single file changes, the work is happening in a workspace nothing
 else depends on — its own checkout, on its own branch, separate from whatever the
-surrounding session or a concurrent one is doing. A workspace that is already isolated
-satisfies this exactly as well as one this skill creates from scratch; the guarantee is
-about the end state reached, not about which of the two paths got there.
-
-Nothing else is guaranteed. Read `## What this does not do` below before assuming this
-skill decides more than where work happens.
+surrounding session or a concurrent one is doing, whether this skill created that workspace
+or found it already isolated.
 
 ## Detect existing isolation first
 
-Creating a new workspace when one already exists wastes the setup work twice and, worse,
-can leave two isolated copies of the same task drifting apart from each other. Before
-doing anything else, work out whether isolation is already in place.
+Creating a new workspace when one already exists wastes the setup and can leave two copies of
+the same task drifting apart. Before anything else, work out whether isolation is already in
+place.
 
 Two checks, in order:
 
@@ -92,21 +88,17 @@ expects to find — before touching any part of the actual task.
 
 Once setup finishes, run the project's test suite once, before making any change at all,
 and note the result. This is not the task's verification step — that belongs to
-`engineering:verification-before-completion`, later, run against the change actually
-made. This run answers a narrower question: was the workspace clean before this task ever
-touched it? A red baseline discovered now is information handed to whoever does the work
-next; the same red baseline discovered after a change looks like something the change
-caused, and untangling the two afterward costs far more than running the suite once up
-front.
+`engineering:verification-before-completion`, later, run against the change actually made.
+This run answers a narrower question: was the workspace clean before this task touched it?
+Establishing that up front keeps a pre-existing red baseline from later looking like
+something this task's change caused.
 
 ## Report readiness
 
 Before any implementation work starts, say plainly where it is happening and what
 condition it started in: the workspace's path and branch, whether it was created fresh or
-already existed, and the baseline test result. A task that begins without this on the
-record leaves the next reader — human or another skill — to re-derive it later from
-whatever state the workspace happens to be in by then, which is strictly harder than
-reading one line written down at the start.
+already existed, and the baseline test result. Without this on the record, the next reader —
+human or another skill — has to re-derive it later from the workspace's state.
 
 ## What this does not do
 

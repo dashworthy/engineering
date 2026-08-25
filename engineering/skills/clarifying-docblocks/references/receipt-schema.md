@@ -22,12 +22,11 @@ One receipt per file, written by the rewriter to `receipt_path`, amended by the 
 `start` and `end_before` index the **before** file. `lines_after` is a **count**, not a
 position.
 
-This is not cosmetic. If an edit carried its after-file end line, then the verifier reverting
-one edit would silently invalidate the recorded position of every edit below it in the file,
-and Proof 1 would compare the wrong ranges - failing a clean run, or worse, passing a dirty
-one. With before-anchors plus a count, `reconcile.py` derives after-file positions by walking
-the edits in ascending `start` and accumulating the drift, so **removing a reverted edit
-requires no renumbering at all.**
+This is not cosmetic: with before-anchors plus a count, `reconcile.py` derives after-file
+positions by walking the edits in ascending `start` and accumulating the drift, so removing a
+reverted edit requires no renumbering. Anchoring to after-file lines instead would let one
+reverted edit silently invalidate every edit below it, and Proof 1 would compare the wrong
+ranges — failing a clean run, or worse, passing a dirty one.
 
 ## Insertions
 

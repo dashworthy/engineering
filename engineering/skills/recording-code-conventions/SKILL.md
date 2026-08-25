@@ -19,22 +19,16 @@ amending, and retiring a convention are all this same writer under this same pai
 
 Every other path in the system — `identifying-code-conventions`, the `conventions-init` and
 `record-convention` commands, the PR-time harvest in `code-review`, the ADR-spawn seam in
-`domain-modeling` — funnels its candidate here rather than writing anything itself. That is
-what makes "one writer" true: there is exactly one place a convention can be born, changed,
-or ended.
-
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill finds
-candidates or applies them.
+`domain-modeling` — funnels its candidate here rather than writing anything itself.
 
 ## Step 1 — Harden the candidate
 
 Whatever surfaced the candidate, it arrives rough. Before anything else, run the interrogation
 defined in `references/hardening-interrogation.md`, in this directory: the choice-menu,
 one-question-per-turn process that pins **what it is**, **what it is not**, and **robustness**
-at the edges. This runs on **every** path — inference, dictation from the developer's head, a
-PR harvest, an ADR spawn — because recording is the only writer and this is where a sentence
-becomes a rule sharp enough to obey. Its output is the candidate's Rule / What it is / What
-it is not, ready for the gate.
+at the edges. This runs on **every** path, because recording is the only writer and this is
+where a sentence becomes a rule sharp enough to obey. Its output is the candidate's Rule /
+What it is / What it is not, ready for the gate.
 
 ## Step 2 — Pass the approval gate
 
@@ -57,8 +51,7 @@ its document, is the drift the format warns against; the two move together or no
 ## Amend and retire
 
 Both go through Steps 1–2 exactly as a new convention does — the same interrogation where it
-applies, the same individual approval — because a change to a standing rule is as consequential
-as a new one.
+applies, the same individual approval.
 
 - **Amend** — the rule still holds but its wording or boundary changed. Edit the document in
   place and bump the index row's **Last amended** date. Per `STANDARDS-FORMAT.md`, an
@@ -79,5 +72,3 @@ as a new one.
 - It does not **write specs or ADRs.** A convention is a repeatable standing rule; a spec
   (`to-spec`) and an ADR (`domain-modeling`) are different durable-knowledge kinds. An ADR may
   *spawn* a candidate that arrives here, but this skill never writes the ADR.
-- It does not **approve on its own authority.** The gate is the human approver's yes, one
-  convention at a time; this skill enforces that gate, it is not a substitute for it.

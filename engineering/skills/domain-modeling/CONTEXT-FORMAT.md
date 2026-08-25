@@ -16,21 +16,9 @@ not a restatement of the tech stack.>
 | <Term> | <What it means in this project, one or two sentences> | <Module, class, or file where the term is the primary, authoritative name> |
 ```
 
-Keep the purpose line to one sentence. It orients a reader before they hit the table, not
-after — someone opening this file for the first time should know what the project is about
-before they know what any single term means.
-
-Each glossary row is one term. `Meaning` is the definition as this project actually uses
-it, not a dictionary definition — if "order" means something narrower or stranger here
-than it does in general use, that's exactly what the row exists to capture. `Where in
-code` points at the one place the term is authoritative, not everywhere it happens to be
-mentioned — the type, module, or file a reader should open if they want the term's real,
-current shape.
-
 ## How to keep it current
 
-A glossary that drifts from the code is worse than no glossary at all — it actively
-misleads instead of just staying silent. Update the row at the same time the code changes,
-not on a later pass: when a rename lands, when a term's meaning narrows or splits into
-two, when a term that used to matter stops being used anywhere. If a row's `Where in code`
-pointer no longer resolves, that row is due for a look before anyone trusts it again.
+A glossary that drifts from the code misleads rather than staying silent, so update the row
+in the same change as the code — when a rename lands, when a term's meaning narrows or splits
+in two, when a term stops being used anywhere. A `Where in code` pointer that no longer
+resolves flags a row due for a look before anyone trusts it again.

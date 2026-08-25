@@ -1,12 +1,12 @@
 # Deepening a shallow module
 
-Four moves turn a shallow interface into a deep one. None of them are about making the
-module smaller — some make it bigger. All of them move a cost that the caller was paying
-into the module, where it's paid once instead of at every call site.
+Four moves turn a shallow interface into a deep one. None are about making the module
+smaller — some make it bigger; all move a cost the caller was paying into the module, where
+it's paid once instead of at every call site.
 
-Use these once `codebase-design`'s depth principle has told you a module is shallow.
-Each move below is a shape sketch, not a language-specific pattern — translate the
-signatures into whatever the module's actual language looks like.
+Use these once `codebase-design`'s depth principle has flagged a module as shallow. Each
+move is a shape sketch, not a language-specific pattern — translate the signatures into
+whatever the module's actual language looks like.
 
 ## 1. Pull complexity down behind the interface
 
@@ -39,8 +39,8 @@ value = cache.get_or_fetch(key, fetch_from_source, ttl=300)
 ```
 
 One call, one meaning. The cache is no longer a byte store with helpers standing next to
-it; it is the thing that answers "what is the current value for this key," which is what
-every caller actually wanted.
+it; it is the thing that answers "what is the current value for this key" — what every
+caller actually wanted.
 
 ## 2. Widen responsibility per call
 
@@ -56,10 +56,9 @@ validate_business_rules(payload)
 payload = normalize(payload)
 ```
 
-Every caller has to know the order matters, and a caller who skips a step — or reorders
-them — produces a payload that looks normalized but was never validated against the
-business rules. The three-call shape is not flexibility; it's an invariant the module
-declined to enforce.
+Every caller has to know the order matters, and one who skips or reorders a step produces a
+payload that looks normalized but was never validated against the business rules. The
+three-call shape isn't flexibility; it's an invariant the module declined to enforce.
 
 **After.** One call owns the sequence and its order:
 

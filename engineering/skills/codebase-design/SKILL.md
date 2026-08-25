@@ -11,12 +11,8 @@ Say this first, plainly: `Using the codebase-design skill to shape this interfac
 
 One thing: given a module — new or existing — this skill produces an interface shaped
 deliberately, from at least two competing designs, judged against what it costs a caller
-to use and what it hides from them. It does not guarantee the interface is small. It
-guarantees the interface earned its shape instead of being whatever fell out of the first
-draft.
-
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
-reaches further than a single module's boundary.
+to use and what it hides from them. The interface earned its shape instead of being
+whatever fell out of the first draft.
 
 ## The depth principle
 
@@ -35,10 +31,9 @@ while still keeping that complexity fenced off in a separate file, so nobody get
 benefit of the fence.
 
 Depth is the goal because a codebase's total cost to work in is closer to the sum of its
-interfaces than the sum of its implementations. Every caller reads the interface; only the
-maintainer reads the implementation. Trading implementation effort for interface
-simplicity is usually a good trade, because it is paid once and collected on every call
-site forever after.
+interfaces than the sum of its implementations: trading implementation effort for
+interface simplicity is usually a good trade, paid once and collected on every call site
+forever after.
 
 Depth is not free and not always right — a module that hides too much becomes a black box
 nobody can extend, and some seams belong to the caller (a widget library shouldn't decide
@@ -84,36 +79,20 @@ to expose that thing; the leak test is about accidental exposure, not designed c
 
 ## Design-it-twice discipline
 
-The first interface shape you sketch is anchored on whatever you were thinking about
-right before you sketched it — usually the implementation, since that's what's in your
-head. It is rarely the deepest available shape, and you cannot tell how good it is by
-staring at it alone, because you have nothing to compare it to.
-
 Before committing to a module's interface, sketch at least two genuinely different
-shapes — not two phrasings of the same shape, but two different allocations of
-responsibility between caller and module. `DESIGN-IT-TWICE.md`, alongside this file,
-covers how to generate a second design that actually differs from the first, and the
-criteria for choosing between them once both exist: what a call site has to know, how much
-of the module's machinery never has to reach the interface, and whether the interface lets
-a caller hold it wrong and not notice. Do this before writing the implementation, not
-after — comparing two sketches costs minutes; comparing two finished modules costs a
-rewrite.
+shapes — two different allocations of responsibility between caller and module, not two
+phrasings of the same shape — and do it before writing the implementation, not after.
+`DESIGN-IT-TWICE.md`, alongside this file, owns how to generate a second design that
+actually differs from the first, and the criteria for choosing between them once both
+exist: what a call site has to know, how much of the module's machinery never has to
+reach the interface, and whether the interface lets a caller hold it wrong and not notice.
 
 ## Reading the substrate
 
-Before shaping a new boundary, check whether the project has already made decisions this
-boundary should respect. `CONTEXT.md`, at the project root, and `docs/adr/` are the two
-places those decisions tend to live — names already chosen for a concept, a boundary
-already drawn between two modules, a tradeoff already argued out and settled.
-
-Read them **when present**. When either exists, treat what's in it as a constraint on the
-shape you're sketching, not a suggestion to route around: reusing an established name or
-boundary is worth more than a locally cleaner one that fights the rest of the codebase.
-
-Neither file is required. Most modules get designed with no `CONTEXT.md` in sight and no
-ADR on point, and that is the ordinary case, not a degraded one. When present, they're
-read; when absent, this skill proceeds on the module and its immediate neighbors alone,
-and does not stall waiting for documentation that isn't there.
+Before shaping a boundary, read `CONTEXT.md`, at the project root, and `docs/adr/` when
+they exist, and treat a name or boundary already settled there as a constraint on the
+shape you're sketching, not a suggestion to route around; neither is required, and when
+absent this skill proceeds on the module and its immediate neighbors alone.
 
 ## Boundaries — what this does not do
 
@@ -128,6 +107,3 @@ and does not stall waiting for documentation that isn't there.
 - It does not **implement.** Sketching interface shapes and choosing between them is not
   writing the module. Once a shape is chosen, building it is ordinary implementation work,
   outside this skill.
-- It does not **skip the second design.** A single sketch, however confident it looks, is
-  not this skill's output. If there is only one shape on the table, the discipline in
-  `DESIGN-IT-TWICE.md` has not run yet.

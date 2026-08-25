@@ -2,8 +2,7 @@
 
 Concrete templates for the two shapes `using-diagrams` anchors on, each in both mediums.
 Copy the one that matches the shape and the destination; adapt the labels to the real
-material. The medium is chosen by the fork in `SKILL.md` — mermaid where the destination
-renders markdown, ASCII everywhere else.
+material. The medium follows the fork in `SKILL.md`.
 
 Each mermaid template below is shown inside an outer fence so you can see its ` ```mermaid `
 line. Copy **only the inner block** — three backticks, the word `mermaid`, and the diagram —
@@ -15,10 +14,8 @@ Every mermaid diagram this skill writes must render on GitHub — the specs, ADR
 issues it lands in are all drawn by GitHub's renderer, which pins an older mermaid than a
 local preview and sanitizes for safety. Stay inside what GitHub actually draws:
 
-- **Fence at column 0, exactly three backticks and `mermaid`.** A fence indented four or
-  more spaces becomes an *indented code block* — GitHub prints the source as text instead of
-  drawing it — and four backticks in place of three does the same. This is the single most
-  common reason a diagram that looked fine locally shows up as raw text on GitHub.
+- **Fence at column 0, exactly three backticks and `mermaid`.** Indent it four or more
+  spaces, or use four backticks, and GitHub prints the source as text instead of drawing it.
 - **One diagram per block.**
 - **Core diagram types only** — `flowchart`/`graph`, `sequenceDiagram`, `stateDiagram-v2`,
   `erDiagram`, `classDiagram`. Skip the newest experimental types; GitHub lags them.
@@ -100,8 +97,6 @@ CUSTOMER ──< ORDER ──< LINE_ITEM >── PRODUCT
 ```
 
 Keep the cardinality numbers on the line below the entities, under the end they annotate.
-Within a docblock, hold to the 72-column budget in `clarifying-docblocks`'
-`references/diagram-rules.md`.
 
 ## Process-flow diagram
 
@@ -185,6 +180,3 @@ stateDiagram-v2
 ```text
 [draft] ──(approve)──▶ [approved] ──(supersede)──▶ [superseded]
 ```
-
-The rule is unchanged: draw only a shape prose describes badly, ground every mark in real
-material, and pick the medium by whether the destination renders mermaid.

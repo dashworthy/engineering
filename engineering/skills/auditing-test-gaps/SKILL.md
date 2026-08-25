@@ -7,12 +7,11 @@ description: "[Test hardening] Use when dispatched by verity to audit one suite 
 
 ## You are read-only
 
-State this before anything else because the next section reads code closely enough to be
-mistaken for permission to fix it: **you write no files, run no test-modifying commands, and
-propose no fixes.** You inspect the diff and the code it touches, and you return findings.
-Everything downstream of your return — writing a test, changing application code, editing the
-brief — belongs to a different role in the loop. If you find yourself about to open an editor,
-apply a patch, or "just tidy up" a line while you're in there, stop; that is not this skill.
+**You write no files, run no test-modifying commands, and propose no fixes.** You inspect the
+diff and the code it touches, and you return findings. Everything downstream of your return —
+writing a test, changing application code, editing the brief — belongs to a different role in
+the loop. If you find yourself about to open an editor, apply a patch, or "just tidy up" a
+line, stop; that is not this skill.
 
 ## What you receive
 
@@ -51,11 +50,9 @@ one-sentence assertion a test would need to satisfy, you don't have a finding ye
 reading the code until you do.
 
 `behavior` and `test_intent` are not the same sentence twice. `behavior` describes what the
-*code* currently does, unguarded. `test_intent` describes what the *test* must assert to guard
-it. For a boundary gap: `behavior` = "returns the last element when the index equals
-length-1"; `test_intent` = "assert the value at index length-1 equals the final element, and
-that index length raises." The verifier treats `test_intent` as the authoritative anchor when
-checking a written test for drift, so make it carry the weight.
+*code* currently does, unguarded; `test_intent` describes what the *test* must assert to guard
+it. The verifier treats `test_intent` as the authoritative anchor when checking a written test
+for drift, so make it carry the weight.
 
 ## Assigning risk_level
 
@@ -128,9 +125,8 @@ into one:
    mutation tool made there (a comparison flipped, a boundary shifted, a return value
    substituted); the surrounding code tells you what behavior that change would have broken
    silently.
-2. **Derive `target_symbol`, `behavior`, `test_intent`, `target_test_file`, `risk_level`, and
-   `risk`** exactly as you would for a gap found by reading the diff directly. Never fabricate
-   these from the operator name alone — "ConditionalBoundary survived at file.ext:42" is not a
+2. **Derive the same fields as for a gap found by reading the diff directly.** Never fabricate
+   them from the operator name alone — "ConditionalBoundary survived at file.ext:42" is not a
    behavior, and a test written against that string asserts nothing meaningful.
 3. **If, having read the line, the mutant isn't worth a test** — it's equivalent (the mutated
    code behaves identically to the original for every reachable input) or the line is
@@ -152,16 +148,10 @@ echo `prior_verdict`, `prior_defect`, and `prior_defect_location` back unchanged
 uses the id to recognize this as rework rather than a new finding.
 
 **A carried-forward item can also arrive with `prior_verdict: unevaluated` and a
-`prior_unevaluated_reason` instead of a defect.** This is not rework in the "fix a named defect"
-sense above — it means a previous iteration attempted this item and the verifier could not judge
-the result at all (the suite errored before producing output, the code under test no longer
-exists, or the environment could not run it), so nothing was learned about whether the test was
-good, bad, or even ran. Treat `prior_unevaluated_reason` as context for why the item is still
-open, not as a defect to correct; there is no defect here to sharpen `test_intent` against.
-Re-audit the item on its own merits — the code and the gap may be unchanged, or the
-`prior_unevaluated_reason` itself may point at something worth adjusting (for example, a
-`target_test_file` the environment couldn't reach). Echo `prior_verdict` and
-`prior_unevaluated_reason` back unchanged, and keep the original `id`, exactly as for `weak` or
+`prior_unevaluated_reason` instead of a defect** — a previous attempt the verifier could not
+judge, not a named defect to sharpen `test_intent` against, so treat `prior_unevaluated_reason`
+as context and re-audit the item on its own merits. Echo `prior_verdict` and
+`prior_unevaluated_reason` back unchanged and keep the original `id`, exactly as for `weak` or
 `invalid` rework.
 
 ## Return format
@@ -217,13 +207,11 @@ optional and only present when step 3 above applied.
 }
 ```
 
-A field left as `<ONLY for ...>` above is omitted from a finding it doesn't apply to — do not
-emit the placeholder text. `id` (for both gap and breakage findings), `iteration`, `status`, and
-`satisfied_by` for **new** findings are not yours to set: the conductor assigns `id` (`<suite>-
-<track>-<nnn>` for a gap, `<suite>-breakage-<nnn>` for a breakage finding) and `iteration` on
-merge, and owns `status` and `satisfied_by` from there forward. Leave them out of a fresh finding
-entirely; the one exception is a carry-forward gap item, where you echo the `id` you were given
-so the conductor can recognize it as rework rather than something new.
+Fields shown as `<ONLY for ...>` are omitted where they don't apply — never emit the placeholder
+text. `id` (gap and breakage findings alike), `iteration`, `status`, and `satisfied_by` are the
+conductor's to assign on merge; leave them out of a fresh finding, the one exception being a
+carry-forward gap item where you echo the `id` you were given so the conductor recognizes it as
+rework.
 
 ## Red flags — STOP
 
@@ -231,12 +219,9 @@ so the conductor can recognize it as rework rather than something new.
 - Reporting an uncovered line as a gap without naming the behavior at risk.
 - A `test_intent` that restates `behavior` instead of stating an assertion.
 - Proposing a fix, a diff, or "the corrected line" inside a breakage finding.
-- Proposing a new test file when an existing one already covers that unit or scenario.
-- Proposing a new Gherkin step when an existing one already covers the same action.
 - Auditing or reporting on a track this dispatch didn't ask for, or a suite's disabled track.
 - Emitting a mutant-derived finding whose `behavior` or `test_intent` is just the operator name
   and location restated.
 - Returning a gap finding with no `test_intent` a verifier could check a written test against.
 - Assigning `high` or `medium` without a `risk` sentence that names the concrete consequence.
 - Emitting both a gap finding and a breakage finding for the same suspect-and-untested code.
-- A `dropped_mutants` entry missing `suite`, forcing the conductor to reconstruct it.
