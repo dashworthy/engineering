@@ -1,6 +1,6 @@
 ---
 name: executing-plans
-description: "[Planning] Execute an implementation plan from docs/dashworthy/engineering/plans/ task by task — each task driven through tdd and gated by code-review — after confirming the plan-approval marker, and running its closing test-hardening task via conducting-test-hardening. Runs to completion with no mid-flow human checkpoints. User-invoked via /implement. Supports an optional subagent-driven mode for independent tasks. Working state under .engineering/<run>/implement/."
+description: "[Planning] Execute an implementation plan from the run's plan dir (.engineering/<run>/plan/) task by task — each task driven through tdd and gated by code-review — after confirming the plan-approval marker, and running its closing test-hardening task via conducting-test-hardening. Runs to completion with no mid-flow human checkpoints. User-invoked via /implement. Supports an optional subagent-driven mode for independent tasks. Working state under .engineering/<run>/implement/."
 ---
 
 # Executing Plans
@@ -17,7 +17,7 @@ on the plan gets marked done without going through the cycle the plan was writte
 ## Finding the plan
 
 Accept a plan path directly — `/implement` passes one through when the caller supplied
-one. Without one, look in `docs/dashworthy/engineering/plans/` for the most recently
+one. Without one, look in `.engineering/<run>/plan/` for the most recently
 written plan and confirm it with the user before starting; a plan chosen by file mtime
 with no confirmation is a guess about which piece of work the caller meant, and guessing
 wrong here means driving several tasks through tdd and code-review against the wrong plan

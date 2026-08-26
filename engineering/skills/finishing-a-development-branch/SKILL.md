@@ -46,7 +46,7 @@ So treat "was this branch hardened" as a question with evidence, not an assumpti
 from earlier in the session:
 
 - **Was there a plan behind this branch at all?** If one is known — via the active run pointer
-  or a plan file under `docs/dashworthy/engineering/plans/` that matches this work — find its
+  or a plan file under `.engineering/<run>/plan/` that matches this work — find its
   closing Phase 3.5 task and check whether its box is actually checked. A plan with no such task
   checked off has not been hardened, whatever the rest of its boxes say.
 - **Did a hardening run actually leave a trace?** A checked box is a claim; test-hardening's own run
@@ -67,7 +67,7 @@ unnamed, or decide on the user's behalf that skipping it is fine.
 Once the branch is green, verified, and either hardened or knowingly waved through, it can
 re-enter the rest of the repository. How that happens is, by default, not a fresh question: the
 plan gate already settled it. Read the plan behind this branch — via the active run pointer or a
-plan file under `docs/dashworthy/engineering/plans/` that matches this work — and look in its
+plan file under `.engineering/<run>/plan/` that matches this work — and look in its
 Global Constraints for the `Finish strategy:` line (and any `PR strategy: stacked` line). When
 one is there, it is the human's authorized choice: carry it out without asking again. Only when
 there is **no plan, or no finish strategy recorded on it** — a branch built outside the

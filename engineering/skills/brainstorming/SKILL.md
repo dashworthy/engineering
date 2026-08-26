@@ -85,7 +85,7 @@ Design approval happens at the spec gate, not here. Hand the recommended design 
 writes it as a draft, presents it, and waits for the human's approval before stamping
 `Approved` and minting the run's spec-approval marker; nothing downstream builds until
 that marker exists. This skill does not write the spec and does not write into
-`docs/dashworthy/engineering/specs/` — `to-spec` is the plugin's only writer there.
+`.engineering/<run>/spec/` — `to-spec` is the plugin's only writer there.
 
 So this skill's job ends at a recommendation, not a ratification. Don't stage a
 section-by-section sign-off here or treat the human nodding along as approval —

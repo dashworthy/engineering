@@ -75,7 +75,7 @@ sh "$d/hook.sh" >/dev/null || { echo "FAIL: hook"; fail=1; }
 if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2>/dev/null; then echo "FAIL: retired verity reminder present"; fail=1; fi
 
 # 6. to-spec is the sole Tier-1 writer; both entrances reach it.
-grep -q "docs/dashworthy/engineering/specs/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
+grep -q ".engineering/<run>/spec/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
 grep -qE "Hand off to .*engineering:brainstorming" "$eng/skills/conducting-discovery/SKILL.md" || { echo "FAIL: signal's release must hand off to the brainstorming design gate"; fail=1; }
 grep -rq "to-spec" "$eng/skills/triage" || { echo "FAIL: triage must reach to-spec"; fail=1; }
 

@@ -47,7 +47,7 @@ a reader has to read past to reach the thing that matters.
 This is the decision that changes what gets written. Once a diagram has earned its place,
 pick the medium by one predicate — **does the destination render a fenced mermaid block?**
 
-- **It renders markdown** — a spec under `docs/dashworthy/engineering/specs/`, an ADR under
+- **It renders markdown** — a spec under `.engineering/<run>/spec/`, an ADR under
   `docs/adr/`, a plan, `CONTEXT.md`, a pull-request description, a GitHub issue or comment:
   use **mermaid**, in a ` ```mermaid ` fenced block. The destination draws it; ASCII there
   would be a worse picture of the same thing. Keep the mermaid **GitHub-compatible** —

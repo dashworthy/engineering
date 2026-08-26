@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: "[Planning] Turn an approved spec in docs/dashworthy/engineering/specs/ into an ordered, bite-sized implementation plan written to docs/dashworthy/engineering/plans/, with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, and mint the run's plan-approval marker. Use after a spec is approved and before building. Consults CONTEXT.md and the ADR trail, and cites recorded conventions from docs/standards/ inline at each task via using-code-conventions."
+description: "[Planning] Turn an approved spec in .engineering/<run>/spec/ into an ordered, bite-sized implementation plan written to .engineering/<run>/plan/, with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, and mint the run's plan-approval marker. Use after a spec is approved and before building. Consults CONTEXT.md and the ADR trail, and cites recorded conventions from docs/standards/ inline at each task via using-code-conventions."
 ---
 
 # Writing Plans
@@ -11,7 +11,7 @@ Say this first, plainly: `Using the writing-plans skill to create the implementa
 
 One thing: given an approved spec, this skill produces an ordered implementation plan —
 or, when the spec doesn't fit in one, an ordered set of them — written to
-`docs/dashworthy/engineering/plans/`, where every step is small enough to build and check
+`.engineering/<run>/plan/`, where every step is small enough to build and check
 in on its own, the test-driven cycle is wired into the step sequence instead of left as
 an aside, and the plan does not end until a hardening task is sitting on it. It does not
 guarantee the plan is short, only that nothing in it is too big to finish and verify in
@@ -22,7 +22,7 @@ reaches past turning an approved spec into a sequence of steps.
 
 ## Reading the spec
 
-Start from an approved Tier-1 spec in `docs/dashworthy/engineering/specs/` — a path, or
+Start from an approved Tier-1 spec in `.engineering/<run>/spec/` — a path, or
 the spec already sitting in context. A plan built from a spec still in draft is a plan
 built on a decision nobody has actually made; if the spec's own status line doesn't say
 Approved, say so and stop rather than plan around a draft.
@@ -175,7 +175,7 @@ task there.
 
 ## Writing the plan file, then reviewing it
 
-Write to `docs/dashworthy/engineering/plans/<YYYY-MM-DD>-<topic>.md`. `<YYYY-MM-DD>` is
+Write to `.engineering/<run>/plan/<YYYY-MM-DD>-<topic>.md`. `<YYYY-MM-DD>` is
 today's date — the day the plan is written, not the spec's approval date, which may be
 days or weeks earlier. `<topic>` is the spec's own topic slug, reused rather than
 reinvented, so the spec and the plan it produced sort next to each other by name. For a

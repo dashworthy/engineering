@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "[Build] Review a change on two axes — Standards (does the code meet engineering norms) and Spec (does it do what was asked) — dispatching parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Finds the Spec axis in docs/dashworthy/engineering/specs/ or a user-supplied path. Consults CONTEXT.md and the ADR trail for conventions and settled decisions the change is accountable to."
+description: "[Build] Review a change on two axes — Standards (does the code meet engineering norms) and Spec (does it do what was asked) — dispatching parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Finds the Spec axis in the run's spec dir (.engineering/<run>/spec/) or a user-supplied path. Consults CONTEXT.md and the ADR trail for conventions and settled decisions the change is accountable to."
 ---
 
 # Code Review
@@ -37,7 +37,8 @@ able to trust that nothing about scope or intent is hiding in them, and the reve
 ## Where the Spec axis looks
 
 The Spec axis needs something concrete to check the change against, not a recollection of
-what the conversation probably meant. It looks in one place first: `docs/dashworthy/engineering/specs/`,
+what the conversation probably meant. It looks in one place first: the active run's spec dir,
+`.engineering/<run>/spec/` (resolved from `.engineering/.current-run`),
 for whichever document plausibly governs the change under review — matched by feature area
 and, when more than one candidate fits, by recency. A path handed to this skill directly
 overrides the directory search outright and is never second-guessed against what the scan
