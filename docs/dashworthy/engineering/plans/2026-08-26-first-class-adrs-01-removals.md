@@ -87,6 +87,6 @@ Copied verbatim from the spec's §4 Constraints; every task below reads "per Glo
 
 ## Task 4 — Test hardening (closing)
 
-- [ ] Invoke `engineering:conducting-test-hardening` over this plan's diff (the two removals and the README/test reconciliation). Confirm the removal did not silently drop a test that guarded still-present behavior, and that the updated `acceptance.sh` / `plan03.sh` / `validate.sh` assertions still fail if a removed skill were reintroduced or the count drifted. This closing task is mandatory and is this plan's last step.
+- [x] Invoke `engineering:conducting-test-hardening` over this plan's diff (the two removals and the README/test reconciliation). Confirm the removal did not silently drop a test that guarded still-present behavior, and that the updated `acceptance.sh` / `plan03.sh` / `validate.sh` assertions still fail if a removed skill were reintroduced or the count drifted. This closing task is mandatory and is this plan's last step. _(Exit: `dry`. Brief at `.engineering/2026-08-26-first-class-adrs/verity/briefs/1.md`. Mutation-probed the count guard: reintroducing a skill dir → `validate.sh` FAIL (34 vs 35) + acceptance exit 1; reverted → green. No still-present-behavior test dropped; no coverage/mutation tooling exists for this shell-assertion suite.)_
 
 **Verification:** `conducting-test-hardening` reports no unaddressed gap or breakage on this plan's diff; the full gate remains green.
