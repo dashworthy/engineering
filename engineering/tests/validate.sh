@@ -183,6 +183,24 @@ if [ -f "$ADRSEED" ]; then
   grep_flat "$ADRSEED" "Accepted"; check $? "ADR index records ADR 0001 as Accepted"
 fi
 
+# --- domain-modeling shrunk to the glossary; ADR half + spawn bridge removed --
+# recording-adrs now owns docs/adr/; domain-modeling keeps only the CONTEXT.md glossary. The
+# one-directional ADR->convention spawn bridge is removed here and from recording-code-conventions.
+DM="$PLUGIN/skills/domain-modeling/SKILL.md"
+if [ -f "$DM" ]; then
+  ! grep_flat "$DM" "docs/adr";                          check $? "domain-modeling no longer writes docs/adr (moved to recording-adrs)"
+  ! grep_flat "$DM" "Spawning a convention from an ADR"; check $? "domain-modeling drops the ADR-spawn bridge section"
+fi
+[ ! -e "$PLUGIN/skills/domain-modeling/ADR-FORMAT.md" ]; check $? "domain-modeling/ADR-FORMAT.md removed (moved to recording-adrs)"
+RCC="$PLUGIN/skills/recording-code-conventions/SKILL.md"
+if [ -f "$RCC" ]; then
+  ! grep_flat "$RCC" "spawn"; check $? "recording-code-conventions has no spawn-bridge reference"
+fi
+STDFMT="$PLUGIN/skills/recording-code-conventions/STANDARDS-FORMAT.md"
+if [ -f "$STDFMT" ]; then
+  ! grep_flat "$STDFMT" "spawn"; check $? "STANDARDS-FORMAT drops the ADR-spawn provenance option"
+fi
+
 # --- using-adrs consumer -----------------------------------------------------
 # The ADR analogue of using-code-conventions, under the trail profile: read the index, match
 # the When relevant column, cite the governing ADR by path at the work item, skip Superseded.

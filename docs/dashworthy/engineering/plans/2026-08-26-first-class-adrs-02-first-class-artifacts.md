@@ -123,13 +123,13 @@ Success criterion 8: a tracking view distinct from the index's lookup role. The 
 - Modify: `engineering/skills/recording-code-conventions/STANDARDS-FORMAT.md` (scrub the "the ADR that spawned it (`docs/adr/NNNN-...`)" provenance option if present)
 
 **Steps:**
-- [ ] Add `validate.sh` assertions: `domain-modeling/SKILL.md` no longer contains `docs/adr` or `Spawning a convention from an ADR`; `recording-code-conventions/SKILL.md` no longer contains `ADR-spawn` / `spawn`. Run; **confirm FAIL** (the strings still present).
-- [ ] Edit `domain-modeling/SKILL.md`: remove the ADR sections and spawn bridge; update its frontmatter `description` so it no longer claims to write `docs/adr/` (per skill-authoring standard — the description carries discovery). Update its "does not" list to point ADR recording at `recording-adrs`.
-- [ ] Delete `domain-modeling/ADR-FORMAT.md`.
-- [ ] Edit `recording-code-conventions/SKILL.md` and `STANDARDS-FORMAT.md` to remove the spawn-bridge references.
-- [ ] `grep -rn "Spawning a convention from an ADR\|ADR-spawn\|spawn" engineering/skills/domain-modeling engineering/skills/recording-code-conventions` returns nothing.
-- [ ] Run the full gate (`suite.sh` runs `conventions.sh` and `validate.sh`); **confirm green**.
-- [ ] Commit: `refactor(engineering): shrink domain-modeling to the glossary; remove ADR half and spawn bridge`.
+- [x] Add `validate.sh` assertions: `domain-modeling/SKILL.md` no longer contains `docs/adr` or `Spawning a convention from an ADR`; `recording-code-conventions/SKILL.md` no longer contains `ADR-spawn` / `spawn`. Run; **confirm FAIL** (the strings still present).
+- [x] Edit `domain-modeling/SKILL.md`: remove the ADR sections and spawn bridge; update its frontmatter `description` so it no longer claims to write `docs/adr/` (per skill-authoring standard — the description carries discovery). Update its "does not" list to point ADR recording at `recording-adrs`.
+- [x] Delete `domain-modeling/ADR-FORMAT.md`.
+- [x] Edit `recording-code-conventions/SKILL.md` and `STANDARDS-FORMAT.md` to remove the spawn-bridge references.
+- [x] `grep -rn "Spawning a convention from an ADR\|ADR-spawn\|spawn" engineering/skills/domain-modeling engineering/skills/recording-code-conventions` returns nothing.
+- [x] Run the full gate (`suite.sh` runs `conventions.sh` and `validate.sh`); **confirm green**. _(conventions.sh "Task 8" spawn-seam guards removed with the behavior per removal-cleanliness; validate.sh now positively asserts the spawn refs are absent.)_
+- [x] Commit: `refactor(engineering): shrink domain-modeling to the glossary; remove ADR half and spawn bridge`.
 
 **Verification:** `sh engineering/tests/suite.sh` passes (`conventions.sh` still green after the spawn-bridge scrub); no spawn references remain.
 
