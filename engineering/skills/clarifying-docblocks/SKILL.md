@@ -138,9 +138,9 @@ Then, for that same file, dispatch `verifying-docblock-claims`:
 ```
 
 **Name every path.** A subagent cannot resolve a relative citation from a directory it was
-never told it is standing in - the defect guardtower found on its first live run, where an
-analyst was told to write "the shape `finding-schema.md` defines" and never told where that
-document was. `skill_path` appears in both payloads for the same reason.
+never told it is standing in: an instruction to cite "the shape `receipt-schema.md` defines,"
+handed to an agent never told where that document sits, resolves to nothing. `skill_path`
+appears in both payloads for the same reason.
 
 Both return one line: counts and a receipt path. **A returned description means the firewall
 has already failed** - halt and say so rather than using it.
