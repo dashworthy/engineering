@@ -58,7 +58,7 @@ while IFS= read -r pair; do
 done <<EOF
 $tagged
 EOF
-for name in research resolving-merge-conflicts; do
+for name in resolving-merge-conflicts; do
   sh "$d/frontmatter.sh" "$eng/skills/$name" >/dev/null || { echo "FAIL: $name frontmatter"; fail=1; }
   python3 -c "import re,sys;t=open(sys.argv[1]).read();m=re.search(r'^description:\s*\"?(.)',t,re.M);assert m and m.group(1)!='[',sys.argv[1]" "$eng/skills/$name/SKILL.md" || { echo "FAIL: $name must not be tagged"; fail=1; }
 done

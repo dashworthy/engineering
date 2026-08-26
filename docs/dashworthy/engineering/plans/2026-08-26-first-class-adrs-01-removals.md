@@ -33,15 +33,15 @@ Copied verbatim from the spec's §4 Constraints; every task below reads "per Glo
 
 **Steps (red → green):**
 
-- [ ] Delete `engineering/skills/research/`.
-- [ ] Run `sh engineering/tests/acceptance.sh` and `sh engineering/tests/plan03.sh`; **confirm both now FAIL** on the missing `research` frontmatter — this is the failing check that proves the tests guard the skill's presence.
-- [ ] In `engineering/tests/acceptance.sh`, remove `research` from the untagged loop (`for name in research resolving-merge-conflicts` → `for name in resolving-merge-conflicts`).
-- [ ] In `engineering/tests/plan03.sh`, remove the `research` frontmatter line and drop `research` from its `for s in research resolving-merge-conflicts` loop.
-- [ ] In `engineering/skills/dispatching-parallel-agents/SKILL.md`, remove the sentence/clause that references `research` (per Global Constraints, no dangling references).
-- [ ] In `engineering/skills/README.md`, delete the `research` list entry.
-- [ ] `grep -rn "research" engineering/skills engineering/tests engineering/commands` returns no reference to the removed skill (matches of the ordinary English word "research" in unrelated prose are acceptable; a path/skill-name reference is not).
-- [ ] Run the verification gate; **confirm green**.
-- [ ] Commit: `chore(engineering): remove underutilized research skill`.
+- [x] Delete `engineering/skills/research/`.
+- [x] Run `sh engineering/tests/acceptance.sh` and `sh engineering/tests/plan03.sh`; **confirm both now FAIL** on the missing `research` frontmatter — this is the failing check that proves the tests guard the skill's presence.
+- [x] In `engineering/tests/acceptance.sh`, remove `research` from the untagged loop (`for name in research resolving-merge-conflicts` → `for name in resolving-merge-conflicts`).
+- [x] In `engineering/tests/plan03.sh`, remove the `research` frontmatter line and drop `research` from its `for s in research resolving-merge-conflicts` loop.
+- [x] In `engineering/skills/dispatching-parallel-agents/SKILL.md`, remove the sentence/clause that references `research` (per Global Constraints, no dangling references).
+- [x] In `engineering/skills/README.md`, delete the `research` list entry.
+- [x] `grep -rn "research" engineering/skills engineering/tests engineering/commands` returns no reference to the removed skill (matches of the ordinary English word "research" in unrelated prose are acceptable; a path/skill-name reference is not).
+- [x] Run the verification gate; **confirm green**.
+- [x] Commit: `chore(engineering): remove underutilized research skill`. _(count 36->35 folded in to keep the suite green per removal-cleanliness constraint; root README table row deferred to Task 3.)_
 
 **Verification:** `sh engineering/tests/acceptance.sh && sh engineering/tests/plan03.sh && sh engineering/tests/suite.sh` — all exit 0; `suite.sh` prints `ALL FOUNDATION CHECKS PASS`.
 
