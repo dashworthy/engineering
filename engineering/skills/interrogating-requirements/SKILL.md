@@ -1,6 +1,6 @@
 ---
 name: interrogating-requirements
-description: "[Discovery] Turns a vague or underspecified request into hard requirements — brief.md §1–§6. Interactive and main-thread: driven only by a discovery conductor, never self-triggered on a general feature or build request, and cannot run as a dispatched subagent."
+description: "[Discovery] Turn a vague or underspecified request into hard requirements — brief.md §1–§6. Interactive, main-thread: only a discovery conductor drives it, never self-triggered on a feature request, and it cannot run as a dispatched subagent."
 ---
 
 # Interrogating Requirements

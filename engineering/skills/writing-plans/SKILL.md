@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: "[Planning] Turn an approved spec in .engineering/<run>/spec/ into an ordered, bite-sized implementation plan written to .engineering/<run>/plan/, with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, and mint the run's plan-approval marker. Use after a spec is approved and before building. Consults CONTEXT.md and the ADR trail, and cites recorded conventions from docs/standards/ inline at each task via using-code-conventions."
+description: "[Planning] Turn an approved spec into an ordered, bite-sized implementation plan with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, mint the plan-approval marker. Use after a spec is approved and before building. Cites recorded conventions inline at each task via using-code-conventions."
 ---
 
 # Writing Plans

@@ -1,6 +1,6 @@
 ---
 name: recording-code-conventions
-description: "[Discovery] The single writer for a project's code conventions: interrogate a candidate into a sharp rule, gate it on the approver's individual yes, then write it to docs/standards/ per STANDARDS-FORMAT.md and keep the index in sync. Use when a convention is being created, amended, or retired — whatever surfaced it. Writes the standards tree and its index; does not discover candidates (identifying-code-conventions) or consume them (using-code-conventions)."
+description: "[Discovery] The single writer for a project's code conventions: interrogate a candidate into a sharp rule, gate it on the approver's yes, write it to docs/standards/, and keep the index in sync. Use when a convention is created, amended, or retired. Does not discover candidates (identifying-code-conventions) or consume them (using-code-conventions)."
 ---
 
 # Recording Code Conventions

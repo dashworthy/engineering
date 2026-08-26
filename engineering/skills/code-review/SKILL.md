@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "[Build] Review a change on two axes — Standards (does the code meet engineering norms) and Spec (does it do what was asked) — dispatching parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Finds the Spec axis in the run's spec dir (.engineering/<run>/spec/) or a user-supplied path. Consults CONTEXT.md and the ADR trail for conventions and settled decisions the change is accountable to."
+description: "[Build] Review a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Consults CONTEXT.md and the ADR trail for conventions and settled decisions."
 ---
 
 # Code Review

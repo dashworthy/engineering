@@ -1,6 +1,6 @@
 ---
 name: domain-modeling
-description: "[Discovery] Crystallize how the project names things: maintain CONTEXT.md, the domain glossary that ties each term to where it shows up in code. Use when a new domain term appears or an existing name needs pinning down, so a later skill reads what something is called instead of re-deriving it. Writes CONTEXT.md at repo root; does not record decisions (recording-adrs), design interfaces (codebase-design), or write specs (to-spec)."
+description: "[Discovery] Maintain CONTEXT.md, the domain glossary tying each term to where it shows up in code. Use when a new domain term appears or a name needs pinning down. Writes CONTEXT.md at repo root; does not record decisions (recording-adrs) or write specs (to-spec)."
 ---
 
 # Domain Modeling

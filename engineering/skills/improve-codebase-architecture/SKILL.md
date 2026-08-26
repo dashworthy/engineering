@@ -1,6 +1,6 @@
 ---
 name: improve-codebase-architecture
-description: "[Design] Audit a codebase for shallow modules and tangled boundaries, then propose and stage deepening changes, emitting a self-contained HTML report. User-invoked via /improve-codebase-architecture. Leans on codebase-design (interface moves) and domain-modeling (naming); consults CONTEXT.md and the ADR trail for names and settled decisions."
+description: "[Design] Audit a codebase for shallow modules and tangled boundaries, then propose and stage deepening changes as an HTML report. User-invoked via /improve-codebase-architecture. Leans on codebase-design (interface moves) and domain-modeling (naming)."
 disable-model-invocation: true
 ---
 

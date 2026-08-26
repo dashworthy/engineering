@@ -1,6 +1,6 @@
 ---
 name: to-spec
-description: "[Discovery] The single writer of Tier-1 specs, and the holder of the spec-approval gate. Given an entrance's accumulated material — a signal discovery brief or a triage isolation record, by path or inline — render the standard spec document to the run's spec dir (.engineering/<run>/spec/) as a draft, present it, wait for the human to approve, then stamp Approved and mint the run's spec-approval marker. Invoked by engineering:brainstorming with a recommended design — the one caller, reachable from both entrances; not a general-purpose writer and does not self-trigger on arbitrary requests."
+description: "[Discovery] The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Invoked by engineering:brainstorming with a recommended design — the one caller; does not self-trigger on arbitrary requests."
 ---
 
 # To Spec

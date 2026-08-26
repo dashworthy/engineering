@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: "[Build] Drive implementation with a strict red-green-refactor loop: write a failing test, watch it fail, write the minimal code to pass, refactor. Use when building any behavior that can be tested first. Consults CONTEXT.md for naming and conventions. Distinct from test-hardening, which hardens existing tests after the fact — tdd builds them during implementation."
+description: "[Build] Drive implementation with a strict red-green-refactor loop: write a failing test, watch it fail, write minimal code to pass, refactor. Use when building any behavior that can be tested first. Distinct from test-hardening, which hardens existing tests after the fact."
 ---
 
 # TDD

@@ -1,6 +1,6 @@
 ---
 name: codebase-design
-description: "[Design] Shape module interfaces so complexity is hidden behind narrow, deep boundaries. Use when defining a new module's interface, judging whether a boundary earns its keep, or before a larger architecture pass. Consults CONTEXT.md and the ADR trail for settled names and boundaries; never requires them. Not a codebase-wide audit (that is improve-codebase-architecture) and not product/approach design (that is brainstorming)."
+description: "[Design] Shape module interfaces so complexity hides behind narrow, deep boundaries. Use when defining a module's interface or judging whether a boundary earns its keep. Not a codebase-wide audit (improve-codebase-architecture) and not approach design (brainstorming)."
 ---
 
 # Codebase Design

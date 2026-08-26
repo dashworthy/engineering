@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "[Design] Shape a piece of work into a recommended design through dialogue: explore context, propose 2-3 approaches with trade-offs, and recommend one. Holds no approval gate of its own — design approval is the spec gate in to-spec. Use after signal or triage has gathered material and before to-spec. Weighs how to build it (approach); does not interrogate requirements (signal) or design module internals (codebase-design)."
+description: "[Design] Shape a piece of work into a recommended design: explore context, propose 2-3 approaches with trade-offs, recommend one. Use after signal or triage, before to-spec. Weighs approach; does not interrogate requirements (signal) or design module internals (codebase-design)."
 ---
 
 # Brainstorming

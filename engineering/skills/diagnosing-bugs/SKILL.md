@@ -1,6 +1,6 @@
 ---
 name: diagnosing-bugs
-description: "[Build] Find a defect's root cause before changing code: reproduce, form a hypothesis, isolate, and confirm with evidence. Use when a bug is reported or a test fails for a non-obvious reason. Pairs with an optional human-in-the-loop reproduction script (scripts/hitl-loop.template.sh). Does not isolate whether a report is even valid — that is triage."
+description: "[Build] Find a defect's root cause before changing code: reproduce, hypothesize, isolate, confirm with evidence. Use when a bug is reported or a test fails for a non-obvious reason. Does not isolate whether a report is valid — that is triage."
 ---
 
 # Diagnosing Bugs

@@ -1,6 +1,6 @@
 ---
 name: using-adrs
-description: "[Build] Put recorded architecture decisions to work: during design and build, read docs/adr/index.md, match each work item against the When relevant column, and cite the governing ADR by path at the item so the subagent that builds it reads the decision before writing code. Use whenever a spec or plan describes a work item a recorded decision governs. Reads docs/adr/; it does not record decisions (recording-adrs)."
+description: "[Build] Put recorded architecture decisions to work: read docs/adr/index.md, match each work item against the When-relevant column, and cite the governing ADR by path at the item. Use when a spec or plan describes a work item a recorded decision governs. Reads docs/adr/; does not record decisions (recording-adrs)."
 ---
 
 # Using ADRs

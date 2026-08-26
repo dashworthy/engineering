@@ -1,6 +1,6 @@
 ---
 name: finishing-a-development-branch
-description: "[Foundation] When work is complete and green, carry out the finish strategy the plan gate authorized (merge / PR / land the stack / cleanup); for a branch with no plan behind it, present the options and ask. Use at the end of a piece of work. Safety net: if the branch was never test-hardened, prompt to run conducting-test-hardening before finishing. Model-invoked; no command."
+description: "[Foundation] When work is complete and green, carry out the finish strategy the plan gate authorized (merge / PR / land the stack / cleanup); with no plan behind the branch, present the options and ask. Safety net: prompt conducting-test-hardening if the branch was never hardened."
 ---
 
 # Finishing A Development Branch

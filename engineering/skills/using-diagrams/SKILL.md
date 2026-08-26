@@ -1,6 +1,6 @@
 ---
 name: using-diagrams
-description: "Render a diagram that carries its own weight — an entity-relationship (ER) model, a process flow, or another shape prose describes badly — in the medium its destination can display: mermaid where the destination renders markdown, ASCII everywhere else. Use when a spec, ADR, plan, PR description, or code comment would be clearer with a picture of a data model, a pipeline, a state machine, or a branch. Cross-cutting; invoke from any phase."
+description: "Render a diagram that carries its own weight — an ER model, process flow, or a shape prose describes badly — in the medium the destination displays: mermaid where it renders markdown, ASCII elsewhere. Use when a spec, ADR, plan, PR, or code comment would be clearer with a picture. Cross-cutting; invoke from any phase."
 ---
 
 # Using Diagrams

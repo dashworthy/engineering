@@ -1,6 +1,6 @@
 ---
 name: expanding-scope
-description: "[Discovery] Surfaces scope-expansion candidates from draft requirements — adjacent capabilities, a bigger framing, undervalued scope — for the user to rule in or out. A dispatched beat of the requirements interrogation; dispatched only by a discovery conductor, never self-triggered."
+description: "[Discovery] Surface scope-expansion candidates from draft requirements — adjacent capabilities, a bigger framing, undervalued scope — for the user to rule in or out. A dispatched beat of the requirements interrogation; only a discovery conductor dispatches it, never self-triggered."
 ---
 
 # Expanding Scope

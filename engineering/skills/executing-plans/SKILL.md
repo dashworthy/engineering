@@ -1,6 +1,6 @@
 ---
 name: executing-plans
-description: "[Planning] Execute an implementation plan from the run's plan dir (.engineering/<run>/plan/) task by task — each task driven through tdd and gated by code-review — after confirming the plan-approval marker, and running its closing test-hardening task via conducting-test-hardening. Runs to completion with no mid-flow human checkpoints. User-invoked via /implement. Supports an optional subagent-driven mode for independent tasks. Working state under .engineering/<run>/implement/."
+description: "[Planning] Execute an approved plan task by task — each driven through tdd, gated by code-review, and closed by conducting-test-hardening. Runs to completion with no human checkpoints. User-invoked via /implement."
 ---
 
 # Executing Plans
