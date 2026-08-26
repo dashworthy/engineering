@@ -56,10 +56,11 @@ from earlier in the session:
 
 A branch with no plan at all is the unhardened case too, not a lesser one. When any of that
 comes back short, do not fold it silently into "done." Say plainly that this branch has no
-evidence of being test-hardened, and prompt to run `engineering:conducting-test-hardening` now,
-before any integration option is presented — for a branch nothing upstream actually hardened,
-this prompt is the last place the gap gets caught. This is a prompt, not a lock: if the user wants to proceed
-without it, that is theirs to decide explicitly. What this skill does not do is let the gap pass
+evidence of being test-hardened, and put the choice through `AskUserQuestion` — `Run
+test-hardening now` / `Proceed without hardening` — before any integration option is presented.
+For a branch nothing upstream actually hardened, this is the last place the gap gets caught.
+It is a prompt, not a lock: proceeding without hardening is theirs to pick, but the tool makes
+it an explicit pick rather than a default reached by silence. What this skill does not do is let the gap pass
 unnamed, or decide on the user's behalf that skipping it is fine.
 
 ## Carry out the finish strategy
@@ -71,7 +72,9 @@ plan file under `.engineering/<run>/plan/` that matches this work — and look i
 Global Constraints for the `Finish strategy:` line (and any `PR strategy: stacked` line). When
 one is there, it is the human's authorized choice: carry it out without asking again. Only when
 there is **no plan, or no finish strategy recorded on it** — a branch built outside the
-pipeline — fall back to presenting the options and asking, since no gate ever authorized one.
+pipeline — fall back to presenting the options through `AskUserQuestion` — `Merge directly`,
+`Open a pull request` (or `Land the stack` for a stacked run), `Clean up only`, offering only
+the ones actually live for this project — and asking, since no gate ever authorized one.
 
 Either way, detect whether this was a **stacked run**: a plan whose Global Constraints carry a
 `PR strategy: stacked` line, or open stacked pull requests already sitting on the branch. A
@@ -101,8 +104,9 @@ treating all of them as available every time.
   Discarding is destructive in a way the other options are not: when the plan's finish strategy
   authorized the cleanup — or a delete-the-branch step after a merge — that authorization is the
   confirmation; carry it out. Only in the no-plan fallback, where nothing upstream authorized it,
-  get the user's explicit confirmation on this path specifically before removing anything, rather
-  than treating silence, or the fact that cleanup was the option picked, as confirmation enough.
+  get the user's explicit confirmation on this path specifically — a `Delete the branch` /
+  `Keep it` `AskUserQuestion`, since silence is never confirmation — before removing anything,
+  rather than treating the fact that cleanup was the option picked as confirmation enough.
 
 When the plan authorized a finish strategy, that settles which one runs. Only in the no-plan
 fallback do you ask the user which they want — and even there, pick nothing on their behalf: an

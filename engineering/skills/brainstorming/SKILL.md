@@ -56,6 +56,13 @@ to build, what it costs to live with, what it makes harder later. Then recommend
 and say why, so the human is approving a reasoned pick, not refereeing a pile of
 options with no author's opinion attached.
 
+Put that pick through the `AskUserQuestion` tool: the 2-3 approaches as its options, your
+recommendation first and marked `(Recommended)` with its rationale in the option's
+description. This keeps the choice a selection rather than a wall of prose the human has to
+answer freehand — but it stays a working dialogue, not a sign-off: the tool's automatic
+"Other" is where a correction, a hybrid of two approaches, or "keep talking" lands, so the
+pick never traps them into one of your framings.
+
 If the work is too large to fit one spec once an approach is chosen, say so before
 presenting it, and decompose along the same line a plan set would later split
 along — the test is the one `writing-plans` uses for a plan set: does finishing the

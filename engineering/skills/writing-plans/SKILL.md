@@ -127,9 +127,11 @@ submit steps, the single-PR-at-the-end flow unchanged. Stacked mode is opt-in pe
 
 When sequencing turns on a decision with genuine live alternatives — an ordering or a
 boundary between plans that another planner could reasonably have drawn differently — offer to
-record it as an ADR via `engineering:recording-adrs`, written `Proposed`. The bar is real live
-alternatives, not every routine sequencing call, and the developer may decline; declining is
-what keeps ADR intake from flooding.
+record it as an ADR via `engineering:recording-adrs`, written `Proposed`. Put the offer
+through `AskUserQuestion` (`Record as ADR` / `Skip — not a real fork`) so it is a deliberate
+pick, not a prose aside skimmed past. The bar is real live alternatives, not every routine
+sequencing call, and the developer may decline; declining is what keeps ADR intake from
+flooding.
 
 ## Splitting into a plan set
 
@@ -220,9 +222,12 @@ Before calling the plan finished, run a self-review pass over what was just writ
 ## The plan gate — present the plan, then hold for approval
 
 The plan gate is the pipeline's second human-approval gate; the first is the spec gate in
-`to-spec`. A written plan is a draft until a human approves it: present the finished plan
-and wait for the human's approval before anything is built against it. If they send it back,
-revise and present again; do not hand an unapproved plan onward.
+`to-spec`. A written plan is a draft until a human approves it: present the finished plan,
+then put the verdict through `AskUserQuestion` — `Approve` or `Request changes` — so the turn
+holds and nothing is built against the plan until they pick Approve. On `Request changes`
+(their edits ride the free-text "Other" or the reply), revise and present again; do not hand
+an unapproved plan onward. Headless, no tool: wait for an explicit typed approval and treat
+silence as not-approved.
 
 On approval, create the run's writing-plans phase directory with
 `run-context.sh writing-plans <slug>` and write `.engineering/<run>/writing-plans/APPROVED.md`

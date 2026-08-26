@@ -69,10 +69,13 @@ This is the pipeline's first human-approval gate, and it lives here, on the spec
 skill does not stamp `Approved` on faith:
 
 1. **Write it as a draft.** Set the status line to `Status: Draft` (see `SPEC-FORMAT.md`).
-2. **Present the draft and wait.** Show the finished spec and wait for the human's approval.
-   This is a real stop: nothing is `Approved`, and no marker is written, until they say so.
-   If they send it back, revise the draft — or hand back to `brainstorming` for a rethink —
-   and present again; do not promote a spec the human has not approved.
+2. **Present the draft, then put the verdict through `AskUserQuestion`.** Show the finished
+   spec and wait for the human's approval — ask them to `Approve` or `Request changes`, the
+   tool holding the turn so this is a real stop: nothing is `Approved`, and no marker is
+   written, until they pick Approve. Their edits ride the free-text "Other" or a `Request
+   changes` reply; on that, revise the draft — or hand back to `brainstorming` for a rethink —
+   and present again. Do not promote a spec the human has not approved. Headless, no tool:
+   wait for an explicit typed approval and treat silence as not-approved.
 3. **On approval, mint the marker and promote.** Create the run's to-spec phase directory
    with `run-context.sh to-spec <slug>` and write `.engineering/<run>/to-spec/APPROVED.md`
    into it — do this only on approval, never before — a Tier-2, run-scoped trace that the

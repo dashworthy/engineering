@@ -18,8 +18,12 @@ prevent.
 
 Each candidate is presented with its **Rule**, its **What it is** and **What it is not**
 boundaries (already pinned by the hardening interrogation), and its provenance. Put the verdict
-to the approver as a **multiple-choice question** — the three verdicts are the offered choices,
-selected rather than typed out by hand:
+to the approver through the `AskUserQuestion` tool — one candidate per question, the three
+verdicts below as its options, so the choice is selected rather than typed and the turn stops
+until it is answered. A verdict offered as prose invites the blanket "yes" this gate exists to
+prevent; the tool is what makes silence a non-answer instead of a default. In a headless run
+where the tool cannot prompt, fall back to the same three verdicts as a plain question and take
+no answer as given:
 
 - **Approve** — write it as presented.
 - **Edit** — the rule is right but the wording or a boundary is off. This is the one verdict
@@ -49,7 +53,8 @@ narrows a case the other leaves open), are **not** a conflict; do not flag those
 
 Do not write, and do not silently pick a winner. Surface the specific existing convention —
 by name and index link — alongside the new candidate and the exact contradiction between
-them, and put the resolution to the approver:
+them, and put the resolution to the approver through `AskUserQuestion`, its three options the
+verdicts below (headless fallback: the same three as a plain question, no default):
 
 - **Supersede** — the new rule replaces the old: approve the new convention and retire the
   old one (its row stays, marked `retired`, per `STANDARDS-FORMAT.md`), with the new
