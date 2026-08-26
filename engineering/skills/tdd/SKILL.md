@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: "[Build] Drive implementation with a strict red-green-refactor loop: write a failing test, watch it fail, write the minimal code to pass, refactor. Use when building any behavior that can be tested first. Reads CONTEXT.md when present. Distinct from test-hardening (verity), which hardens existing tests after the fact — tdd builds them during implementation."
+description: "[Build] Drive implementation with a strict red-green-refactor loop: write a failing test, watch it fail, write the minimal code to pass, refactor. Use when building any behavior that can be tested first. Reads CONTEXT.md when present. Distinct from test-hardening, which hardens existing tests after the fact — tdd builds them during implementation."
 ---
 
 # TDD
@@ -69,7 +69,7 @@ around it.
 
 ## Boundary: tdd builds, test-hardening hardens
 
-This skill and verity's test-hardening (`conducting-test-hardening`) both produce tests and
+This skill and test-hardening (`conducting-test-hardening`) both produce tests and
 neither replaces the other. This skill runs *during* implementation, one behavior at a time,
 before the code that satisfies each behavior exists. Test-hardening runs *after* implementation
 is believed finished: it audits a diff for behavior nothing pins down and writes tests to

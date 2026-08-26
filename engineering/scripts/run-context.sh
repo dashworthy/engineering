@@ -2,7 +2,7 @@
 # Resolve (creating if needed) the Tier-2 scratch dir for one phase of the current run.
 #
 # Usage: run-context.sh <name> [slug]
-#   <name>  phase subdir, e.g. signal | triage | verity | vernacular | implement
+#   <name>  phase subdir, e.g. signal | triage | test-hardening | vernacular | implement
 #   [slug]  short kebab name for a NEW run; ignored if a run is already active.
 #
 # The active run id lives in .engineering/.current-run as "<YYYY-MM-DD>-<slug>".

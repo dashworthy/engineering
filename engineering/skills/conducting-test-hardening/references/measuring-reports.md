@@ -48,7 +48,7 @@ direction, hiding a weak changed file behind a well-tested unrelated one.
 
 ## Format is a hint, not a parser
 
-`report_format` names the schema so you know roughly what to expect — verity ships no parser and
+`report_format` names the schema so you know roughly what to expect — test-hardening ships no parser and
 no adapter list, and none is needed here. Read the file yourself and extract per-file numbers
 regardless of whether its actual shape matches the label exactly; a mislabeled or
 slightly-off-spec report is still readable by inspection.

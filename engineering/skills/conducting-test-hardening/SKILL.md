@@ -57,12 +57,12 @@ means is always someone else's job — `auditing-test-gaps` for changed applicat
 
 ## Run directory
 
-`.engineering/<run>/verity/` in the **user's** project — never inside the plugin. `<run>` is not
-yours to name: obtain it by running `sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" verity`,
-which prints the absolute path of `.engineering/<run>/verity/` and creates it if needed. If
-verity runs standalone — no earlier phase has run in this session — this same call creates the
+`.engineering/<run>/test-hardening/` in the **user's** project — never inside the plugin. `<run>` is not
+yours to name: obtain it by running `sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" test-hardening`,
+which prints the absolute path of `.engineering/<run>/test-hardening/` and creates it if needed. If
+test-hardening runs standalone — no earlier phase has run in this session — this same call creates the
 `.engineering/.current-run` pointer itself; if a run is already active, it joins that run
-instead. This run's briefs live at `.engineering/<run>/verity/briefs/<n>.md`.
+instead. This run's briefs live at `.engineering/<run>/test-hardening/briefs/<n>.md`.
 
 ## Preflight
 
@@ -92,7 +92,7 @@ instead. This run's briefs live at `.engineering/<run>/verity/briefs/<n>.md`.
    there is nothing to harden.
 5. **Require a green suite.** Run each participating suite's test command. State why explicitly:
    with pre-existing failures, a failure surfacing later in the loop cannot be attributed to a
-   test verity just wrote — the signal the whole loop depends on is gone from the first
+   test the hardening run just wrote — the signal the whole loop depends on is gone from the first
    iteration. On any failure, stop and list exactly which suites failed and how. This step
    doubles as validating the commands step 2 produced; a command that errors out entirely (not
    merely red) means detection got it wrong, and the fix is to ask the user for the right one,
@@ -138,7 +138,7 @@ Repeat the following per iteration until an exit condition is reached.
   `references/brief-schema.md`): `risk_level` (high, medium, low), then rework items before fresh
   ones within a level, then `target_file` ascending, then `id` ascending — no step skipped, so
   two runs over the same findings render an identical brief. Write
-  `.engineering/<run>/verity/briefs/<n>.md` from `references/brief-template.md`.
+  `.engineering/<run>/test-hardening/briefs/<n>.md` from `references/brief-template.md`.
 - **Halt on breakage.** If the brief contains any breakage finding, present every one to the
   user and STOP — before any writer is dispatched. This is unconditional; there is no setting
   that turns it off. Never write a test that pins in behavior a breakage finding flags as
@@ -199,7 +199,7 @@ Repeat the following per iteration until an exit condition is reached.
      whether or not anything has been written through it yet — its existence is the escape.
   3. Compare each resolved path against the test and fixture locations confirmed during stack
      detection (each participating suite's own test root, any harness scripts the user named as
-     part of the test surface, and this run's own `.engineering/<run>/verity/briefs/`). Anything whose resolved
+     part of the test surface, and this run's own `.engineering/<run>/test-hardening/briefs/`). Anything whose resolved
      location falls outside all of those HALTS the run: present the offending paths and their
      diff to the user and stop.
   4. Check the touched pre-existing test files for a rewrite rather than an append, using **the
@@ -306,7 +306,7 @@ rest of the run. This is not optional bookkeeping: surviving mutants are re-deri
 mutation report every iteration, not read from a stored list, and an equivalent mutant survives
 every run *by definition* — without this set, the same mutant gets re-dispatched, re-read, and
 re-dropped on every remaining iteration, spending an audit on a foregone conclusion each time.
-Log the run-scoped dropped set in the final report, so the user can see which mutants verity
+Log the run-scoped dropped set in the final report, so the user can see which mutants test-hardening
 decided not to chase and why.
 
 ## Reporting, always
@@ -317,13 +317,13 @@ Whichever exit is reached, report it plainly, together with:
   summary of a summary, and never a threshold claimed met without the run that proved it.
 - Every suite or metric named in **Thresholds that cannot be measured**, so a `pass` never reads
   as stronger than what was actually checked.
-- The run-scoped dropped-mutant set from Carry-forward, so the user can see what verity decided
+- The run-scoped dropped-mutant set from Carry-forward, so the user can see what test-hardening decided
   not to chase.
 - Any degraded condition hit along the way (a dead auditor, a skipped suite, a stalled mutation
   run) and what it means for whether `pass` was reachable at all.
 
 Then invoke `engineering:verification-before-completion` before reporting anything as met. There
-is no gate file to clear and no marker to remove — this run's briefs under `.engineering/<run>/verity/briefs/`
+is no gate file to clear and no marker to remove — this run's briefs under `.engineering/<run>/test-hardening/briefs/`
 are left in place as the audit trail, and the next run asks its questions fresh rather than
 reading anything back from this one.
 

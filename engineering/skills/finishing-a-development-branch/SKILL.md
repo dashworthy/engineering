@@ -31,7 +31,7 @@ fix now, or fix before returning to this skill — back to the user. A red branc
 integrate; do not fall through to the hardening check or the options list on the theory that the
 failure is probably unrelated.
 
-## The verity safety net (D15)
+## The test-hardening safety net (D15)
 
 Most branches get hardened without this skill doing anything: `writing-plans` puts a closing
 test-hardening task on every plan it writes, and `executing-plans` reaches that task and runs
@@ -49,8 +49,8 @@ from earlier in the session:
   or a plan file under `docs/dashworthy/engineering/plans/` that matches this work — find its
   closing Phase 3.5 task and check whether its box is actually checked. A plan with no such task
   checked off has not been hardened, whatever the rest of its boxes say.
-- **Did a hardening run actually leave a trace?** A checked box is a claim; verity's own run
-  directory, `.engineering/<run>/verity/`, with at least one brief in it, is the record that a
+- **Did a hardening run actually leave a trace?** A checked box is a claim; test-hardening's own run
+  directory, `.engineering/<run>/test-hardening/`, with at least one brief in it, is the record that a
   hardening pass actually happened rather than being ticked off by hand. Prefer the trace over
   the checkbox when the two disagree.
 
@@ -116,7 +116,7 @@ human made.
   reimplementing it.
 - It does not **run the hardening pass on its own initiative.** It prompts for
   `engineering:conducting-test-hardening`; whether that dispatch actually happens is the user's
-  call, and if it does happen, verity's own loop owns it end to end — this skill does not
+  call, and if it does happen, test-hardening's own loop owns it end to end — this skill does not
   shortcut or re-implement any part of that loop.
 - It does not **review the code on the branch.** Whatever judgment belongs to
   `engineering:code-review` already happened earlier in the branch's life; by the time this
