@@ -51,12 +51,12 @@ Copied verbatim from the spec's §4 Constraints; every task reads "per Global Co
 **Interfaces:** `recording-adrs` is the single writer of `docs/adr/` and `docs/adr/index.md`. It owns ADR lifecycle (Proposed → Accepted on the carrying spec/plan's gate; Superseded by NNNN) and keeps the index in sync in the same edit. It has **no** hardening interrogation and **no** individual-approval gate (per Global Constraints — an ADR is a record, not a rule).
 
 **Steps:**
-- [ ] Add to `engineering/tests/acceptance.sh` the tagged-skill entry `recording-adrs:[Discovery]` in the `tagged` list. Run `sh engineering/tests/acceptance.sh`; **confirm FAIL** (skill dir/frontmatter absent).
-- [ ] Add `grep_flat` assertions to `validate.sh`: `recording-adrs/SKILL.md` names itself in frontmatter, states it is the single writer of `docs/adr/`, states the no-flood intake ("live alternatives", "the developer can decline"), states the lifecycle (`Proposed`, `Accepted`, `Superseded`), and states it carries **no** approval gate. Run; **confirm FAIL**.
-- [ ] Write `ADR-FORMAT.md` (record shape, moved from domain-modeling) and `ADR-INDEX-FORMAT.md` (index shape).
-- [ ] Write `recording-adrs/SKILL.md` per the skill-authoring standard, referencing `first-class-artifact.md`, `ADR-FORMAT.md`, and `ADR-INDEX-FORMAT.md` by relative path (progressive disclosure).
-- [ ] Run `sh engineering/tests/acceptance.sh` and `sh engineering/tests/validate.sh`; **confirm green**.
-- [ ] Commit: `feat(engineering): add recording-adrs single-writer skill`.
+- [x] Add to `engineering/tests/acceptance.sh` the tagged-skill entry `recording-adrs:[Discovery]` in the `tagged` list. Run `sh engineering/tests/acceptance.sh`; **confirm FAIL** (skill dir/frontmatter absent).
+- [x] Add `grep_flat` assertions to `validate.sh`: `recording-adrs/SKILL.md` names itself in frontmatter, states it is the single writer of `docs/adr/`, states the no-flood intake ("live alternatives", "the developer can decline"), states the lifecycle (`Proposed`, `Accepted`, `Superseded`), and states it carries **no** approval gate. Run; **confirm FAIL**.
+- [x] Write `ADR-FORMAT.md` (record shape, moved from domain-modeling) and `ADR-INDEX-FORMAT.md` (index shape).
+- [x] Write `recording-adrs/SKILL.md` per the skill-authoring standard, referencing `first-class-artifact.md`, `ADR-FORMAT.md`, and `ADR-INDEX-FORMAT.md` by relative path (progressive disclosure).
+- [x] Run `sh engineering/tests/acceptance.sh` and `sh engineering/tests/validate.sh`; **confirm green**. _(count 34->35 + skills/README entry folded in to keep the gate green; root README grouped-table row deferred to Task 7.1.)_
+- [x] Commit: `feat(engineering): add recording-adrs single-writer skill`.
 
 **Verification:** acceptance + validate exit 0; `recording-adrs` frontmatter/tag check passes.
 

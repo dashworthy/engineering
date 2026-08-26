@@ -143,6 +143,35 @@ if [ -f "$DOCTRINE" ]; then
   grep_flat "$DOCTRINE" "lookup";              check $? "doctrine names the lookup consumption profile"
 fi
 
+# --- recording-adrs single writer --------------------------------------------
+# The single writer of docs/adr/. Mirrors recording-code-conventions' single-writer role,
+# but an ADR is a point-in-time record, not a standing rule — so it carries NO hardening
+# interrogation and NO individual-approval gate. Its intake does not flood: it fires only on
+# a decision with live alternatives, and the developer can decline.
+RECADR="$PLUGIN/skills/recording-adrs/SKILL.md"
+[ -f "$RECADR" ]; check $? "recording-adrs/SKILL.md exists"
+
+if [ -f "$RECADR" ]; then
+  grep -q '^name: recording-adrs$' "$RECADR"; check $? "recording-adrs frontmatter names itself"
+  grep_flat "$RECADR" "docs/adr/";            check $? "recording-adrs states it writes docs/adr/"
+  grep_flat "$RECADR" "single writer";        check $? "recording-adrs states it is the single writer"
+  grep_flat "$RECADR" "live alternatives";    check $? "recording-adrs states the live-alternatives intake bar"
+  grep_flat "$RECADR" "can decline";          check $? "recording-adrs states the developer can decline (no flood)"
+  grep_flat "$RECADR" "Proposed";             check $? "recording-adrs states the Proposed lifecycle state"
+  grep_flat "$RECADR" "Accepted";             check $? "recording-adrs states the Accepted lifecycle state"
+  grep_flat "$RECADR" "Superseded";           check $? "recording-adrs states the Superseded lifecycle state"
+  grep_flat "$RECADR" "no approval gate";     check $? "recording-adrs states it carries no approval gate"
+fi
+
+ADRFMT="$PLUGIN/skills/recording-adrs/ADR-FORMAT.md"
+[ -f "$ADRFMT" ]; check $? "recording-adrs/ADR-FORMAT.md exists (moved from domain-modeling)"
+ADRIDX="$PLUGIN/skills/recording-adrs/ADR-INDEX-FORMAT.md"
+[ -f "$ADRIDX" ]; check $? "recording-adrs/ADR-INDEX-FORMAT.md exists"
+if [ -f "$ADRIDX" ]; then
+  grep_flat "$ADRIDX" "When relevant"; check $? "ADR index format has a When relevant match column"
+  grep_flat "$ADRIDX" "Status";        check $? "ADR index format has a Status column"
+fi
+
 # --- command and READMEs ------------------------------------------------------
 
 CMD="$PLUGIN/commands/vernacular.md"
