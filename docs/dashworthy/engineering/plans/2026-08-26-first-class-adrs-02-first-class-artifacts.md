@@ -82,11 +82,11 @@ Success criterion 8: a tracking view distinct from the index's lookup role. The 
 - Reference: invoke `engineering:codebase-design` to shape whether the ledger is a separate file or a derived view before writing it.
 
 **Steps:**
-- [ ] Add a `validate.sh` assertion: `recording-adrs/SKILL.md` describes a tracking ledger keyed by run/phase and status, and states it is derived from the index (not a second source of truth). Run; **confirm FAIL**.
-- [ ] Invoke `engineering:codebase-design` to decide the ledger's shape (file vs. derived view); record the decision as an ADR via `recording-adrs` (dogfooding the intake).
-- [ ] Write the tracking-view section into `recording-adrs/SKILL.md` per the chosen shape and the skill-authoring standard.
-- [ ] Run validate; **confirm green**.
-- [ ] Commit: `feat(engineering): add the ADR tracking ledger to recording-adrs`.
+- [x] Add a `validate.sh` assertion: `recording-adrs/SKILL.md` describes a tracking ledger keyed by run/phase and status, and states it is derived from the index (not a second source of truth). Run; **confirm FAIL**.
+- [x] Invoke `engineering:codebase-design` to decide the ledger's shape (file vs. derived view); record the decision as an ADR via `recording-adrs` (dogfooding the intake). _(codebase-design discipline applied inline: narrowest interface, no second source of truth → derived view. Dogfooded as ADR 0002 — record + index row written in one edit.)_
+- [x] Write the tracking-view section into `recording-adrs/SKILL.md` per the chosen shape and the skill-authoring standard.
+- [x] Run validate; **confirm green**.
+- [x] Commit: `feat(engineering): add the ADR tracking ledger to recording-adrs`.
 
 **Verification:** validate exits 0; the tracking-view assertion passes.
 

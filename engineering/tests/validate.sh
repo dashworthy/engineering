@@ -161,6 +161,8 @@ if [ -f "$RECADR" ]; then
   grep_flat "$RECADR" "Accepted";             check $? "recording-adrs states the Accepted lifecycle state"
   grep_flat "$RECADR" "Superseded";           check $? "recording-adrs states the Superseded lifecycle state"
   grep_flat "$RECADR" "no approval gate";     check $? "recording-adrs states it carries no approval gate"
+  grep_flat "$RECADR" "per-run/per-phase";    check $? "recording-adrs describes the per-run/per-phase tracking ledger"
+  grep_flat "$RECADR" "derived from the index"; check $? "recording-adrs states the tracking view is derived from the index (not a second source of truth)"
 fi
 
 ADRFMT="$PLUGIN/skills/recording-adrs/ADR-FORMAT.md"

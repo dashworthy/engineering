@@ -50,6 +50,16 @@ An ADR's `Status` is one of three, per `ADR-FORMAT.md`:
 Every lifecycle change is written to the record **and** its index row together — the two move
 in one edit or not at all, exactly as `ADR-INDEX-FORMAT.md` requires.
 
+## The tracking view (per-run/per-phase ledger)
+
+Beyond the index's *lookup* role — find the decision governing a work item, which is
+`using-adrs`' job — the trail answers a *tracking* question: which decisions were made in a
+given run or phase, and where each stands (`Proposed` / `Accepted` / `Superseded`). That
+per-run/per-phase ledger is a **view derived from the index** on demand — filter
+`docs/adr/index.md` by Status and group by the run/phase that proposed each ADR — **not a
+second persisted file** (see ADR 0002). Deriving it keeps `docs/adr/index.md` the one source of
+truth; a separate ledger file would drift from the index the moment the two disagreed.
+
 ## What this does not do
 
 - It does not **consume ADRs.** Reading the index and citing the governing ADR at a work item
