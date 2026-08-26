@@ -256,6 +256,16 @@ for f in $(find "$PLUGIN/skills" -name SKILL.md) $(find "$PLUGIN/skills" -path '
 done
 [ "$passive" = 0 ]; check $? "no SKILL.md/command/reference reads CONTEXT.md/docs/adr with a passive 'when present' idiom"
 
+# --- no personal emails (GitHub addresses only) ------------------------------
+# Convention: people (stakeholders, sign-off, approvers, authors) are identified by name or
+# GitHub handle — never a personal or business email. The only email form allowed anywhere in
+# the suite is a GitHub address. interrogating-requirements carries the rule at the capture
+# point; this guard enforces it across every tracked skill and command.
+grep_flat "$PLUGIN/skills/interrogating-requirements/SKILL.md" "Never record a personal email"
+check $? "interrogating-requirements forbids recording a personal email"
+personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$PLUGIN/skills" "$PLUGIN/commands" 2>/dev/null | grep -viE '@users\.noreply\.github\.com$' | sort -u)
+[ -z "$personal_email" ]; check $? "no personal email address appears in any skill/command (GitHub addresses only)"
+
 # --- command and READMEs ------------------------------------------------------
 
 CMD="$PLUGIN/commands/vernacular.md"
