@@ -66,10 +66,10 @@ Copied verbatim from the spec's §4 Constraints; every task reads "per Global Co
 - Create: `docs/adr/index.md`
 
 **Steps:**
-- [ ] Add a `validate.sh` assertion: `docs/adr/index.md` exists and contains a row linking `0001-derive-verity-configuration-fresh-each-run.md` with Status `Accepted`. Run; **confirm FAIL**.
-- [ ] Write `docs/adr/index.md` per `ADR-INDEX-FORMAT.md`, with the header row and one data row for ADR 0001 (When relevant: verity/test-hardening configuration; Status: Accepted; link: `0001-derive-verity-configuration-fresh-each-run.md`).
-- [ ] Run `sh engineering/tests/validate.sh`; **confirm green**.
-- [ ] Commit: `feat(adr): seed docs/adr/index.md with ADR 0001`.
+- [x] Add a `validate.sh` assertion: `docs/adr/index.md` exists and contains a row linking `0001-derive-verity-configuration-fresh-each-run.md` with Status `Accepted`. Run; **confirm FAIL**.
+- [x] Write `docs/adr/index.md` per `ADR-INDEX-FORMAT.md`, with the header row and one data row for ADR 0001 (When relevant: verity/test-hardening configuration; Status: Accepted; link: `0001-derive-verity-configuration-fresh-each-run.md`).
+- [x] Run `sh engineering/tests/validate.sh`; **confirm green**.
+- [x] Commit: `feat(adr): seed docs/adr/index.md with ADR 0001`.
 
 **Verification:** validate exits 0; the index row for 0001 resolves to the on-disk ADR.
 

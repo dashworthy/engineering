@@ -172,6 +172,15 @@ if [ -f "$ADRIDX" ]; then
   grep_flat "$ADRIDX" "Status";        check $? "ADR index format has a Status column"
 fi
 
+# The ADR trail's index is seeded with the one ADR already on disk, so using-adrs has a map
+# to read from day one. docs/adr/ is a per-repo runtime artifact at the repo root.
+ADRSEED="$ROOT/docs/adr/index.md"
+[ -f "$ADRSEED" ]; check $? "docs/adr/index.md exists"
+if [ -f "$ADRSEED" ]; then
+  grep_flat "$ADRSEED" "0001-derive-verity-configuration-fresh-each-run.md"; check $? "ADR index links ADR 0001"
+  grep_flat "$ADRSEED" "Accepted"; check $? "ADR index records ADR 0001 as Accepted"
+fi
+
 # --- command and READMEs ------------------------------------------------------
 
 CMD="$PLUGIN/commands/vernacular.md"
