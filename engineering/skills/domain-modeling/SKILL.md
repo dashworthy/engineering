@@ -7,6 +7,12 @@ description: "[Discovery] Crystallize how the project names things: maintain CON
 
 Say this first, plainly: `Using the domain-modeling skill to update the project's domain model.`
 
+This skill is the glossary application of the first-class-artifact doctrine —
+[../recording-adrs/references/first-class-artifact.md](../recording-adrs/references/first-class-artifact.md).
+`CONTEXT.md` follows the **lookup** profile: a living, current-state view, edited in place as
+the domain's names settle and change. Its consumers resolve the *current* meaning of a term
+from it — they do not cite a point-in-time entry the way an ADR is cited.
+
 ## What this guarantees
 
 One thing: when a domain term needs a name, this skill writes it down in one place —
@@ -24,6 +30,13 @@ Write an entry when a term earns its place: it recurs, in conversation or in cod
 getting it wrong would cause real confusion — not every noun that turns up in a commit
 message. Follow `CONTEXT-FORMAT.md`, in this same directory, for the file's shape; that
 file is the source of truth for what a row needs, not this one.
+
+**Intake at the term-introduction point.** The trigger is the moment a domain term first
+earns its place — a new concept named in conversation or introduced in code. Update
+`CONTEXT.md` then, in the same pass, not on a later cleanup that never comes. **Active
+consumption** is the other half: a phase that needs to know what a term means resolves it
+from `CONTEXT.md` (the lookup profile), rather than treating the file as something to read
+only if it happens to exist.
 
 ## What this does not do
 

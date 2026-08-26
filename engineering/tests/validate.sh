@@ -190,6 +190,8 @@ DM="$PLUGIN/skills/domain-modeling/SKILL.md"
 if [ -f "$DM" ]; then
   ! grep_flat "$DM" "docs/adr";                          check $? "domain-modeling no longer writes docs/adr (moved to recording-adrs)"
   ! grep_flat "$DM" "Spawning a convention from an ADR"; check $? "domain-modeling drops the ADR-spawn bridge section"
+  grep_flat "$DM" "first-class-artifact.md";             check $? "domain-modeling references the first-class-artifact doctrine"
+  grep_flat "$DM" "lookup";                              check $? "domain-modeling declares CONTEXT.md a lookup-profile artifact"
 fi
 [ ! -e "$PLUGIN/skills/domain-modeling/ADR-FORMAT.md" ]; check $? "domain-modeling/ADR-FORMAT.md removed (moved to recording-adrs)"
 RCC="$PLUGIN/skills/recording-code-conventions/SKILL.md"

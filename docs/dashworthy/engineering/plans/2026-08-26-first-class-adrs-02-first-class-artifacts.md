@@ -139,10 +139,10 @@ Success criterion 8: a tracking view distinct from the index's lookup role. The 
 - Modify: `engineering/skills/domain-modeling/SKILL.md` (state the intake obligation: update `CONTEXT.md` at term-introduction points; declare it a *lookup*-profile application of the doctrine)
 
 **Steps:**
-- [ ] Add a `validate.sh` assertion: `domain-modeling/SKILL.md` references `first-class-artifact.md` and states the lookup profile. Run; **confirm FAIL**.
-- [ ] Edit `domain-modeling/SKILL.md` to reference the doctrine and state the term-introduction intake + lookup consumption.
-- [ ] Run validate; **confirm green**.
-- [ ] Commit: `feat(engineering): make CONTEXT.md a first-class lookup artifact`.
+- [x] Add a `validate.sh` assertion: `domain-modeling/SKILL.md` references `first-class-artifact.md` and states the lookup profile. Run; **confirm FAIL**.
+- [x] Edit `domain-modeling/SKILL.md` to reference the doctrine and state the term-introduction intake + lookup consumption.
+- [x] Run validate; **confirm green**.
+- [x] Commit: `feat(engineering): make CONTEXT.md a first-class lookup artifact`.
 
 **Verification:** validate exits 0.
 
