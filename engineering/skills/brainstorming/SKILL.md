@@ -67,6 +67,14 @@ whatever correction they offer on the spot — when part of the design comes bac
 fix that part and re-present it. This is a working dialogue, not a sign-off ceremony: its
 output is a recommended design, ready to serialize.
 
+## Offer to record the decision as an ADR
+
+When the design turns on a decision with genuine live alternatives, offer to record it as an
+ADR via `engineering:recording-adrs`, written `Proposed` (it flips to `Accepted` when the spec
+carrying it clears the spec gate). The bar is real live alternatives — a design with one
+reasonable shape was never a decision — and the developer may decline; declining is what keeps
+ADR intake from flooding.
+
 ## No gate here — approval is the spec gate
 
 Design approval happens at the spec gate, not here. Hand the recommended design to

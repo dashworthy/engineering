@@ -232,6 +232,15 @@ for sk in to-spec writing-plans recording-adrs; do
   check $? "$sk carries the consider-a-diagram obligation via using-diagrams"
 done
 
+# --- ADR intake in the decision phases ---------------------------------------
+# The decision-point prompt: a phase that reaches a decision with genuine live alternatives
+# offers to record an ADR via recording-adrs; the developer may decline — the non-flood guard.
+for sk in brainstorming codebase-design writing-plans code-review; do
+  f="$PLUGIN/skills/$sk/SKILL.md"
+  grep_flat "$f" "recording-adrs" && grep_flat "$f" "live alternatives" && grep_flat "$f" "decline"
+  check $? "$sk carries the ADR intake clause (recording-adrs, live alternatives, may decline)"
+done
+
 # --- command and READMEs ------------------------------------------------------
 
 CMD="$PLUGIN/commands/vernacular.md"

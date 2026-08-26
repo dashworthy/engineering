@@ -94,6 +94,14 @@ they exist, and treat a name or boundary already settled there as a constraint o
 shape you're sketching, not a suggestion to route around; neither is required, and when
 absent this skill proceeds on the module and its immediate neighbors alone.
 
+## Offer to record the decision as an ADR
+
+When a boundary or interface decision had genuine live alternatives — a call another designer
+could reasonably have made differently — offer to record it as an ADR via
+`engineering:recording-adrs`, written `Proposed`. The bar is real live alternatives, not every
+routine shaping choice, and the developer may decline; declining is what keeps ADR intake from
+flooding.
+
 ## Boundaries — what this does not do
 
 - It does not **audit a codebase.** Looking across every module for shallow interfaces

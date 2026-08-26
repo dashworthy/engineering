@@ -97,6 +97,15 @@ Both halves act only on what the diff touches. Neither writes the standards tree
 happens **after** the review reconciles: candidates are surfaced in the reconciled report and
 handed off then, not from inside a sub-reviewer, which only returns findings.
 
+## Offer to record a decision the diff embodies as an ADR
+
+When the review surfaces a decision the diff makes that had genuine live alternatives — a
+choice worth recording so a later reader doesn't re-litigate it — offer to record it as an ADR
+via `engineering:recording-adrs`, written `Proposed`. This is additive, like the convention
+harvest above, and runs after the review reconciles. The bar is real live alternatives, not
+every implementation detail, and the developer may decline; declining is what keeps ADR intake
+from flooding.
+
 ## What this does not do
 
 - It does not **fix what it finds.** A finding on either axis is a statement of what's wrong

@@ -175,10 +175,10 @@ Success criterion 8: a tracking view distinct from the index's lookup role. The 
 - Modify: `engineering/skills/brainstorming/SKILL.md`, `engineering/skills/codebase-design/SKILL.md`, `engineering/skills/writing-plans/SKILL.md`, `engineering/skills/code-review/SKILL.md` (each gains an intake clause: on reaching a decision with genuine live alternatives, offer to record an ADR via `engineering:recording-adrs`; write `Proposed`; the developer may decline — the non-flood guard)
 
 **Steps:**
-- [ ] Add `acceptance.sh`/`validate.sh` assertions: each of the four skills references `recording-adrs` and states the "live alternatives" / "may decline" non-flood guard. Run; **confirm FAIL**.
-- [ ] Add the intake clause to each of the four skills per the skill-authoring standard — one clause, pointing at `recording-adrs`, stating the live-alternatives bar and the decline path (per Global Constraints, must not flood).
-- [ ] Run the gate; **confirm green**.
-- [ ] Commit: `feat(engineering): wire ADR intake into the decision phases`.
+- [x] Add `acceptance.sh`/`validate.sh` assertions: each of the four skills references `recording-adrs` and states the "live alternatives" / "may decline" non-flood guard. Run; **confirm FAIL**.
+- [x] Add the intake clause to each of the four skills per the skill-authoring standard — one clause, pointing at `recording-adrs`, stating the live-alternatives bar and the decline path (per Global Constraints, must not flood).
+- [x] Run the gate; **confirm green**.
+- [x] Commit: `feat(engineering): wire ADR intake into the decision phases`.
 
 **Verification:** the four skills name `recording-adrs`; gate green.
 

@@ -122,6 +122,14 @@ based on the last build task's branch, like every other task.
 Leave non-stacked plans exactly as they are: no PR-strategy line, no per-task branch or
 submit steps, the single-PR-at-the-end flow unchanged. Stacked mode is opt-in per plan.
 
+## Offer to record a planning decision as an ADR
+
+When sequencing turns on a decision with genuine live alternatives — an ordering or a
+boundary between plans that another planner could reasonably have drawn differently — offer to
+record it as an ADR via `engineering:recording-adrs`, written `Proposed`. The bar is real live
+alternatives, not every routine sequencing call, and the developer may decline; declining is
+what keeps ADR intake from flooding.
+
 ## Splitting into a plan set
 
 Some specs cover one subsystem end to end; a single ordered plan fits them. Others cover
