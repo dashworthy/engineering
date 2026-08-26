@@ -38,10 +38,13 @@ the work will touch, any docs sitting near them, and recent commits in the area 
 design that ignores how the neighborhood already does things produces an approach that
 fights the codebase from day one instead of extending it.
 
-Read `CONTEXT.md` and `docs/adr/`, at the project root, when either exists. A naming
-convention or a boundary already settled there constrains which approaches are even
-worth proposing — an approach that reopens a decision an ADR already closed isn't a
-fresh option, it's litigation. Neither file is required.
+Actively consult the project's first-class artifacts before proposing: resolve domain terms
+from `CONTEXT.md` (the glossary) and surface governing decisions with
+`engineering:using-adrs`, which matches the ADR trail against the work at hand. A naming
+convention or a boundary already settled there constrains which approaches are even worth
+proposing — an approach that reopens a decision an ADR already closed isn't a fresh option,
+it's litigation. A project that has accumulated neither surfaces nothing, and that is a clean
+result — the obligation is to consult, not a requirement that the files exist.
 
 ## Propose approaches, not one approach
 

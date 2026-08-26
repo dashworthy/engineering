@@ -241,6 +241,21 @@ for sk in brainstorming codebase-design writing-plans code-review; do
   check $? "$sk carries the ADR intake clause (recording-adrs, live alternatives, may decline)"
 done
 
+# --- passive-idiom guard -----------------------------------------------------
+# First-class artifacts are actively consulted, never "read when present." No SKILL.md,
+# command, or skill reference may pair an artifact token (CONTEXT.md / docs/adr) with a
+# passive-read idiom on the same line. Reference files are in scope because the sweep edited
+# them too, so a regression there is caught rather than going silent. The idiom list is fixed
+# and deliberately narrow so it catches the rot ("if either exists", "when present") without
+# tripping on the ordinary word "existing".
+passive=0
+for f in $(find "$PLUGIN/skills" -name SKILL.md) $(find "$PLUGIN/skills" -path '*/references/*.md') $(find "$PLUGIN/commands" -name '*.md'); do
+  if grep -E '(CONTEXT\.md|docs/adr)' "$f" | grep -qiE 'when present|if present|(when|if) (either|they|it) exists?|read when present|ignored when absent'; then
+    echo "  passive artifact-read idiom in $f"; passive=1
+  fi
+done
+[ "$passive" = 0 ]; check $? "no SKILL.md/command/reference reads CONTEXT.md/docs/adr with a passive 'when present' idiom"
+
 # --- command and READMEs ------------------------------------------------------
 
 CMD="$PLUGIN/commands/vernacular.md"

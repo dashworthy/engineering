@@ -26,8 +26,9 @@ Nothing below this line starts until one of the three is written down.
 ## 2. Bisect by domain concept
 
 Once a failure reproduces, narrow it — but only to where the problem lives conceptually,
-not to a line of code. Read `CONTEXT.md` and any ADRs the project keeps, if present, for
-the names already in use for the area the report touches. "The retry logic in the sync
+not to a line of code. Consult `CONTEXT.md` and the ADR trail (via `engineering:using-adrs`)
+for the names already in use for the area the report touches; where the project keeps neither,
+use the names from the report and the code. "The retry logic in the sync
 worker drops the second failure" is isolation enough to route on; finding the exact
 conditional that drops it is one step further than triage needs to go.
 

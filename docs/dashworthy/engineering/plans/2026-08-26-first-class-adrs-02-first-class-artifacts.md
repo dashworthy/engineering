@@ -193,11 +193,11 @@ Success criterion 8: a tracking view distinct from the index's lookup role. The 
   `grep -rln "when present\|read .* when\|if present" engineering/skills engineering/commands` (expected set from the spec: `code-review`, `codebase-design`, `writing-plans`, `tdd`, `triage`, `diagnosing-bugs`, `improve-codebase-architecture`, and the `handoff` / `wait-what` commands — re-derive the live list).
 
 **Steps:**
-- [ ] Add a `validate.sh` assertion that **no** `SKILL.md` or command file matches the passive idiom `read CONTEXT.md/docs/adr when present` (the guard that keeps the rot from returning). Run; **confirm FAIL** (matches still present).
-- [ ] For each file the grep returns, rewrite the passive reference into an active obligation per the doctrine and the correct profile (ADRs → trail: consult `using-adrs`; glossary → lookup: consult `CONTEXT.md`), citing the governing skill by name. Keep edits minimal per the skill-authoring standard.
-- [ ] Re-run the grep; confirm zero passive matches remain.
-- [ ] Run the full gate; **confirm green**.
-- [ ] Commit: `refactor(engineering): convert passive artifact reads to active obligations`.
+- [x] Add a `validate.sh` assertion that **no** `SKILL.md` or command file matches the passive idiom `read CONTEXT.md/docs/adr when present` (the guard that keeps the rot from returning). Run; **confirm FAIL** (matches still present).
+- [x] For each file the grep returns, rewrite the passive reference into an active obligation per the doctrine and the correct profile (ADRs → trail: consult `using-adrs`; glossary → lookup: consult `CONTEXT.md`), citing the governing skill by name. Keep edits minimal per the skill-authoring standard. _(Converted 8 SKILL.md + wait-what.md command + triage isolation-checklist reference — bodies and 5 frontmatter descriptions. code-review gate: findings reconciled — trimmed unexplained "lookup profile" jargon in brainstorming, converted a second residual in wait-what ("If either exists"), broadened the guard idiom list to catch "if … exists" and extended its scope to `references/*.md`.)_
+- [x] Re-run the grep; confirm zero passive matches remain.
+- [x] Run the full gate; **confirm green**.
+- [x] Commit: `refactor(engineering): convert passive artifact reads to active obligations`.
 
 **Verification:** the passive-idiom grep returns nothing; `sh engineering/tests/suite.sh` passes.
 

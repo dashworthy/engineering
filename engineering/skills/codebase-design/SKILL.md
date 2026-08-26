@@ -1,6 +1,6 @@
 ---
 name: codebase-design
-description: "[Design] Shape module interfaces so complexity is hidden behind narrow, deep boundaries. Use when defining a new module's interface, judging whether a boundary earns its keep, or before a larger architecture pass. Reads CONTEXT.md/docs/adr when present; never requires them. Not a codebase-wide audit (that is improve-codebase-architecture) and not product/approach design (that is brainstorming)."
+description: "[Design] Shape module interfaces so complexity is hidden behind narrow, deep boundaries. Use when defining a new module's interface, judging whether a boundary earns its keep, or before a larger architecture pass. Consults CONTEXT.md and the ADR trail for settled names and boundaries; never requires them. Not a codebase-wide audit (that is improve-codebase-architecture) and not product/approach design (that is brainstorming)."
 ---
 
 # Codebase Design
@@ -89,10 +89,12 @@ reach the interface, and whether the interface lets a caller hold it wrong and n
 
 ## Reading the substrate
 
-Before shaping a boundary, read `CONTEXT.md`, at the project root, and `docs/adr/` when
-they exist, and treat a name or boundary already settled there as a constraint on the
-shape you're sketching, not a suggestion to route around; neither is required, and when
-absent this skill proceeds on the module and its immediate neighbors alone.
+Before shaping a boundary, actively consult the substrate: resolve names from `CONTEXT.md`
+(the glossary) and surface governing decisions with `engineering:using-adrs`. Treat a name
+or boundary already settled there as a constraint on the shape you're sketching, not a
+suggestion to route around. A project that has accumulated neither gives nothing back, and
+this skill proceeds on the module and its immediate neighbors alone — the obligation is to
+consult, not to require the artifacts.
 
 ## Offer to record the decision as an ADR
 
