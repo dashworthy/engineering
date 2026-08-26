@@ -217,6 +217,21 @@ if [ -f "$USEADR" ]; then
   grep_flat "$USEADR" "Superseded";        check $? "using-adrs skips Superseded rows"
 fi
 
+# --- diagrams first-class: authoring phases consider a diagram ---------------
+# using-diagrams declares itself a doctrine application; the authoring phases (to-spec,
+# writing-plans, recording-adrs) each carry a "consider a diagram" obligation — guard is
+# *consider*, not *always draw*, so it does not flood.
+UD="$PLUGIN/skills/using-diagrams/SKILL.md"
+if [ -f "$UD" ]; then
+  grep_flat "$UD" "first-class-artifact.md"; check $? "using-diagrams references the first-class-artifact doctrine"
+  grep_flat "$UD" "consider a diagram";      check $? "using-diagrams states the consider-a-diagram authoring obligation"
+fi
+for sk in to-spec writing-plans recording-adrs; do
+  f="$PLUGIN/skills/$sk/SKILL.md"
+  grep_flat "$f" "using-diagrams" && grep_flat "$f" "consider a diagram"
+  check $? "$sk carries the consider-a-diagram obligation via using-diagrams"
+done
+
 # --- command and READMEs ------------------------------------------------------
 
 CMD="$PLUGIN/commands/vernacular.md"

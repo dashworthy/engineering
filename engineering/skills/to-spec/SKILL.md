@@ -57,6 +57,10 @@ section number:
   §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including
   why the smaller fixes on the table were rejected, not only the one that won.
 
+When §6 Approach or §7 Existing context describes a data model, a flow, or a state machine,
+consider a diagram via `engineering:using-diagrams` — the guard is *consider*, not *always
+draw*; the skill's own earned-its-place test decides whether one is actually drawn.
+
 ## The spec gate — write a draft, then hold for approval
 
 This is the pipeline's first human-approval gate, and it lives here, on the spec. This

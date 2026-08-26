@@ -87,6 +87,13 @@ task always resolves to the current rule. A project with no standards tree gets 
 read when present, skipped when absent, exactly like `CONTEXT.md`; this skill consults the tree
 but never writes it (recording is `recording-code-conventions`).
 
+## Consider a diagram for a task's shape
+
+When a task describes a data model, a flow, or a state machine, consider a diagram via
+`engineering:using-diagrams` — the guard is *consider*, not *always draw*; the skill's own
+earned-its-place test decides whether one is actually drawn. A plan that pictures a tricky flow
+once is easier to build against than one that leaves every builder to reconstruct it.
+
 ## PR strategy
 
 Most plans ship as a single pull request opened at the end. Some plans instead ship as a

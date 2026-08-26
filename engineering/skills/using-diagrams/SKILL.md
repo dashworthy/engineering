@@ -14,6 +14,16 @@ medium the destination can actually display — a mermaid fenced block where the
 renders markdown, an ASCII drawing everywhere else — and every entity, edge, and step in it
 traces to something already known, not something the diagram invented to look complete.
 
+## A first-class authoring obligation
+
+Diagrams are an application of the first-class-artifact doctrine —
+[../recording-adrs/references/first-class-artifact.md](../recording-adrs/references/first-class-artifact.md).
+The intake trigger lives in the authoring phases: when `to-spec`, `writing-plans`, or
+`recording-adrs` describes a data model, a flow, or a state machine, it is obligated to
+**consider a diagram** via this skill. The guard is *consider*, not *always draw* — the
+earned-its-place test below still decides whether one is actually drawn, so the obligation
+prompts a diagram where one would help without flooding every document with pictures.
+
 ## When a diagram earns its place
 
 A diagram is drawn only when the thing has a **shape that prose describes badly**. The test
@@ -112,10 +122,10 @@ genuinely unknown, say so in prose and leave it undrawn.
   argued out in `brainstorming`; the boundary an ER model reflects was shaped in
   `codebase-design` or `domain-modeling`. This skill draws a decision already made; it does
   not make it.
-- It does not **write the document.** `to-spec` owns the spec, `domain-modeling` owns the
-  ADR and `CONTEXT.md`, `writing-plans` owns the plan. This skill supplies a diagram for one
-  of them to hold; it does not author the surrounding document or choose its home beyond the
-  section guidance above.
+- It does not **write the document.** `to-spec` owns the spec, `recording-adrs` owns the
+  ADR, `domain-modeling` owns `CONTEXT.md`, `writing-plans` owns the plan. This skill supplies
+  a diagram for one of them to hold; it does not author the surrounding document or choose its
+  home beyond the section guidance above.
 - It does not **draw decoration.** A diagram that restates the prose beside it fails the
   test in `diagram-rules.md` and doesn't get drawn, however easy it would be to add.
 - It does not **invent.** No entity, edge, or step goes into a diagram that isn't in the

@@ -50,6 +50,11 @@ An ADR's `Status` is one of three, per `ADR-FORMAT.md`:
 Every lifecycle change is written to the record **and** its index row together — the two move
 in one edit or not at all, exactly as `ADR-INDEX-FORMAT.md` requires.
 
+## When you describe a data model, flow, or state machine
+
+When an ADR's Context or Decision describes a data model, a flow, or a state machine, consider
+a diagram via `engineering:using-diagrams` — the guard is *consider*, not *always draw*.
+
 ## The tracking view (per-run/per-phase ledger)
 
 Beyond the index's *lookup* role — find the decision governing a work item, which is

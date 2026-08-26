@@ -157,11 +157,11 @@ Success criterion 8: a tracking view distinct from the index's lookup role. The 
 - Modify: `engineering/skills/to-spec/SKILL.md`, `engineering/skills/writing-plans/SKILL.md`, `engineering/skills/recording-adrs/SKILL.md` (each: when a data model / flow / state machine is described, consider a diagram via `engineering:using-diagrams` — guard: *consider*, not *always draw*)
 
 **Steps:**
-- [ ] Add `validate.sh`/`acceptance.sh` assertions: each of the three authoring skills references `using-diagrams` with a "consider" obligation. Run; **confirm FAIL**.
-- [ ] Edit `using-diagrams/SKILL.md` to state the obligation and reference the doctrine.
-- [ ] Add the "consider a diagram" clause to `to-spec`, `writing-plans`, and `recording-adrs` (per skill-authoring standard — minimal, one clause each, not a lecture).
-- [ ] Run the gate; **confirm green**.
-- [ ] Commit: `feat(engineering): make using-diagrams a first-class authoring obligation`.
+- [x] Add `validate.sh`/`acceptance.sh` assertions: each of the three authoring skills references `using-diagrams` with a "consider" obligation. Run; **confirm FAIL**.
+- [x] Edit `using-diagrams/SKILL.md` to state the obligation and reference the doctrine. _(Also fixed stale "domain-modeling owns the ADR" → recording-adrs.)_
+- [x] Add the "consider a diagram" clause to `to-spec`, `writing-plans`, and `recording-adrs` (per skill-authoring standard — minimal, one clause each, not a lecture).
+- [x] Run the gate; **confirm green**.
+- [x] Commit: `feat(engineering): make using-diagrams a first-class authoring obligation`.
 
 **Verification:** validate + acceptance exit 0; the three authoring skills name `using-diagrams`.
 
