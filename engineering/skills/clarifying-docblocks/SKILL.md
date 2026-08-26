@@ -1,22 +1,26 @@
 ---
 name: clarifying-docblocks
-description: "[Docs] Use when rewriting a branch's docblock prose into plain language with vernacular - dispatches a rewriter and an independent claim verifier per changed file, proves mechanically that only comment prose moved, and halts if executable code or a structured annotation changed. Never writes @param, @return or any other tag."
+description: "[Docs] Use when rewriting a branch's docblock prose into plain language with vernacular - prefilters files to those that carry a docblock, then rewrites in place (inline for a small run, dispatched per file for a large one), and proves mechanically that only comment prose moved. Improves existing docblocks only; never writes @param, @return or any other tag, and never authors a docblock where none existed."
 ---
 
 # Clarifying Docblocks
 
 ## The two rules
 
-> **Rule one - prose only.** vernacular rewrites human-readable descriptions. It never writes,
-> edits or deletes a structured annotation, and never changes a line of executable code.
+> **Rule one - prose only.** vernacular rewrites the human-readable descriptions of docblocks
+> that already exist. It never writes, edits or deletes a structured annotation, never changes a
+> line of executable code, and never authors a docblock on a symbol that has none.
 
-> **Rule two - the context firewall.** The conductor **never opens a source file.** It routes
-> paths and line ranges, dispatches, and reads receipts.
+> **Rule two - the context firewall, above the inline threshold.** On a **large** run the
+> conductor **never opens a source file:** it routes paths and line ranges, dispatches, and reads
+> receipts. On a **small** run - the inline path defined in `## Sizing the run` - the conductor
+> reads and rewrites the files itself. That relaxation is deliberate and announced, never silent:
+> a subagent cold-start costs more than a few small files briefly held in the conductor's context.
 
-Rule one is proved by `scripts/reconcile.py`, not asserted. Rule two requires that every read
-happen in a dispatched subagent. When an instruction below appears to conflict with either
-rule, the rule wins and the run halts. The **one** exception is the no-subagent degradation
-named in `## Error handling`, which is announced to the user rather than taken silently.
+Rule one is proved by `scripts/reconcile.py`, not asserted, on **both** paths - the byte proof is
+the safety net whether a file was rewritten inline or by a subagent. Rule two is a token trade,
+not a correctness one; reconcile is what guarantees correctness. When an instruction below appears
+to conflict with Rule one, the rule wins and the run halts.
 
 ## Pipeline
 
@@ -25,11 +29,13 @@ digraph vernacular {
     "Not a git repository" [shape=diamond];
     "Resolve the ref" [shape=box];
     "In-scope file dirty vs HEAD?" [shape=diamond];
+    "Prefilter: any docblock comment?" [shape=diamond];
     "Nothing changed" [shape=doublecircle];
     "Halt - commit or stash" [shape=doublecircle];
     "Snapshot to before/" [shape=box];
-    "Rewrite (per file)" [shape=box];
-    "Verify (per file)" [shape=box];
+    "Small run?" [shape=diamond];
+    "Rewrite inline (conductor)" [shape=box];
+    "Rewrite dispatched (per file)" [shape=box];
     "reconcile.py" [shape=diamond];
     "Restore, quarantine, halt" [shape=doublecircle];
     "Report" [shape=doublecircle];
@@ -39,17 +45,22 @@ digraph vernacular {
     "Resolve the ref" -> "Nothing changed" [label="no changed files"];
     "Resolve the ref" -> "In-scope file dirty vs HEAD?";
     "In-scope file dirty vs HEAD?" -> "Halt - commit or stash" [label="yes"];
-    "In-scope file dirty vs HEAD?" -> "Snapshot to before/" [label="no"];
-    "Snapshot to before/" -> "Rewrite (per file)";
-    "Rewrite (per file)" -> "Verify (per file)" [label="per file, no barrier"];
-    "Verify (per file)" -> "reconcile.py" [label="all receipts in"];
+    "In-scope file dirty vs HEAD?" -> "Prefilter: any docblock comment?" [label="no"];
+    "Prefilter: any docblock comment?" -> "Nothing changed" [label="none survive"];
+    "Prefilter: any docblock comment?" -> "Snapshot to before/" [label="survivors"];
+    "Snapshot to before/" -> "Small run?";
+    "Small run?" -> "Rewrite inline (conductor)" [label="yes"];
+    "Small run?" -> "Rewrite dispatched (per file)" [label="no"];
+    "Rewrite inline (conductor)" -> "reconcile.py";
+    "Rewrite dispatched (per file)" -> "reconcile.py" [label="all receipts in"];
     "reconcile.py" -> "Restore, quarantine, halt" [label="exit 1 or 2"];
     "reconcile.py" -> "Report" [label="exit 0"];
 }
 ```
 
-Rewrite and verify are **pipelined per file** - file B does not wait on file A. The only
-barrier is reconcile, which needs every receipt.
+There is no separate verify stage. A rewriter flags any description it could not fully ground in
+the code, and the human reads those under **Verify these yourself** in the report - the working
+tree is unstaged, and `git diff` is the review.
 
 ## Preflight
 
@@ -63,10 +74,10 @@ barrier is reconcile, which needs every receipt.
    ```
 
    Hunk ranges come from the **after-side** line numbers of the diff, and the diff body must never
-   enter this context. `--unified=0` does not achieve that on its own: it removes the unchanged
-   context lines but still prints every changed line, and the `@@` header's own trailing suffix
-   carries the enclosing function's source text. Filter the ranges out before the result can reach
-   you:
+   enter this context on the dispatched path. `--unified=0` does not achieve that on its own: it
+   removes the unchanged context lines but still prints every changed line, and the `@@` header's
+   own trailing suffix carries the enclosing function's source text. Filter the ranges out before
+   the result can reach you:
 
    ```sh
    git diff --unified=0 "$BASE"...HEAD -- <path> \
@@ -74,8 +85,7 @@ barrier is reconcile, which needs every receipt.
    ```
 
    That prints `104,28` style tokens — a start line and a length — and nothing else. **Never run a
-   bare `git diff` at any context level**: its output is the user's source, and reading it here is
-   exactly what Rule two forbids.
+   bare `git diff` at any context level** on the dispatched path: its output is the user's source.
 3. **Any in-scope file modified relative to `HEAD`** - `git status --porcelain -- <paths>` -
    **halt**, name the files, say commit or stash.
 
@@ -85,7 +95,21 @@ barrier is reconcile, which needs every receipt.
    land in your working tree, `git diff` is the review, `git checkout` is the undo," and that undo
    is only safe if there is nothing else in the file to lose.
 4. **No changed files** - say so plainly and stop.
-5. **Snapshot** every in-scope file to `before/<path>` with `cp`. A copy is a shell operation,
+5. **Prefilter to files that carry a docblock.** vernacular improves docblocks that already exist;
+   a file with no comment leader anywhere has none to improve, so it is dropped **before any
+   dispatch or read into this context.** This is a shell operation - the bytes never enter your
+   context - and it is language-agnostic, the same leader set `reconcile.py` recognises:
+
+   ```sh
+   grep -lE '(/\*\*|^[ \t]*\*|///|//|--|#|"""|'"'''"')' -- <path>
+   ```
+
+   A file that does not match is recorded under **Skipped** ("no docblock comment") and never
+   dispatched. Do not narrow this grep to chase a leaner filter: a false survivor costs one
+   dispatch that returns zero edits; a false drop silently skips a real docblock.
+6. **No survivors** - every changed file was prefiltered out. Say so plainly and stop; no run
+   directory.
+7. **Snapshot** every surviving file to `before/<path>` with `cp`. A copy is a shell operation,
    not a read: the bytes never enter this context, and they are Proof 1's left-hand side.
 
 ## Run directory
@@ -108,9 +132,26 @@ report.md              the run's account of itself
 `<slug>` is the repository-relative path with `/` replaced by `-`, so two files sharing a
 basename in different directories cannot collide.
 
-## Dispatch
+## Sizing the run
 
-Per file, dispatch `rewriting-docblock-prose`:
+Count the surviving files and their combined line count.
+
+- **Small run - at most 3 files and at most 1500 combined lines** - take the **inline path**. The
+  conductor reads each survivor and rewrites it itself. Reading `rewriting-docblock-prose`'s
+  `SKILL.md` and `comprehension-gate.md` once, apply their gate and prohibitions to every file,
+  write the file in place, and write each file's receipt per `receipt-schema.md`. This is the
+  Rule-two relaxation; it needs no subagent.
+- **Large run - more than 3 files, or more than 1500 combined lines** - take the **dispatched
+  path** below. The firewall holds: you route ranges, never source.
+
+The threshold is a token trade. A subagent's fixed cold-start (skill + references) outweighs a
+handful of small files held briefly in the conductor's context; past the threshold the persistent
+weight of source in the conductor - re-sent every turn - outweighs the cold-start, and dispatch
+wins. Announce which path the run took.
+
+## Dispatch (large run only)
+
+Per surviving file, dispatch `rewriting-docblock-prose`:
 
 ```json
 {
@@ -120,40 +161,30 @@ Per file, dispatch `rewriting-docblock-prose`:
   "receipt_path": "<absolute path to .engineering/<run>/vernacular/receipts/<slug>.json>",
   "skill_path":   "<absolute path to that skill's SKILL.md>",
   "gate_path":    "<absolute path to references/comprehension-gate.md>",
-  "diagram_path": "<absolute path to references/diagram-rules.md>",
   "schema_path":  "<absolute path to references/receipt-schema.md>"
 }
 ```
 
-Then, for that same file, dispatch `verifying-docblock-claims`:
-
-```json
-{
-  "file":         "<the same absolute path>",
-  "before_path":  "<the same before copy>",
-  "receipt_path": "<the receipt the rewriter wrote>",
-  "skill_path":   "<absolute path to that skill's SKILL.md>",
-  "schema_path":  "<absolute path to references/receipt-schema.md>"
-}
-```
+Rewrites are **pipelined per file** - file B does not wait on file A. The only barrier is
+reconcile, which needs every receipt.
 
 **Name every path.** A subagent cannot resolve a relative citation from a directory it was
 never told it is standing in - the defect guardtower found on its first live run, where an
 analyst was told to write "the shape `finding-schema.md` defines" and never told where that
-document was. `skill_path` appears in both payloads for the same reason.
+document was. `skill_path` appears for the same reason.
 
-Both return one line: counts and a receipt path. **A returned description means the firewall
-has already failed** - halt and say so rather than using it.
+Each rewriter returns one line: counts and a receipt path. **A returned description means the
+firewall has already failed** - halt and say so rather than using it.
 
 ## Reconcile
 
-Once every receipt is in:
+Once every receipt is in (both paths):
 
 ```sh
 python3 "${CLAUDE_PLUGIN_ROOT}/scripts/reconcile.py" "$RUN_DIR"
 ```
 
-- **Exit 0** - both proofs held for every file. Go to **Report**.
+- **Exit 0** - the proof held for every file. Go to **Report**.
 - **Exit 1** - a proof failed. For each `FAIL` line, **restore it from `before/`**, move the
   working-tree version to `quarantine/<path>`, and halt.
 - **Exit 2** - a receipt is malformed or a file it names is missing. Same restore-and-quarantine
@@ -171,15 +202,18 @@ Write `report.md` and tell the user, every run, four things:
 
 - **Rewritten**, per file.
 - **Left alone**, with a count, summed from the receipts' `left_alone`.
-- **Reverted by the verifier**, each with the claim from the receipt's `reverted` array.
-- **Skipped**, with the reason.
+- **Verify these yourself** - each claim in a receipt's `flagged` array, with the file. These are
+  descriptions the rewriter wrote but could not fully ground in the code; there is no independent
+  verifier, so this is your check. If the array is empty on every receipt, say so.
+- **Skipped**, with the reason - including the files the prefilter dropped for carrying no
+  docblock.
 
 The left-alone count is not decoration: it is the only evidence the user has that the gate is
 still discriminating rather than rubber-stamping, and a report omitting it makes a run that
 rewrote everything indistinguishable from one that judged carefully.
 
-State both proofs explicitly, pass or fail. An unavailable check that goes unmentioned reads
-exactly like a check that passed.
+State the proof explicitly, pass or fail, and name which path the run took (inline or dispatched).
+An unavailable check that goes unmentioned reads exactly like a check that passed.
 
 Then say plainly: the rewrites are unstaged in the working tree, `git diff` is the review, and
 `git checkout -- .` is the undo.
@@ -192,19 +226,24 @@ Invoke `engineering:verification-before-completion` before reporting anything as
 |---|---|
 | Not a git repository | Stop. |
 | No changed files | Say so, stop. No run directory. |
-| An in-scope file is dirty vs `HEAD` | Halt before any dispatch. Name the files. |
-| A rewriter returns `BLOCKED` | Skip that file, name it under **Skipped**, continue with the others. One unreadable file does not cost the run. |
-| A verifier returns `BLOCKED` | Restore that file from `before/` and name it under **Skipped**. Unverified prose is never kept. |
+| Every changed file prefiltered out | Say so, stop. No run directory. |
+| An in-scope file is dirty vs `HEAD` | Halt before any rewrite. Name the files. |
+| A rewriter returns `BLOCKED` (dispatched path) | Skip that file, name it under **Skipped**, continue with the others. One unreadable file does not cost the run. |
+| A file is unreadable on the inline path | Skip it, name it under **Skipped**, continue. |
 | `reconcile.py` exits 1 or 2 | Restore every touched file, quarantine, halt. |
 | A subagent returns a description instead of a count | Halt. The firewall has failed and the run's context is no longer trustworthy. |
-| No subagent capability | vernacular requires dispatch. Run each file's rewrite and verification inline in this thread and **say so** - **this is the exception to the two rules** - context purity is degraded, and the verifier is no longer independent, which is the more serious of the two. Never skip the verification stage to compensate. |
+| No subagent capability | Take the inline path regardless of size, and **say so** - context purity is degraded on a run that would otherwise have dispatched. Never skip the reconcile proof to compensate. |
 
 ## Red flags - STOP
 
-- Reading a receipt's prose fields for anything but the `reverted` claim text.
-- Dispatching a rewriter without `before_path`, so it anchors receipt line numbers to a file it
-  is actively editing.
+- Reading a receipt's prose fields for anything but the `flagged` claim text.
+- On the dispatched path, dispatching a rewriter without `before_path`, so it anchors receipt line
+  numbers to a file it is actively editing.
 - Writing a config file to save yourself asking next time.
 - Reintroducing language detection - a stack table, a docblock-syntax file, a skip list. It was
-  considered and deliberately not built; the proofs are language-independent and must stay so.
-- Widening scope to every docblock in a touched file.
+  considered and deliberately not built; the proofs and the prefilter are language-independent and
+  must stay so.
+- Authoring a docblock on a symbol that had none, or widening scope to every docblock in a touched
+  file.
+- Skipping the reconcile proof on the inline path because "the conductor wrote it carefully." The
+  byte proof runs on both paths.

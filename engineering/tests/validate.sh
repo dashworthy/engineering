@@ -79,7 +79,7 @@ fi
 # vernacular's invariant that it never hard-codes a language/stack table. Scoped to just
 # those three skill dirs: verity's conducting-test-hardening legitimately ships its own
 # detecting-the-stack.md / stack-markers.md references, and those must not trip this check.
-if find "$PLUGIN/skills/clarifying-docblocks" "$PLUGIN/skills/rewriting-docblock-prose" "$PLUGIN/skills/verifying-docblock-claims" -type f -exec grep -liE 'detecting-the-stack|stack-marker' {} + 2>/dev/null | grep -q .; then
+if find "$PLUGIN/skills/clarifying-docblocks" "$PLUGIN/skills/rewriting-docblock-prose" -type f -exec grep -liE 'detecting-the-stack|stack-marker' {} + 2>/dev/null | grep -q .; then
   bad "no stack-detection artefact exists in the vernacular docs skills"
 else
   ok "no stack-detection artefact exists in the vernacular docs skills"
@@ -96,19 +96,13 @@ if [ -f "$REWRITER" ]; then
   grep_flat "$REWRITER" "never return a description you wrote"; check $? "rewriter states the receipt-only return"
   grep_flat "$REWRITER" "Never claim a range containing an annotation line"; check $? "rewriter states the annotation prohibition"
   grep_flat "$REWRITER" "whole lines"; check $? "rewriter states the whole-line replacement rule"
+  grep_flat "$REWRITER" "never author a docblock where none existed"; check $? "rewriter states existing-docblocks-only scope"
+  grep_flat "$REWRITER" "flagged"; check $? "rewriter states the self-flag concession"
 fi
 
-# --- verifier ----------------------------------------------------------------
-
-VERIFIER="$PLUGIN/skills/verifying-docblock-claims/SKILL.md"
-[ -f "$VERIFIER" ]; check $? "verifying-docblock-claims/SKILL.md exists"
-
-if [ -f "$VERIFIER" ]; then
-  grep -q '^name: verifying-docblock-claims$' "$VERIFIER"; check $? "verifier frontmatter names itself"
-  grep_flat "$VERIFIER" "Revert, never repair"; check $? "verifier states revert-never-repair"
-  grep_flat "$VERIFIER" "bottom-up"; check $? "verifier states the bottom-up revert order"
-  grep_flat "$VERIFIER" "deleted from"; check $? "verifier states that a reverted edit leaves edits[]"
-fi
+# The verifier skill was retired in 0.5.0: vernacular defers claim-checking to the human's
+# git-diff review. Its removal is a guarded invariant, not an omission.
+[ ! -e "$PLUGIN/skills/verifying-docblock-claims" ]; check $? "retired verifier skill is absent"
 
 # --- conductor ---------------------------------------------------------------
 
@@ -122,12 +116,16 @@ if [ -f "$COND" ]; then
   grep_flat "$COND" "restore it from"; check $? "conductor states the quarantine-and-restore path"
   grep_flat "$COND" "Left alone"; check $? "conductor reports the left-alone count"
   grep_flat "$COND" "run-context.sh"; check $? "conductor derives the run directory via run-context.sh"
-  # Every dispatch payload must name skill_path - the defect guardtower found live.
-  grep -c 'skill_path' "$COND" | awk '$1 >= 2 {exit 0} {exit 1}'
-  check $? "conductor names skill_path in both dispatch payloads"
+  # The dispatch payload must name skill_path - the defect guardtower found live. One payload
+  # now (the verifier was retired in 0.5.0), so one occurrence suffices.
+  grep -c 'skill_path' "$COND" | awk '$1 >= 1 {exit 0} {exit 1}'
+  check $? "conductor names skill_path in the dispatch payload"
   ! grep_flat "$COND" "so there is none to read"
   check $? "conductor does not claim --unified=0 removes the diff body"
   grep_flat "$COND" "Never run a bare"; check $? "conductor forbids the unfiltered git diff"
+  grep_flat "$COND" "no comment leader"; check $? "conductor prefilters files with no docblock"
+  grep_flat "$COND" "inline path"; check $? "conductor states the small-run inline path"
+  grep_flat "$COND" "Verify these yourself"; check $? "conductor reports rewriter self-flags"
 fi
 
 # --- command and READMEs ------------------------------------------------------

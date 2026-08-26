@@ -18,7 +18,7 @@ noise. The report's `left_alone` count is the user's evidence the rule still hol
 | **Assumes vocabulary it does not supply** | `Reconciles the tender against the drawer.` |
 | **Machine-facing residue** | `Implements task 4 of the sync plan. See brief section 3.` |
 | **Empty of consequence** | Never says what it assumes, what happens if you skip it, or what will bite you |
-| **Absent** | Tags only, or no docblock at all |
+| **Prose absent** | A docblock that exists but is tags only - no prose description above them |
 
 ## What passes
 
