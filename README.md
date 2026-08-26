@@ -141,11 +141,11 @@ none.
 
 | Group | Skills |
 |---|---|
-| Discovery | `conducting-discovery`, `interrogating-requirements`, `expanding-scope`, `sequencing-requirements`, `to-spec`, `domain-modeling`, `identifying-code-conventions`, `recording-code-conventions` |
+| Discovery | `conducting-discovery`, `interrogating-requirements`, `expanding-scope`, `sequencing-requirements`, `to-spec`, `domain-modeling`, `identifying-code-conventions`, `recording-code-conventions`, `recording-adrs` |
 | Triage | `triage` |
 | Design | `brainstorming`, `codebase-design`, `improve-codebase-architecture` |
 | Planning | `writing-plans`, `executing-plans` |
-| Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review`, `using-code-conventions` |
+| Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review`, `using-code-conventions`, `using-adrs` |
 | Test hardening | `conducting-test-hardening`, `auditing-test-gaps`, `verifying-test-integrity`, `writing-tests-from-brief` |
 | Docs | `clarifying-docblocks`, `rewriting-docblock-prose` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |

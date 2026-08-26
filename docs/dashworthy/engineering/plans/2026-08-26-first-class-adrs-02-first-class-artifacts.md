@@ -214,11 +214,11 @@ Success criterion 8: a tracking view distinct from the index's lookup role. The 
 - Modify: `README.md` (root) — the `N skills` count and the per-group skill table (add the two new skills under their groups)
 
 **Steps:**
-- [ ] Run `sh engineering/tests/validate.sh` and `sh engineering/tests/acceptance.sh`; **confirm FAIL** on the count guard and/or the README-lists-every-skill check.
-- [ ] Add `recording-adrs` and `using-adrs` entries to `engineering/skills/README.md`.
-- [ ] Set the root README's skill count to equal on-disk reality: `find engineering/skills -name SKILL.md | wc -l` (order-robust — do not hard-code), and add the two skills to the grouped table.
-- [ ] Run validate + acceptance; **confirm green** (`root README skill count (N) matches disk (N)`).
-- [ ] Commit: `docs(engineering): register recording-adrs and using-adrs in the READMEs`.
+- [x] Run `sh engineering/tests/validate.sh` and `sh engineering/tests/acceptance.sh`; **confirm FAIL** on the count guard and/or the README-lists-every-skill check. _(N/A — both were already green: the count line and `skills/README.md` entries were folded into Tasks 1.2/2.1 to satisfy the green-every-commit / removal-cleanliness constraint. The only work remaining here is the cosmetic root-README grouped-table rows, which no test guards.)_
+- [x] Add `recording-adrs` and `using-adrs` entries to `engineering/skills/README.md`. _(Done in Tasks 1.2/2.1.)_
+- [x] Set the root README's skill count to equal on-disk reality: `find engineering/skills -name SKILL.md | wc -l` (order-robust — do not hard-code), and add the two skills to the grouped table. _(Count already 36=disk from earlier tasks; added `recording-adrs` to Discovery and `using-adrs` to Build in the grouped table here.)_
+- [x] Run validate + acceptance; **confirm green** (`root README skill count (N) matches disk (N)`).
+- [x] Commit: `docs(engineering): register recording-adrs and using-adrs in the READMEs`.
 
 **Verification:** `sh engineering/tests/validate.sh` and `sh engineering/tests/acceptance.sh` exit 0.
 
