@@ -100,7 +100,9 @@ if [ -n "$callers" ]; then echo "FAIL: only engineering:brainstorming may impera
 # spec-gate model the SPEC-FORMAT template stamps **Status:** Draft — the spec is written as a draft and
 # the spec gate in to-spec flips it to Approved, so a stale template hard-coding Approved (pre-gate) must
 # fail here; (c) the root README's signal sub-diagram routes sequence → brainstorming → to-spec.
-grep -qiE "hand[^.]*engineering:to-spec" "$eng/skills/brainstorming/SKILL.md" || { echo "FAIL: brainstorming must hand off to to-spec (single-caller's other half)"; fail=1; }
+# Flatten newlines first: the handoff sentence wraps ("Hand the recommended design to" /
+# "engineering:to-spec"), and a line-based grep would miss a phrase that straddles the wrap.
+tr '\n' ' ' < "$eng/skills/brainstorming/SKILL.md" | grep -qiE "hand[^.]*engineering:to-spec" || { echo "FAIL: brainstorming must hand off to to-spec (single-caller's other half)"; fail=1; }
 grep -qF '**Status:** Draft' "$eng/skills/to-spec/SPEC-FORMAT.md" || { echo "FAIL: SPEC-FORMAT template must stamp **Status:** Draft (written first, flipped to Approved at the spec gate)"; fail=1; }
 grep -qF 'S2 --> BR' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route sequence -> brainstorming -> to-spec"; fail=1; }
 

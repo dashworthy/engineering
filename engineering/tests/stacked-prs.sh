@@ -60,7 +60,7 @@ E="$PLUGIN/skills/executing-plans/SKILL.md"
 need "$E" "PR strategy"                                  "executing-plans: reads PR strategy"
 need "$E" "using-stacked-pull-requests"                  "executing-plans: names the skill"
 need "$E" "sequentially"                                 "executing-plans: stacked runs sequentially"
-need "$E" "run that opening step before the task's commit steps" "executing-plans: commit on the right branch"
+need "$E" "land on that task's own branch" "executing-plans: commit on the right branch"
 
 # --- finishing-a-development-branch lands the stack --------------------------
 F="$PLUGIN/skills/finishing-a-development-branch/SKILL.md"

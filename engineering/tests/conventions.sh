@@ -7,6 +7,13 @@ d=$(CDPATH= cd "$(dirname "$0")" && pwd)
 eng=$(CDPATH= cd "$d/.." && pwd)
 fail=0
 
+# Match a prose anchor regardless of how the source is line-wrapped. These documents wrap prose
+# for readability, so a check anchored to a phrase that straddles a wrap must flatten newlines
+# first or it reports a false negative on content that is present. Mirrors validate.sh's helper.
+grep_flat() {  # grep_flat <file> <literal phrase>
+  tr '\n' ' ' < "$1" | tr -s ' ' | grep -qF -- "$2"
+}
+
 skills="$eng/skills"
 rec="$skills/recording-code-conventions"
 fmt="$rec/STANDARDS-FORMAT.md"
@@ -83,8 +90,8 @@ else
   # The interrogation fixes the is / is-not / robustness turns in the choice-menu style.
   grep -qi "what it is not" "$hard" || { echo "FAIL: hardening-interrogation.md must fix the 'what it is not' turn"; fail=1; }
   grep -qi "robustness" "$hard" || { echo "FAIL: hardening-interrogation.md must fix the robustness turn"; fail=1; }
-  grep -qi "one question" "$hard" || { echo "FAIL: hardening-interrogation.md must hold the one-question-per-turn rule"; fail=1; }
-  grep -qi "conventional default" "$hard" || { echo "FAIL: hardening-interrogation.md must offer a conventional default (choice-menu style)"; fail=1; }
+  grep_flat "$hard" "one question per turn" || { echo "FAIL: hardening-interrogation.md must hold the one-question-per-turn rule"; fail=1; }
+  grep_flat "$hard" "conventional default framing" || { echo "FAIL: hardening-interrogation.md must offer a conventional default (choice-menu style)"; fail=1; }
 fi
 
 # --- Task 3: identifying-code-conventions — the discoverer (surfaces, never codifies) ---
@@ -101,7 +108,7 @@ else
   grep -qF "**Capture from the developer.**" "$id" || { echo "FAIL: identifying must have the capture-from-the-developer mode"; fail=1; }
   # Presents each candidate individually and hands it, rough, to the single writer.
   grep -qxF "## Every candidate, individually, to recording" "$id" || { echo "FAIL: identifying must route each candidate individually to recording"; fail=1; }
-  grep -qiF "hands each candidate" "$id" || { echo "FAIL: identifying must hand each candidate to the writer"; fail=1; }
+  grep_flat "$id" "hand each one individually" || { echo "FAIL: identifying must hand each candidate to the writer"; fail=1; }
   grep -qF "approval-gate.md" "$id" || { echo "FAIL: identifying must name the shared approval-gate.md"; fail=1; }
   # The inference heuristic (§8): when observed repetition is worth surfacing.
   grep -qi "heuristic" "$id" || { echo "FAIL: identifying must state the inference heuristic"; fail=1; }
@@ -118,7 +125,7 @@ if [ ! -f "$u" ]; then
 else
   grep -qxF "name: using-code-conventions" "$u" || { echo "FAIL: using SKILL.md frontmatter name"; fail=1; }
   # Body markers (whole-line headings), so a gutted body can't false-green off the description.
-  grep -qxF "## Cite the convention inline at the work item" "$u" || { echo "FAIL: using must cite the governing convention inline at the work item"; fail=1; }
+  grep_flat "$u" "convention file inline, right at that work item" || { echo "FAIL: using must cite the governing convention inline at the work item"; fail=1; }
   grep -qxF "## Match on the When relevant column" "$u" || { echo "FAIL: using must match on the index When relevant column"; fail=1; }
   grep -qxF "## Skip retired conventions" "$u" || { echo "FAIL: using must skip retired rows"; fail=1; }
   # Cite the file by path, not a paraphrase — a paraphrase goes stale when the rule is amended.
