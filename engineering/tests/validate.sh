@@ -63,7 +63,7 @@ if [ -f "$REF/comprehension-gate.md" ]; then
   grep_flat "$REF/comprehension-gate.md" "Restates the signature";       check $? "gate names the restates-the-signature failure"
   grep_flat "$REF/comprehension-gate.md" "Describes mechanism, not purpose"; check $? "gate names the mechanism failure"
   grep_flat "$REF/comprehension-gate.md" "Machine-facing residue";       check $? "gate names the machine-residue failure"
-  grep_flat "$REF/comprehension-gate.md" "When in doubt, leave it";      check $? "gate states the leave-it default"
+  grep_flat "$REF/comprehension-gate.md" "when in doubt, leave it";      check $? "gate states the leave-it default"
 fi
 
 if [ -f "$REF/diagram-rules.md" ]; then
