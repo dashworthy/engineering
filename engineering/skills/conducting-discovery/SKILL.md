@@ -149,7 +149,7 @@ Do not proceed until its **advancement gate** is satisfied: at least 3 rounds of
 
 **Write before expanding.** The moment the gate is met, stage 1 writes `brief.md` §1–§6 — before any dispatch. The interrogation is the most expensive thing this pipeline produces and the only part the user paid for in their own time; until it is on disk it lives in a conversation any failure takes with it. Do not let the expansion beat run first because the brief will be rewritten anyway — it does get rewritten, and that is cheap; losing the interrogation is not.
 
-**Then the expansion beat.** `engineering:interrogating-requirements` owns it and specifies it in full — the three angles, the five-candidate cap, the single checklist, and how each disposition reaches §5. Follow it there; it is not restated here, so there is one copy to change. What is yours is the control flow around it:
+**Then the expansion beat.** `engineering:interrogating-requirements` owns it and specifies it in full — the three angles, the five-candidate cap, the single round of `AskUserQuestion` prompts, and how each disposition reaches §5. Follow it there; it is not restated here, so there is one copy to change. What is yours is the control flow around it:
 
 1. **Dispatch** `engineering:expanding-scope` with the requirements stage 1 just wrote, **inline in the dispatch prompt**. They are already in your context, so hand it the text rather than the path — it must never read `brief.md`, and giving it a path invites exactly that. Do send it something: a candidate proposed against nothing is a candidate already in scope.
 2. **It writes no file.** Its `actionable` is its entire output and its `artifact` field carries no path. Do not wait for a file it will never produce.
@@ -225,7 +225,7 @@ If the pipeline ran **inline** because subagent dispatch was unavailable, say so
 - Exiting through the escape valve without recording the trivial exit in `00-request.md`.
 - Dispatching `engineering:expanding-scope` before stage 1 has written `brief.md` §1–§6. The write comes first — that ordering is what makes a failed expansion cheap.
 - Going to stage 2 with §5 still saying expansion has not run. It has — successfully, emptily, or not at all — and §5 must say which. The rewrite is not conditional on candidates existing.
-- Advancing out of stage 1 with an unadjudicated expansion candidate, or writing §5 with a candidate missing from all three of its lists (IN-SCOPE, NON-GOAL or DEFER — a deferred one leaves a second trace in `open-threads.md`). The user adjudicates each; you relay one checklist and record the answers, you do not decide dispositions yourself.
+- Advancing out of stage 1 with an unadjudicated expansion candidate, or writing §5 with a candidate missing from all three of its lists (IN-SCOPE, NON-GOAL or DEFER — a deferred one leaves a second trace in `open-threads.md`). The user adjudicates each; you relay one round of `AskUserQuestion` prompts and record the answers, you do not decide dispositions yourself.
 - Advancing out of stage 1 with a filled coverage dimension that reached no section — §6 Existing Context above all.
 - Treating `open-threads.md` as off-limits. Stage 1 wrote it in your session; it is a main-thread file like `00-request.md`, and refusing to read it breaks warm resume for no gain.
 - Writing or rendering the spec yourself. That is `to-spec`'s job, downstream of `brainstorming` — signal does not write a spec at all.

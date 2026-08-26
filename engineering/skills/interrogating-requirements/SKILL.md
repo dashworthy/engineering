@@ -87,7 +87,16 @@ Working state for this run. Not the deliverable; `brief.md` is.
 
 **Do not ask open questions. Offer a short menu of concrete choices and invite a pick or a correction.** Picking off a list costs the user far less than composing an answer from a blank prompt.
 
-Each menu leads with the **conventional answer** — what most competent practitioners in this domain would do — as the default, its reasoning visible; under it the two or three real alternatives, and an open "or something else" so the list never traps them.
+**Deliver every probe through the `AskUserQuestion` tool — one question per call — never as prose the user has to read past.** Plain-text questions are exactly what pile the six dimensions into one wall for the user to answer all at once; the tool renders one probe as pickable options and stops the turn until it is answered, which is the interactivity this whole skill depends on. Map each probe onto the tool:
+
+- **`header`** — the coverage dimension, short (≤12 chars): `Problem`, `Users`, `Success`, `Constraints`, `Scope`, `Context`.
+- **First option** — the **conventional answer**, what most competent practitioners in this domain would do. Its reasoning goes in the option's `description`; append ` (Recommended)` to its label.
+- **The other options** — the two or three real alternatives, each with a one-line `description`.
+- **The open escape is automatic.** `AskUserQuestion` always appends an "Other" choice and always lets the user type their own answer, so never hand-write "or something else" — the tool is what stops your guesses from being read back as the only choices.
+
+The same auth probe as one call — `header: Auth`, question "Auth approach?": **SSO (Recommended)** ("kills the password-reset support load, the usual driver") · **Magic links** · **Password + 2FA**. The user picks one or types their own into Other.
+
+**Fallback — the tool is not always there.** In a headless or non-interactive run `AskUserQuestion` cannot prompt. *Only* then, fall back to the same menu as plain text and say the run is degraded:
 
 > "Auth approach? Most teams this size pick:
 > - **A) SSO** — to kill the password-reset support load (the usual driver)
@@ -106,7 +115,7 @@ Departures are where the requirements actually live; everything else you could h
 
 - **Set the default at the field default. Never tune it to what the user already told you.** A tuned default that draws a pick tells you only that you were listening; a field-default one tells you something about the world.
 - **Keep it short and local.** Two to four options for one probe — never a lecture up front, never a batch of separate questions dressed up as a list.
-- **Always leave the open escape** — "or something else —" on every menu. A closed list of your guesses, read back as the only choices, encodes your framing as a requirement.
+- **The open escape is not yours to add or forget** — `AskUserQuestion`'s "Other" is always present and always takes a typed answer. A closed list of your guesses, offered as the only choices, would encode your framing as a requirement; the tool prevents that structurally.
 - **When you do not know what is conventional in this domain, say so and let the menu be rougher** rather than inventing a confident default.
 
   > "I don't have a strong sense of what's typical here, so correct me freely — I'd guess it's one of these, but the list is a starting point, not the boundary:"
@@ -117,7 +126,7 @@ Departures are where the requirements actually live; everything else you could h
 
 ### Rules that do not change
 
-- **One question per turn.** The menu is choices *within* one question, not a batch of separate questions. Never fire "a few things I'm wondering about" at once. Given ten questions a person answers one; one question with a handful of options gets picked cleanly.
+- **One question per `AskUserQuestion` call.** The options are choices *within* one question, not a batch of separate questions. The tool accepts up to four questions in a call — do not use that to fire "a few things I'm wondering about" at once; one probe, mined for its correction, then the next. Given ten questions a person answers one; one question with a handful of options gets picked cleanly.
 - **Quote the vague phrase back — with a menu.** "You said 'it should be fast' — fast meaning what? p95 under 200ms, under 500ms, under 1s, or a number you have in mind?"
 - **Reject non-answers.** "Whatever makes sense" / "the usual" / "you decide" are not answers — offer the menu so there is something concrete to pick instead.
 - **Force the non-goals.** People define scope by what they will build; make them state what they will not build.
@@ -198,7 +207,7 @@ Runs **after** the coverage dimensions are filled and the first write has landed
    **If it fails, nothing is lost.** A `BLOCKED` return, or a malformed one twice, does not stop stage 1 and costs only the suggestions: `brief.md` §1–§6 is already on disk. Tell the user the beat failed and why, then go to step 5 — you still rewrite, because §5's note has to stop saying expansion has not run when it has.
 
    **If it returns no candidates at all**, that is a valid `OK` result, not a failure — it found nothing worth proposing. Go to step 5 directly; you still rewrite, for the same reason.
-3. Present all candidates to the user as a single checklist with three ways to answer — in-scope, non-goal, or defer — one round, not a per-candidate conversation. Offer all three on every candidate; a checklist that offers only two makes step 4's third disposition unreachable.
+3. Present the candidates through `AskUserQuestion` — one question per candidate, its three options `In-scope` · `Non-goal` · `Defer`, batched up to four questions per call so five candidates take two calls at most and it stays one round, not a per-candidate conversation. Offer all three on every candidate; dropping one makes step 4's third disposition unreachable. (Headless, no tool: the same three-way checklist as plain text.)
 4. **Every candidate must resolve to exactly one of three dispositions — IN-SCOPE, NON-GOAL, or DEFER — with the user's reason, and no candidate reaches the brief unresolved.** This is the authoritative statement of the three-list rule; §5 and the Red Flags refer back to it. NON-GOAL is a candidate the user does not want, recorded with the reason. DEFER is for one they genuinely cannot decide yet: it leaves **two traces** — written to `open-threads.md` as kind `next-probe` **and** named in §5's deferred list — never zero. DEFER is a disposition, not a way to dodge adjudicating.
 5. **Then rewrite `brief.md` §1–§6 in full**, replacing what you wrote before rather than patching it. Each disposition lands in §5 and wherever else it touches: accepted candidates are requirements in their own right, so write each into §5's in-scope list *and* into whichever other sections it touches — §3 success criteria, §4 constraints, §2 stakeholders — as though it had been raised during interrogation; rejected candidates into §5's non-goals list *with the user's reason*; deferred candidates into §5's deferred list with their `open-threads.md` thread handle. A candidate that does not reach these sections does not reach the brief at all, and nothing downstream will catch it.
 
