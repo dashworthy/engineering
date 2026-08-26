@@ -2,7 +2,7 @@
 
 This is the weakest of the four evidence sources `detecting-the-stack` consults, and the only
 file in this plugin permitted to name specific tools, languages, or runners — the skill body
-stays ecosystem-neutral so verity itself never hard-codes a stack. Consult this table **only
+stays ecosystem-neutral so test-hardening itself never hard-codes a stack. Consult this table **only
 after** declared manifest scripts, CI workflow definitions, and runner configuration files have
 all been checked for a given suite and yielded nothing. Every command below is a **candidate**,
 not a fact: it exists to give the user something concrete to confirm or correct, not to be trusted

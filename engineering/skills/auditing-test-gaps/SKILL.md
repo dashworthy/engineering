@@ -1,6 +1,6 @@
 ---
 name: auditing-test-gaps
-description: "[Test hardening] Use when dispatched by verity to audit one suite and one track for weak test coverage on a branch diff - returns structured gap findings and breakage findings, and modifies nothing"
+description: "[Test hardening] Use when dispatched by test-hardening to audit one suite and one track for weak test coverage on a branch diff - returns structured gap findings and breakage findings, and modifies nothing"
 ---
 
 # Auditing Test Gaps

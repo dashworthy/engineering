@@ -77,7 +77,7 @@ fi
 
 # No language table may be reintroduced in vernacular's own docs skills — this is
 # vernacular's invariant that it never hard-codes a language/stack table. Scoped to just
-# those three skill dirs: verity's conducting-test-hardening legitimately ships its own
+# those three skill dirs: the conducting-test-hardening skill legitimately ships its own
 # detecting-the-stack.md / stack-markers.md references, and those must not trip this check.
 if find "$PLUGIN/skills/clarifying-docblocks" "$PLUGIN/skills/rewriting-docblock-prose" "$PLUGIN/skills/verifying-docblock-claims" -type f -exec grep -liE 'detecting-the-stack|stack-marker' {} + 2>/dev/null | grep -q .; then
   bad "no stack-detection artefact exists in the vernacular docs skills"

@@ -1,4 +1,4 @@
-# verity brief — iteration {{N}}
+# test-hardening brief — iteration {{N}}
 
 **Run:** {{BASELINE}}...HEAD
 **Participating suites:** {{SUITES}}
