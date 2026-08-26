@@ -183,6 +183,20 @@ if [ -f "$ADRSEED" ]; then
   grep_flat "$ADRSEED" "Accepted"; check $? "ADR index records ADR 0001 as Accepted"
 fi
 
+# --- using-adrs consumer -----------------------------------------------------
+# The ADR analogue of using-code-conventions, under the trail profile: read the index, match
+# the When relevant column, cite the governing ADR by path at the work item, skip Superseded.
+USEADR="$PLUGIN/skills/using-adrs/SKILL.md"
+[ -f "$USEADR" ]; check $? "using-adrs/SKILL.md exists"
+
+if [ -f "$USEADR" ]; then
+  grep -q '^name: using-adrs$' "$USEADR"; check $? "using-adrs frontmatter names itself"
+  grep_flat "$USEADR" "docs/adr/index.md"; check $? "using-adrs reads the ADR index"
+  grep_flat "$USEADR" "When relevant";     check $? "using-adrs matches the When relevant column"
+  grep_flat "$USEADR" "by path";           check $? "using-adrs cites the governing ADR by path at the work item"
+  grep_flat "$USEADR" "Superseded";        check $? "using-adrs skips Superseded rows"
+fi
+
 # --- command and READMEs ------------------------------------------------------
 
 CMD="$PLUGIN/commands/vernacular.md"

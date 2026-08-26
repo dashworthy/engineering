@@ -102,11 +102,11 @@ Success criterion 8: a tracking view distinct from the index's lookup role. The 
 **Interfaces:** reads `docs/adr/index.md`, matches each work item against the **When relevant** column, cites the governing ADR by path at the work item, and **skips Superseded rows** — the ADR analogue of `using-code-conventions` under the *trail* profile.
 
 **Steps:**
-- [ ] Add `using-adrs:[Build]` to the `tagged` list in `acceptance.sh`. Run; **confirm FAIL**.
-- [ ] Add `validate.sh` assertions: `using-adrs/SKILL.md` names itself, states it matches the **When relevant** column, states by-path citation at the work item, and states it skips `Superseded` rows. Run; **confirm FAIL**.
-- [ ] Write `using-adrs/SKILL.md` per the skill-authoring standard, referencing `first-class-artifact.md` (trail profile) and `ADR-INDEX-FORMAT.md`.
-- [ ] Run acceptance + validate; **confirm green**.
-- [ ] Commit: `feat(engineering): add using-adrs skill`.
+- [x] Add `using-adrs:[Build]` to the `tagged` list in `acceptance.sh`. Run; **confirm FAIL**.
+- [x] Add `validate.sh` assertions: `using-adrs/SKILL.md` names itself, states it matches the **When relevant** column, states by-path citation at the work item, and states it skips `Superseded` rows. Run; **confirm FAIL**.
+- [x] Write `using-adrs/SKILL.md` per the skill-authoring standard, referencing `first-class-artifact.md` (trail profile) and `ADR-INDEX-FORMAT.md`.
+- [x] Run acceptance + validate; **confirm green**. _(count 35->36 + skills/README Build entry folded in; root README grouped-table row deferred to Task 7.1.)_
+- [x] Commit: `feat(engineering): add using-adrs skill`.
 
 **Verification:** acceptance + validate exit 0.
 

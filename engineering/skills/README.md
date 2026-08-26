@@ -10,7 +10,7 @@ opens with the matching `[Group]` tag.
 | Triage | `triage` |
 | Design | `brainstorming`, `codebase-design`, `improve-codebase-architecture` |
 | Planning | `writing-plans`, `executing-plans` |
-| Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review`, `using-code-conventions` |
+| Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review`, `using-code-conventions`, `using-adrs` |
 | Test hardening | `conducting-test-hardening`, `auditing-test-gaps`, `verifying-test-integrity`, `writing-tests-from-brief` |
 | Docs | `clarifying-docblocks`, `rewriting-docblock-prose` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
