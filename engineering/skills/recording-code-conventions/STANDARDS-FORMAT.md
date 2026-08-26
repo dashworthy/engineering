@@ -49,9 +49,8 @@ what stops a rule from being stretched to cover work it was never meant to.>
 - **Who:** <who approved this convention — the sole approver, by name or handle>
 - **When:** <YYYY-MM-DD it was first approved>
 - **Source:** <the evidence behind it — observed repetition with file:line, a dictated
-  standing rule, the PR the convention was harvested from at review time (`PR #NNN`), or
-  the ADR that spawned it (`docs/adr/NNNN-...`). This is where a spawning ADR or PR is
-  named.>
+  standing rule, or the PR the convention was harvested from at review time (`PR #NNN`).
+  This is where a harvesting PR is named.>
 - **Lifecycle:** active | retired <YYYY-MM-DD>
 ```
 
@@ -96,7 +95,7 @@ The eight columns are fixed:
 | **Date created** | `YYYY-MM-DD` of first approval. |
 | **Last amended** | `YYYY-MM-DD` of the most recent amendment, or `—` if never amended. |
 | **Link** | Relative path from the index to the convention document. |
-| **Source/provenance** | One-line origin — the evidence, dictation, PR, or ADR the `Provenance` block records in full. |
+| **Source/provenance** | One-line origin — the evidence, dictation, or PR the `Provenance` block records in full. |
 
 ## How to keep it current
 

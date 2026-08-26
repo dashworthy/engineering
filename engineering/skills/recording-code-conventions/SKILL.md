@@ -1,6 +1,6 @@
 ---
 name: recording-code-conventions
-description: "[Discovery] The single writer for a project's code conventions: interrogate a candidate into a sharp rule, gate it on the approver's individual yes, then write it to docs/standards/ per STANDARDS-FORMAT.md and keep the index in sync. Use when a convention is being created, amended, or retired — whatever surfaced it. Writes the standards tree and its index; does not discover candidates (identifying-code-conventions) or consume them (using-code-conventions)."
+description: "[Discovery] The single writer for a project's code conventions: interrogate a candidate into a sharp rule, gate it on the approver's yes, write it to docs/standards/, and keep the index in sync. Use when a convention is created, amended, or retired. Does not discover candidates (identifying-code-conventions) or consume them (using-code-conventions)."
 ---
 
 # Recording Code Conventions
@@ -18,8 +18,8 @@ document per `STANDARDS-FORMAT.md` and updates the index row in the same change.
 amending, and retiring a convention are all this same writer under this same pair of gates.
 
 Every other path in the system — `identifying-code-conventions`, the `conventions-init` and
-`record-convention` commands, the PR-time harvest in `code-review`, the ADR-spawn seam in
-`domain-modeling` — funnels its candidate here rather than writing anything itself.
+`record-convention` commands, and the PR-time harvest in `code-review` — funnels its candidate
+here rather than writing anything itself.
 
 ## Step 1 — Harden the candidate
 
@@ -70,5 +70,5 @@ applies, the same individual approval.
   so a subagent reads it is `using-code-conventions`. This skill writes rules; it does not
   consume them.
 - It does not **write specs or ADRs.** A convention is a repeatable standing rule; a spec
-  (`to-spec`) and an ADR (`domain-modeling`) are different durable-knowledge kinds. An ADR may
-  *spawn* a candidate that arrives here, but this skill never writes the ADR.
+  (`to-spec`) and an ADR (`recording-adrs`) are different durable-knowledge kinds. This skill
+  writes neither.

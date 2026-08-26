@@ -1,6 +1,6 @@
 ---
 name: sequencing-requirements
-description: "[Discovery] Appends the dependency-ordered body (§7) and the handoff pointer (§8) to a brief whose §1–§6 requirements are already written. A dispatched stage-2 beat; dispatched only by a discovery conductor, never self-triggered."
+description: "[Discovery] Append the dependency-ordered body (§7) and handoff pointer (§8) to a brief whose §1–§6 are already written. A dispatched stage-2 beat; only a discovery conductor dispatches it, never self-triggered."
 ---
 
 # Sequencing Requirements

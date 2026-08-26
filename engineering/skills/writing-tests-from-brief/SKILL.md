@@ -1,6 +1,6 @@
 ---
 name: writing-tests-from-brief
-description: "[Test hardening] Use when dispatched by test-hardening to write tests satisfying brief items for one target test file - appends tests without altering existing cases and never touches application code"
+description: "[Test hardening] Dispatched by test-hardening to write tests satisfying brief items for one target test file — appends without altering existing cases, never touches application code."
 ---
 
 # Writing Tests From Brief

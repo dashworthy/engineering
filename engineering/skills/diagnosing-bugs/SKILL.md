@@ -1,6 +1,6 @@
 ---
 name: diagnosing-bugs
-description: "[Build] Find a defect's root cause before changing code: reproduce, form a hypothesis, isolate, and confirm with evidence. Use when a bug is reported or a test fails for a non-obvious reason. Pairs with an optional human-in-the-loop reproduction script (scripts/hitl-loop.template.sh). Does not isolate whether a report is even valid — that is triage."
+description: "[Build] Find a defect's root cause before changing code: reproduce, hypothesize, isolate, confirm with evidence. Use when a bug is reported or a test fails for a non-obvious reason. Does not isolate whether a report is valid — that is triage."
 ---
 
 # Diagnosing Bugs
@@ -79,10 +79,11 @@ and what gets logged at each pass are yours to fill in once it's copied.
 
 ## Reading the substrate
 
-`CONTEXT.md`, at the project root, is read when present for names, subsystems, and known
+`CONTEXT.md`, at the project root, is the glossary to consult for names, subsystems, and known
 trouble spots the project has documented — a component with a history of this failure, a term
-already in use for where the bug lives. Never required; most diagnoses run without it, from
-the reproduction and the code around it.
+already in use for where the bug lives. Consult it actively when narrowing; a project that
+hasn't accumulated one gives nothing back, and most diagnoses run from the reproduction and
+the code around it.
 
 ## Boundary: diagnosing-bugs finds why, triage decides what
 

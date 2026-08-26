@@ -1,6 +1,6 @@
 ---
 name: using-git-worktrees
-description: "[Foundation] Ensure work happens in an isolated workspace before making changes: detect existing isolation, prefer the harness's native worktree tool, fall back to git worktree, and verify a clean baseline. Use at the start of any implementation task. Model-invoked; no command."
+description: "[Foundation] Ensure work happens in an isolated workspace before making changes: detect existing isolation, prefer the harness's native worktree tool, fall back to git worktree, verify a clean baseline. Use at the start of any implementation task."
 ---
 
 # Using Git Worktrees

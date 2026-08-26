@@ -1,6 +1,6 @@
 ---
 name: rewriting-docblock-prose
-description: "[Docs] Use when dispatched by vernacular's clarifying-docblocks conductor - or applied inline by that conductor on a small run - to rewrite one file's docblock prose. Applies the comprehension gate, rewrites only existing descriptions that fail it, writes the file in place, and returns a receipt of the exact line ranges replaced. Improves existing docblocks only; never authors a docblock where none existed, and never touches a structured annotation or a line of executable code."
+description: "[Docs] Dispatched by clarifying-docblocks (or applied inline by it on a small run) to rewrite one file's docblock prose. Applies the comprehension gate, rewrites only descriptions that fail it, writes in place, returns a receipt of the line ranges replaced. Improves existing docblocks only; never authors one where none existed, never touches an annotation or executable code."
 ---
 
 # Rewriting Docblock Prose

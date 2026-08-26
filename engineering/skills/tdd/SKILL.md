@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: "[Build] Drive implementation with a strict red-green-refactor loop: write a failing test, watch it fail, write the minimal code to pass, refactor. Use when building any behavior that can be tested first. Reads CONTEXT.md when present. Distinct from test-hardening, which hardens existing tests after the fact — tdd builds them during implementation."
+description: "[Build] Drive implementation with a strict red-green-refactor loop: write a failing test, watch it fail, write minimal code to pass, refactor. Use when building any behavior that can be tested first. Distinct from test-hardening, which hardens existing tests after the fact."
 ---
 
 # TDD
@@ -62,10 +62,10 @@ lie about what was actually proven.
 
 ## Reading the substrate
 
-`CONTEXT.md`, at the project root, is read when present for naming and conventions a task's
-tests should match — a testing style, a fixture pattern, a term the codebase already names.
-Never required; most cycles run without it, on the behavior in front of you and the code
-around it.
+`CONTEXT.md`, at the project root, is the glossary a task's tests should match — a testing
+style, a fixture pattern, a term the codebase already names. Resolve those names from it
+actively rather than guessing; a project that hasn't accumulated one gives nothing back, and
+most cycles run on the behavior in front of you and the code around it.
 
 ## Boundary: tdd builds, test-hardening hardens
 

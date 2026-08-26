@@ -70,8 +70,9 @@ route with confidence, and no more than that.
 
 Work through `references/isolation-checklist.md` for the mechanics. In outline:
 
-1. **Bisect by domain concept**, not by line number. Read `CONTEXT.md` and any ADRs the
-   project keeps, when they exist, for the names and boundaries already in use.
+1. **Bisect by domain concept**, not by line number. Consult `CONTEXT.md` and the ADR trail
+   (via `engineering:using-adrs`) for the names and boundaries already in use; where the
+   project keeps neither, use the names from the report and the code.
    "The retry logic in the sync worker drops the second failure" is isolation enough to
    route on; finding the exact conditional that drops it is `diagnosing-bugs`' job, one
    step further than triage goes.

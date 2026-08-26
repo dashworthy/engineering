@@ -1,6 +1,6 @@
 ---
 name: using-code-conventions
-description: "[Build] Put recorded code conventions to work: during design and build, read the standards index and cite the governing convention file inline at the work item in a spec or plan, so the subagent that implements the item reads the rule before writing code. Use whenever a spec or plan describes a work item a recorded convention governs. Reads docs/standards/; it does not discover conventions (identifying-code-conventions) or write them (recording-code-conventions)."
+description: "[Build] Put recorded code conventions to work: read the standards index and cite the governing convention file inline at the work item in a spec or plan. Use when a spec or plan describes a work item a recorded convention governs. Reads docs/standards/; does not discover conventions (identifying-code-conventions) or write them (recording-code-conventions)."
 ---
 
 # Using Code Conventions

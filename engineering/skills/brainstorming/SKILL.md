@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "[Design] Shape a piece of work into a recommended design through dialogue: explore context, propose 2-3 approaches with trade-offs, and recommend one. Holds no approval gate of its own — design approval is the spec gate in to-spec. Use after signal or triage has gathered material and before to-spec. Weighs how to build it (approach); does not interrogate requirements (signal) or design module internals (codebase-design)."
+description: "[Design] Shape a piece of work into a recommended design: explore context, propose 2-3 approaches with trade-offs, recommend one. Use after signal or triage, before to-spec. Weighs approach; does not interrogate requirements (signal) or design module internals (codebase-design)."
 ---
 
 # Brainstorming
@@ -38,10 +38,13 @@ the work will touch, any docs sitting near them, and recent commits in the area 
 design that ignores how the neighborhood already does things produces an approach that
 fights the codebase from day one instead of extending it.
 
-Read `CONTEXT.md` and `docs/adr/`, at the project root, when either exists. A naming
-convention or a boundary already settled there constrains which approaches are even
-worth proposing — an approach that reopens a decision an ADR already closed isn't a
-fresh option, it's litigation. Neither file is required.
+Actively consult the project's first-class artifacts before proposing: resolve domain terms
+from `CONTEXT.md` (the glossary) and surface governing decisions with
+`engineering:using-adrs`, which matches the ADR trail against the work at hand. A naming
+convention or a boundary already settled there constrains which approaches are even worth
+proposing — an approach that reopens a decision an ADR already closed isn't a fresh option,
+it's litigation. A project that has accumulated neither surfaces nothing, and that is a clean
+result — the obligation is to consult, not a requirement that the files exist.
 
 ## Propose approaches, not one approach
 
@@ -67,6 +70,14 @@ whatever correction they offer on the spot — when part of the design comes bac
 fix that part and re-present it. This is a working dialogue, not a sign-off ceremony: its
 output is a recommended design, ready to serialize.
 
+## Offer to record the decision as an ADR
+
+When the design turns on a decision with genuine live alternatives, offer to record it as an
+ADR via `engineering:recording-adrs`, written `Proposed` (it flips to `Accepted` when the spec
+carrying it clears the spec gate). The bar is real live alternatives — a design with one
+reasonable shape was never a decision — and the developer may decline; declining is what keeps
+ADR intake from flooding.
+
 ## No gate here — approval is the spec gate
 
 Design approval happens at the spec gate, not here. Hand the recommended design to
@@ -74,7 +85,7 @@ Design approval happens at the spec gate, not here. Hand the recommended design 
 writes it as a draft, presents it, and waits for the human's approval before stamping
 `Approved` and minting the run's spec-approval marker; nothing downstream builds until
 that marker exists. This skill does not write the spec and does not write into
-`docs/dashworthy/engineering/specs/` — `to-spec` is the plugin's only writer there.
+`.engineering/<run>/spec/` — `to-spec` is the plugin's only writer there.
 
 So this skill's job ends at a recommendation, not a ratification. Don't stage a
 section-by-section sign-off here or treat the human nodding along as approval —

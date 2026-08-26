@@ -1,7 +1,7 @@
 # Spec format
 
 `to-spec` renders every spec to this shape, at
-`docs/dashworthy/engineering/specs/<YYYY-MM-DD>-<topic>.md`. One format for both entrances.
+`.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`. One format for both entrances.
 
     # <Title> — spec
 

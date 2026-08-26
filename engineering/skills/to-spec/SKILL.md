@@ -1,6 +1,6 @@
 ---
 name: to-spec
-description: "[Discovery] The single writer of Tier-1 specs, and the holder of the spec-approval gate. Given an entrance's accumulated material — a signal discovery brief or a triage isolation record, by path or inline — render the standard spec document to docs/dashworthy/engineering/specs/ as a draft, present it, wait for the human to approve, then stamp Approved and mint the run's spec-approval marker. Invoked by engineering:brainstorming with a recommended design — the one caller, reachable from both entrances; not a general-purpose writer and does not self-trigger on arbitrary requests."
+description: "[Discovery] The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Invoked by engineering:brainstorming with a recommended design — the one caller; does not self-trigger on arbitrary requests."
 ---
 
 # To Spec
@@ -11,7 +11,7 @@ Say this first, plainly: `Using the to-spec skill to write the spec.`
 
 One thing: given an entrance's finished material, this skill writes exactly one Tier-1
 spec, in exactly one format, at exactly one path. It is the only skill in this plugin
-permitted to write to `docs/dashworthy/engineering/specs/`.
+permitted to write to the run's spec dir, `.engineering/<run>/spec/`.
 
 ## Inputs
 
@@ -26,7 +26,7 @@ do not go looking for material elsewhere. This skill starts only from what it is
 
 ## Where it writes
 
-Tier-1, and only Tier-1: `docs/dashworthy/engineering/specs/<YYYY-MM-DD>-<topic>.md`.
+Tier-1, and only Tier-1: `.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`.
 
 `<topic>` is the active run's slug when a run is available. The pointer
 `.engineering/.current-run` holds the full run id in the form `<YYYY-MM-DD>-<slug>`; use only
@@ -35,10 +35,12 @@ pointer value, or the date is duplicated in the filename. When no run is active,
 slug derived from the spec's own title. `<YYYY-MM-DD>` in the filename is today's date, not the
 run's start date, if the two differ.
 
-This skill never writes the *spec* into `.engineering/` — that tree is the entrances' Tier-2
-scratch space, and the spec is Tier-1. The one thing it does write under `.engineering/` is
-the run-scoped approval marker (`.engineering/<run>/to-spec/APPROVED.md`), minted at the spec
-gate below.
+The spec is a run-scoped artifact: it lives under `.engineering/<run>/spec/`, alongside the
+run's other working state, not in the repository's tracked docs tree — the run dir is the
+single home for a run's spec, plan, markers, and scratch. `Tier-1` marks the spec's formality
+(the one approved, structured document), not a separate location. Beside the spec this skill
+also writes the run-scoped approval marker (`.engineering/<run>/to-spec/APPROVED.md`), minted at
+the spec gate below — the marker is the trace that the spec cleared the gate.
 
 ## How it renders
 
@@ -56,6 +58,10 @@ section number:
 - a **triage** isolation record maps onto the same eight sections with two repurposed:
   §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including
   why the smaller fixes on the table were rejected, not only the one that won.
+
+When §6 Approach or §7 Existing context describes a data model, a flow, or a state machine,
+consider a diagram via `engineering:using-diagrams` — the guard is *consider*, not *always
+draw*; the skill's own earned-its-place test decides whether one is actually drawn.
 
 ## The spec gate — write a draft, then hold for approval
 

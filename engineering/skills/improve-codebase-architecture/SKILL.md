@@ -1,6 +1,6 @@
 ---
 name: improve-codebase-architecture
-description: "[Design] Audit a codebase for shallow modules and tangled boundaries, then propose and stage deepening changes, emitting a self-contained HTML report. User-invoked via /improve-codebase-architecture. Leans on codebase-design (interface moves) and domain-modeling (naming/decisions); reads CONTEXT.md/docs/adr when present."
+description: "[Design] Audit a codebase for shallow modules and tangled boundaries, then propose and stage deepening changes as an HTML report. User-invoked via /improve-codebase-architecture. Leans on codebase-design (interface moves) and domain-modeling (naming)."
 disable-model-invocation: true
 ---
 
@@ -71,11 +71,11 @@ post it anywhere; the path is the handoff.
 
 ## Reading the substrate
 
-Before scanning, read `CONTEXT.md`, at the project root, and `docs/adr/` when they exist,
-and treat what's there as a constraint on this pass's findings — a boundary already argued
-out in an ADR the pass shouldn't reopen, or a name `CONTEXT.md` says is taken that a
-proposed rename would collide with; neither is required, and when absent the pass proceeds
-on the code itself.
+Before scanning, actively consult the substrate: resolve names from `CONTEXT.md` and surface
+governing decisions with `engineering:using-adrs`. Treat what they return as a constraint on
+this pass's findings — a boundary already argued out in an ADR the pass shouldn't reopen, or a
+name the glossary says is taken that a proposed rename would collide with. A project that has
+accumulated neither gives nothing back, and the pass proceeds on the code itself.
 
 ## What this does not do
 

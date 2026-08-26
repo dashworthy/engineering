@@ -1,6 +1,6 @@
 ---
 name: interrogating-requirements
-description: "[Discovery] Turns a vague or underspecified request into hard requirements — brief.md §1–§6. Interactive and main-thread: driven only by a discovery conductor, never self-triggered on a general feature or build request, and cannot run as a dispatched subagent."
+description: "[Discovery] Turn a vague or underspecified request into hard requirements — brief.md §1–§6. Interactive, main-thread: only a discovery conductor drives it, never self-triggered on a feature request, and it cannot run as a dispatched subagent."
 ---
 
 # Interrogating Requirements
@@ -32,6 +32,14 @@ You may hand off ONLY when BOTH are true:
 | Existing context | Prior art, current workarounds, systems this must fit into | §6 |
 
 Count alone is not enough. Coverage alone is not enough. **Both.**
+
+**Never record a personal email.** When §2 names who uses the work, who is affected, or who
+signs off — and wherever any later phase records an approver or author — identify each person
+by name or GitHub handle, never a personal or business email address. The only email form
+permitted anywhere in the suite is a GitHub address (`…@users.noreply.github.com`). A sign-off
+line reads `the suite maintainer` or `@handle`, not a name followed by a personal address in
+parentheses: a personal address is contact information the pipeline has no reason to capture and
+every reason not to propagate into a committed artifact.
 
 **Status values and the gate.** Track each dimension in `open-threads.md`'s coverage table (see `## Capturing As You Go`) as `filled`, `filled (baseline, agreed)`, `thin`, or `empty`. `filled` and `filled (baseline, agreed)` both satisfy the gate; `thin` and `empty` fail it. `filled (baseline, agreed)` is a full answer whose provenance is merely recorded — the user agreed to the conventional baseline you offered without adding their own — so it counts toward the gate exactly as `filled` does, and is the first place to look when a baseline turns out wrong. `thin` is an answer not yet concrete enough to write into `brief.md`, a gap the next round must close. The gate is still both conditions: 3+ rounds AND all six dimensions at `filled` or `filled (baseline, agreed)`.
 
