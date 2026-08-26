@@ -1,6 +1,6 @@
 ---
 name: dispatching-parallel-agents
-description: "[Foundation] Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks do not depend on each other's output. Distinct from executing-plans' plan-scoped subagent mode; a general primitive. Model-invoked; no command."
+description: "[Foundation] Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive, distinct from executing-plans' plan-scoped subagent mode."
 ---
 
 # Dispatching Parallel Agents
@@ -108,7 +108,7 @@ gathering-back, shared underneath all of them, and nothing more.
   case is a case to stop and get an answer, or to split into ordered waves, not a case to
   quietly run one after another and call the result "dispatched in parallel."
 - It does not **own what a dispatched agent's own work requires.** A task's build loop, a
-  review's axis, a research question's citation discipline — whatever the fanned-out work
+  review's axis, a fact-gathering pass's citation discipline — whatever the fanned-out work
   itself demands stays the dispatching caller's to specify; this skill never adds or waives
   any of it.
 - It does not **judge what the synthesized result means.** Weighing findings against each

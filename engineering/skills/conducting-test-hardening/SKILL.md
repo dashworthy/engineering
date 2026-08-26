@@ -1,6 +1,6 @@
 ---
 name: conducting-test-hardening
-description: "[Test hardening] Use when implementation work is finished and about to be handed off - before opening a pull request, merging a branch, declaring work complete, or wrapping up when the user asks to move on. Also applies when tests already pass but nobody has checked whether they would fail if the behavior broke, when self-reviewing a diff before handoff, or when skipping testing because the change felt small or time was short."
+description: "[Test hardening] Use when implementation work is finished and about to be handed off — before a pull request, merge, or declaring work complete. Also when tests pass but nobody checked they would fail if behavior broke, or when tempted to skip testing because the change felt small or time was short."
 ---
 
 # Conducting Test Hardening

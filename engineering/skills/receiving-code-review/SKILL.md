@@ -1,6 +1,6 @@
 ---
 name: receiving-code-review
-description: "[Build] Put review feedback through verification against this codebase before any of it is implemented — correct items acknowledged by the fix itself, wrong or unclear ones met with a technical question or a reasoned refusal, never performative agreement. Use when feedback arrives from engineering:code-review, a human partner, or an external reviewer."
+description: "[Build] Verify review feedback against this codebase before implementing any of it — act on correct items, meet wrong or unclear ones with a technical question or reasoned refusal, never performative agreement. Use when feedback arrives from code-review, a human, or an external reviewer."
 ---
 
 # Receiving Code Review

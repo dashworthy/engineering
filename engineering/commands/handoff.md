@@ -33,7 +33,7 @@ needs:
   everything that could be done.
 
 Do not restate material that already lives somewhere durable. If this session touched a
-document under `docs/dashworthy/engineering/specs/` or `docs/dashworthy/engineering/plans/`,
+document under `.engineering/<run>/spec/` or `.engineering/<run>/plan/`,
 point at that path instead of copying its contents. The same goes for `CONTEXT.md` at the
 repo root and any record under `docs/adr/` — link to them, don't reproduce them. The
 handoff's job is to say what changed and what's left, not to duplicate a document that

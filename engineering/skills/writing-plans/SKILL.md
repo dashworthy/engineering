@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: "[Planning] Turn an approved spec in docs/dashworthy/engineering/specs/ into an ordered, bite-sized implementation plan written to docs/dashworthy/engineering/plans/, with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, and mint the run's plan-approval marker. Use after a spec is approved and before building. Reads CONTEXT.md/docs/adr when present, and cites recorded conventions from docs/standards/ inline at each task via using-code-conventions."
+description: "[Planning] Turn an approved spec into an ordered, bite-sized implementation plan with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, mint the plan-approval marker. Use after a spec is approved and before building. Cites recorded conventions inline at each task via using-code-conventions."
 ---
 
 # Writing Plans
@@ -11,7 +11,7 @@ Say this first, plainly: `Using the writing-plans skill to create the implementa
 
 One thing: given an approved spec, this skill produces an ordered implementation plan —
 or, when the spec doesn't fit in one, an ordered set of them — written to
-`docs/dashworthy/engineering/plans/`, where every step is small enough to build and check
+`.engineering/<run>/plan/`, where every step is small enough to build and check
 in on its own, the test-driven cycle is wired into the step sequence instead of left as
 an aside, and the plan does not end until a hardening task is sitting on it. It does not
 guarantee the plan is short, only that nothing in it is too big to finish and verify in
@@ -22,7 +22,7 @@ reaches past turning an approved spec into a sequence of steps.
 
 ## Reading the spec
 
-Start from an approved Tier-1 spec in `docs/dashworthy/engineering/specs/` — a path, or
+Start from an approved Tier-1 spec in `.engineering/<run>/spec/` — a path, or
 the spec already sitting in context. A plan built from a spec still in draft is a plan
 built on a decision nobody has actually made; if the spec's own status line doesn't say
 Approved, say so and stop rather than plan around a draft.
@@ -35,11 +35,12 @@ this mechanism existed — either way the spec gate was never cleared, so refuse
 rather than plan it. This mirrors `finishing-a-development-branch`'s rule to prefer the
 trace over the checkbox: the marker is the trace, the status line is only the checkbox.
 
-Read `CONTEXT.md` and `docs/adr/`, at the project root, when either exists. A naming
-convention or a settled boundary recorded there constrains how a task's file paths and
-interfaces get written, the same way it constrains a fresh module boundary in
-`codebase-design`. Neither file is required — most specs get planned with no `CONTEXT.md`
-in sight, and that's ordinary, not a degraded run.
+Actively consult the substrate while shaping tasks: resolve names from `CONTEXT.md` and
+surface governing decisions with `engineering:using-adrs`, citing a governing ADR by path on
+the task it constrains (the same way conventions are cited below). A naming convention or a
+settled boundary recorded there constrains how a task's file paths and interfaces get written,
+the same way it constrains a fresh module boundary in `codebase-design`. A project that has
+accumulated neither surfaces nothing to cite, and that's ordinary, not a degraded run.
 
 Two things about the spec matter more than its prose: its Constraints section and any
 decision table it carries. Both travel into the plan close to verbatim — see Global
@@ -83,9 +84,16 @@ relevant** column, and cites the governing convention file inline on the task it
 `(convention: docs/standards/<area>/<rule>.md)`. The citation travels with the task into
 `executing-plans`, so the subagent that builds it opens the rule before writing code rather than
 after `code-review` catches the violation. Cite the file by path, never a paraphrase, so the
-task always resolves to the current rule. A project with no standards tree gets no citations —
-read when present, skipped when absent, exactly like `CONTEXT.md`; this skill consults the tree
-but never writes it (recording is `recording-code-conventions`).
+task always resolves to the current rule. A project with no standards tree gets no citations,
+the same way a project with no `CONTEXT.md` and no ADR trail yields none; this skill consults
+the tree but never writes it (recording is `recording-code-conventions`).
+
+## Consider a diagram for a task's shape
+
+When a task describes a data model, a flow, or a state machine, consider a diagram via
+`engineering:using-diagrams` — the guard is *consider*, not *always draw*; the skill's own
+earned-its-place test decides whether one is actually drawn. A plan that pictures a tricky flow
+once is easier to build against than one that leaves every builder to reconstruct it.
 
 ## PR strategy
 
@@ -114,6 +122,14 @@ based on the last build task's branch, like every other task.
 
 Leave non-stacked plans exactly as they are: no PR-strategy line, no per-task branch or
 submit steps, the single-PR-at-the-end flow unchanged. Stacked mode is opt-in per plan.
+
+## Offer to record a planning decision as an ADR
+
+When sequencing turns on a decision with genuine live alternatives — an ordering or a
+boundary between plans that another planner could reasonably have drawn differently — offer to
+record it as an ADR via `engineering:recording-adrs`, written `Proposed`. The bar is real live
+alternatives, not every routine sequencing call, and the developer may decline; declining is
+what keeps ADR intake from flooding.
 
 ## Splitting into a plan set
 
@@ -159,7 +175,7 @@ task there.
 
 ## Writing the plan file, then reviewing it
 
-Write to `docs/dashworthy/engineering/plans/<YYYY-MM-DD>-<topic>.md`. `<YYYY-MM-DD>` is
+Write to `.engineering/<run>/plan/<YYYY-MM-DD>-<topic>.md`. `<YYYY-MM-DD>` is
 today's date — the day the plan is written, not the spec's approval date, which may be
 days or weeks earlier. `<topic>` is the spec's own topic slug, reused rather than
 reinvented, so the spec and the plan it produced sort next to each other by name. For a
@@ -195,9 +211,9 @@ Before calling the plan finished, run a self-review pass over what was just writ
 - It does not **run the hardening task.** It writes the task that invokes
   `engineering:conducting-test-hardening`; it does not dispatch that skill itself. The
   task sits on the plan for whoever executes it to reach.
-- It does not **require `CONTEXT.md` or an ADR.** Both are read when present and ignored
-  when absent — this skill does not stall a plan waiting on documentation the project
-  never wrote.
+- It does not **require `CONTEXT.md` or an ADR.** It consults both actively and cites what
+  they hold, but a project that never wrote them simply yields nothing to cite — this skill
+  does not stall a plan waiting on documentation the project never wrote.
 - It does not **plan around a draft.** A spec whose status isn't Approved doesn't get
   planned; it gets named as the reason nothing was written.
 

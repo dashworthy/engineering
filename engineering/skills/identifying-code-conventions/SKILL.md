@@ -1,6 +1,6 @@
 ---
 name: identifying-code-conventions
-description: "[Discovery] Surface candidate code conventions two ways — infer them from repeated code (with file:line evidence) and capture the ones the developer already holds — then present each candidate individually and hand the approved ones to recording-code-conventions. Use when onboarding a codebase to its conventions or whenever a standing rule is worth capturing. Finds candidates only; it never writes them (recording-code-conventions) or applies them (using-code-conventions)."
+description: "[Discovery] Surface candidate code conventions two ways — infer from repeated code (with file:line evidence) and capture what the developer already holds — then hand approved ones to recording-code-conventions. Use when onboarding a codebase to its conventions. Finds candidates only; never writes (recording-code-conventions) or applies them (using-code-conventions)."
 ---
 
 # Identifying Code Conventions

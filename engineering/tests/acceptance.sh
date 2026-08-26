@@ -28,17 +28,18 @@ to-spec:[Discovery]
 domain-modeling:[Discovery]
 identifying-code-conventions:[Discovery]
 recording-code-conventions:[Discovery]
+recording-adrs:[Discovery]
 triage:[Triage]
 brainstorming:[Design]
 codebase-design:[Design]
 improve-codebase-architecture:[Design]
-prototype:[Design]
 writing-plans:[Planning]
 executing-plans:[Planning]
 tdd:[Build]
 diagnosing-bugs:[Build]
 code-review:[Build]
 using-code-conventions:[Build]
+using-adrs:[Build]
 conducting-test-hardening:[Test hardening]
 auditing-test-gaps:[Test hardening]
 verifying-test-integrity:[Test hardening]
@@ -58,7 +59,7 @@ while IFS= read -r pair; do
 done <<EOF
 $tagged
 EOF
-for name in research resolving-merge-conflicts; do
+for name in resolving-merge-conflicts; do
   sh "$d/frontmatter.sh" "$eng/skills/$name" >/dev/null || { echo "FAIL: $name frontmatter"; fail=1; }
   python3 -c "import re,sys;t=open(sys.argv[1]).read();m=re.search(r'^description:\s*\"?(.)',t,re.M);assert m and m.group(1)!='[',sys.argv[1]" "$eng/skills/$name/SKILL.md" || { echo "FAIL: $name must not be tagged"; fail=1; }
 done
@@ -74,7 +75,7 @@ sh "$d/hook.sh" >/dev/null || { echo "FAIL: hook"; fail=1; }
 if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2>/dev/null; then echo "FAIL: retired verity reminder present"; fail=1; fi
 
 # 6. to-spec is the sole Tier-1 writer; both entrances reach it.
-grep -q "docs/dashworthy/engineering/specs/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
+grep -q ".engineering/<run>/spec/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
 grep -qE "Hand off to .*engineering:brainstorming" "$eng/skills/conducting-discovery/SKILL.md" || { echo "FAIL: signal's release must hand off to the brainstorming design gate"; fail=1; }
 grep -rq "to-spec" "$eng/skills/triage" || { echo "FAIL: triage must reach to-spec"; fail=1; }
 

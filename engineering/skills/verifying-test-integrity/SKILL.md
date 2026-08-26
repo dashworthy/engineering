@@ -1,6 +1,6 @@
 ---
 name: verifying-test-integrity
-description: "[Test hardening] Use when dispatched by test-hardening to review newly written tests - rules on whether each test is actually valid at testing what it claims, using a defect taxonomy plus mechanical isolation and collection checks"
+description: "[Test hardening] Dispatched by test-hardening to review newly written tests — rules whether each actually tests what it claims, using a defect taxonomy plus mechanical isolation and collection checks."
 ---
 
 # Verifying Test Integrity

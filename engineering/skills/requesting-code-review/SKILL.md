@@ -1,6 +1,6 @@
 ---
 name: requesting-code-review
-description: "[Build] Recognize a review-worthy moment and hand the change to a reviewer running in its own context — the change boundary, a plain description, and a pointer to what the work was supposed to do — instead of reading the diff inline. Use after a task, after a major feature, or before a merge. Delegates the review itself to engineering:code-review."
+description: "[Build] Recognize a review-worthy moment and hand the change to a reviewer running in its own context, instead of reading the diff inline. Use after a task, after a major feature, or before a merge. Delegates the review to engineering:code-review."
 ---
 
 # Requesting Code Review

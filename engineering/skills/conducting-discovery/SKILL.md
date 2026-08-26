@@ -1,6 +1,6 @@
 ---
 name: conducting-discovery
-description: "[Discovery] The signal discovery conductor — interrogate requirements (with a scope-expansion beat), then sequence them into a dependency-ordered brief, then hand the brief to the shared design dialogue (engineering:brainstorming). Use ONLY when the `/signal` command is run, or on a direct request to \"run signal\" / \"use the signal pipeline\" on a request. It does NOT auto-intercept general feature requests. It produces a brief, then hands it to brainstorming and stops; it never designs, plans, or builds."
+description: "[Discovery] The signal discovery conductor — interrogate requirements (with a scope-expansion beat), sequence them into a dependency-ordered brief, then hand it to the design dialogue (engineering:brainstorming). Use ONLY when `/signal` is run or explicitly asked to \"run signal\"; it does NOT auto-intercept general feature requests. Produces a brief and stops; never designs, plans, or builds."
 ---
 
 # Conducting Discovery

@@ -1,6 +1,6 @@
 ---
 name: clarifying-docblocks
-description: "[Docs] Use when rewriting a branch's docblock prose into plain language with vernacular - prefilters files to those that carry a docblock, then rewrites in place (inline for a small run, dispatched per file for a large one), and proves mechanically that only comment prose moved. Improves existing docblocks only; never writes @param, @return or any other tag, and never authors a docblock where none existed."
+description: "[Docs] Rewrite a branch's docblock prose into plain language: prefilter to files carrying a docblock, rewrite in place, and prove only comment prose moved. Improves existing docblocks only; never writes @param/@return or any tag, never authors a docblock where none existed."
 ---
 
 # Clarifying Docblocks

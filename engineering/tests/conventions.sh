@@ -171,20 +171,11 @@ else
   grep -qF "using-code-conventions" "$cr" || { echo "FAIL: code-review violation-flagging must read via using-code-conventions"; fail=1; }
 fi
 
-# --- Task 8: ADR -> convention spawn seam in domain-modeling (additive, one-directional) ---
-dm="$skills/domain-modeling/SKILL.md"
-if [ ! -f "$dm" ]; then
-  echo "FAIL: domain-modeling/SKILL.md missing"; fail=1
-else
-  grep -qxF "## Spawning a convention from an ADR (one-directional)" "$dm" || { echo "FAIL: domain-modeling must add the ADR->convention spawn section"; fail=1; }
-  grep -qF "recording-code-conventions" "$dm" || { echo "FAIL: the spawn must enter the gate via recording-code-conventions"; fail=1; }
-  # Anchored to the body's bold label (not the heading, which the section-existence check
-  # above already pins), so the one-directional guarantee prose itself must survive.
-  grep -qF "**one-directional**" "$dm" || { echo "FAIL: the seam body must state the relationship is one-directional"; fail=1; }
-  grep -qiF "provenance" "$dm" || { echo "FAIL: the spawning ADR must be recorded in the convention's provenance"; fail=1; }
-  # The §8 resolution: the trigger is manual, never automatic — anchored to its bold label.
-  grep -qF "**manual, opt-in hand-off, never automatic**" "$dm" || { echo "FAIL: the spawn trigger must be stated as manual/opt-in, never automatic (§8)"; fail=1; }
-fi
+# --- Task 8 (removed): the ADR -> convention spawn seam was retired in the first-class-ADRs
+# work. recording-adrs now owns docs/adr/; domain-modeling is the CONTEXT.md glossary only.
+# The guards that required the spawn section in domain-modeling and the ADR-spawn provenance in
+# STANDARDS-FORMAT were removed with the behavior. validate.sh now asserts the spawn references
+# are ABSENT (domain-modeling / recording-code-conventions / STANDARDS-FORMAT).
 
 # --- Task 9: writing-plans wires the read side into planning (the [Build] consumer is reachable) ---
 # The read side (using-code-conventions) is [Build]-tagged but consumed at plan-write time: the

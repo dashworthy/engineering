@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "[Build] Review a change on two axes — Standards (does the code meet engineering norms) and Spec (does it do what was asked) — dispatching parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Finds the Spec axis in docs/dashworthy/engineering/specs/ or a user-supplied path. Reads CONTEXT.md/docs/adr when present."
+description: "[Build] Review a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Consults CONTEXT.md and the ADR trail for conventions and settled decisions."
 ---
 
 # Code Review
@@ -37,7 +37,8 @@ able to trust that nothing about scope or intent is hiding in them, and the reve
 ## Where the Spec axis looks
 
 The Spec axis needs something concrete to check the change against, not a recollection of
-what the conversation probably meant. It looks in one place first: `docs/dashworthy/engineering/specs/`,
+what the conversation probably meant. It looks in one place first: the active run's spec dir,
+`.engineering/<run>/spec/` (resolved from `.engineering/.current-run`),
 for whichever document plausibly governs the change under review — matched by feature area
 and, when more than one candidate fits, by recency. A path handed to this skill directly
 overrides the directory search outright and is never second-guessed against what the scan
@@ -67,9 +68,12 @@ empty — is this skill's job, not something pushed downstream.
 
 ## Reading the substrate
 
-`CONTEXT.md` and `docs/adr/`, when present, sharpen the Standards axis: a convention,
-boundary, or settled tradeoff the change is accountable to, not background color. Read them
-when they exist; neither is required.
+`CONTEXT.md` and the ADR trail sharpen the Standards axis: a convention, boundary, or
+settled tradeoff the change is accountable to, not background color. Actively consult
+them — resolve names from `CONTEXT.md`, surface governing decisions with
+`engineering:using-adrs` (which skips superseded rows) — and hold the change to what they
+settle. A project that has accumulated neither yields nothing to hold it to, which is a
+clean result, not a gap.
 
 ## Convention detection in the diff (additive)
 
@@ -96,6 +100,15 @@ Both halves act only on what the diff touches. Neither writes the standards tree
 `recording-code-conventions` does that, through the gate. The harvest's interactive handoff
 happens **after** the review reconciles: candidates are surfaced in the reconciled report and
 handed off then, not from inside a sub-reviewer, which only returns findings.
+
+## Offer to record a decision the diff embodies as an ADR
+
+When the review surfaces a decision the diff makes that had genuine live alternatives — a
+choice worth recording so a later reader doesn't re-litigate it — offer to record it as an ADR
+via `engineering:recording-adrs`, written `Proposed`. This is additive, like the convention
+harvest above, and runs after the review reconciles. The bar is real live alternatives, not
+every implementation detail, and the developer may decline; declining is what keeps ADR intake
+from flooding.
 
 ## What this does not do
 
