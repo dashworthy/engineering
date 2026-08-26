@@ -53,5 +53,6 @@ prior decision is being followed. Found nothing is the normal result.
 ## When to stop
 
 Stop isolating the moment the problem can be stated, in one sentence, as one row of
-`references/spec-decision.md`. If a route still can't be picked, that itself is information:
-the report is still under-specified, and the route is `signal`, not more digging here.
+`references/spec-decision.md`. The row carries the route; picking it is that table's job,
+not this checklist's. If no row can be stated at all, that is itself the finding — the
+report is under-specified — and that answer, not more digging here, is what ends isolation.

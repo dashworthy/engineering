@@ -11,6 +11,9 @@ if grep -rn "\.signal/" skills commands/signal.md; then
   echo "FAIL: stale '.signal/' paths"; fail=1; fi
 grep -q "engineering:conducting-discovery" commands/signal.md || { echo "FAIL: command must dispatch engineering:conducting-discovery"; fail=1; }
 grep -rq "\.engineering/" skills/conducting-discovery/SKILL.md || { echo "FAIL: run dir not redirected to .engineering/"; fail=1; }
+# signal is an entrance: it isolates a worktree via using-git-worktrees before obtaining the run dir.
+grep -q "using-git-worktrees" skills/conducting-discovery/SKILL.md || { echo "FAIL: conductor must isolate a worktree (using-git-worktrees) before the run dir"; fail=1; }
+grep -q "using-git-worktrees" commands/signal.md || { echo "FAIL: /signal command must name the worktree-isolation step"; fail=1; }
 # Positive guard scoped to the release hand-off phrase itself — absent from the pre-change file,
 # where the release step dispatched to-spec — so it fails on a revert, unlike a bare "brainstorming"
 # grep that the Overview already satisfied.

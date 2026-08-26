@@ -57,6 +57,12 @@ The status vocabulary is exactly `OK` and `BLOCKED`. Nothing else is a valid sta
 
 A malformed RETURN block is handled per `## Error Handling`.
 
+## Isolate first
+
+Before the run directory, before `00-request.md`, before the first question: establish an isolated worktree by invoking `engineering:using-git-worktrees`. Signal is an **entrance** — ordinarily the first phase to run — so the worktree it creates is the one every later phase (design, plan, build) inherits. Create it first so `run-context.sh` writes `.engineering/<run>/` **inside** that isolation; obtain the run directory first and a later worktree switch orphans it on the base branch.
+
+This step is safe to run unconditionally. `engineering:using-git-worktrees` detects existing isolation and no-ops when a worktree this session already entered is in place — so when triage established the run and its worktree first and the user then reached signal, signal joins that same worktree rather than stacking a second one on top. Signal never invokes triage and triage never invokes signal; the shared worktree is substrate both entrances attach to, not a hand-off between them.
+
 ## Run Directory
 
 Run artifacts live at `.engineering/<run>/signal/` in the **user's** project — never inside the plugin. `<run>` is not yours to name: obtain it by running `sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" signal <slug>`, which prints the absolute path of `.engineering/<run>/signal/` and creates it if needed. Signal is ordinarily the **first** phase to run, so this call usually creates `.engineering/.current-run` — the pointer later phases (triage, design, plan, build) join rather than re-derive. If a run is already active, this same call joins it instead, and the slug you pass is ignored.
@@ -92,6 +98,7 @@ Obtain the run directory via `run-context.sh` and write `00-request.md` yourself
 
 ```dot
 digraph signal {
+    "Isolate worktree (using-git-worktrees) — detects & no-ops if already isolated" [shape=box];
     "Obtain .engineering/<run>/signal/ via run-context.sh" [shape=box];
     "signal/ dir already has artifacts?" [shape=diamond];
     "Write 00-request.md" [shape=box];
@@ -108,6 +115,7 @@ digraph signal {
     "Hand off to engineering:brainstorming (brief.md path)" [shape=box];
     "Release brief.md — hand to brainstorming, signal stops" [shape=doublecircle];
 
+    "Isolate worktree (using-git-worktrees) — detects & no-ops if already isolated" -> "Obtain .engineering/<run>/signal/ via run-context.sh";
     "Obtain .engineering/<run>/signal/ via run-context.sh" -> "signal/ dir already has artifacts?";
     "signal/ dir already has artifacts?" -> "Write 00-request.md" [label="no — fresh"];
     "signal/ dir already has artifacts?" -> "brief.md on disk?" [label="yes — resume"];
@@ -212,6 +220,7 @@ If the pipeline ran **inline** because subagent dispatch was unavailable, say so
 - Reading `brief.md` §7 or §8 — the sections stage 2 wrote — for any reason: "just to check it", to work out which stage a resumed run is at, to investigate a line-count mismatch, or to decide whether the brief is "ready" to hand off. On a resumed run you **ask**; you do not open the file. The mismatch, not the file's contents, is the finding.
 - Writing, editing or drafting §7 or §8 yourself, at any point, including "just to unblock stage 2".
 - Dispatching stage 1 as a subagent — it is interactive.
+- Obtaining the run directory or writing `00-request.md` before isolating the worktree. The worktree comes first so `.engineering/<run>/` lands inside it; run first and a later switch orphans the run on the base branch.
 - Overwriting an existing run directory without asking, or inferring a resumed run's stage from what is on disk instead of asking the user.
 - Exiting through the escape valve without recording the trivial exit in `00-request.md`.
 - Dispatching `engineering:expanding-scope` before stage 1 has written `brief.md` §1–§6. The write comes first — that ordering is what makes a failed expansion cheap.

@@ -50,7 +50,6 @@ using-stacked-pull-requests:[Foundation]
 finishing-a-development-branch:[Foundation]
 verification-before-completion:[Foundation]
 dispatching-parallel-agents:[Foundation]
-writing-skills:[Foundation]
 using-skills:[Foundation]"
 while IFS= read -r pair; do
   [ -n "$pair" ] || continue

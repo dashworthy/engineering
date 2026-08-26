@@ -1,6 +1,6 @@
 # Brief schema
 
-A brief is one markdown file per iteration at `.engineering/<run>/verity/briefs/<n>.md`. It carries four
+A brief is one markdown file per iteration at `.engineering/<run>/test-hardening/briefs/<n>.md`. It carries four
 item kinds. Every item has an `id` of the form `<suite>-<track>-<nnn>` — for example
 `backend-unit-003`. Ownership findings use `<suite>` of `unowned`.
 
