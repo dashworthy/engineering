@@ -122,7 +122,7 @@ if [ -f "$COND" ]; then
   grep_flat "$COND" "restore it from"; check $? "conductor states the quarantine-and-restore path"
   grep_flat "$COND" "Left alone"; check $? "conductor reports the left-alone count"
   grep_flat "$COND" "run-context.sh"; check $? "conductor derives the run directory via run-context.sh"
-  # Every dispatch payload must name skill_path - the defect guardtower found live.
+  # Every dispatch payload must name skill_path so a subagent can resolve its own SKILL.md.
   grep -c 'skill_path' "$COND" | awk '$1 >= 2 {exit 0} {exit 1}'
   check $? "conductor names skill_path in both dispatch payloads"
   ! grep_flat "$COND" "so there is none to read"
