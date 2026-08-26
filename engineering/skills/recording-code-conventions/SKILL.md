@@ -33,8 +33,9 @@ What it is / What it is not, ready for the gate.
 ## Step 2 — Pass the approval gate
 
 Take the hardened candidate through the gate defined in `references/approval-gate.md`, in this
-directory. The gate is the same for every path: the candidate is presented **individually**
-for the approver's explicit approve / edit / reject, and before it is presented it is checked
+directory. The gate is the same for every path: the candidate is presented **individually** —
+through `AskUserQuestion`, one candidate per question — for the approver's explicit approve /
+edit / reject, and before it is presented it is checked
 for **conflict** against the active conventions already in the index — a contradiction is
 surfaced and resolved (supersede / amend / reject), never written over silently. Nothing
 reaches disk on silence or on a batch yes.

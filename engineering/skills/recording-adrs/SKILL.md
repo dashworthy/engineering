@@ -29,10 +29,12 @@ the decision is made and accepted when the work carrying it clears its own gate.
 
 An ADR is captured at a decision point, not by a scanner anyone must remember to run. The
 decision-phase skills (`brainstorming`, `codebase-design`, `writing-plans`, `code-review`)
-reach a decision and offer to record it here. The bar that keeps this from flooding: the
-trigger fires **only on a decision with genuine live alternatives** — the same bar
-`ADR-FORMAT.md` sets, where a decision with one reasonable option was never a decision — and
-the developer **can decline**. One lightweight yes writes the ADR as `Proposed`.
+reach a decision and offer to record it here — the offer put through `AskUserQuestion`
+(`Record as ADR` / `Skip`), a deliberate pick rather than a prose aside the developer skims
+past. The bar that keeps this from flooding: the trigger fires **only on a decision with
+genuine live alternatives** — the same bar `ADR-FORMAT.md` sets, where a decision with one
+reasonable option was never a decision — and the developer **can decline**. The lightweight
+`Record as ADR` writes the ADR as `Proposed`; `Skip` leaves no trace.
 
 ## Lifecycle
 
