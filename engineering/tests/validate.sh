@@ -128,6 +128,21 @@ if [ -f "$COND" ]; then
   grep_flat "$COND" "Verify these yourself"; check $? "conductor reports rewriter self-flags"
 fi
 
+# --- first-class-artifact doctrine -------------------------------------------
+# The doctrine is defined before it is applied: ADRs, the glossary, and diagrams each
+# declare themselves an application of this one pattern. The pattern has three elements
+# and resolves the glossary-vs-ADR consumption question with two named profiles.
+DOCTRINE="$PLUGIN/skills/recording-adrs/references/first-class-artifact.md"
+[ -f "$DOCTRINE" ]; check $? "first-class-artifact doctrine exists"
+
+if [ -f "$DOCTRINE" ]; then
+  grep_flat "$DOCTRINE" "intake trigger";      check $? "doctrine names the intake-trigger pattern element"
+  grep_flat "$DOCTRINE" "index";               check $? "doctrine names the index pattern element"
+  grep_flat "$DOCTRINE" "active consumption";  check $? "doctrine names the active-consumption pattern element"
+  grep_flat "$DOCTRINE" "trail";               check $? "doctrine names the trail consumption profile"
+  grep_flat "$DOCTRINE" "lookup";              check $? "doctrine names the lookup consumption profile"
+fi
+
 # --- command and READMEs ------------------------------------------------------
 
 CMD="$PLUGIN/commands/vernacular.md"

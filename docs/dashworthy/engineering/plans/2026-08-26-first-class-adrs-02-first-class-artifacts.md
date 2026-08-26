@@ -34,10 +34,10 @@ Copied verbatim from the spec's §4 Constraints; every task reads "per Global Co
 - Create: `engineering/skills/recording-adrs/references/first-class-artifact.md`
 
 **Steps:**
-- [ ] Add a `grep_flat` assertion block to `engineering/tests/validate.sh` for the doctrine reference: it exists, names the three pattern elements (`intake trigger`, `index`, `active consumption`), and names the two profiles (`trail`, `lookup`). Run `sh engineering/tests/validate.sh`; **confirm FAIL** (file absent).
-- [ ] Write `first-class-artifact.md` per Global Constraints skill-authoring standard: the pattern (intake trigger + index + active-consumption obligation), and the two consumption profiles — *trail* (append-only historical; consumer cites by path at the work item) and *lookup* (living current-state; consumer resolves current meaning). Keep it a concise reference; declare ADRs, glossary, and diagrams as its applications.
-- [ ] Run `sh engineering/tests/validate.sh`; **confirm green**.
-- [ ] Commit: `feat(engineering): define the first-class-artifact doctrine`.
+- [x] Add a `grep_flat` assertion block to `engineering/tests/validate.sh` for the doctrine reference: it exists, names the three pattern elements (`intake trigger`, `index`, `active consumption`), and names the two profiles (`trail`, `lookup`). Run `sh engineering/tests/validate.sh`; **confirm FAIL** (file absent).
+- [x] Write `first-class-artifact.md` per Global Constraints skill-authoring standard: the pattern (intake trigger + index + active-consumption obligation), and the two consumption profiles — *trail* (append-only historical; consumer cites by path at the work item) and *lookup* (living current-state; consumer resolves current meaning). Keep it a concise reference; declare ADRs, glossary, and diagrams as its applications.
+- [x] Run `sh engineering/tests/validate.sh`; **confirm green**.
+- [x] Commit: `feat(engineering): define the first-class-artifact doctrine`.
 
 **Verification:** `sh engineering/tests/validate.sh` reports the doctrine checks `ok`; `sh engineering/tests/suite.sh` passes.
 
