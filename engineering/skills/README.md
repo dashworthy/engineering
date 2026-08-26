@@ -8,7 +8,7 @@ opens with the matching `[Group]` tag.
 |---|---|
 | Discovery | `conducting-discovery`, `interrogating-requirements`, `expanding-scope`, `sequencing-requirements`, `to-spec`, `domain-modeling`, `identifying-code-conventions`, `recording-code-conventions` |
 | Triage | `triage` |
-| Design | `brainstorming`, `codebase-design`, `improve-codebase-architecture`, `prototype` |
+| Design | `brainstorming`, `codebase-design`, `improve-codebase-architecture` |
 | Planning | `writing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review`, `using-code-conventions` |
 | Test hardening | `conducting-test-hardening`, `auditing-test-gaps`, `verifying-test-integrity`, `writing-tests-from-brief` |

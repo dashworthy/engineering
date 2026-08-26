@@ -55,14 +55,14 @@ Copied verbatim from the spec's §4 Constraints; every task below reads "per Glo
 
 **Steps (red → green):**
 
-- [ ] Delete `engineering/skills/prototype/`.
-- [ ] Run `sh engineering/tests/acceptance.sh` and `sh engineering/tests/plan03.sh`; **confirm both FAIL** on the missing `prototype` frontmatter.
-- [ ] In `engineering/tests/acceptance.sh`, remove the `prototype:[Design]` line from the `tagged` list.
-- [ ] In `engineering/tests/plan03.sh`, remove the `prototype` frontmatter line.
-- [ ] In `engineering/skills/README.md`, delete the `prototype` list entry.
-- [ ] `grep -rn "prototype" engineering/skills engineering/tests engineering/commands` returns no reference to the removed skill.
-- [ ] Run the verification gate; **confirm green**.
-- [ ] Commit: `chore(engineering): remove underutilized prototype skill`.
+- [x] Delete `engineering/skills/prototype/`.
+- [x] Run `sh engineering/tests/acceptance.sh` and `sh engineering/tests/plan03.sh`; **confirm both FAIL** on the missing `prototype` frontmatter.
+- [x] In `engineering/tests/acceptance.sh`, remove the `prototype:[Design]` line from the `tagged` list.
+- [x] In `engineering/tests/plan03.sh`, remove the `prototype` frontmatter line.
+- [x] In `engineering/skills/README.md`, delete the `prototype` list entry.
+- [x] `grep -rn "prototype" engineering/skills engineering/tests engineering/commands` returns no reference to the removed skill.
+- [x] Run the verification gate; **confirm green**.
+- [x] Commit: `chore(engineering): remove underutilized prototype skill`. _(count 35->34 folded in per removal-cleanliness; root README table row deferred to Task 3.)_
 
 **Verification:** same gate as Task 1 — all three test entrypoints exit 0.
 

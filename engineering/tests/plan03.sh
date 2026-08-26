@@ -4,7 +4,6 @@ d=$(CDPATH= cd "$(dirname "$0")" && pwd)
 sh "$d/frontmatter.sh" "$d/../skills/writing-plans" "[Planning]"
 sh "$d/frontmatter.sh" "$d/../skills/executing-plans" "[Planning]"
 sh "$d/frontmatter.sh" "$d/../skills/brainstorming" "[Design]"
-sh "$d/frontmatter.sh" "$d/../skills/prototype" "[Design]"
 sh "$d/frontmatter.sh" "$d/../skills/resolving-merge-conflicts"
 sh "$d/frontmatter.sh" "$d/../skills/triage" "[Triage]"
 sh "$d/triage.sh"
