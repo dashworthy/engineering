@@ -76,12 +76,12 @@ Copied verbatim from the spec's §4 Constraints; every task below reads "per Glo
 
 **Steps (red → green):**
 
-- [ ] Run `sh engineering/tests/validate.sh`; **confirm it FAILs** on `root README skill count (N) matches disk (N-2)` — the failing check proving the guard is live.
-- [ ] In `README.md`, set the `N skills` count to equal `find engineering/skills -name SKILL.md | wc -l` after the removals (do not hard-code; compute it).
-- [ ] In `README.md`, remove `prototype` from the Design group row and `research` from the cross-cutting row of the skill table (around line 138–155).
-- [ ] `grep -rn "prototype\|research" README.md engineering/README.md laravel/README.md` returns no reference to the removed skills (ignoring the ordinary word "research" in unrelated prose).
-- [ ] Run the full verification gate; **confirm green** (`validate.sh` now reports `root README skill count (N-2) matches disk (N-2)`).
-- [ ] Commit: `docs(engineering): drop removed skills from README count and tables`.
+- [x] Run `sh engineering/tests/validate.sh`; **confirm it FAILs** on `root README skill count (N) matches disk (N-2)` — the failing check proving the guard is live. _(The red-first count mismatch was demonstrated in Tasks 1 & 2; the count was reconciled there — each removal moved it with disk — to keep every commit green per the removal-cleanliness constraint. It is already at disk here.)_
+- [x] In `README.md`, set the `N skills` count to equal `find engineering/skills -name SKILL.md | wc -l` after the removals (do not hard-code; compute it). _(Now 34; folded into Tasks 1–2.)_
+- [x] In `README.md`, remove `prototype` from the Design group row and `research` from the cross-cutting row of the skill table (around line 138–155).
+- [x] `grep -rn "prototype\|research" README.md engineering/README.md laravel/README.md` returns no reference to the removed skills (ignoring the ordinary word "research" in unrelated prose).
+- [x] Run the full verification gate; **confirm green** (`validate.sh` now reports `root README skill count (N-2) matches disk (N-2)`).
+- [x] Commit: `docs(engineering): drop removed skills from README count and tables`.
 
 **Verification:** `sh engineering/tests/suite.sh` prints `ALL FOUNDATION CHECKS PASS`; `sh engineering/tests/acceptance.sh` and `sh engineering/tests/plan03.sh` exit 0.
 
