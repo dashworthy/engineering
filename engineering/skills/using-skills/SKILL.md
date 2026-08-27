@@ -1,6 +1,6 @@
 ---
 name: using-skills
-description: "[Foundation] Find and invoke the right skill before acting — including before clarifying questions or exploring code. Use at the start of any task. Dashworthy's skill-discovery discipline."
+description: "Find and invoke the right skill before acting — including before clarifying questions or exploring code. Use at the start of any task."
 ---
 
 # Using Skills

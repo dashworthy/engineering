@@ -26,9 +26,7 @@ prompts a diagram where one would help without flooding every document with pict
 
 ## When a diagram earns its place
 
-A diagram is drawn only when the thing has a **shape that prose describes badly**. The test
-predates this skill — it is the same one in `clarifying-docblocks`'
-`references/diagram-rules.md`, and that file stays the source of truth for the judgment.
+A diagram is drawn only when the thing has a **shape that prose describes badly**.
 
 Draw for:
 
@@ -64,8 +62,8 @@ markdown file pasted into a plain-text field renders nothing, and a rendered-mar
 isn't a file renders fine.
 
 For an ASCII diagram inside a docblock or comment, follow the width budget in
-`clarifying-docblocks`' `references/diagram-rules.md` — 72 columns including the comment
-leader, light box-drawing characters only. A diagram that overflows wraps, and a wrapped
+`references/diagram-rules.md` — 72 columns including the comment leader, light box-drawing
+characters only. A diagram that overflows wraps, and a wrapped
 diagram is unreadable in exactly the place a reader most needed it.
 
 ## When the diagram outgrows a static block
@@ -125,7 +123,5 @@ genuinely unknown, say so in prose and leave it undrawn.
   ADR, `writing-plans` owns the plan. This skill supplies
   a diagram for one of them to hold; it does not author the surrounding document or choose its
   home beyond the section guidance above.
-- It does not **draw decoration.** A diagram that restates the prose beside it fails the
-  test in `diagram-rules.md` and doesn't get drawn, however easy it would be to add.
 - It does not **invent.** No entity, edge, or step goes into a diagram that isn't in the
   material the diagram is drawn from.

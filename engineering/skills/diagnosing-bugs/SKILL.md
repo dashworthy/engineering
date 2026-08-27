@@ -1,6 +1,6 @@
 ---
 name: diagnosing-bugs
-description: "[Build] Find a defect's root cause before changing code: reproduce, hypothesize, isolate, confirm with evidence. Use when a bug is reported or a test fails for a non-obvious reason. Does not isolate whether a report is valid — that is triage."
+description: "Find a defect's root cause before changing code: reproduce, hypothesize, isolate, confirm with evidence. Use when a bug is reported or a test fails for a non-obvious reason. Does not isolate whether a report is valid — that is triage."
 ---
 
 # Diagnosing Bugs
@@ -33,8 +33,7 @@ end; it's the first thing to build, and nothing past this point starts until it 
 With the failure reproducing, form one hypothesis about the cause: a specific, falsifiable
 claim about what's going wrong, not "something in that area of the code." A hypothesis
 earns the name only if some observation could prove it wrong. A claim nothing could
-falsify isn't a hypothesis — it's a suspicion dressed in a hypothesis's clothes, and it
-will survive every test you throw at it whether or not it's true.
+falsify isn't a hypothesis — it's a suspicion in a hypothesis's clothes.
 
 Then isolate: cut away everything the hypothesis says shouldn't matter. Shrink the
 reproduction to the smallest input, the fewest steps, the narrowest code path that still
@@ -54,8 +53,7 @@ flaky symptom go quiet for a while. Evidence ties one specific mechanism to one 
 failure, not just a change to a better outcome.
 
 When a hypothesis fails its check, retire it and write the next one — don't patch it to
-survive the result that just broke it. A hypothesis kept alive because starting over feels
-expensive produces a diagnosis that's really a guess with better production values.
+survive the result that just broke it — not even when starting over feels expensive.
 
 ## Only then, fix
 

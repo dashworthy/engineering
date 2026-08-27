@@ -1,6 +1,6 @@
 ---
 name: to-spec
-description: "[Discovery] The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Invoked by the design dialogue with a recommended design — its one caller; does not self-trigger on arbitrary requests."
+description: "The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Invoked by the design dialogue with a recommended design; does not self-trigger on arbitrary requests."
 ---
 
 # To Spec

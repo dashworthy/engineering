@@ -1,6 +1,6 @@
 ---
 name: dispatching-parallel-agents
-description: "[Foundation] Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive, distinct from executing-plans' plan-scoped subagent mode."
+description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive, distinct from executing-plans' plan-scoped subagent mode."
 ---
 
 # Dispatching Parallel Agents
@@ -81,22 +81,11 @@ edits — is the dispatching caller's to decide; this skill's part of the job en
 sure every agent's result is actually in hand, undropped and unaltered, before that shaping
 starts.
 
-## Boundary with executing-plans' subagent mode
+## One caller among several
 
-`engineering:executing-plans` offers an optional subagent-driven mode for a plan whose tasks
-don't depend on each other. That mode is scoped tightly to plan execution: it is the one that
-decides which of a specific plan's tasks qualify as independent — by checking whether one
-task's files overlap with another's — and it obligates every task it dispatches to the full
-per-task loop an ordinary sequential task owes: its own TDD cycle, its own code-review gate,
-its own checked box, its own commit. None of that is this skill's business.
-
-This skill is the general mechanism that mode is built on, not a rival version of it. It has
-no notion of a task, a checkbox, a build loop, or a commit; it knows only how to take units of
-work something else has already framed and independence it has already confirmed, run them
-concurrently, and bring every result back whole. `engineering:executing-plans` is one caller
-among several, and each caller supplies its own split and its own idea of what a dispatched
-agent owes on return. This skill supplies none of that itself. It is the fan-out and the
-gathering-back, shared underneath all of them, and nothing more.
+This skill frames nothing itself — no task, checkbox, build loop, or commit. Each caller
+supplies its own split of the work and its own idea of what a dispatched agent owes on
+return; this skill only runs the wave concurrently and brings every result back whole.
 
 ## What this does not do
 
@@ -107,10 +96,6 @@ gathering-back, shared underneath all of them, and nothing more.
 - It does not **serialize a run out of caution when independence is unclear.** An unclear
   case is a case to stop and get an answer, or to split into ordered waves, not a case to
   quietly run one after another and call the result "dispatched in parallel."
-- It does not **own what a dispatched agent's own work requires.** A task's build loop, a
-  review's axis, a fact-gathering pass's citation discipline — whatever the fanned-out work
-  itself demands stays the dispatching caller's to specify; this skill never adds or waives
-  any of it.
 - It does not **judge what the synthesized result means.** Weighing findings against each
   other, picking a side in a disagreement, or deciding what the combined outcome implies for
   the caller's decision belongs to whoever posed the question in the first place — this skill

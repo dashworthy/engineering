@@ -1,31 +1,42 @@
 ---
 name: rewriting-docblock-prose
-description: "[Docs] A dispatched docblock-prose beat — or run inline on a small pass — that rewrites one file's docblock prose. Applies the comprehension gate, rewrites only descriptions that fail it, writes in place, returns a receipt of the line ranges replaced. Improves existing docblocks only; never authors one where none existed, never touches an annotation or executable code."
+description: "A dispatched docblock-prose beat — or run inline on a small pass — that rewrites docblock prose in the file, or batch of files, it is handed. Applies the comprehension gate, rewrites only descriptions that fail it, writes in place, returns a receipt per file of the line ranges replaced. Improves existing docblocks only; never authors one where none existed, never touches an annotation or executable code."
 ---
 
 # Rewriting Docblock Prose
 
-You are applied against **one file** - dispatched as a subagent on a large run, or run inline by
-the conductor on a small one. You read it, decide which docblock descriptions fail the
-comprehension gate, rewrite only those, write the file, and return a receipt.
+You are applied against **one or more files** - dispatched as a subagent carrying a batch on a
+large run, or run inline by the conductor on a small one. For each file you read it, decide which
+docblock descriptions fail the comprehension gate, rewrite only those, write the file, and return
+its receipt. Everything below is the procedure for a single file; on a batch, run it once per file
+in `files`, independently, and emit one receipt and one return line per file.
 
 ## Your payload
 
+Dispatched, you receive a **batch** - one entry in `files` per file to rewrite, plus the three
+paths shared across the whole batch:
+
 ```json
 {
-  "file":         "<absolute path in the working tree>",
-  "hunks":        [{"start": 104, "end": 131}],
-  "before_path":  "<absolute path to this file's byte copy>",
-  "receipt_path": "<absolute path to write the receipt to>",
+  "files": [
+    {
+      "file":         "<absolute path in the working tree>",
+      "hunks":        [{"start": 104, "end": 131}],
+      "before_path":  "<absolute path to this file's byte copy>",
+      "receipt_path": "<absolute path to write this file's receipt to>"
+    }
+  ],
   "skill_path":   "<absolute path to this document>",
   "gate_path":    "<absolute path to comprehension-gate.md>",
   "schema_path":  "<absolute path to receipt-schema.md>"
 }
 ```
 
-`hunks` carries **working-tree line numbers** for the ranges this branch changed. Read
-`gate_path` and `schema_path` before you start. They are the contract; this document does not
-restate them, so that there is one copy to change.
+A batch may hold a single file. `hunks` carries **working-tree line numbers** for the ranges this
+branch changed. Read `gate_path` and `schema_path` once before you start - they are the contract,
+shared across every file in the batch; this document does not restate them, so that there is one
+copy to change. Run inline there is no payload: the conductor already holds these paths and writes
+each receipt itself.
 
 ## Scope
 
@@ -71,9 +82,7 @@ moving target is the one bug reconciliation cannot catch for you.
 Sort `edits` by `start`. They may not overlap.
 
 `left_alone` counts descriptions you examined and deliberately did not touch. **Count them
-honestly.** It is the only evidence anyone has that the gate is still discriminating, and a
-guessed number makes a run that rewrote everything indistinguishable from one that judged
-carefully.
+honestly** (per `schema_path`) — it is the only evidence the gate is still discriminating.
 
 `flagged` is your one concession to the missing verifier. If you rewrote a description into a
 claim you could not fully ground in the code in front of you - a behaviour, precondition,
@@ -84,31 +93,26 @@ honestly and sparingly: flag what you genuinely could not confirm, not everythin
 
 ## Your return value
 
-Exactly one line:
+Exactly one line **per file in the batch**:
 
 ```
-wrote <N> edits, left <M> alone, flagged <F>, receipt at <receipt_path>
+<file>: wrote <N> edits, left <M> alone, flagged <F>, receipt at <receipt_path>
 ```
 
-You return a receipt path and counts. You never return prose, and you **never return a
+You return receipt paths and counts. You never return prose, and you **never return a
 description you wrote**. If you find yourself quoting a docblock back to the conductor, the
 context firewall has already failed. (The claim text of a flag goes in the receipt's `flagged`
 array, where the conductor reads it as a field - never in this return line.)
 
-If the file is unreadable, or you cannot map a hunk to any symbol, write a receipt with an
-empty `edits` array and return:
+If a file is unreadable, or you cannot map a hunk to any symbol, write that file's receipt with an
+empty `edits` array and return, for that file:
 
 ```
-wrote 0 edits, left 0 alone, flagged 0, receipt at <receipt_path>  BLOCKED: <one-line reason>
+<file>: wrote 0 edits, left 0 alone, flagged 0, receipt at <receipt_path>  BLOCKED: <one-line reason>
 ```
 
 ## Red flags - STOP
 
-- Editing anything outside a docblock, for any reason - code, whitespace, a typo in adjacent
-  code.
-- Authoring a docblock on a symbol that had none, adding a tag to a symbol that had none, or
-  claiming a range that touches a tag line or its continuation lines because they don't start
-  with `@`.
-- Anchoring receipt line numbers to the file as you are editing it rather than to `before_path`,
-  or estimating `left_alone` instead of counting it.
-- Flagging everything, or nothing, instead of the descriptions you genuinely could not ground.
+- Editing anything outside a docblock, for any reason - code, whitespace, an annotation or tag
+  line, a typo in adjacent code.
+- Anchoring receipt line numbers to the file as you are editing it rather than to `before_path`.

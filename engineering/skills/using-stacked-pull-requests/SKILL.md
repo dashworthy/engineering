@@ -1,6 +1,6 @@
 ---
 name: using-stacked-pull-requests
-description: "[Foundation] Put each plan task on its own branch stacked on the one before it, open one pull request per task, keep the stack current when a lower PR changes, and land it in order — via Graphite (gt) when present, plain git+gh otherwise. Use when a plan's Global Constraints say `PR strategy: stacked`."
+description: "Put each plan task on its own branch stacked on the one before it, open one pull request per task, keep the stack current when a lower PR changes, and land it in order — via Graphite (gt) when present, plain git+gh otherwise. Use when a plan's Global Constraints say `PR strategy: stacked`."
 ---
 
 # Using Stacked Pull Requests

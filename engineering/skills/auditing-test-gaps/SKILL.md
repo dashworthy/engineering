@@ -1,6 +1,6 @@
 ---
 name: auditing-test-gaps
-description: "[Test hardening] A dispatched test-hardening beat that audits one suite and one track for weak coverage on a branch diff — returns gap and breakage findings, modifies nothing."
+description: "A dispatched test-hardening beat that audits one suite and one track for weak coverage on a branch diff — returns gap and breakage findings, modifies nothing."
 ---
 
 # Auditing Test Gaps

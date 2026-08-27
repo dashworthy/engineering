@@ -1,6 +1,6 @@
 ---
 name: finishing-a-development-branch
-description: "[Foundation] When work is complete and green, carry out the finish strategy the plan gate authorized (merge / PR / land the stack / cleanup); with no plan behind the branch, present the options and ask. Safety net: prompt conducting-test-hardening if the branch was never hardened."
+description: "When work is complete and green, carry out the finish strategy the plan gate authorized (merge / PR / land the stack / cleanup); with no plan behind the branch, present the options and ask. Safety net: prompt conducting-test-hardening if the branch was never hardened."
 ---
 
 # Finishing A Development Branch

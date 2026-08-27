@@ -1,6 +1,6 @@
 ---
 name: requesting-code-review
-description: "[Build] Recognize a review-worthy moment and hand the change to a reviewer running in its own context, instead of reading the diff inline. Use after a task, after a major feature, or before a merge. Delegates the review to engineering:code-review."
+description: "Recognize a review-worthy moment and hand the change to a reviewer running in its own context, instead of reading the diff inline. Use after a task, after a major feature, or before a merge. Delegates the review to engineering:code-review."
 ---
 
 # Requesting Code Review
@@ -21,8 +21,9 @@ coordinator's own head.
 
 Some moments call for a review and this skill is how the call gets made rather than skipped:
 
-- **After each task in a plan run.** `engineering:executing-plans` gates every task on a
-  review before its box is checked; this skill is the request that gate makes.
+- **After each task in a plan run** — a task done enough to check its box. The automated
+  `engineering:executing-plans` loop calls `engineering:code-review` directly; use this skill
+  for the same moment in an interactive session.
 - **After a major feature lands**, whole enough to stand on its own even if more is coming.
 - **Before a merge to the trunk.** The last point where a second read is cheap and the first
   point where skipping it is expensive.
@@ -56,15 +57,6 @@ into one report. This skill's job is to recognize the moment and assemble that h
 cleanly; it does not re-implement a review of its own alongside the skill that already does
 one.
 
-## Why not just read the diff here
-
-The pull to read the diff inline is strongest when the coordinator is deepest in the work,
-and it feels faster than framing a handoff. It is not: the coordinator's context is the
-scarce resource that keeps the larger work moving, and a reviewer in a fresh context does the
-evaluation better for having no stake in the code already written. Hand off the boundary and
-the framing; let the diff and the evaluation live in the reviewer's context, and let only the
-findings come back.
-
 ## What comes back
 
 A review returns findings, not decisions. Acting on them — verifying each against the
@@ -74,9 +66,6 @@ handed off; it does not hold the findings, rank them, or start fixing them.
 
 ## What this does not do
 
-- It does not **perform the review.** Splitting the change across axes, reading it, and
-  producing findings is `engineering:code-review`; this skill frames the request and hands it
-  over, and stops there.
 - It does not **decide the work is complete.** A clean review is information, not a
   completion signal; confirming the work actually meets its bar is
   `engineering:verification-before-completion`, and integrating the finished branch is
@@ -84,6 +73,3 @@ handed off; it does not hold the findings, rank them, or start fixing them.
 - It does not **write the spec it points at.** When no spec governs the change, this skill
   hands the reviewer the stated request instead and says so; getting a spec written, if one
   is warranted, is `engineering:to-spec`, a separate decision made elsewhere.
-- It does not **decide when a task in a plan is ready for review.** `engineering:executing-plans`
-  owns the per-task gate that says a task is done enough to review; this skill is the request
-  that gate issues, not the judgment behind it.

@@ -98,7 +98,7 @@ The eight columns are fixed:
 
 ## How to keep it current
 
-The index and the documents move together. A convention written, amended, or retired is not
-finished until its index row reflects the same state on the same edit — an index that says
-`active` for a rule whose document says `retired` is worse than no index, because a reader
-trusts it. Update the row in the same change that writes the document, never on a later pass.
+Index and documents move together, in the same edit, never on a later pass — the
+first-class-artifact doctrine's index rule. Concretely: an index that says `active` for a rule
+whose document says `retired` is worse than no index, because a reader trusts it, so update the
+row in the same change that writes, amends, or retires the document.

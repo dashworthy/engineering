@@ -1,6 +1,6 @@
 ---
 name: writing-tests-from-brief
-description: "[Test hardening] A dispatched test-hardening beat that writes tests satisfying brief items for one target test file — appends without altering existing cases, never touches application code."
+description: "A dispatched test-hardening beat that writes tests satisfying brief items for one target test file — appends without altering existing cases, never touches application code."
 ---
 
 # Writing Tests From Brief

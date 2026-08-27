@@ -31,9 +31,8 @@ The five columns are fixed:
 
 ## How to keep it current
 
-The index and the records move together. An ADR written, accepted, or superseded is not
-finished until its index row reflects the same Status on the same edit — an index that says
-`Accepted` for a decision the record marks `Superseded by 0007` is worse than no index, because
-a reader trusts it. Update the row in the same change that writes or changes the record, never
-on a later pass. Because the trail is append-only, a new ADR **adds** a row and a supersede
-**edits the Status** of the old row and adds the new one; a row is never removed.
+Index and records move together, in the same edit, never on a later pass — the
+first-class-artifact doctrine's index rule (the standards index in `STANDARDS-FORMAT.md` spells
+out the shared reasoning). What's specific to the ADR trail: because it is append-only, a new
+ADR **adds** a row and a supersede **edits the Status** of the old row and adds the new one — a
+row is never removed.
