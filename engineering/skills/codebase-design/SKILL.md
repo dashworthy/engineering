@@ -110,10 +110,12 @@ flooding.
   and drawing an improvement plan is a codebase-wide architecture audit that runs
   this skill's vocabulary at a different scale. This skill shapes the one boundary in
   front of it and stops there.
-- It does not **decide what to build.** Whether a feature is worth building, and roughly
-  what approach it takes, is settled in `brainstorming`, before there's a spec and before
-  any module exists to have an interface. This skill starts once there's a module — new or
-  existing — whose boundary needs shaping; it does not weigh in on product direction.
+- It does not **decide what to build.** Whether a feature is worth building, and which
+  approach it takes, is settled in `brainstorming`; this skill does not weigh in on product
+  direction. It starts once an approach has named a boundary that needs shaping — a module
+  new or existing, one that nothing may have built yet — before the spec is written. A
+  boundary to shape, not a module already sitting in the tree, is what this skill needs to
+  begin.
 - It does not **implement.** Sketching interface shapes and choosing between them is not
   writing the module. Once a shape is chosen, building it is ordinary implementation work,
   outside this skill.

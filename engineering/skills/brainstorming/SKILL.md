@@ -69,6 +69,26 @@ first piece alone leave something working, with the second piece not yet started
 design that can't answer that question hasn't found its seams yet, and it isn't ready
 to present as one design.
 
+## Shape the interface when the approach turns on a boundary
+
+Some approaches are settled the moment one is picked. Others turn on a module
+boundary — a new interface, or an existing seam the approach reshapes — where the
+load-bearing decision isn't *which* approach but *what the interface looks like*. When the
+recommended approach is that second kind, shape that interface here, before handing off, by
+invoking `engineering:codebase-design` on the boundary: it designs the interface from at
+least two competing shapes and judges them on what a caller has to know. Invoke it once per
+boundary the approach introduces — a design that stands up three modules calls it three
+times — and let the shaped interfaces travel with the recommended design into the spec,
+where they become part of §6's Approach.
+
+Shaping the interface here, not later, is deliberate: the spec gate in
+`engineering:to-spec` is the first human approval, and an interface is usually the
+highest-leverage decision in a design. Deferring it past that gate would mean the human
+approved an approach whose real shape was still open. An approach with no new or reshaped
+boundary — a behavior change on an existing path, a config move, most quick fixes — has
+nothing for `codebase-design` to shape and skips it; this is a call the approach earns, not
+a step every design takes.
+
 ## Recommend the design, then hand off
 
 Walk the human through the approaches and the trade-offs, recommend one, and take
@@ -104,11 +124,13 @@ duplicate it. Hand off the design and stop.
   constraints are `signal`'s job — or `triage`'s, for a defect — and are settled before
   this skill's first question. This skill starts once there's a problem worth designing
   a solution for; it does not go find one.
-- It does not **design module internals.** Shaping a class's or a module's interface —
-  narrow versus leaky, one boundary at a time — is `codebase-design`, and it runs
-  later, once an approach from this skill has a spec and an actual module in front of
-  it to shape. This skill weighs how to build the work at the level of approach, not at
-  the level of a single interface's method signatures.
+- It does not **shape interfaces itself.** Designing a module's interface — narrow versus
+  leaky, one boundary at a time — is `codebase-design`'s work, not this skill's; this skill
+  weighs how to build at the level of approach, not a single interface's method signatures.
+  What it does do, when the recommended approach turns on a boundary, is *invoke*
+  `codebase-design` during the design dialogue (see above) rather than leave the interface
+  for later — so the shaped interface rides into the spec's §6 and is approved at the spec
+  gate. It delegates the shaping to the skill that owns it; it does not do it.
 - It does not **write the spec.** Serializing the recommended design into the standard
   document is `to-spec`'s one job. This skill produces the recommendation; `to-spec`
   produces the record of it and holds the gate on it.
