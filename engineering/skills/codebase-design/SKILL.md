@@ -1,6 +1,6 @@
 ---
 name: codebase-design
-description: "[Design] Shape module interfaces so complexity hides behind narrow, deep boundaries. Use when defining a module's interface or judging whether a boundary earns its keep. Not a codebase-wide audit (improve-codebase-architecture) and not approach design (brainstorming)."
+description: "[Design] Shape module interfaces so complexity hides behind narrow, deep boundaries. Use when defining a module's interface or judging whether a boundary earns its keep. Not approach design (brainstorming)."
 ---
 
 # Codebase Design
@@ -89,10 +89,10 @@ reach the interface, and whether the interface lets a caller hold it wrong and n
 
 ## Reading the substrate
 
-Before shaping a boundary, actively consult the substrate: resolve names from `CONTEXT.md`
-(the glossary) and surface governing decisions with `engineering:using-adrs`. Treat a name
-or boundary already settled there as a constraint on the shape you're sketching, not a
-suggestion to route around. A project that has accumulated neither gives nothing back, and
+Before shaping a boundary, actively consult the substrate: surface governing decisions with
+`engineering:using-adrs`. Treat a boundary already settled there as a constraint on the shape
+you're sketching, not a suggestion to route around. A project that has accumulated no ADR
+trail gives nothing back, and
 this skill proceeds on the module and its immediate neighbors alone — the obligation is to
 consult, not to require the artifacts.
 

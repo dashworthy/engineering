@@ -11,14 +11,6 @@ been action. $ARGUMENTS is the message that missed and, where known, who it was 
 for. This command doesn't diagnose why the first attempt failed in the abstract; it
 produces a second attempt the reader can't misread.
 
-## Read for background, don't demand it
-
-Before rewriting, actively consult the project's glossary at the repo root: resolve from
-`CONTEXT.md` (and `CONTEXT-MAP.md`) the words the reader already has a fixed meaning for, so
-the rewrite reuses those words instead of introducing synonyms that read as new concepts. A
-project that has accumulated neither gives nothing back — work from the conversation and
-$ARGUMENTS alone, and don't ask the user to create them first.
-
 ## Re-pitch the message
 
 Rewrite the message using Simplified Technical English conventions (ASD-STE100): the
@@ -33,9 +25,7 @@ discipline of writing so a message can be read only one way.
   sentence hides the actor exactly where the reader needs to see one.
 - **One word per meaning.** If earlier drafts or the conversation used two different
   words for the same thing, pick one and use it throughout the rewrite — that alone
-  removes a whole class of "is this the same thing or not?" confusion. Reuse whatever
-  term `CONTEXT.md` already fixes for that concept; where the glossary is silent, pick
-  one term and use it throughout.
+  removes a whole class of "is this the same thing or not?" confusion.
 - **State the ask plainly.** If the message wants the reader to do something, decide
   something, or approve something, say so in a sentence a skimming reader cannot miss —
   don't bury the ask inside context.

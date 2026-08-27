@@ -133,15 +133,15 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **33 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **31 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
 | Group | Skills |
 |---|---|
-| Discovery | `interrogating-requirements`, `to-spec`, `domain-modeling`, `identifying-code-conventions`, `recording-code-conventions`, `recording-adrs` |
+| Discovery | `interrogating-requirements`, `to-spec`, `identifying-code-conventions`, `recording-code-conventions`, `recording-adrs` |
 | Triage | `triage` |
-| Design | `brainstorming`, `codebase-design`, `improve-codebase-architecture` |
+| Design | `brainstorming`, `codebase-design` |
 | Planning | `writing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review`, `using-code-conventions`, `using-adrs` |
 | Test hardening | `conducting-test-hardening`, `auditing-test-gaps`, `verifying-test-integrity`, `writing-tests-from-brief` |
@@ -154,9 +154,9 @@ The full index lives at
 
 ### Commands
 
-10 slash commands sit on top of the suite: `/signal`, `/triage`, `/vernacular`,
-`/improve-codebase-architecture`, `/implement`, `/handoff`, `/to-signal`,
-`/wait-what`, `/conventions-init`, and `/record-convention`.
+9 slash commands sit on top of the suite: `/signal`, `/triage`, `/vernacular`,
+`/implement`, `/handoff`, `/to-signal`, `/wait-what`, `/conventions-init`, and
+`/record-convention`.
 
 ## License
 

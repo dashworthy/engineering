@@ -172,16 +172,15 @@ else
 fi
 
 # --- Task 8 (removed): the ADR -> convention spawn seam was retired in the first-class-ADRs
-# work. recording-adrs now owns docs/adr/; domain-modeling is the CONTEXT.md glossary only.
-# The guards that required the spawn section in domain-modeling and the ADR-spawn provenance in
+# work. recording-adrs now owns docs/adr/. The guards that required the ADR-spawn provenance in
 # STANDARDS-FORMAT were removed with the behavior. validate.sh now asserts the spawn references
-# are ABSENT (domain-modeling / recording-code-conventions / STANDARDS-FORMAT).
+# are ABSENT (recording-code-conventions / STANDARDS-FORMAT).
 
 # --- Task 9: writing-plans wires the read side into planning (the [Build] consumer is reachable) ---
 # The read side (using-code-conventions) is [Build]-tagged but consumed at plan-write time: the
 # citation is placed on a task so it travels to the executing subagent. Without a pointer from
 # writing-plans, the skill is reachable only if its own description happens to self-trigger — every
-# sibling consumption point (code-review reads specs, planning reads CONTEXT.md/adr) is wired by
+# sibling consumption point (code-review reads specs, planning reads the ADR trail) is wired by
 # an explicit name. This guard keeps that wiring from silently rotting back out.
 wp="$skills/writing-plans/SKILL.md"
 if [ ! -f "$wp" ]; then

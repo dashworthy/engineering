@@ -72,8 +72,8 @@ truth; a separate ledger file would drift from the index the moment the two disa
   is `using-adrs`. This skill writes the trail; it does not apply it.
 - It does not **decide.** The decision is made in the phase that reached it; this skill records
   the decision already made, it does not weigh the alternatives itself.
-- It does not **write conventions, specs, or the glossary.** A standing rule is
-  `recording-code-conventions`; a spec is `to-spec`; a domain term is `domain-modeling`'s
-  `CONTEXT.md`. An ADR is the point-in-time decision record, and that is all this skill writes.
+- It does not **write conventions or specs.** A standing rule is
+  `recording-code-conventions`; a spec is `to-spec`. An ADR is the point-in-time decision
+  record, and that is all this skill writes.
 - It does not **gate on its own output.** `docs/adr/` is a convenience the later phases read;
   no other skill blocks on it. A project with no `docs/adr/` hasn't accumulated one yet.

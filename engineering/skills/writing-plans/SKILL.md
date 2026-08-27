@@ -32,12 +32,12 @@ this mechanism existed — either way the spec gate was never cleared, so refuse
 rather than plan it. This mirrors `finishing-a-development-branch`'s rule to prefer the
 trace over the checkbox: the marker is the trace, the status line is only the checkbox.
 
-Actively consult the substrate while shaping tasks: resolve names from `CONTEXT.md` and
-surface governing decisions with `engineering:using-adrs`, citing a governing ADR by path on
-the task it constrains (the same way conventions are cited below). A naming convention or a
-settled boundary recorded there constrains how a task's file paths and interfaces get written,
-the same way it constrains a fresh module boundary in `codebase-design`. A project that has
-accumulated neither surfaces nothing to cite, and that's ordinary, not a degraded run.
+Actively consult the substrate while shaping tasks: surface governing decisions with
+`engineering:using-adrs`, citing a governing ADR by path on the task it constrains (the same
+way conventions are cited below). A settled boundary recorded there constrains how a task's
+file paths and interfaces get written, the same way it constrains a fresh module boundary in
+`codebase-design`. A project that has accumulated no ADR trail surfaces nothing to cite, and
+that's ordinary, not a degraded run.
 
 Two things about the spec matter more than its prose: its Constraints section and any
 decision table it carries. Both travel into the plan close to verbatim — see Global
@@ -82,7 +82,7 @@ relevant** column, and cites the governing convention file inline on the task it
 `executing-plans`, so the subagent that builds it opens the rule before writing code rather than
 after `code-review` catches the violation. Cite the file by path, never a paraphrase, so the
 task always resolves to the current rule. A project with no standards tree gets no citations,
-the same way a project with no `CONTEXT.md` and no ADR trail yields none; this skill consults
+the same way a project with no ADR trail yields none; this skill consults
 the tree but never writes it (recording is `recording-code-conventions`).
 
 ## Consider a diagram for a task's shape
@@ -198,8 +198,8 @@ Before calling the plan finished, run a self-review pass over what was just writ
 - It does not **run the hardening task.** It writes the task that invokes
   `engineering:conducting-test-hardening`; it does not dispatch that skill itself. The
   task sits on the plan for whoever executes it to reach.
-- It does not **require `CONTEXT.md` or an ADR.** It consults both actively and cites what
-  they hold, but a project that never wrote them simply yields nothing to cite — this skill
+- It does not **require an ADR.** It consults the trail actively and cites what
+  it holds, but a project that never wrote one simply yields nothing to cite — this skill
   does not stall a plan waiting on documentation the project never wrote.
 - It does not **plan around a draft.** A spec whose status isn't Approved doesn't get
   planned; it gets named as the reason nothing was written.

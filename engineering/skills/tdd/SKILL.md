@@ -60,13 +60,6 @@ behaviors the test covers. `mocking.md`, alongside this file, covers when replac
 collaborator with a stand-in makes the test more honest and when it just makes the test
 lie about what was actually proven.
 
-## Reading the substrate
-
-`CONTEXT.md`, at the project root, is the glossary a task's tests should match — a testing
-style, a fixture pattern, a term the codebase already names. Resolve those names from it
-actively rather than guessing; a project that hasn't accumulated one gives nothing back, and
-most cycles run on the behavior in front of you and the code around it.
-
 ## Boundary: tdd builds, test-hardening hardens
 
 This skill and test-hardening (`conducting-test-hardening`) both produce tests and

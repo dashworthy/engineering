@@ -2,13 +2,12 @@
 
 A **convention** is a repeatable standing rule this project holds itself to — "controllers
 get a dedicated form request," "money is stored in integer cents," "public functions carry
-a return type." It is not a one-time decision (that is an ADR) and not a glossary term
-(that is `CONTEXT.md`). This file fixes two shapes: the shape of a single convention
+a return type." It is not a one-time decision (that is an ADR). This file fixes two shapes: the shape of a single convention
 document, and the shape of the index that lists them all. Every skill that writes a
 convention writes this shape; every skill that reads one binds to it.
 
 The standards tree is a **per-app runtime artifact**, rooted at `docs/standards/` in the
-target repo — a sibling of `CONTEXT.md` and `docs/adr/`, never shipped inside the plugin.
+target repo — a sibling of `docs/adr/`, never shipped inside the plugin.
 
 ## Filename
 

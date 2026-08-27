@@ -1,6 +1,6 @@
 # The first-class-artifact doctrine
 
-A durable-knowledge artifact — a decision record, a glossary, a diagram — is *first-class*
+A durable-knowledge artifact — a decision record, a diagram — is *first-class*
 when the suite both **captures** it — an intake trigger — at the moment it is produced and
 **consumes** it — active consumption — at the moment it is needed, instead of leaving it as a
 file someone might write and someone else might read. An artifact that is only "read when present" is an edge artifact: written
@@ -30,15 +30,14 @@ living current-state view. Every application declares which profile it follows.
   governing entry by path at the work item**, the way `using-code-conventions` cites a rule,
   and skips entries marked superseded. ADRs follow the trail profile.
 - **Lookup.** Living and mutable: the artifact always reflects current reality, edited in
-  place as reality changes. The consumer **resolves the current meaning** from it rather than
-  citing a point-in-time entry. The glossary (`CONTEXT.md`) follows the lookup profile.
+  place as reality changes. An artifact consulted this way — the consumer **resolves the
+  current meaning** from it rather than citing a point-in-time entry — follows the lookup
+  profile.
 
 ## Applications
 
 - **ADRs** — `recording-adrs` (intake + index + lifecycle), `using-adrs` (consumption).
   Trail profile: append-only, numbered, superseded-by-pointer; cited by path at the work item.
-- **Glossary (`CONTEXT.md`)** — `domain-modeling` owns intake at term-introduction points and
-  the living file. Lookup profile: the suite-wide sweep resolves current meaning from it.
 - **Diagrams** — `using-diagrams` owns the obligation; authoring phases consider a diagram
   when they describe a data model, flow, or state machine (the guard is *consider*, not
   *always draw*).
