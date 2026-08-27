@@ -28,8 +28,8 @@
     },
     {
       "name": "skillsmith",
-      "description": "Author and test Claude skills: concise structure, progressive disclosure, degrees of freedom, honest compliance framing, and pressure-testing skill discovery and compliance.",
-      "version": "0.1.0",
+      "description": "Author, test, and audit Claude skills: concise structure, progressive disclosure, degrees of freedom, honest compliance framing, pressure-testing skill discovery and compliance, and an efficiency audit that finds token waste, duplication, and costly subagent usage.",
+      "version": "0.2.0",
       "source": "./skillsmith",
       "author": {
         "name": "Andrew Leach",
