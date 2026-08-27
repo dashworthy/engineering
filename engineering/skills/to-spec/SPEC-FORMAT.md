@@ -29,6 +29,8 @@
     ## 6. Approach (from the design dialogue)
     The approved approach and the alternatives weighed against it (from `brainstorming`).
     For a triage-origin fix, the chosen fix strategy and why the smaller options were rejected.
+    Where the approach turned on a module boundary, the interface `codebase-design` shaped
+    for it — the chosen shape and what a caller has to know — belongs here too.
     Where the approach has forks a linear list flattens, include a process-flow diagram
     (mermaid — a spec renders it); see `engineering:using-diagrams`.
 
