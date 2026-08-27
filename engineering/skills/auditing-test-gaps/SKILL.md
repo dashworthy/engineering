@@ -1,6 +1,6 @@
 ---
 name: auditing-test-gaps
-description: "[Test hardening] Dispatched by test-hardening to audit one suite and one track for weak coverage on a branch diff — returns gap and breakage findings, modifies nothing."
+description: "[Test hardening] A dispatched test-hardening beat that audits one suite and one track for weak coverage on a branch diff — returns gap and breakage findings, modifies nothing."
 ---
 
 # Auditing Test Gaps
@@ -98,7 +98,7 @@ should hit — that is a breakage finding, never a gap finding. Fill in `observa
 code actually does), `expectation` (what it appears intended to do, and what that belief rests
 on), and `confidence` (`high`, `medium`, or `low`).
 
-**Never include a proposed fix.** Verity does not modify application code, and a fix written
+**Never include a proposed fix.** Test-hardening does not modify application code, and a fix written
 into the brief is an invitation for someone to apply it without the scrutiny a human decision
 deserves. When you're unsure whether something is really wrong or you're just unfamiliar with
 the intent, prefer emitting a `low`-confidence breakage finding over staying silent — the

@@ -55,6 +55,13 @@ owed, labeled as missing the second axis.
 The two axes are looked at by two different reviewers, not one reviewer switching hats
 partway through — a single pass that tries to hold "is this good code" and "is this the
 right code" in mind at once tends to let the louder question crowd out the quieter one.
+
+**There is a floor, though.** On a small diff — a single file, roughly twenty changed lines or
+fewer, one hunk — there is no louder question to drown out a quieter one, and two subagent
+spin-ups plus a reconcile cost more than the review itself does. Below that floor, look at both
+axes yourself inline and skip the fan-out; both still get their full review, just in one pass.
+Above it, the crowd-out risk is real:
+
 Dispatch at least one sub-reviewer per axis, in parallel, following `dispatching-parallel-agents`
 for how the fan-out and the return are structured — that skill owns the mechanics; this skill
 supplies the split itself, plus what each sub-reviewer needs: the diff, the matched spec

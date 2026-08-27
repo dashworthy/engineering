@@ -67,7 +67,7 @@ fix is a hypothesis wearing an extra step.
 ## When reproduction needs a human
 
 Some reproductions cannot run unattended: a UI interaction, a physical control, a step only
-a person on the other end can perform. For those, `scripts/hitl-loop.template.sh` is a
+a person on the other end can perform. For those, `${CLAUDE_PLUGIN_ROOT}/scripts/hitl-loop.template.sh` is a
 starting skeleton — it prompts a human for one step, records what they observed, and repeats
 until a specific step is pinned to the failure rather than "somewhere in there."
 

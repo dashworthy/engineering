@@ -1,6 +1,6 @@
 ---
 name: verifying-test-integrity
-description: "[Test hardening] Dispatched by test-hardening to review newly written tests — rules whether each actually tests what it claims, using a defect taxonomy plus mechanical isolation and collection checks."
+description: "[Test hardening] A dispatched test-hardening beat that reviews newly written tests — rules whether each actually tests what it claims, using a defect taxonomy plus mechanical isolation and collection checks."
 ---
 
 # Verifying Test Integrity
@@ -22,22 +22,11 @@ claims — then return one verdict per test.
 
 ## The defect taxonomy
 
-| Defect | What it looks like |
-|---|---|
-| Tautology | Assertion cannot fail — asserts a literal, or asserts a mock returned what it was configured to return |
-| Vacuous act | Code under test never invoked, or invoked and its result never asserted on |
-| Over-mocked | The unit under test is itself stubbed — or its dependencies are mocked so thoroughly that nothing real executes. The second form is the common one: each mock looks reasonable alone, but stacked they leave the test exercising the mock framework rather than the code |
-| Misnamed intent | Name or description claims X, assertions check Y |
-| Loose assertion | Presence check where the brief specified a boundary value — passes for wrong answers |
-| Brief drift | The gap the brief specified is not the gap this test covers |
-| False green | Passes for an unrelated reason — swallowed exception, early return before the interesting branch |
-| Order dependence | Passes only within suite order or shared state |
-| Never ran | Present but not collected by the runner — wrong convention, directory, or missing annotation |
-
-Every one of these is something a writer could have avoided while writing — none of them
-require your hindsight to see coming. That is exactly why a passing test isn't enough evidence
-on its own: all nine defects above produce a green run. Green is the baseline you start from,
-not the finding.
+The nine defects you rule against are in
+[references/defect-taxonomy.md](references/defect-taxonomy.md) — read it before rendering any
+verdict. Every one is something a writer could have avoided while writing; none require your
+hindsight to see coming. That is exactly why a passing test isn't enough evidence on its own: all
+nine produce a green run. Green is the baseline you start from, not the finding.
 
 ## Two checks are mechanical — running them is mandatory
 

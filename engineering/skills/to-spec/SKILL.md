@@ -1,6 +1,6 @@
 ---
 name: to-spec
-description: "[Discovery] The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Invoked by engineering:brainstorming with a recommended design — the one caller; does not self-trigger on arbitrary requests."
+description: "[Discovery] The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Invoked by the design dialogue with a recommended design — its one caller; does not self-trigger on arbitrary requests."
 ---
 
 # To Spec
@@ -50,10 +50,9 @@ say gets a line explaining why, not silence.
 
 Two source shapes map onto the one format — and the mapping is by meaning, not by
 section number:
-- a **signal** brief supplies §1–§5 in order; the brief's §6 (Existing Context) becomes
-  the spec's §7, and the brief's §7 (dependency-ordered body) and §8 (how to consume the
-  brief) have no spec section of their own. The spec's §6 (Approach) does not come from
-  the brief at all — it is transcribed from the recommended design `brainstorming` hands
+- a **signal** brief supplies §1–§5 in order, and its §6 (Existing Context) becomes
+  the spec's §7; the brief ends at §6. The spec's §6 (Approach) does not come from
+  the brief at all — it is transcribed from the recommended design `engineering:brainstorming` hands
   off (the chosen approach and the alternatives it beat), which is exactly §6's content.
 - a **triage** isolation record maps onto the same eight sections with two repurposed:
   §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including

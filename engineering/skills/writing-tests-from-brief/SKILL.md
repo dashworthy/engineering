@@ -1,6 +1,6 @@
 ---
 name: writing-tests-from-brief
-description: "[Test hardening] Dispatched by test-hardening to write tests satisfying brief items for one target test file — appends without altering existing cases, never touches application code."
+description: "[Test hardening] A dispatched test-hardening beat that writes tests satisfying brief items for one target test file — appends without altering existing cases, never touches application code."
 ---
 
 # Writing Tests From Brief
@@ -29,24 +29,16 @@ There is no hook in front of Write, Edit, or Bash. Nothing checks where a write 
 shell command does before it happens. The two rules above — append only, never touch application
 code — are held by you, in the moment, or they are not held at all.
 
-**The only check is after the fact, and it is blunt.** Immediately before dispatching this
-iteration's writers, the conductor snapshots the working tree (`git diff --numstat HEAD` plus the
-untracked list); after the write phase it measures again and treats a path as **touched** when it
-is new since the snapshot or when its added/deleted line counts have moved, resolving symlinks to
-their real location and comparing each touched path against the test and fixture paths stack
-detection confirmed. A file the user already had uncommitted is **not** exempt — its counts are
-recorded, and if you change it those counts move and it is flagged like anything else; the
-baseline exists so the user's own in-progress work isn't mistaken for yours, not so already-dirty
-files become a safe place to write. Anything outside those paths — application code, config, CI,
-documentation, anything no suite claims — halts the *entire run*, before Verify or Measure ever
-runs, surfaced to the user as a violation rather than finished work. Reconciliation also snapshots
-each pre-existing test file's deleted-line count and compares it after; a file that lost lines
-halts the run the same way. This is why you must not run a formatter, lint-fix, or
-import-organizer over a file you've touched, and must not tidy, rename, or regroup existing cases:
-with no hook to catch it in the moment, a whole-file reformat rewrites every existing case in it —
-silently, from your side — and surfaces only as reconciliation halting the whole run afterward.
-Write your test in the file's existing style by hand, at the end of the relevant group or wherever
-the file's convention puts new cases, and touch nothing else.
+**The only check is after the fact, and it is blunt.** After the write phase the conductor
+reconciles the working tree and **halts the entire run** — before Verify or Measure — on any
+change outside the test and fixture paths, or any pre-existing test file that *lost* lines. It
+cannot tell a deliberate edit from an accident; it only sees that something moved. So a whole-file
+reformat is as fatal as editing application code: with no hook to catch it in the moment, running
+a formatter, lint-fix, or import-organizer over a file you've touched silently rewrites every
+existing case in it and surfaces only as reconciliation halting the whole run afterward. Write
+your test in the file's existing style by hand, at the end of the relevant group or wherever the
+file's convention puts new cases, and touch nothing else — do not tidy, rename, or regroup
+existing cases.
 
 **Reaching outside the test tree is information, not an obstacle to route around.** If you find
 yourself reaching for a path outside the test or fixture tree, or for application code to make a
@@ -71,28 +63,14 @@ different things, `test_intent` wins.
 
 ### What gets a test rejected
 
-The verifier hunts a fixed taxonomy of nine defects — every one is something you control while
-writing, so every one is listed here. Three matter most when **appending** to an existing file:
-Over-mocked, Order dependence, Never ran.
+The verifier applies a fixed nine-defect taxonomy — the same one it rules against, defined in the
+`verifying-test-integrity` skill. Every defect is something you control while writing. Three matter
+most when **appending** to an existing file, so guard them in full:
 
-- **Tautology** — asserting a literal, or asserting that a mock returned what it was configured
-  to return.
 - **Over-mocked** — stubbing the unit under test itself, *or* mocking its dependencies so
   thoroughly that nothing real executes. The second form is the common one, and the easier to
   talk yourself into: each individual mock looks reasonable, but stack enough of them and the
   test stops exercising the code at all.
-- **Vacuous act** — invoking the code under test and never asserting on the result.
-- **Loose assertion** — a presence or existence check where the brief specified a particular
-  value.
-- **Misnamed intent** — a name that describes something other than what the test actually
-  asserts.
-- **Brief drift** — testing a different gap than the `test_intent` you were given, however
-  correct or well-written the test is on its own terms. `test_intent` is the authoritative
-  anchor; matching the letter of `behavior` while missing what `test_intent` asked for still
-  drifts.
-- **False green** — the test passes for a reason unrelated to the behavior under test: a
-  swallowed exception, an over-broad `catch`, an early return before the interesting branch is
-  ever reached, or an assertion made against a failure path that was itself mocked away.
 - **Order dependence** — relying on state left behind by another test, or leaving state behind
   for the next one to trip on. This is the defect appending invites most directly: you are adding
   a case to a file already full of tests and shared fixtures, exactly where order coupling creeps
@@ -101,7 +79,12 @@ Over-mocked, Order dependence, Never ran.
 - **Never ran** — a test the runner never collects, because of a wrong name, wrong directory, or
   missing wiring (see Gherkin below). It passes the suite simply by not existing in it.
 
-A test that technically contains a correct assertion but fails on any of these is not a satisfied
+The other six, in brief: **Tautology** (assertion cannot fail), **Vacuous act** (result never
+asserted on), **Loose assertion** (presence check where the brief specified a value), **Misnamed
+intent** (name claims X, assertions check Y), **Brief drift** (tests a different gap than the
+`test_intent` you were given — `test_intent` is the authoritative anchor), and **False green**
+(passes for an unrelated reason: a swallowed exception or an early return before the interesting
+branch). A test that contains a correct assertion but fails on any of these is not a satisfied
 item. Write past the taxonomy, not just far enough to type an assertion.
 
 ## Run what you wrote
@@ -123,7 +106,7 @@ conductor and the verifier both need to see the whole picture of what makes each
 ## Return format
 
 Return exactly this shape to the conductor (the `breakage_findings` shape is owned by the brief
-schema, `references/brief-schema.md`):
+schema):
 
 ```json
 {

@@ -7,7 +7,7 @@ description: "[Test hardening] Use when implementation work is finished and abou
 
 ## The Iron Rule
 
-> Verity writes tests. It never modifies application code, and it never rewrites an existing
+> Test-hardening writes tests. It never modifies application code, and it never rewrites an existing
 > test case. When code appears wrong, it halts and hands the decision to the user. Violating
 > the letter is violating the spirit.
 
@@ -19,20 +19,6 @@ thresholds, or a loop limit for this project. All of it is derived from git and 
 itself, or asked of the user, fresh, every run. Never write a config file to save yourself
 asking next time — a stored config drifts out of sync with the project, and that drift is
 exactly the kind of defect deriving-or-asking-fresh exists to prevent.
-
-## Why this runs now
-
-Nothing forces this skill to run — no hook blocks finishing a branch without it. It fires at the
-moment above on its own or not at all. The usual reasons not to — "I'll run it after this," "the
-change is too small," "the user's in a hurry," "I already reviewed it myself," "it's just a
-refactor," "I'll mention the gap in my summary" — all resolve the same way: the diff in front of
-you now is the one this audits, so run it before that diff moves. Two excuses carry a specific
-response:
-
-| Excuse | Reality |
-|---|---|
-| "The tests already pass" | Passing proves nothing about whether they'd fail if the behavior broke. That gap is the entire reason this skill exists. |
-| "There's no test suite here" | Then say so once detection confirms it, and ask what to run. An unconventional project is a normal preflight outcome, not a reason to skip the audit. |
 
 ## Context discipline
 
@@ -175,7 +161,7 @@ Repeat the following per iteration until an exit condition is reached.
 
   1. Compare against **this iteration's pre-write snapshot** — the one taken in the Write step
      moments ago — not against a clean tree, and compare *content counts* rather than status
-     entries. Verity runs on work in progress, so uncommitted application changes are the normal
+     entries. Test-hardening runs on work in progress, so uncommitted application changes are the normal
      starting state and not evidence of anything; and by now the tree also carries caches, coverage
      files and reports from every suite run so far. All of it is already in that snapshot. Run both
      measurements again and collect a path as **touched** when either holds:
@@ -329,21 +315,7 @@ reading anything back from this one.
 
 ## Red flags — STOP
 
-- Reading a diff or a test body in the conductor's own context instead of dispatching it.
 - Modifying application code for any reason, including to "just make the test pass."
 - Writing tests when a breakage finding is open, or proceeding to Reconcile, Verify, or Measure
   after any writer returns a breakage finding of its own in this iteration's Write phase.
 - Auto-reverting a reconciliation violation instead of surfacing it.
-- Dispatching two writers at the same target test file.
-- Blending coverage or mutation numbers across suites into one figure.
-- Reporting a threshold as met without the command output that proves it; reporting `pass`
-  without naming every suite or metric that could not be measured, or for a run where a (suite,
-  track) auditor died twice in a row — an unaudited track is the false green the gate exists to
-  prevent.
-- Continuing past the brief into Write when the user asked for an audit only.
-- Marking an `unevaluated` item `satisfied` or `rework` instead of leaving it `open`, or
-  counting it toward either side of the no-improvement check.
-- Inferring or hard-coding a threshold, a suite list, or a command, or writing a config file, a
-  shell library, or a hook "to make this more reliable next time" — a stored layer like that
-  drifts out of sync with the project and produces exactly the defects this fresh-every-run
-  discipline exists to prevent.

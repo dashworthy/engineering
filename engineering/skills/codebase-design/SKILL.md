@@ -107,7 +107,7 @@ flooding.
 ## Boundaries — what this does not do
 
 - It does not **audit a codebase.** Looking across every module for shallow interfaces
-  and drawing an improvement plan is `improve-codebase-architecture`, a command that runs
+  and drawing an improvement plan is a codebase-wide architecture audit that runs
   this skill's vocabulary at a different scale. This skill shapes the one boundary in
   front of it and stops there.
 - It does not **decide what to build.** Whether a feature is worth building, and roughly
