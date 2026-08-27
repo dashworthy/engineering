@@ -6,9 +6,9 @@ opens with the matching `[Group]` tag.
 
 | Group | Skills |
 |---|---|
-| Discovery | `interrogating-requirements`, `to-spec`, `domain-modeling`, `identifying-code-conventions`, `recording-code-conventions`, `recording-adrs` |
+| Discovery | `interrogating-requirements`, `to-spec`, `identifying-code-conventions`, `recording-code-conventions`, `recording-adrs` |
 | Triage | `triage` |
-| Design | `brainstorming`, `codebase-design`, `improve-codebase-architecture` |
+| Design | `brainstorming`, `codebase-design` |
 | Planning | `writing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review`, `using-code-conventions`, `using-adrs` |
 | Test hardening | `conducting-test-hardening`, `auditing-test-gaps`, `verifying-test-integrity`, `writing-tests-from-brief` |

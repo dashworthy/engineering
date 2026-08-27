@@ -129,9 +129,9 @@ if [ -f "$COND" ]; then
 fi
 
 # --- first-class-artifact doctrine -------------------------------------------
-# The doctrine is defined before it is applied: ADRs, the glossary, and diagrams each
-# declare themselves an application of this one pattern. The pattern has three elements
-# and resolves the glossary-vs-ADR consumption question with two named profiles.
+# The doctrine is defined before it is applied: ADRs and diagrams each declare themselves an
+# application of this one pattern. The pattern has three elements and names two consumption
+# profiles — trail (historical, cited by path) and lookup (living, resolved in place).
 DOCTRINE="$PLUGIN/skills/recording-adrs/references/first-class-artifact.md"
 [ -f "$DOCTRINE" ]; check $? "first-class-artifact doctrine exists"
 
@@ -166,7 +166,7 @@ if [ -f "$RECADR" ]; then
 fi
 
 ADRFMT="$PLUGIN/skills/recording-adrs/ADR-FORMAT.md"
-[ -f "$ADRFMT" ]; check $? "recording-adrs/ADR-FORMAT.md exists (moved from domain-modeling)"
+[ -f "$ADRFMT" ]; check $? "recording-adrs/ADR-FORMAT.md exists"
 ADRIDX="$PLUGIN/skills/recording-adrs/ADR-INDEX-FORMAT.md"
 [ -f "$ADRIDX" ]; check $? "recording-adrs/ADR-INDEX-FORMAT.md exists"
 if [ -f "$ADRIDX" ]; then
@@ -183,17 +183,10 @@ if [ -f "$ADRSEED" ]; then
   grep_flat "$ADRSEED" "Accepted"; check $? "ADR index records ADR 0001 as Accepted"
 fi
 
-# --- domain-modeling shrunk to the glossary; ADR half + spawn bridge removed --
-# recording-adrs now owns docs/adr/; domain-modeling keeps only the CONTEXT.md glossary. The
-# one-directional ADR->convention spawn bridge is removed here and from recording-code-conventions.
-DM="$PLUGIN/skills/domain-modeling/SKILL.md"
-if [ -f "$DM" ]; then
-  ! grep_flat "$DM" "docs/adr";                          check $? "domain-modeling no longer writes docs/adr (moved to recording-adrs)"
-  ! grep_flat "$DM" "Spawning a convention from an ADR"; check $? "domain-modeling drops the ADR-spawn bridge section"
-  grep_flat "$DM" "first-class-artifact.md";             check $? "domain-modeling references the first-class-artifact doctrine"
-  grep_flat "$DM" "lookup";                              check $? "domain-modeling declares CONTEXT.md a lookup-profile artifact"
-fi
-[ ! -e "$PLUGIN/skills/domain-modeling/ADR-FORMAT.md" ]; check $? "domain-modeling/ADR-FORMAT.md removed (moved to recording-adrs)"
+# --- the ADR->convention spawn bridge stays retired ---------------------------
+# recording-adrs owns docs/adr/; the one-directional ADR->convention spawn bridge is removed
+# from recording-code-conventions and STANDARDS-FORMAT.
+[ ! -e "$PLUGIN/skills/domain-modeling" ]; check $? "domain-modeling skill removed"
 RCC="$PLUGIN/skills/recording-code-conventions/SKILL.md"
 if [ -f "$RCC" ]; then
   ! grep_flat "$RCC" "spawn"; check $? "recording-code-conventions has no spawn-bridge reference"
@@ -243,18 +236,18 @@ done
 
 # --- passive-idiom guard -----------------------------------------------------
 # First-class artifacts are actively consulted, never "read when present." No SKILL.md,
-# command, or skill reference may pair an artifact token (CONTEXT.md / docs/adr) with a
+# command, or skill reference may pair an artifact token (docs/adr) with a
 # passive-read idiom on the same line. Reference files are in scope because the sweep edited
 # them too, so a regression there is caught rather than going silent. The idiom list is fixed
 # and deliberately narrow so it catches the rot ("if either exists", "when present") without
 # tripping on the ordinary word "existing".
 passive=0
 for f in $(find "$PLUGIN/skills" -name SKILL.md) $(find "$PLUGIN/skills" -path '*/references/*.md') $(find "$PLUGIN/commands" -name '*.md'); do
-  if grep -E '(CONTEXT\.md|docs/adr)' "$f" | grep -qiE 'when present|if present|(when|if) (either|they|it) exists?|read when present|ignored when absent'; then
+  if grep -E 'docs/adr' "$f" | grep -qiE 'when present|if present|(when|if) (either|they|it) exists?|read when present|ignored when absent'; then
     echo "  passive artifact-read idiom in $f"; passive=1
   fi
 done
-[ "$passive" = 0 ]; check $? "no SKILL.md/command/reference reads CONTEXT.md/docs/adr with a passive 'when present' idiom"
+[ "$passive" = 0 ]; check $? "no SKILL.md/command/reference reads docs/adr with a passive 'when present' idiom"
 
 # --- no personal emails (GitHub addresses only) ------------------------------
 # Convention: people (stakeholders, sign-off, approvers, authors) are identified by name or

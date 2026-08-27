@@ -48,7 +48,7 @@ This is the decision that changes what gets written. Once a diagram has earned i
 pick the medium by one predicate — **does the destination render a fenced mermaid block?**
 
 - **It renders markdown** — a spec under `.engineering/<run>/spec/`, an ADR under
-  `docs/adr/`, a plan, `CONTEXT.md`, a pull-request description, a GitHub issue or comment:
+  `docs/adr/`, a plan, a pull-request description, a GitHub issue or comment:
   use **mermaid**, in a ` ```mermaid ` fenced block. The destination draws it; ASCII there
   would be a worse picture of the same thing. Keep the mermaid **GitHub-compatible** —
   these destinations are where GitHub's own renderer draws it, and it pins an older mermaid
@@ -103,8 +103,7 @@ When the destination is a Tier-1 spec, the shape decides the section:
   the approach being chosen.
 - a **process-flow diagram** goes in §6 Approach, beside the prose that describes it.
 
-Two neighbours own the pieces a diagram doesn't: the entity *names* a diagram introduces
-belong in `CONTEXT.md` (via `domain-modeling`), and if the shape was a real decision with
+The neighbour owns the piece a diagram doesn't: if the shape was a real decision with
 alternatives, the *why* belongs in an ADR — the spec carries the picture, the ADR carries
 the argument, and §7 cites the ADR number.
 
@@ -120,10 +119,10 @@ genuinely unknown, say so in prose and leave it undrawn.
 
 - It does not **decide what to build or design.** The approach a process flow pictures was
   argued out in `brainstorming`; the boundary an ER model reflects was shaped in
-  `codebase-design` or `domain-modeling`. This skill draws a decision already made; it does
+  `codebase-design`. This skill draws a decision already made; it does
   not make it.
 - It does not **write the document.** `to-spec` owns the spec, `recording-adrs` owns the
-  ADR, `domain-modeling` owns `CONTEXT.md`, `writing-plans` owns the plan. This skill supplies
+  ADR, `writing-plans` owns the plan. This skill supplies
   a diagram for one of them to hold; it does not author the surrounding document or choose its
   home beyond the section guidance above.
 - It does not **draw decoration.** A diagram that restates the prose beside it fails the

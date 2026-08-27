@@ -77,14 +77,6 @@ starting point. The template only structures the loop — ask, observe, record, 
 to narrow further or stop. What each prompt asks, what "pinned down" means for this failure,
 and what gets logged at each pass are yours to fill in once it's copied.
 
-## Reading the substrate
-
-`CONTEXT.md`, at the project root, is the glossary to consult for names, subsystems, and known
-trouble spots the project has documented — a component with a history of this failure, a term
-already in use for where the bug lives. Consult it actively when narrowing; a project that
-hasn't accumulated one gives nothing back, and most diagnoses run from the reproduction and
-the code around it.
-
 ## Boundary: diagnosing-bugs finds why, triage decides what
 
 A bug report reaches this skill only after triage — which decides whether a report is real,

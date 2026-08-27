@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "[Build] Review a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Consults CONTEXT.md and the ADR trail for conventions and settled decisions."
+description: "[Build] Review a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Consults the ADR trail for settled decisions."
 ---
 
 # Code Review
@@ -75,12 +75,11 @@ empty — is this skill's job, not something pushed downstream.
 
 ## Reading the substrate
 
-`CONTEXT.md` and the ADR trail sharpen the Standards axis: a convention, boundary, or
+The ADR trail sharpens the Standards axis: a convention, boundary, or
 settled tradeoff the change is accountable to, not background color. Actively consult
-them — resolve names from `CONTEXT.md`, surface governing decisions with
-`engineering:using-adrs` (which skips superseded rows) — and hold the change to what they
-settle. A project that has accumulated neither yields nothing to hold it to, which is a
-clean result, not a gap.
+it — surface governing decisions with `engineering:using-adrs` (which skips superseded
+rows) — and hold the change to what it settles. A project that has accumulated no ADR trail
+yields nothing to hold it to, which is a clean result, not a gap.
 
 ## Convention detection in the diff (additive)
 
