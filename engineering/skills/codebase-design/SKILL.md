@@ -113,9 +113,9 @@ flooding.
 - It does not **decide what to build.** Whether a feature is worth building, and which
   approach it takes, is settled in `brainstorming`; this skill does not weigh in on product
   direction. It starts once an approach has named a boundary that needs shaping — a module
-  new or existing — which is often the moment `brainstorming` invokes it, on a module still
-  to be built, before the spec is written. A boundary to shape, not a module already sitting
-  in the tree, is what this skill needs to begin.
+  new or existing, one that nothing may have built yet — before the spec is written. A
+  boundary to shape, not a module already sitting in the tree, is what this skill needs to
+  begin.
 - It does not **implement.** Sketching interface shapes and choosing between them is not
   writing the module. Once a shape is chosen, building it is ordinary implementation work,
   outside this skill.
