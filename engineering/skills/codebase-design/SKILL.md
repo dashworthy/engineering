@@ -1,6 +1,6 @@
 ---
 name: codebase-design
-description: "[Design] Shape module interfaces so complexity hides behind narrow, deep boundaries. Use when defining a module's interface or judging whether a boundary earns its keep. Not approach design (brainstorming)."
+description: "Shape module interfaces so complexity hides behind narrow, deep boundaries. Use when defining a module's interface or judging whether a boundary earns its keep. Not approach design (brainstorming)."
 ---
 
 # Codebase Design

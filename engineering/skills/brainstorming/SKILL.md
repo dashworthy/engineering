@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "[Design] Shape a piece of work into a recommended design: explore context, propose 2-3 approaches with trade-offs, recommend one. Use after signal or triage, before to-spec. Weighs approach; does not interrogate requirements (signal) or design module internals (codebase-design)."
+description: "Shape a piece of work into a recommended design: explore context, propose 2-3 approaches with trade-offs, recommend one. Use after signal or triage, before to-spec. Weighs approach; does not interrogate requirements (signal) or design module internals (codebase-design)."
 ---
 
 # Brainstorming
@@ -101,8 +101,7 @@ output is a recommended design, ready to serialize.
 When the design turns on a decision with genuine live alternatives, offer to record it as an
 ADR via `engineering:recording-adrs`, written `Proposed` (it flips to `Accepted` when the spec
 carrying it clears the spec gate). The bar is real live alternatives — a design with one
-reasonable shape was never a decision — and the developer may decline; declining is what keeps
-ADR intake from flooding.
+reasonable shape was never a decision — and the developer may decline.
 
 ## No gate here — approval is the spec gate
 
@@ -127,16 +126,13 @@ duplicate it. Hand off the design and stop.
 - It does not **shape interfaces itself.** Designing a module's interface — narrow versus
   leaky, one boundary at a time — is `codebase-design`'s work, not this skill's; this skill
   weighs how to build at the level of approach, not a single interface's method signatures.
-  What it does do, when the recommended approach turns on a boundary, is *invoke*
-  `codebase-design` during the design dialogue (see above) rather than leave the interface
-  for later — so the shaped interface rides into the spec's §6 and is approved at the spec
-  gate. It delegates the shaping to the skill that owns it; it does not do it.
+  When the approach turns on a boundary it *invokes* `codebase-design` (see above) rather
+  than shaping the interface itself.
 - It does not **write the spec.** Serializing the recommended design into the standard
   document is `to-spec`'s one job. This skill produces the recommendation; `to-spec`
   produces the record of it and holds the gate on it.
 - It does not **plan or build.** Nothing past the recommendation is this skill's to
-  touch, including sketching what a plan for the design might look like — and it does not
-  gate: approval is the spec gate's, downstream in `to-spec`.
+  touch, including sketching what a plan for the design might look like.
 - It is not always required. A triage quick fix with one obvious fix and nothing
   genuinely competing for the choice can go straight from `triage` to the fix itself,
   skipping this skill. But a quick fix with two live options for how to do it belongs

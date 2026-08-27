@@ -20,19 +20,12 @@ first-class, defined once here and applied by the skills that own each artifact.
    read the index, match the work at hand against the **When relevant** column, and act on
    what it finds — not a passive "read this if it happens to exist."
 
-## The two consumption profiles
+## The consumption profile
 
-How a consumer uses the artifact depends on whether the artifact is a historical trail or a
-living current-state view. Every application declares which profile it follows.
-
-- **Trail.** Append-only and historical: entries are added and superseded but never
-  rewritten, so the record of *what was decided when* survives. The consumer **cites the
-  governing entry by path at the work item**, the way `using-code-conventions` cites a rule,
-  and skips entries marked superseded. ADRs follow the trail profile.
-- **Lookup.** Living and mutable: the artifact always reflects current reality, edited in
-  place as reality changes. An artifact consulted this way — the consumer **resolves the
-  current meaning** from it rather than citing a point-in-time entry — follows the lookup
-  profile.
+Every consuming application follows the **trail** profile: the artifact is append-only and
+historical — entries are added and superseded but never rewritten, so the record of *what was
+decided when* survives. The consumer **cites the governing entry by path at the work item**, the
+way `using-code-conventions` cites a rule, and skips entries marked superseded. ADRs follow it.
 
 ## Applications
 

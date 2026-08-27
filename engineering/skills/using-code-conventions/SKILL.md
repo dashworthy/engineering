@@ -1,16 +1,15 @@
 ---
 name: using-code-conventions
-description: "[Build] Put recorded code conventions to work: read the standards index and cite the governing convention file inline at the work item in a spec or plan. Use when a spec or plan describes a work item a recorded convention governs. Reads docs/standards/; does not discover conventions (identifying-code-conventions) or write them (recording-code-conventions)."
+description: "Put recorded code conventions to work: read the standards index and cite the governing convention file inline at the work item in a spec or plan. Use when a spec or plan describes a work item a recorded convention governs. Reads docs/standards/; does not discover conventions (identifying-code-conventions) or write them (recording-code-conventions)."
 ---
 
 # Using Code Conventions
 
 Say this first, plainly: `Using the using-code-conventions skill to cite the governing conventions.`
 
-This is the consuming half of the code-convention application of the first-class-artifact
-doctrine — [../recording-adrs/references/first-class-artifact.md](../recording-adrs/references/first-class-artifact.md).
-Conventions follow the **trail** profile: a convention is cited by path at the work item, not
-resolved as living current-state. It is the convention analogue of `using-adrs`.
+The consuming half of the code-convention application of the first-class-artifact doctrine —
+[../recording-adrs/references/first-class-artifact.md](../recording-adrs/references/first-class-artifact.md).
+Conventions follow the **trail** profile.
 
 ## What this guarantees
 

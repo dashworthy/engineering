@@ -20,8 +20,8 @@ Each candidate is presented with its **Rule**, its **What it is** and **What it 
 boundaries (already pinned by the hardening interrogation), and its provenance. Put the verdict
 to the approver through the `AskUserQuestion` tool — one candidate per question, the three
 verdicts below as its options, so the choice is selected rather than typed and the turn stops
-until it is answered. A verdict offered as prose invites the blanket "yes" this gate exists to
-prevent; the tool is what makes silence a non-answer instead of a default. In a headless run
+until it is answered. A verdict offered as prose invites the same blanket "yes"; the tool is
+what makes silence a non-answer instead of a default. In a headless run
 where the tool cannot prompt, fall back to the same three verdicts as a plain question and take
 no answer as given:
 

@@ -1,6 +1,6 @@
 ---
 name: verifying-test-integrity
-description: "[Test hardening] A dispatched test-hardening beat that reviews newly written tests — rules whether each actually tests what it claims, using a defect taxonomy plus mechanical isolation and collection checks."
+description: "A dispatched test-hardening beat that reviews newly written tests — rules whether each actually tests what it claims, using a defect taxonomy plus mechanical isolation and collection checks."
 ---
 
 # Verifying Test Integrity
@@ -135,15 +135,6 @@ writes them back onto the brief item as `prior_defect` and `prior_defect_locatio
 ## Red flags — STOP
 
 - Passing a test because the suite is green.
-- Reasoning about isolation or collection instead of running the checks.
-- Editing a test to fix a defect you found.
-- A verdict with no defect name, line, or evidence.
-- Ruling `valid` without reading the brief item it claims.
-- Reviewing only the tests, never the code under test.
-- Calling a test `valid` because it's well-written, without checking `test_intent` for drift.
-- Calling a drifted test `weak` instead of `invalid` because it's well built.
-- Marking a test `unevaluated` because judgment is merely difficult, not because it's
-  structurally impossible.
-- Ruling `valid` after `suite_commands.test_filter` was unavailable, without stating that the
-  isolation check was not performed.
-- Guessing at false green from the assertion's shape instead of tracing act to assert.
+- Reasoning about isolation or collection instead of running the mechanical checks.
+- Letting a well-written test earn `valid` or `weak` without checking `test_intent` — brief
+  drift is always `invalid`.

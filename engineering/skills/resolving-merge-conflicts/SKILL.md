@@ -17,8 +17,7 @@ text was easier to keep.
 
 ## Read both sides' intent before editing
 
-Git hands you marker text — `<<<<<<<`, `=======`, `>>>>>>>` — and marker text describes only
-where two changes collided, not why either one was made. Editing straight from the markers
+Conflict markers describe only where two changes collided, not why either one was made. Editing straight from the markers
 answers a different, easier question than the one actually in front of you: which lines look
 less wrong, rather than what each side was for. Before touching a single line inside a
 conflict, find out what each side was doing — the commit(s) that touched this hunk on both

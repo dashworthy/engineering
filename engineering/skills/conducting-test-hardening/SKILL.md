@@ -1,6 +1,6 @@
 ---
 name: conducting-test-hardening
-description: "[Test hardening] Use when implementation work is finished and about to be handed off — before a pull request, merge, or declaring work complete. Also when tests pass but nobody checked they would fail if behavior broke, or when tempted to skip testing because the change felt small or time was short."
+description: "Use when implementation work is finished and about to be handed off — before a pull request, merge, or declaring work complete. Also when tests pass but nobody checked they would fail if behavior broke, or when tempted to skip testing because the change felt small or time was short."
 ---
 
 # Conducting Test Hardening
@@ -31,9 +31,12 @@ iteration 1.
 Three named skills get dispatched by name over a run: `auditing-test-gaps`,
 `writing-tests-from-brief`, `verifying-test-integrity`. Two more dispatches follow a **reference
 document** instead of a skill name, because the work belongs out of the conductor's context but
-isn't its own reusable skill: hand a subagent `references/detecting-the-stack.md` for stack
-detection, or `references/measuring-reports.md` for turning a report into numbers, as its
-complete brief, and take back only what that document's return format specifies.
+isn't its own reusable skill: hand a subagent `detecting-the-stack.md` for stack detection, or
+`measuring-reports.md` for turning a report into numbers, as its complete brief, and take back
+only what that document's return format specifies. Both live under
+`${CLAUDE_PLUGIN_ROOT}/skills/conducting-test-hardening/references/`; hand the subagent that
+**absolute** path — a bare `references/…` will not resolve from the subagent's own working
+directory.
 
 The one exception to "never read a diff" is mechanical, not analytical: when reconciliation
 halts, it surfaces the touched paths and their diff to the *user* as evidence. The conductor
@@ -56,7 +59,8 @@ instead. This run's briefs live at `.engineering/<run>/test-hardening/briefs/<n>
    fails (no remote, or it isn't set), probe local branches named `main`, `master`, then `trunk`
    in that order. Whichever way it's inferred, **confirm it with the user** before using it —
    don't run a diff against a guessed baseline just because the guess was confident.
-2. **Detect the stack.** Dispatch a subagent with `references/detecting-the-stack.md` as its
+2. **Detect the stack.** Dispatch a subagent with the absolute
+   `${CLAUDE_PLUGIN_ROOT}/skills/conducting-test-hardening/references/detecting-the-stack.md` as its
    full brief. It returns candidate suites with their commands, paths, tracks, and an evidence
    trail — never a raw tree listing. **When it cannot infer a command, or the tree has no
    manifest, CI file, or runner config at all, ask the user directly** — for exactly the fields
@@ -70,10 +74,8 @@ instead. This run's briefs live at `.engineering/<run>/test-hardening/briefs/<n>
    suite by the paths confirmed in step 2; a file matching no suite's application paths becomes
    an ownership finding for iteration 1's brief rather than being silently dropped or guessed at.
 
-   Reconciliation takes its own snapshot immediately before each write phase — see the loop's
-   Write step. Do not take one here: a snapshot from this point would predate the suite runs in
-   steps 5 and 6, whose coverage files, caches and reports would then read as unexplained new
-   paths at the first reconcile.
+   Do not take a reconciliation snapshot here — it is taken per-iteration at the Write step
+   (see there for why steps 5 and 6's artifacts must already be inside it).
 4. **Stop if nothing participates.** If no suite owns a changed file, say so plainly and stop —
    there is nothing to harden.
 5. **Require a green suite.** Run each participating suite's test command. State why explicitly:
@@ -83,7 +85,8 @@ instead. This run's briefs live at `.engineering/<run>/test-hardening/briefs/<n>
    doubles as validating the commands step 2 produced; a command that errors out entirely (not
    merely red) means detection got it wrong, and the fix is to ask the user for the right one,
    not to guess a variant.
-6. **Measure the baseline.** Dispatch a subagent with `references/measuring-reports.md` as its
+6. **Measure the baseline.** Dispatch a subagent with the absolute
+   `${CLAUDE_PLUGIN_ROOT}/skills/conducting-test-hardening/references/measuring-reports.md` as its
    brief, once per participating suite, to capture coverage (and mutation, where that track is
    enabled) before any test is written. Without a baseline, "no improvement" has nothing to
    compare against. A suite with no coverage or mutation command at all simply has nothing to
@@ -218,7 +221,8 @@ Repeat the following per iteration until an exit condition is reached.
   coverage command, then the mutation command where that track is enabled. If a mutation run
   stalls or the environment kills it before it finishes, skip that suite's mutation gate for
   this iteration and record it rather than either stalling the loop or silently counting it as a
-  pass. Dispatch a subagent with `references/measuring-reports.md` per suite to turn the raw
+  pass. Dispatch a subagent with the absolute
+  `${CLAUDE_PLUGIN_ROOT}/skills/conducting-test-hardening/references/measuring-reports.md` per suite to turn the raw
   reports into numbers. Keep every suite's numbers separate; never blend them into one figure.
 - **Decide.** Evaluate the exit table below against this iteration's numbers.
 
@@ -249,11 +253,11 @@ step at the end of the iteration — see the loop's Audit-only exit.
 Thresholds are evaluated **per suite, never blended** — a strong suite cannot cover for a weak
 one, and a run cannot report `pass` on an average.
 
-**Thresholds that cannot be measured.** If a coverage or mutation command doesn't exist, or its
-report won't parse, say so plainly and do not gate that suite on it — a run that reports success
-while measuring nothing is the false green this whole tool exists to prevent. A `pass` reached
-this way must name, explicitly, every suite and metric that was excluded from gating rather than
-folding silently into "every participating suite passed."
+**Thresholds that cannot be measured.** When a threshold disables (per the table above), say so
+plainly and do not gate that suite on it. A `pass` reached this way must name, explicitly, every
+suite and metric excluded from gating rather than folding silently into "every participating
+suite passed" — measuring nothing while reporting success is the false green this whole tool
+exists to prevent.
 
 **A missing tool is not an unmeasurable threshold.** *No coverage command* is a fact about the
 project — disable that gate and report it. But *a report that exists and cannot be read for want

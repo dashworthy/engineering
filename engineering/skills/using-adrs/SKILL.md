@@ -1,16 +1,15 @@
 ---
 name: using-adrs
-description: "[Build] Put recorded architecture decisions to work: read docs/adr/index.md, match each work item against the When-relevant column, and cite the governing ADR by path at the item. Use when a spec or plan describes a work item a recorded decision governs. Reads docs/adr/; does not record decisions (recording-adrs)."
+description: "Put recorded architecture decisions to work: read docs/adr/index.md, match each work item against the When-relevant column, and cite the governing ADR by path at the item. Use when a spec or plan describes a work item a recorded decision governs. Reads docs/adr/; does not record decisions (recording-adrs)."
 ---
 
 # Using ADRs
 
 Say this first, plainly: `Using the using-adrs skill to cite the governing decisions.`
 
-This is the consuming half of the ADR application of the first-class-artifact doctrine —
+The consuming half of the ADR application of the first-class-artifact doctrine —
 [../recording-adrs/references/first-class-artifact.md](../recording-adrs/references/first-class-artifact.md).
-ADRs follow the **trail** profile: a decision is cited by path at the work item, not resolved
-as living current-state. It is the ADR analogue of `using-code-conventions`.
+ADRs follow the **trail** profile.
 
 ## What this guarantees
 

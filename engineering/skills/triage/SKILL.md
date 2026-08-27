@@ -1,6 +1,6 @@
 ---
 name: triage
-description: "[Triage] Problem-isolation entrance for a reported defect: verify it reproduces, isolate the cause only as far as routing needs, then take the smallest next step. User-invoked via /triage; file-based, no tracker."
+description: "Problem-isolation entrance for a reported defect: verify it reproduces, isolate the cause only as far as routing needs, then take the smallest next step. User-invoked via /triage; file-based, no tracker."
 ---
 
 # Triage
@@ -46,78 +46,42 @@ one already learned.
 
 ## Verify and reproduce, before anything else
 
-A report is a claim, not yet a fact. Before isolating anything, before touching any
-route, find out which of three things is actually true:
-
-- **Confirmed** — you made the failure happen, on a path you can point to. Write down the
-  steps and the failing path; everything downstream reasons from this, not from the
-  report's original wording.
-- **Not reproducible** — you tried, following the report as given, and nothing failed.
-  This is not automatically "closed": the report might be stale, the environment might
-  differ, or the steps might be incomplete. It is also not "confirmed." Say what you
-  tried and what happened, and let the route reflect the actual uncertainty rather than
-  rounding it either direction.
-- **Under-specified** — there isn't enough here to try. No steps, no expected-versus-
-  actual, no way to tell what "wrong" would even look like.
-
-Acting before you know which of the three you have wastes the isolation that follows on the
-wrong thing, and the few minutes it takes is smaller than that waste.
+A report is a claim, not yet a fact. Before isolating anything, before touching any route,
+establish which of three things is true — **Confirmed**, **Not reproducible**, or
+**Under-specified** — and write it down; `references/isolation-checklist.md` §1 has the
+mechanics and what keeps the three from rounding into each other. Acting before you know which
+you have wastes the isolation that follows on the wrong thing, and the few minutes it takes is
+smaller than that waste.
 
 ## Isolate — only as far as routing needs
 
 Triage is not diagnosis: it needs enough to place the problem at a domain concept and pick a
 route with confidence, and no more than that.
 
-Work through `references/isolation-checklist.md` for the mechanics. In outline:
-
-1. **Bisect by domain concept**, not by line number. Consult the ADR trail
-   (via `engineering:using-adrs`) for the names and boundaries already in use; where the
-   project keeps none, use the names from the report and the code.
-   "The retry logic in the sync worker drops the second failure" is isolation enough to
-   route on; finding the exact conditional that drops it is `diagnosing-bugs`' job, one
-   step further than triage goes.
-2. **Check for redundancy.** Read the code the report points at before assuming it's
-   still broken — behavior changing out from under a report is common enough to check for
-   first. If it's already fixed, that is the routing answer by itself: record the
-   disposition and stop. Nothing downstream needs to run against something that isn't
-   broken anymore.
-3. **Check for prior rejection**, lightly. If this exact ask was already raised and
-   turned down — a spec that considered it and rejected it, an earlier run that closed it
-   as out of scope — say so and route on that decision instead of re-opening something
-   nobody asked to revisit. This is a quick look at what the project's own history holds,
-   not a new investigation.
+Work through `references/isolation-checklist.md` for the mechanics — in outline, three checks:
+**bisect by domain concept** (not by line number; consult the ADR trail via
+`engineering:using-adrs` for the names already in use), **check for redundancy** (the reported
+behavior may have changed out from under the report — if it's already fixed, that is the routing
+answer), and **check for prior rejection** (a spec or earlier run that already turned this exact
+ask down routes on that decision). Placing the problem at a domain concept is isolation enough;
+finding the exact conditional is `diagnosing-bugs`' job, one step further than triage goes.
 
 ## Route — the smallest next step
 
-Once verification and isolation are done, `references/spec-decision.md` is the table:
-given what was found, which route fits, and whether that route needs a spec written
-before anyone builds against it. Read it before routing rather than reasoning the
-mapping out fresh each time — it exists so the same shape of problem lands in the same
-place every time triage sees it.
+Once verification and isolation are done, `references/spec-decision.md` is the table: given
+what was found, which of four routes fits, and whether it needs a spec written before anyone
+builds against it. Read it before routing rather than reasoning the mapping out fresh each time —
+it exists so the same shape of problem lands in the same place every time triage sees it.
 
-In outline, the four destinations:
+Two things the table can't carry on its own:
 
-- **Quick fix** — cause is obvious, the change is small and localized, risk is low. Hand
-  off to `diagnosing-bugs` directly; there's no design decision here worth a spec.
-- **Under-specified, or a feature request wearing a bug report's clothes** — the report
-  lacks the requirements to act on. Triage runs a **discovery leg of its own**: invoke the
-  shared discovery primitive `engineering:interrogating-requirements` (it self-drives the
-  interrogation and writes the requirements — brief.md §1–§6 — into
-  this run's `triage/` directory), then hand to `brainstorming`, the design dialogue both
-  entrances converge on. This is **not** a hand-off to `signal`: triage never invokes the
-  other entrance, it composes the same interrogation primitive signal does. Triage's leg
-  stops at the requirements and lets `brainstorming` → `to-spec` → `writing-plans` order and
-  spec the work downstream. Approval
-  comes downstream — the spec gate in `to-spec` — not here.
-- **A real fix, but not a small one** — several call sites, a design choice, something
-  risky or cross-cutting, work that needs sequencing, or work headed for an AFK agent to
-  build unattended. Hand off straight to `brainstorming` — the shared design dialogue —
-  then `to-spec`, then `writing-plans`. (This route needs no interrogation: the requirements
-  are already clear enough from the isolated defect; what's missing is the fix approach,
-  which is `brainstorming`'s to settle. Approval comes downstream — at the spec gate in
-  `to-spec` and the plan gate in `writing-plans` — not in `brainstorming`.)
-- **Not reproducible, already fixed, or out of scope** — nothing to hand off. Record the
-  disposition and the reason in `.engineering/<run>/triage/`, and stop there.
+- The under-specified route is **triage's own discovery leg** — invoke the shared discovery
+  primitive `engineering:interrogating-requirements` (it self-drives the interrogation and
+  writes the requirements, brief.md §1–§6, into this run's `triage/` directory), then hand to
+  `brainstorming`, the design dialogue both entrances converge on. This is **not** a hand-off to
+  `signal` — triage never invokes the other entrance.
+- Approval is never here. Every route that builds carries its approval downstream — the spec
+  gate in `to-spec`, the plan gate in `writing-plans` — not in triage and not in `brainstorming`.
 
 ## What this does not do
 
@@ -129,7 +93,8 @@ In outline, the four destinations:
 - It does not **own a private interrogator.** The under-specified leg drives the shared
   `engineering:interrogating-requirements` primitive — the same one signal uses — rather
   than a triage-local copy, so the extraction logic lives in one place and cannot drift.
-  Triage conducts the leg; it does not reimplement the interrogation.- It does not **write specs.** `to-spec` is the plugin's only writer of Tier-1 specs;
+  Triage conducts the leg; it does not reimplement the interrogation.
+- It does not **write specs.** `to-spec` is the plugin's only writer of Tier-1 specs;
   triage hands it material and never drafts one itself.
 - It does not **keep any record outside the run directory.** No board, no queue, no
   external system — everything is a file under `.engineering/<run>/triage/`, and nowhere

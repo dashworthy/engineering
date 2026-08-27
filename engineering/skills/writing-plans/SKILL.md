@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: "[Planning] Turn an approved spec into an ordered, bite-sized implementation plan with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, mint the plan-approval marker. Use after a spec is approved and before building. Cites recorded conventions inline at each task via using-code-conventions."
+description: "Turn an approved spec into an ordered, bite-sized implementation plan with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, mint the plan-approval marker. Use after a spec is approved and before building. Cites recorded conventions inline at each task via using-code-conventions."
 ---
 
 # Writing Plans
@@ -81,9 +81,9 @@ relevant** column, and cites the governing convention file inline on the task it
 `(convention: docs/standards/<area>/<rule>.md)`. The citation travels with the task into
 `executing-plans`, so the subagent that builds it opens the rule before writing code rather than
 after `code-review` catches the violation. Cite the file by path, never a paraphrase, so the
-task always resolves to the current rule. A project with no standards tree gets no citations,
-the same way a project with no ADR trail yields none; this skill consults
-the tree but never writes it (recording is `recording-code-conventions`).
+task always resolves to the current rule. A project with no standards tree simply gets no
+citations; this skill consults the tree but never writes it (recording is
+`recording-code-conventions`).
 
 ## Consider a diagram for a task's shape
 
@@ -201,8 +201,6 @@ Before calling the plan finished, run a self-review pass over what was just writ
 - It does not **require an ADR.** It consults the trail actively and cites what
   it holds, but a project that never wrote one simply yields nothing to cite — this skill
   does not stall a plan waiting on documentation the project never wrote.
-- It does not **plan around a draft.** A spec whose status isn't Approved doesn't get
-  planned; it gets named as the reason nothing was written.
 
 ## The plan gate — present the plan, then hold for approval
 

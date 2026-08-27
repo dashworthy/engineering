@@ -52,7 +52,7 @@ For ASCII specifically:
   committing to a layout: one column off reads as broken, and a reader who stops trusting the
   drawing stops trusting the prose beside it.
 - **Stay under ~80 columns and ~15 boxes** — 72 columns inside a docblock, the budget in
-  `clarifying-docblocks`' `references/diagram-rules.md`. If the shape needs more, split it into
+  `references/diagram-rules.md`. If the shape needs more, split it into
   two diagrams at the natural seam and name the seam.
 
 ## ER diagram

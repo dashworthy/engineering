@@ -1,6 +1,6 @@
 ---
 name: recording-adrs
-description: "[Discovery] The single writer of a project's architecture decision records: at a decision point with live alternatives, write the ADR to docs/adr/, keep its index in sync, and carry the record through Proposed -> Accepted -> Superseded. Use when a decision with genuine alternatives is made, accepted, or reversed. Unlike recording-code-conventions it holds no approval gate — an ADR is a record, not a standing rule."
+description: "The single writer of a project's architecture decision records: at a decision point with live alternatives, write the ADR to docs/adr/, keep its index in sync, and carry the record through Proposed -> Accepted -> Superseded. Use when a decision with genuine alternatives is made, accepted, or reversed."
 ---
 
 # Recording ADRs

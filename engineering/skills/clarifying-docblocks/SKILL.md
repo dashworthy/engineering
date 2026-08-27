@@ -1,6 +1,6 @@
 ---
 name: clarifying-docblocks
-description: "[Docs] Rewrite a branch's docblock prose into plain language: prefilter to files carrying a docblock, rewrite in place, and prove only comment prose moved. Improves existing docblocks only; never writes @param/@return or any tag, never authors a docblock where none existed."
+description: "Rewrite a branch's docblock prose into plain language: prefilter to files carrying a docblock, rewrite in place, and prove only comment prose moved. Improves existing docblocks only; never writes @param/@return or any tag, never authors a docblock where none existed."
 ---
 
 # Clarifying Docblocks
@@ -151,30 +151,39 @@ wins. Announce which path the run took.
 
 ## Dispatch (large run only)
 
-Per surviving file, dispatch `rewriting-docblock-prose`:
+Group the surviving files into **batches** whose combined changed-line count stays within a
+budget (~1500 lines - the same figure as the small/large threshold above), and dispatch one
+`rewriting-docblock-prose` beat per batch. Batching amortises the beat's fixed cold-start
+(skill + references, read once) across every file in the batch instead of paying it per file:
 
 ```json
 {
-  "file":         "<absolute path in the working tree>",
-  "hunks":        [{"start": 104, "end": 131}],
-  "before_path":  "<absolute path to .engineering/<run>/vernacular/before/<path>>",
-  "receipt_path": "<absolute path to .engineering/<run>/vernacular/receipts/<slug>.json>",
+  "files": [
+    {
+      "file":         "<absolute path in the working tree>",
+      "hunks":        [{"start": 104, "end": 131}],
+      "before_path":  "<absolute path to .engineering/<run>/vernacular/before/<path>>",
+      "receipt_path": "<absolute path to .engineering/<run>/vernacular/receipts/<slug>.json>"
+    }
+  ],
   "skill_path":   "<absolute path to that skill's SKILL.md>",
   "gate_path":    "<absolute path to references/comprehension-gate.md>",
   "schema_path":  "<absolute path to references/receipt-schema.md>"
 }
 ```
 
-Rewrites are **pipelined per file** - file B does not wait on file A. The only barrier is
-reconcile, which needs every receipt.
+Batches are **pipelined** - batch B does not wait on batch A; within a batch the beat rewrites
+its files in turn. The only barrier is reconcile, which needs every receipt. A beat that dies
+takes its whole batch's rewrites with it, so keep a batch's combined line count modest - a
+failure is then cheap to re-dispatch. Receipts stay **per file**, so reconcile is unchanged.
 
 **Name every path.** A subagent cannot resolve a relative citation from a directory it was
 never told it is standing in: an instruction to cite "the shape `receipt-schema.md` defines,"
 handed to an agent never told where that document sits, resolves to nothing. `skill_path`
 appears for the same reason.
 
-Each rewriter returns one line: counts and a receipt path. **A returned description means the
-firewall has already failed** - halt and say so rather than using it.
+Each rewriter returns one line **per file**: counts and a receipt path. **A returned description
+means the firewall has already failed** - halt and say so rather than using it.
 
 ## Reconcile
 
@@ -208,9 +217,8 @@ Write `report.md` and tell the user, every run, four things:
 - **Skipped**, with the reason - including the files the prefilter dropped for carrying no
   docblock.
 
-The left-alone count is not decoration: it is the only evidence the user has that the gate is
-still discriminating rather than rubber-stamping, and a report omitting it makes a run that
-rewrote everything indistinguishable from one that judged carefully.
+The left-alone count is required, not decoration: it is the only evidence the gate is still
+discriminating rather than rubber-stamping (see `receipt-schema.md`).
 
 State the proof explicitly, pass or fail, and name which path the run took (inline or dispatched).
 An unavailable check that goes unmentioned reads exactly like a check that passed.

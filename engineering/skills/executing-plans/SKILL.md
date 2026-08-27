@@ -1,6 +1,6 @@
 ---
 name: executing-plans
-description: "[Planning] Execute an approved plan task by task — each driven through tdd, gated by code-review, and closed by conducting-test-hardening. Runs to completion with no human checkpoints. User-invoked via /implement."
+description: "Execute an approved plan task by task — each driven through tdd, gated by code-review, and closed by conducting-test-hardening. Runs to completion with no human checkpoints. User-invoked via /implement."
 ---
 
 # Executing Plans

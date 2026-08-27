@@ -145,17 +145,7 @@ carries the same `{path, covered, total}` shape as every other entry, just with 
 
 ## Red flags — STOP
 
-- Estimating a percentage from a summary line, a log, or stdout instead of the report file.
-- Leaving a `changed_files` entry out of `files` because it wasn't in the report.
-- Excluding a changed file from the percent calculation instead of scoring it zero.
-- Averaging per-file percentages instead of pooling the raw counts.
-- Including a file in `files` that isn't in `changed_files` — even one dilutes the number.
-- Returning report contents — snippets, raw XML/JSON, file bodies — instead of numbers.
-- Averaging or blending across suites; you were dispatched for exactly one.
-- Returning a non-null `percent` alongside a `parse_status` that isn't `ok`.
-- Returning a mutation dispatch with a score but no `survivors` list.
-- Emitting a survivor's location as a bare line number instead of `file:line`.
-- Recording an absent file as `total: 0` — that makes it a `0/0` no-op instead of a zero that
-  actually drags the percentage down.
-- Requiring every `changed_files` entry to appear in `files` even on a parse failure, instead of
-  scoping that check to `percent` non-null.
+- Estimating a percentage from a summary line, a log, or stdout instead of reading the report file.
+- Averaging per-file percentages instead of pooling the raw counts (`sum(covered)/sum(total)`).
+- Dropping a `changed_files` entry that's absent from the report, or excluding it from the
+  calculation, instead of scoring it zero coverage.

@@ -1,6 +1,6 @@
 ---
 name: identifying-code-conventions
-description: "[Discovery] Surface candidate code conventions two ways — infer from repeated code (with file:line evidence) and capture what the developer already holds — then hand approved ones to recording-code-conventions. Use when onboarding a codebase to its conventions. Finds candidates only; never writes (recording-code-conventions) or applies them (using-code-conventions)."
+description: "Surface candidate code conventions two ways — infer from repeated code (with file:line evidence) and capture what the developer already holds — then hand each rough candidate to recording-code-conventions. Use when onboarding a codebase to its conventions. Finds candidates only; never writes or applies them (that is recording-code-conventions / using-code-conventions)."
 ---
 
 # Identifying Code Conventions
@@ -11,9 +11,8 @@ Say this first, plainly: `Using the identifying-code-conventions skill to surfac
 
 **Inference from code.** Read the codebase for **observed repetition** — the same structural
 choice made the same way across several places — and propose it as a candidate, always with
-the **file:line** evidence that shows it is real and not imagined. The evidence is not
-decoration: it is what lets the approver judge whether the pattern is a deliberate standard or
-an accident of history, and it becomes the candidate's `Source` provenance if approved.
+the **file:line** evidence that shows it is real and not imagined, and that becomes the
+candidate's `Source` provenance if approved.
 
 **Capture from the developer.** Not every convention is visible in code yet — some are rules
 the developer **already holds** in their head and has simply never written down ("we always
@@ -44,11 +43,9 @@ approver to rubber-stamp, the very failure the individual gate exists to prevent
 ## Every candidate, individually, to recording
 
 However a candidate surfaced, **hand each one individually — one at a time, never a batch** —
-to `recording-code-conventions`, the single writer, still rough. Recording is where the funnel
-every path shares actually runs: the hardening interrogation that pins is / is-not / robustness,
-and the individual approval gate (the shared
-`../recording-code-conventions/references/approval-gate.md`) with its conflict check, both run
-inside recording **before** it writes.
+to `recording-code-conventions`, the single writer, still rough — the hardening interrogation
+that pins is / is-not / robustness and the individual approval gate both run inside recording,
+**before** it writes.
 
 ## What this does not do
 

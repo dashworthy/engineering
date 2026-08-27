@@ -1,6 +1,6 @@
 ---
 name: recording-code-conventions
-description: "[Discovery] The single writer for a project's code conventions: interrogate a candidate into a sharp rule, gate it on the approver's yes, write it to docs/standards/, and keep the index in sync. Use when a convention is created, amended, or retired. Does not discover candidates (identifying-code-conventions) or consume them (using-code-conventions)."
+description: "The single writer for a project's code conventions: interrogate a candidate into a sharp rule, gate it on the approver's yes, write it to docs/standards/, and keep the index in sync. Use when a convention is created, amended, or retired. Does not discover candidates (identifying-code-conventions) or consume them (using-code-conventions)."
 ---
 
 # Recording Code Conventions
@@ -46,8 +46,7 @@ Once approved, write the convention document under `docs/standards/<topic>/` fol
 `STANDARDS-FORMAT.md`, in this directory — the Rule, the mandatory What-it-is / What-it-is-not
 boundaries, and the who / when / source / lifecycle provenance block. In the **same change**,
 add or update the convention's row in `docs/standards/index.md` — the eight columns of
-`STANDARDS-FORMAT.md`. A document written without its index row, or a row that disagrees with
-its document, is the drift the format warns against; the two move together or not at all.
+`STANDARDS-FORMAT.md`.
 
 ## Amend and retire
 

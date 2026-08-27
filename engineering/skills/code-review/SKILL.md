@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "[Build] Review a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Consults the ADR trail for settled decisions."
+description: "Review a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Consults the ADR trail for settled decisions."
 ---
 
 # Code Review
@@ -57,10 +57,9 @@ partway through — a single pass that tries to hold "is this good code" and "is
 right code" in mind at once tends to let the louder question crowd out the quieter one.
 
 **There is a floor, though.** On a small diff — a single file, roughly twenty changed lines or
-fewer, one hunk — there is no louder question to drown out a quieter one, and two subagent
-spin-ups plus a reconcile cost more than the review itself does. Below that floor, look at both
-axes yourself inline and skip the fan-out; both still get their full review, just in one pass.
-Above it, the crowd-out risk is real:
+fewer, one hunk — two subagent spin-ups plus a reconcile cost more than the review itself does.
+Below that floor, look at both axes yourself inline and skip the fan-out; both still get their
+full review, just in one pass. Above it, fan out:
 
 Dispatch at least one sub-reviewer per axis, in parallel, following `dispatching-parallel-agents`
 for how the fan-out and the return are structured — that skill owns the mechanics; this skill
@@ -104,17 +103,19 @@ conventions to bear on the change, two ways:
 
 Both halves act only on what the diff touches. Neither writes the standards tree — only
 `recording-code-conventions` does that, through the gate. The harvest's interactive handoff
-happens **after** the review reconciles: candidates are surfaced in the reconciled report and
-handed off then, not from inside a sub-reviewer, which only returns findings.
+happens only when this skill runs **interactively**; when it runs dispatched or under an
+automated gate (e.g. `executing-plans`), candidates and ADR-worthy decisions are surfaced as
+items in the returned report for the caller to action — never as an inline approval gate.
 
 ## Offer to record a decision the diff embodies as an ADR
 
 When the review surfaces a decision the diff makes that had genuine live alternatives — a
 choice worth recording so a later reader doesn't re-litigate it — offer to record it as an ADR
 via `engineering:recording-adrs`, written `Proposed`. This is additive, like the convention
-harvest above, and runs after the review reconciles. The bar is real live alternatives, not
-every implementation detail, and the developer may decline; declining is what keeps ADR intake
-from flooding.
+harvest above, and follows the same interactive-only rule — offered inline only when this skill
+runs interactively, surfaced as a report item when it runs dispatched or automated. The bar is
+real live alternatives, not every implementation detail, and the developer may decline;
+declining is what keeps ADR intake from flooding.
 
 ## What this does not do
 
