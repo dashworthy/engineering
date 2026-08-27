@@ -1,6 +1,6 @@
 # Audit checks
 
-Detection cues and fix shapes for the five dimensions. Each entry: what it looks like on the page,
+Detection cues and fix shapes for the six dimensions. Each entry: what it looks like on the page,
 how to confirm it, and the fix to propose.
 
 - [Anti-patterns](#anti-patterns)
@@ -8,6 +8,7 @@ how to confirm it, and the fix to propose.
 - [Confusing logic](#confusing-logic)
 - [Cross-skill duplication](#cross-skill-duplication)
 - [Subagent economics](#subagent-economics)
+- [Dead skills](#dead-skills)
 
 ## Anti-patterns
 
@@ -101,3 +102,44 @@ the break-even test are in [subagent-economics.md](subagent-economics.md). In sh
 **Fix shapes:** inline the work; pass the discovered context into the dispatch instead of re-running
 it per subagent; slim the dispatch prompt to the one instruction the subagent needs; batch many
 small items into one subagent, or across subagents only when parallelism collapses real wall-clock.
+
+## Dead skills
+
+A dead skill is one the selection never picks and nothing dispatches — its always-loaded
+`description` costs tokens on every turn and returns nothing. This is a whole-skill judgment, one
+altitude above the other five dimensions: make it once per skill, across the plugin.
+
+Tells:
+
+- **Unreachable description.** The `description` names no case a real task in the plugin's domain
+  would contain, or every case it names a sibling's description also names and states more sharply —
+  so the sibling always wins and this one never loads. (Where both descriptions still earn a place,
+  that is a duplication collision to sharpen, not a dead skill.)
+- **No inbound reference.** Grep the plugin — `plugin.json`, `commands/`, `README.md`, every sibling
+  `SKILL.md` and reference — for the skill's name. A callee dispatched by a conductor is reached only
+  by a caller naming it (a *forward* reference); zero inbound references means nothing routes work
+  here. A skill discovered purely by its `description` is exempt from this tell — it needs a
+  reachable description, not an inbound link.
+- **Subsumed capability.** Everything the skill does, a sibling already does; there is no task for
+  which this skill is the better choice.
+- **Orphaned by a change.** A rename or split left the skill behind — superseded by its replacement,
+  still on disk.
+
+Confirm before proposing a fate: name a concrete task the skill is the best choice for. If you
+can't — none its description would win, none a caller routes to it — it is dead.
+
+**Fix shapes** — a dead skill's fix is its fate, not a reword. Put the three to the user through
+`AskUserQuestion` (the propose step in `SKILL.md` covers the question shape):
+
+- **Wire it in.** The skill is worth keeping but can't be reached. Repair discovery: sharpen the
+  `description` and its trigger terms, rename to the activity it supports, or add the missing forward
+  reference from the caller, command, or `plugin.json` that should route to it. Keeps the skill; fixes
+  why nothing found it.
+- **Fold into a sibling.** Its unique content is small and a sibling is where a task would look. Merge
+  that content into the sibling, extend the sibling's `description` to carry the folded triggers, then
+  delete the dead skill and every inbound reference.
+- **Remove.** Nothing unique is lost. Delete the skill directory and scrub its name from `plugin.json`,
+  `README.md`, and any caller or command that named it.
+
+Weight a dead skill high: its `description` is always-loaded cost, so folding or removing it recovers
+tokens on every turn — the same reason a `description` cut outranks a `SKILL.md` cut.

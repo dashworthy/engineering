@@ -1,6 +1,6 @@
 ---
 name: auditing-skills
-description: Audit an existing skill or a whole plugin for efficiency and quality problems — anti-patterns, verbosity, confusing logic, cross-skill duplication, and subagent usage whose fixed token cost outruns its payload — then propose each fix through AskUserQuestion and apply the approved ones. Use when reviewing, optimizing, or cutting the token cost of a skill or plugin.
+description: Audit an existing skill or a whole plugin for efficiency and quality problems — anti-patterns, verbosity, confusing logic, cross-skill duplication, subagent usage whose fixed token cost outruns its payload, and dead skills no task ever reaches — then propose each fix, or a dead skill's fate (wire in / fold into a sibling / remove), through AskUserQuestion and apply the approved ones. Use when reviewing, optimizing, cutting the token cost of, or pruning a skill or plugin.
 ---
 
 # Auditing Skills
@@ -31,7 +31,7 @@ inside a plugin, still glance at its siblings for shared content before proposin
 
 ## What to audit
 
-Five dimensions; detection cues and fix shapes for each are in
+Six dimensions; detection cues and fix shapes for each are in
 [references/audit-checks.md](references/audit-checks.md).
 
 1. **Anti-patterns** — measured against writing-skills' own list (menu-of-options, nested
@@ -52,6 +52,12 @@ Five dimensions; detection cues and fix shapes for each are in
    against the payload moved out of the main context. Dispatch that saves less than it costs is the
    inefficiency. The model and the break-even test are in
    [references/subagent-economics.md](references/subagent-economics.md).
+6. **Dead skills** — a whole skill no task ever reaches: a `description` that matches nothing in the
+   plugin's domain or always loses a discovery collision to a sibling, a skill nothing in the plugin
+   dispatches or links, or one whose entire capability a sibling already covers. Its always-loaded
+   `description` costs tokens on every turn and buys nothing. Distinct from duplication, which shares
+   content between skills that each still earn a place; here the whole skill is the waste, and the fix
+   is a fate — wire it in, fold it into a sibling, or remove it — not a reword.
 
 ## Quantify and rank
 
@@ -74,12 +80,28 @@ Put each fixable finding to the user through `AskUserQuestion`:
   have rejected on its own. The exception is several instances of the *same* mechanical fix (five
   Windows-path corrections) — those may share one question.
 
+**A dead skill is a question of fate, not a fix variant.** When the finding is a whole dead skill
+(dimension 6), the `AskUserQuestion` options are the three outcomes — **wire it in** (keep the skill,
+repair its discovery), **fold into a sibling** (merge its content, then delete it), **remove** (delete
+it) — recommendation first and marked `(Recommended)`, each option's description naming what it keeps
+and what it deletes. This is genuinely the user's call: folding and removal delete a skill and rewrite
+its inbound references, so the question is also the gate — never fold or remove a skill the user did
+not approve for it. One dead skill, one question.
+
 ## Apply — following writing-skills
 
 On approval, edit the skill directly, following the writing-skills rule for whatever you touched: a
 reworded description still carries its triggers; an extracted reference stays one level deep. Change
 only what the finding named. A skipped finding stays in the report with its rationale; it is not
 applied.
+
+**Folding or removing a dead skill touches more than one file** — deleting the skill directory alone
+leaves dangling references. On a **fold**, first merge the kept content into the sibling and confirm
+its `description` now carries the folded triggers, *then* delete the dead skill and scrub its name from
+`plugin.json`, `README.md`, and any caller or command that routed to it. On a **remove**, delete the
+directory and scrub the same references. On **wire it in**, keep the skill and edit only its discovery
+surface (its `description`, name, or the forward reference that should reach it). Removal is hard to
+reverse, and the `AskUserQuestion` approval is its only gate.
 
 One rule holds without exception: **a fix preserves what the skill does.** If a proposed cut would
 drop a real instruction, it was never verbosity — keep it. Verify the executable parts (any scripts,
