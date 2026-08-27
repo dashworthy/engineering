@@ -17,9 +17,6 @@ an aside, and the plan does not end until a hardening task is sitting on it. It 
 guarantee the plan is short, only that nothing in it is too big to finish and verify in
 one sitting.
 
-Nothing else is guaranteed. Read `## What this does not do` before assuming this skill
-reaches past turning an approved spec into a sequence of steps.
-
 ## Reading the spec
 
 Start from an approved Tier-1 spec in `.engineering/<run>/spec/` — a path, or
@@ -156,24 +153,12 @@ whole once all of them land.
 ## The closing hardening task
 
 Every plan this skill writes ends with a task, after the last build step, whose entire job
-is to invoke `engineering:conducting-test-hardening`. This is not optional and not
-situational — it is the last task on every plan this skill produces, without exception,
-placed as its own numbered phase after the build work (call it Phase 3.5: build is
-Phase 3, hardening is what closes it out before the plan is done).
-
-The reasoning is not "tests are good" — it's where the check for missing tests lives.
-Nothing else in this plugin forces a hardening pass to happen; there's no hook watching
-for one. The only thing that reliably makes it happen is a task sitting on the plan
-itself, where `executing-plans` will reach it in the ordinary course of working through
-the plan, the same way it reaches any other step. A plan without this task is a plan whose
-hardening depends on somebody remembering to ask for it afterward — exactly the gap this
-task closes.
-
-Write the task the same shape as any other: a `- [ ]` line, a short description of what it
-covers, and the invocation itself — `engineering:conducting-test-hardening` — named
-explicitly rather than described around ("run the tests," "check coverage"). Whoever
-executes the plan dispatches that skill by name; this skill's job stops at putting the
-task there.
+is to invoke `engineering:conducting-test-hardening` — a `- [ ]` line naming the skill
+explicitly (not described around it as "run the tests" or "check coverage"), placed as its
+own numbered phase after the build work (call it Phase 3.5). This is not optional and not
+situational: nothing else in this plugin forces a hardening pass, so the task sitting on the
+plan is the only thing that reliably makes it happen. Whoever executes the plan dispatches
+that skill by name; this skill's job stops at putting the task there.
 
 ## Writing the plan file, then reviewing it
 

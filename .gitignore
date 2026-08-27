@@ -1,4 +1,3 @@
-.signal/
 .DS_Store
 
 # .claude/settings.json IS committed — it carries the deny rules that block writes to the
@@ -7,4 +6,3 @@
 # with the repo. settings.local.json stays personal: it holds machine-specific absolute paths.
 .claude/settings.local.json
 .engineering/
-.verity

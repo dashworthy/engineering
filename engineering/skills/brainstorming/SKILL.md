@@ -26,8 +26,8 @@ problem, just a request typed straight at this skill — means the interrogation
 should have come first didn't happen; send it back to `signal` or `triage` rather than
 inventing requirements to fill the gap.
 
-On the signal path, `engineering:conducting-discovery` hands its finished brief straight
-here automatically once discovery is done; on the triage path, a defect isolated as
+On the signal path, signal hands its finished brief straight
+here once discovery is done; on the triage path, a defect isolated as
 spec-worthy is routed here. Either way the entry ticket is already on disk before this
 skill's first question.
 

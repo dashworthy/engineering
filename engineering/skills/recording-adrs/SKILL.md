@@ -28,8 +28,7 @@ the decision is made and accepted when the work carrying it clears its own gate.
 ## Intake — the decision point (no flood)
 
 An ADR is captured at a decision point, not by a scanner anyone must remember to run. The
-decision-phase skills (`brainstorming`, `codebase-design`, `writing-plans`, `code-review`)
-reach a decision and offer to record it here — the offer put through `AskUserQuestion`
+decision-phase skills reach a decision and offer to record it here — the offer put through `AskUserQuestion`
 (`Record as ADR` / `Skip`), a deliberate pick rather than a prose aside the developer skims
 past. The bar that keeps this from flooding: the trigger fires **only on a decision with
 genuine live alternatives** — the same bar `ADR-FORMAT.md` sets, where a decision with one
@@ -71,9 +70,8 @@ truth; a separate ledger file would drift from the index the moment the two disa
 
 - It does not **consume ADRs.** Reading the index and citing the governing ADR at a work item
   is `using-adrs`. This skill writes the trail; it does not apply it.
-- It does not **decide.** The decision is made in the phase that reached it (`brainstorming`,
-  `codebase-design`, `writing-plans`, `code-review`); this skill records the decision already
-  made, it does not weigh the alternatives itself.
+- It does not **decide.** The decision is made in the phase that reached it; this skill records
+  the decision already made, it does not weigh the alternatives itself.
 - It does not **write conventions, specs, or the glossary.** A standing rule is
   `recording-code-conventions`; a spec is `to-spec`; a domain term is `domain-modeling`'s
   `CONTEXT.md`. An ADR is the point-in-time decision record, and that is all this skill writes.

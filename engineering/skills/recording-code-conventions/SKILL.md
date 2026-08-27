@@ -17,9 +17,9 @@ existing convention has been resolved. Then, and only then, this skill writes th
 document per `STANDARDS-FORMAT.md` and updates the index row in the same change. Creating,
 amending, and retiring a convention are all this same writer under this same pair of gates.
 
-Every other path in the system — `identifying-code-conventions`, the `conventions-init` and
-`record-convention` commands, and the PR-time harvest in `code-review` — funnels its candidate
-here rather than writing anything itself.
+Every other path that surfaces a candidate — convention discovery, the onboarding and
+single-convention commands, and the PR-time harvest at review — funnels it here rather than
+writing anything itself.
 
 ## Step 1 — Harden the candidate
 

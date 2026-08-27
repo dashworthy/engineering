@@ -1,6 +1,6 @@
 ---
 name: interrogating-requirements
-description: "[Discovery] Turn a vague or underspecified request into hard requirements — brief.md §1–§6. Interactive, main-thread: only a discovery conductor drives it, never self-triggered on a feature request, and it cannot run as a dispatched subagent."
+description: "[Discovery] Turn a vague or underspecified request into hard requirements — brief.md §1–§6. Interactive, main-thread: only a discovery entrance (signal or triage) drives it, never self-triggered on a feature request, and it cannot run as a dispatched subagent."
 ---
 
 # Interrogating Requirements
@@ -49,7 +49,7 @@ Each dimension becomes one section of `brief.md`, one for one — no intermediat
 
 You write a second file into the run directory: `open-threads.md`, **working state, not the deliverable** (`brief.md` is the deliverable).
 
-**Write it during the interrogation, never in a synthesis pass at the end** — a session that ends mid-round has already banked what it learned. Same argument as writing `brief.md` §1–§6 the moment the gate is met (see `## Write First, Then Expand`), one level earlier: work not yet on disk lives only in a conversation a crash can take. Update it whenever a dimension moves, a baseline gets corrected, or you notice something you will not chase this session.
+**Write it during the interrogation, never in a synthesis pass at the end** — a session that ends mid-round has already banked what it learned. Same argument as writing `brief.md` §1–§6 the moment the gate is met (see `## Write the Moment the Gate Is Met`), one level earlier: work not yet on disk lives only in a conversation a crash can take. Update it whenever a dimension moves, a baseline gets corrected, or you notice something you will not chase this session.
 
 ### Shape
 
@@ -82,14 +82,14 @@ Working state for this run. Not the deliverable; `brief.md` is.
 |---|---|
 | `corrected-not-dug` | A baseline was corrected but the reason behind the correction was never mined |
 | `unresolved-conflict` | Two requirements collide and no condition has been found that resolves them |
-| `next-probe` | Something identified as worth pursuing but not pursued — the obviously-next probe when the session ran out of time, or an expansion candidate the user deferred |
+| `next-probe` | Something identified as worth pursuing but not pursued — the obviously-next probe when the session ran out of time |
 | `unchecked-baseline` | A figure or assumption offered with low confidence and never checked |
 
 ### Obligations
 
 - **Anything noticed and not pulled goes in before the session ends** — the single rule that makes a ten-minute session compound instead of accumulate.
 - **Close a thread by checking it off and moving what it produced into the coverage table. Never delete it.** The record of what was dangling is what makes the next session cheap.
-- **Never draft `brief.md` prose here, and never write threads into `brief.md`.** Two files, two jobs. §5 may point at a deferred expansion candidate's thread handle; that pointer is the only crossing.
+- **Never draft `brief.md` prose here, and never write threads into `brief.md`.** Two files, two jobs.
 
 ## How to Interrogate — Offer Choices, Then Mine the Correction
 
@@ -199,34 +199,15 @@ If the request is genuinely trivial (one-liner, rename, config tweak), there is 
 
 If the user refuses to answer after one genuine push-back, do NOT cave and build on silently-held assumptions, and do NOT keep firing new questions. Instead: state the load-bearing assumptions as an explicit **numbered confirm-or-correct checklist** covering the still-empty dimensions ("reply 'go', or strike any line"), and require explicit confirmation. Silence is not confirmation. This converts unanswered questions into a 30-second veto — it never becomes permission to guess.
 
-## Write First, Then Expand
+## Write the Moment the Gate Is Met
 
-**The moment the advancement gate is met, write `brief.md` §1–§6** — before dispatching anything, before the expansion beat, before anything else can fail. The interrogation is the expensive part of this pipeline, and until it is on disk it exists only in a conversation that a crashed session, a failed dispatch or a closed terminal takes with it. Writing costs one file operation; not writing costs the whole interrogation.
+**The moment the advancement gate is met, write `brief.md` §1–§6** — before anything else can fail. The interrogation is the expensive part of this pipeline, and until it is on disk it exists only in a conversation that a crashed session or a closed terminal takes with it. Writing costs one file operation; not writing costs the whole interrogation.
 
-That write is a complete `brief.md` §1–§6 in its own right, exactly as specified in `## Output` below, with one difference: §5 states plainly that the expansion beat has not run yet, so a reader who picks the file up mid-run knows scope is not settled.
-
-## The Expansion Beat
-
-Runs **after** the coverage dimensions are filled and the first write has landed, and **before** stage 2. Rationale: "what could this also be" is scope creep against a finished brief, but legitimate scope *definition* while the user is still in the room to rule on it.
-
-1. Dispatch `expanding-scope` with the requirements you just wrote — the six dimensions as the interrogation left them — **inline in the dispatch prompt**. You are in the main thread, so they are already in your context; do not hand it a path and do not make it read the file. Do send the text: dispatching against nothing produces candidates already in scope.
-2. It returns **at most 5** candidate expansions in its RETURN `actionable` field, each one line — what it is, why it might matter. It writes no file.
-
-   **If it fails, nothing is lost.** A `BLOCKED` return, or a malformed one twice, does not stop stage 1 and costs only the suggestions: `brief.md` §1–§6 is already on disk. Tell the user the beat failed and why, then go to step 5 — you still rewrite, because §5's note has to stop saying expansion has not run when it has.
-
-   **If it returns no candidates at all**, that is a valid `OK` result, not a failure — it found nothing worth proposing. Go to step 5 directly; you still rewrite, for the same reason.
-3. Present the candidates through `AskUserQuestion` — one question per candidate, its three options `In-scope` · `Non-goal` · `Defer`, batched up to four questions per call so five candidates take two calls at most and it stays one round, not a per-candidate conversation. Offer all three on every candidate; dropping one makes step 4's third disposition unreachable. (Headless, no tool: the same three-way checklist as plain text.)
-4. **Every candidate must resolve to exactly one of three dispositions — IN-SCOPE, NON-GOAL, or DEFER — with the user's reason, and no candidate reaches the brief unresolved.** This is the authoritative statement of the three-list rule; §5 and the Red Flags refer back to it. NON-GOAL is a candidate the user does not want, recorded with the reason. DEFER is for one they genuinely cannot decide yet: it leaves **two traces** — written to `open-threads.md` as kind `next-probe` **and** named in §5's deferred list — never zero. DEFER is a disposition, not a way to dodge adjudicating.
-5. **Then rewrite `brief.md` §1–§6 in full**, replacing what you wrote before rather than patching it. Each disposition lands in §5 and wherever else it touches: accepted candidates are requirements in their own right, so write each into §5's in-scope list *and* into whichever other sections it touches — §3 success criteria, §4 constraints, §2 stakeholders — as though it had been raised during interrogation; rejected candidates into §5's non-goals list *with the user's reason*; deferred candidates into §5's deferred list with their `open-threads.md` thread handle. A candidate that does not reach these sections does not reach the brief at all, and nothing downstream will catch it.
-
-   **This step runs on every path out of the beat, and its first job is always the same: §5's provisional note must go.** The first write left §5 saying expansion had not run yet; shipping that once expansion has been attempted tells the reader something false about how settled the scope is. Replace it with whichever actually happened:
-   - **Candidates adjudicated** — the dispositions themselves, per the paragraph above.
-   - **No candidates proposed** — a line saying the expansion beat ran and found nothing to propose. Scope is settled; it just didn't move.
-   - **Beat failed** — a line saying expansion was attempted and could not run, so scope was never widened and this brief reflects the interrogation alone. A reader deciding how much to trust §5 needs to know which of these three they are holding.
+That write is a complete `brief.md` §1–§6, exactly as specified in `## Output` below. It is the deliverable; the brief ends at §6.
 
 ## Output — `brief.md` §1–§6
 
-Write `brief.md` into the run directory supplied by the conductor, with exactly these six headings, in this order:
+Write `brief.md` into the run directory supplied by the entrance that invoked you, with exactly these six headings, in this order:
 
 `## 1. Problem`, `## 2. Users & Stakeholders`, `## 3. Success Criteria`, `## 4. Constraints`, `## 5. Scope`, `## 6. Existing Context`.
 
@@ -236,24 +217,18 @@ Write `brief.md` into the run directory supplied by the conductor, with exactly 
 | 2 | **Users & Stakeholders** — who uses it, who's affected, who signs off |
 | 3 | **Success Criteria** — measurable or observable only; no aspirational prose |
 | 4 | **Constraints** — stack, timeline, budget, compliance, integrations, non-negotiables |
-| 5 | **Scope** — what's in; **non-goals**, each with the user's reason; and **deferred**, each with its `open-threads.md` thread handle |
+| 5 | **Scope** — what's in, and **non-goals**, each with the user's reason |
 | 6 | **Existing Context** — prior art, current workarounds, systems this must fit into |
 
 **§3 — measurable or observable only.** If a criterion cannot actually be checked, it is not a success criterion — say so to the user rather than silently keeping it, and do not soften an unmeasurable aspiration into prose that then passes as a criterion.
 
-**§5 — every expansion candidate, by its disposition**, per `## The Expansion Beat` (step 4/5): **every** accepted candidate in the in-scope list, **every** rejected one in the non-goals list with the user's reason, **every** deferred one in the deferred list with its thread handle. Not a summary — every one. An omitted candidate is a dropped requirement, a broken audit trail, or a lost thread; none of the three dispositions is left to your judgement.
-
 **§6 — existing context.** This section exists because the interrogation forced an answer for it. Prior art, current workarounds and the systems this must fit into are what stop a downstream builder rebuilding something that already exists. Write what the user actually told you; do not fold it into §4 constraints and do not leave it out because it "isn't a requirement".
 
-**Stop at §6.** You do not write §7 or §8 — those are stage 2's, appended by `engineering:sequencing-requirements` after you hand back. Do not sketch them, leave placeholder headings, or order the work: dependency ordering is stage 2's whole job and doing it here pre-empts it.
+**Stop at §6.** The brief ends at §6 — there is no §7 or §8. Do not sketch further sections, leave placeholder headings, or order the work by dependency; that is design work for `brainstorming` downstream, not the brief's.
 
-**Every write is the whole file, and §1–§6 is written twice — both times by you, both times complete.** Write `brief.md` from line 1 and end it at §6, discarding anything that was there before, including a §7 and §8 a completed earlier run left. On a resumed run restarted at stage 1 those sections are stale — they order work derived from requirements you are replacing — so leaving them produces a brief with two §7s once stage 2 appends its own, and inflates the line count you report, failing the two-writer check for a reason unrelated to the boundary. The first write lands the moment the gate is met, so the interrogation is durable; the second replaces it after adjudication, so the dispositions are in — superseding the first completely, no marker, no second copy, nothing to reconcile. A run that ends between the two writes still leaves a real brief whose §5 says scope is unsettled.
+**Every write is the whole file.** Write `brief.md` from line 1 and end it at §6, discarding anything that was there before. On a resumed run restarted from the top, that means replacing whatever an earlier run left on disk with the requirements as they now stand, not patching it. The write lands the moment the gate is met, so the interrogation is durable the instant it is complete.
 
-**Count the lines after the final write, before you hand back.** Record the file's total line count — line 1 to the last — and report it to the conductor with the path. It must be the file **as you leave it**: the step-5 rewrite always happens, on all three paths, so count after it; never report the first write's count, and if you took it, take it again. The conductor compares your number against what stage 2 reports later; a mismatch means stage 2 edited sections it was forbidden to touch. Count now, while you are the only writer — once you hand back, nobody may open the file to work it out, so a count not taken here cannot happen at all.
-
-**End the file with exactly one trailing newline and no blank line after your last section.** Stage 2 appends `## 7.` directly onto what you leave, so a stray blank line shifts the boundary between your sections and its by one and produces a mismatch over nothing.
-
-Then hand control back to the conductor that invoked you.
+Then hand control back to the entrance that invoked you — signal or triage — which routes from there. You do not design, write a spec, plan, or invoke `brainstorming` yourself; the brief is the deliverable and your job ends at it.
 
 ## Red Flags — STOP, Do Not Advance
 
@@ -262,14 +237,10 @@ Then hand control back to the conductor that invoked you.
 - A gap filled with your OWN assumption instead of a question — a baseline the user explicitly agreed to is fine; a gap you closed without ever putting the assumption to them is not
 - "The user seems impatient, I'll stop asking" — impatience is not coverage
 - No written non-goals list exists
-- Dispatching `expanding-scope` before `brief.md` §1–§6 is on disk. The write comes first; that ordering is the whole point of it.
-- Advancing with an unadjudicated expansion candidate, or writing `brief.md` with a candidate that appears in none of §5's three lists — in-scope, non-goals, deferred (see `## The Expansion Beat` step 4)
-- Recording a candidate as deferred in §5 without opening the matching `next-probe` thread in `open-threads.md`. Deferred means two traces; one is a dropped requirement wearing a disposition.
-- Handing back with §5 still saying expansion has not run, when it has
-- Patching the first write instead of replacing §1–§6 in full after adjudication
+- Patching an earlier run's brief instead of replacing §1–§6 in full on a restart
 - Carrying a success criterion into §3 that cannot actually be measured
 - A filled coverage dimension that reached no section — §6 Existing Context in particular, which is the easiest one to gather and then forget to write
-- Writing §7 or §8, or ordering the work by dependency. That is stage 2's.
+- Writing §7 or §8, or ordering the work by dependency — the brief ends at §6; that is design work downstream, not the brief's.
 - Ending a session with threads that could have been closed left open, or an `open-threads.md` whose list only ever grows — closing a thread by checking it off and moving what it produced into the coverage table is an obligation, not a courtesy.
 
 All of these mean: ask the next question, or resolve the next candidate. The gate is not met.

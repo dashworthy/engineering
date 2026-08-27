@@ -71,7 +71,7 @@ order of peers is whatever the merge happened to produce.
 | `expectation` | yes | What it appears intended to do, and what that belief rests on |
 | `confidence` | yes | `high`, `medium`, or `low` |
 
-A breakage finding NEVER carries a proposed fix. Verity does not modify application code,
+A breakage finding NEVER carries a proposed fix. Test-hardening does not modify application code,
 and a fix in the brief invites someone to apply it.
 
 ## Ownership finding

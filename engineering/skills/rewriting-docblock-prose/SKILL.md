@@ -1,6 +1,6 @@
 ---
 name: rewriting-docblock-prose
-description: "[Docs] Dispatched by clarifying-docblocks (or applied inline by it on a small run) to rewrite one file's docblock prose. Applies the comprehension gate, rewrites only descriptions that fail it, writes in place, returns a receipt of the line ranges replaced. Improves existing docblocks only; never authors one where none existed, never touches an annotation or executable code."
+description: "[Docs] A dispatched docblock-prose beat — or run inline on a small pass — that rewrites one file's docblock prose. Applies the comprehension gate, rewrites only descriptions that fail it, writes in place, returns a receipt of the line ranges replaced. Improves existing docblocks only; never authors one where none existed, never touches an annotation or executable code."
 ---
 
 # Rewriting Docblock Prose

@@ -7,22 +7,24 @@ description: "[Build] Put recorded code conventions to work: read the standards 
 
 Say this first, plainly: `Using the using-code-conventions skill to cite the governing conventions.`
 
+This is the consuming half of the code-convention application of the first-class-artifact
+doctrine — [../recording-adrs/references/first-class-artifact.md](../recording-adrs/references/first-class-artifact.md).
+Conventions follow the **trail** profile: a convention is cited by path at the work item, not
+resolved as living current-state. It is the convention analogue of `using-adrs`.
+
 ## What this guarantees
 
 When a spec or plan describes a work item that a recorded convention governs, this skill
 **cites the specific convention file inline, right at that work item**, so the subagent who
 builds it reads the rule before writing the code rather than after review catches the violation.
-A convention is only useful to a builder if it reaches them at the moment they need it: when a
-spec or plan item is being written — "add a controller action for X," "add a migration for Y" —
-find the convention that governs that kind of work and **name its file, by path, on the item
-itself**: `(convention: docs/standards/controllers/dedicated-form-request.md)`. The citation
-travels with the work, so the subagent dispatched to implement the item opens the rule as part
-of doing the work, and builds to it the first time.
+Name the convention **by path** on the item itself:
+`(convention: docs/standards/controllers/dedicated-form-request.md)`. The citation travels with
+the work, so the subagent dispatched to implement the item opens the rule as part of doing the
+work, and builds to it the first time.
 
-Cite the **file**, not a paraphrase of the rule. Paraphrases drift from the source and go stale
-when the convention is amended; a path always resolves to the current rule, with its What-it-is /
-What-it-is-not boundaries intact. One work item may be governed by more than one convention —
-cite each that applies.
+Cite the **file**, not a paraphrase of the rule — a path always resolves to the current rule,
+with its What-it-is / What-it-is-not boundaries intact. One work item may be governed by more
+than one convention — cite each that applies.
 
 ## Match on the When relevant column
 

@@ -31,7 +31,7 @@ fix now, or fix before returning to this skill — back to the user. A red branc
 integrate; do not fall through to the hardening check or the options list on the theory that the
 failure is probably unrelated.
 
-## The test-hardening safety net (D15)
+## The test-hardening safety net
 
 Most branches get hardened without this skill doing anything: `writing-plans` puts a closing
 test-hardening task on every plan it writes, and `executing-plans` reaches that task and runs
@@ -107,11 +107,6 @@ treating all of them as available every time.
   get the user's explicit confirmation on this path specifically — a `Delete the branch` /
   `Keep it` `AskUserQuestion`, since silence is never confirmation — before removing anything,
   rather than treating the fact that cleanup was the option picked as confirmation enough.
-
-When the plan authorized a finish strategy, that settles which one runs. Only in the no-plan
-fallback do you ask the user which they want — and even there, pick nothing on their behalf: an
-unauthorized, unasked integration is a process decision this skill invented rather than one a
-human made.
 
 ## What this does not do
 

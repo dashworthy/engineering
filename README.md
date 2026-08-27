@@ -57,11 +57,10 @@ phase already settled. The sections below walk each phase in turn.
 
 A vague ask becomes a brief, then a recommended design, then an approved spec.
 Interrogation probes the request one question at a time, offering a conventional baseline
-and mining the correction, until every coverage dimension is filled. A scope-expansion
-beat then surfaces adjacent value. Sequencing orders the work by dependency; the finished
-brief then passes to `brainstorming` — signal's terminal hand-off — which recommends a
-design and hands it to `to-spec`, where the spec gate takes the human's approval. A
-genuinely trivial request exits before any brief is written.
+and mining the correction, until every coverage dimension is filled and `brief.md` §1–§6
+is written. The finished brief then passes to `brainstorming` — signal's terminal hand-off
+— which recommends a design and hands it to `to-spec`, where the spec gate takes the
+human's approval. A genuinely trivial request exits before any brief is written.
 
 ```mermaid
 flowchart LR
@@ -70,8 +69,7 @@ flowchart LR
 
     S(["/signal"]):::entry --> S1["interrogate<br/>requirements"]
     S1 -. "trivial" .-> X(["exit — no brief"])
-    S1 -->|"gate: 3+ rounds,<br/>6 dimensions"| S2["sequence<br/>(dependency order)"]
-    S2 --> BR["brainstorming<br/>recommend design"]
+    S1 -->|"gate: 3+ rounds,<br/>6 dimensions"| BR["brainstorming<br/>recommend design"]
     BR --> SP["to-spec<br/>spec gate"]
     SP --> STOP(["brief → design → approved spec"]):::done
 ```
@@ -80,7 +78,7 @@ flowchart LR
 
 A reported defect is verified to reproduce, isolated to a domain concept, then routed
 to the smallest next step. A quick fix goes straight to `diagnosing-bugs`; a vague
-report loops back through `signal` to gather requirements; a change that warrants a
+report is interrogated for requirements; a change that warrants a
 spec goes on to the design dialogue.
 
 ```mermaid
@@ -91,7 +89,7 @@ flowchart TD
     T1 --> T2["isolate to a<br/>domain concept"]
     T2 --> T3{"smallest<br/>next step"}
     T3 -->|"quick fix"| QF["diagnosing-bugs"]
-    T3 -->|"too vague"| Q["question via signal"]
+    T3 -->|"too vague"| Q["interrogate<br/>requirements"]
     T3 -->|"needs a spec"| BR["brainstorming"]
     T3 -->|"already handled"| CL(["close — reason on record"])
 ```
@@ -135,13 +133,13 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **36 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **33 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
 | Group | Skills |
 |---|---|
-| Discovery | `conducting-discovery`, `interrogating-requirements`, `expanding-scope`, `sequencing-requirements`, `to-spec`, `domain-modeling`, `identifying-code-conventions`, `recording-code-conventions`, `recording-adrs` |
+| Discovery | `interrogating-requirements`, `to-spec`, `domain-modeling`, `identifying-code-conventions`, `recording-code-conventions`, `recording-adrs` |
 | Triage | `triage` |
 | Design | `brainstorming`, `codebase-design`, `improve-codebase-architecture` |
 | Planning | `writing-plans`, `executing-plans` |

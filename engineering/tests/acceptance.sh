@@ -20,10 +20,7 @@ done
 # One "name:[Group]" per line: a tag containing a space ("[Test hardening]") would be word-split by
 # `for pair in $list`, producing bogus entries. The heredoc feeds the loop without a pipe, so it runs
 # in the current shell and `fail=1` set inside survives. name/tag split on the first colon.
-tagged="conducting-discovery:[Discovery]
-interrogating-requirements:[Discovery]
-expanding-scope:[Discovery]
-sequencing-requirements:[Discovery]
+tagged="interrogating-requirements:[Discovery]
 to-spec:[Discovery]
 domain-modeling:[Discovery]
 identifying-code-conventions:[Discovery]
@@ -76,7 +73,7 @@ if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2
 
 # 6. to-spec is the sole Tier-1 writer; both entrances reach it.
 grep -q ".engineering/<run>/spec/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
-grep -qE "Hand off to .*engineering:brainstorming" "$eng/skills/conducting-discovery/SKILL.md" || { echo "FAIL: signal's release must hand off to the brainstorming design gate"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/commands/signal.md" || { echo "FAIL: signal command must hand the brief to the brainstorming design gate"; fail=1; }
 grep -rq "to-spec" "$eng/skills/triage" || { echo "FAIL: triage must reach to-spec"; fail=1; }
 
 # 6b. to-spec is single-caller via brainstorming, stamps Approved (post-gate input), and carries no
@@ -100,12 +97,12 @@ if [ -n "$callers" ]; then echo "FAIL: only engineering:brainstorming may impera
 # (a) brainstorming must actually hand off to to-spec (else to-spec has no caller at all); (b) under the
 # spec-gate model the SPEC-FORMAT template stamps **Status:** Draft — the spec is written as a draft and
 # the spec gate in to-spec flips it to Approved, so a stale template hard-coding Approved (pre-gate) must
-# fail here; (c) the root README's signal sub-diagram routes sequence → brainstorming → to-spec.
+# fail here; (c) the root README's signal sub-diagram routes interrogate → brainstorming → to-spec.
 # Flatten newlines first: the handoff sentence wraps ("Hand the recommended design to" /
 # "engineering:to-spec"), and a line-based grep would miss a phrase that straddles the wrap.
 tr '\n' ' ' < "$eng/skills/brainstorming/SKILL.md" | grep -qiE "hand[^.]*engineering:to-spec" || { echo "FAIL: brainstorming must hand off to to-spec (single-caller's other half)"; fail=1; }
 grep -qF '**Status:** Draft' "$eng/skills/to-spec/SPEC-FORMAT.md" || { echo "FAIL: SPEC-FORMAT template must stamp **Status:** Draft (written first, flipped to Approved at the spec gate)"; fail=1; }
-grep -qF 'S2 --> BR' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route sequence -> brainstorming -> to-spec"; fail=1; }
+grep -qF 'dimensions"| BR["brainstorming' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route interrogate -> brainstorming -> to-spec"; fail=1; }
 
 # 7. verity is a planned step, not a session-start hook.
 grep -q "conducting-test-hardening" "$eng/skills/writing-plans/SKILL.md" || { echo "FAIL: writing-plans must bake hardening"; fail=1; }

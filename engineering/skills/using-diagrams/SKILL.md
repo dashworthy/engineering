@@ -18,8 +18,8 @@ traces to something already known, not something the diagram invented to look co
 
 Diagrams are an application of the first-class-artifact doctrine —
 [../recording-adrs/references/first-class-artifact.md](../recording-adrs/references/first-class-artifact.md).
-The intake trigger lives in the authoring phases: when `to-spec`, `writing-plans`, or
-`recording-adrs` describes a data model, a flow, or a state machine, it is obligated to
+The intake trigger lives in the authoring phases: when an authoring phase — a spec, a plan, or
+an ADR — describes a data model, a flow, or a state machine, it is obligated to
 **consider a diagram** via this skill. The guard is *consider*, not *always draw* — the
 earned-its-place test below still decides whether one is actually drawn, so the obligation
 prompts a diagram where one would help without flooding every document with pictures.

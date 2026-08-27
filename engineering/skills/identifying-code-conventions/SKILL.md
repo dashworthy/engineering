@@ -7,15 +7,6 @@ description: "[Discovery] Surface candidate code conventions two ways — infer 
 
 Say this first, plainly: `Using the identifying-code-conventions skill to surface convention candidates.`
 
-## What this guarantees
-
-One thing: this skill **surfaces candidate conventions and hands them onward — it codifies
-nothing itself.** It finds candidates two ways and hands each one, individually and still
-rough, to `recording-code-conventions`, the single writer, which runs the hardening
-interrogation and the individual approval gate before it writes. Nothing about "I found a
-pattern" becomes a convention without the approver's yes at that gate — and a candidate the
-approver rejects leaves no trace.
-
 ## Two ways to surface a candidate
 
 **Inference from code.** Read the codebase for **observed repetition** — the same structural
