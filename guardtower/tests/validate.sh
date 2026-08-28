@@ -133,7 +133,7 @@ if [ -f "$SEC" ]; then
   printf '%s' "$desc" | grep -qi "authorization"; check $? "reviewing-security description names authorization"
   # self-limiting behavior, at the source
   grep_flat "$SEC" "relevance gate"; check $? "reviewing-security runs the relevance gate"
-  grep_flat "$SEC" "before"; check $? "reviewing-security short-circuits before lens work"
+  grep_flat "$SEC" "before any lens work"; check $? "reviewing-security short-circuits before lens work"
   grep_flat "$SEC" "top_n"; check $? "reviewing-security applies the top-N cap"
   grep_flat "$SEC" "floor"; check $? "reviewing-security applies the confidence/severity floor"
   grep_flat "$SEC" "report-only"; check $? "reviewing-security is report-only"
@@ -166,7 +166,7 @@ if [ -f "$TECH" ]; then
   printf '%s' "$desc" | grep -qiE "inefficient|query"; check $? "reviewing-technical description names inefficiency/queries"
   # self-limiting behavior, at the source
   grep_flat "$TECH" "relevance gate"; check $? "reviewing-technical runs the relevance gate"
-  grep_flat "$TECH" "before"; check $? "reviewing-technical short-circuits before lens work"
+  grep_flat "$TECH" "before any lens work"; check $? "reviewing-technical short-circuits before lens work"
   grep_flat "$TECH" "top_n"; check $? "reviewing-technical applies the top-N cap"
   grep_flat "$TECH" "floor"; check $? "reviewing-technical applies the confidence/severity floor"
   grep_flat "$TECH" "report-only"; check $? "reviewing-technical is report-only"
@@ -212,7 +212,7 @@ if [ -f "$ARCH" ]; then
   printf '%s' "$desc" | grep -qiE "coupling|dependency"; check $? "reviewing-architectural description names coupling/dependency"
   # self-limiting behavior, at the source
   grep_flat "$ARCH" "relevance gate"; check $? "reviewing-architectural runs the relevance gate"
-  grep_flat "$ARCH" "before"; check $? "reviewing-architectural short-circuits before lens work"
+  grep_flat "$ARCH" "before any lens work"; check $? "reviewing-architectural short-circuits before lens work"
   grep_flat "$ARCH" "moves a boundary"; check $? "reviewing-architectural gate fires only when the change moves a boundary"
   grep_flat "$ARCH" "top_n"; check $? "reviewing-architectural applies the top-N cap"
   grep_flat "$ARCH" "floor"; check $? "reviewing-architectural applies the confidence/severity floor"
@@ -231,7 +231,7 @@ if [ -f "$ACL" ]; then
   grep_flat "$ACL" "Duplicated abstraction"; check $? "architectural-checklist covers duplicated abstraction"
   grep_flat "$ACL" "Leaky abstraction"; check $? "architectural-checklist covers leaky abstraction"
   grep_flat "$ACL" "not a finding"; check $? "architectural-checklist states what is not a finding"
-  grep_flat "$ACL" "diff"; check $? "architectural-checklist scopes to diff-visible defects"
+  grep_flat "$ACL" "the diff"; check $? "architectural-checklist scopes to diff-visible defects"
   grep_flat "$ACL" "no proactive"; check $? "architectural-checklist states the no-repo-scan boundary"
 fi
 
