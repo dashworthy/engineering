@@ -1,15 +1,11 @@
 # Shape review
 
-`DESIGN-IT-TWICE.md` produces two competing shapes and judges them on call-site simplicity,
-hidden complexity, and misuse resistance. This file adds two more lenses to run over those same
-two shapes — both **evaluative**, not selectable. They don't propose a shape; they catch a shape
-that's already wrong. Where one fires, the fix is often a named pattern; those remedies point
-into `PATTERN-MATRIX.md`, while a few instead name a `DEEPENING.md` move or a plain split the
+Two **evaluative** lenses — SOLID and the anti-pattern table — run over the two competing shapes
+from `DESIGN-IT-TWICE.md`. They don't propose a shape; they catch one that's already wrong. Run
+both over each shape before choosing: passing them doesn't make a shape right (still the
+three-criteria call), but failing one names a defect those criteria wouldn't. Where a lens fires,
+the remedy names a `PATTERN-MATRIX.md` pattern, a `DEEPENING.md` move, or a plain split the
 catalog has no name for.
-
-Run both lenses over each of the two shapes before choosing between them. A shape that survives
-them is not thereby the right one — that's still the three-criteria call — but a shape that fails
-one is carrying a defect the criteria alone wouldn't have named.
 
 ## The SOLID lens — five questions
 

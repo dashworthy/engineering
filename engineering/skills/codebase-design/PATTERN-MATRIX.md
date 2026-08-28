@@ -1,14 +1,9 @@
 # Pattern matrix
 
-The decision matrix `codebase-design`'s catalog step reads. It says, for each of the 23
-Gang-of-Four patterns, the one thing that matters at design time: **the situation in which that
-pattern is the appropriate shape** — its trigger. It does not say what the pattern is or how to
-build it; you already know that. A pattern belongs on the table only when its trigger genuinely
-describes the boundary in front of you. When none does, the shape is a plain one — that is the
-default, not a failure to find a pattern.
-
-Each trigger below is a condition, not a recommendation: reach for the pattern *when* the
-condition holds, and not because the catalog lists it.
+For each of the 23 Gang-of-Four patterns, the **trigger** — the one situation in which that
+pattern is the appropriate shape. Reach for a pattern only when its trigger genuinely describes
+the boundary in front of you; when none does, the shape is plain. (Why "when" and not "what", and
+how this feeds the proposal, live in `SKILL.md`.)
 
 ## Creational — how objects get made
 
