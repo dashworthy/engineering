@@ -34,12 +34,13 @@ facets, then returns one reconciled report plus the per-facet artifacts under `.
 | **Architectural** | Sustainable architecture — coupling, dependency direction, cohesion, leaky abstractions. |
 | **Error Handling & Resilience** | Silent failures, swallowed exceptions, bad fallbacks. |
 | **Test Quality** | Do the tests exercise the change and fail if it breaks? |
-| Data & Migration Safety | *(coming soon)* Destructive/irreversible operations, data-loss risk. |
+| **Data & Migration Safety** | Destructive/irreversible operations, data-loss risk. |
 | API & Backward Compatibility | *(coming soon)* Breaking changes to public contracts. |
 
 This release ships the three **core** facets — **Security**, **Technical**, and
-**Architectural** — plus **Error Handling & Resilience** and **Test Quality**, on the shared review
-spine; the remaining two arrive on the same contract in later releases.
+**Architectural** — plus **Error Handling & Resilience**, **Test Quality**, and **Data & Migration
+Safety**, on the shared review spine; the remaining one arrives on the same contract in a later
+release.
 
 ## Design principles
 

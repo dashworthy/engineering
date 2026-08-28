@@ -21,8 +21,8 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 ## The facets
 
 Seven facets exist; each is a thin skill owning one lens. This release wires the three **core**
-facets — **Security**, **Technical**, and **Architectural** — plus **Error Handling & Resilience**
-and **Test Quality**; the remaining two are listed but not yet available.
+facets — **Security**, **Technical**, and **Architectural** — plus **Error Handling & Resilience**,
+**Test Quality**, and **Data & Migration Safety**; the remaining one is listed but not yet available.
 
 | Facet (skill) | Lens | Core? |
 |---|---|---|
@@ -31,7 +31,7 @@ and **Test Quality**; the remaining two are listed but not yet available.
 | `reviewing-architectural` | Sustainable architecture: coupling, dependency direction, cohesion, leaky abstractions | core |
 | `reviewing-error-handling` | Silent failures, swallowed exceptions, bad fallbacks | — |
 | `reviewing-test-quality` | Do tests exercise the change and fail if it breaks? | — |
-| `reviewing-data-safety` *(coming soon)* | Destructive/irreversible ops, migrations, data loss | — |
+| `reviewing-data-safety` | Destructive/irreversible ops, migrations, data loss | — |
 | `reviewing-api-compat` *(coming soon)* | Breaking changes to public contracts | — |
 
 ## The workflow

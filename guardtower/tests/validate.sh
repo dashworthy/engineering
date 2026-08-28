@@ -350,6 +350,56 @@ if [ -f "$ORCH" ]; then
 fi
 
 # ============================================================================
+# Spec 3 Task 3 — reviewing-data-safety facet skill
+# ============================================================================
+
+DS="$PLUGIN/skills/reviewing-data-safety/SKILL.md"
+[ -f "$DS" ]; check $? "reviewing-data-safety/SKILL.md exists"
+if [ -f "$DS" ]; then
+  head -1 "$DS" | grep -q '^---$'; check $? "reviewing-data-safety has frontmatter"
+  grep -q '^name: reviewing-data-safety$' "$DS"; check $? "reviewing-data-safety frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$DS")
+  printf '%s' "$desc" | grep -qiE "data.safety|migration"; check $? "reviewing-data-safety description carries a data-safety trigger"
+  printf '%s' "$desc" | grep -qiE "destructive|irreversible"; check $? "reviewing-data-safety description names destructive/irreversible ops"
+  printf '%s' "$desc" | grep -qiE "data.loss|data loss"; check $? "reviewing-data-safety description names data loss"
+  # self-limiting behavior, at the source
+  grep_flat "$DS" "relevance gate"; check $? "reviewing-data-safety runs the relevance gate"
+  grep_flat "$DS" "before any lens work"; check $? "reviewing-data-safety short-circuits before lens work"
+  grep_flat "$DS" "top_n"; check $? "reviewing-data-safety applies the top-N cap"
+  grep_flat "$DS" "floor"; check $? "reviewing-data-safety applies the confidence/severity floor"
+  grep_flat "$DS" "report-only"; check $? "reviewing-data-safety is report-only"
+  grep_flat "$DS" "findings.md"; check $? "reviewing-data-safety writes findings.md"
+  # analysis boundary stated inline (no ADR pointer — the plugin ships without docs/adr/)
+  grep_flat "$DS" "no proactive"; check $? "reviewing-data-safety states its analysis boundary inline"
+  grep_flat "$DS" "the diff"; check $? "reviewing-data-safety scopes to the operation visible in the diff"
+  grep_flat "$DS" "references/data-safety-checklist.md"; check $? "reviewing-data-safety links references/data-safety-checklist.md"
+fi
+
+DSCL="$PLUGIN/skills/reviewing-data-safety/references/data-safety-checklist.md"
+[ -f "$DSCL" ]; check $? "reviewing-data-safety/references/data-safety-checklist.md exists"
+if [ -f "$DSCL" ]; then
+  grep_flat "$DSCL" "Unbounded"; check $? "data-safety-checklist covers unbounded UPDATE/DELETE"
+  grep_flat "$DSCL" "live data"; check $? "data-safety-checklist covers drop/rename of live data"
+  grep_flat "$DSCL" "rollback"; check $? "data-safety-checklist covers a migration with no rollback"
+  grep_flat "$DSCL" "idempotent"; check $? "data-safety-checklist covers non-idempotent migration"
+  grep_flat "$DSCL" "Irreversible"; check $? "data-safety-checklist covers an irreversible op with no guard"
+  grep_flat "$DSCL" "not a finding"; check $? "data-safety-checklist states what is not a finding"
+fi
+
+# --- orchestrator wiring: data-safety is live, not "coming soon" --------------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-data-safety' "$ORCH"; then
+    if grep 'reviewing-data-safety' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-data-safety (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-data-safety (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-data-safety (not coming soon)"
+  fi
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
