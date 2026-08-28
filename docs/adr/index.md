@@ -9,3 +9,4 @@ writer of this file and the records it links.
 |--------|-------|---------------|--------|------|
 | 0001 | Derive or ask verity's configuration fresh each run; persist none of it | Configuring test-hardening / verity behavior — suites, thresholds, iteration caps | Accepted | [0001](0001-derive-verity-configuration-fresh-each-run.md) |
 | 0002 | Represent the ADR tracking view as a derived view over the index, not a persisted ledger | Building or changing the ADR tracking view / decision ledger | Accepted | [0002](0002-adr-tracking-view-is-derived-not-persisted.md) |
+| 0003 | Build guardtower as an orchestrator with self-limiting facet skills | Adding or changing a guardtower review facet, or its orchestrator/facet boundary | Accepted | [0003](0003-guardtower-orchestrator-with-self-limiting-facets.md) |
