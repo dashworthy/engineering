@@ -249,6 +249,55 @@ if [ -f "$ORCH" ]; then
 fi
 
 # ============================================================================
+# Spec 3 Task 1 — reviewing-error-handling facet skill
+# ============================================================================
+
+EH="$PLUGIN/skills/reviewing-error-handling/SKILL.md"
+[ -f "$EH" ]; check $? "reviewing-error-handling/SKILL.md exists"
+if [ -f "$EH" ]; then
+  head -1 "$EH" | grep -q '^---$'; check $? "reviewing-error-handling has frontmatter"
+  grep -q '^name: reviewing-error-handling$' "$EH"; check $? "reviewing-error-handling frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$EH")
+  printf '%s' "$desc" | grep -qiE "error.handling|silent failure"; check $? "reviewing-error-handling description carries an error-handling trigger"
+  printf '%s' "$desc" | grep -qi "swallow"; check $? "reviewing-error-handling description names swallowed errors"
+  printf '%s' "$desc" | grep -qiE "resilience|fallback"; check $? "reviewing-error-handling description names resilience/fallback"
+  # self-limiting behavior, at the source
+  grep_flat "$EH" "relevance gate"; check $? "reviewing-error-handling runs the relevance gate"
+  grep_flat "$EH" "before any lens work"; check $? "reviewing-error-handling short-circuits before lens work"
+  grep_flat "$EH" "top_n"; check $? "reviewing-error-handling applies the top-N cap"
+  grep_flat "$EH" "floor"; check $? "reviewing-error-handling applies the confidence/severity floor"
+  grep_flat "$EH" "report-only"; check $? "reviewing-error-handling is report-only"
+  grep_flat "$EH" "findings.md"; check $? "reviewing-error-handling writes findings.md"
+  # analysis boundary stated inline (no ADR pointer — the plugin ships without docs/adr/)
+  grep_flat "$EH" "no proactive"; check $? "reviewing-error-handling states its analysis boundary inline"
+  grep_flat "$EH" "references/error-handling-checklist.md"; check $? "reviewing-error-handling links references/error-handling-checklist.md"
+fi
+
+EHCL="$PLUGIN/skills/reviewing-error-handling/references/error-handling-checklist.md"
+[ -f "$EHCL" ]; check $? "reviewing-error-handling/references/error-handling-checklist.md exists"
+if [ -f "$EHCL" ]; then
+  grep_flat "$EHCL" "Swallowed"; check $? "error-handling-checklist covers swallowed/empty catch"
+  grep_flat "$EHCL" "Over-broad catch"; check $? "error-handling-checklist covers over-broad catch"
+  grep_flat "$EHCL" "Masking fallback"; check $? "error-handling-checklist covers masking fallback"
+  grep_flat "$EHCL" "Dropped"; check $? "error-handling-checklist covers dropped propagation"
+  grep_flat "$EHCL" "Ignored"; check $? "error-handling-checklist covers ignored rejection/return-code"
+  grep_flat "$EHCL" "not a finding"; check $? "error-handling-checklist states what is not a finding"
+fi
+
+# --- orchestrator wiring: error-handling is live, not "coming soon" -----------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-error-handling' "$ORCH"; then
+    if grep 'reviewing-error-handling' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-error-handling (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-error-handling (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-error-handling (not coming soon)"
+  fi
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
