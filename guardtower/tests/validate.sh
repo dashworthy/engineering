@@ -151,4 +151,51 @@ if [ -f "$OWASP" ]; then
   grep_flat "$OWASP" "enforced, not assumed"; check $? "owasp-checklist states authorization enforced, not assumed"
 fi
 
+# ============================================================================
+# Spec 2 Task 1 — reviewing-technical facet skill
+# ============================================================================
+
+TECH="$PLUGIN/skills/reviewing-technical/SKILL.md"
+[ -f "$TECH" ]; check $? "reviewing-technical/SKILL.md exists"
+if [ -f "$TECH" ]; then
+  head -1 "$TECH" | grep -q '^---$'; check $? "reviewing-technical has frontmatter"
+  grep -q '^name: reviewing-technical$' "$TECH"; check $? "reviewing-technical frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$TECH")
+  printf '%s' "$desc" | grep -qi "technical"; check $? "reviewing-technical description carries a technical trigger"
+  printf '%s' "$desc" | grep -qi "reuse"; check $? "reviewing-technical description names reuse"
+  printf '%s' "$desc" | grep -qiE "inefficient|query"; check $? "reviewing-technical description names inefficiency/queries"
+  # self-limiting behavior, at the source
+  grep_flat "$TECH" "relevance gate"; check $? "reviewing-technical runs the relevance gate"
+  grep_flat "$TECH" "before"; check $? "reviewing-technical short-circuits before lens work"
+  grep_flat "$TECH" "top_n"; check $? "reviewing-technical applies the top-N cap"
+  grep_flat "$TECH" "floor"; check $? "reviewing-technical applies the confidence/severity floor"
+  grep_flat "$TECH" "report-only"; check $? "reviewing-technical is report-only"
+  grep_flat "$TECH" "findings.md"; check $? "reviewing-technical writes findings.md"
+  # ADR-0004 analysis boundary
+  grep_flat "$TECH" "0004"; check $? "reviewing-technical cites ADR-0004"
+  grep_flat "$TECH" "references/technical-checklist.md"; check $? "reviewing-technical links references/technical-checklist.md"
+fi
+
+TCL="$PLUGIN/skills/reviewing-technical/references/technical-checklist.md"
+[ -f "$TCL" ]; check $? "reviewing-technical/references/technical-checklist.md exists"
+if [ -f "$TCL" ]; then
+  grep_flat "$TCL" "Reuse over reinvention"; check $? "technical-checklist covers reuse over reinvention"
+  grep_flat "$TCL" "Inefficient data access"; check $? "technical-checklist covers inefficient data access"
+  grep_flat "$TCL" "not a finding"; check $? "technical-checklist states what is not a finding"
+  grep_flat "$TCL" "no proactive"; check $? "technical-checklist states the no-proactive-scan boundary"
+fi
+
+# --- orchestrator wiring: technical is live, not "coming soon" ---------------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-technical' "$ORCH"; then
+    if grep 'reviewing-technical' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-technical (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-technical (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-technical (not coming soon)"
+  fi
+fi
+
 exit $fail
