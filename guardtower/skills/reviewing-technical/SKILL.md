@@ -18,7 +18,7 @@ It is a *self-limiting* facet: it runs its relevance gate first and enforces its
 at the source, before it returns — the orchestrator does not trim it afterward. See the shared spine
 it obeys: `../reviewing/references/hard-stops.md` and `../reviewing/references/facet-contract.md`.
 
-Its analysis stays inside a fixed boundary (`docs/adr/0004-guardtower-facets-bound-analysis-to-the-diff.md`):
+Its analysis stays inside a fixed boundary:
 the diff, the reviewer's knowledge of well-known and standard libraries, and a glance at the public
 surface of the modules the change already imports — **no proactive repo-wide scan or function
 index**. Reinventing an already-imported `eq()` is in reach; reinventing a bespoke helper that lives
@@ -62,7 +62,7 @@ to `top_n`), and the written `artifact_path`.
 ## What this does not do
 
 - It does not **fix** anything — report-only; a `suggestion` names a direction, never an edit.
-- It does not **scan the repository** — its reach is the diff plus already-imported modules (ADR-0004);
+- It does not **scan the repository** — its reach is the diff plus already-imported modules;
   it does not build a function index to find every possible reuse.
 - It does not **review beyond the technical lens** — a security or architectural smell it happens to
   notice is out of scope; another facet owns it.

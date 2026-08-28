@@ -52,8 +52,9 @@ releases.
   framework or stack is baked in.
 - **A durable record.** Every run leaves an inspectable trail under `.guardtower/<run>/`.
 
-The architecture (an orchestrator over self-limiting facets) is recorded in
-[ADR-0003](../docs/adr/0003-guardtower-orchestrator-with-self-limiting-facets.md).
+The architecture is an orchestrator over self-limiting facets: each facet decides its own
+relevance, then caps and floors its own findings before returning, and the orchestrator only
+reconciles what they hand back.
 
 ## License
 

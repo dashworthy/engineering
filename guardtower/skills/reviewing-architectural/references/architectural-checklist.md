@@ -4,7 +4,7 @@ The lens for the architectural facet. Language- and stack-agnostic: these are cl
 defect to reason about in whatever the change is written in, not a rule table for one framework. Every
 class here is scoped to what the **diff** actually moves — a boundary the change crosses, introduces,
 or reshapes — not the whole system's architecture, which the diff does not show and this facet does
-not audit (ADR-0004). Contents:
+not audit. Contents:
 
 - Dependency-direction / coupling violation — the headline class
 - Responsibility / cohesion creep
@@ -69,7 +69,7 @@ Keep the floor honest — these belong to other facets, to the whole-repo audit 
 to no one:
 
 - Whole-system architecture the **diff does not touch** — an existing coupling elsewhere, a layering
-  the change neither introduces nor worsens. Out of reach by ADR-0004, and an explicit non-goal.
+  the change neither introduces nor worsens. Out of reach by this facet's boundary, and an explicit non-goal.
 - Pre-existing structure the change leaves exactly as it found it — this facet flags what the diff
   *creates*, not what it inherits.
 - A subjective structure preference with no coupling, cohesion, duplication, or leak consequence — a

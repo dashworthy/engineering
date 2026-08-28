@@ -171,8 +171,8 @@ if [ -f "$TECH" ]; then
   grep_flat "$TECH" "floor"; check $? "reviewing-technical applies the confidence/severity floor"
   grep_flat "$TECH" "report-only"; check $? "reviewing-technical is report-only"
   grep_flat "$TECH" "findings.md"; check $? "reviewing-technical writes findings.md"
-  # ADR-0004 analysis boundary
-  grep_flat "$TECH" "0004"; check $? "reviewing-technical cites ADR-0004"
+  # analysis boundary stated inline (no ADR pointer — the plugin ships without docs/adr/)
+  grep_flat "$TECH" "no proactive"; check $? "reviewing-technical states its analysis boundary inline"
   grep_flat "$TECH" "references/technical-checklist.md"; check $? "reviewing-technical links references/technical-checklist.md"
 fi
 
@@ -218,8 +218,8 @@ if [ -f "$ARCH" ]; then
   grep_flat "$ARCH" "floor"; check $? "reviewing-architectural applies the confidence/severity floor"
   grep_flat "$ARCH" "report-only"; check $? "reviewing-architectural is report-only"
   grep_flat "$ARCH" "findings.md"; check $? "reviewing-architectural writes findings.md"
-  # ADR-0004 analysis boundary
-  grep_flat "$ARCH" "0004"; check $? "reviewing-architectural cites ADR-0004"
+  # analysis boundary stated inline (no ADR pointer — the plugin ships without docs/adr/)
+  grep_flat "$ARCH" "no proactive"; check $? "reviewing-architectural states its analysis boundary inline"
   grep_flat "$ARCH" "references/architectural-checklist.md"; check $? "reviewing-architectural links references/architectural-checklist.md"
 fi
 
@@ -246,6 +246,19 @@ if [ -f "$ORCH" ]; then
   else
     bad "reviewing menu wires reviewing-architectural (not coming soon)"
   fi
+fi
+
+# ============================================================================
+# Cross-cutting — shipped skills carry no dangling ADR pointers
+# ============================================================================
+# docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
+# in a user's project cannot resolve a docs/adr path. The rule each ADR records is
+# stated inline in the skill instead; guard against a pointer creeping back in.
+adr_hits=$(grep -rl 'docs/adr' "$PLUGIN/skills" "$PLUGIN/README.md" 2>/dev/null || true)
+if [ -z "$adr_hits" ]; then
+  ok "shipped skills + README carry no docs/adr pointer"
+else
+  bad "shipped skills + README carry no docs/adr pointer (found in: $(printf '%s' "$adr_hits" | tr '\n' ' '))"
 fi
 
 exit $fail

@@ -24,7 +24,7 @@ something already provides it:
   uses*. If the change writes a private helper that duplicates a function it already imports, that's a
   finding.
 
-**The boundary (ADR-0004).** Reason from the diff, model knowledge of standard and well-known
+**The boundary.** Reason from the diff, model knowledge of standard and well-known
 libraries, and a glance at the public surface of already-imported modules — and **no proactive
 repo-wide scan or function index**. A bespoke helper that exists elsewhere in the repository but the
 change does not import is out of reach and *not* a finding here: chasing it would mean the repo-wide

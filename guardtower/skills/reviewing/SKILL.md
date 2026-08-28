@@ -56,12 +56,12 @@ available.
    findings, and present **one** report alongside the durable per-facet artifacts. Reconciliation
    is the one thing a facet does not own; it needs every result at once.
 
-## Governing decision
+## Governing principle
 
-The orchestrator-plus-self-limiting-facets shape, and why each facet enforces its own hard stops
-rather than the orchestrator trimming afterward, is recorded in
-`docs/adr/0003-guardtower-orchestrator-with-self-limiting-facets.md`. Read it before changing the
-facet boundary or adding a facet.
+Each facet enforces its own hard stops — the relevance gate, the top-N cap, the confidence floor —
+inside itself, before it returns, rather than the orchestrator trimming its findings afterward.
+Keep that shape when changing a facet boundary or adding a facet: a cap the orchestrator applies
+after a facet has already done unbounded work saves output, not the work.
 
 ## What this does not do
 
