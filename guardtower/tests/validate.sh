@@ -119,7 +119,36 @@ if [ -f "$CMD" ]; then
 fi
 
 # ============================================================================
-# (Task 5 assertions appended as that task is built.)
+# Task 5 — reviewing-security facet skill
 # ============================================================================
+
+SEC="$PLUGIN/skills/reviewing-security/SKILL.md"
+[ -f "$SEC" ]; check $? "reviewing-security/SKILL.md exists"
+if [ -f "$SEC" ]; then
+  head -1 "$SEC" | grep -q '^---$'; check $? "reviewing-security has frontmatter"
+  grep -q '^name: reviewing-security$' "$SEC"; check $? "reviewing-security frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$SEC")
+  printf '%s' "$desc" | grep -qi "security"; check $? "reviewing-security description carries a security trigger"
+  printf '%s' "$desc" | grep -qi "OWASP"; check $? "reviewing-security description names OWASP"
+  printf '%s' "$desc" | grep -qi "authorization"; check $? "reviewing-security description names authorization"
+  # self-limiting behavior, at the source
+  grep_flat "$SEC" "relevance gate"; check $? "reviewing-security runs the relevance gate"
+  grep_flat "$SEC" "before"; check $? "reviewing-security short-circuits before lens work"
+  grep_flat "$SEC" "top_n"; check $? "reviewing-security applies the top-N cap"
+  grep_flat "$SEC" "floor"; check $? "reviewing-security applies the confidence/severity floor"
+  grep_flat "$SEC" "report-only"; check $? "reviewing-security is report-only"
+  # writes the artifact per the contract
+  grep_flat "$SEC" "findings.md"; check $? "reviewing-security writes findings.md"
+  grep_flat "$SEC" "enforced"; check $? "reviewing-security checks authorization is enforced, not assumed"
+  grep_flat "$SEC" "references/owasp-checklist.md"; check $? "reviewing-security links references/owasp-checklist.md"
+fi
+
+OWASP="$PLUGIN/skills/reviewing-security/references/owasp-checklist.md"
+[ -f "$OWASP" ]; check $? "reviewing-security/references/owasp-checklist.md exists"
+if [ -f "$OWASP" ]; then
+  grep_flat "$OWASP" "Broken Access Control"; check $? "owasp-checklist covers Broken Access Control"
+  grep_flat "$OWASP" "Injection"; check $? "owasp-checklist covers Injection"
+  grep_flat "$OWASP" "enforced, not assumed"; check $? "owasp-checklist states authorization enforced, not assumed"
+fi
 
 exit $fail
