@@ -105,7 +105,21 @@ if [ -f "$STOPS" ]; then
 fi
 
 # ============================================================================
-# (Task 4/5 assertions appended as those tasks are built.)
+# Task 4 — /guardtower command
+# ============================================================================
+
+CMD="$PLUGIN/commands/guardtower.md"
+[ -f "$CMD" ]; check $? "commands/guardtower.md exists"
+if [ -f "$CMD" ]; then
+  head -1 "$CMD" | grep -q '^---$'; check $? "guardtower command has frontmatter"
+  grep -q '^description:' "$CMD"; check $? "guardtower command frontmatter has a description"
+  grep -q '^argument-hint:' "$CMD"; check $? "guardtower command frontmatter has an argument-hint"
+  grep_flat "$CMD" "guardtower:reviewing"; check $? "guardtower command invokes the reviewing skill"
+  grep_flat "$CMD" "CLAUDE_PLUGIN_ROOT"; check $? "guardtower command resolves scripts via CLAUDE_PLUGIN_ROOT"
+fi
+
+# ============================================================================
+# (Task 5 assertions appended as that task is built.)
 # ============================================================================
 
 exit $fail
