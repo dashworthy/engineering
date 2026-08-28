@@ -298,6 +298,58 @@ if [ -f "$ORCH" ]; then
 fi
 
 # ============================================================================
+# Spec 3 Task 2 — reviewing-test-quality facet skill
+# ============================================================================
+
+TQ="$PLUGIN/skills/reviewing-test-quality/SKILL.md"
+[ -f "$TQ" ]; check $? "reviewing-test-quality/SKILL.md exists"
+if [ -f "$TQ" ]; then
+  head -1 "$TQ" | grep -q '^---$'; check $? "reviewing-test-quality has frontmatter"
+  grep -q '^name: reviewing-test-quality$' "$TQ"; check $? "reviewing-test-quality frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$TQ")
+  printf '%s' "$desc" | grep -qiE "test.quality|test review"; check $? "reviewing-test-quality description carries a test-quality trigger"
+  printf '%s' "$desc" | grep -qiE "exercise|assertion"; check $? "reviewing-test-quality description names exercising/assertions"
+  printf '%s' "$desc" | grep -qiE "regression|fail if"; check $? "reviewing-test-quality description names catching a regression"
+  # self-limiting behavior, at the source
+  grep_flat "$TQ" "relevance gate"; check $? "reviewing-test-quality runs the relevance gate"
+  grep_flat "$TQ" "before any lens work"; check $? "reviewing-test-quality short-circuits before lens work"
+  grep_flat "$TQ" "top_n"; check $? "reviewing-test-quality applies the top-N cap"
+  grep_flat "$TQ" "floor"; check $? "reviewing-test-quality applies the confidence/severity floor"
+  grep_flat "$TQ" "report-only"; check $? "reviewing-test-quality is report-only"
+  grep_flat "$TQ" "findings.md"; check $? "reviewing-test-quality writes findings.md"
+  # the defining constraint: it reasons structurally and does NOT execute the suite
+  grep_flat "$TQ" "never runs the suite"; check $? "reviewing-test-quality states it never runs the suite"
+  # analysis boundary stated inline (no ADR pointer — the plugin ships without docs/adr/)
+  grep_flat "$TQ" "no proactive"; check $? "reviewing-test-quality states its analysis boundary inline"
+  grep_flat "$TQ" "references/test-quality-checklist.md"; check $? "reviewing-test-quality links references/test-quality-checklist.md"
+fi
+
+TQCL="$PLUGIN/skills/reviewing-test-quality/references/test-quality-checklist.md"
+[ -f "$TQCL" ]; check $? "reviewing-test-quality/references/test-quality-checklist.md exists"
+if [ -f "$TQCL" ]; then
+  grep_flat "$TQCL" "Vacuous"; check $? "test-quality-checklist covers vacuous/tautological assertion"
+  grep_flat "$TQCL" "not exercised"; check $? "test-quality-checklist covers the changed path not exercised"
+  grep_flat "$TQCL" "too weak"; check $? "test-quality-checklist covers assertion too weak"
+  grep_flat "$TQCL" "edge case"; check $? "test-quality-checklist covers an uncovered introduced edge case"
+  grep_flat "$TQCL" "mock"; check $? "test-quality-checklist covers assertions bound to a mock"
+  grep_flat "$TQCL" "not a finding"; check $? "test-quality-checklist states what is not a finding"
+  grep_flat "$TQCL" "without running"; check $? "test-quality-checklist reasons structurally, without running the suite"
+fi
+
+# --- orchestrator wiring: test-quality is live, not "coming soon" -------------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-test-quality' "$ORCH"; then
+    if grep 'reviewing-test-quality' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-test-quality (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-test-quality (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-test-quality (not coming soon)"
+  fi
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
