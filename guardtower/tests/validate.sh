@@ -63,7 +63,49 @@ fi
 [ -f "$ROOT/README.md" ] && grep -q "guardtower" "$ROOT/README.md"; check $? "root README names guardtower"
 
 # ============================================================================
-# (Task 3/4/5 assertions appended as those tasks are built.)
+# Task 3 — reviewing orchestrator skill
+# ============================================================================
+
+ORCH="$PLUGIN/skills/reviewing/SKILL.md"
+[ -f "$ORCH" ]; check $? "reviewing/SKILL.md exists"
+
+if [ -f "$ORCH" ]; then
+  head -1 "$ORCH" | grep -q '^---$'; check $? "reviewing has frontmatter"
+  grep -q '^name: reviewing$' "$ORCH"; check $? "reviewing frontmatter names itself"
+  # description carries discovery triggers
+  awk '/^description:/{print; exit}' "$ORCH" | grep -qi "review"; check $? "reviewing description carries a review trigger"
+  awk '/^description:/{print; exit}' "$ORCH" | grep -qi "guardtower"; check $? "reviewing description names guardtower"
+  # orchestrator responsibilities named in the body
+  grep_flat "$ORCH" "AskUserQuestion"; check $? "reviewing runs the facet menu via AskUserQuestion"
+  grep_flat "$ORCH" "pre-checked"; check $? "reviewing states the 3 core facets are pre-checked"
+  grep_flat "$ORCH" ".guardtower/"; check $? "reviewing writes under .guardtower/"
+  grep_flat "$ORCH" "dispatching-parallel-agents"; check $? "reviewing fans out via dispatching-parallel-agents"
+  grep_flat "$ORCH" "reconcil"; check $? "reviewing reconciles across facets"
+  grep_flat "$ORCH" "report-only"; check $? "reviewing states it is report-only"
+  # references linked one level deep
+  grep_flat "$ORCH" "references/facet-contract.md"; check $? "reviewing links references/facet-contract.md"
+  grep_flat "$ORCH" "references/hard-stops.md"; check $? "reviewing links references/hard-stops.md"
+fi
+
+CONTRACT="$PLUGIN/skills/reviewing/references/facet-contract.md"
+[ -f "$CONTRACT" ]; check $? "reviewing/references/facet-contract.md exists"
+if [ -f "$CONTRACT" ]; then
+  for field in change_ref artifact_path relevance findings severity confidence top_n floor; do
+    grep_flat "$CONTRACT" "$field"; check $? "facet-contract names the $field field"
+  done
+fi
+
+STOPS="$PLUGIN/skills/reviewing/references/hard-stops.md"
+[ -f "$STOPS" ]; check $? "reviewing/references/hard-stops.md exists"
+if [ -f "$STOPS" ]; then
+  grep_flat "$STOPS" "Relevance gate"; check $? "hard-stops names the relevance gate"
+  grep_flat "$STOPS" "Top-N"; check $? "hard-stops names the top-N severity cap"
+  grep_flat "$STOPS" "floor"; check $? "hard-stops names the confidence/severity floor"
+  grep_flat "$STOPS" "at the source"; check $? "hard-stops states facets self-enforce at the source"
+fi
+
+# ============================================================================
+# (Task 4/5 assertions appended as those tasks are built.)
 # ============================================================================
 
 exit $fail
