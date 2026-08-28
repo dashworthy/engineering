@@ -198,4 +198,54 @@ if [ -f "$ORCH" ]; then
   fi
 fi
 
+# ============================================================================
+# Spec 2 Task 2 — reviewing-architectural facet skill
+# ============================================================================
+
+ARCH="$PLUGIN/skills/reviewing-architectural/SKILL.md"
+[ -f "$ARCH" ]; check $? "reviewing-architectural/SKILL.md exists"
+if [ -f "$ARCH" ]; then
+  head -1 "$ARCH" | grep -q '^---$'; check $? "reviewing-architectural has frontmatter"
+  grep -q '^name: reviewing-architectural$' "$ARCH"; check $? "reviewing-architectural frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$ARCH")
+  printf '%s' "$desc" | grep -qi "architectur"; check $? "reviewing-architectural description carries an architecture trigger"
+  printf '%s' "$desc" | grep -qiE "coupling|dependency"; check $? "reviewing-architectural description names coupling/dependency"
+  # self-limiting behavior, at the source
+  grep_flat "$ARCH" "relevance gate"; check $? "reviewing-architectural runs the relevance gate"
+  grep_flat "$ARCH" "before"; check $? "reviewing-architectural short-circuits before lens work"
+  grep_flat "$ARCH" "moves a boundary"; check $? "reviewing-architectural gate fires only when the change moves a boundary"
+  grep_flat "$ARCH" "top_n"; check $? "reviewing-architectural applies the top-N cap"
+  grep_flat "$ARCH" "floor"; check $? "reviewing-architectural applies the confidence/severity floor"
+  grep_flat "$ARCH" "report-only"; check $? "reviewing-architectural is report-only"
+  grep_flat "$ARCH" "findings.md"; check $? "reviewing-architectural writes findings.md"
+  # ADR-0004 analysis boundary
+  grep_flat "$ARCH" "0004"; check $? "reviewing-architectural cites ADR-0004"
+  grep_flat "$ARCH" "references/architectural-checklist.md"; check $? "reviewing-architectural links references/architectural-checklist.md"
+fi
+
+ACL="$PLUGIN/skills/reviewing-architectural/references/architectural-checklist.md"
+[ -f "$ACL" ]; check $? "reviewing-architectural/references/architectural-checklist.md exists"
+if [ -f "$ACL" ]; then
+  grep_flat "$ACL" "Dependency-direction"; check $? "architectural-checklist covers dependency-direction/coupling"
+  grep_flat "$ACL" "Responsibility"; check $? "architectural-checklist covers responsibility/cohesion creep"
+  grep_flat "$ACL" "Duplicated abstraction"; check $? "architectural-checklist covers duplicated abstraction"
+  grep_flat "$ACL" "Leaky abstraction"; check $? "architectural-checklist covers leaky abstraction"
+  grep_flat "$ACL" "not a finding"; check $? "architectural-checklist states what is not a finding"
+  grep_flat "$ACL" "diff"; check $? "architectural-checklist scopes to diff-visible defects"
+  grep_flat "$ACL" "no proactive"; check $? "architectural-checklist states the no-repo-scan boundary"
+fi
+
+# --- orchestrator wiring: architectural is live, not "coming soon" -----------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-architectural' "$ORCH"; then
+    if grep 'reviewing-architectural' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-architectural (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-architectural (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-architectural (not coming soon)"
+  fi
+fi
+
 exit $fail

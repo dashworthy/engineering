@@ -31,14 +31,15 @@ facets, then returns one reconciled report plus the per-facet artifacts under `.
 |---|---|
 | **Security** | OWASP best practices, and is authorization *enforced* rather than assumed? |
 | **Technical** | Reuse over reinvention, inefficient queries, best-practice adherence. |
-| Architectural | *(coming soon)* Is this sustainable architecture? |
+| **Architectural** | Sustainable architecture — coupling, dependency direction, cohesion, leaky abstractions. |
 | Error Handling & Resilience | *(coming soon)* Silent failures, swallowed exceptions, bad fallbacks. |
 | Test Quality | *(coming soon)* Do the tests exercise the change and fail if it breaks? |
 | Data & Migration Safety | *(coming soon)* Destructive/irreversible operations, data-loss risk. |
 | API & Backward Compatibility | *(coming soon)* Breaking changes to public contracts. |
 
-This release ships the **Security** and **Technical** facets and the shared review spine; the
-rest arrive on the same contract in later releases.
+This release ships the three **core** facets — **Security**, **Technical**, and
+**Architectural** — and the shared review spine; the rest arrive on the same contract in later
+releases.
 
 ## Design principles
 
