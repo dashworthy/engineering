@@ -87,6 +87,34 @@ actually differs from the first, and the criteria for choosing between them once
 exist: what a call site has to know, how much of the module's machinery never has to
 reach the interface, and whether the interface lets a caller hold it wrong and not notice.
 
+## Consult the catalog when shaping a boundary
+
+Once two shapes are on the table, before choosing between them, put them through the named
+catalog the field already has a vocabulary for. Two companion files carry it, split by how they
+are used.
+
+`SHAPE-REVIEW.md`, alongside this file, is the **evaluative** half: the five SOLID principles and
+a set of common anti-patterns, each a lens you run over the two competing shapes to catch one
+that is already wrong — a fat interface, a switch that will not stay closed, a god object. Run it
+over both shapes as an extra set of judging criteria beside the three in `DESIGN-IT-TWICE.md`;
+where a lens fires, its remedy usually names a pattern.
+
+`PATTERN-MATRIX.md`, alongside this file, is the **selectable** half: the 23 Gang-of-Four
+patterns, each with the one trigger condition under which it is the appropriate shape. Consult it
+for the boundary in front of you. **When — and only when — a named trigger genuinely describes
+this boundary**, propose that pattern to the developer through the `AskUserQuestion` tool, the
+way `brainstorming` proposes an approach: the pattern as the recommended option, its rationale
+tied to *this* session — why this pattern, for this boundary, now, in the words of the design you
+are actually shaping — with **"plain shape, no pattern"** always present and the default whenever
+no trigger fires. The tool's automatic "Other" leaves room for a different pattern or a
+correction.
+
+The default is load-bearing. A pattern is worth proposing only when its trigger fires on its
+own; running the whole catalog against every boundary and offering the closest match is how a
+codebase fills with patterns nobody needed. Trust the model to know each pattern already — the
+matrix carries only the decision of *when*, never an explanation of *what* — and let the plain
+shape win by default.
+
 ## Reading the substrate
 
 Before shaping a boundary, actively consult the substrate: surface governing decisions with
