@@ -1,6 +1,6 @@
 ---
 name: reviewing-api-compat
-description: "Guardtower's API & backward-compatibility facet: review a change for breaking changes to a public contract — a removed or renamed public member, a changed signature, a changed response shape or status, a narrowed input or newly-required field, a changed serialization — anything a consumer depends on, returning capped, floored, self-contained findings. Use when an API / backward-compatibility review of a diff/branch/PR is requested, or when guardtower's reviewing orchestrator dispatches the api-compat facet."
+description: "Guardtower's API & backward-compatibility facet: review a change for breaking changes to a public contract — a removed or renamed public member, a changed signature, a changed response shape or status, a narrowed input or newly-required field, a changed serialization — anything a consumer depends on, returning capped, floored, self-contained findings. Use when an API / backward-compatibility review of a diff/branch/PR is requested."
 ---
 
 # Reviewing — API & Backward Compatibility facet
@@ -15,9 +15,7 @@ requirement, a changed wire format — and returns a short, ordered, self-contai
 capped and floored, with a durable record written to its artifact. It is **report-only**: it never
 edits code.
 
-It is a *self-limiting* facet: it runs its relevance gate first and enforces its own caps and floor,
-at the source, before it returns — the orchestrator does not trim it afterward. See the shared spine
-it obeys: `../reviewing/references/hard-stops.md` and `../reviewing/references/facet-contract.md`.
+This facet self-limits at the source (see `../reviewing/references/hard-stops.md`), under the shared `../reviewing/references/facet-contract.md`.
 
 Its analysis stays inside a fixed boundary:
 it reasons about the contract change **visible in the diff** — the public symbol, endpoint, or schema
@@ -25,13 +23,6 @@ the change alters — read against the reviewer's knowledge of what breaks a cal
 proactive** scan for every consumer of that surface; whether a given consumer is affected is judged
 from the contract change itself, and finding each caller across the repo is an accepted blind spot,
 not work this facet does.
-
-## The request and result
-
-The orchestrator hands this facet the contract request: `change_ref`, an optional `spec_ref`, an
-`artifact_path` (`.guardtower/<run>/reviewing-api-compat/findings.md`), and `caps` (`top_n`,
-`floor`). It returns the contract result: its `relevance` verdict, its `findings` (already floored
-and capped to `top_n`), and the written `artifact_path`.
 
 ## The workflow
 

@@ -1,6 +1,6 @@
 ---
 name: reviewing-technical
-description: "Guardtower's technical facet: review a change for reinventing what a library or an already-imported module already provides (reuse over reinvention), for inefficient data access (N+1, unbounded queries), and for correctness-scoped best-practice defects, returning capped, floored, self-contained findings. Use when a technical review of a diff/branch/PR is requested, or when guardtower's reviewing orchestrator dispatches the technical facet."
+description: "Guardtower's technical facet: review a change for reinventing what a library or an already-imported module already provides (reuse over reinvention), for inefficient data access (N+1, unbounded queries), and for correctness-scoped best-practice defects, returning capped, floored, self-contained findings. Use when a technical review of a diff/branch/PR is requested."
 ---
 
 # Reviewing — Technical facet
@@ -14,9 +14,7 @@ already exists, inefficient data access, and correctness-scoped best-practice la
 short, ordered, self-contained list of findings, capped and floored, with a durable record written
 to its artifact. It is **report-only**: it never edits code.
 
-It is a *self-limiting* facet: it runs its relevance gate first and enforces its own caps and floor,
-at the source, before it returns — the orchestrator does not trim it afterward. See the shared spine
-it obeys: `../reviewing/references/hard-stops.md` and `../reviewing/references/facet-contract.md`.
+This facet self-limits at the source (see `../reviewing/references/hard-stops.md`), under the shared `../reviewing/references/facet-contract.md`.
 
 Its analysis stays inside a fixed boundary:
 the diff, the reviewer's knowledge of well-known and standard libraries, and a glance at the public
@@ -24,13 +22,6 @@ surface of the modules the change already imports — **no proactive repo-wide s
 index**. Reinventing an already-imported `eq()` is in reach; reinventing a bespoke helper that lives
 elsewhere in the repo and the change never imports is an accepted blind spot, not a defect this facet
 chases.
-
-## The request and result
-
-The orchestrator hands this facet the contract request: `change_ref`, an optional `spec_ref`, an
-`artifact_path` (`.guardtower/<run>/reviewing-technical/findings.md`), and `caps` (`top_n`, `floor`).
-It returns the contract result: its `relevance` verdict, its `findings` (already floored and capped
-to `top_n`), and the written `artifact_path`.
 
 ## The workflow
 

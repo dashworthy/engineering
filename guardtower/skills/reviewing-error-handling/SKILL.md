@@ -1,6 +1,6 @@
 ---
 name: reviewing-error-handling
-description: "Guardtower's error-handling facet: review a change for silent failures — a swallowed or empty catch, an over-broad catch that hides unrelated faults, a fallback that masks the error instead of surfacing it, dropped error propagation, an ignored rejection or unchecked return-code — returning capped, floored, self-contained findings. Use when an error-handling or resilience review of a diff/branch/PR is requested, or when guardtower's reviewing orchestrator dispatches the error-handling facet."
+description: "Guardtower's error-handling facet: review a change for silent failures — a swallowed or empty catch, an over-broad catch that hides unrelated faults, a fallback that masks the error instead of surfacing it, dropped error propagation, an ignored rejection or unchecked return-code — returning capped, floored, self-contained findings. Use when an error-handling or resilience review of a diff/branch/PR is requested."
 ---
 
 # Reviewing — Error Handling & Resilience facet
@@ -15,9 +15,7 @@ ignored rejection or return code — and returns a short, ordered, self-containe
 capped and floored, with a durable record written to its artifact. It is **report-only**: it never
 edits code.
 
-It is a *self-limiting* facet: it runs its relevance gate first and enforces its own caps and floor,
-at the source, before it returns — the orchestrator does not trim it afterward. See the shared spine
-it obeys: `../reviewing/references/hard-stops.md` and `../reviewing/references/facet-contract.md`.
+This facet self-limits at the source (see `../reviewing/references/hard-stops.md`), under the shared `../reviewing/references/facet-contract.md`.
 
 Its analysis stays inside a fixed boundary:
 the error-handling constructs the diff actually shows, read against the reviewer's knowledge of how
@@ -25,13 +23,6 @@ errors are raised and propagated in the language at hand — **no proactive repo
 place a swallowed error might have mattered. A silent failure the change introduces is in reach; a
 pre-existing swallow elsewhere the diff never touches is out of scope, not a defect this facet
 chases.
-
-## The request and result
-
-The orchestrator hands this facet the contract request: `change_ref`, an optional `spec_ref`, an
-`artifact_path` (`.guardtower/<run>/reviewing-error-handling/findings.md`), and `caps` (`top_n`,
-`floor`). It returns the contract result: its `relevance` verdict, its `findings` (already floored
-and capped to `top_n`), and the written `artifact_path`.
 
 ## The workflow
 

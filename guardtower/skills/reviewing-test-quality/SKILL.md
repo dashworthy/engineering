@@ -1,6 +1,6 @@
 ---
 name: reviewing-test-quality
-description: "Guardtower's test-quality facet: review the tests a change carries — do they actually exercise the changed behavior and fail if it breaks? Flags vacuous or tautological assertions, tests that never touch the changed path, assertions too weak to catch a regression, uncovered edge cases the change introduces, and assertions bound only to a mock's own return. Judges structurally; never runs the suite. Use when a test-quality review of a diff/branch/PR is requested, or when guardtower's reviewing orchestrator dispatches the test-quality facet."
+description: "Guardtower's test-quality facet: review the tests a change carries — do they actually exercise the changed behavior and fail if it breaks? Flags vacuous or tautological assertions, tests that never touch the changed path, assertions too weak to catch a regression, uncovered edge cases the change introduces, and assertions bound only to a mock's own return. Judges structurally; never runs the suite. Use when a test-quality review of a diff/branch/PR is requested."
 ---
 
 # Reviewing — Test Quality facet
@@ -16,9 +16,7 @@ behavior breaks, uncovered edge cases the change introduces, and assertions boun
 and returns a short, ordered, self-contained list of findings, capped and floored, with a durable
 record written to its artifact. It is **report-only**: it never edits code.
 
-It is a *self-limiting* facet: it runs its relevance gate first and enforces its own caps and floor,
-at the source, before it returns — the orchestrator does not trim it afterward. See the shared spine
-it obeys: `../reviewing/references/hard-stops.md` and `../reviewing/references/facet-contract.md`.
+This facet self-limits at the source (see `../reviewing/references/hard-stops.md`), under the shared `../reviewing/references/facet-contract.md`.
 
 **It judges structurally, and never runs the suite.** The question "would this test fail if the
 changed behavior broke?" is answered by *reasoning* about whether each assertion binds to an output
@@ -28,13 +26,6 @@ Concretely: read the changed behavior, read the test, and decide whether a regre
 behavior would change a value the test actually asserts on. Its reach is a fixed boundary — the
 change's own tests and the code they cover, read against the reviewer's knowledge of how the test
 framework asserts; **no proactive whole-suite audit**, no coverage run, no execution.
-
-## The request and result
-
-The orchestrator hands this facet the contract request: `change_ref`, an optional `spec_ref`, an
-`artifact_path` (`.guardtower/<run>/reviewing-test-quality/findings.md`), and `caps` (`top_n`,
-`floor`). It returns the contract result: its `relevance` verdict, its `findings` (already floored
-and capped to `top_n`), and the written `artifact_path`.
 
 ## The workflow
 
