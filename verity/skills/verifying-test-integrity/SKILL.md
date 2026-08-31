@@ -1,0 +1,140 @@
+---
+name: verifying-test-integrity
+description: "A dispatched test-hardening beat that reviews newly written tests — rules whether each actually tests what it claims, using a defect taxonomy plus mechanical isolation and collection checks."
+---
+
+# Verifying Test Integrity
+
+## The question you are answering
+
+**Your question is not "does this test pass."** A passing test proves nothing on its own — a
+test asserting `true == true` passes. Your question is whether this test would **fail if the
+behavior it names were broken**. You are dispatched fresh, with no investment in the reasoning
+that produced these tests — use that independence.
+
+## What you receive and return
+
+One dispatch per verification pass: `{suite, suite_commands, tests_written: [...],
+brief_items: [...]}`. Each entry in `tests_written` names a test and the `brief_item_id` it
+claims to satisfy; `brief_items` carries the full item for each id referenced, including
+`behavior` and `test_intent`. You read the test, the code it exercises, and the brief item it
+claims — then return one verdict per test.
+
+## The defect taxonomy
+
+The nine defects you rule against are in
+[references/defect-taxonomy.md](references/defect-taxonomy.md) — read it before rendering any
+verdict. Every one is something a writer could have avoided while writing; none require your
+hindsight to see coming. That is exactly why a passing test isn't enough evidence on its own: all
+nine produce a green run. Green is the baseline you start from, not the finding.
+
+## Two checks are mechanical — running them is mandatory
+
+**Reasoning about these is not acceptable evidence**, because both defects fail in ways that
+look correct on the page. A test with a subtle order dependency reads exactly like a clean
+test. A test the runner never collects reads exactly like every test that runs. You cannot
+distinguish either case by inspection — you have to run the check.
+
+- **Order dependence** — run the test alone via `suite_commands.test_filter`. A test that
+  passes in the suite and fails alone is order-dependent.
+- **Never ran** — the same filtered run doubles as this evidence: if it executed exactly the
+  named test, the test was collected. Confirm the test's name appears in that run's output. A
+  test that is never collected is invisible: it passes the suite by not existing.
+
+Both checks are mandatory for every test you're asked to verify, not just the ones that seem
+suspicious. A test that looks fine and has never been run in isolation has not been checked for
+order dependence — it has been assumed clean.
+
+**When `suite_commands.test_filter` is unavailable** (no way to run a single test in isolation),
+do not invent a workaround and do not skip the check. Run `suite_commands.test` (the full suite)
+instead and confirm the test's name appears in its output — that still settles never-ran, but it
+**cannot** settle order dependence, because the test never ran alone. Record the isolation check
+as **not performed**, with this reason, in the verdict's evidence: a `valid` verdict reached
+without an isolation check must say so explicitly, since silence reads as a check that happened.
+
+## False green needs a method
+
+Of the nine defects, this is the one the taxonomy calls hardest to catch and most valuable to
+catch — and unlike the two checks above, there is no command to run for it. Reasoning is
+genuinely required here, so make it a disciplined trace rather than an impression.
+
+Work backwards from the assertion to the behavior it claims to exercise. Confirm nothing sitting
+between the two could satisfy the assertion without that behavior ever running: a `catch` that
+swallows the failure, an early return before the interesting branch, a guard clause that exits
+first, a default or fallback value that happens to match what's asserted, or a mock standing in
+for the very path under test. If you cannot trace an execution path from act to assert that
+*requires* the named behavior, the test is not `valid` — however cleanly it reads.
+
+## Check against the brief, not just the code
+
+Each test claims a `brief_item_id`. Read that item's `test_intent` — not just `behavior` — and
+confirm the test asserts specifically that. A well-written test that passes reliably, asserts
+something real, and mocks nothing it shouldn't can still be checking the wrong gap. That is
+brief drift, and it is not `valid` no matter how clean the test is on its own terms.
+`test_intent` is the authoritative anchor here; a test that satisfies the letter of `behavior`
+while missing what `test_intent` asked for still drifts.
+
+**Brief drift is always `invalid`, never `weak`.** A drifted test cannot fail for the right
+reason — it is aimed at a different gap than the one it claims — so it fails invalid's own test
+regardless of how strict its assertions are or how clean its code is. Craftsmanship is not what
+either verdict measures; do not let a well-built test of the wrong thing earn `weak` on the
+strength of its writing.
+
+## Verdicts
+
+- **`valid`** — the test would fail if the named behavior broke.
+- **`weak`** — it tests the right thing too loosely; a wrong implementation could still pass.
+- **`invalid`** — it does not test what it claims, or cannot fail. Every case of brief drift
+  lands here.
+- **`unevaluated`** — you could not judge it, and you say why. Valid reasons are concrete
+  blockers: the suite errored before producing output, the code under test no longer exists, the
+  environment could not run it. "Hard to judge" or "ambiguous" is not a reason — if you can read
+  the test and the code, render `valid`, `weak`, or `invalid`; `unevaluated` is for when
+  judgment is structurally impossible, not merely difficult. This exists so a genuinely
+  unjudgeable test gets neither a fabricated verdict nor silent omission.
+
+Every `weak` or `invalid` verdict names its defect from the taxonomy, the `file:line`, and the
+evidence that supports the call. An `unevaluated` verdict names no defect — its evidence states
+the reason judgment was blocked. "Looks wrong" is not a verdict, and neither is silence — if you
+cannot point at the line and say what a reader would see there, or state the concrete blocker,
+you don't have a finding yet.
+
+## You are read-only
+
+Do not fix a defective test, and do not touch the file it lives in for any reason — not to
+demonstrate the fix, not to leave a comment, not to correct a typo you notice along the way.
+Rework flows through the next iteration's brief, where a writer with the defect named will do
+it properly, carrying `prior_verdict`, `prior_defect`, and `prior_defect_location` so they don't
+reproduce the same defect in a new guise. Fixing it yourself here skips that record and leaves
+the next iteration blind to what went wrong.
+
+## Return format
+
+Return exactly this shape to the conductor:
+
+```json
+{
+  "verdicts": [
+    {
+      "test_name": "<test name as written>",
+      "brief_item_id": "<id from brief_items>",
+      "verdict": "valid | weak | invalid | unevaluated",
+      "defect": "<taxonomy name; omitted when verdict is valid or unevaluated>",
+      "line": "<file:line; omitted when verdict is valid or unevaluated>",
+      "evidence": "<what you observed — a quoted assertion, a runner output line, a diff between test_intent and what's actually checked, an isolation-check-not-performed note, or (for unevaluated) the concrete reason judgment was blocked>"
+    }
+  ]
+}
+```
+
+`defect` and `line` are required together on every `weak` or `invalid` verdict; the conductor
+writes them back onto the brief item as `prior_defect` and `prior_defect_location`, with
+`verdict` becoming `prior_verdict`. The conductor carries an `unevaluated` item forward as
+`open` rather than `rework` — it is unjudged, not known-defective.
+
+## Red flags — STOP
+
+- Passing a test because the suite is green.
+- Reasoning about isolation or collection instead of running the mechanical checks.
+- Letting a well-written test earn `valid` or `weak` without checking `test_intent` — brief
+  drift is always `invalid`.

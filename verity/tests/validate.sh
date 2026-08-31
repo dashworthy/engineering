@@ -62,4 +62,25 @@ fi
 [ -f "$PLUGIN/README.md" ]; check $? "verity/README.md exists"
 [ -f "$ROOT/README.md" ] && grep -q "verity" "$ROOT/README.md"; check $? "root README names verity"
 
+# ============================================================================
+# Task 1.3 — the four skills, copied in, names unchanged
+# ============================================================================
+
+for skill in conducting-test-hardening auditing-test-gaps verifying-test-integrity writing-tests-from-brief; do
+  S="$PLUGIN/skills/$skill/SKILL.md"
+  [ -f "$S" ]; check $? "skills/$skill/SKILL.md exists"
+  if [ -f "$S" ]; then
+    head -1 "$S" | grep -q '^---$'; check $? "$skill has frontmatter"
+    grep -q "^name: $skill$" "$S"; check $? "$skill frontmatter names itself"
+  fi
+done
+
+# reference files travel with the skills that own them
+for ref in brief-schema brief-template detecting-the-stack measuring-reports stack-markers; do
+  [ -f "$PLUGIN/skills/conducting-test-hardening/references/$ref.md" ]
+  check $? "conducting-test-hardening ships references/$ref.md"
+done
+[ -f "$PLUGIN/skills/verifying-test-integrity/references/defect-taxonomy.md" ]
+check $? "verifying-test-integrity ships references/defect-taxonomy.md"
+
 exit $fail
