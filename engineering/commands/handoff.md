@@ -56,10 +56,10 @@ Close with a **suggested-skills** section: a short list of `engineering:` skills
 next session will likely need, given where this one left off, each with one line on why.
 Name them by their real skill id — for example `engineering:writing-plans` if a spec
 exists but no plan has been produced from it yet, `engineering:executing-plans` if a
-plan exists and the next step is to run it, or `engineering:conducting-test-hardening`
-if the work is implemented but was never hardened. Only suggest a skill that genuinely
-fits what this session did; a short, accurate list is more useful than an exhaustive
-one.
+plan exists and the next step is to run it, or `engineering:finishing-a-development-branch`
+if the work is implemented and green and the next step is to integrate the branch. Only
+suggest a skill that genuinely fits what this session did; a short, accurate list is more
+useful than an exhaustive one.
 
 If no argument was given, ask what the next session will be used for before writing
 anything — the handoff reads differently depending on whether the next session
