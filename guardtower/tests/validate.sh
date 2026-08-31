@@ -318,7 +318,7 @@ if [ -f "$TQ" ]; then
   grep_flat "$TQ" "report-only"; check $? "reviewing-test-quality is report-only"
   grep_flat "$TQ" "findings.md"; check $? "reviewing-test-quality writes findings.md"
   # the defining constraint: it reasons structurally and does NOT execute the suite
-  grep_flat "$TQ" "never runs the suite"; check $? "reviewing-test-quality states it never runs the suite"
+  grep_flat "$TQ" "judges structurally, and never runs the suite"; check $? "reviewing-test-quality states it never runs the suite"
   # analysis boundary stated inline (no ADR pointer — the plugin ships without docs/adr/)
   grep_flat "$TQ" "no proactive"; check $? "reviewing-test-quality states its analysis boundary inline"
   grep_flat "$TQ" "references/test-quality-checklist.md"; check $? "reviewing-test-quality links references/test-quality-checklist.md"
@@ -371,7 +371,7 @@ if [ -f "$DS" ]; then
   grep_flat "$DS" "findings.md"; check $? "reviewing-data-safety writes findings.md"
   # analysis boundary stated inline (no ADR pointer — the plugin ships without docs/adr/)
   grep_flat "$DS" "no proactive"; check $? "reviewing-data-safety states its analysis boundary inline"
-  grep_flat "$DS" "the diff"; check $? "reviewing-data-safety scopes to the operation visible in the diff"
+  grep_flat "$DS" "visible in the diff"; check $? "reviewing-data-safety scopes to the operation visible in the diff"
   grep_flat "$DS" "references/data-safety-checklist.md"; check $? "reviewing-data-safety links references/data-safety-checklist.md"
 fi
 
@@ -421,7 +421,7 @@ if [ -f "$AC" ]; then
   grep_flat "$AC" "findings.md"; check $? "reviewing-api-compat writes findings.md"
   # analysis boundary stated inline (no ADR pointer — the plugin ships without docs/adr/)
   grep_flat "$AC" "no proactive"; check $? "reviewing-api-compat states its analysis boundary inline"
-  grep_flat "$AC" "the diff"; check $? "reviewing-api-compat scopes to the contract change visible in the diff"
+  grep_flat "$AC" "visible in the diff"; check $? "reviewing-api-compat scopes to the contract change visible in the diff"
   grep_flat "$AC" "references/api-compat-checklist.md"; check $? "reviewing-api-compat links references/api-compat-checklist.md"
 fi
 
