@@ -234,6 +234,20 @@ for sk in brainstorming codebase-design writing-plans code-review; do
   check $? "$sk carries the ADR intake clause (recording-adrs, live alternatives, may decline)"
 done
 
+# --- codebase-design companions ----------------------------------------------
+# codebase-design states its principle in SKILL.md and carries the mechanics in uppercase
+# companion files beside it. Each companion must both exist AND be referenced from SKILL.md:
+# a companion nothing links is unreachable, and a SKILL.md reference to a deleted file is a
+# dangling pointer. Neither failure trips the frontmatter or ADR-clause checks above, so guard
+# both here. PATTERN-MATRIX.md (the selectable GoF matrix) and SHAPE-REVIEW.md (the evaluative
+# SOLID + anti-pattern lens) joined DEEPENING.md and DESIGN-IT-TWICE.md when the design-pattern
+# catalog landed; see docs/adr/0004.
+CD="$PLUGIN/skills/codebase-design"
+for comp in DEEPENING.md DESIGN-IT-TWICE.md PATTERN-MATRIX.md SHAPE-REVIEW.md; do
+  [ -f "$CD/$comp" ]; check $? "codebase-design/$comp exists"
+  grep_flat "$CD/SKILL.md" "$comp"; check $? "codebase-design/SKILL.md references $comp"
+done
+
 # --- passive-idiom guard -----------------------------------------------------
 # First-class artifacts are actively consulted, never "read when present." No SKILL.md,
 # command, or skill reference may pair an artifact token (docs/adr) with a
