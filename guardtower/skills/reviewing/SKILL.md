@@ -59,16 +59,13 @@ Safety**, **API & Backward Compatibility**), selectable per run.
 
 ## Governing principle
 
-Each facet enforces its own hard stops — the relevance gate, the top-N cap, the confidence floor —
-inside itself, before it returns, rather than the orchestrator trimming its findings afterward.
-Keep that shape when changing a facet boundary or adding a facet: a cap the orchestrator applies
-after a facet has already done unbounded work saves output, not the work.
+Keep the self-enforcement shape (workflow step 4) when changing a facet boundary or adding a facet:
+a cap the orchestrator applies after a facet has already done unbounded work saves output, not the
+work.
 
 ## What this does not do
 
 - It does not **fix what it finds.** Findings are handed back; applying them, and deciding whether
   to, belongs to the caller (engineering's `receiving-code-review` is a natural downstream).
-- It does not **trim a facet's findings.** The relevance gate, the top-N cap, and the confidence
-  floor all run inside each facet, before it returns. The orchestrator only reconciles.
 - It does not **decide when a review happens**, and it does not **stand in for sign-off.** A clean
   report is information a human uses to decide whether to merge, not a switch this skill throws.

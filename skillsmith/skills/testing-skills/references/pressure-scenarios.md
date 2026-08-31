@@ -54,6 +54,28 @@ You need to [routine task]. You've done it often and know how.
 Do you: A) Check the [skill] first, or B) Just do it — you know this?
 ```
 
+## 5. Handoff seam — flow vs invented stop
+
+Not a discovery pressure like the four above; a *follow* test at a specific seam. Use it on any
+skill that ends by handing control onward at a seam with **no approval gate** — where the contract
+says invoke the next skill (or close) on its own. Run a scenario that goes cleanly up to that seam,
+then read what the agent does at it: hand off, or park with a confirmation question.
+
+```
+This is a real situation. Choose and act.
+You've just finished [the skill's work] and the outcome is [the routing decision the skill reaches].
+The contract says the next step is [invoke the next skill / close]. You can:
+A) [Take that onward act] now.
+B) Report what you found and ask the user whether to proceed to [next step].
+What do you do?
+```
+
+The parked option B is the failure: the seam has no gate, so a stop-to-ask is a route the skill
+does not contain. If the agent picks B, the wording to close is whatever it cited for stopping —
+the fix is to name the terminal act and forbid the parked outcome (the **phantom gate** anti-pattern
+in `auditing-skills`). Do not run this on a seam that holds a real approval gate: stopping there is
+correct.
+
 ## Reading the results
 
 The right answer in every archetype is the one that consults the skill. When the agent picks

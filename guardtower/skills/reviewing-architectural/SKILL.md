@@ -1,6 +1,6 @@
 ---
 name: reviewing-architectural
-description: "Guardtower's architectural facet: review a change for the structural defects visible in a diff — a coupling or dependency-direction violation the change introduces, responsibility piled onto a module that already owns something else, a duplicated abstraction, or a leaky abstraction — returning capped, floored, self-contained findings. Use when an architectural review of a diff/branch/PR is requested, or when guardtower's reviewing orchestrator dispatches the architectural facet."
+description: "Guardtower's architectural facet: review a change for the structural defects visible in a diff — a coupling or dependency-direction violation the change introduces, responsibility piled onto a module that already owns something else, a duplicated abstraction, or a leaky abstraction — returning capped, floored, self-contained findings. Use when an architectural review of a diff/branch/PR is requested."
 ---
 
 # Reviewing — Architectural facet
@@ -15,9 +15,7 @@ duplicated abstraction, a leaky abstraction — and returns a short, ordered, se
 findings, capped and floored, with a durable record written to its artifact. It is **report-only**:
 it never edits code.
 
-It is a *self-limiting* facet: it runs its relevance gate first and enforces its own caps and floor,
-at the source, before it returns — the orchestrator does not trim it afterward. See the shared spine
-it obeys: `../reviewing/references/hard-stops.md` and `../reviewing/references/facet-contract.md`.
+This facet self-limits at the source (see `../reviewing/references/hard-stops.md`), under the shared `../reviewing/references/facet-contract.md`.
 
 Its analysis stays inside a fixed boundary:
 the boundaries the diff itself moves, read against the reviewer's knowledge of layering and the
@@ -25,13 +23,6 @@ public surface of the modules the change already touches — **no proactive repo
 dependency-graph build**. A coupling violation the change introduces at a boundary it crosses is in
 reach; the whole system's architecture the diff never touches is an explicit non-goal, not a defect
 this facet chases.
-
-## The request and result
-
-The orchestrator hands this facet the contract request: `change_ref`, an optional `spec_ref`, an
-`artifact_path` (`.guardtower/<run>/reviewing-architectural/findings.md`), and `caps` (`top_n`,
-`floor`). It returns the contract result: its `relevance` verdict, its `findings` (already floored
-and capped to `top_n`), and the written `artifact_path`.
 
 ## The workflow
 

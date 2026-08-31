@@ -24,7 +24,10 @@ that test.
    does the agent **discover** it (load it unprompted), **read** it (completely, not a skim),
    and **follow** it (do what it says)? A failure at any of the three is a different problem
    with a different fix — a discovery failure is a description problem, a follow failure is a
-   force or framing problem.
+   force or framing problem. Where the skill ends by handing control onward at a seam with no
+   approval gate, *follow* specifically means taking that onward act; an invented "want me to
+   proceed?" stop there is a follow-failure — scenario 5 in
+   [references/pressure-scenarios.md](references/pressure-scenarios.md) tests for it.
 
 4. **Apply pressure.** Re-run with the pressures that make agents cut corners in real work —
    time cost, sunk cost, an authority telling them to hurry, plain familiarity. See

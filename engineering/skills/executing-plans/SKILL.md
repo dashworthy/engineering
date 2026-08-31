@@ -128,6 +128,11 @@ the full per-task loop, not a shortcut version of it.
 
 ## Handoff
 
-Once the last task is checked off, report the plan's path and its final commit, and stop.
-What happens to the branch from there — merge, PR, further review — is not this skill's
-decision to make.
+Once the last task is checked off, report the plan's path and its final commit, then **hand off
+to `engineering:finishing-a-development-branch` now** — it carries out the finish strategy the
+plan gate already authorized (merge, PR, land the stack, or cleanup) without asking again,
+re-verifying green itself first. Deciding *how* the branch integrates is not this skill's job;
+reaching the skill that owns that decision is. So don't stop at the checked box and hand control
+back with a "want me to finish the branch?" — there is no gate at this seam (the plan gate
+already settled the finish strategy), the plan is complete, and finishing is the next act. Take
+it.
