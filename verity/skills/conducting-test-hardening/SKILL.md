@@ -314,9 +314,8 @@ Whichever exit is reached, report it plainly, together with:
 - Any degraded condition hit along the way (a dead auditor, a skipped suite, a stalled mutation
   run) and what it means for whether `pass` was reachable at all.
 
-Then, before reporting anything as met, **run the verification commands yourself and confirm
-their actual output** — never report a threshold met without the run that proves it, and never
-let a `pass` stand on a summary of a summary. Evidence before the claim, every time. There
+Then run the verification commands yourself and confirm their actual output before reporting
+anything as met — evidence before the claim, every time. There
 is no gate file to clear and no marker to remove — this run's briefs under `.verity/<run>/test-hardening/briefs/`
 are left in place as the audit trail, and the next run asks its questions fresh rather than
 reading anything back from this one.
