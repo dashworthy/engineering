@@ -20,18 +20,20 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 
 ## The facets
 
-Seven facets exist; each is a thin skill owning one lens. This release wires **Security**; the
-rest are listed but not yet available.
+Seven facets exist; each is a thin skill owning one lens. This release wires **all seven** — the
+three **core** facets (**Security**, **Technical**, **Architectural**), pre-checked by default, plus
+the four additional facets (**Error Handling & Resilience**, **Test Quality**, **Data & Migration
+Safety**, **API & Backward Compatibility**), selectable per run.
 
 | Facet (skill) | Lens | Core? |
 |---|---|---|
 | `reviewing-security` | OWASP best practices; authorization enforced, not assumed | core |
-| `reviewing-technical` *(coming soon)* | Reuse over reinvention; inefficient queries; best practice | core |
-| `reviewing-architectural` *(coming soon)* | Sustainable architecture | core |
-| `reviewing-error-handling` *(coming soon)* | Silent failures, swallowed exceptions, bad fallbacks | — |
-| `reviewing-test-quality` *(coming soon)* | Do tests exercise the change and fail if it breaks? | — |
-| `reviewing-data-safety` *(coming soon)* | Destructive/irreversible ops, migrations, data loss | — |
-| `reviewing-api-compat` *(coming soon)* | Breaking changes to public contracts | — |
+| `reviewing-technical` | Reuse over reinvention; inefficient queries; best practice | core |
+| `reviewing-architectural` | Sustainable architecture: coupling, dependency direction, cohesion, leaky abstractions | core |
+| `reviewing-error-handling` | Silent failures, swallowed exceptions, bad fallbacks | — |
+| `reviewing-test-quality` | Do tests exercise the change and fail if it breaks? | — |
+| `reviewing-data-safety` | Destructive/irreversible ops, migrations, data loss | — |
+| `reviewing-api-compat` | Breaking changes to public contracts | — |
 
 ## The workflow
 
@@ -55,12 +57,12 @@ rest are listed but not yet available.
    findings, and present **one** report alongside the durable per-facet artifacts. Reconciliation
    is the one thing a facet does not own; it needs every result at once.
 
-## Governing decision
+## Governing principle
 
-The orchestrator-plus-self-limiting-facets shape, and why each facet enforces its own hard stops
-rather than the orchestrator trimming afterward, is recorded in
-`docs/adr/0003-guardtower-orchestrator-with-self-limiting-facets.md`. Read it before changing the
-facet boundary or adding a facet.
+Each facet enforces its own hard stops — the relevance gate, the top-N cap, the confidence floor —
+inside itself, before it returns, rather than the orchestrator trimming its findings afterward.
+Keep that shape when changing a facet boundary or adding a facet: a cap the orchestrator applies
+after a facet has already done unbounded work saves output, not the work.
 
 ## What this does not do
 

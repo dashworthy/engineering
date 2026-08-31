@@ -2,7 +2,7 @@
 
 The uniform interface between the `reviewing` orchestrator and every facet skill. It is identical
 for all facets, so the orchestrator knows nothing facet-specific and a new facet is "implement this
-contract + add a menu row." Governed by ADR-0003.
+contract + add a menu row."
 
 ## Request — orchestrator → facet
 

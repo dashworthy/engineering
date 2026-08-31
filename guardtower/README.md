@@ -30,15 +30,16 @@ facets, then returns one reconciled report plus the per-facet artifacts under `.
 | Facet | Asks |
 |---|---|
 | **Security** | OWASP best practices, and is authorization *enforced* rather than assumed? |
-| Technical | *(coming soon)* Reuse over reinvention, inefficient queries, best-practice adherence. |
-| Architectural | *(coming soon)* Is this sustainable architecture? |
-| Error Handling & Resilience | *(coming soon)* Silent failures, swallowed exceptions, bad fallbacks. |
-| Test Quality | *(coming soon)* Do the tests exercise the change and fail if it breaks? |
-| Data & Migration Safety | *(coming soon)* Destructive/irreversible operations, data-loss risk. |
-| API & Backward Compatibility | *(coming soon)* Breaking changes to public contracts. |
+| **Technical** | Reuse over reinvention, inefficient queries, best-practice adherence. |
+| **Architectural** | Sustainable architecture — coupling, dependency direction, cohesion, leaky abstractions. |
+| **Error Handling & Resilience** | Silent failures, swallowed exceptions, bad fallbacks. |
+| **Test Quality** | Do the tests exercise the change and fail if it breaks? |
+| **Data & Migration Safety** | Destructive/irreversible operations, data-loss risk. |
+| **API & Backward Compatibility** | Breaking changes to public contracts. |
 
-This release ships the **Security** facet and the shared review spine; the rest arrive on the
-same contract in later releases.
+This release ships **all seven** facets — the three **core** (**Security**, **Technical**,
+**Architectural**), pre-checked by default, plus **Error Handling & Resilience**, **Test Quality**,
+**Data & Migration Safety**, and **API & Backward Compatibility** — on the shared review spine.
 
 ## Design principles
 
@@ -51,8 +52,9 @@ same contract in later releases.
   framework or stack is baked in.
 - **A durable record.** Every run leaves an inspectable trail under `.guardtower/<run>/`.
 
-The architecture (an orchestrator over self-limiting facets) is recorded in
-[ADR-0003](../docs/adr/0003-guardtower-orchestrator-with-self-limiting-facets.md).
+The architecture is an orchestrator over self-limiting facets: each facet decides its own
+relevance, then caps and floors its own findings before returning, and the orchestrator only
+reconciles what they hand back.
 
 ## License
 

@@ -2,7 +2,7 @@
 
 Three stops keep a facet from spending tokens on low-value work. All three run **inside the facet,
 at the source** — before it returns — never as trimming the orchestrator does afterward. That
-placement is the whole point (ADR-0003): a cap applied after the facet has already scanned
+placement is the whole point: a cap applied after the facet has already scanned
 everything saves output, not tokens; a gate the facet runs first saves the scan.
 
 There is deliberately **no numeric token ceiling.** Discipline comes from what is worth doing and
