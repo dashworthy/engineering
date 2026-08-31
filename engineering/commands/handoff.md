@@ -27,10 +27,42 @@ needs:
 - The goal this session was working toward, and how far it got.
 - Decisions made along the way, and why — the landing, not the discussion that produced
   it.
-- Open threads: what's unresolved, what's blocked, what was deliberately deferred and
-  why.
+- Open threads: what's unresolved, what's blocked, and what was deferred — but read the
+  next section before you write the word "deferred" anywhere.
 - The concrete next step — the first thing the next session should do, not a survey of
   everything that could be done.
+
+## A handoff never decides that anything is deferred
+
+This is an absolute rule, not a guideline, and it has no exceptions. The handoff step has
+**zero authority** to classify anything as deferred, parked, or out of scope. It may only
+*record* a deferral the user has already opted into through an explicit `AskUserQuestion`
+prompt. Nothing else grants that status.
+
+The single gate for writing "deferred" — or "parked," "for later," "out of scope,"
+"separate change," or any synonym — about any item:
+
+> The user was shown that specific item in an `AskUserQuestion` prompt and chose to defer
+> it, and you can point to that prompt.
+
+If that gate is not met, you may not mark the item deferred. Not because "it obviously is
+a separate concern," not because "the user implied it," not because "it came up and nobody
+pursued it," not because "it's out of scope for this piece of work." Every one of those is
+*you* deciding to defer — and deciding to defer is the one act this step is forbidden to
+perform. You do not have the authority; only an `AskUserQuestion` opt-in does.
+
+So, for any adjacent or unresolved item you are tempted to park:
+
+- **Ask, then record.** Put it to the user with `AskUserQuestion` (in scope / defer / drop)
+  before you finish the handoff, and record their actual answer. This is the *only* route
+  to a "deferred" label.
+- **Or leave it open.** If you do not ask, record it as an **open question the reader still
+  owes an answer on** — plainly not decided, not deferred, not out of scope. An open
+  question is honest; a "deferral" the user never made is a fabricated decision.
+
+There is no "Explicitly out of scope" section, no parking lot, populated by your own
+judgment — it does not exist in a handoff. An unresolved thread is an open question. Label
+it as one.
 
 Do not restate material that already lives somewhere durable. If this session touched a
 document under `.engineering/<run>/spec/` or `.engineering/<run>/plan/`,
