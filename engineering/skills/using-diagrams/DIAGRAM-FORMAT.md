@@ -10,7 +10,7 @@ and keep that fence flush to the left margin.
 
 ## GitHub-compatible mermaid
 
-Every mermaid diagram this skill writes must render on GitHub — the specs, ADRs, PRs, and
+Every mermaid diagram this skill writes must render on GitHub — the specs, PRs, and
 issues it lands in are all drawn by GitHub's renderer, which pins an older mermaid than a
 local preview and sanitizes for safety. Stay inside what GitHub actually draws:
 

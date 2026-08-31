@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: "Turn an approved spec into an ordered, bite-sized implementation plan with TDD integration points, then hold the plan-approval gate — present the plan, wait for approval, mint the plan-approval marker. Use after a spec is approved and before building. Cites recorded conventions inline at each task via using-code-conventions."
+description: "Turn an approved spec into an ordered, bite-sized implementation plan with TDD integration points, then hold the plan-approval gate — present the plan, wait for approval, mint the plan-approval marker. Use after a spec is approved and before building."
 ---
 
 # Writing Plans
@@ -30,13 +30,6 @@ no marker behind it is the signature of a hand-edited status line or a spec writ
 this mechanism existed — either way the spec gate was never cleared, so refuse and stop
 rather than plan it. This mirrors `finishing-a-development-branch`'s rule to prefer the
 trace over the checkbox: the marker is the trace, the status line is only the checkbox.
-
-Actively consult the substrate while shaping tasks: surface governing decisions with
-`engineering:using-adrs`, citing a governing ADR by path on the task it constrains (the same
-way conventions are cited below). A settled boundary recorded there constrains how a task's
-file paths and interfaces get written, the same way it constrains a fresh module boundary in
-`codebase-design`. A project that has accumulated no ADR trail surfaces nothing to cite, and
-that's ordinary, not a degraded run.
 
 Two things about the spec matter more than its prose: its Constraints section and any
 decision table it carries. Both travel into the plan close to verbatim — see Global
@@ -71,19 +64,6 @@ task downstream can point back at one shared block instead of each task restatin
 risking drifting from, what the spec actually said. A task's own text should read as "per
 Global Constraints, this uses X," not repeat the reasoning for X.
 
-## Citing recorded conventions at each task
-
-A recorded convention only reaches the builder if the plan carries it. When the project keeps a
-standards tree at `docs/standards/`, invoke `engineering:using-code-conventions` while shaping
-the plan: it reads the standards index, matches each task's kind of work against the **When
-relevant** column, and cites the governing convention file inline on the task itself —
-`(convention: docs/standards/<area>/<rule>.md)`. The citation travels with the task into
-`executing-plans`, so the subagent that builds it opens the rule before writing code rather than
-after `code-review` catches the violation. Cite the file by path, never a paraphrase, so the
-task always resolves to the current rule. A project with no standards tree simply gets no
-citations; this skill consults the tree but never writes it (recording is
-`recording-code-conventions`).
-
 ## Consider a diagram for a task's shape
 
 When a task describes a data model, a flow, or a state machine, consider a diagram via
@@ -116,16 +96,6 @@ step, with a step to **submit the stacked PR** for the task via
 
 Leave non-stacked plans exactly as they are: no PR-strategy line, no per-task branch or
 submit steps, the single-PR-at-the-end flow unchanged. Stacked mode is opt-in per plan.
-
-## Offer to record a planning decision as an ADR
-
-When sequencing turns on a decision with genuine live alternatives — an ordering or a
-boundary between plans that another planner could reasonably have drawn differently — offer to
-record it as an ADR via `engineering:recording-adrs`, written `Proposed`. Put the offer
-through `AskUserQuestion` (`Record as ADR` / `Skip — not a real fork`) so it is a deliberate
-pick, not a prose aside skimmed past. The bar is real live alternatives, not every routine
-sequencing call, and the developer may decline; declining is what keeps ADR intake from
-flooding.
 
 ## Splitting into a plan set
 
@@ -180,9 +150,6 @@ Before calling the plan finished, run a self-review pass over what was just writ
 - It does not **execute the plan.** Running the plan task by task, driving each one
   through `engineering:tdd` and gating with `engineering:code-review` is `executing-plans` —
   a separate skill, downstream of this one, that this skill does not invoke itself.
-- It does not **require an ADR.** It consults the trail actively and cites what
-  it holds, but a project that never wrote one simply yields nothing to cite — this skill
-  does not stall a plan waiting on documentation the project never wrote.
 
 ## The plan gate — present the plan, then hold for approval
 

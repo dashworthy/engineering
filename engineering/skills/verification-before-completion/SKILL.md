@@ -55,7 +55,7 @@ unnoticed.
 
 - It does not **decide what counts as verification** for a project it has never seen before. What
   command to run, and what output from it counts as evidence, is read from how the project
-  already verifies itself — its test runner, its CI config, its existing conventions — not
+  already verifies itself — its test runner, its CI config — not
   invented fresh each time this skill runs.
 - It does not **write or harden tests.** Hardening the test suite — asking whether the tests
   themselves would catch a regression if one were introduced — is a separate question about the

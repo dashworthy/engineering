@@ -1,6 +1,6 @@
 ---
 name: using-diagrams
-description: "Render a diagram that carries its own weight — an ER model, process flow, or a shape prose describes badly — in the medium the destination displays: mermaid where it renders markdown, ASCII elsewhere. Use when a spec, ADR, plan, PR, or code comment would be clearer with a picture. Cross-cutting; invoke from any phase."
+description: "Render a diagram that carries its own weight — an ER model, process flow, or a shape prose describes badly — in the medium the destination displays: mermaid where it renders markdown, ASCII elsewhere. Use when a spec, plan, PR, or code comment would be clearer with a picture. Cross-cutting; invoke from any phase."
 ---
 
 # Using Diagrams
@@ -14,12 +14,10 @@ medium the destination can actually display — a mermaid fenced block where the
 renders markdown, an ASCII drawing everywhere else — and every entity, edge, and step in it
 traces to something already known, not something the diagram invented to look complete.
 
-## A first-class authoring obligation
+## An authoring obligation
 
-Diagrams are an application of the first-class-artifact doctrine —
-[../recording-adrs/references/first-class-artifact.md](../recording-adrs/references/first-class-artifact.md).
-The intake trigger lives in the authoring phases: when an authoring phase — a spec, a plan, or
-an ADR — describes a data model, a flow, or a state machine, it is obligated to
+The intake trigger lives in the authoring phases: when an authoring phase — a spec or a plan —
+describes a data model, a flow, or a state machine, it is obligated to
 **consider a diagram** via this skill. The guard is *consider*, not *always draw* — the
 earned-its-place test below still decides whether one is actually drawn, so the obligation
 prompts a diagram where one would help without flooding every document with pictures.
@@ -45,8 +43,8 @@ a reader has to read past to reach the thing that matters.
 This is the decision that changes what gets written. Once a diagram has earned its place,
 pick the medium by one predicate — **does the destination render a fenced mermaid block?**
 
-- **It renders markdown** — a spec under `.engineering/<run>/spec/`, an ADR under
-  `docs/adr/`, a plan, a pull-request description, a GitHub issue or comment:
+- **It renders markdown** — a spec under `.engineering/<run>/spec/`, a plan, a pull-request
+  description, a GitHub issue or comment:
   use **mermaid**, in a ` ```mermaid ` fenced block. The destination draws it; ASCII there
   would be a worse picture of the same thing. Keep the mermaid **GitHub-compatible** —
   these destinations are where GitHub's own renderer draws it, and it pins an older mermaid
@@ -75,7 +73,7 @@ explore rather than scan. When Claude is in the loop and the destination can tak
 (artifacts draw mermaid natively) at a size the reader can navigate, handed over as a link
 rather than pasted into a doc.
 
-This is an escalation, not the default: most diagrams belong inline in the spec, ADR, or plan,
+This is an escalation, not the default: most diagrams belong inline in the spec or plan,
 where they sit beside the prose that needs them and travel with the document in git. Reach for
 an artifact only when a static block genuinely can't hold the shape — and even then, still leave
 a small inline diagram or a one-line pointer in the document itself, so a reader who only has
@@ -101,10 +99,6 @@ When the destination is a Tier-1 spec, the shape decides the section:
   the approach being chosen.
 - a **process-flow diagram** goes in §6 Approach, beside the prose that describes it.
 
-The neighbour owns the piece a diagram doesn't: if the shape was a real decision with
-alternatives, the *why* belongs in an ADR — the spec carries the picture, the ADR carries
-the argument, and §7 cites the ADR number.
-
 ## Ground every mark in real material
 
 A diagram is a claim, the same as a sentence is. An entity the source material never
@@ -119,8 +113,8 @@ genuinely unknown, say so in prose and leave it undrawn.
   argued out in `brainstorming`; the boundary an ER model reflects was shaped in
   `codebase-design`. This skill draws a decision already made; it does
   not make it.
-- It does not **write the document.** `to-spec` owns the spec, `recording-adrs` owns the
-  ADR, `writing-plans` owns the plan. This skill supplies
+- It does not **write the document.** `to-spec` owns the spec, `writing-plans` owns the plan.
+  This skill supplies
   a diagram for one of them to hold; it does not author the surrounding document or choose its
   home beyond the section guidance above.
 - It does not **invent.** No entity, edge, or step goes into a diagram that isn't in the

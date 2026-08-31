@@ -127,140 +127,36 @@ if [ -f "$COND" ]; then
   grep_flat "$COND" "Verify these yourself"; check $? "conductor reports rewriter self-flags"
 fi
 
-# --- first-class-artifact doctrine -------------------------------------------
-# The doctrine is defined before it is applied: ADRs and diagrams each declare themselves an
-# application of this one pattern. The pattern has three elements and names two consumption
-# profiles — trail (historical, cited by path) and lookup (living, resolved in place).
-DOCTRINE="$PLUGIN/skills/recording-adrs/references/first-class-artifact.md"
-[ -f "$DOCTRINE" ]; check $? "first-class-artifact doctrine exists"
-
-if [ -f "$DOCTRINE" ]; then
-  grep_flat "$DOCTRINE" "intake trigger";      check $? "doctrine names the intake-trigger pattern element"
-  grep_flat "$DOCTRINE" "index";               check $? "doctrine names the index pattern element"
-  grep_flat "$DOCTRINE" "active consumption";  check $? "doctrine names the active-consumption pattern element"
-  grep_flat "$DOCTRINE" "trail";               check $? "doctrine names the trail consumption profile"
-  grep_flat "$DOCTRINE" "lookup";              check $? "doctrine names the lookup consumption profile"
-fi
-
-# --- recording-adrs single writer --------------------------------------------
-# The single writer of docs/adr/. Mirrors recording-code-conventions' single-writer role,
-# but an ADR is a point-in-time record, not a standing rule — so it carries NO hardening
-# interrogation and NO individual-approval gate. Its intake does not flood: it fires only on
-# a decision with live alternatives, and the developer can decline.
-RECADR="$PLUGIN/skills/recording-adrs/SKILL.md"
-[ -f "$RECADR" ]; check $? "recording-adrs/SKILL.md exists"
-
-if [ -f "$RECADR" ]; then
-  grep -q '^name: recording-adrs$' "$RECADR"; check $? "recording-adrs frontmatter names itself"
-  grep_flat "$RECADR" "docs/adr/";            check $? "recording-adrs states it writes docs/adr/"
-  grep_flat "$RECADR" "single writer";        check $? "recording-adrs states it is the single writer"
-  grep_flat "$RECADR" "live alternatives";    check $? "recording-adrs states the live-alternatives intake bar"
-  grep_flat "$RECADR" "can decline";          check $? "recording-adrs states the developer can decline (no flood)"
-  grep_flat "$RECADR" "Proposed";             check $? "recording-adrs states the Proposed lifecycle state"
-  grep_flat "$RECADR" "Accepted";             check $? "recording-adrs states the Accepted lifecycle state"
-  grep_flat "$RECADR" "Superseded";           check $? "recording-adrs states the Superseded lifecycle state"
-  grep_flat "$RECADR" "no approval gate";     check $? "recording-adrs states it carries no approval gate"
-  grep_flat "$RECADR" "per-run/per-phase";    check $? "recording-adrs describes the per-run/per-phase tracking ledger"
-  grep_flat "$RECADR" "derived from the index"; check $? "recording-adrs states the tracking view is derived from the index (not a second source of truth)"
-fi
-
-ADRFMT="$PLUGIN/skills/recording-adrs/ADR-FORMAT.md"
-[ -f "$ADRFMT" ]; check $? "recording-adrs/ADR-FORMAT.md exists"
-ADRIDX="$PLUGIN/skills/recording-adrs/ADR-INDEX-FORMAT.md"
-[ -f "$ADRIDX" ]; check $? "recording-adrs/ADR-INDEX-FORMAT.md exists"
-if [ -f "$ADRIDX" ]; then
-  grep_flat "$ADRIDX" "When relevant"; check $? "ADR index format has a When relevant match column"
-  grep_flat "$ADRIDX" "Status";        check $? "ADR index format has a Status column"
-fi
-
-# The ADR trail's index is seeded with the one ADR already on disk, so using-adrs has a map
-# to read from day one. docs/adr/ is a per-repo runtime artifact at the repo root.
-ADRSEED="$ROOT/docs/adr/index.md"
-[ -f "$ADRSEED" ]; check $? "docs/adr/index.md exists"
-if [ -f "$ADRSEED" ]; then
-  grep_flat "$ADRSEED" "0001-derive-verity-configuration-fresh-each-run.md"; check $? "ADR index links ADR 0001"
-  grep_flat "$ADRSEED" "Accepted"; check $? "ADR index records ADR 0001 as Accepted"
-fi
-
-# --- the ADR->convention spawn bridge stays retired ---------------------------
-# recording-adrs owns docs/adr/; the one-directional ADR->convention spawn bridge is removed
-# from recording-code-conventions and STANDARDS-FORMAT.
+# --- domain-modeling stays removed -------------------------------------------
+# A previously-removed skill; guard that it does not creep back.
 [ ! -e "$PLUGIN/skills/domain-modeling" ]; check $? "domain-modeling skill removed"
-RCC="$PLUGIN/skills/recording-code-conventions/SKILL.md"
-if [ -f "$RCC" ]; then
-  ! grep_flat "$RCC" "spawn"; check $? "recording-code-conventions has no spawn-bridge reference"
-fi
-STDFMT="$PLUGIN/skills/recording-code-conventions/STANDARDS-FORMAT.md"
-if [ -f "$STDFMT" ]; then
-  ! grep_flat "$STDFMT" "spawn"; check $? "STANDARDS-FORMAT drops the ADR-spawn provenance option"
-fi
 
-# --- using-adrs consumer -----------------------------------------------------
-# The ADR analogue of using-code-conventions, under the trail profile: read the index, match
-# the When relevant column, cite the governing ADR by path at the work item, skip Superseded.
-USEADR="$PLUGIN/skills/using-adrs/SKILL.md"
-[ -f "$USEADR" ]; check $? "using-adrs/SKILL.md exists"
-
-if [ -f "$USEADR" ]; then
-  grep -q '^name: using-adrs$' "$USEADR"; check $? "using-adrs frontmatter names itself"
-  grep_flat "$USEADR" "docs/adr/index.md"; check $? "using-adrs reads the ADR index"
-  grep_flat "$USEADR" "When relevant";     check $? "using-adrs matches the When relevant column"
-  grep_flat "$USEADR" "by path";           check $? "using-adrs cites the governing ADR by path at the work item"
-  grep_flat "$USEADR" "Superseded";        check $? "using-adrs skips Superseded rows"
-fi
-
-# --- diagrams first-class: authoring phases consider a diagram ---------------
-# using-diagrams declares itself a doctrine application; the authoring phases (to-spec,
-# writing-plans, recording-adrs) each carry a "consider a diagram" obligation — guard is
-# *consider*, not *always draw*, so it does not flood.
+# --- diagrams: authoring phases consider a diagram ---------------------------
+# using-diagrams is *consider*, not *always draw*, so the obligation does not flood. The
+# authoring phases (to-spec, writing-plans) each carry a "consider a diagram" obligation.
 UD="$PLUGIN/skills/using-diagrams/SKILL.md"
 if [ -f "$UD" ]; then
-  grep_flat "$UD" "first-class-artifact.md"; check $? "using-diagrams references the first-class-artifact doctrine"
-  grep_flat "$UD" "consider a diagram";      check $? "using-diagrams states the consider-a-diagram authoring obligation"
+  grep_flat "$UD" "consider a diagram"; check $? "using-diagrams states the consider-a-diagram authoring obligation"
 fi
-for sk in to-spec writing-plans recording-adrs; do
+for sk in to-spec writing-plans; do
   f="$PLUGIN/skills/$sk/SKILL.md"
   grep_flat "$f" "using-diagrams" && grep_flat "$f" "consider a diagram"
   check $? "$sk carries the consider-a-diagram obligation via using-diagrams"
-done
-
-# --- ADR intake in the decision phases ---------------------------------------
-# The decision-point prompt: a phase that reaches a decision with genuine live alternatives
-# offers to record an ADR via recording-adrs; the developer may decline — the non-flood guard.
-for sk in brainstorming codebase-design writing-plans code-review; do
-  f="$PLUGIN/skills/$sk/SKILL.md"
-  grep_flat "$f" "recording-adrs" && grep_flat "$f" "live alternatives" && grep_flat "$f" "decline"
-  check $? "$sk carries the ADR intake clause (recording-adrs, live alternatives, may decline)"
 done
 
 # --- codebase-design companions ----------------------------------------------
 # codebase-design states its principle in SKILL.md and carries the mechanics in uppercase
 # companion files beside it. Each companion must both exist AND be referenced from SKILL.md:
 # a companion nothing links is unreachable, and a SKILL.md reference to a deleted file is a
-# dangling pointer. Neither failure trips the frontmatter or ADR-clause checks above, so guard
-# both here. PATTERN-MATRIX.md (the selectable GoF matrix) and SHAPE-REVIEW.md (the evaluative
-# SOLID + anti-pattern lens) joined DEEPENING.md and DESIGN-IT-TWICE.md when the design-pattern
-# catalog landed; see docs/adr/0004.
+# dangling pointer. Neither failure trips the frontmatter checks above, so guard both here.
+# PATTERN-MATRIX.md (the selectable GoF matrix) and SHAPE-REVIEW.md (the evaluative SOLID +
+# anti-pattern lens) joined DEEPENING.md and DESIGN-IT-TWICE.md when the design-pattern
+# catalog landed.
 CD="$PLUGIN/skills/codebase-design"
 for comp in DEEPENING.md DESIGN-IT-TWICE.md PATTERN-MATRIX.md SHAPE-REVIEW.md; do
   [ -f "$CD/$comp" ]; check $? "codebase-design/$comp exists"
   grep_flat "$CD/SKILL.md" "$comp"; check $? "codebase-design/SKILL.md references $comp"
 done
-
-# --- passive-idiom guard -----------------------------------------------------
-# First-class artifacts are actively consulted, never "read when present." No SKILL.md,
-# command, or skill reference may pair an artifact token (docs/adr) with a
-# passive-read idiom on the same line. Reference files are in scope because the sweep edited
-# them too, so a regression there is caught rather than going silent. The idiom list is fixed
-# and deliberately narrow so it catches the rot ("if either exists", "when present") without
-# tripping on the ordinary word "existing".
-passive=0
-for f in $(find "$PLUGIN/skills" -name SKILL.md) $(find "$PLUGIN/skills" -path '*/references/*.md') $(find "$PLUGIN/commands" -name '*.md'); do
-  if grep -E 'docs/adr' "$f" | grep -qiE 'when present|if present|(when|if) (either|they|it) exists?|read when present|ignored when absent'; then
-    echo "  passive artifact-read idiom in $f"; passive=1
-  fi
-done
-[ "$passive" = 0 ]; check $? "no SKILL.md/command/reference reads docs/adr with a passive 'when present' idiom"
 
 # --- no personal emails (GitHub addresses only) ------------------------------
 # Convention: people (stakeholders, sign-off, approvers, authors) are identified by name or
