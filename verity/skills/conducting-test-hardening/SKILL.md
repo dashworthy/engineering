@@ -46,12 +46,12 @@ means is always someone else's job — `auditing-test-gaps` for changed applicat
 
 ## Run directory
 
-`.engineering/<run>/test-hardening/` in the **user's** project — never inside the plugin. `<run>` is not
+`.verity/<run>/test-hardening/` in the **user's** project — never inside the plugin. `<run>` is not
 yours to name: obtain it by running `sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" test-hardening`,
-which prints the absolute path of `.engineering/<run>/test-hardening/` and creates it if needed. If
+which prints the absolute path of `.verity/<run>/test-hardening/` and creates it if needed. If
 test-hardening runs standalone — no earlier phase has run in this session — this same call creates the
-`.engineering/.current-run` pointer itself; if a run is already active, it joins that run
-instead. This run's briefs live at `.engineering/<run>/test-hardening/briefs/<n>.md`.
+`.verity/.current-run` pointer itself; if a run is already active, it joins that run
+instead. This run's briefs live at `.verity/<run>/test-hardening/briefs/<n>.md`.
 
 ## Preflight
 
@@ -70,7 +70,7 @@ instead. This run's briefs live at `.engineering/<run>/test-hardening/briefs/<n>
    find as confirmed unless the user corrects it, and treat every gap it left as a question, not
    a guess you fill in yourself.
 3. **Compute the diff scope.** `git diff --name-only <base>...HEAD` for committed changes, plus
-   uncommitted changes and untracked files, excluding `.engineering/`. Route each changed file to a
+   uncommitted changes and untracked files, excluding `.verity/`. Route each changed file to a
    suite by the paths confirmed in step 2; a file matching no suite's application paths becomes
    an ownership finding for iteration 1's brief rather than being silently dropped or guessed at.
 
@@ -129,7 +129,7 @@ Repeat the following per iteration until an exit condition is reached.
   `references/brief-schema.md`): `risk_level` (high, medium, low), then rework items before fresh
   ones within a level, then `target_file` ascending, then `id` ascending — no step skipped, so
   two runs over the same findings render an identical brief. Write
-  `.engineering/<run>/test-hardening/briefs/<n>.md` from `references/brief-template.md`.
+  `.verity/<run>/test-hardening/briefs/<n>.md` from `references/brief-template.md`.
 - **Halt on breakage.** If the brief contains any breakage finding, present every one to the
   user and STOP — before any writer is dispatched. This is unconditional; there is no setting
   that turns it off. Never write a test that pins in behavior a breakage finding flags as
@@ -190,7 +190,7 @@ Repeat the following per iteration until an exit condition is reached.
      whether or not anything has been written through it yet — its existence is the escape.
   3. Compare each resolved path against the test and fixture locations confirmed during stack
      detection (each participating suite's own test root, any harness scripts the user named as
-     part of the test surface, and this run's own `.engineering/<run>/test-hardening/briefs/`). Anything whose resolved
+     part of the test surface, and this run's own `.verity/<run>/test-hardening/briefs/`). Anything whose resolved
      location falls outside all of those HALTS the run: present the offending paths and their
      diff to the user and stop.
   4. Check the touched pre-existing test files for a rewrite rather than an append, using **the
@@ -317,7 +317,7 @@ Whichever exit is reached, report it plainly, together with:
 Then, before reporting anything as met, **run the verification commands yourself and confirm
 their actual output** — never report a threshold met without the run that proves it, and never
 let a `pass` stand on a summary of a summary. Evidence before the claim, every time. There
-is no gate file to clear and no marker to remove — this run's briefs under `.engineering/<run>/test-hardening/briefs/`
+is no gate file to clear and no marker to remove — this run's briefs under `.verity/<run>/test-hardening/briefs/`
 are left in place as the audit trail, and the next run asks its questions fresh rather than
 reading anything back from this one.
 

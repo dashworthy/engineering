@@ -105,4 +105,18 @@ if [ -f "$COND" ]; then
   grep_flat "$COND" "confirm their"; check $? "conducting inlines: confirm the actual output before claiming met"
 fi
 
+# ============================================================================
+# Task 1.5 — run record written under .verity/, never .engineering/
+# ============================================================================
+
+if grep -rq "\.engineering" "$PLUGIN/skills"; then
+  bad "no .engineering path survives in verity/skills ($(grep -rl "\.engineering" "$PLUGIN/skills" | tr '\n' ' '))"
+else
+  ok "no .engineering path survives in verity/skills"
+fi
+
+if [ -f "$COND" ]; then
+  grep_flat "$COND" ".verity/<run>/test-hardening/"; check $? "conducting writes its run record under .verity/<run>/test-hardening/"
+fi
+
 exit $fail
