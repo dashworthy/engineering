@@ -46,12 +46,12 @@ means is always someone else's job — `auditing-test-gaps` for changed applicat
 
 ## Run directory
 
-`.engineering/<run>/test-hardening/` in the **user's** project — never inside the plugin. `<run>` is not
+`.verity/<run>/test-hardening/` in the **user's** project — never inside the plugin. `<run>` is not
 yours to name: obtain it by running `sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" test-hardening`,
-which prints the absolute path of `.engineering/<run>/test-hardening/` and creates it if needed. If
+which prints the absolute path of `.verity/<run>/test-hardening/` and creates it if needed. If
 test-hardening runs standalone — no earlier phase has run in this session — this same call creates the
-`.engineering/.current-run` pointer itself; if a run is already active, it joins that run
-instead. This run's briefs live at `.engineering/<run>/test-hardening/briefs/<n>.md`.
+`.verity/.current-run` pointer itself; if a run is already active, it joins that run
+instead. This run's briefs live at `.verity/<run>/test-hardening/briefs/<n>.md`.
 
 ## Preflight
 
@@ -70,7 +70,7 @@ instead. This run's briefs live at `.engineering/<run>/test-hardening/briefs/<n>
    find as confirmed unless the user corrects it, and treat every gap it left as a question, not
    a guess you fill in yourself.
 3. **Compute the diff scope.** `git diff --name-only <base>...HEAD` for committed changes, plus
-   uncommitted changes and untracked files, excluding `.engineering/`. Route each changed file to a
+   uncommitted changes and untracked files, excluding `.verity/`. Route each changed file to a
    suite by the paths confirmed in step 2; a file matching no suite's application paths becomes
    an ownership finding for iteration 1's brief rather than being silently dropped or guessed at.
 
@@ -114,10 +114,12 @@ instead. This run's briefs live at `.engineering/<run>/test-hardening/briefs/<n>
 Repeat the following per iteration until an exit condition is reached.
 
 - **Audit.** For every (suite, track) pair confirmed in preflight, dispatch one
-  `auditing-test-gaps` agent, in parallel, per `engineering:dispatching-parallel-agents`. Pass
-  each agent only that suite's slice: its changed files, its current report numbers, and its
-  carry-forward from the previous iteration — never another suite's data, and never the raw diff
-  beyond what that one suite owns.
+  `auditing-test-gaps` agent. Fan them out in **one message** so the whole set runs as a single
+  parallel wave, not one-at-a-time; **wait for the whole wave to return before merging** anything;
+  and if an agent fails or times out, **surface it rather than dropping it** — a silently missing
+  auditor is a gap in the audit, not a clean result. Pass each agent only that suite's slice: its
+  changed files, its current report numbers, and its carry-forward from the previous iteration —
+  never another suite's data, and never the raw diff beyond what that one suite owns.
 - **Merge.** Dedup incoming findings by (`target_file`, `behavior`). Assign each new item an
   `id` of the form `<suite>-<track>-<nnn>` (`unowned-ownership-<nnn>` for ownership findings,
   `<suite>-breakage-<nnn>` for breakage findings) and set its `iteration` to the current
@@ -127,7 +129,7 @@ Repeat the following per iteration until an exit condition is reached.
   `references/brief-schema.md`): `risk_level` (high, medium, low), then rework items before fresh
   ones within a level, then `target_file` ascending, then `id` ascending — no step skipped, so
   two runs over the same findings render an identical brief. Write
-  `.engineering/<run>/test-hardening/briefs/<n>.md` from `references/brief-template.md`.
+  `.verity/<run>/test-hardening/briefs/<n>.md` from `references/brief-template.md`.
 - **Halt on breakage.** If the brief contains any breakage finding, present every one to the
   user and STOP — before any writer is dispatched. This is unconditional; there is no setting
   that turns it off. Never write a test that pins in behavior a breakage finding flags as
@@ -188,7 +190,7 @@ Repeat the following per iteration until an exit condition is reached.
      whether or not anything has been written through it yet — its existence is the escape.
   3. Compare each resolved path against the test and fixture locations confirmed during stack
      detection (each participating suite's own test root, any harness scripts the user named as
-     part of the test surface, and this run's own `.engineering/<run>/test-hardening/briefs/`). Anything whose resolved
+     part of the test surface, and this run's own `.verity/<run>/test-hardening/briefs/`). Anything whose resolved
      location falls outside all of those HALTS the run: present the offending paths and their
      diff to the user and stop.
   4. Check the touched pre-existing test files for a rewrite rather than an append, using **the
@@ -312,8 +314,9 @@ Whichever exit is reached, report it plainly, together with:
 - Any degraded condition hit along the way (a dead auditor, a skipped suite, a stalled mutation
   run) and what it means for whether `pass` was reachable at all.
 
-Then invoke `engineering:verification-before-completion` before reporting anything as met. There
-is no gate file to clear and no marker to remove — this run's briefs under `.engineering/<run>/test-hardening/briefs/`
+Then run the verification commands yourself and confirm their actual output before reporting
+anything as met — evidence before the claim, every time. There
+is no gate file to clear and no marker to remove — this run's briefs under `.verity/<run>/test-hardening/briefs/`
 are left in place as the audit trail, and the next run asks its questions fresh rather than
 reading anything back from this one.
 

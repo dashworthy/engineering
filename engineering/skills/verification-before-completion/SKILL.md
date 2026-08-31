@@ -1,6 +1,6 @@
 ---
 name: verification-before-completion
-description: "Before claiming done, fixed, or passing, run the verification commands and confirm their output — show the proof, don't just assert it. Use whenever you're about to report success. Complements test-hardening (which hardens the tests themselves)."
+description: "Before claiming done, fixed, or passing, run the verification commands and confirm their output — show the proof, don't just assert it. Use whenever you're about to report success."
 ---
 
 # Verification Before Completion
@@ -57,11 +57,11 @@ unnoticed.
   command to run, and what output from it counts as evidence, is read from how the project
   already verifies itself — its test runner, its CI config, its existing conventions — not
   invented fresh each time this skill runs.
-- It does not **write or harden tests.** `engineering:conducting-test-hardening` asks whether the
-  test suite itself would catch a regression if one were introduced — a question about the
-  tests' quality, asked once near the end of a branch's life; this skill asks the narrower, far
-  more frequent question of whether the check that already exists actually passed, on this code,
-  just now. The two failures are independent — a branch can pass one and fail the other.
+- It does not **write or harden tests.** Hardening the test suite — asking whether the tests
+  themselves would catch a regression if one were introduced — is a separate question about the
+  tests' quality; this skill asks the narrower, far more frequent question of whether the check
+  that already exists actually passed, on this code, just now. The two failures are independent —
+  a branch can pass one and fail the other.
 - It does not **fix a failing check.** A red run reported honestly is this skill doing its job;
   working out what caused the failure and repairing it is separate work this skill hands back
   rather than absorbing itself.

@@ -1,6 +1,6 @@
 ---
 name: finishing-a-development-branch
-description: "When work is complete and green, carry out the finish strategy the plan gate authorized (merge / PR / land the stack / cleanup); with no plan behind the branch, present the options and ask. Safety net: prompt conducting-test-hardening if the branch was never hardened."
+description: "When work is complete and green, carry out the finish strategy the plan gate authorized (merge / PR / land the stack / cleanup); with no plan behind the branch, present the options and ask."
 ---
 
 # Finishing A Development Branch
@@ -11,12 +11,11 @@ branch gets integrated.`
 ## What this guarantees
 
 One thing: this skill will not offer a single integration option — merge, PR, or cleanup —
-until the branch in front of it is green, its verification is backed by command output rather
-than a claim, and there is actual evidence the branch was test-hardened. Where any of those
-three is missing, this skill stops and closes the gap first: it runs verification itself, or it
-surfaces the hardening gap and prompts for it, before the options list ever appears. How the
-chosen option gets carried out is judgment applied to whatever this project's own remote,
-review process, and branch model happen to require.
+until the branch in front of it is green and its verification is backed by command output rather
+than a claim. Where either is missing, this skill stops and closes the gap first: it runs
+verification itself before the options list ever appears. How the chosen option gets carried out
+is judgment applied to whatever this project's own remote, review process, and branch model
+happen to require.
 
 ## Require green and verified before anything else
 
@@ -28,45 +27,12 @@ trusting a stale green.
 
 If verification comes back red, stop there. Report exactly what failed and hand the decision —
 fix now, or fix before returning to this skill — back to the user. A red branch has nothing to
-integrate; do not fall through to the hardening check or the options list on the theory that the
-failure is probably unrelated.
-
-## The test-hardening safety net
-
-Most branches get hardened without this skill doing anything: `writing-plans` puts a closing
-test-hardening task on every plan it writes, and `executing-plans` reaches that task and runs
-`engineering:conducting-test-hardening` in the ordinary course of working the plan. That
-pipeline is not this skill's concern — until the branch reaching this skill is one it can't
-vouch for, which is more often than it sounds. Work done outside `writing-plans` entirely never
-had a hardening task to begin with; a plan-driven branch can still reach here with that task
-sitting unchecked. Nothing upstream of this skill enforces that the task actually ran — only
-that it exists on the plan.
-
-So treat "was this branch hardened" as a question with evidence, not an assumption carried over
-from earlier in the session:
-
-- **Was there a plan behind this branch at all?** If one is known — via the active run pointer
-  or a plan file under `.engineering/<run>/plan/` that matches this work — find its
-  closing Phase 3.5 task and check whether its box is actually checked. A plan with no such task
-  checked off has not been hardened, whatever the rest of its boxes say.
-- **Did a hardening run actually leave a trace?** A checked box is a claim; test-hardening's own run
-  directory, `.engineering/<run>/test-hardening/`, with at least one brief in it, is the record that a
-  hardening pass actually happened rather than being ticked off by hand. Prefer the trace over
-  the checkbox when the two disagree.
-
-A branch with no plan at all is the unhardened case too, not a lesser one. When any of that
-comes back short, do not fold it silently into "done." Say plainly that this branch has no
-evidence of being test-hardened, and put the choice through `AskUserQuestion` — `Run
-test-hardening now` / `Proceed without hardening` — before any integration option is presented.
-For a branch nothing upstream actually hardened, this is the last place the gap gets caught.
-It is a prompt, not a lock: proceeding without hardening is theirs to pick, but the tool makes
-it an explicit pick rather than a default reached by silence. What this skill does not do is let the gap pass
-unnamed, or decide on the user's behalf that skipping it is fine.
+integrate; do not fall through to the options list on the theory that the failure is probably
+unrelated.
 
 ## Carry out the finish strategy
 
-Once the branch is green, verified, and either hardened or knowingly waved through, it can
-re-enter the rest of the repository. How that happens is, by default, not a fresh question: the
+Once the branch is green and verified, it can re-enter the rest of the repository. How that happens is, by default, not a fresh question: the
 plan gate already settled it. Read the plan behind this branch — via the active run pointer or a
 plan file under `.engineering/<run>/plan/` that matches this work — and look in its
 Global Constraints for the `Finish strategy:` line (and any `PR strategy: stacked` line). When
@@ -121,10 +87,6 @@ stated convention wins; absent that, leave it out.
 - It does not **run the project's tests itself** in place of its own suite or
   `engineering:verification-before-completion` — it relies on that skill's evidence rather than
   reimplementing it.
-- It does not **run the hardening pass on its own initiative.** It prompts for
-  `engineering:conducting-test-hardening`; whether that dispatch actually happens is the user's
-  call, and if it does happen, test-hardening's own loop owns it end to end — this skill does not
-  shortcut or re-implement any part of that loop.
 - It does not **review the code on the branch.** Whatever judgment belongs to
   `engineering:code-review` already happened earlier in the branch's life; by the time this
   skill runs, the content is the content that's shipping, and the only open question is how it

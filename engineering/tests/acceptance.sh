@@ -35,10 +35,6 @@ diagnosing-bugs:[Build]
 code-review:[Build]
 using-code-conventions:[Build]
 using-adrs:[Build]
-conducting-test-hardening:[Test hardening]
-auditing-test-gaps:[Test hardening]
-verifying-test-integrity:[Test hardening]
-writing-tests-from-brief:[Test hardening]
 clarifying-docblocks:[Docs]
 rewriting-docblock-prose:[Docs]
 using-git-worktrees:[Foundation]
@@ -102,13 +98,13 @@ tr '\n' ' ' < "$eng/skills/brainstorming/SKILL.md" | grep -qiE "hand[^.]*enginee
 grep -qF '**Status:** Draft' "$eng/skills/to-spec/SPEC-FORMAT.md" || { echo "FAIL: SPEC-FORMAT template must stamp **Status:** Draft (written first, flipped to Approved at the spec gate)"; fail=1; }
 grep -qF 'dimensions"| BR["brainstorming' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route interrogate -> brainstorming -> to-spec"; fail=1; }
 
-# 7. verity is a planned step, not a session-start hook.
-grep -q "conducting-test-hardening" "$eng/skills/writing-plans/SKILL.md" || { echo "FAIL: writing-plans must bake hardening"; fail=1; }
-grep -q "conducting-test-hardening" "$eng/skills/finishing-a-development-branch/SKILL.md" || { echo "FAIL: finish-time hardening net missing"; fail=1; }
+# 7. The test-hardening discipline has moved to the standalone verity plugin: engineering no
+# longer bakes a hardening step into its planning or finish skills.
+if grep -rq "conducting-test-hardening" "$eng/skills"; then echo "FAIL: engineering still references the moved conducting-test-hardening skill"; fail=1; fi
 
 # 7b. executing-plans must hand off to finishing-a-development-branch when the plan completes. The plan
 # gate pre-authorizes the finish strategy so finishing carries it out unattended (plan gate = last human
-# stop); a handoff that stops at the checked hardening box without reaching finishing re-opens the
+# stop); a handoff that stops at the last checked box without reaching finishing re-opens the
 # phantom-gate the pre-authorization was meant to close. Flatten newlines: the phrase wraps.
 tr '\n' ' ' < "$eng/skills/executing-plans/SKILL.md" | grep -qiE "hand[^.]*engineering:finishing-a-development-branch" || { echo "FAIL: executing-plans must hand off to finishing-a-development-branch on plan completion"; fail=1; }
 
@@ -130,7 +126,8 @@ grep -qxF '.engineering/' "$root/.gitignore" || { echo "FAIL: .engineering not g
 test ! -f "$eng/NOTICE" || { echo "FAIL: NOTICE file exists"; fail=1; }
 if grep -rIn --exclude-dir=tests "reproduced from" "$eng" 2>/dev/null; then echo "FAIL: attribution leak"; fail=1; fi
 
-# 11. Old directories are gone.
-for old in signal verity vernacular; do test ! -d "$root/$old" || { echo "FAIL: $old/ still present"; fail=1; }; done
+# 11. Old codename directories are gone. (verity is intentionally NOT here: it is now a
+# standalone sibling plugin at the marketplace root, not a retired engineering codename dir.)
+for old in signal vernacular; do test ! -d "$root/$old" || { echo "FAIL: $old/ still present"; fail=1; }; done
 
 [ "$fail" = 0 ] && echo "ENGINEERING ACCEPTANCE: ALL CHECKS PASS" || { echo "ACCEPTANCE FAILED"; exit 1; }

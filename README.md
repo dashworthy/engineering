@@ -9,8 +9,10 @@ are deliberately out of scope.
 This repository is the `dashworthy` Claude Code marketplace. Its primary plugin,
 `engineering`, carries the whole pipeline; companion plugins ship alongside it, each
 installed separately — `laravel` (Laravel pre-commit hooks: Pint, PHPStan, Pest),
-`skillsmith` (author, test, and audit Claude skills), and `guardtower` (an in-depth,
-opt-in code-review gate). See [guardtower/README.md](guardtower/README.md).
+`skillsmith` (author, test, and audit Claude skills), `guardtower` (an in-depth,
+opt-in code-review gate), and `verity` (standalone test-hardening: harden an arbitrary
+branch via `/harden`). See [guardtower/README.md](guardtower/README.md) and
+[verity/README.md](verity/README.md).
 
 ## Install
 
@@ -113,12 +115,13 @@ flowchart LR
     C --> OUT(["recommended design<br/>→ to-spec (spec gate)"]):::done
 ```
 
-### 4. Build backbone — `plan → build → harden → document`
+### 4. Build backbone — `plan → build → document`
 
 Every spec leaves the same way. `writing-plans` turns it into an ordered, bite-sized
 plan; `/implement` drives each task through a test-first `tdd` loop gated by
-`code-review`; `conducting-test-hardening` closes the gaps a first pass leaves behind;
-and docs hardening rewrites the prose the branch touched into plain language.
+`code-review`; and docs hardening rewrites the prose the branch touched into plain
+language. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
+against a branch when you want it.)
 
 ```mermaid
 flowchart LR
@@ -128,14 +131,13 @@ flowchart LR
     P --> B["tdd build<br/>(red-green-refactor)"]
     B -->|"per task"| R{"code-review<br/>gate"}
     R -->|"changes"| B
-    R -->|"pass"| H["test<br/>hardening"]
-    H --> DOC["docs<br/>hardening"]
+    R -->|"pass"| DOC["docs<br/>hardening"]
     DOC --> DONE(["green, documented branch"]):::done
 ```
 
 ## Skill suite
 
-The plugin ships **31 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **27 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
@@ -146,7 +148,6 @@ none.
 | Design | `brainstorming`, `codebase-design` |
 | Planning | `writing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review`, `using-code-conventions`, `using-adrs` |
-| Test hardening | `conducting-test-hardening`, `auditing-test-gaps`, `verifying-test-integrity`, `writing-tests-from-brief` |
 | Docs | `clarifying-docblocks`, `rewriting-docblock-prose` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
 | Cross-cutting | `resolving-merge-conflicts`, `using-diagrams` |

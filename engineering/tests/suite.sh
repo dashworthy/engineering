@@ -11,7 +11,7 @@ sh "$d/absorb-verity.sh"
 sh "$d/absorb-approval-gate.sh"
 sh "$d/validate.sh"
 sh "$d/conventions.sh"
-for s in to-spec:'[Discovery]' interrogating-requirements:'[Discovery]' clarifying-docblocks:'[Docs]' rewriting-docblock-prose:'[Docs]' conducting-test-hardening:'[Test hardening]' auditing-test-gaps:'[Test hardening]' verifying-test-integrity:'[Test hardening]' writing-tests-from-brief:'[Test hardening]'; do
+for s in to-spec:'[Discovery]' interrogating-requirements:'[Discovery]' clarifying-docblocks:'[Docs]' rewriting-docblock-prose:'[Docs]'; do
   name=${s%%:*}; tag=${s#*:}
   sh "$d/frontmatter.sh" "$d/../skills/$name" "$tag"
 done
