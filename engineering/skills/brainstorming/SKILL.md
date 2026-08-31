@@ -115,7 +115,11 @@ that marker exists. This skill does not write the spec and does not write into
 So this skill's job ends at a recommendation, not a ratification. Don't stage a
 section-by-section sign-off here or treat the human nodding along as approval —
 collecting that approval is the spec gate's job, and another gate here would only
-duplicate it. Hand off the design and stop.
+duplicate it. So hand the recommended design straight to `to-spec` — **invoke it now.**
+"Stop" here means stop *designing* and stop trying to collect approval; it is not a stop to
+ask the human whether to continue. There is no gate at this seam, so parking the design with a
+"want me to write the spec?" is not an available move — the recommendation is done, `to-spec`
+is the next act, take it.
 
 ## What this does not do
 

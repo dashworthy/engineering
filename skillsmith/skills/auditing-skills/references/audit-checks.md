@@ -39,6 +39,17 @@ Structural anti-patterns that list does not name:
   the fix is an absolute path passed in the dispatch, or inlining the content and dropping the
   citation.
 
+- **Phantom gate.** A skill that ends by handing control onward — invoke the next skill, or close
+  with a written disposition — but whose handoff prose leans on "stop", "job ends", or "no gate
+  here" without stating the seam ends in an *act* and without forbidding the "report the route, then
+  ask whether to proceed" non-outcome. The agent fills the vacuum with a generic
+  confirm-before-continuing reflex and parks the work — examined, routed, and left sitting, an
+  outcome the skill's own guarantee usually rules out. **Confirm the seam carries no approval gate**
+  before flagging: a seam that legitimately waits for human sign-off (a spec gate, a plan gate) is a
+  real stop, not this finding — the tell is a *no-gate* seam where control is meant to flow on its
+  own. **Fix:** name the terminal act explicitly ("invoke X now" / "close with a disposition"), and
+  state that reporting the route and waiting for a "yes, go" is not one of the skill's outcomes.
+
 ## Excessive verbosity
 
 The tell is prose a capable agent didn't need: a paragraph defining an ordinary term, an explanation
