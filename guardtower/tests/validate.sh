@@ -400,6 +400,62 @@ if [ -f "$ORCH" ]; then
 fi
 
 # ============================================================================
+# Spec 3 Task 4 — reviewing-api-compat facet skill
+# ============================================================================
+
+AC="$PLUGIN/skills/reviewing-api-compat/SKILL.md"
+[ -f "$AC" ]; check $? "reviewing-api-compat/SKILL.md exists"
+if [ -f "$AC" ]; then
+  head -1 "$AC" | grep -q '^---$'; check $? "reviewing-api-compat has frontmatter"
+  grep -q '^name: reviewing-api-compat$' "$AC"; check $? "reviewing-api-compat frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$AC")
+  printf '%s' "$desc" | grep -qiE "api.compat|backward.compat"; check $? "reviewing-api-compat description carries an api/backward-compat trigger"
+  printf '%s' "$desc" | grep -qi "breaking"; check $? "reviewing-api-compat description names breaking changes"
+  printf '%s' "$desc" | grep -qiE "public|contract"; check $? "reviewing-api-compat description names public contracts"
+  # self-limiting behavior, at the source
+  grep_flat "$AC" "relevance gate"; check $? "reviewing-api-compat runs the relevance gate"
+  grep_flat "$AC" "before any lens work"; check $? "reviewing-api-compat short-circuits before lens work"
+  grep_flat "$AC" "top_n"; check $? "reviewing-api-compat applies the top-N cap"
+  grep_flat "$AC" "floor"; check $? "reviewing-api-compat applies the confidence/severity floor"
+  grep_flat "$AC" "report-only"; check $? "reviewing-api-compat is report-only"
+  grep_flat "$AC" "findings.md"; check $? "reviewing-api-compat writes findings.md"
+  # analysis boundary stated inline (no ADR pointer — the plugin ships without docs/adr/)
+  grep_flat "$AC" "no proactive"; check $? "reviewing-api-compat states its analysis boundary inline"
+  grep_flat "$AC" "the diff"; check $? "reviewing-api-compat scopes to the contract change visible in the diff"
+  grep_flat "$AC" "references/api-compat-checklist.md"; check $? "reviewing-api-compat links references/api-compat-checklist.md"
+fi
+
+ACCL="$PLUGIN/skills/reviewing-api-compat/references/api-compat-checklist.md"
+[ -f "$ACCL" ]; check $? "reviewing-api-compat/references/api-compat-checklist.md exists"
+if [ -f "$ACCL" ]; then
+  grep_flat "$ACCL" "Removed or renamed"; check $? "api-compat-checklist covers a removed/renamed public member"
+  grep_flat "$ACCL" "Changed signature"; check $? "api-compat-checklist covers a changed signature"
+  grep_flat "$ACCL" "Changed response"; check $? "api-compat-checklist covers a changed response shape/status"
+  grep_flat "$ACCL" "Widened requirement"; check $? "api-compat-checklist covers a widened input requirement"
+  grep_flat "$ACCL" "Changed serialization"; check $? "api-compat-checklist covers a changed serialization"
+  grep_flat "$ACCL" "not a finding"; check $? "api-compat-checklist states what is not a finding"
+fi
+
+# --- orchestrator wiring: api-compat is live, not "coming soon" ---------------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-api-compat' "$ORCH"; then
+    if grep 'reviewing-api-compat' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-api-compat (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-api-compat (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-api-compat (not coming soon)"
+  fi
+  # menu complete — all seven facets wired, no row still "coming soon"
+  if grep -q 'coming soon' "$ORCH"; then
+    bad "reviewing menu is complete — no facet row still 'coming soon'"
+  else
+    ok "reviewing menu is complete — no facet row still 'coming soon'"
+  fi
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
