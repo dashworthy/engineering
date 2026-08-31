@@ -119,4 +119,18 @@ if [ -f "$COND" ]; then
   grep_flat "$COND" ".verity/<run>/test-hardening/"; check $? "conducting writes its run record under .verity/<run>/test-hardening/"
 fi
 
+# ============================================================================
+# Task 1.6 — /harden command
+# ============================================================================
+
+CMD="$PLUGIN/commands/harden.md"
+[ -f "$CMD" ]; check $? "commands/harden.md exists"
+if [ -f "$CMD" ]; then
+  head -1 "$CMD" | grep -q '^---$'; check $? "harden command has frontmatter"
+  grep -q '^description:' "$CMD"; check $? "harden command frontmatter has a description"
+  grep -q '^argument-hint:' "$CMD"; check $? "harden command frontmatter has an argument-hint"
+  grep_flat "$CMD" "verity:conducting-test-hardening"; check $? "harden command invokes the conducting-test-hardening skill"
+  grep_flat "$CMD" "CLAUDE_PLUGIN_ROOT"; check $? "harden command resolves scripts via CLAUDE_PLUGIN_ROOT"
+fi
+
 exit $fail
