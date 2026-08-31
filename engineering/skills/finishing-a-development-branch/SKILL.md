@@ -84,6 +84,14 @@ options depends on the project, not on this skill's own preference — read the 
 configuration, any branch protection, and the branch's existing state before acting, rather than
 treating all of them as available every time.
 
+Whatever the path, keep the pull request — and any commit or merge message this skill writes —
+about the change: what it does, why, and how it was verified. Do not add self-promotion for
+Claude, Claude Code, or any other AI/LLM vendor, and do not append AI-authorship or "generated
+by" attribution: no `Co-Authored-By: Claude` trailer, no "🤖 Generated with…" footer, no tool
+advertising anywhere in the title or body. The PR speaks for the work, not for the tool that
+helped write it. The exception is a project that has explicitly asked for such attribution — its
+stated convention wins; absent that, leave it out.
+
 - **Merge directly** — the branch talks straight to its target with no review gate expected or
   required. Perform the merge (or the native equivalent), and once the branch's work is folded
   into its target, clean up after it: delete the branch and remove any worktree
