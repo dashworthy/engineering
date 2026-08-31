@@ -83,4 +83,26 @@ done
 [ -f "$PLUGIN/skills/verifying-test-integrity/references/defect-taxonomy.md" ]
 check $? "verifying-test-integrity ships references/defect-taxonomy.md"
 
+# ============================================================================
+# Task 1.4 — foundation dependencies inlined, no cross-plugin reference
+# ============================================================================
+
+# verity is standalone: nothing under skills/ may reach back into engineering:
+if grep -rq "engineering:" "$PLUGIN/skills"; then
+  bad "no engineering: reference survives in verity/skills ($(grep -rl "engineering:" "$PLUGIN/skills" | tr '\n' ' '))"
+else
+  ok "no engineering: reference survives in verity/skills"
+fi
+
+COND="$PLUGIN/skills/conducting-test-hardening/SKILL.md"
+if [ -f "$COND" ]; then
+  # (a) the three dispatching-parallel-agents fan-out principles, stated inline
+  grep_flat "$COND" "one message"; check $? "conducting inlines: fan out in one message (single wave)"
+  grep_flat "$COND" "whole wave"; check $? "conducting inlines: wait for the whole wave before merging"
+  grep_flat "$COND" "rather than dropping it"; check $? "conducting inlines: surface a failed/timed-out agent"
+  # (b) the verification-before-completion gate principle, stated inline
+  grep_flat "$COND" "run the verification commands"; check $? "conducting inlines: run the verification commands"
+  grep_flat "$COND" "confirm their"; check $? "conducting inlines: confirm the actual output before claiming met"
+fi
+
 exit $fail

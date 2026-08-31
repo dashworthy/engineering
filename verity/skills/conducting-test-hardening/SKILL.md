@@ -114,10 +114,12 @@ instead. This run's briefs live at `.engineering/<run>/test-hardening/briefs/<n>
 Repeat the following per iteration until an exit condition is reached.
 
 - **Audit.** For every (suite, track) pair confirmed in preflight, dispatch one
-  `auditing-test-gaps` agent, in parallel, per `engineering:dispatching-parallel-agents`. Pass
-  each agent only that suite's slice: its changed files, its current report numbers, and its
-  carry-forward from the previous iteration — never another suite's data, and never the raw diff
-  beyond what that one suite owns.
+  `auditing-test-gaps` agent. Fan them out in **one message** so the whole set runs as a single
+  parallel wave, not one-at-a-time; **wait for the whole wave to return before merging** anything;
+  and if an agent fails or times out, **surface it rather than dropping it** — a silently missing
+  auditor is a gap in the audit, not a clean result. Pass each agent only that suite's slice: its
+  changed files, its current report numbers, and its carry-forward from the previous iteration —
+  never another suite's data, and never the raw diff beyond what that one suite owns.
 - **Merge.** Dedup incoming findings by (`target_file`, `behavior`). Assign each new item an
   `id` of the form `<suite>-<track>-<nnn>` (`unowned-ownership-<nnn>` for ownership findings,
   `<suite>-breakage-<nnn>` for breakage findings) and set its `iteration` to the current
@@ -312,7 +314,9 @@ Whichever exit is reached, report it plainly, together with:
 - Any degraded condition hit along the way (a dead auditor, a skipped suite, a stalled mutation
   run) and what it means for whether `pass` was reachable at all.
 
-Then invoke `engineering:verification-before-completion` before reporting anything as met. There
+Then, before reporting anything as met, **run the verification commands yourself and confirm
+their actual output** — never report a threshold met without the run that proves it, and never
+let a `pass` stand on a summary of a summary. Evidence before the claim, every time. There
 is no gate file to clear and no marker to remove — this run's briefs under `.engineering/<run>/test-hardening/briefs/`
 are left in place as the audit trail, and the next run asks its questions fresh rather than
 reading anything back from this one.
