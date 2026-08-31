@@ -20,19 +20,20 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 
 ## The facets
 
-Seven facets exist; each is a thin skill owning one lens. This release wires all three **core**
-facets — **Security**, **Technical**, and **Architectural**; the rest are listed but not yet
-available.
+Seven facets exist; each is a thin skill owning one lens. This release wires **all seven** — the
+three **core** facets (**Security**, **Technical**, **Architectural**), pre-checked by default, plus
+the four additional facets (**Error Handling & Resilience**, **Test Quality**, **Data & Migration
+Safety**, **API & Backward Compatibility**), selectable per run.
 
 | Facet (skill) | Lens | Core? |
 |---|---|---|
 | `reviewing-security` | OWASP best practices; authorization enforced, not assumed | core |
 | `reviewing-technical` | Reuse over reinvention; inefficient queries; best practice | core |
 | `reviewing-architectural` | Sustainable architecture: coupling, dependency direction, cohesion, leaky abstractions | core |
-| `reviewing-error-handling` *(coming soon)* | Silent failures, swallowed exceptions, bad fallbacks | — |
-| `reviewing-test-quality` *(coming soon)* | Do tests exercise the change and fail if it breaks? | — |
-| `reviewing-data-safety` *(coming soon)* | Destructive/irreversible ops, migrations, data loss | — |
-| `reviewing-api-compat` *(coming soon)* | Breaking changes to public contracts | — |
+| `reviewing-error-handling` | Silent failures, swallowed exceptions, bad fallbacks | — |
+| `reviewing-test-quality` | Do tests exercise the change and fail if it breaks? | — |
+| `reviewing-data-safety` | Destructive/irreversible ops, migrations, data loss | — |
+| `reviewing-api-compat` | Breaking changes to public contracts | — |
 
 ## The workflow
 
