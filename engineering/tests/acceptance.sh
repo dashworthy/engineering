@@ -106,6 +106,12 @@ grep -qF 'dimensions"| BR["brainstorming' "$root/README.md" && grep -qF 'BR --> 
 grep -q "conducting-test-hardening" "$eng/skills/writing-plans/SKILL.md" || { echo "FAIL: writing-plans must bake hardening"; fail=1; }
 grep -q "conducting-test-hardening" "$eng/skills/finishing-a-development-branch/SKILL.md" || { echo "FAIL: finish-time hardening net missing"; fail=1; }
 
+# 7b. executing-plans must hand off to finishing-a-development-branch when the plan completes. The plan
+# gate pre-authorizes the finish strategy so finishing carries it out unattended (plan gate = last human
+# stop); a handoff that stops at the checked hardening box without reaching finishing re-opens the
+# phantom-gate the pre-authorization was meant to close. Flatten newlines: the phrase wraps.
+tr '\n' ' ' < "$eng/skills/executing-plans/SKILL.md" | grep -qiE "hand[^.]*engineering:finishing-a-development-branch" || { echo "FAIL: executing-plans must hand off to finishing-a-development-branch on plan completion"; fail=1; }
+
 # 8. No dangling cross-plugin namespaces or Tier-2 paths anywhere in the plugin's content.
 # Scans every content surface — skills, commands, hooks, scripts, and the plugin README; tests/ is
 # excluded deliberately (these detection scripts hold the pattern literals and would self-match, same

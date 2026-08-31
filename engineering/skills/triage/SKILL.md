@@ -83,6 +83,16 @@ Two things the table can't carry on its own:
 - Approval is never here. Every route that builds carries its approval downstream — the spec
   gate in `to-spec`, the plan gate in `writing-plans` — not in triage and not in `brainstorming`.
 
+## Take the route — don't park it
+
+The routing step ends in exactly one act: **invoke the next skill now**, or **close with a
+written disposition**. Reporting the chosen route and asking whether to proceed is not one of
+them — it leaves the report examined-but-sitting, the one outcome the guarantee above rules out.
+"Triage stops here" means it stops *diagnosing and designing*; that same beat hands off. There is
+no halt in between and no confirmation to collect — approval lives downstream (`to-spec`,
+`writing-plans`), never at this seam. Once the route is written into the file, the next thing you
+do is start it.
+
 ## What this does not do
 
 - It does not **find a root cause.** Diagnosing why a confirmed bug happens, with
@@ -90,6 +100,8 @@ Two things the table can't carry on its own:
   route, and stops there even when curiosity wants to keep going.
 - It does not **design a fix.** A route that needs a design decision goes to
   `brainstorming`; triage does not weigh approaches itself.
+- It does not **park a routed report.** Reporting the route and waiting for a "yes, go" is not
+  one of triage's two outcomes — hand off or close. Once the route is picked, triage takes it.
 - It does not **own a private interrogator.** The under-specified leg drives the shared
   `engineering:interrogating-requirements` primitive — the same one signal uses — rather
   than a triage-local copy, so the extraction logic lives in one place and cannot drift.

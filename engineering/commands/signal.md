@@ -17,7 +17,7 @@ The pipeline is a single interactive stage plus a hand-off:
 
 2. **Hand off** — once `brief.md` §1–§6 is on disk, hand its path to `engineering:brainstorming` — the shared design dialogue — in the main thread; signal does not write a spec. Brainstorming recommends a design and hands it to `to-spec`, which holds the spec-approval gate and renders the Tier-1 spec under `.engineering/<run>/spec/` once the human approves.
 
-**signal ends at the brief and hands it to `engineering:brainstorming`.** Report the brief path and stop. Do not design, plan, or build — brainstorming takes it from there.
+**signal ends at the brief and hands it to `engineering:brainstorming`.** Once `brief.md` is on disk, report its path and **invoke `engineering:brainstorming` now.** "Stop" means stop interrogating and do not design, plan, or build yourself — it is not a stop to ask whether to proceed. There is no gate at this seam; parking the brief with a "want me to start design?" is not an available move — brainstorming is the next act, take it.
 
 Begin now.
 
