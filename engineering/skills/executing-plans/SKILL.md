@@ -1,6 +1,6 @@
 ---
 name: executing-plans
-description: "Execute an approved plan task by task — each driven through tdd, gated by code-review, and closed by conducting-test-hardening. Runs to completion with no human checkpoints. User-invoked via /implement."
+description: "Execute an approved plan task by task — each driven through tdd and gated by code-review. Runs to completion with no human checkpoints. User-invoked via /implement."
 ---
 
 # Executing Plans
@@ -25,8 +25,8 @@ before anyone notices.
 
 `writing-plans` sometimes produces a **set** — `<topic>-01-<subsystem>.md`,
 `<topic>-02-<subsystem>.md`, ordered by the number in the filename. Work a set in that
-order, one plan file finished — through its own closing hardening task — before the next
-one starts; a later plan in the set may assume something the earlier one produces.
+order, one plan file finished before the next one starts; a later plan in the set may
+assume something the earlier one produces.
 
 A plan already partly checked off is a plan already in progress, not a fresh one — resume
 at its first unchecked step rather than starting over or redoing work already marked done.
@@ -84,17 +84,6 @@ task, in order:
 
 Then move to the next task.
 
-## Closing hardening (D15)
-
-Every plan `writing-plans` writes ends with a Phase 3.5 task whose entire job is invoking
-`engineering:conducting-test-hardening`. When the per-task loop reaches that task, run
-`engineering:conducting-test-hardening` in place of tdd and code-review — it is a different
-kind of task on purpose, and driving it through the ordinary loop would run the wrong tool on
-it. Report whichever exit it reaches — `pass`, `dry`, `cap`, `halt`, or `audit-only` —
-plainly, the same way that skill reports it, rather than translating it into a bare "done."
-Only once that task is checked off is the plan actually finished; a plan whose last build task
-is checked but whose hardening task isn't is still in progress, not completed.
-
 ## Stacked plans (PR strategy)
 
 Before starting, read the plan's Global Constraints for a **PR strategy** line. Most plans
@@ -130,18 +119,15 @@ the full per-task loop, not a shortcut version of it.
 
 ## What this does not do
 
-- It does not **write the plan.** The tasks, their order, and the closing hardening task
-  were all decided by `writing-plans` before this skill ever runs; this skill executes
-  what's already on the page, it doesn't add, remove, or reorder a task itself.
-- It does not **invent a hardening pass beyond the one on the plan.** The Phase 3.5 task is
-  the only place this skill dispatches `engineering:conducting-test-hardening`; it does not
-  run it again mid-plan on a hunch that something needs hardening early.
-- It does not **decide the plan is finished early.** A plan is done when its last task —
-  the hardening one — is checked, not when the build tasks look complete or the user seems
-  satisfied partway through.
+- It does not **write the plan.** The tasks and their order were all decided by
+  `writing-plans` before this skill ever runs; this skill executes what's already on the
+  page, it doesn't add, remove, or reorder a task itself.
+- It does not **decide the plan is finished early.** A plan is done when its last task is
+  checked, not when the build tasks look complete or the user seems satisfied partway
+  through.
 
 ## Handoff
 
-Once the closing hardening task is checked off, report the plan's path, its final commit,
-and the hardening exit it reached, and stop. What happens to the branch from there — merge,
-PR, further review — is not this skill's decision to make.
+Once the last task is checked off, report the plan's path and its final commit, and stop.
+What happens to the branch from there — merge, PR, further review — is not this skill's
+decision to make.

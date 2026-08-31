@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: "Turn an approved spec into an ordered, bite-sized implementation plan with TDD integration points and a closing test-hardening task, then hold the plan-approval gate — present the plan, wait for approval, mint the plan-approval marker. Use after a spec is approved and before building. Cites recorded conventions inline at each task via using-code-conventions."
+description: "Turn an approved spec into an ordered, bite-sized implementation plan with TDD integration points, then hold the plan-approval gate — present the plan, wait for approval, mint the plan-approval marker. Use after a spec is approved and before building. Cites recorded conventions inline at each task via using-code-conventions."
 ---
 
 # Writing Plans
@@ -12,10 +12,9 @@ Say this first, plainly: `Using the writing-plans skill to create the implementa
 One thing: given an approved spec, this skill produces an ordered implementation plan —
 or, when the spec doesn't fit in one, an ordered set of them — written to
 `.engineering/<run>/plan/`, where every step is small enough to build and check
-in on its own, the test-driven cycle is wired into the step sequence instead of left as
-an aside, and the plan does not end until a hardening task is sitting on it. It does not
-guarantee the plan is short, only that nothing in it is too big to finish and verify in
-one sitting.
+in on its own and the test-driven cycle is wired into the step sequence instead of left as
+an aside. It does not guarantee the plan is short, only that nothing in it is too big to
+finish and verify in one sitting.
 
 ## Reading the spec
 
@@ -113,9 +112,7 @@ stacked task **opens** with a step that starts the task's stacked branch off the
 task's branch — or off the trunk, for the first task, which has no previous task — (before
 any of the task's commits land), and **closes**, after the commit
 step, with a step to **submit the stacked PR** for the task via
-`engineering:using-stacked-pull-requests`. The closing Phase 3.5 hardening task is no
-exception — in a stacked plan its work goes up as the top-of-stack PR, on its own branch
-based on the last build task's branch, like every other task.
+`engineering:using-stacked-pull-requests`.
 
 Leave non-stacked plans exactly as they are: no PR-strategy line, no per-task branch or
 submit steps, the single-PR-at-the-end flow unchanged. Stacked mode is opt-in per plan.
@@ -146,19 +143,8 @@ plans. If it doesn't, splitting means a reviewer can approve and ship A without 
 hostage to it, and a set of small plans is easier to reason about than one long one that
 happens to have a seam in the middle.
 
-Every plan in a set still gets its own closing hardening task — a plan set is a set of
-complete plans, not one plan's steps distributed across several files that only add up to
-whole once all of them land.
-
-## The closing hardening task
-
-Every plan this skill writes ends with a task, after the last build step, whose entire job
-is to invoke `engineering:conducting-test-hardening` — a `- [ ]` line naming the skill
-explicitly (not described around it as "run the tests" or "check coverage"), placed as its
-own numbered phase after the build work (call it Phase 3.5). This is not optional and not
-situational: nothing else in this plugin forces a hardening pass, so the task sitting on the
-plan is the only thing that reliably makes it happen. Whoever executes the plan dispatches
-that skill by name; this skill's job stops at putting the task there.
+A plan set is a set of complete plans, not one plan's steps distributed across several
+files that only add up to whole once all of them land.
 
 ## Writing the plan file, then reviewing it
 
@@ -192,12 +178,8 @@ Before calling the plan finished, run a self-review pass over what was just writ
   `brainstorming` and written into the spec's approach section by `to-spec`; this skill
   does not weigh alternatives or choose between them, it schedules the one already chosen.
 - It does not **execute the plan.** Running the plan task by task, driving each one
-  through `engineering:tdd`, gating with `engineering:code-review`, and reaching the
-  closing hardening task when the plan gets there is `executing-plans` — a separate skill,
-  downstream of this one, that this skill does not invoke itself.
-- It does not **run the hardening task.** It writes the task that invokes
-  `engineering:conducting-test-hardening`; it does not dispatch that skill itself. The
-  task sits on the plan for whoever executes it to reach.
+  through `engineering:tdd` and gating with `engineering:code-review` is `executing-plans` —
+  a separate skill, downstream of this one, that this skill does not invoke itself.
 - It does not **require an ADR.** It consults the trail actively and cites what
   it holds, but a project that never wrote one simply yields nothing to cite — this skill
   does not stall a plan waiting on documentation the project never wrote.

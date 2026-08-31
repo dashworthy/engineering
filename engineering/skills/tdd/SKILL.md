@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: "Drive implementation with a strict red-green-refactor loop: write a failing test, watch it fail, write minimal code to pass, refactor. Use when building any behavior that can be tested first. Distinct from test-hardening, which hardens existing tests after the fact."
+description: "Drive implementation with a strict red-green-refactor loop: write a failing test, watch it fail, write minimal code to pass, refactor. Use when building any behavior that can be tested first."
 ---
 
 # TDD
@@ -60,16 +60,6 @@ behaviors the test covers. `mocking.md`, alongside this file, covers when replac
 collaborator with a stand-in makes the test more honest and when it just makes the test
 lie about what was actually proven.
 
-## Boundary: tdd builds, test-hardening hardens
-
-This skill and test-hardening (`conducting-test-hardening`) both produce tests and
-neither replaces the other. This skill runs *during* implementation, one behavior at a time,
-before the code that satisfies each behavior exists. Test-hardening runs *after* implementation
-is believed finished: it audits a diff for behavior nothing pins down and writes tests to
-close what it finds. TDD without test-hardening leaves the seams between behaviors unguarded;
-test-hardening without TDD retrofits tests onto code no test shaped. Run this skill while
-building; expect `conducting-test-hardening` to run again before the branch ships.
-
 ## What this does not do
 
 - It does not **decide what to build.** The behavior a cycle tests comes from a plan or
@@ -80,8 +70,6 @@ building; expect `conducting-test-hardening` to run again before the branch ship
   it hides — is `codebase-design`, and belongs before or alongside the first cycle, not
   inside it. A cycle can reveal that an interface is awkward; fixing that is a refactor
   step or a trip back to `codebase-design`, not a reason to skip watching a test fail.
-- It does not **audit finished work for gaps.** That is test-hardening's job — see the
-  boundary above.
 - It does not **skip the watch.** Writing a test and the code together and running the
   suite once, green, is not this skill's cycle. If a test has never been seen to fail, this
   skill has not run yet, however much code already exists.
