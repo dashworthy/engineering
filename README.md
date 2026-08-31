@@ -9,8 +9,10 @@ are deliberately out of scope.
 This repository is the `dashworthy` Claude Code marketplace. Its primary plugin,
 `engineering`, carries the whole pipeline; companion plugins ship alongside it, each
 installed separately — `laravel` (Laravel pre-commit hooks: Pint, PHPStan, Pest),
-`skillsmith` (author, test, and audit Claude skills), and `guardtower` (an in-depth,
-opt-in code-review gate). See [guardtower/README.md](guardtower/README.md).
+`skillsmith` (author, test, and audit Claude skills), `guardtower` (an in-depth,
+opt-in code-review gate), and `verity` (standalone test-hardening: harden an arbitrary
+branch via `/harden`). See [guardtower/README.md](guardtower/README.md) and
+[verity/README.md](verity/README.md).
 
 ## Install
 

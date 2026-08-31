@@ -45,6 +45,16 @@
         "name": "Andrew Leach",
         "email": "7387639+andyleach@users.noreply.github.com"
       }
+    },
+    {
+      "name": "verity",
+      "description": "Standalone test-hardening: harden an arbitrary branch via /harden — audit coverage and mutation gaps, write the missing tests, verify their integrity, and measure against thresholds, fanned out as self-limiting audit agents that write a durable run record under .verity/ and never touch application code.",
+      "version": "0.1.0",
+      "source": "./verity",
+      "author": {
+        "name": "Andrew Leach",
+        "email": "7387639+andyleach@users.noreply.github.com"
+      }
     }
   ]
 }
