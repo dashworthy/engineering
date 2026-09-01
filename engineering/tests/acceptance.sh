@@ -28,7 +28,7 @@ for skdir in "$eng"/skills/*/; do
   grep -q "\`$n\`" "$eng/skills/README.md" || { echo "FAIL: skills/README.md missing $n"; fail=1; }
 done
 
-# 5. Entrance-bootstrap hook fires and names both entrances (and no verity reminder).
+# 5. Entrance-bootstrap hook fires and names all three entrances (and no verity reminder).
 sh "$d/hook.sh" >/dev/null || { echo "FAIL: hook"; fail=1; }
 if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2>/dev/null; then echo "FAIL: retired verity reminder present"; fail=1; fi
 
