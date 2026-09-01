@@ -77,6 +77,43 @@ Not every exposed detail is a leak. A module built specifically to give the call
 over something — a database transaction boundary, an event ordering guarantee — is meant
 to expose that thing; the leak test is about accidental exposure, not designed contracts.
 
+## Tenancy boundary
+
+There is one isolation invariant a leak lets slip with unusually severe consequences: in a
+multi-tenant application, the boundary that keeps one tenant's data out of another tenant's
+hands. This is not a separate concern from the leakage principle above — it *is* that principle
+applied to tenancy. A tenant scope a caller must remember to add is exactly the leak from the
+section above (the module externalizing its own isolation invariant); "which layer enforces
+isolation" is exactly the depth question. So when a boundary you are shaping touches tenant-scoped
+data, deepen the interface the same way — with one extra step, because getting this leak wrong
+leaks another customer's data, not just a private field.
+
+1. **Determine the model.** The first move is to determine the app's tenancy model, stated from
+   the approach context you already have —
+   the designer decides, from what `brainstorming` established about the application, whether it
+   is **shared-database** (one schema, rows told apart by a discriminator column), **isolated
+   database** (a database or schema per tenant), or **single-tenant** (not multi-tenant at all).
+   This is a stated fact, not an auto-detection: `codebase-design` runs at design time with a
+   human present, so there is no signal-scanning step and no dependency on any other plugin's
+   detection machinery. If you cannot state the model from context, ask — do not guess.
+
+2. **Consult the companion for that model.** `TENANCY-SHARED-DB.md`, alongside this file, carries
+   the shared-database boundary decision — where the scope lives so no caller can build an
+   unscoped query, ambient vs. explicit tenant context, discriminator mass-assignment, and
+   whether cross-tenant reach is permitted at all. (The isolated-database model, whose failure
+   modes are near-disjoint, gets its own companion.) The two models fail in different ways;
+   consult the one that matches and not the other.
+
+3. **Force it when relevant, skip it silently otherwise.** For a boundary that touches
+   tenant-scoped data in a multi-tenant app, force the tenant-boundary decision the companion
+   frames — where isolation lives, ambient vs. explicit, cross-tenant reach — as a **required**
+   part of the shaped interface, and let it travel into the spec's §6 with the
+   rest of the interface's shape. It is not optional, because an optional isolation lens is one a
+   design under time pressure skips, and the skip is the exact omission that ships the leak. For a
+   single-tenant app, or a boundary that touches no tenant-scoped data (a stateless formatter, a
+   pure calculation, a config loader), there is nothing to decide — skip it with no ceremony, the
+   design-time echo of a review facet's per-change relevance gate.
+
 ## Design-it-twice discipline
 
 Before committing to a module's interface, sketch at least two genuinely different
