@@ -51,7 +51,6 @@ need "$W" "using-stacked-pull-requests"                  "writing-plans: names t
 need "$W" "not eligible for"                             "writing-plans: parallel-mode exclusion"
 need "$W" "submit the stacked PR"                        "writing-plans: per-task submit step"
 need "$W" "starts the task's stacked branch off the previous task's branch" "writing-plans: per-task opening branch-start step"
-need "$W" "top-of-stack PR"                              "writing-plans: hardening task tops the stack"
 need "$W" "decided at plan-writing time"                "writing-plans: strategy chosen at plan time"
 need "$W" "Stacked mode is opt-in per plan"             "writing-plans: opt-in, non-stacked unchanged"
 
