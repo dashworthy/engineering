@@ -492,6 +492,42 @@ if [ -f "$TISHAREDCL" ]; then
 fi
 
 # ============================================================================
+# Plan 01 Task 2 — reviewing-tenant-isolation-isolated-db facet skill
+# ============================================================================
+
+TISOLATED="$PLUGIN/skills/reviewing-tenant-isolation-isolated-db/SKILL.md"
+[ -f "$TISOLATED" ]; check $? "reviewing-tenant-isolation-isolated-db/SKILL.md exists"
+if [ -f "$TISOLATED" ]; then
+  head -1 "$TISOLATED" | grep -q '^---$'; check $? "reviewing-tenant-isolation-isolated-db has frontmatter"
+  grep -q '^name: reviewing-tenant-isolation-isolated-db$' "$TISOLATED"; check $? "reviewing-tenant-isolation-isolated-db frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$TISOLATED")
+  printf '%s' "$desc" | grep -qiE "tenant|multi-tenan"; check $? "reviewing-tenant-isolation-isolated-db description carries a tenant trigger"
+  printf '%s' "$desc" | grep -qiE "per-tenant|per.database|database-per|schema-per|isolated.database"; check $? "reviewing-tenant-isolation-isolated-db description names the per-tenant-DB model"
+  printf '%s' "$desc" | grep -qiE "connection|isolation"; check $? "reviewing-tenant-isolation-isolated-db description names connection/isolation"
+  grep_flat "$TISOLATED" "relevance gate"; check $? "reviewing-tenant-isolation-isolated-db runs the relevance gate"
+  grep_flat "$TISOLATED" "before any lens work"; check $? "reviewing-tenant-isolation-isolated-db short-circuits before lens work"
+  grep_flat "$TISOLATED" "top_n"; check $? "reviewing-tenant-isolation-isolated-db applies the top-N cap"
+  grep_flat "$TISOLATED" "floor"; check $? "reviewing-tenant-isolation-isolated-db applies the confidence/severity floor"
+  grep_flat "$TISOLATED" "report-only"; check $? "reviewing-tenant-isolation-isolated-db is report-only"
+  grep_flat "$TISOLATED" "findings.md"; check $? "reviewing-tenant-isolation-isolated-db writes findings.md"
+  grep_flat "$TISOLATED" "no proactive"; check $? "reviewing-tenant-isolation-isolated-db states its analysis boundary inline"
+  grep_flat "$TISOLATED" "visible in the diff"; check $? "reviewing-tenant-isolation-isolated-db scopes its reach to the diff"
+  grep_flat "$TISOLATED" "references/tenant-isolation-isolated-db-checklist.md"; check $? "reviewing-tenant-isolation-isolated-db links references/tenant-isolation-isolated-db-checklist.md"
+fi
+
+TISOLATEDCL="$PLUGIN/skills/reviewing-tenant-isolation-isolated-db/references/tenant-isolation-isolated-db-checklist.md"
+[ -f "$TISOLATEDCL" ]; check $? "reviewing-tenant-isolation-isolated-db/references/tenant-isolation-isolated-db-checklist.md exists"
+if [ -f "$TISOLATEDCL" ]; then
+  grep_flat "$TISOLATEDCL" "Connection not switched"; check $? "isolated-db-checklist covers connection/tenant context not switched"
+  grep_flat "$TISOLATEDCL" "context leaking across requests"; check $? "isolated-db-checklist covers tenant context leaking across requests"
+  grep_flat "$TISOLATEDCL" "Background"; check $? "isolated-db-checklist covers background/queued/scheduled work on the wrong connection"
+  grep_flat "$TISOLATEDCL" "landlord"; check $? "isolated-db-checklist covers central/landlord vs tenant DB confusion"
+  grep_flat "$TISOLATEDCL" "Migration"; check $? "isolated-db-checklist covers migration targeting the wrong DB set"
+  grep_flat "$TISOLATEDCL" "Cross-cutting per-tenant store"; check $? "isolated-db-checklist covers a cross-cutting per-tenant store not switched"
+  grep_flat "$TISOLATEDCL" "not a finding"; check $? "isolated-db-checklist states what is not a finding"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
