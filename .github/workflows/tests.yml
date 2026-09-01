@@ -1,0 +1,27 @@
+name: tests
+
+on:
+  push:
+    branches: [0.x]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  suite:
+    name: ${{ matrix.plugin }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Each plugin that ships a self-contained foundation suite. Plugins
+        # without a tests/suite.sh (laravel, skillsmith) are intentionally absent.
+        plugin: [engineering, guardtower, verity]
+    steps:
+      - uses: actions/checkout@v4
+
+      # The suites are POSIX sh and drive JSON parsing through python3 (stdlib
+      # only, never jq); both ship on ubuntu-latest, so no extra setup is needed.
+      - name: Run ${{ matrix.plugin }} foundation suite
+        run: sh ${{ matrix.plugin }}/tests/suite.sh
