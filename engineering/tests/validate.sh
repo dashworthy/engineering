@@ -55,7 +55,7 @@ check $? "marketplace engineering entry version matches plugin.json"
 # --- references --------------------------------------------------------------
 
 REF="$PLUGIN/skills/clarifying-docblocks/references"
-for f in comprehension-gate.md diagram-rules.md receipt-schema.md; do
+for f in comprehension-gate.md receipt-schema.md; do
   [ -f "$REF/$f" ]; check $? "references/$f exists"
 done
 
@@ -66,8 +66,12 @@ if [ -f "$REF/comprehension-gate.md" ]; then
   grep_flat "$REF/comprehension-gate.md" "when in doubt, leave it";      check $? "gate states the leave-it default"
 fi
 
-if [ -f "$REF/diagram-rules.md" ]; then
-  grep_flat "$REF/diagram-rules.md" "72 columns including the comment leader"; check $? "diagram rules state the width budget"
+# diagram-rules.md is the docblock ASCII width rule, owned by using-diagrams (not the
+# docblock skill), so it is checked where it actually lives.
+DR="$PLUGIN/skills/using-diagrams/references/diagram-rules.md"
+[ -f "$DR" ]; check $? "using-diagrams/references/diagram-rules.md exists"
+if [ -f "$DR" ]; then
+  grep_flat "$DR" "72 columns including the comment leader"; check $? "diagram rules state the width budget"
 fi
 
 if [ -f "$REF/receipt-schema.md" ]; then
