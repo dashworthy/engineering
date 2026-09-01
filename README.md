@@ -25,11 +25,13 @@ One install: `engineering` carries the whole pipeline.
 
 ## What it does
 
-Work enters through one of two doors and leaves through one. A feature or a vague
+Work enters through one of three doors and leaves through one. A feature or a vague
 request enters at **discover** (`/signal`); a reported defect enters at **triage**
-(`/triage`). Both doors open onto the same **design dialogue** (`brainstorming`), which
-recommends a design, then hands off to **`to-spec`**, the single writer that turns that
-design into one spec document and holds the pipeline's first approval gate — on the spec.
+(`/triage`); received review feedback enters at **receiving code review**
+(`/receiving-code-review`). All three doors open onto the same **design dialogue**
+(`brainstorming`), which recommends a design, then hands off to **`to-spec`**, the single
+writer that turns that design into one spec document and holds the pipeline's first
+approval gate — on the spec.
 From that spec, a fixed backbone runs the work to done: **plan** it, behind the second
 gate; **build** it test-first; **harden** the tests; and **document** the prose the
 branch touched.
@@ -41,15 +43,15 @@ flowchart TD
 
     F(["feature / vague ask"]):::entry --> SIG["signal<br/>discovery"]
     D(["reported defect"]):::entry --> TRI["triage"]
+    R(["received review feedback"]):::entry --> RCR["receiving-code-review"]
 
     SIG --> DES["brainstorming<br/>design dialogue"]
-    TRI -->|"needs a decision"| DES
-    TRI -. "quick fix" .-> FIX["diagnosing-bugs"]
+    TRI --> DES
+    RCR --> DES
 
     DES --> SPEC["to-spec"]
     SPEC --> BB["plan · build · harden · document"]
     BB --> DONE(["green, documented branch"]):::done
-    FIX -.-> DONE
 ```
 
 Each phase reads what the phase before it produced; none re-decides what an earlier
@@ -78,12 +80,12 @@ flowchart LR
     SP --> STOP(["brief → design → approved spec"]):::done
 ```
 
-### 2. Triage — `triage`
+### 2. Triage — `/triage`
 
-A reported defect is verified to reproduce, isolated to a domain concept, then routed
-to the smallest next step. A quick fix goes straight to `diagnosing-bugs`; a vague
-report is interrogated for requirements; a change that warrants a
-spec goes on to the design dialogue.
+A reported defect is verified to reproduce and isolated to a domain concept, then handed
+to the design dialogue — the same convergence every entrance makes. A report whose expected
+behavior is unclear is interrogated for requirements first; one that turns out not to
+reproduce, already fixed, or already rejected is closed with the reason on record.
 
 ```mermaid
 flowchart TD
@@ -91,16 +93,34 @@ flowchart TD
 
     T(["/triage"]):::entry --> T1["verify /<br/>reproduce"]
     T1 --> T2["isolate to a<br/>domain concept"]
-    T2 --> T3{"smallest<br/>next step"}
-    T3 -->|"quick fix"| QF["diagnosing-bugs"]
-    T3 -->|"too vague"| Q["interrogate<br/>requirements"]
-    T3 -->|"needs a spec"| BR["brainstorming"]
-    T3 -->|"already handled"| CL(["close — reason on record"])
+    T2 --> T3{"outcome"}
+    T3 -->|"expected behavior unclear"| Q["interrogate<br/>requirements"]
+    T3 -->|"isolated"| BR["brainstorming"]
+    T3 -->|"not reproducible /<br/>already handled"| CL(["close — reason on record"])
+    Q --> BR
 ```
 
-### 3. Design dialogue — `brainstorming`
+### 3. Receiving code review — `/receiving-code-review`
 
-Both entrances meet here. The design phase explores the context, proposes two or three
+Review feedback is aggregated, verified against the codebase, and impact-checked — does the
+issue reach beyond the line the reviewer pointed at — before any of it is implemented. Each
+ask gets a reply on its own thread and a fix stacked onto the original review branch, and
+whether to resolve a thread is the user's call once the fix is shown. The shaped feedback
+then meets the same design dialogue.
+
+```mermaid
+flowchart TD
+    classDef entry fill:#2563eb,stroke:#1e3a8a,color:#fff
+
+    RC(["/receiving-code-review"]):::entry --> RC1["aggregate<br/>comments"]
+    RC1 --> RC2["verify each<br/>against the code"]
+    RC2 --> RC3["impact-check<br/>beyond the comment"]
+    RC3 --> BR["brainstorming"]
+```
+
+### 4. Design dialogue — `brainstorming`
+
+All three entrances meet here. The design phase explores the context, proposes two or three
 approaches with their trade-offs, and recommends one with its reasoning. It holds no
 approval gate of its own: brainstorming hands the recommended design to `to-spec`, where
 the spec gate takes the human's approval — the pipeline's first human-approval gate.
@@ -115,7 +135,7 @@ flowchart LR
     C --> OUT(["recommended design<br/>→ to-spec (spec gate)"]):::done
 ```
 
-### 4. Build backbone — `plan → build → document`
+### 5. Build backbone — `plan → build → document`
 
 Every spec leaves the same way. `writing-plans` turns it into an ordered, bite-sized
 plan; `/implement` drives each task through a test-first `tdd` loop gated by
@@ -137,7 +157,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **21 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **20 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
@@ -146,7 +166,7 @@ none.
 | Discovery | `interrogating-requirements`, `to-spec` |
 | Design | `brainstorming`, `codebase-design` |
 | Planning | `writing-plans`, `executing-plans` |
-| Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review` |
+| Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review` |
 | Docs | `clarifying-docblocks`, `rewriting-docblock-prose` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
 | Cross-cutting | `resolving-merge-conflicts`, `using-diagrams` |
@@ -156,8 +176,8 @@ The full index lives at
 
 ### Commands
 
-7 slash commands sit on top of the suite: `/signal`, `/triage`, `/vernacular`,
-`/implement`, `/handoff`, `/to-signal`, and `/wait-what`.
+7 slash commands sit on top of the suite: `/signal`, `/triage`, `/receiving-code-review`,
+`/vernacular`, `/implement`, `/handoff`, and `/wait-what`.
 
 ## License
 

@@ -12,7 +12,7 @@ sh "$d/plan02.sh"
 sh "$d/plan03.sh"
 
 # 2. Seven commands resolve.
-for c in signal triage vernacular implement handoff to-signal wait-what; do
+for c in signal triage receiving-code-review vernacular implement handoff wait-what; do
   test -f "$eng/commands/$c.md" || { echo "FAIL: missing command /$c"; fail=1; }
 done
 
