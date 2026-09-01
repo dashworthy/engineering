@@ -11,8 +11,8 @@ pipeline ends at a green, documented branch — deployment and release are out o
 
 | Phase | Skill(s) |
 |---|---|
-| Discover | `signal` (interrogate → sequence → design gate) |
-| Triage | `triage` (verify → isolate → route) |
+| Discover | `/signal` (interrogate → design dialogue) |
+| Triage | `/triage` (verify → isolate → design dialogue) |
 | Design | `brainstorming` → `to-spec` |
 | Build | `writing-plans` → `tdd` · `code-review` → docs |
 

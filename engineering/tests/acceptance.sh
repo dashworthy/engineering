@@ -35,7 +35,7 @@ if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2
 # 6. to-spec is the sole Tier-1 writer; both entrances reach it.
 grep -q ".engineering/<run>/spec/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
 grep -q "engineering:brainstorming" "$eng/commands/signal.md" || { echo "FAIL: signal command must hand the brief to the brainstorming design gate"; fail=1; }
-grep -rq "to-spec" "$eng/skills/triage" || { echo "FAIL: triage must reach to-spec"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/commands/triage.md" || { echo "FAIL: triage (command entrance) must reach to-spec via brainstorming"; fail=1; }
 
 # 6b. to-spec is single-caller via brainstorming, stamps Approved (post-gate input), and carries no
 # stale section-for-section mapping claim.

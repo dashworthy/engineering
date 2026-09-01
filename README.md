@@ -137,14 +137,13 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **22 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **21 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
 | Group | Skills |
 |---|---|
 | Discovery | `interrogating-requirements`, `to-spec` |
-| Triage | `triage` |
 | Design | `brainstorming`, `codebase-design` |
 | Planning | `writing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review` |

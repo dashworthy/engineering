@@ -6,7 +6,6 @@ human map of which skill belongs to which process.
 | Group | Skills |
 |---|---|
 | Discovery | `interrogating-requirements`, `to-spec` |
-| Triage | `triage` |
 | Design | `brainstorming`, `codebase-design` |
 | Planning | `writing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review` |
