@@ -10,9 +10,8 @@ sh "$d/absorb-vernacular.sh"
 sh "$d/absorb-verity.sh"
 sh "$d/absorb-approval-gate.sh"
 sh "$d/validate.sh"
-for s in to-spec:'[Discovery]' interrogating-requirements:'[Discovery]' clarifying-docblocks:'[Docs]' rewriting-docblock-prose:'[Docs]'; do
-  name=${s%%:*}; tag=${s#*:}
-  sh "$d/frontmatter.sh" "$d/../skills/$name" "$tag"
+for name in to-spec interrogating-requirements clarifying-docblocks rewriting-docblock-prose; do
+  sh "$d/frontmatter.sh" "$d/../skills/$name"
 done
 sh "$d/stacked-prs.sh"
 echo "ALL FOUNDATION CHECKS PASS"

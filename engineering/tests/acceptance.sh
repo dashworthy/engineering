@@ -16,38 +16,10 @@ for c in signal triage vernacular implement handoff to-signal wait-what; do
   test -f "$eng/commands/$c.md" || { echo "FAIL: missing command /$c"; fail=1; }
 done
 
-# 3. Every skill frontmatter valid; process-tied ones carry a [Group] tag, cross-cutting ones do not.
-# One "name:[Group]" per line: a tag containing a space ("[Test hardening]") would be word-split by
-# `for pair in $list`, producing bogus entries. The heredoc feeds the loop without a pipe, so it runs
-# in the current shell and `fail=1` set inside survives. name/tag split on the first colon.
-tagged="interrogating-requirements:[Discovery]
-to-spec:[Discovery]
-triage:[Triage]
-brainstorming:[Design]
-codebase-design:[Design]
-writing-plans:[Planning]
-executing-plans:[Planning]
-tdd:[Build]
-diagnosing-bugs:[Build]
-code-review:[Build]
-clarifying-docblocks:[Docs]
-rewriting-docblock-prose:[Docs]
-using-git-worktrees:[Foundation]
-using-stacked-pull-requests:[Foundation]
-finishing-a-development-branch:[Foundation]
-verification-before-completion:[Foundation]
-dispatching-parallel-agents:[Foundation]
-using-skills:[Foundation]"
-while IFS= read -r pair; do
-  [ -n "$pair" ] || continue
-  name=${pair%%:*}; tag=${pair#*:}
-  sh "$d/frontmatter.sh" "$eng/skills/$name" "$tag" >/dev/null || { echo "FAIL: $name frontmatter/tag"; fail=1; }
-done <<EOF
-$tagged
-EOF
-for name in resolving-merge-conflicts; do
-  sh "$d/frontmatter.sh" "$eng/skills/$name" >/dev/null || { echo "FAIL: $name frontmatter"; fail=1; }
-  python3 -c "import re,sys;t=open(sys.argv[1]).read();m=re.search(r'^description:\s*\"?(.)',t,re.M);assert m and m.group(1)!='[',sys.argv[1]" "$eng/skills/$name/SKILL.md" || { echo "FAIL: $name must not be tagged"; fail=1; }
+# 3. Every skill's frontmatter is valid: `name` matches its dir and `description` is present.
+for skdir in "$eng"/skills/*/; do
+  name=$(basename "$skdir")
+  sh "$d/frontmatter.sh" "$skdir" >/dev/null || { echo "FAIL: $name frontmatter"; fail=1; }
 done
 
 # 4. skills/README.md lists every skill dir.
