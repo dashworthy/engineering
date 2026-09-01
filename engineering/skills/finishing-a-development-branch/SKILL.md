@@ -30,9 +30,23 @@ fix now, or fix before returning to this skill — back to the user. A red branc
 integrate; do not fall through to the options list on the theory that the failure is probably
 unrelated.
 
+## Review the whole branch once, as a unit
+
+The per-task `engineering:code-review` gates each saw one task's diff. Before the branch
+re-enters the repository, review it once more as a whole — the complete change, base at the
+trunk the branch forks from and head at the branch tip — so an issue that only shows up across
+tasks (a seam two tasks share, a pattern that drifted over the branch's life) gets one read no
+per-task gate had the scope to catch. Invoke `engineering:code-review` on that whole-branch
+boundary now, in addition to the per-task gates that already ran.
+
+This is a review, **not a new approval gate**: findings are addressed in the code before
+integrating, the same as any other review's are, and the branch does not wait on a fresh human
+sign-off here — the plan gate already authorized how it finishes. A clean read lets the finish
+strategy proceed; a read with findings gets them fixed and re-verified green first.
+
 ## Carry out the finish strategy
 
-Once the branch is green and verified, it can re-enter the rest of the repository. How that happens is, by default, not a fresh question: the
+Once the branch is green, reviewed, and verified, it can re-enter the rest of the repository. How that happens is, by default, not a fresh question: the
 plan gate already settled it. Read the plan behind this branch — via the active run pointer or a
 plan file under `.engineering/<run>/plan/` that matches this work — and look in its
 Global Constraints for the `Finish strategy:` line (and any `PR strategy: stacked` line). When
@@ -87,10 +101,11 @@ stated convention wins; absent that, leave it out.
 - It does not **run the project's tests itself** in place of its own suite or
   `engineering:verification-before-completion` — it relies on that skill's evidence rather than
   reimplementing it.
-- It does not **review the code on the branch.** Whatever judgment belongs to
-  `engineering:code-review` already happened earlier in the branch's life; by the time this
-  skill runs, the content is the content that's shipping, and the only open question is how it
-  re-enters the rest of the repository.
+- It does not **adjudicate the whole-branch review it runs.** The final
+  `engineering:code-review` pass above surfaces findings; addressing them is ordinary fix work
+  under the skills that own it, and this skill does not turn that review into a human approval
+  gate or hold the branch for a fresh sign-off — the plan gate already authorized how the branch
+  finishes. Its own remaining job is only how the reviewed, green branch re-enters the repository.
 - It does not **pick the project's integration policy for it.** The finish strategy is the
   human's — authorized at the plan gate, or, for a branch with no plan behind it, asked here;
   never hard-coded to whichever one this skill used last.
