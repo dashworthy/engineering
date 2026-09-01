@@ -12,7 +12,7 @@ sh "$d/plan02.sh"
 sh "$d/plan03.sh"
 
 # 2. Seven commands resolve.
-for c in signal triage vernacular implement handoff to-signal wait-what; do
+for c in signal triage receiving-code-review vernacular implement handoff wait-what; do
   test -f "$eng/commands/$c.md" || { echo "FAIL: missing command /$c"; fail=1; }
 done
 
@@ -28,14 +28,14 @@ for skdir in "$eng"/skills/*/; do
   grep -q "\`$n\`" "$eng/skills/README.md" || { echo "FAIL: skills/README.md missing $n"; fail=1; }
 done
 
-# 5. Entrance-bootstrap hook fires and names both entrances (and no verity reminder).
+# 5. Entrance-bootstrap hook fires and names all three entrances (and no verity reminder).
 sh "$d/hook.sh" >/dev/null || { echo "FAIL: hook"; fail=1; }
 if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2>/dev/null; then echo "FAIL: retired verity reminder present"; fail=1; fi
 
-# 6. to-spec is the sole Tier-1 writer; both entrances reach it.
+# 6. to-spec is the sole Tier-1 writer; all three entrances reach it (via brainstorming).
 grep -q ".engineering/<run>/spec/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
 grep -q "engineering:brainstorming" "$eng/commands/signal.md" || { echo "FAIL: signal command must hand the brief to the brainstorming design gate"; fail=1; }
-grep -rq "to-spec" "$eng/skills/triage" || { echo "FAIL: triage must reach to-spec"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/commands/triage.md" || { echo "FAIL: triage (command entrance) must reach to-spec via brainstorming"; fail=1; }
 
 # 6b. to-spec is single-caller via brainstorming, stamps Approved (post-gate input), and carries no
 # stale section-for-section mapping claim.

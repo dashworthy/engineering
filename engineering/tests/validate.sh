@@ -133,6 +133,12 @@ fi
 # A previously-removed skill; guard that it does not creep back.
 [ ! -e "$PLUGIN/skills/domain-modeling" ]; check $? "domain-modeling skill removed"
 
+# --- requesting-code-review stays removed ------------------------------------
+# The thin request-a-review wrapper was retired: executing-plans invokes engineering:code-review
+# directly per task, and finishing-a-development-branch runs it once on the whole branch. Guard
+# that the wrapper does not creep back.
+[ ! -e "$PLUGIN/skills/requesting-code-review" ]; check $? "retired requesting-code-review skill is absent"
+
 # --- diagrams: authoring phases consider a diagram ---------------------------
 # using-diagrams is *consider*, not *always draw*, so the obligation does not flood. The
 # authoring phases (to-spec, writing-plans) each carry a "consider a diagram" obligation.

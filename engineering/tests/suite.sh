@@ -14,4 +14,7 @@ for name in to-spec interrogating-requirements clarifying-docblocks rewriting-do
   sh "$d/frontmatter.sh" "$d/../skills/$name"
 done
 sh "$d/stacked-prs.sh"
+sh "$d/triage.sh"
+sh "$d/code-review-entrance.sh"
+sh "$d/entrances-parallel.sh"
 echo "ALL FOUNDATION CHECKS PASS"

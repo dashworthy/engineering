@@ -101,11 +101,35 @@ that marker exists. This skill does not write the spec and does not write into
 So this skill's job ends at a recommendation, not a ratification. Don't stage a
 section-by-section sign-off here or treat the human nodding along as approval —
 collecting that approval is the spec gate's job, and another gate here would only
-duplicate it. So hand the recommended design straight to `to-spec` — **invoke it now.**
-"Stop" here means stop *designing* and stop trying to collect approval; it is not a stop to
-ask the human whether to continue. There is no gate at this seam, so parking the design with a
-"want me to write the spec?" is not an available move — the recommendation is done, `to-spec`
-is the next act, take it.
+duplicate it. So hand the recommended design onward — **invoke the next act now** (which act,
+`to-spec` by default, is the right-size decision below). "Stop" here means stop *designing* and
+stop trying to collect approval; it is not a stop to ask the human whether to continue. There is
+no gate at this seam, so parking the design with a "want me to write the spec?" is not an
+available move — the recommendation is done, handing it onward is the next act, take it.
+
+## Right-size the path — spec by default, plan-direct only by opt-in
+
+Most work takes the full path: hand the design to `to-spec`, and the spec gate takes the human's
+approval. Some work is small enough that a separate spec document earns nothing a plan wouldn't —
+a change the recommended design already pins down completely. For that case, and only through an
+explicit opt-in, this skill may skip the spec-**creation** step and hand straight to the plan
+instead.
+
+Judge whether the work is that small. If it might be, put it to the human through
+`AskUserQuestion`:
+
+- **Write the full spec (Recommended)** — hand the design to `engineering:to-spec`; the spec gate
+  takes approval, the default path.
+- **Skip the spec, go straight to the plan** — for a small, well-pinned change where a spec
+  document adds no decision the plan won't already carry.
+
+On the default pick, hand to `to-spec` as above. On the skip pick — never silently, only on this
+explicit choice — mint `.engineering/<run>/to-spec/SPEC-SKIPPED.md` recording who opted in and the
+one-line reason, then hand the recommended design straight to `engineering:writing-plans`. That
+marker records a **routing choice, not an approval**: it skips only writing a spec, never a human
+gate. The plan gate in `writing-plans` still holds exactly as it always does, so there is no
+skip-to-build here — approval simply moves to the plan instead of the spec. Design approval
+otherwise happens at the spec gate, unchanged.
 
 ## What this does not do
 
