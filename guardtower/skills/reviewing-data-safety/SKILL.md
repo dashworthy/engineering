@@ -25,7 +25,8 @@ what the diff does not show is an accepted blind spot, not a defect this facet c
 
 ## The workflow
 
-1. **Relevance gate — first, before any lens work, and sharp.** This facet fires **only when the
+1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before touching
+   a single lens. This facet fires **only when the
    change touches data at rest** — a migration, a schema change, or a bulk data operation (a mass
    `UPDATE`/`DELETE`, a backfill, a drop). A change with no data-mutating surface — application logic,
    config, docs, a read-only query, a single-row write in normal code — is **not** in scope:
@@ -47,7 +48,7 @@ what the diff does not show is an accepted blind spot, not a defect this facet c
 3. **Floor, then cap.** Drop every candidate weaker than `caps.floor` (on the weaker of its severity
    and confidence). Order what remains most-severe-first and keep at most `caps.top_n`.
 
-4. **Write the artifact and return.** Write the kept findings to `artifact_path` in the Finding
+4. **Write the artifact and return.** Write the kept findings to `artifact_path` (the facet's `findings.md`) in the Finding
    schema (severity, confidence, location, claim, why, optional suggestion) — each `claim`/`why`
    legible to a reviewer with no shared context. Write the artifact even when nothing survives the
    floor (record "no findings above the floor"). Return the contract result.

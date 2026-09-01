@@ -18,7 +18,8 @@ This facet self-limits at the source (see `../reviewing/references/hard-stops.md
 
 ## The workflow
 
-1. **Relevance gate — first, before any lens work.** Does this change plausibly touch a security
+1. **Relevance gate — first, before any lens work.** Run the relevance gate before touching a single
+   lens. Does this change plausibly touch a security
    surface? Auth/session/permission code, input handling, queries, file or network I/O, crypto,
    secrets, serialization, access-control checks, anything user-facing or handling untrusted data —
    in scope. A pure docs/comment/formatting change, or a change to test fixtures only, is **not**:
@@ -37,7 +38,7 @@ This facet self-limits at the source (see `../reviewing/references/hard-stops.md
 3. **Floor, then cap.** Drop every candidate weaker than `caps.floor` (on the weaker of its
    severity and confidence). Order what remains most-severe-first and keep at most `caps.top_n`.
 
-4. **Write the artifact and return.** Write the kept findings to `artifact_path` in the Finding
+4. **Write the artifact and return.** Write the kept findings to `artifact_path` (the facet's `findings.md`) in the Finding
    schema (severity, confidence, location, claim, why, optional suggestion) — each `claim`/`why`
    legible to a reviewer with no shared context. Write the artifact even when nothing survives the
    floor (record "no findings above the floor"). Return the contract result.

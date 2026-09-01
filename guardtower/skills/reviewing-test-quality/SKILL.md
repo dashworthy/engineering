@@ -29,7 +29,8 @@ framework asserts; **no proactive whole-suite audit**, no coverage run, no execu
 
 ## The workflow
 
-1. **Relevance gate — first, before any lens work.** Does this change have a test surface to judge?
+1. **Relevance gate — first, before any lens work.** Run the relevance gate before touching a single
+   lens. Does this change have a test surface to judge?
    It adds or edits tests, **or** it changes behavior that should carry tests. A change with no tests
    in the diff and no behavior needing them — a pure docs, config, or comment change, or a rename
    with no behavior change — is **not** in scope: short-circuit and return
@@ -52,7 +53,7 @@ framework asserts; **no proactive whole-suite audit**, no coverage run, no execu
 3. **Floor, then cap.** Drop every candidate weaker than `caps.floor` (on the weaker of its severity
    and confidence). Order what remains most-severe-first and keep at most `caps.top_n`.
 
-4. **Write the artifact and return.** Write the kept findings to `artifact_path` in the Finding
+4. **Write the artifact and return.** Write the kept findings to `artifact_path` (the facet's `findings.md`) in the Finding
    schema (severity, confidence, location, claim, why, optional suggestion) — each `claim`/`why`
    legible to a reviewer with no shared context. Write the artifact even when nothing survives the
    floor (record "no findings above the floor"). Return the contract result.

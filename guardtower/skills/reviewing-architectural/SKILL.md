@@ -26,7 +26,8 @@ this facet chases.
 
 ## The workflow
 
-1. **Relevance gate — first, before any lens work, and sharp.** This facet fires **only when the
+1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before touching
+   a single lens. This facet fires **only when the
    change moves a boundary** — adds a new module, package, or layer; introduces a new cross-module or
    cross-layer dependency (a new import crossing a boundary); moves responsibility between modules; or
    introduces a new abstraction or interface. A change entirely within one module's existing
@@ -49,7 +50,7 @@ this facet chases.
 3. **Floor, then cap.** Drop every candidate weaker than `caps.floor` (on the weaker of its severity
    and confidence). Order what remains most-severe-first and keep at most `caps.top_n`.
 
-4. **Write the artifact and return.** Write the kept findings to `artifact_path` in the Finding schema
+4. **Write the artifact and return.** Write the kept findings to `artifact_path` (the facet's `findings.md`) in the Finding schema
    (severity, confidence, location, claim, why, optional suggestion) — each `claim`/`why` legible to a
    reviewer with no shared context. Write the artifact even when nothing survives the floor (record
    "no findings above the floor"). Return the contract result.
