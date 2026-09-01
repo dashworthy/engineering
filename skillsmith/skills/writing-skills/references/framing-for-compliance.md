@@ -39,8 +39,8 @@ as plausible, mechanism-based heuristics worth testing on your own skill (see th
 
 ## The overuse trap
 
-Every principle above degrades when stacked. A skill where each line is an authoritative,
-urgent, norm-invoking imperative reads as uniformly loud, and uniform loudness carries no
-signal — the agent can't tell the one rule that matters from the four that don't. Frame the
-few load-bearing instructions and let the rest be plain. Restraint is what makes the framing
-you do use legible.
+Every principle above degrades when stacked: a skill where each line is an authoritative, urgent,
+norm-invoking imperative reads as uniformly loud, and the agent can't tell the one rule that matters
+from the four that don't. This is the same scarce-budget rule as force (see `degrees-of-freedom.md`):
+frame the few load-bearing instructions and let the rest be plain. Restraint is what makes the
+framing you do use legible.

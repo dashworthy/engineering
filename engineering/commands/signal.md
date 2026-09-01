@@ -7,7 +7,14 @@ argument-hint: what you want built (a feature / build / change request)
 
 Run the signal discovery pipeline for the request below. signal is opt-in: it runs here because the user asked for it, so interrogate the request into a brief rather than jumping straight to design.
 
-Before the run directory and the first question, isolate the workspace: invoke `engineering:using-git-worktrees` (it detects existing isolation and no-ops if a worktree this session already entered is in place). signal is an entrance, so the worktree it creates is the one every later phase inherits.
+Before the run directory and the first question, settle how this work is isolated. This is a hard gate: do not create the run directory or ask the first interrogation question until it is settled.
+
+First check whether isolation already exists — a worktree this session entered, or a branch other than the repository's default branch already checked out. Either means the work is already isolated: join it and skip the question. Otherwise put the choice to the user through a single `AskUserQuestion`:
+
+- **Worktree (Recommended)** — invoke `engineering:using-git-worktrees` (it detects existing isolation and no-ops if a worktree this session already entered is in place).
+- **Feature branch in this checkout** — no worktree; cut a named feature branch off the base with `git switch -c <task-branch>`, where `<task-branch>` carries the same slug you derive for the run. Never leave the work sitting on the default branch.
+
+signal is an entrance, so whichever isolation it establishes — worktree or feature branch — is the one every later phase inherits.
 
 Then obtain the run directory: run `sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" signal <slug>`, where `<slug>` is a 2–4 word kebab-case handle you derive from the request. It prints `.engineering/<run>/signal/` and creates it if needed; if a run is already active it joins that one and the slug is ignored. Write `00-request.md` into that directory yourself, with the request verbatim, before the first question. If the directory already holds a `brief.md`, do not overwrite it — ask the user whether to resume that run.
 

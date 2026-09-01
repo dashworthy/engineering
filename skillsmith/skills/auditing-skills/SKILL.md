@@ -1,6 +1,6 @@
 ---
 name: auditing-skills
-description: Audit an existing skill or a whole plugin for efficiency and quality problems — anti-patterns, verbosity, confusing logic, cross-skill duplication, subagent usage whose fixed token cost outruns its payload, and dead skills no task ever reaches — then propose each fix, or a dead skill's fate (wire in / fold into a sibling / remove), through AskUserQuestion and apply the approved ones. Use when reviewing, optimizing, cutting the token cost of, or pruning a skill or plugin.
+description: Audit an existing skill or a whole plugin for efficiency and quality problems — anti-patterns, verbosity, confusing logic, cross-skill duplication, costly subagent usage, and dead skills no task ever reaches — then propose each fix, or a dead skill's fate, through AskUserQuestion and apply the approved ones. Use when reviewing, optimizing, cutting the token cost of, or pruning a skill or plugin.
 ---
 
 # Auditing Skills
@@ -34,30 +34,18 @@ inside a plugin, still glance at its siblings for shared content before proposin
 Six dimensions; detection cues and fix shapes for each are in
 [references/audit-checks.md](references/audit-checks.md).
 
-1. **Anti-patterns** — measured against writing-skills' own list (menu-of-options, nested
-   references, Windows paths, time-sensitive wording, thin descriptions) plus structural ones the
-   list doesn't name, notably a **caller back-reference**: a skill that names the skill(s) that
-   invoke it, which is redundant, brittle, and — in a `description` — always-loaded cost.
-2. **Excessive verbosity** — prose that tells a capable agent what it already knows: explained
-   common formats, defined ordinary terms, throat-clearing about why the topic matters, onboarding
-   tone. Every cut is tokens saved on every load.
-3. **Confusing logic** — control flow an agent can misread: unordered prose for an ordered task, an
-   ambiguous conditional, a gate buried mid-paragraph, a step that depends on one three sections
-   away.
-4. **Cross-skill duplication** — the same guidance or reference content repeated across skills in
-   the plugin. A candidate for one canonical owner the others link, or a shared reference — the same
-   abstraction move you'd make in code.
-5. **Subagent economics** — where a skill dispatches a subagent, weigh its fixed cost (the
-   subagent's system prompt, the skill instructions re-injected, and the discovery it must redo cold)
-   against the payload moved out of the main context. Dispatch that saves less than it costs is the
-   inefficiency. The model and the break-even test are in
-   [references/subagent-economics.md](references/subagent-economics.md).
-6. **Dead skills** — a whole skill no task ever reaches: a `description` that matches nothing in the
-   plugin's domain or always loses a discovery collision to a sibling, a skill nothing in the plugin
-   dispatches or links, or one whose entire capability a sibling already covers. Its always-loaded
-   `description` costs tokens on every turn and buys nothing. Distinct from duplication, which shares
-   content between skills that each still earn a place; here the whole skill is the waste, and the fix
-   is a fate — wire it in, fold it into a sibling, or remove it — not a reword.
+1. **Anti-patterns** — writing-skills' own list (menu-of-options, nested references, Windows paths,
+   time-sensitive wording, thin descriptions), plus structural ones it doesn't name — notably a
+   **caller back-reference** in a `description`, which is always-loaded cost.
+2. **Excessive verbosity** — prose that tells a capable agent what it already knows.
+3. **Confusing logic** — control flow an agent can misread under load.
+4. **Cross-skill duplication** — the same content across skills; fix with one canonical owner or a
+   shared reference.
+5. **Subagent economics** — a dispatch whose fixed cost exceeds the payload it moves out of the main
+   context (the break-even test is in
+   [references/subagent-economics.md](references/subagent-economics.md)).
+6. **Dead skills** — a whole skill no task ever reaches; the fix is a fate (wire in / fold into a
+   sibling / remove), not a reword.
 
 ## Quantify and rank
 

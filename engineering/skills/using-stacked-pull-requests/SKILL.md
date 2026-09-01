@@ -37,9 +37,13 @@ hasn't chosen it — this skill works in a bare repo with nothing but `git` and 
 
 ## Branch and base model
 
-The model is **one branch per task**, all inside the single worktree `using-git-worktrees`
-already established — this skill switches branches within that one checkout, it does not spawn
-a worktree per task. The first task's branch starts from the trunk the work targets; task N's
+The model is **one branch per task**, all inside the single isolated checkout the entrance
+already established — the worktree from `using-git-worktrees`, or the feature branch a
+no-worktree entrance cut in the shared checkout. Either way it is one checkout: this skill
+switches branches within it, and it does not spawn a worktree per task. The first task's branch
+starts from the trunk the work targets — the branch the PRs merge into, not the entrance's own
+isolation branch, so even in the feature-branch case the stack sits on task branches and no
+work lands on the default branch; task N's
 branch starts from task N-1's branch, so the branches form a linear chain in the plan's own
 order. A pull request's **base is its parent branch** — task N's PR targets task N-1's branch,
 not trunk — which is what makes each PR show only its own task's diff instead of everything
@@ -92,9 +96,10 @@ single pull request.
 - It does not **run tdd, code review, or test hardening.** Each task's build, review gate, and
   the closing hardening pass belong to their own skills; this skill runs only after a task's
   work is committed.
-- It does not **create the worktree.** `using-git-worktrees` establishes the single isolated
-  checkout the whole stack lives in; this skill switches branches inside it and never makes
-  another.
+- It does not **establish the isolation.** The entrance already did — a worktree via
+  `using-git-worktrees`, or a feature branch in the shared checkout — and that single checkout is
+  where the whole stack lives; this skill switches branches inside it and never creates isolation
+  of its own.
 - It does not **decide the work is good enough to land.** Whether and when to land the stack is
   the user's call, carried out through `finishing-a-development-branch`; this skill performs the
   bottom-up merge when asked, it does not choose to.
