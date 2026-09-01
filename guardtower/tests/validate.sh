@@ -456,6 +456,42 @@ if [ -f "$ORCH" ]; then
 fi
 
 # ============================================================================
+# Plan 01 Task 1 — reviewing-tenant-isolation-shared-db facet skill
+# ============================================================================
+
+TISHARED="$PLUGIN/skills/reviewing-tenant-isolation-shared-db/SKILL.md"
+[ -f "$TISHARED" ]; check $? "reviewing-tenant-isolation-shared-db/SKILL.md exists"
+if [ -f "$TISHARED" ]; then
+  head -1 "$TISHARED" | grep -q '^---$'; check $? "reviewing-tenant-isolation-shared-db has frontmatter"
+  grep -q '^name: reviewing-tenant-isolation-shared-db$' "$TISHARED"; check $? "reviewing-tenant-isolation-shared-db frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$TISHARED")
+  printf '%s' "$desc" | grep -qiE "tenant|multi-tenan"; check $? "reviewing-tenant-isolation-shared-db description carries a tenant trigger"
+  printf '%s' "$desc" | grep -qiE "shared.database|single.database|shared.schema"; check $? "reviewing-tenant-isolation-shared-db description names the shared-DB model"
+  printf '%s' "$desc" | grep -qiE "scope|scoping|isolation"; check $? "reviewing-tenant-isolation-shared-db description names scoping/isolation"
+  grep_flat "$TISHARED" "relevance gate"; check $? "reviewing-tenant-isolation-shared-db runs the relevance gate"
+  grep_flat "$TISHARED" "before any lens work"; check $? "reviewing-tenant-isolation-shared-db short-circuits before lens work"
+  grep_flat "$TISHARED" "top_n"; check $? "reviewing-tenant-isolation-shared-db applies the top-N cap"
+  grep_flat "$TISHARED" "floor"; check $? "reviewing-tenant-isolation-shared-db applies the confidence/severity floor"
+  grep_flat "$TISHARED" "report-only"; check $? "reviewing-tenant-isolation-shared-db is report-only"
+  grep_flat "$TISHARED" "findings.md"; check $? "reviewing-tenant-isolation-shared-db writes findings.md"
+  grep_flat "$TISHARED" "no proactive"; check $? "reviewing-tenant-isolation-shared-db states its analysis boundary inline"
+  grep_flat "$TISHARED" "visible in the diff"; check $? "reviewing-tenant-isolation-shared-db scopes its reach to the diff"
+  grep_flat "$TISHARED" "references/tenant-isolation-shared-db-checklist.md"; check $? "reviewing-tenant-isolation-shared-db links references/tenant-isolation-shared-db-checklist.md"
+fi
+
+TISHAREDCL="$PLUGIN/skills/reviewing-tenant-isolation-shared-db/references/tenant-isolation-shared-db-checklist.md"
+[ -f "$TISHAREDCL" ]; check $? "reviewing-tenant-isolation-shared-db/references/tenant-isolation-shared-db-checklist.md exists"
+if [ -f "$TISHAREDCL" ]; then
+  grep_flat "$TISHAREDCL" "Missing tenant scope"; check $? "shared-db-checklist covers missing tenant scope on a query"
+  grep_flat "$TISHAREDCL" "Global-scope bypass"; check $? "shared-db-checklist covers global-scope bypass / raw query"
+  grep_flat "$TISHAREDCL" "Cross-tenant reference by ID"; check $? "shared-db-checklist covers cross-tenant reference by ID"
+  grep_flat "$TISHAREDCL" "Mass-assignment"; check $? "shared-db-checklist covers mass-assignment of the discriminator"
+  grep_flat "$TISHAREDCL" "Cross-tenant aggregate"; check $? "shared-db-checklist covers cross-tenant aggregate/report"
+  grep_flat "$TISHAREDCL" "cache key"; check $? "shared-db-checklist covers an un-namespaced cache key"
+  grep_flat "$TISHAREDCL" "not a finding"; check $? "shared-db-checklist states what is not a finding"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
