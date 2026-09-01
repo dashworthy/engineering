@@ -528,6 +528,40 @@ if [ -f "$TISOLATEDCL" ]; then
 fi
 
 # ============================================================================
+# Plan 01 Task 3 — reviewing-data-presentation facet skill
+# ============================================================================
+
+DATAPRES="$PLUGIN/skills/reviewing-data-presentation/SKILL.md"
+[ -f "$DATAPRES" ]; check $? "reviewing-data-presentation/SKILL.md exists"
+if [ -f "$DATAPRES" ]; then
+  head -1 "$DATAPRES" | grep -q '^---$'; check $? "reviewing-data-presentation has frontmatter"
+  grep -q '^name: reviewing-data-presentation$' "$DATAPRES"; check $? "reviewing-data-presentation frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$DATAPRES")
+  printf '%s' "$desc" | grep -qiE "presentation|present"; check $? "reviewing-data-presentation description carries a presentation trigger"
+  printf '%s' "$desc" | grep -qiE "disambiguat|distinguish|ambiguous|identity"; check $? "reviewing-data-presentation description names identity disambiguation"
+  grep_flat "$DATAPRES" "relevance gate"; check $? "reviewing-data-presentation runs the relevance gate"
+  grep_flat "$DATAPRES" "before any lens work"; check $? "reviewing-data-presentation short-circuits before lens work"
+  grep_flat "$DATAPRES" "top_n"; check $? "reviewing-data-presentation applies the top-N cap"
+  grep_flat "$DATAPRES" "floor"; check $? "reviewing-data-presentation applies the confidence/severity floor"
+  grep_flat "$DATAPRES" "report-only"; check $? "reviewing-data-presentation is report-only"
+  grep_flat "$DATAPRES" "findings.md"; check $? "reviewing-data-presentation writes findings.md"
+  grep_flat "$DATAPRES" "no proactive"; check $? "reviewing-data-presentation states its analysis boundary inline"
+  grep_flat "$DATAPRES" "visible in the diff"; check $? "reviewing-data-presentation scopes its reach to the diff"
+  grep_flat "$DATAPRES" "references/data-presentation-checklist.md"; check $? "reviewing-data-presentation links references/data-presentation-checklist.md"
+fi
+
+DATAPRESCL="$PLUGIN/skills/reviewing-data-presentation/references/data-presentation-checklist.md"
+[ -f "$DATAPRESCL" ]; check $? "reviewing-data-presentation/references/data-presentation-checklist.md exists"
+if [ -f "$DATAPRESCL" ]; then
+  grep_flat "$DATAPRESCL" "Non-unique label"; check $? "data-presentation-checklist covers a non-unique label without its disambiguating path"
+  grep_flat "$DATAPRESCL" "Collision-prone identifier"; check $? "data-presentation-checklist covers a collision-prone identifier without a distinguishing key"
+  grep_flat "$DATAPRESCL" "Indistinguishable"; check $? "data-presentation-checklist covers indistinguishable records in a list/selection"
+  grep_flat "$DATAPRESCL" "Disambiguator removed by rendering"; check $? "data-presentation-checklist covers a disambiguator removed by truncation/responsive hiding"
+  grep_flat "$DATAPRESCL" "accessibility"; check $? "data-presentation-checklist scopes out general UX/accessibility inline"
+  grep_flat "$DATAPRESCL" "not a finding"; check $? "data-presentation-checklist states what is not a finding"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
