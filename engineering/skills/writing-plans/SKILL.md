@@ -31,6 +31,16 @@ this mechanism existed — either way the spec gate was never cleared, so refuse
 rather than plan it. This mirrors `finishing-a-development-branch`'s rule to prefer the
 trace over the checkbox: the marker is the trace, the status line is only the checkbox.
 
+**Or start from the right-size bypass marker.** The spec-approval marker is one of two
+acceptable preconditions; the other is the spec-skip marker
+`.engineering/<run>/to-spec/SPEC-SKIPPED.md`, which `brainstorming` mints when the human
+explicitly opts to skip spec creation for a small, well-pinned change. When that marker is
+present there is no spec to read — plan directly from the recommended design `brainstorming`
+handed over, treating it as the approach the plan sequences. Accept **either**
+`to-spec/APPROVED.md` **or** `to-spec/SPEC-SKIPPED.md`; with neither present, no gate was
+cleared upstream, so refuse and stop the same as for a missing spec-approval marker. Whichever
+precondition opened the plan, the plan gate below is unchanged and still holds.
+
 Two things about the spec matter more than its prose: its Constraints section and any
 decision table it carries. Both travel into the plan close to verbatim — see Global
 Constraints, below — because a task author three steps in should never have to re-derive
