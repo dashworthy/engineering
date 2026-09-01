@@ -103,7 +103,13 @@ the status are only ever promoted together, here, at the moment the human approv
 
 ## Handoff
 
-Once the spec is `Approved` and its marker written, print the spec's path and stop —
-ordinarily the work goes on into `writing-plans`. A spec still sitting in `Draft` because
-the human has not approved it is not handed onward; it waits at the gate. This skill does
-not chain into planning itself, and does not summarize the spec beyond that one path.
+The only stop on this skill is the spec gate itself, and it sits *before* approval: a spec
+still in `Draft` because the human has not approved it waits at the gate and is not handed
+onward. Once the human approves — the marker written, the status flipped to `Approved` — that
+approval *is* the go. There is no second gate at this seam, so print the spec's path and
+**invoke `writing-plans` now.** "Stop" here means stop *writing the spec*; it is not a stop to
+ask the human whether to proceed. Parking an approved spec with a "want me to write the plan?"
+is not an available move — the approval was the answer to that question; `writing-plans` is
+the next act, take it. This skill does not itself author the plan — that is `writing-plans`'
+one job — and does not summarize the spec beyond that one path; it hands off and lets
+`writing-plans` read the spec and the marker behind it.

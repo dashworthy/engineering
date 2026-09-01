@@ -65,6 +65,14 @@ tr '\n' ' ' < "$eng/skills/brainstorming/SKILL.md" | grep -qiE "hand[^.]*enginee
 grep -qF '**Status:** Draft' "$eng/skills/to-spec/SPEC-FORMAT.md" || { echo "FAIL: SPEC-FORMAT template must stamp **Status:** Draft (written first, flipped to Approved at the spec gate)"; fail=1; }
 grep -qF 'dimensions"| BR["brainstorming' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route interrogate -> brainstorming -> to-spec"; fail=1; }
 
+# 6e. The two gated seams must chain FORWARD past their approval gate, not park. Under the gate
+# model the "stop" on to-spec / writing-plans is the gate *before* approval; once the human approves
+# there is no second gate, so each skill must invoke the next act rather than wait for the user to
+# re-launch it. This is exactly the failure of a handoff that says "print the path and stop" without
+# the "now continue" half. Flatten newlines: the invoke phrase wraps.
+tr '\n' ' ' < "$eng/skills/to-spec/SKILL.md" | grep -qiE "invoke[^.]*writing-plans[^.]*now" || { echo "FAIL: to-spec must invoke writing-plans on spec approval (forward seam must not park)"; fail=1; }
+tr '\n' ' ' < "$eng/skills/writing-plans/SKILL.md" | grep -qiE "invoke[^.]*executing-plans[^.]*now" || { echo "FAIL: writing-plans must invoke executing-plans on plan approval (forward seam must not park)"; fail=1; }
+
 # 7. The test-hardening discipline has moved to the standalone verity plugin: engineering no
 # longer bakes a hardening step into its planning or finish skills.
 if grep -rq "conducting-test-hardening" "$eng/skills"; then echo "FAIL: engineering still references the moved conducting-test-hardening skill"; fail=1; fi
