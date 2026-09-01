@@ -3,8 +3,9 @@
 # skeleton (Isolate -> establish run -> shape context by verify/reproduce/isolate -> hand to
 # brainstorming), folds in the isolation mechanics the old references/ carried, and drives the
 # shared interrogating-requirements primitive only when expected behavior must be synthesized.
-# Everything converges on brainstorming: no routing table, no quick-fix row. The two entrances stay
-# decoupled — triage never hands off to signal.
+# Everything converges on brainstorming: no routing table, no quick-fix row. triage and signal stay
+# decoupled — triage never hands off to signal (the entrances converge on brainstorming, never on
+# each other).
 set -e
 ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
 cd "$ROOT/engineering"

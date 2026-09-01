@@ -15,21 +15,23 @@ Work the beats in order.
 ## 1. Isolate the workspace
 
 Before the run directory, before reading the comments closely: settle how the fixes are isolated.
-This is a hard gate — the fixes happen off the base branch from the first step, so isolation is
-established first and `run-context.sh` then writes `.engineering/<run>/` **inside** it.
+This is a hard gate — but the base here is particular to this entrance. The fixes happen off the
+**original review branch** (the branch the feedback was left against), **not** the repository's
+default trunk, because each fix stacks back onto that review branch (beat 3); isolating off the
+trunk would produce a workspace that doesn't even contain the commits under review. Isolation is
+established first, and `run-context.sh` then writes `.engineering/<run>/` **inside** it.
 
-First check whether isolation already exists — a worktree this session entered, or a branch other
-than the repository's default branch already checked out. Either means the work is already isolated:
-join it and skip the question. Otherwise put the choice to the user through a single
-`AskUserQuestion`:
+First identify the original review branch. Then check whether isolation already exists — a worktree
+this session entered, or a branch (other than the review branch itself) already checked out on top
+of it. Either means the work is already isolated: join it and skip the question. Otherwise put the
+choice to the user through a single `AskUserQuestion`:
 
-- **Worktree (Recommended)** — invoke `engineering:using-git-worktrees`.
-- **Feature branch in this checkout** — no worktree; cut a named feature branch off the base with
-  `git switch -c <task-branch>`, where `<task-branch>` carries the slug you derive from the review.
-  Never leave the work sitting on the default branch.
-
-Note the **original review branch** — the branch the feedback was left against — as you isolate;
-beat 3 targets each fix's pull request back at it.
+- **Worktree (Recommended)** — invoke `engineering:using-git-worktrees`, with the worktree checked
+  out on the original review branch so the fixes build on the code under review.
+- **Feature branch off the review branch** — no worktree; cut a named feature branch off the
+  original review branch with `git switch -c <task-branch> <review-branch>`, where `<task-branch>`
+  carries the slug you derive from the review. Never base the fixes on the default trunk — they
+  would not contain the commits under review.
 
 ## 2. Establish or join a run
 

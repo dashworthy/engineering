@@ -32,7 +32,7 @@ done
 sh "$d/hook.sh" >/dev/null || { echo "FAIL: hook"; fail=1; }
 if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2>/dev/null; then echo "FAIL: retired verity reminder present"; fail=1; fi
 
-# 6. to-spec is the sole Tier-1 writer; both entrances reach it.
+# 6. to-spec is the sole Tier-1 writer; all three entrances reach it (via brainstorming).
 grep -q ".engineering/<run>/spec/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
 grep -q "engineering:brainstorming" "$eng/commands/signal.md" || { echo "FAIL: signal command must hand the brief to the brainstorming design gate"; fail=1; }
 grep -q "engineering:brainstorming" "$eng/commands/triage.md" || { echo "FAIL: triage (command entrance) must reach to-spec via brainstorming"; fail=1; }
