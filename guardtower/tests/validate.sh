@@ -447,7 +447,7 @@ if [ -f "$ORCH" ]; then
   else
     bad "reviewing menu wires reviewing-api-compat (not coming soon)"
   fi
-  # menu complete — all ten facets wired, no row still "coming soon"
+  # menu complete — all thirteen facets wired, no row still "coming soon"
   if grep -q 'coming soon' "$ORCH"; then
     bad "reviewing menu is complete — no facet row still 'coming soon'"
   else
@@ -629,6 +629,158 @@ fi
 if [ -f "$PLUGIN/README.md" ]; then
   grep_flat "$PLUGIN/README.md" "Tenant Isolation"; check $? "README lists the tenant-isolation facets"
   grep_flat "$PLUGIN/README.md" "Data Presentation"; check $? "README lists the data-presentation facet"
+fi
+
+# ============================================================================
+# Plan 02 Task 1 — reviewing-concurrency facet skill
+# ============================================================================
+
+CONC="$PLUGIN/skills/reviewing-concurrency/SKILL.md"
+[ -f "$CONC" ]; check $? "reviewing-concurrency/SKILL.md exists"
+if [ -f "$CONC" ]; then
+  head -1 "$CONC" | grep -q '^---$'; check $? "reviewing-concurrency has frontmatter"
+  grep -q '^name: reviewing-concurrency$' "$CONC"; check $? "reviewing-concurrency frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$CONC")
+  printf '%s' "$desc" | grep -qiE "concurren|race|thread.saf"; check $? "reviewing-concurrency description carries a concurrency trigger"
+  printf '%s' "$desc" | grep -qiE "interleav|check-then-act|read-modify-write|TOCTOU"; check $? "reviewing-concurrency description names an interleaving class"
+  printf '%s' "$desc" | grep -qiE "lock|transaction|atomic|synchroniz"; check $? "reviewing-concurrency description names a synchronization primitive"
+  grep_flat "$CONC" "relevance gate"; check $? "reviewing-concurrency runs the relevance gate"
+  grep_flat "$CONC" "before any lens work"; check $? "reviewing-concurrency short-circuits before lens work"
+  grep_flat "$CONC" "top_n"; check $? "reviewing-concurrency applies the top-N cap"
+  grep_flat "$CONC" "floor"; check $? "reviewing-concurrency applies the confidence/severity floor"
+  grep_flat "$CONC" "report-only"; check $? "reviewing-concurrency is report-only"
+  grep_flat "$CONC" "findings.md"; check $? "reviewing-concurrency writes findings.md"
+  grep_flat "$CONC" "no proactive"; check $? "reviewing-concurrency states its analysis boundary inline"
+  grep_flat "$CONC" "visible in the diff"; check $? "reviewing-concurrency scopes its reach to the diff"
+  grep_flat "$CONC" "references/concurrency-checklist.md"; check $? "reviewing-concurrency links references/concurrency-checklist.md"
+fi
+
+CONCCL="$PLUGIN/skills/reviewing-concurrency/references/concurrency-checklist.md"
+[ -f "$CONCCL" ]; check $? "reviewing-concurrency/references/concurrency-checklist.md exists"
+if [ -f "$CONCCL" ]; then
+  grep_flat "$CONCCL" "Check-then-act"; check $? "concurrency-checklist covers check-then-act (TOCTOU)"
+  grep_flat "$CONCCL" "Non-atomic read-modify-write"; check $? "concurrency-checklist covers non-atomic read-modify-write"
+  grep_flat "$CONCCL" "Lost update"; check $? "concurrency-checklist covers lost update on shared state"
+  grep_flat "$CONCCL" "Missing lock or transaction"; check $? "concurrency-checklist covers a compound op missing its lock/transaction"
+  grep_flat "$CONCCL" "Shared mutable state"; check $? "concurrency-checklist covers shared mutable state without synchronization"
+  grep_flat "$CONCCL" "not a finding"; check $? "concurrency-checklist states what is not a finding"
+fi
+
+# --- orchestrator wiring: concurrency is live, not "coming soon" -------------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-concurrency' "$ORCH"; then
+    if grep 'reviewing-concurrency' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-concurrency (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-concurrency (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-concurrency (not coming soon)"
+  fi
+fi
+
+# ============================================================================
+# Plan 02 Task 2 — reviewing-idempotency facet skill
+# ============================================================================
+
+IDEM="$PLUGIN/skills/reviewing-idempotency/SKILL.md"
+[ -f "$IDEM" ]; check $? "reviewing-idempotency/SKILL.md exists"
+if [ -f "$IDEM" ]; then
+  head -1 "$IDEM" | grep -q '^---$'; check $? "reviewing-idempotency has frontmatter"
+  grep -q '^name: reviewing-idempotency$' "$IDEM"; check $? "reviewing-idempotency frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$IDEM")
+  printf '%s' "$desc" | grep -qiE "idempoten|retry.saf"; check $? "reviewing-idempotency description carries an idempotency trigger"
+  printf '%s' "$desc" | grep -qiE "twice|retr|replay|redeliver|duplicate"; check $? "reviewing-idempotency description names a repeat trigger"
+  printf '%s' "$desc" | grep -qiE "webhook|consumer|queue|at-least-once|idempotency key"; check $? "reviewing-idempotency description names a repeatable-effect surface"
+  grep_flat "$IDEM" "relevance gate"; check $? "reviewing-idempotency runs the relevance gate"
+  grep_flat "$IDEM" "before any lens work"; check $? "reviewing-idempotency short-circuits before lens work"
+  grep_flat "$IDEM" "top_n"; check $? "reviewing-idempotency applies the top-N cap"
+  grep_flat "$IDEM" "floor"; check $? "reviewing-idempotency applies the confidence/severity floor"
+  grep_flat "$IDEM" "report-only"; check $? "reviewing-idempotency is report-only"
+  grep_flat "$IDEM" "findings.md"; check $? "reviewing-idempotency writes findings.md"
+  grep_flat "$IDEM" "no proactive"; check $? "reviewing-idempotency states its analysis boundary inline"
+  grep_flat "$IDEM" "visible in the diff"; check $? "reviewing-idempotency scopes its reach to the diff"
+  grep_flat "$IDEM" "references/idempotency-checklist.md"; check $? "reviewing-idempotency links references/idempotency-checklist.md"
+fi
+
+IDEMCL="$PLUGIN/skills/reviewing-idempotency/references/idempotency-checklist.md"
+[ -f "$IDEMCL" ]; check $? "reviewing-idempotency/references/idempotency-checklist.md exists"
+if [ -f "$IDEMCL" ]; then
+  grep_flat "$IDEMCL" "Side effect with no idempotency key"; check $? "idempotency-checklist covers a side effect with no idempotency key"
+  grep_flat "$IDEMCL" "Non-idempotent retry"; check $? "idempotency-checklist covers a non-idempotent retry"
+  grep_flat "$IDEMCL" "At-least-once treated as exactly-once"; check $? "idempotency-checklist covers at-least-once treated as exactly-once"
+  grep_flat "$IDEMCL" "Duplicate on replay"; check $? "idempotency-checklist covers a duplicate on replay"
+  grep_flat "$IDEMCL" "Partial-completion re-run"; check $? "idempotency-checklist covers a partial-completion re-run"
+  grep_flat "$IDEMCL" "not a finding"; check $? "idempotency-checklist states what is not a finding"
+fi
+
+# --- orchestrator wiring: idempotency is live, not "coming soon" -------------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-idempotency' "$ORCH"; then
+    if grep 'reviewing-idempotency' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-idempotency (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-idempotency (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-idempotency (not coming soon)"
+  fi
+fi
+
+# ============================================================================
+# Plan 02 Task 3 — reviewing-numeric-precision facet skill
+# ============================================================================
+
+NUM="$PLUGIN/skills/reviewing-numeric-precision/SKILL.md"
+[ -f "$NUM" ]; check $? "reviewing-numeric-precision/SKILL.md exists"
+if [ -f "$NUM" ]; then
+  head -1 "$NUM" | grep -q '^---$'; check $? "reviewing-numeric-precision has frontmatter"
+  grep -q '^name: reviewing-numeric-precision$' "$NUM"; check $? "reviewing-numeric-precision frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$NUM")
+  printf '%s' "$desc" | grep -qiE "numeric|precision|money|units"; check $? "reviewing-numeric-precision description carries a numeric-precision trigger"
+  printf '%s' "$desc" | grep -qiE "float|rounding|truncat"; check $? "reviewing-numeric-precision description names a precision class"
+  printf '%s' "$desc" | grep -qiE "unit mismatch|overflow|cast|cents|scale"; check $? "reviewing-numeric-precision description names a units/overflow class"
+  grep_flat "$NUM" "relevance gate"; check $? "reviewing-numeric-precision runs the relevance gate"
+  grep_flat "$NUM" "before any lens work"; check $? "reviewing-numeric-precision short-circuits before lens work"
+  grep_flat "$NUM" "top_n"; check $? "reviewing-numeric-precision applies the top-N cap"
+  grep_flat "$NUM" "floor"; check $? "reviewing-numeric-precision applies the confidence/severity floor"
+  grep_flat "$NUM" "report-only"; check $? "reviewing-numeric-precision is report-only"
+  grep_flat "$NUM" "findings.md"; check $? "reviewing-numeric-precision writes findings.md"
+  grep_flat "$NUM" "no proactive"; check $? "reviewing-numeric-precision states its analysis boundary inline"
+  grep_flat "$NUM" "visible in the diff"; check $? "reviewing-numeric-precision scopes its reach to the diff"
+  grep_flat "$NUM" "references/numeric-precision-checklist.md"; check $? "reviewing-numeric-precision links references/numeric-precision-checklist.md"
+fi
+
+NUMCL="$PLUGIN/skills/reviewing-numeric-precision/references/numeric-precision-checklist.md"
+[ -f "$NUMCL" ]; check $? "reviewing-numeric-precision/references/numeric-precision-checklist.md exists"
+if [ -f "$NUMCL" ]; then
+  grep_flat "$NUMCL" "Binary float for an exact value"; check $? "numeric-precision-checklist covers a binary float for an exact value"
+  grep_flat "$NUMCL" "Silent rounding or truncation"; check $? "numeric-precision-checklist covers silent rounding or truncation"
+  grep_flat "$NUMCL" "Unit mismatch"; check $? "numeric-precision-checklist covers a unit mismatch"
+  grep_flat "$NUMCL" "Integer overflow"; check $? "numeric-precision-checklist covers integer overflow"
+  grep_flat "$NUMCL" "Precision lost on a cast"; check $? "numeric-precision-checklist covers precision lost on a cast"
+  grep_flat "$NUMCL" "Mixed scale or currency"; check $? "numeric-precision-checklist covers mixed scale or currency without normalization"
+  grep_flat "$NUMCL" "not a finding"; check $? "numeric-precision-checklist states what is not a finding"
+fi
+
+# --- orchestrator wiring: numeric-precision is live, not "coming soon" -------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-numeric-precision' "$ORCH"; then
+    if grep 'reviewing-numeric-precision' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-numeric-precision (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-numeric-precision (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-numeric-precision (not coming soon)"
+  fi
+fi
+
+# --- README lists the three added facets ------------------------------------
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "Concurrency & Race Safety"; check $? "README lists the concurrency facet"
+  grep_flat "$PLUGIN/README.md" "Idempotency & Retry Safety"; check $? "README lists the idempotency facet"
+  grep_flat "$PLUGIN/README.md" "Numeric Precision & Units"; check $? "README lists the numeric-precision facet"
 fi
 
 # ============================================================================

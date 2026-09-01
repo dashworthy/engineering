@@ -36,13 +36,17 @@ facets, then returns one reconciled report plus the per-facet artifacts under `.
 | **Test Quality** | Do the tests exercise the change and fail if it breaks? |
 | **Data & Migration Safety** | Destructive/irreversible operations, data-loss risk. |
 | **API & Backward Compatibility** | Breaking changes to public contracts. |
+| **Concurrency & Race Safety** | Race conditions and unsafe interleaving — check-then-act, non-atomic read-modify-write, a compound operation missing its lock or transaction. |
+| **Idempotency & Retry Safety** | Side effects unsafe to run twice — a consumer or webhook with no idempotency key, a non-idempotent retry, a duplicate on replay. |
+| **Numeric Precision & Units** | Precision and unit defects — a binary float for money, silent rounding, a unit mismatch, integer overflow, a lossy cast. |
 | **Tenant Isolation (shared DB)** | Cross-tenant leaks in a single-database / shared-schema app — a query that lost its tenant scope. |
 | **Tenant Isolation (isolated DB)** | Cross-tenant leaks in a database-per-tenant app — an operation on the wrong connection. |
 | **Data Presentation** | Identity-ambiguous presentation — distinct records a person cannot tell apart. |
 
-This release ships **ten** facets — the three **core** (**Security**, **Technical**,
+This release ships **thirteen** facets — the three **core** (**Security**, **Technical**,
 **Architectural**), pre-checked by default, plus **Error Handling & Resilience**, **Test Quality**,
-**Data & Migration Safety**, and **API & Backward Compatibility** — on the shared review spine. The
+**Data & Migration Safety**, **API & Backward Compatibility**, **Concurrency & Race Safety**,
+**Idempotency & Retry Safety**, and **Numeric Precision & Units** — on the shared review spine. The
 two **Tenant Isolation** facets are **proposed automatically**: guardtower classifies the repo's
 tenancy model once per run and pre-checks the matching facet (shared-DB or database-per-tenant), or
 neither when the app is single-tenant — a repo-level menu-proposal gate above each facet's own
