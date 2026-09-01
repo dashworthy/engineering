@@ -36,10 +36,17 @@ facets, then returns one reconciled report plus the per-facet artifacts under `.
 | **Test Quality** | Do the tests exercise the change and fail if it breaks? |
 | **Data & Migration Safety** | Destructive/irreversible operations, data-loss risk. |
 | **API & Backward Compatibility** | Breaking changes to public contracts. |
+| **Tenant Isolation (shared DB)** | Cross-tenant leaks in a single-database / shared-schema app — a query that lost its tenant scope. |
+| **Tenant Isolation (isolated DB)** | Cross-tenant leaks in a database-per-tenant app — an operation on the wrong connection. |
+| **Data Presentation** | Identity-ambiguous presentation — distinct records a person cannot tell apart. |
 
-This release ships **all seven** facets — the three **core** (**Security**, **Technical**,
+This release ships **ten** facets — the three **core** (**Security**, **Technical**,
 **Architectural**), pre-checked by default, plus **Error Handling & Resilience**, **Test Quality**,
-**Data & Migration Safety**, and **API & Backward Compatibility** — on the shared review spine.
+**Data & Migration Safety**, and **API & Backward Compatibility** — on the shared review spine. The
+two **Tenant Isolation** facets are **proposed automatically**: guardtower classifies the repo's
+tenancy model once per run and pre-checks the matching facet (shared-DB or database-per-tenant), or
+neither when the app is single-tenant — a repo-level menu-proposal gate above each facet's own
+per-change relevance check. **Data Presentation** is always in the menu, opt-in.
 
 ## Design principles
 

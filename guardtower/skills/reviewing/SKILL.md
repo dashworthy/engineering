@@ -20,10 +20,13 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 
 ## The facets
 
-Seven facets exist; each is a thin skill owning one lens. This release wires **all seven** — the
-three **core** facets (**Security**, **Technical**, **Architectural**), pre-checked by default, plus
-the four additional facets (**Error Handling & Resilience**, **Test Quality**, **Data & Migration
-Safety**, **API & Backward Compatibility**), selectable per run.
+Ten facets exist; each is a thin skill owning one lens. The three **core** facets (**Security**,
+**Technical**, **Architectural**) are pre-checked by default; four additional facets (**Error Handling
+& Resilience**, **Test Quality**, **Data & Migration Safety**, **API & Backward Compatibility**) are
+selectable per run; two **tenant-isolation** facets are **core-when-present** — proposed and
+pre-checked only when the repo-level detection step finds the matching tenancy model (see the
+menu-proposal step in the workflow); and the **Data Presentation** facet is always in the menu,
+opt-in and not tenancy-gated.
 
 | Facet (skill) | Lens | Core? |
 |---|---|---|
@@ -34,32 +37,47 @@ Safety**, **API & Backward Compatibility**), selectable per run.
 | `reviewing-test-quality` | Do tests exercise the change and fail if it breaks? | — |
 | `reviewing-data-safety` | Destructive/irreversible ops, migrations, data loss | — |
 | `reviewing-api-compat` | Breaking changes to public contracts | — |
+| `reviewing-tenant-isolation-shared-db` | Cross-tenant leaks in a single-DB / shared-schema app: a query that lost its tenant scope | core-when-present |
+| `reviewing-tenant-isolation-isolated-db` | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | core-when-present |
+| `reviewing-data-presentation` | Identity-ambiguous presentation: distinct records a person can't tell apart | — |
 
 ## The workflow
 
-1. **Pick the facets.** Present the facet menu through `AskUserQuestion` (multi-select), with the
-   three **core** facets **pre-checked**. The human unchecks or adds; only available facets run
-   (a not-yet-available pick is reported as skipped, not failed).
-2. **Resolve the change and the run.** Resolve `change_ref` once (the diff/branch/PR under review).
+1. **Classify the tenancy model — the menu-proposal gate.** Before building the menu, decide once,
+   at the **repo level**, whether this application is multi-tenant and how it isolates tenants —
+   reasoning against [references/multi-tenancy-signals.md](references/multi-tenancy-signals.md).
+   This is **agent-driven** (weigh the signals in the codebase), never a shell script. Emit one
+   verdict — `shared`, `per-db`, `both`, `none`, or `ambiguous` — and on `ambiguous` ask the human
+   once. The verdict governs only which tenant facets the menu proposes and pre-checks: `shared` →
+   the shared-DB facet, `per-db` → the isolated-DB facet, `both` → both, `none` → neither. This is
+   the upper of guardtower's **two-gate** model: a repo-level menu-proposal gate that sits *above*
+   each facet's own per-change relevance gate — a proposed facet still self-skips on a change that
+   touches no tenant-scoped surface, so proposing is not running.
+2. **Pick the facets.** Present the facet menu through `AskUserQuestion` (multi-select), with the
+   three **core** facets **pre-checked**, plus any tenant-isolation facet the menu-proposal step
+   above proposed (pre-checked when proposed). The **Data Presentation** facet is always offered,
+   opt-in. The human unchecks or adds; only available facets run (a not-yet-available pick is
+   reported as skipped, not failed).
+3. **Resolve the change and the run.** Resolve `change_ref` once (the diff/branch/PR under review).
    Create the run directory with `run-context.sh` — the per-facet path is
    `.guardtower/<run>/<facet-skill>/findings.md`.
-3. **Decide fan-out vs. inline.** On a small change — roughly one file, ~20 changed lines or fewer,
+4. **Decide fan-out vs. inline.** On a small change — roughly one file, ~20 changed lines or fewer,
    one hunk — reviewing every selected facet inline costs less than spinning up subagents; do it
    inline. Above that floor, **fan out** the selected facets in parallel, following
    `dispatching-parallel-agents` (facets share only a *read* of `change_ref`, so the independence
    gate holds — no facet reads what another writes).
-4. **Hand each facet the contract.** Pass every facet the same request and expect the same result
+5. **Hand each facet the contract.** Pass every facet the same request and expect the same result
    shape — see [references/facet-contract.md](references/facet-contract.md). Each facet enforces
    the hard stops itself, at the source — see [references/hard-stops.md](references/hard-stops.md);
    the orchestrator does not trim findings afterward.
-5. **Reconcile.** Gather all results — nothing dropped because it returned last, nothing picked
+6. **Reconcile.** Gather all results — nothing dropped because it returned last, nothing picked
    because it returned first. Deduplicate where two facets flag the same location, order the
    findings, and present **one** report alongside the durable per-facet artifacts. Reconciliation
    is the one thing a facet does not own; it needs every result at once.
 
 ## Governing principle
 
-Keep the self-enforcement shape (workflow step 4) when changing a facet boundary or adding a facet:
+Keep the self-enforcement shape (workflow step 5) when changing a facet boundary or adding a facet:
 a cap the orchestrator applies after a facet has already done unbounded work saves output, not the
 work.
 

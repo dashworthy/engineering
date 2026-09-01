@@ -447,12 +447,188 @@ if [ -f "$ORCH" ]; then
   else
     bad "reviewing menu wires reviewing-api-compat (not coming soon)"
   fi
-  # menu complete — all seven facets wired, no row still "coming soon"
+  # menu complete — all ten facets wired, no row still "coming soon"
   if grep -q 'coming soon' "$ORCH"; then
     bad "reviewing menu is complete — no facet row still 'coming soon'"
   else
     ok "reviewing menu is complete — no facet row still 'coming soon'"
   fi
+fi
+
+# ============================================================================
+# Plan 01 Task 1 — reviewing-tenant-isolation-shared-db facet skill
+# ============================================================================
+
+TISHARED="$PLUGIN/skills/reviewing-tenant-isolation-shared-db/SKILL.md"
+[ -f "$TISHARED" ]; check $? "reviewing-tenant-isolation-shared-db/SKILL.md exists"
+if [ -f "$TISHARED" ]; then
+  head -1 "$TISHARED" | grep -q '^---$'; check $? "reviewing-tenant-isolation-shared-db has frontmatter"
+  grep -q '^name: reviewing-tenant-isolation-shared-db$' "$TISHARED"; check $? "reviewing-tenant-isolation-shared-db frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$TISHARED")
+  printf '%s' "$desc" | grep -qiE "tenant|multi-tenan"; check $? "reviewing-tenant-isolation-shared-db description carries a tenant trigger"
+  printf '%s' "$desc" | grep -qiE "shared.database|single.database|shared.schema"; check $? "reviewing-tenant-isolation-shared-db description names the shared-DB model"
+  printf '%s' "$desc" | grep -qiE "scope|scoping|isolation"; check $? "reviewing-tenant-isolation-shared-db description names scoping/isolation"
+  grep_flat "$TISHARED" "relevance gate"; check $? "reviewing-tenant-isolation-shared-db runs the relevance gate"
+  grep_flat "$TISHARED" "before any lens work"; check $? "reviewing-tenant-isolation-shared-db short-circuits before lens work"
+  grep_flat "$TISHARED" "top_n"; check $? "reviewing-tenant-isolation-shared-db applies the top-N cap"
+  grep_flat "$TISHARED" "floor"; check $? "reviewing-tenant-isolation-shared-db applies the confidence/severity floor"
+  grep_flat "$TISHARED" "report-only"; check $? "reviewing-tenant-isolation-shared-db is report-only"
+  grep_flat "$TISHARED" "findings.md"; check $? "reviewing-tenant-isolation-shared-db writes findings.md"
+  grep_flat "$TISHARED" "no proactive"; check $? "reviewing-tenant-isolation-shared-db states its analysis boundary inline"
+  grep_flat "$TISHARED" "visible in the diff"; check $? "reviewing-tenant-isolation-shared-db scopes its reach to the diff"
+  grep_flat "$TISHARED" "references/tenant-isolation-shared-db-checklist.md"; check $? "reviewing-tenant-isolation-shared-db links references/tenant-isolation-shared-db-checklist.md"
+fi
+
+TISHAREDCL="$PLUGIN/skills/reviewing-tenant-isolation-shared-db/references/tenant-isolation-shared-db-checklist.md"
+[ -f "$TISHAREDCL" ]; check $? "reviewing-tenant-isolation-shared-db/references/tenant-isolation-shared-db-checklist.md exists"
+if [ -f "$TISHAREDCL" ]; then
+  grep_flat "$TISHAREDCL" "Missing tenant scope"; check $? "shared-db-checklist covers missing tenant scope on a query"
+  grep_flat "$TISHAREDCL" "Global-scope bypass"; check $? "shared-db-checklist covers global-scope bypass / raw query"
+  grep_flat "$TISHAREDCL" "Cross-tenant reference by ID"; check $? "shared-db-checklist covers cross-tenant reference by ID"
+  grep_flat "$TISHAREDCL" "Mass-assignment"; check $? "shared-db-checklist covers mass-assignment of the discriminator"
+  grep_flat "$TISHAREDCL" "Cross-tenant aggregate"; check $? "shared-db-checklist covers cross-tenant aggregate/report"
+  grep_flat "$TISHAREDCL" "cache key"; check $? "shared-db-checklist covers an un-namespaced cache key"
+  grep_flat "$TISHAREDCL" "not a finding"; check $? "shared-db-checklist states what is not a finding"
+fi
+
+# ============================================================================
+# Plan 01 Task 2 — reviewing-tenant-isolation-isolated-db facet skill
+# ============================================================================
+
+TISOLATED="$PLUGIN/skills/reviewing-tenant-isolation-isolated-db/SKILL.md"
+[ -f "$TISOLATED" ]; check $? "reviewing-tenant-isolation-isolated-db/SKILL.md exists"
+if [ -f "$TISOLATED" ]; then
+  head -1 "$TISOLATED" | grep -q '^---$'; check $? "reviewing-tenant-isolation-isolated-db has frontmatter"
+  grep -q '^name: reviewing-tenant-isolation-isolated-db$' "$TISOLATED"; check $? "reviewing-tenant-isolation-isolated-db frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$TISOLATED")
+  printf '%s' "$desc" | grep -qiE "tenant|multi-tenan"; check $? "reviewing-tenant-isolation-isolated-db description carries a tenant trigger"
+  printf '%s' "$desc" | grep -qiE "per-tenant|per.database|database-per|schema-per|isolated.database"; check $? "reviewing-tenant-isolation-isolated-db description names the per-tenant-DB model"
+  printf '%s' "$desc" | grep -qiE "connection|isolation"; check $? "reviewing-tenant-isolation-isolated-db description names connection/isolation"
+  grep_flat "$TISOLATED" "relevance gate"; check $? "reviewing-tenant-isolation-isolated-db runs the relevance gate"
+  grep_flat "$TISOLATED" "before any lens work"; check $? "reviewing-tenant-isolation-isolated-db short-circuits before lens work"
+  grep_flat "$TISOLATED" "top_n"; check $? "reviewing-tenant-isolation-isolated-db applies the top-N cap"
+  grep_flat "$TISOLATED" "floor"; check $? "reviewing-tenant-isolation-isolated-db applies the confidence/severity floor"
+  grep_flat "$TISOLATED" "report-only"; check $? "reviewing-tenant-isolation-isolated-db is report-only"
+  grep_flat "$TISOLATED" "findings.md"; check $? "reviewing-tenant-isolation-isolated-db writes findings.md"
+  grep_flat "$TISOLATED" "no proactive"; check $? "reviewing-tenant-isolation-isolated-db states its analysis boundary inline"
+  grep_flat "$TISOLATED" "visible in the diff"; check $? "reviewing-tenant-isolation-isolated-db scopes its reach to the diff"
+  grep_flat "$TISOLATED" "references/tenant-isolation-isolated-db-checklist.md"; check $? "reviewing-tenant-isolation-isolated-db links references/tenant-isolation-isolated-db-checklist.md"
+fi
+
+TISOLATEDCL="$PLUGIN/skills/reviewing-tenant-isolation-isolated-db/references/tenant-isolation-isolated-db-checklist.md"
+[ -f "$TISOLATEDCL" ]; check $? "reviewing-tenant-isolation-isolated-db/references/tenant-isolation-isolated-db-checklist.md exists"
+if [ -f "$TISOLATEDCL" ]; then
+  grep_flat "$TISOLATEDCL" "Connection not switched"; check $? "isolated-db-checklist covers connection/tenant context not switched"
+  grep_flat "$TISOLATEDCL" "context leaking across requests"; check $? "isolated-db-checklist covers tenant context leaking across requests"
+  grep_flat "$TISOLATEDCL" "Background"; check $? "isolated-db-checklist covers background/queued/scheduled work on the wrong connection"
+  grep_flat "$TISOLATEDCL" "landlord"; check $? "isolated-db-checklist covers central/landlord vs tenant DB confusion"
+  grep_flat "$TISOLATEDCL" "Migration"; check $? "isolated-db-checklist covers migration targeting the wrong DB set"
+  grep_flat "$TISOLATEDCL" "Cross-cutting per-tenant store"; check $? "isolated-db-checklist covers a cross-cutting per-tenant store not switched"
+  grep_flat "$TISOLATEDCL" "not a finding"; check $? "isolated-db-checklist states what is not a finding"
+fi
+
+# ============================================================================
+# Plan 01 Task 3 — reviewing-data-presentation facet skill
+# ============================================================================
+
+DATAPRES="$PLUGIN/skills/reviewing-data-presentation/SKILL.md"
+[ -f "$DATAPRES" ]; check $? "reviewing-data-presentation/SKILL.md exists"
+if [ -f "$DATAPRES" ]; then
+  head -1 "$DATAPRES" | grep -q '^---$'; check $? "reviewing-data-presentation has frontmatter"
+  grep -q '^name: reviewing-data-presentation$' "$DATAPRES"; check $? "reviewing-data-presentation frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$DATAPRES")
+  printf '%s' "$desc" | grep -qiE "presentation|present"; check $? "reviewing-data-presentation description carries a presentation trigger"
+  printf '%s' "$desc" | grep -qiE "disambiguat|distinguish|ambiguous|identity"; check $? "reviewing-data-presentation description names identity disambiguation"
+  grep_flat "$DATAPRES" "relevance gate"; check $? "reviewing-data-presentation runs the relevance gate"
+  grep_flat "$DATAPRES" "before any lens work"; check $? "reviewing-data-presentation short-circuits before lens work"
+  grep_flat "$DATAPRES" "top_n"; check $? "reviewing-data-presentation applies the top-N cap"
+  grep_flat "$DATAPRES" "floor"; check $? "reviewing-data-presentation applies the confidence/severity floor"
+  grep_flat "$DATAPRES" "report-only"; check $? "reviewing-data-presentation is report-only"
+  grep_flat "$DATAPRES" "findings.md"; check $? "reviewing-data-presentation writes findings.md"
+  grep_flat "$DATAPRES" "no proactive"; check $? "reviewing-data-presentation states its analysis boundary inline"
+  grep_flat "$DATAPRES" "visible in the diff"; check $? "reviewing-data-presentation scopes its reach to the diff"
+  grep_flat "$DATAPRES" "references/data-presentation-checklist.md"; check $? "reviewing-data-presentation links references/data-presentation-checklist.md"
+fi
+
+DATAPRESCL="$PLUGIN/skills/reviewing-data-presentation/references/data-presentation-checklist.md"
+[ -f "$DATAPRESCL" ]; check $? "reviewing-data-presentation/references/data-presentation-checklist.md exists"
+if [ -f "$DATAPRESCL" ]; then
+  grep_flat "$DATAPRESCL" "Non-unique label"; check $? "data-presentation-checklist covers a non-unique label without its disambiguating path"
+  grep_flat "$DATAPRESCL" "Collision-prone identifier"; check $? "data-presentation-checklist covers a collision-prone identifier without a distinguishing key"
+  grep_flat "$DATAPRESCL" "Indistinguishable"; check $? "data-presentation-checklist covers indistinguishable records in a list/selection"
+  grep_flat "$DATAPRESCL" "Disambiguator removed by rendering"; check $? "data-presentation-checklist covers a disambiguator removed by truncation/responsive hiding"
+  grep_flat "$DATAPRESCL" "accessibility"; check $? "data-presentation-checklist scopes out general UX/accessibility inline"
+  grep_flat "$DATAPRESCL" "not a finding"; check $? "data-presentation-checklist states what is not a finding"
+fi
+
+# ============================================================================
+# Plan 01 Task 4 — detection seam, orchestrator wiring, signals reference
+# ============================================================================
+
+MTSIG="$PLUGIN/skills/reviewing/references/multi-tenancy-signals.md"
+[ -f "$MTSIG" ]; check $? "reviewing/references/multi-tenancy-signals.md exists"
+if [ -f "$MTSIG" ]; then
+  grep_flat "$MTSIG" "shared-schema"; check $? "multi-tenancy-signals documents shared-schema signals"
+  grep_flat "$MTSIG" "tenant_id"; check $? "multi-tenancy-signals names the discriminator-column signal"
+  grep_flat "$MTSIG" "per-tenant"; check $? "multi-tenancy-signals documents per-tenant-DB signals"
+  grep_flat "$MTSIG" "connection"; check $? "multi-tenancy-signals names the per-tenant connection signal"
+  grep_flat "$MTSIG" '`shared`'; check $? "multi-tenancy-signals verdict includes shared"
+  grep_flat "$MTSIG" '`per-db`'; check $? "multi-tenancy-signals verdict includes per-db"
+  grep_flat "$MTSIG" '`both`'; check $? "multi-tenancy-signals verdict includes both"
+  grep_flat "$MTSIG" '`none`'; check $? "multi-tenancy-signals verdict includes none"
+  grep_flat "$MTSIG" '`ambiguous`'; check $? "multi-tenancy-signals verdict includes ambiguous"
+  grep_flat "$MTSIG" "ask once"; check $? "multi-tenancy-signals resolves ambiguous by asking once"
+fi
+
+if [ -f "$ORCH" ]; then
+  grep_flat "$ORCH" "references/multi-tenancy-signals.md"; check $? "reviewing links references/multi-tenancy-signals.md"
+  grep_flat "$ORCH" "menu-proposal"; check $? "reviewing states the menu-proposal detection step"
+  grep_flat "$ORCH" "two-gate"; check $? "reviewing states the two-gate model"
+fi
+
+# --- orchestrator wiring: shared-DB tenant facet is live, not "coming soon" ---
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-tenant-isolation-shared-db' "$ORCH"; then
+    if grep 'reviewing-tenant-isolation-shared-db' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-tenant-isolation-shared-db (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-tenant-isolation-shared-db (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-tenant-isolation-shared-db (not coming soon)"
+  fi
+fi
+
+# --- orchestrator wiring: isolated-DB tenant facet is live, not "coming soon" -
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-tenant-isolation-isolated-db' "$ORCH"; then
+    if grep 'reviewing-tenant-isolation-isolated-db' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-tenant-isolation-isolated-db (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-tenant-isolation-isolated-db (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-tenant-isolation-isolated-db (not coming soon)"
+  fi
+fi
+
+# --- orchestrator wiring: data-presentation facet is live, not "coming soon" --
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-data-presentation' "$ORCH"; then
+    if grep 'reviewing-data-presentation' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-data-presentation (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-data-presentation (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-data-presentation (not coming soon)"
+  fi
+fi
+
+# --- README lists the three new facets --------------------------------------
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "Tenant Isolation"; check $? "README lists the tenant-isolation facets"
+  grep_flat "$PLUGIN/README.md" "Data Presentation"; check $? "README lists the data-presentation facet"
 fi
 
 # ============================================================================

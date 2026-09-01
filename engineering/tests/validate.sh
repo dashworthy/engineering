@@ -155,10 +155,42 @@ done
 # anti-pattern lens) joined DEEPENING.md and DESIGN-IT-TWICE.md when the design-pattern
 # catalog landed.
 CD="$PLUGIN/skills/codebase-design"
-for comp in DEEPENING.md DESIGN-IT-TWICE.md PATTERN-MATRIX.md SHAPE-REVIEW.md; do
+for comp in DEEPENING.md DESIGN-IT-TWICE.md PATTERN-MATRIX.md SHAPE-REVIEW.md TENANCY-SHARED-DB.md TENANCY-ISOLATED-DB.md; do
   [ -f "$CD/$comp" ]; check $? "codebase-design/$comp exists"
   grep_flat "$CD/SKILL.md" "$comp"; check $? "codebase-design/SKILL.md references $comp"
 done
+
+# --- codebase-design tenancy boundary (design-time multi-tenancy prevention) --
+# The tenancy companions carry the design-time boundary decision, split by tenancy model the
+# same way guardtower's review facets are — but stated by the designer, not auto-detected. The
+# shared-DB companion must actually cover the shared-schema failure shape (a caller left free to
+# build an unscoped query, ambient vs. explicit tenant context, discriminator mass-assignment,
+# cross-tenant reach); the isolated-DB companion must cover the near-disjoint per-tenant-database
+# failure shape (where/when the tenant connection is resolved and switched, carrying tenant
+# context across async boundaries, central/landlord vs. tenant DB binding) plus the cross-tenant
+# reach authorization decision both models share. SKILL.md must wire
+# the behavior: determine the model, consult ONLY the matching companion, then force the decision
+# when a boundary touches tenant-scoped data.
+CDSK="$CD/SKILL.md"
+SDB="$CD/TENANCY-SHARED-DB.md"
+if [ -f "$SDB" ]; then
+  grep_flat "$SDB" "unscoped query"; check $? "TENANCY-SHARED-DB covers where scoping lives so no caller builds an unscoped query"
+  grep_flat "$SDB" "ambient"; check $? "TENANCY-SHARED-DB mentions ambient tenant context"
+  grep_flat "$SDB" "explicit tenant"; check $? "TENANCY-SHARED-DB mentions explicit tenant context"
+  grep_flat "$SDB" "mass-assignable"; check $? "TENANCY-SHARED-DB covers discriminator mass-assignment"
+  grep_flat "$SDB" "cross-tenant reach"; check $? "TENANCY-SHARED-DB covers whether cross-tenant reach is permitted"
+fi
+IDB="$CD/TENANCY-ISOLATED-DB.md"
+if [ -f "$IDB" ]; then
+  grep_flat "$IDB" "connection is resolved and switched"; check $? "TENANCY-ISOLATED-DB covers where/when the tenant connection is resolved and switched"
+  grep_flat "$IDB" "across async boundaries"; check $? "TENANCY-ISOLATED-DB covers carrying tenant context across async boundaries"
+  grep_flat "$IDB" "landlord vs. tenant DB binding"; check $? "TENANCY-ISOLATED-DB covers central/landlord vs. tenant DB binding"
+  grep_flat "$IDB" "cross-tenant reach"; check $? "TENANCY-ISOLATED-DB covers whether cross-tenant reach is permitted"
+fi
+grep_flat "$CDSK" "Tenancy boundary"; check $? "codebase-design SKILL.md has a Tenancy boundary section"
+grep_flat "$CDSK" "determine the app's tenancy model"; check $? "Tenancy boundary section states determine-model behavior"
+grep_flat "$CDSK" "consult only the matching companion"; check $? "Tenancy boundary section states consult-only-the-matching behavior"
+grep_flat "$CDSK" "force the tenant-boundary decision"; check $? "Tenancy boundary section states force-when-relevant behavior"
 
 # --- no personal emails (GitHub addresses only) ------------------------------
 # Convention: people (stakeholders, sign-off, approvers, authors) are identified by name or
