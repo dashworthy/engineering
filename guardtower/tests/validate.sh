@@ -447,7 +447,7 @@ if [ -f "$ORCH" ]; then
   else
     bad "reviewing menu wires reviewing-api-compat (not coming soon)"
   fi
-  # menu complete — all seven facets wired, no row still "coming soon"
+  # menu complete — all ten facets wired, no row still "coming soon"
   if grep -q 'coming soon' "$ORCH"; then
     bad "reviewing menu is complete — no facet row still 'coming soon'"
   else
@@ -559,6 +559,76 @@ if [ -f "$DATAPRESCL" ]; then
   grep_flat "$DATAPRESCL" "Disambiguator removed by rendering"; check $? "data-presentation-checklist covers a disambiguator removed by truncation/responsive hiding"
   grep_flat "$DATAPRESCL" "accessibility"; check $? "data-presentation-checklist scopes out general UX/accessibility inline"
   grep_flat "$DATAPRESCL" "not a finding"; check $? "data-presentation-checklist states what is not a finding"
+fi
+
+# ============================================================================
+# Plan 01 Task 4 — detection seam, orchestrator wiring, signals reference
+# ============================================================================
+
+MTSIG="$PLUGIN/skills/reviewing/references/multi-tenancy-signals.md"
+[ -f "$MTSIG" ]; check $? "reviewing/references/multi-tenancy-signals.md exists"
+if [ -f "$MTSIG" ]; then
+  grep_flat "$MTSIG" "shared-schema"; check $? "multi-tenancy-signals documents shared-schema signals"
+  grep_flat "$MTSIG" "tenant_id"; check $? "multi-tenancy-signals names the discriminator-column signal"
+  grep_flat "$MTSIG" "per-tenant"; check $? "multi-tenancy-signals documents per-tenant-DB signals"
+  grep_flat "$MTSIG" "connection"; check $? "multi-tenancy-signals names the per-tenant connection signal"
+  grep_flat "$MTSIG" '`shared`'; check $? "multi-tenancy-signals verdict includes shared"
+  grep_flat "$MTSIG" '`per-db`'; check $? "multi-tenancy-signals verdict includes per-db"
+  grep_flat "$MTSIG" '`both`'; check $? "multi-tenancy-signals verdict includes both"
+  grep_flat "$MTSIG" '`none`'; check $? "multi-tenancy-signals verdict includes none"
+  grep_flat "$MTSIG" '`ambiguous`'; check $? "multi-tenancy-signals verdict includes ambiguous"
+  grep_flat "$MTSIG" "ask once"; check $? "multi-tenancy-signals resolves ambiguous by asking once"
+fi
+
+if [ -f "$ORCH" ]; then
+  grep_flat "$ORCH" "references/multi-tenancy-signals.md"; check $? "reviewing links references/multi-tenancy-signals.md"
+  grep_flat "$ORCH" "menu-proposal"; check $? "reviewing states the menu-proposal detection step"
+  grep_flat "$ORCH" "two-gate"; check $? "reviewing states the two-gate model"
+fi
+
+# --- orchestrator wiring: shared-DB tenant facet is live, not "coming soon" ---
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-tenant-isolation-shared-db' "$ORCH"; then
+    if grep 'reviewing-tenant-isolation-shared-db' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-tenant-isolation-shared-db (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-tenant-isolation-shared-db (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-tenant-isolation-shared-db (not coming soon)"
+  fi
+fi
+
+# --- orchestrator wiring: isolated-DB tenant facet is live, not "coming soon" -
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-tenant-isolation-isolated-db' "$ORCH"; then
+    if grep 'reviewing-tenant-isolation-isolated-db' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-tenant-isolation-isolated-db (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-tenant-isolation-isolated-db (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-tenant-isolation-isolated-db (not coming soon)"
+  fi
+fi
+
+# --- orchestrator wiring: data-presentation facet is live, not "coming soon" --
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-data-presentation' "$ORCH"; then
+    if grep 'reviewing-data-presentation' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-data-presentation (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-data-presentation (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-data-presentation (not coming soon)"
+  fi
+fi
+
+# --- README lists the three new facets --------------------------------------
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "Tenant Isolation"; check $? "README lists the tenant-isolation facets"
+  grep_flat "$PLUGIN/README.md" "Data Presentation"; check $? "README lists the data-presentation facet"
 fi
 
 # ============================================================================
