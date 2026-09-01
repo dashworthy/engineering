@@ -20,9 +20,14 @@ with a reason written down. Neither outcome leaves a report to sit unexamined.
 
 ## Isolate first
 
-Before the run directory, before reading the report closely, before reproducing anything: establish an isolated worktree by invoking `engineering:using-git-worktrees`. Triage is an **entrance** — the base case is always a worktree, so everything a triaged defect leads to (a quick fix, an interrogation leg, a design conversation) happens off the base branch from the first step. Create it first so `run-context.sh` writes `.engineering/<run>/` **inside** that isolation; establish the run first and a later worktree switch orphans it on the base branch.
+Before the run directory, before reading the report closely, before reproducing anything: settle how this work is isolated. Triage is an **entrance** — everything a triaged defect leads to (a quick fix, an interrogation leg, a design conversation) happens off the base branch from the first step — so isolation is established first, and `run-context.sh` then writes `.engineering/<run>/` **inside** it; establish the run first and a later branch or worktree switch orphans it on the base branch.
 
-This step is safe to run unconditionally. `engineering:using-git-worktrees` detects existing isolation and no-ops when a worktree this session already entered is in place — so if signal established the run and its worktree first and the user then reached triage, triage joins that same worktree rather than stacking a second one. The shared worktree is substrate both entrances attach to, not a hand-off between them.
+First check whether isolation already exists — a worktree this session entered, or a branch other than the repository's default branch already checked out. Either means the work is already isolated: join it and skip the question. In particular, if signal established the run and its isolation first and the user then reached triage, triage joins that same workspace rather than stacking a second one; the shared workspace is substrate both entrances attach to, not a hand-off between them.
+
+Otherwise put the choice to the user through a single `AskUserQuestion` — a hard gate; do not create the run directory until it is settled:
+
+- **Worktree (Recommended)** — invoke `engineering:using-git-worktrees`.
+- **Feature branch in this checkout** — no worktree; cut a named feature branch off the base with `git switch -c <task-branch>`, where `<task-branch>` carries the slug you derive from the report. Never leave the work sitting on the default branch.
 
 ## Establish or join a run
 

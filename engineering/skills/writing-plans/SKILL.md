@@ -71,14 +71,35 @@ When a task describes a data model, a flow, or a state machine, consider a diagr
 earned-its-place test decides whether one is actually drawn. A plan that pictures a tricky flow
 once is easier to build against than one that leaves every builder to reconstruct it.
 
+## Each task's closing steps
+
+Every task closes the same way, and the plan spells the closing steps out rather than leaving
+them to whoever executes it. After a task's build steps and their commits — the tree now clean —
+and before the task hands off to the next one (or, in a stacked plan, to its own PR):
+
+- **Clarify the task's docblocks.** A `- [ ]` step naming `engineering:clarifying-docblocks`
+  explicitly (the `vernacular` flow — not described around it as "tidy the comments"), run once
+  against the task's committed changes. It rewrites only the prose of docblocks the task's diff
+  already reached, proves executable code and structured annotations came out byte-identical, and
+  self-noops when the diff reaches no docblock — so it is safe to run on every task. It requires a
+  clean tree, which is why it runs after the task's work is committed, and its own rewrite is then
+  committed too, so the clarified prose is part of what a reviewer reads. This runs after the task
+  is done and before any PR is opened for it — never carried over into the next task.
+
+The commit of that clarification, and — in a stacked plan — the submit-PR step, follow it (see
+PR strategy).
+
 ## PR strategy
 
 Most plans ship as a single pull request opened at the end. Some plans instead ship as a
 *stack* — one pull request per task, each based on the branch of the task before it — so a
 reviewer can approve and land the tasks in order rather than reading the whole change at
 once. Which one a plan uses is decided at plan-writing time, not left to whoever executes
-it: ask your human partner, or take it from the spec or the caller when they've already
-said.
+it — and it is decided by **asking**: put it to your human partner through a single
+`AskUserQuestion` (**Single PR at the end** (Recommended), or **Stacked — one PR per task**), and
+do not finalize the plan until they choose. This is a required gate, not a default you may
+assume: even when the spec or the caller seems to imply one, confirm it through the question
+rather than reading it off silently.
 
 When the plan is stacked, record it in the plan's Global Constraints as a single line —
 `PR strategy: stacked (one PR per task, via engineering:using-stacked-pull-requests)` — so
@@ -90,8 +111,8 @@ fan out across parallel agents.
 A stacked plan also changes the shape of each task. In addition to the ordinary steps, a
 stacked task **opens** with a step that starts the task's stacked branch off the previous
 task's branch — or off the trunk, for the first task, which has no previous task — (before
-any of the task's commits land), and **closes**, after the commit
-step, with a step to **submit the stacked PR** for the task via
+any of the task's commits land), and **closes**, after the commit step and the docblock-clarity
+step (see Each task's closing steps), with a step to **submit the stacked PR** for the task via
 `engineering:using-stacked-pull-requests`.
 
 Leave non-stacked plans exactly as they are: no PR-strategy line, no per-task branch or

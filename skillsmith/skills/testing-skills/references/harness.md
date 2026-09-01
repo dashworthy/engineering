@@ -4,23 +4,16 @@ How to run skill trials so the results mean something, and how to read them.
 
 ## Protocol
 
-1. **Establish the NULL baseline.** Run the scenario with no skill present. Record the choice
-   and the verbatim reasoning. This is what the skill must beat — without it you can't tell
-   whether the skill changed anything or the agent would have complied anyway.
+Run the five method steps from `SKILL.md`, with the rigor rules that make the results mean
+something:
 
-2. **Run the skill variant.** Same scenario, skill available, on a **fresh agent** with no
-   memory of the baseline run. Record discovery (did it load the skill unprompted?), reading
-   (completely or skimmed?), and following (did it act as the skill says?).
-
-3. **Layer pressure.** Re-run the variant with each pressure archetype. Note the exact point
-   where compliance breaks — which pressure, and what the agent said as it broke.
-
-4. **Meta-test the failures.** When an agent had the skill and skipped it, ask it directly:
-   "You had the skill and didn't use it — why?" and "What wording would have stopped you?"
-   The agent's own answer often names the fix faster than you'll guess it.
-
-Use fresh subagents for every trial. A reused agent carries the previous run's context and
-contaminates the result; independent runs keep each trial honest.
+- **The NULL baseline is what the skill must beat.** Without it you can't tell whether the skill
+  changed anything or the agent would have complied anyway.
+- **Run every variant on a fresh subagent** with no memory of the baseline or a prior run. A reused
+  agent carries the previous run's context and contaminates the result.
+- **Meta-test the failures.** When an agent had the skill and skipped it, ask it directly: "You had
+  the skill and didn't use it — why?" and "What wording would have stopped you?" The agent's own
+  answer often names the fix faster than you'll guess it.
 
 ## Success and failure
 

@@ -9,7 +9,7 @@
     {
       "name": "engineering",
       "description": "Full software-development pipeline: discovery/triage, design dialogue, spec, plan, TDD build, docs hardening. File-based, no tracker.",
-      "version": "0.13.0",
+      "version": "0.14.0",
       "source": "./engineering",
       "author": {
         "name": "Andrew Leach",
@@ -29,7 +29,7 @@
     {
       "name": "skillsmith",
       "description": "Author, test, and audit Claude skills: concise structure, progressive disclosure, degrees of freedom, honest compliance framing, pressure-testing skill discovery and compliance, and an efficiency audit that finds token waste, duplication, costly subagent usage, and dead skills that no longer earn their place.",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "source": "./skillsmith",
       "author": {
         "name": "Andrew Leach",
