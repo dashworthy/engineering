@@ -38,13 +38,6 @@ the work will touch, any docs sitting near them, and recent commits in the area 
 design that ignores how the neighborhood already does things produces an approach that
 fights the codebase from day one instead of extending it.
 
-Actively consult the project's first-class artifacts before proposing: surface governing
-decisions with `engineering:using-adrs`, which matches the ADR trail against the work at
-hand. A boundary already settled there constrains which approaches are even worth
-proposing — an approach that reopens a decision an ADR already closed isn't a fresh option,
-it's litigation. A project that has accumulated no ADR trail surfaces nothing, and that is a
-clean result — the obligation is to consult, not a requirement that the files exist.
-
 ## Propose approaches, not one approach
 
 A single approach presented as "the plan" is a decision already made, dressed up as a
@@ -95,13 +88,6 @@ Walk the human through the approaches and the trade-offs, recommend one, and tak
 whatever correction they offer on the spot — when part of the design comes back wrong,
 fix that part and re-present it. This is a working dialogue, not a sign-off ceremony: its
 output is a recommended design, ready to serialize.
-
-## Offer to record the decision as an ADR
-
-When the design turns on a decision with genuine live alternatives, offer to record it as an
-ADR via `engineering:recording-adrs`, written `Proposed` (it flips to `Accepted` when the spec
-carrying it clears the spec gate). The bar is real live alternatives — a design with one
-reasonable shape was never a decision — and the developer may decline.
 
 ## No gate here — approval is the spec gate
 

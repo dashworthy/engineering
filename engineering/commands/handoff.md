@@ -34,8 +34,7 @@ needs:
 
 Do not restate material that already lives somewhere durable. If this session touched a
 document under `.engineering/<run>/spec/` or `.engineering/<run>/plan/`,
-point at that path instead of copying its contents. The same goes for any record under
-`docs/adr/` — link to it, don't reproduce it. The
+point at that path instead of copying its contents. The
 handoff's job is to say what changed and what's left, not to duplicate a document that
 already says what's true.
 
