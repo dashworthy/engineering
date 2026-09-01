@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "Review a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR. Consults the ADR trail for settled decisions."
+description: "Review a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR."
 ---
 
 # Code Review
@@ -63,59 +63,14 @@ full review, just in one pass. Above it, fan out:
 
 Dispatch at least one sub-reviewer per axis, in parallel, following `dispatching-parallel-agents`
 for how the fan-out and the return are structured — that skill owns the mechanics; this skill
-supplies the split itself, plus what each sub-reviewer needs: the diff, the matched spec
-document (or the plain statement that none was found), and whatever substrate applies.
+supplies the split itself, plus what each sub-reviewer needs: the diff and the matched spec
+document (or the plain statement that none was found).
 
 Each sub-reviewer returns findings scoped to its own axis and nothing else — a Standards
 reviewer that notices a scope problem hands it back as a Spec-shaped observation rather than
 folding it into its own findings, and vice versa. Reconciling the two returns into one
 report — no duplicate findings, no axis silently dropped because its sub-reviewer came back
 empty — is this skill's job, not something pushed downstream.
-
-## Reading the substrate
-
-The ADR trail sharpens the Standards axis: a convention, boundary, or
-settled tradeoff the change is accountable to, not background color. Actively consult
-it — surface governing decisions with `engineering:using-adrs` (which skips superseded
-rows) — and hold the change to what it settles. A project that has accumulated no ADR trail
-yields nothing to hold it to, which is a clean result, not a gap.
-
-## Convention detection in the diff (additive)
-
-This step is **additive** — it runs alongside the two-axis review above and changes nothing
-about it. On every review, and **scoped to the PR diff only** (never the whole repository — a
-whole-repo convention audit is a deliberate non-goal), it brings the project's recorded code
-conventions to bear on the change, two ways:
-
-- **Harvest new idioms.** When the diff introduces the *same* new structural choice in more
-  than one independent place — across files or modules, not one file's repeated hunks, and
-  not already recorded — surface it as a **candidate convention** and hand it to
-  `recording-code-conventions`, which runs the hardening interrogation and the individual
-  approval gate before anything is written. Nothing is codified from a diff without the
-  approver's yes. Harvest only a repeat across independent sites that a later change could
-  plausibly get wrong; a one-off, or a pattern the language or framework forces, is not a
-  candidate.
-- **Flag violations.** Read the standards index — active rows only, using the When-relevant
-  matching `using-code-conventions` owns — and flag where the diff **violates an
-  already-recorded convention**: code that falls under a convention's When-relevant trigger
-  but does not follow its rule. A violation is reported on the Standards axis, cited to the
-  convention file, so the caller sees exactly which recorded rule the change breaks.
-
-Both halves act only on what the diff touches. Neither writes the standards tree — only
-`recording-code-conventions` does that, through the gate. The harvest's interactive handoff
-happens only when this skill runs **interactively**; when it runs dispatched or under an
-automated gate (e.g. `executing-plans`), candidates and ADR-worthy decisions are surfaced as
-items in the returned report for the caller to action — never as an inline approval gate.
-
-## Offer to record a decision the diff embodies as an ADR
-
-When the review surfaces a decision the diff makes that had genuine live alternatives — a
-choice worth recording so a later reader doesn't re-litigate it — offer to record it as an ADR
-via `engineering:recording-adrs`, written `Proposed`. This is additive, like the convention
-harvest above, and follows the same interactive-only rule — offered inline only when this skill
-runs interactively, surfaced as a report item when it runs dispatched or automated. The bar is
-real live alternatives, not every implementation detail, and the developer may decline;
-declining is what keeps ADR intake from flooding.
 
 ## What this does not do
 

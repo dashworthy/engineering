@@ -35,7 +35,7 @@
     (mermaid — a spec renders it); see `engineering:using-diagrams`.
 
     ## 7. Existing context
-    Relevant modules, ADRs. What the work touches.
+    Relevant modules. What the work touches.
     Where the work turns on the shape of the data, include an ER diagram (mermaid — a spec
     renders it); see `engineering:using-diagrams`.
 

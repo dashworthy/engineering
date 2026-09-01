@@ -59,8 +59,7 @@ Triage is not diagnosis: it needs enough to place the problem at a domain concep
 route with confidence, and no more than that.
 
 Work through `references/isolation-checklist.md` for the mechanics — in outline, three checks:
-**bisect by domain concept** (not by line number; consult the ADR trail via
-`engineering:using-adrs` for the names already in use), **check for redundancy** (the reported
+**bisect by domain concept** (not by line number), **check for redundancy** (the reported
 behavior may have changed out from under the report — if it's already fixed, that is the routing
 answer), and **check for prior rejection** (a spec or earlier run that already turned this exact
 ask down routes on that decision). Placing the problem at a domain concept is isolation enough;

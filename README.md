@@ -137,17 +137,17 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **27 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **22 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
 | Group | Skills |
 |---|---|
-| Discovery | `interrogating-requirements`, `to-spec`, `identifying-code-conventions`, `recording-code-conventions`, `recording-adrs` |
+| Discovery | `interrogating-requirements`, `to-spec` |
 | Triage | `triage` |
 | Design | `brainstorming`, `codebase-design` |
 | Planning | `writing-plans`, `executing-plans` |
-| Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review`, `using-code-conventions`, `using-adrs` |
+| Build | `tdd`, `diagnosing-bugs`, `code-review`, `requesting-code-review`, `receiving-code-review` |
 | Docs | `clarifying-docblocks`, `rewriting-docblock-prose` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
 | Cross-cutting | `resolving-merge-conflicts`, `using-diagrams` |
@@ -157,9 +157,8 @@ The full index lives at
 
 ### Commands
 
-9 slash commands sit on top of the suite: `/signal`, `/triage`, `/vernacular`,
-`/implement`, `/handoff`, `/to-signal`, `/wait-what`, `/conventions-init`, and
-`/record-convention`.
+7 slash commands sit on top of the suite: `/signal`, `/triage`, `/vernacular`,
+`/implement`, `/handoff`, `/to-signal`, and `/wait-what`.
 
 ## License
 

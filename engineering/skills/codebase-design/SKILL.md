@@ -115,23 +115,6 @@ codebase fills with patterns nobody needed. Trust the model to know each pattern
 matrix carries only the decision of *when*, never an explanation of *what* — and let the plain
 shape win by default.
 
-## Reading the substrate
-
-Before shaping a boundary, actively consult the substrate: surface governing decisions with
-`engineering:using-adrs`. Treat a boundary already settled there as a constraint on the shape
-you're sketching, not a suggestion to route around. A project that has accumulated no ADR
-trail gives nothing back, and
-this skill proceeds on the module and its immediate neighbors alone — the obligation is to
-consult, not to require the artifacts.
-
-## Offer to record the decision as an ADR
-
-When a boundary or interface decision had genuine live alternatives — a call another designer
-could reasonably have made differently — offer to record it as an ADR via
-`engineering:recording-adrs`, written `Proposed`. The bar is real live alternatives, not every
-routine shaping choice, and the developer may decline; declining is what keeps ADR intake from
-flooding.
-
 ## Boundaries — what this does not do
 
 - It does not **audit a codebase.** Looking across every module for shallow interfaces

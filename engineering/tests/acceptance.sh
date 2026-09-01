@@ -11,8 +11,8 @@ sh "$d/suite.sh"
 sh "$d/plan02.sh"
 sh "$d/plan03.sh"
 
-# 2. Nine commands resolve.
-for c in signal triage vernacular implement handoff to-signal wait-what conventions-init record-convention; do
+# 2. Seven commands resolve.
+for c in signal triage vernacular implement handoff to-signal wait-what; do
   test -f "$eng/commands/$c.md" || { echo "FAIL: missing command /$c"; fail=1; }
 done
 
@@ -22,9 +22,6 @@ done
 # in the current shell and `fail=1` set inside survives. name/tag split on the first colon.
 tagged="interrogating-requirements:[Discovery]
 to-spec:[Discovery]
-identifying-code-conventions:[Discovery]
-recording-code-conventions:[Discovery]
-recording-adrs:[Discovery]
 triage:[Triage]
 brainstorming:[Design]
 codebase-design:[Design]
@@ -33,8 +30,6 @@ executing-plans:[Planning]
 tdd:[Build]
 diagnosing-bugs:[Build]
 code-review:[Build]
-using-code-conventions:[Build]
-using-adrs:[Build]
 clarifying-docblocks:[Docs]
 rewriting-docblock-prose:[Docs]
 using-git-worktrees:[Foundation]
