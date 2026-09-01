@@ -168,9 +168,10 @@ Before calling the plan finished, run a self-review pass over what was just writ
 - It does not **design.** The approach a plan sequences into steps was already settled in
   `brainstorming` and written into the spec's approach section by `to-spec`; this skill
   does not weigh alternatives or choose between them, it schedules the one already chosen.
-- It does not **execute the plan.** Running the plan task by task, driving each one
-  through `engineering:tdd` and gating with `engineering:code-review` is `executing-plans` —
-  a separate skill, downstream of this one, that this skill does not invoke itself.
+- It does not **run the tasks.** Driving each task through `engineering:tdd` and gating with
+  `engineering:code-review` is `executing-plans` — a separate skill, downstream of this one.
+  This skill schedules the work and, on approval, hands off to it; it does not perform the
+  build itself.
 
 ## The plan gate — present the plan, then hold for approval
 
@@ -198,7 +199,15 @@ already implies landing the stack; state the cleanup intent alongside it.
 
 ## Handoff
 
-Once the plan is approved and its marker written, print the plan's path — or, for a set,
-every path in sequence — and stop. What happens next is `executing-plans`' job, not this
-skill's: it reads the plan this skill wrote (and the plan-approval marker behind it) and
-works it task by task.
+The only stop on this skill is the plan gate itself, and it sits *before* approval: a plan
+the human has not approved waits at the gate and is not handed onward. Once the human
+approves — the marker written, the finish strategy authorized — that approval *is* the go,
+and the plan gate was the last human stop before the build runs. There is no second gate at
+this seam, so print the plan's path — or, for a set, every path in sequence — and **invoke
+`executing-plans` now.** "Stop" here means stop *writing the plan*; it is not a stop to ask
+the human whether to build. Parking an approved plan with a "want me to start implementing?"
+is not an available move — the approval was the answer to that question; `executing-plans` is
+the next act, take it. Running the plan task by task is `executing-plans`' job — it reads the
+plan this skill wrote (and the plan-approval marker behind it) and works it task by task.
+(`/implement` remains the entry point for building a plan approved in an earlier session; a
+plan approved just now does not wait for it.)
