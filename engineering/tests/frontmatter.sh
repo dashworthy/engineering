@@ -1,7 +1,9 @@
 #!/bin/sh
 # Validate a skill's YAML frontmatter: `name` present and matches its dir; `description`
-# present; and, if a [Group] tag is required, the description opens with one.
-# Usage: frontmatter.sh <skill-dir> [required-group-tag]
+# present. A second [Group] arg is accepted for back-compat with existing callers but is no
+# longer enforced: the efficiency audit (e5e7af7) removed the [Tag] prefix from descriptions
+# to buy back token spend, so skill grouping now lives only in skills/README.md.
+# Usage: frontmatter.sh <skill-dir> [group-tag-ignored]
 set -e
 dir=$1; want_tag=$2
 skill=$(basename "$dir")
@@ -25,8 +27,6 @@ name_v = unquote(name.group(1)) if name else None
 desc_v = unquote(desc.group(1)) if desc else None
 assert name and name_v == skill, f"name must equal dir '{skill}'"
 assert desc and desc_v, "description required"
-if want:
-    assert desc_v.startswith(want), f"description must open with {want}"
 print("ok",skill)
 PY
 echo "PASS frontmatter $skill"

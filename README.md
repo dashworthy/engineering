@@ -135,9 +135,8 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **26 skills**, grouped by the phase they serve. Process-tied skills
-carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
-none.
+The plugin ships **26 skills**, grouped by the phase they serve. The grouping lives in the
+table below; cross-cutting skills belong to no single phase.
 
 | Group | Skills |
 |---|---|
