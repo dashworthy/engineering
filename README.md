@@ -138,7 +138,7 @@ flowchart LR
 ### 5. Build backbone — `plan → build → document`
 
 Every spec leaves the same way. `writing-plans` turns it into an ordered, bite-sized
-plan — each task carrying a code sketch of the change it makes — then `review-plans` runs
+plan — each task carrying a code sketch of the change it makes — then `reviewing-plans` runs
 the architecture lens over those sketches and flags any one-off data structure before the
 plan reaches the second human gate; `/implement` drives each task through a test-first `tdd`
 loop gated by `code-review`; and docs hardening rewrites the prose the branch touched into
@@ -150,7 +150,7 @@ flowchart LR
     classDef done fill:#16a34a,stroke:#14532d,color:#fff
 
     SPEC(["spec"]) --> P["writing-plans"]
-    P --> RV["review-plans<br/>(arch lens · one-off scan)"]
+    P --> RV["reviewing-plans<br/>(arch lens · one-off scan)"]
     RV --> PG{"plan gate"}
     PG --> B["tdd build<br/>(red-green-refactor)"]
     B -->|"per task"| R{"code-review<br/>gate"}
@@ -169,7 +169,7 @@ none.
 |---|---|
 | Discovery | `interrogating-requirements`, `to-spec` |
 | Design | `brainstorming`, `codebase-design` |
-| Planning | `writing-plans`, `review-plans`, `executing-plans` |
+| Planning | `writing-plans`, `reviewing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review` |
 | Docs | `clarifying-docblocks`, `rewriting-docblock-prose` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |

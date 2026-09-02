@@ -1,11 +1,11 @@
 ---
-name: review-plans
-description: "Review a written implementation plan before its human gate — run the architecture lens over the interfaces the tasks sketch and flag any one-off data structure for human approval, revising the plan for what it finds. Invoked by writing-plans after self-review, before the plan gate."
+name: reviewing-plans
+description: "Review a written implementation plan before its human gate — run the architecture lens over the interfaces the tasks sketch and flag any one-off data structure for human approval, revising the plan for what it finds."
 ---
 
 # Review Plans
 
-Say this first, plainly: `Using the review-plans skill to review the plan before its gate.`
+Say this first, plainly: `Using the reviewing-plans skill to review the plan before its gate.`
 
 ## What this guarantees
 
@@ -26,8 +26,7 @@ been shown to a human. Read the plan from the path `writing-plans` hands over, o
 already sitting in context. For a plan set, review each plan file in the set.
 
 This skill is not a human gate. It is a machine pass with two checks, one of which asks the
-human a narrow question per finding. It holds no approval marker of its own; the plan gate in
-`writing-plans` is still the gate, and it runs after this skill returns.
+human a narrow question per finding.
 
 ## The two checks
 
@@ -52,6 +51,10 @@ fix a placeholder the self-review caught: reshape the signature, split the inter
 the dependency. Note the change in the task so a reader sees the sketch changed and why. You
 do not need to ask the human to approve closing a defect the lens objectively fired on; you
 revise it and the reviewed sketch is what they read at the gate.
+
+The reinvented / one-off data-structure smell is the one exception: don't close it here — it
+belongs to the one-off scan below, which flags every candidate to the human rather than revising
+silently. When the architecture lens fires on it, carry it into that scan instead of revising it.
 
 If a finding turns on a genuine trade-off rather than a defect — two defensible shapes, the
 lens firing on one axis but not clearly wrong — surface it the same way the one-off scan
@@ -115,6 +118,4 @@ to route to `codebase-design` or `brainstorming` rather than patching around it 
 
 Return the reviewed plan to `writing-plans` — the plan file revised in place, every one-off
 structure resolved, every objective architecture defect closed. `writing-plans` holds the plan
-gate next, presenting *this* reviewed plan to the human. There is no gate at this seam and no
-new marker to mint here: the review is a pass, not an approval. Hand the reviewed plan back and
-let `writing-plans` take the gate.
+gate next, presenting *this* reviewed plan to the human.

@@ -251,27 +251,27 @@ for c in "$PLUGIN"/commands/*.md; do
   grep_flat "$ROOT/README.md" "/$name"; check $? "root README names /$name"
 done
 
-# --- plan review phase (review-plans) ----------------------------------------
-# writing-plans makes each task sketch its interface, then runs review-plans BEFORE the plan
+# --- plan review phase (reviewing-plans) ----------------------------------------
+# writing-plans makes each task sketch its interface, then runs reviewing-plans BEFORE the plan
 # gate: an architecture lens (codebase-design in review mode) plus a one-off-data-structure scan
 # that flags each candidate to the human. Guard the skill exists, the seam is wired before the
-# gate, and codebase-design carries the review mode review-plans depends on.
-RP="$PLUGIN/skills/review-plans/SKILL.md"
-[ -f "$RP" ]; check $? "review-plans/SKILL.md exists"
+# gate, and codebase-design carries the review mode reviewing-plans depends on.
+RP="$PLUGIN/skills/reviewing-plans/SKILL.md"
+[ -f "$RP" ]; check $? "reviewing-plans/SKILL.md exists"
 if [ -f "$RP" ]; then
-  grep -q '^name: review-plans$' "$RP"; check $? "review-plans frontmatter names itself"
-  grep_flat "$RP" "codebase-design"; check $? "review-plans runs the architecture lens via codebase-design"
-  grep_flat "$RP" "AskUserQuestion"; check $? "review-plans flags one-off data structures via AskUserQuestion"
+  grep -q '^name: reviewing-plans$' "$RP"; check $? "reviewing-plans frontmatter names itself"
+  grep_flat "$RP" "codebase-design"; check $? "reviewing-plans runs the architecture lens via codebase-design"
+  grep_flat "$RP" "AskUserQuestion"; check $? "reviewing-plans flags one-off data structures via AskUserQuestion"
 fi
 WP="$PLUGIN/skills/writing-plans/SKILL.md"
-grep_flat "$WP" "review-plans"; check $? "writing-plans invokes review-plans"
+grep_flat "$WP" "reviewing-plans"; check $? "writing-plans invokes reviewing-plans"
 grep_flat "$WP" "Interfaces block"; check $? "writing-plans has tasks carry a code-sketch Interfaces block"
-# The review phase must sit before the plan gate: review-plans' invocation appears earlier in the
+# The review phase must sit before the plan gate: reviewing-plans' invocation appears earlier in the
 # file than the plan-approval marker the gate mints.
-awk '/review-plans/{r=NR} /writing-plans\/APPROVED\.md/{if(!g)g=NR} END{exit !(r && g && r < g)}' "$WP"
-check $? "writing-plans runs review-plans before the plan gate"
+awk '/reviewing-plans/{r=NR} /writing-plans\/APPROVED\.md/{if(!g)g=NR} END{exit !(r && g && r < g)}' "$WP"
+check $? "writing-plans runs reviewing-plans before the plan gate"
 
-# codebase-design's review mode is what review-plans leans on; SHAPE-REVIEW names the one-off shape.
+# codebase-design's review mode is what reviewing-plans leans on; SHAPE-REVIEW names the one-off shape.
 grep_flat "$CD/SKILL.md" "Review mode"; check $? "codebase-design carries a review mode"
 grep_flat "$CD/SHAPE-REVIEW.md" "one-off data structure"; check $? "SHAPE-REVIEW names the reinvented data-structure smell"
 

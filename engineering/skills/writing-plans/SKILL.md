@@ -210,10 +210,10 @@ Before calling the plan finished, run a self-review pass over what was just writ
 The self-review above is a check on the plan *as a document* — coverage, placeholders,
 consistency. It does not judge the plan's *design*: whether the interfaces the tasks sketch
 are well-shaped, and whether any task quietly introduces a one-off data structure where an
-existing type would do. That judgment is `review-plans`' job, and it runs here — after the
+existing type would do. That judgment is `reviewing-plans`' job, and it runs here — after the
 plan is written and self-reviewed, before a human ever sees it.
 
-**Invoke `engineering:review-plans` now, on the plan just written.** It reads the plan's
+**Invoke `engineering:reviewing-plans` now, on the plan just written.** It reads the plan's
 Interfaces blocks and code sketches, runs the architecture lens over them (via
 `codebase-design` in review mode), and scans for reinvented data structures — flagging each
 to the human through `AskUserQuestion` before it can stand. It hands back the plan revised
@@ -225,7 +225,7 @@ review phase nothing concrete to judge.
 The review phase is not a human gate — it is a machine pass with per-item human approvals
 inside it (the one-off-data-structure flags). The human gate is still the plan gate below,
 and it comes after review, so the plan the human approves is the reviewed one. Do not present
-the plan for approval until `review-plans` has returned.
+the plan for approval until `reviewing-plans` has returned.
 
 ## What this does not do
 
