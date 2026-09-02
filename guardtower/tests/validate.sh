@@ -83,6 +83,12 @@ if [ -f "$ORCH" ]; then
   grep_flat "$ORCH" "pre-checked"; check $? "reviewing states the 3 core facets are pre-checked"
   grep_flat "$ORCH" ".guardtower/"; check $? "reviewing writes under .guardtower/"
   grep_flat "$ORCH" "dispatching-parallel-agents"; check $? "reviewing fans out via dispatching-parallel-agents"
+  # Each dispatched facet is tracked as its own todo (one seam, one item) so the human sees what was
+  # dispatched and what completed. The todo mechanism is left to the harness (mirroring executing-plans),
+  # so guard the tool-agnostic phrasing, not a harness-specific tool name.
+  grep_flat "$ORCH" "one todo per selected facet"; check $? "reviewing seeds a todo per selected facet"
+  ! grep_flat "$ORCH" "TodoWrite"; check $? "reviewing names no harness-specific todo tool"
+  grep_flat "$ORCH" "in_progress"; check $? "reviewing marks a facet in_progress as it is dispatched"
   grep_flat "$ORCH" "reconcil"; check $? "reviewing reconciles across facets"
   grep_flat "$ORCH" "report-only"; check $? "reviewing states it is report-only"
   # references linked one level deep

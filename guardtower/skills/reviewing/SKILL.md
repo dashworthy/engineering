@@ -71,15 +71,35 @@ opt-in and not tenancy-gated.
    one hunk — reviewing every selected facet inline costs less than spinning up subagents; do it
    inline. Above that floor, **fan out** the selected facets in parallel, following
    `dispatching-parallel-agents` (facets share only a *read* of `change_ref`, so the independence
-   gate holds — no facet reads what another writes).
+   gate holds — no facet reads what another writes). Mark each facet's todo `in_progress` as it
+   goes out, or as you begin it inline.
 5. **Hand each facet the contract.** Pass every facet the same request and expect the same result
    shape — see [references/facet-contract.md](references/facet-contract.md). Each facet enforces
    the hard stops itself, at the source — see [references/hard-stops.md](references/hard-stops.md);
    the orchestrator does not trim findings afterward.
 6. **Reconcile.** Gather all results — nothing dropped because it returned last, nothing picked
-   because it returned first. Deduplicate where two facets flag the same location, order the
-   findings, and present **one** report alongside the durable per-facet artifacts. Reconciliation
-   is the one thing a facet does not own; it needs every result at once.
+   because it returned first; mark each facet's todo `completed` as its result lands. Deduplicate
+   where two facets flag the same location, order the findings, and present **one** report alongside
+   the durable per-facet artifacts. Reconciliation is the one thing a facet does not own; it needs
+   every result at once.
+
+## Track each facet as a todo
+
+The fan-out is legible to the human only if they can see what was dispatched and what has come
+back. The moment the facet set is fixed (after step 2), seed a todo list from it — **one todo per
+selected facet, each seam its own item** — in whatever todo list your harness provides. A pick the
+menu reported as unavailable never ran and never becomes a todo; a facet that will self-skip on its
+own relevance gate still gets one, and closes when it returns "nothing to review."
+
+Keep the list in lockstep with the dispatch, the way `executing-plans` keeps todos beside a plan:
+
+- **`in_progress` as the facet is dispatched** — in fan-out that is several at once, one per
+  reviewer in flight (step 4); inline it is one at a time as you work down the set.
+- **`completed` the instant its `findings.md` is written and its result is in hand** (step 6), a
+  self-skip included — so a facet that finished with nothing reads as done, never as still running.
+
+Reconciliation is not a facet and takes no todo of its own; it is the step that consumes every
+completed item at once.
 
 ## Governing principle
 
