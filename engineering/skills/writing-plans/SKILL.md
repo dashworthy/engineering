@@ -74,6 +74,32 @@ task downstream can point back at one shared block instead of each task restatin
 risking drifting from, what the spec actually said. A task's own text should read as "per
 Global Constraints, this uses X," not repeat the reasoning for X.
 
+## Show the code, not just the intent
+
+A task that changes an interface or adds a type describes it in prose *and* shows it. Carry
+a short code sketch in the task — an **Interfaces block** — of the actual shape the step
+produces: the function or method signature, the new type or its fields, the shape of the
+data returned, or the one assertion the task's test turns on. Enough that a reader sees the
+change the task will actually make, not so much that the task becomes the implementation
+written ahead of time.
+
+A sketch is an illustration, not the finished code: name the signature and the fields, elide
+the body with a comment (`# walk the rule set once, return the Decision`) rather than writing
+it out. Show the surface a reader needs to judge the change — the signature a caller will
+type, the type a caller will hold, the assertion that proves the behavior — and stop there. A task
+whose change is pure scaffolding (a directory, an empty stub) has no shape to sketch and
+carries none; a task that introduces or reshapes a boundary always does, because the code
+sketch is what the review phase below reads to judge the boundary's shape and catch a one-off
+data structure before a human ever sees the plan.
+
+Fence every sketch as a code block so it survives the review phase and the human read intact:
+
+```
+check(user, resource, action) -> Decision
+# Decision.allowed: bool
+# Decision.reason: str | None   — populated only when allowed is False
+```
+
 ## Consider a diagram for a task's shape
 
 When a task describes a data model, a flow, or a state machine, consider a diagram via
@@ -172,6 +198,28 @@ Before calling the plan finished, run a self-review pass over what was just writ
   — and that steps describing the same kind of thing (a test, a command, a commit) are
   phrased the same way throughout. A plan that shifts format halfway through reads as two
   plans stitched together, and whoever executes it has to re-learn the pattern partway in.
+
+## Review the plan before the gate
+
+The self-review above is a check on the plan *as a document* — coverage, placeholders,
+consistency. It does not judge the plan's *design*: whether the interfaces the tasks sketch
+are well-shaped, and whether any task quietly introduces a one-off data structure where an
+existing type would do. That judgment is `review-plans`' job, and it runs here — after the
+plan is written and self-reviewed, before a human ever sees it.
+
+**Invoke `engineering:review-plans` now, on the plan just written.** It reads the plan's
+Interfaces blocks and code sketches, runs the architecture lens over them (via
+`codebase-design` in review mode), and scans for reinvented data structures — flagging each
+to the human through `AskUserQuestion` before it can stand. It hands back the plan revised
+for whatever it found: a signature reshaped to close a leak, a bespoke shape replaced with
+the existing type, or an ad-hoc structure the human explicitly approved. This is why the
+tasks carry code sketches at all — a plan that only describes its changes in prose gives the
+review phase nothing concrete to judge.
+
+The review phase is not a human gate — it is a machine pass with per-item human approvals
+inside it (the one-off-data-structure flags). The human gate is still the plan gate below,
+and it comes after review, so the plan the human approves is the reviewed one. Do not present
+the plan for approval until `review-plans` has returned.
 
 ## What this does not do
 
