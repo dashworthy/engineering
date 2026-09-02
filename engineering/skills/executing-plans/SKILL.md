@@ -54,6 +54,21 @@ a copy of the plan, and not a transcript of every tdd cycle, just enough that a 
 picking this plan back up mid-way can confirm where it left off without re-deriving it
 from `git log` alone.
 
+## Track the plan as todos
+
+Before working the first task, seed your todo list from the plan: create one todo per task in
+the plan, in the plan's order, in whatever todo list your harness provides. This is not optional
+bookkeeping — the todo list is how a long, unattended run stays legible, to you as you work it
+and to the human reading along. A plan worked without a todo list is a plan whose progress lives only in your head and the
+plan file's checkboxes, and the two drift the moment anything goes sideways.
+
+Keep the list and the plan in lockstep as you go: in the sequential loop exactly one task is
+`in_progress` at a time (a fanned-out stretch in subagent mode may hold several at once — one per
+dispatched task in flight), each task is marked `completed` the instant its box is checked, and
+nothing is marked done before it actually is. A resumed run rebuilds the list from the plan's checked and unchecked tasks before
+starting, so the todo list picks up where the plan left off rather than starting empty. The
+per-task loop below names where each transition happens.
+
 ## The per-task loop
 
 Work tasks in the order the plan lists them — the plan's own order encodes what depends on
@@ -61,8 +76,9 @@ what, and a task three steps down may assume a task two steps up already landed.
 task, in order:
 
 1. **Read the task whole** — its Files block, its Interfaces block where it has one, and
-   every numbered step under it — before touching anything. A task read one step at a time
-   is a task whose later steps might contradict a constraint an earlier one already set.
+   every numbered step under it — before touching anything, and **mark its todo `in_progress`**.
+   A task read one step at a time is a task whose later steps might contradict a constraint an
+   earlier one already set.
 2. **Drive the build steps through `engineering:tdd`.** Where a step changes behavior,
    that means the red-green-refactor cycle tdd owns, not implementation written straight
    from the plan's prose. A step that's pure scaffolding — a directory, a stub file with no
@@ -75,9 +91,10 @@ task, in order:
    earns the box; a review with findings gets addressed and then re-reviewed on the corrected
    diff before the box is checked. This gate is automated — it does not stop for a human — so a
    finding is resolved in the diff, not referred upward for a ruling.
-5. **Check the box** — flip the task's `- [ ]` to `- [x]` in the plan file itself. The plan
-   is the record of progress; a task that's actually done and still shows unchecked is a
-   plan lying about its own state to the next person who opens it.
+5. **Check the box** — flip the task's `- [ ]` to `- [x]` in the plan file itself, and **mark
+   its todo `completed`** in the same breath, so the two records never disagree. The plan is the
+   durable record of progress; a task that's actually done and still shows unchecked is a plan
+   lying about its own state to the next person who opens it.
 6. **Commit** — run the commit the task's own final step already specifies. Plans written
    by `writing-plans` carry the exact `git add`/`git commit` invocation as that task's last
    step; run it as written rather than composing a message of your own.

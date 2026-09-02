@@ -1,6 +1,6 @@
 ---
 name: codebase-design
-description: "Shape module interfaces so complexity hides behind narrow, deep boundaries. Use when defining a module's interface or judging whether a boundary earns its keep. Not approach design (brainstorming)."
+description: "Shape module interfaces so complexity hides behind narrow, deep boundaries — or, in review mode (argument `review`), judge an already-sketched shape against the same lenses without designing a new one. Use when defining a module's interface, judging whether a boundary earns its keep, or reviewing a proposed interface. Not approach design (brainstorming)."
 ---
 
 # Codebase Design
@@ -156,6 +156,34 @@ own; running the whole catalog against every boundary and offering the closest m
 codebase fills with patterns nobody needed. Trust the model to know each pattern already — the
 matrix carries only the decision of *when*, never an explanation of *what* — and let the plain
 shape win by default.
+
+## Review mode
+
+This skill has two modes, and they are the design/review split its callers need. The default —
+everything above — is **design mode**: given a boundary that needs shaping, it sketches two
+competing designs, runs the catalog, and chooses. **Review mode** is the other half: given a
+shape *already chosen and written down* — an interface a plan sketches, a signature a task will
+produce — it judges that shape and returns findings, without designing a new one.
+
+Enter review mode when invoked with the argument `review` and a proposed shape to judge (this
+is how `reviewing-plans` calls this skill over a plan's Interfaces blocks). In review mode:
+
+- **Run `SHAPE-REVIEW.md` over the given shape** — the SOLID lens and the anti-pattern table —
+  exactly as design mode runs them over its two sketches, but here over the one shape handed in.
+  Each lens that fires is a finding: name the smell, name where it shows at this boundary, and
+  name the remedy the table points to (a `PATTERN-MATRIX.md` pattern, a `DEEPENING.md` move, or
+  a plain split).
+- **Also apply the leakage tests** from *Information hiding and leakage* above — a parameter that
+  only makes sense with inside knowledge, a required call order, repeated call-site choreography,
+  a change inside forcing a change outside. A sketched interface leaks the same way a built one
+  does, and the sketch is the cheapest place to catch it.
+- **Skip the generative machinery.** Do not sketch a second design, do not run the pattern
+  matrix's proposal-through-`AskUserQuestion` flow, do not choose between shapes — there is one
+  shape, supplied, and the job is to judge it, not to replace it. Return the findings and let the
+  caller decide what to revise.
+
+Review mode judges a shape; it does not own the fix. The caller — `reviewing-plans` — decides which
+findings to close in the plan and which to surface to the human. Hand back the findings and stop.
 
 ## Boundaries — what this does not do
 

@@ -251,4 +251,38 @@ for c in "$PLUGIN"/commands/*.md; do
   grep_flat "$ROOT/README.md" "/$name"; check $? "root README names /$name"
 done
 
+# --- plan review phase (reviewing-plans) ----------------------------------------
+# writing-plans makes each task sketch its interface, then runs reviewing-plans BEFORE the plan
+# gate: an architecture lens (codebase-design in review mode) plus a one-off-data-structure scan
+# that flags each candidate to the human. Guard the skill exists, the seam is wired before the
+# gate, and codebase-design carries the review mode reviewing-plans depends on.
+RP="$PLUGIN/skills/reviewing-plans/SKILL.md"
+[ -f "$RP" ]; check $? "reviewing-plans/SKILL.md exists"
+if [ -f "$RP" ]; then
+  grep -q '^name: reviewing-plans$' "$RP"; check $? "reviewing-plans frontmatter names itself"
+  grep_flat "$RP" "codebase-design"; check $? "reviewing-plans runs the architecture lens via codebase-design"
+  grep_flat "$RP" "AskUserQuestion"; check $? "reviewing-plans flags one-off data structures via AskUserQuestion"
+fi
+WP="$PLUGIN/skills/writing-plans/SKILL.md"
+grep_flat "$WP" "reviewing-plans"; check $? "writing-plans invokes reviewing-plans"
+grep_flat "$WP" "Interfaces block"; check $? "writing-plans has tasks carry a code-sketch Interfaces block"
+# The review phase must sit before the plan gate: reviewing-plans' invocation appears earlier in the
+# file than the plan-approval marker the gate mints.
+awk '/reviewing-plans/{r=NR} /writing-plans\/APPROVED\.md/{if(!g)g=NR} END{exit !(r && g && r < g)}' "$WP"
+check $? "writing-plans runs reviewing-plans before the plan gate"
+
+# codebase-design's review mode is what reviewing-plans leans on; SHAPE-REVIEW names the one-off shape.
+grep_flat "$CD/SKILL.md" "Review mode"; check $? "codebase-design carries a review mode"
+grep_flat "$CD/SHAPE-REVIEW.md" "one-off data structure"; check $? "SHAPE-REVIEW names the reinvented data-structure smell"
+
+# --- executing-plans tracks the plan as todos --------------------------------
+# The unattended build stays legible by mirroring the plan into a todo list: one todo per task,
+# marked in_progress/completed in lockstep with the plan's checkboxes. The todo mechanism is left
+# to the harness (mirroring superpowers), so this guards the tool-agnostic phrasing, not a tool
+# name — a check tied to Claude Code's TodoWrite would tether the skill to one harness.
+EP="$PLUGIN/skills/executing-plans/SKILL.md"
+grep_flat "$EP" "one todo per task"; check $? "executing-plans seeds the plan into a todo list"
+! grep_flat "$EP" "TodoWrite"; check $? "executing-plans names no harness-specific todo tool"
+grep_flat "$EP" "in_progress"; check $? "executing-plans marks a task in_progress as it starts"
+
 exit $fail
