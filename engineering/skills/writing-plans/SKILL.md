@@ -76,6 +76,12 @@ Global Constraints, this uses X," not repeat the reasoning for X.
 
 ## Show the code, not just the intent
 
+The plan owns the concrete code. The spec's §6 named the boundary at decision altitude —
+which boundary, its chosen shape, what a caller must know — and deliberately stopped short of
+the exact signature; typing it out is the plan's job. So where §6 committed to a boundary, a
+task here realizes it: the signature, the fields, the returned shape. The spec says *which*;
+the plan says *exactly how it's typed*.
+
 A task that changes an interface or adds a type describes it in prose *and* shows it. Carry
 a short code sketch in the task — an **Interfaces block** — of the actual shape the step
 produces: the function or method signature, the new type or its fields, the shape of the
