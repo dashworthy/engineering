@@ -817,6 +817,24 @@ if [ -f "$APICONCL" ]; then
   grep_flat "$APICONCL" "not a finding"; check $? "api-consumption-checklist states what is not a finding"
 fi
 
+# --- orchestrator wiring: api-consumption is live, not "coming soon" ----------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-api-consumption' "$ORCH"; then
+    if grep 'reviewing-api-consumption' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-api-consumption (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-api-consumption (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-api-consumption (not coming soon)"
+  fi
+fi
+
+# --- README lists the api-consumption facet ---------------------------------
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "API Consumption"; check $? "README lists the api-consumption facet"
+fi
+
 # ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
