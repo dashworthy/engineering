@@ -76,10 +76,19 @@ if [ -f "$ORCH" ]; then
   awk '/^description:/{print; exit}' "$ORCH" | grep -qi "review"; check $? "reviewing description carries a review trigger"
   awk '/^description:/{print; exit}' "$ORCH" | grep -qi "guardtower"; check $? "reviewing description names guardtower"
   # orchestrator responsibilities named in the body
-  grep_flat "$ORCH" "AskUserQuestion"; check $? "reviewing runs the facet menu via AskUserQuestion"
+  # The facet menu is a structured multi-select choice; the question mechanism is left to the
+  # harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
+  grep_flat "$ORCH" "multi-select choice"; check $? "reviewing runs the facet menu as a multi-select choice"
+  ! grep_flat "$ORCH" "AskUserQuestion"; check $? "reviewing names no harness-specific question tool"
   grep_flat "$ORCH" "pre-checked"; check $? "reviewing states the 3 core facets are pre-checked"
   grep_flat "$ORCH" ".guardtower/"; check $? "reviewing writes under .guardtower/"
   grep_flat "$ORCH" "dispatching-parallel-agents"; check $? "reviewing fans out via dispatching-parallel-agents"
+  # Each dispatched facet is tracked as its own todo (one seam, one item) so the human sees what was
+  # dispatched and what completed. The todo mechanism is left to the harness (mirroring executing-plans),
+  # so guard the tool-agnostic phrasing, not a harness-specific tool name.
+  grep_flat "$ORCH" "one todo per selected facet"; check $? "reviewing seeds a todo per selected facet"
+  ! grep_flat "$ORCH" "TodoWrite"; check $? "reviewing names no harness-specific todo tool"
+  grep_flat "$ORCH" "in_progress"; check $? "reviewing marks a facet in_progress as it is dispatched"
   grep_flat "$ORCH" "reconcil"; check $? "reviewing reconciles across facets"
   grep_flat "$ORCH" "report-only"; check $? "reviewing states it is report-only"
   # references linked one level deep

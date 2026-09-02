@@ -144,11 +144,11 @@ where a lens fires, its remedy usually names a pattern.
 `PATTERN-MATRIX.md`, alongside this file, is the **selectable** half: the 23 Gang-of-Four
 patterns, each with the one trigger condition under which it is the appropriate shape. Consult it
 for the boundary in front of you. **When — and only when — a named trigger genuinely describes
-this boundary**, propose that pattern to the developer through the `AskUserQuestion` tool, the
+this boundary**, propose that pattern to the developer as a structured choice, the
 way `brainstorming` proposes an approach: the pattern as the recommended option, its rationale
 tied to *this* session — why this pattern, for this boundary, now, in the words of the design you
 are actually shaping — with **"plain shape, no pattern"** always present and the default whenever
-no trigger fires. The tool's automatic "Other" leaves room for a different pattern or a
+no trigger fires. A free-form escape leaves room for a different pattern or a
 correction.
 
 The default is load-bearing. A pattern is worth proposing only when its trigger fires on its
@@ -178,7 +178,7 @@ is how `reviewing-plans` calls this skill over a plan's Interfaces blocks). In r
   a change inside forcing a change outside. A sketched interface leaks the same way a built one
   does, and the sketch is the cheapest place to catch it.
 - **Skip the generative machinery.** Do not sketch a second design, do not run the pattern
-  matrix's proposal-through-`AskUserQuestion` flow, do not choose between shapes — there is one
+  matrix's proposal-as-a-structured-choice flow, do not choose between shapes — there is one
   shape, supplied, and the job is to judge it, not to replace it. Return the findings and let the
   caller decide what to revise.
 

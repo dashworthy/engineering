@@ -20,7 +20,7 @@ skill or plugin is wasting — down to pruning a skill that no longer earns its 
   quality problems (anti-patterns, verbosity, confusing logic, cross-skill duplication,
   subagent usage that costs more than it saves, and dead skills no task ever reaches),
   propose each fix — or a dead skill's fate: wire it in, fold it into a sibling, or remove
-  it — through `AskUserQuestion`, and apply the approved ones.
+  it — as an explicit choice put to the user, and apply the approved ones.
 
 Each skill is a short `SKILL.md` overview that points to deeper `references/` files loaded
 only when needed.

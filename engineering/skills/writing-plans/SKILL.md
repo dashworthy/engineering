@@ -137,8 +137,8 @@ Most plans ship as a single pull request opened at the end. Some plans instead s
 *stack* — one pull request per task, each based on the branch of the task before it — so a
 reviewer can approve and land the tasks in order rather than reading the whole change at
 once. Which one a plan uses is decided at plan-writing time, not left to whoever executes
-it — and it is decided by **asking**: put it to your human partner through a single
-`AskUserQuestion` (**Single PR at the end** (Recommended), or **Stacked — one PR per task**), and
+it — and it is decided by **asking**: put it to your human partner as a single structured
+choice (**Single PR at the end** (Recommended), or **Stacked — one PR per task**), and
 do not finalize the plan until they choose. This is a required gate, not a default you may
 assume: even when the spec or the caller seems to imply one, confirm it through the question
 rather than reading it off silently.
@@ -216,7 +216,7 @@ plan is written and self-reviewed, before a human ever sees it.
 **Invoke `engineering:reviewing-plans` now, on the plan just written.** It reads the plan's
 Interfaces blocks and code sketches, runs the architecture lens over them (via
 `codebase-design` in review mode), and scans for reinvented data structures — flagging each
-to the human through `AskUserQuestion` before it can stand. It hands back the plan revised
+to the human as an explicit choice before it can stand. It hands back the plan revised
 for whatever it found: a signature reshaped to close a leak, a bespoke shape replaced with
 the existing type, or an ad-hoc structure the human explicitly approved. This is why the
 tasks carry code sketches at all — a plan that only describes its changes in prose gives the
@@ -241,11 +241,11 @@ the plan for approval until `reviewing-plans` has returned.
 
 The plan gate is the pipeline's second human-approval gate; the first is the spec gate in
 `to-spec`. A written plan is a draft until a human approves it: present the finished plan,
-then put the verdict through `AskUserQuestion` — `Approve` or `Request changes` — so the turn
-holds and nothing is built against the plan until they pick Approve. On `Request changes`
-(their edits ride the free-text "Other" or the reply), revise and present again; do not hand
-an unapproved plan onward. Headless, no tool: wait for an explicit typed approval and treat
-silence as not-approved.
+then put the verdict to the human as a structured choice — `Approve` or `Request changes` — so the
+turn holds and nothing is built against the plan until they pick Approve. On `Request changes`
+(their edits ride the free-form escape or the reply), revise and present again; do not hand
+an unapproved plan onward. Headless, no interactive prompt: wait for an explicit typed approval and
+treat silence as not-approved.
 
 On approval, create the run's writing-plans phase directory with
 `run-context.sh writing-plans <slug>` and write `.engineering/<run>/writing-plans/APPROVED.md`

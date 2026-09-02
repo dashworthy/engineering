@@ -43,12 +43,16 @@ check $? "brainstorming points design approval to the spec gate"
 
 # --- brainstorming: right-size bypass is an explicit opt-in routing choice -----
 # brainstorming MAY offer to skip spec creation and go straight to the plan, but only through an
-# explicit AskUserQuestion; on that pick it mints the run-scoped SPEC-SKIPPED.md marker (a routing
+# explicit structured choice; on that pick it mints the run-scoped SPEC-SKIPPED.md marker (a routing
 # record, NOT an approval) and hands to writing-plans. The default path is unchanged, and the plan
 # gate downstream still holds. The bypass must not reintroduce the approval-marker / hard-gate
 # strings the two guards above forbid.
-grep_flat "$BRAIN" "AskUserQuestion"
+# The spec-skip is posed as an explicit structured choice; the question mechanism is left to the
+# harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
+grep_flat "$BRAIN" "structured choice"
 check $? "brainstorming poses the spec-skip as an explicit opt-in"
+! grep_flat "$BRAIN" "AskUserQuestion"
+check $? "brainstorming names no harness-specific question tool"
 grep_flat "$BRAIN" "SPEC-SKIPPED.md"
 check $? "brainstorming mints the spec-skip marker on the opt-in pick"
 grep_flat "$BRAIN" "writing-plans"

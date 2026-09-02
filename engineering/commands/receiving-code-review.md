@@ -24,7 +24,8 @@ established first, and `run-context.sh` then writes `.engineering/<run>/` **insi
 First identify the original review branch. Then check whether isolation already exists — a worktree
 this session entered, or a branch (other than the review branch itself) already checked out on top
 of it. Either means the work is already isolated: join it and skip the question. Otherwise put the
-choice to the user through a single `AskUserQuestion`:
+choice to the user as a single structured choice — selectable options with a free-form escape,
+holding the turn until they answer:
 
 - **Worktree (Recommended)** — invoke `engineering:using-git-worktrees`, with the worktree checked
   out on the original review branch so the fixes build on the code under review.
@@ -101,7 +102,7 @@ Do not hard-code one forge's REST calls as the only path; the mechanics are name
 (reply to a thread, resolve a thread, stack a branch onto a named base), not by one vendor's API.
 
 **Resolving a thread is the user's call, per fixed ask.** When a comment has been fixed, do not
-resolve its thread silently. Put it to the user through `AskUserQuestion`, and in the prompt display
+resolve its thread silently. Put it to the user as a structured choice, and in the prompt display
 both **the full original comment** and **what was done** to address it, so the decision is made with
 the whole picture in view. Resolve the thread only on an explicit yes; a comment pushed back on
 rather than fixed stays open with the reasoning on its thread.

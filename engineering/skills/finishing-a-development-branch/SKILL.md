@@ -52,7 +52,7 @@ plan file under `.engineering/<run>/plan/` that matches this work — and look i
 Global Constraints for the `Finish strategy:` line (and any `PR strategy: stacked` line). When
 one is there, it is the human's authorized choice: carry it out without asking again. Only when
 there is **no plan, or no finish strategy recorded on it** — a branch built outside the
-pipeline — fall back to presenting the options through `AskUserQuestion` — `Merge directly`,
+pipeline — fall back to presenting the options as a structured choice — `Merge directly`,
 `Open a pull request` (or `Land the stack` for a stacked run), `Clean up only`, offering only
 the ones actually live for this project — and asking, since no gate ever authorized one.
 
@@ -93,7 +93,7 @@ stated convention wins; absent that, leave it out.
   authorized the cleanup — or a delete-the-branch step after a merge — that authorization is the
   confirmation; carry it out. Only in the no-plan fallback, where nothing upstream authorized it,
   get the user's explicit confirmation on this path specifically — a `Delete the branch` /
-  `Keep it` `AskUserQuestion`, since silence is never confirmation — before removing anything,
+  `Keep it` choice, since silence is never confirmation — before removing anything,
   rather than treating the fact that cleanup was the option picked as confirmation enough.
 
 ## What this does not do

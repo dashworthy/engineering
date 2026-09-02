@@ -58,7 +58,7 @@ silently. When the architecture lens fires on it, carry it into that scan instea
 
 If a finding turns on a genuine trade-off rather than a defect — two defensible shapes, the
 lens firing on one axis but not clearly wrong — surface it the same way the one-off scan
-below surfaces its flags: through `AskUserQuestion`, not a silent revision.
+below surfaces its flags: as an explicit choice put to the human, not a silent revision.
 
 ### 2. The one-off data structure scan
 
@@ -75,7 +75,7 @@ Search the codebase for an existing type that already carries the shape before d
 task's structure is genuinely new. Reuse over reinvention is the default; a new structure has
 to earn its place against what already exists.
 
-**Flag each candidate one-off structure to the human through `AskUserQuestion`** — do not
+**Flag each candidate one-off structure to the human as an explicit choice** — do not
 silently revise these, and do not silently let them stand. Frame the question around the one
 structure: name the bespoke shape the task introduces, name the existing type it could reuse
 (if one exists), and offer:
@@ -85,7 +85,7 @@ structure: name the bespoke shape the task introduces, name the existing type it
 - **Keep the new structure** — the human judges the new shape earns its place; it stands, and
   its justification rides the answer so the plan records why a new type was minted.
 
-The tool's automatic "Other" leaves room for a third path — reshape it differently, or reuse a
+A free-form escape leaves room for a third path — reshape it differently, or reuse a
 type you didn't name. When the human picks reuse (or names a different existing type), revise
 the task's Interfaces block and steps to match. When they keep it, leave the structure and
 record the approval in the task so the choice is visible at the gate and afterward.
@@ -110,7 +110,7 @@ to route to `codebase-design` or `brainstorming` rather than patching around it 
   competing designs is `codebase-design`. This skill runs `codebase-design`'s *evaluative* lens
   over a shape already chosen and sketched; it does not generate a shape or weigh approaches.
 - It does not **hold the plan gate.** Presenting the plan for human approval and minting the
-  plan-approval marker is `writing-plans`. This skill's `AskUserQuestion` flags are per-finding
+  plan-approval marker is `writing-plans`. This skill's per-finding flags are explicit-choice
   approvals inside the review, not the gate; it returns the reviewed plan and the gate follows.
 - It does not **run the tasks.** Building the plan is `executing-plans`, downstream of the gate.
 

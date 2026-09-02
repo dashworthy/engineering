@@ -139,8 +139,8 @@ Tells:
 Confirm before proposing a fate: name a concrete task the skill is the best choice for. If you
 can't — none its description would win, none a caller routes to it — it is dead.
 
-**Fix shapes** — a dead skill's fix is its fate, not a reword. Put the three to the user through
-`AskUserQuestion` (the propose step in `SKILL.md` covers the question shape):
+**Fix shapes** — a dead skill's fix is its fate, not a reword. Put the three to the user as a
+structured choice (the propose step in `SKILL.md` covers the question shape):
 
 - **Wire it in.** The skill is worth keeping but can't be reached. Repair discovery: sharpen the
   `description` and its trigger terms, rename to the activity it supports, or add the missing forward
