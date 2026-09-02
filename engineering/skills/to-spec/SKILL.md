@@ -72,7 +72,8 @@ This is the pipeline's first human-approval gate, and it lives here, on the spec
 skill does not stamp `Approved` on faith:
 
 1. **Write it as a draft.** Set the status line to `Status: Draft` (see `SPEC-FORMAT.md`).
-2. **Present the draft, then put the verdict to the human as a structured choice.** Show the
+2. **Present the draft, then put the verdict to the human as a structured choice**, using a tool to
+   ask it where one is available. Show the
    finished spec and wait for the human's approval — ask them to `Approve` or `Request changes`, the
    question holding the turn so this is a real stop: nothing is `Approved`, and no marker is
    written, until they pick Approve. Their edits ride the free-form escape or a `Request

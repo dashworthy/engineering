@@ -20,15 +20,15 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 
 ## The facets
 
-Fourteen facets exist; each is a thin skill owning one lens. The three **core** facets (**Security**,
+Fifteen facets exist; each is a thin skill owning one lens. The three **core** facets (**Security**,
 **Technical**, **Architectural**) are pre-checked by default; eight additional facets (**Error Handling
 & Resilience**, **Test Quality**, **Data & Migration Safety**, **API & Backward Compatibility**,
 **Concurrency & Race Safety**, **Idempotency & Retry Safety**, **Numeric Precision & Units**,
 **API Consumption**) are
 selectable per run; two **tenant-isolation** facets are **core-when-present** — proposed and
 pre-checked only when the repo-level detection step finds the matching tenancy model (see the
-menu-proposal step in the workflow); and the **Data Presentation** facet is always in the menu,
-opt-in and not tenancy-gated.
+menu-proposal step in the workflow); and the **Data Presentation** and **Accessibility** facets
+are always in the menu, opt-in and not tenancy-gated.
 
 | Facet (skill) | Lens | Core? |
 |---|---|---|
@@ -46,6 +46,7 @@ opt-in and not tenancy-gated.
 | `reviewing-tenant-isolation-shared-db` | Cross-tenant leaks in a single-DB / shared-schema app: a query that lost its tenant scope | core-when-present |
 | `reviewing-tenant-isolation-isolated-db` | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | core-when-present |
 | `reviewing-data-presentation` | Identity-ambiguous presentation: distinct records a person can't tell apart | — |
+| `reviewing-accessibility` | Accessibility: perceivability & operability — alt text, labels, ARIA/semantics, keyboard/focus, contrast, reduced-motion, live-region announcements | — |
 
 ## The workflow
 
@@ -59,11 +60,12 @@ opt-in and not tenancy-gated.
    the upper of guardtower's **two-gate** model: a repo-level menu-proposal gate that sits *above*
    each facet's own per-change relevance gate — a proposed facet still self-skips on a change that
    touches no tenant-scoped surface, so proposing is not running.
-2. **Pick the facets.** Present the facet menu as a structured multi-select choice, with the
+2. **Pick the facets.** Present the facet menu as a structured multi-select choice, using a tool to
+   ask it where one is available, with the
    three **core** facets **pre-checked**, plus any tenant-isolation facet the menu-proposal step
-   above proposed (pre-checked when proposed). The **Data Presentation** facet is always offered,
-   opt-in. The human unchecks or adds; only available facets run (a not-yet-available pick is
-   reported as skipped, not failed).
+   above proposed (pre-checked when proposed). The **Data Presentation** and **Accessibility**
+   facets are always offered, opt-in. The human unchecks or adds; only available facets run (a
+   not-yet-available pick is reported as skipped, not failed).
 3. **Resolve the change and the run.** Resolve `change_ref` once (the diff/branch/PR under review).
    Create the run directory with `run-context.sh` — the per-facet path is
    `.guardtower/<run>/<facet-skill>/findings.md`.

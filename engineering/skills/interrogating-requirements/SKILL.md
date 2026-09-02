@@ -93,7 +93,7 @@ Working state for this run. Not the deliverable; `brief.md` is.
 
 **Do not ask open questions. Offer a short menu of concrete choices and invite a pick or a correction.** Picking off a list costs the user far less than composing an answer from a blank prompt.
 
-**Deliver every probe as a structured question — one question at a time, its answers a short menu of selectable options — never as prose the user has to read past.** Plain-text questions are exactly what pile the six dimensions into one wall for the user to answer all at once; a structured question renders one probe as pickable options and stops the turn until it is answered, which is the interactivity this whole skill depends on. Shape each probe the same way:
+**Deliver every probe as a structured question — one question at a time, its answers a short menu of selectable options — never as prose the user has to read past.** Plain-text questions are exactly what pile the six dimensions into one wall for the user to answer all at once; a structured question renders one probe as pickable options and stops the turn until it is answered, which is the interactivity this whole skill depends on. **Use a tool to put the question where one is available**, rather than writing the menu into your reply. Shape each probe the same way:
 
 - **A short label** — the coverage dimension, ≤12 chars: `Problem`, `Users`, `Success`, `Constraints`, `Scope`, `Context`.
 - **First option** — the **conventional answer**, what most competent practitioners in this domain would do. Its reasoning rides the option; append ` (Recommended)` to its label.

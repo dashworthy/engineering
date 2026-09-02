@@ -845,6 +845,59 @@ if [ -f "$PLUGIN/README.md" ]; then
 fi
 
 # ============================================================================
+# Facet — reviewing-accessibility facet skill
+# ============================================================================
+
+A11Y="$PLUGIN/skills/reviewing-accessibility/SKILL.md"
+[ -f "$A11Y" ]; check $? "reviewing-accessibility/SKILL.md exists"
+if [ -f "$A11Y" ]; then
+  head -1 "$A11Y" | grep -q '^---$'; check $? "reviewing-accessibility has frontmatter"
+  grep -q '^name: reviewing-accessibility$' "$A11Y"; check $? "reviewing-accessibility frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$A11Y")
+  printf '%s' "$desc" | grep -qiE "accessib|a11y"; check $? "reviewing-accessibility description carries an accessibility trigger"
+  printf '%s' "$desc" | grep -qiE "alt text|label|aria|contrast|keyboard|semantic"; check $? "reviewing-accessibility description names a defect class"
+  printf '%s' "$desc" | grep -qiE "assistive|screen reader|perceiv|operab"; check $? "reviewing-accessibility description names the perceivability/operability concern"
+  grep_flat "$A11Y" "relevance gate"; check $? "reviewing-accessibility runs the relevance gate"
+  grep_flat "$A11Y" "before any lens work"; check $? "reviewing-accessibility short-circuits before lens work"
+  grep_flat "$A11Y" "top_n"; check $? "reviewing-accessibility applies the top-N cap"
+  grep_flat "$A11Y" "floor"; check $? "reviewing-accessibility applies the confidence/severity floor"
+  grep_flat "$A11Y" "report-only"; check $? "reviewing-accessibility is report-only"
+  grep_flat "$A11Y" "findings.md"; check $? "reviewing-accessibility writes findings.md"
+  grep_flat "$A11Y" "no proactive"; check $? "reviewing-accessibility states its analysis boundary inline"
+  grep_flat "$A11Y" "visible in the diff"; check $? "reviewing-accessibility scopes its reach to the diff"
+  grep_flat "$A11Y" "references/accessibility-checklist.md"; check $? "reviewing-accessibility links references/accessibility-checklist.md"
+fi
+
+A11YCL="$PLUGIN/skills/reviewing-accessibility/references/accessibility-checklist.md"
+[ -f "$A11YCL" ]; check $? "reviewing-accessibility/references/accessibility-checklist.md exists"
+if [ -f "$A11YCL" ]; then
+  grep_flat "$A11YCL" "Structural & naming"; check $? "accessibility-checklist covers structural & naming defects"
+  grep_flat "$A11YCL" "Color & contrast"; check $? "accessibility-checklist covers color & contrast"
+  grep_flat "$A11YCL" "Motion & timing"; check $? "accessibility-checklist covers motion & timing"
+  grep_flat "$A11YCL" "Dynamic announcements"; check $? "accessibility-checklist covers dynamic announcements"
+  grep_flat "$A11YCL" "data-presentation"; check $? "accessibility-checklist cedes identity-ambiguity to data-presentation"
+  grep_flat "$A11YCL" "not a finding"; check $? "accessibility-checklist states what is not a finding"
+fi
+
+# --- orchestrator wiring: accessibility is live, not "coming soon" ------------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-accessibility' "$ORCH"; then
+    if grep 'reviewing-accessibility' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-accessibility (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-accessibility (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-accessibility (not coming soon)"
+  fi
+fi
+
+# --- README lists the accessibility facet -----------------------------------
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "Accessibility"; check $? "README lists the accessibility facet"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running

@@ -56,7 +56,7 @@ reference loads only when reached. Cheap, high-frequency wins go first.
 
 ## Propose fixes — one finding, one question
 
-Put each fixable finding to the user as a structured choice:
+Put each fixable finding to the user as a structured choice, using a tool to ask it where one is available:
 
 - The options are 2–3 concrete fix variants (reword / cut / extract-to-reference / merge-and-link),
   your recommendation first and marked `(Recommended)`, with the estimated token saving alongside
