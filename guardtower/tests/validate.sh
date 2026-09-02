@@ -879,6 +879,24 @@ if [ -f "$A11YCL" ]; then
   grep_flat "$A11YCL" "not a finding"; check $? "accessibility-checklist states what is not a finding"
 fi
 
+# --- orchestrator wiring: accessibility is live, not "coming soon" ------------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-accessibility' "$ORCH"; then
+    if grep 'reviewing-accessibility' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-accessibility (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-accessibility (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-accessibility (not coming soon)"
+  fi
+fi
+
+# --- README lists the accessibility facet -----------------------------------
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "Accessibility"; check $? "README lists the accessibility facet"
+fi
+
 # ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
