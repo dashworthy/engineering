@@ -93,16 +93,16 @@ Working state for this run. Not the deliverable; `brief.md` is.
 
 **Do not ask open questions. Offer a short menu of concrete choices and invite a pick or a correction.** Picking off a list costs the user far less than composing an answer from a blank prompt.
 
-**Deliver every probe through the `AskUserQuestion` tool — one question per call — never as prose the user has to read past.** Plain-text questions are exactly what pile the six dimensions into one wall for the user to answer all at once; the tool renders one probe as pickable options and stops the turn until it is answered, which is the interactivity this whole skill depends on. Map each probe onto the tool:
+**Deliver every probe as a structured question — one question at a time, its answers a short menu of selectable options — never as prose the user has to read past.** Plain-text questions are exactly what pile the six dimensions into one wall for the user to answer all at once; a structured question renders one probe as pickable options and stops the turn until it is answered, which is the interactivity this whole skill depends on. Shape each probe the same way:
 
-- **`header`** — the coverage dimension, short (≤12 chars): `Problem`, `Users`, `Success`, `Constraints`, `Scope`, `Context`.
-- **First option** — the **conventional answer**, what most competent practitioners in this domain would do. Its reasoning goes in the option's `description`; append ` (Recommended)` to its label.
-- **The other options** — the two or three real alternatives, each with a one-line `description`.
-- **The open escape is automatic.** `AskUserQuestion` always appends an "Other" choice and always lets the user type their own answer, so never hand-write "or something else" — the tool is what stops your guesses from being read back as the only choices.
+- **A short label** — the coverage dimension, ≤12 chars: `Problem`, `Users`, `Success`, `Constraints`, `Scope`, `Context`.
+- **First option** — the **conventional answer**, what most competent practitioners in this domain would do. Its reasoning rides the option; append ` (Recommended)` to its label.
+- **The other options** — the two or three real alternatives, each with a one-line rationale.
+- **Always leave an open escape.** Every probe must let the user type their own answer instead of picking — a free-form "Other" that stops your guesses from being read back as the only choices. Where the question mechanism appends that escape on its own, rely on it and never hand-write "or something else"; where it does not, add the escape yourself.
 
 The same auth probe as one call — `header: Auth`, question "Auth approach?": **SSO (Recommended)** ("kills the password-reset support load, the usual driver") · **Magic links** · **Password + 2FA**. The user picks one or types their own into Other.
 
-**Fallback — the tool is not always there.** In a headless or non-interactive run `AskUserQuestion` cannot prompt. *Only* then, fall back to the same menu as plain text and say the run is degraded:
+**Fallback — interactive prompting is not always there.** In a headless or non-interactive run the harness cannot put a blocking question to the user. *Only* then, fall back to the same menu as plain text and say the run is degraded:
 
 > "Auth approach? Most teams this size pick:
 > - **A) SSO** — to kill the password-reset support load (the usual driver)
@@ -121,7 +121,7 @@ Departures are where the requirements actually live; everything else you could h
 
 - **Set the default at the field default. Never tune it to what the user already told you.** A tuned default that draws a pick tells you only that you were listening; a field-default one tells you something about the world.
 - **Keep it short and local.** Two to four options for one probe — never a lecture up front, never a batch of separate questions dressed up as a list.
-- **The open escape is not yours to add or forget** — `AskUserQuestion`'s "Other" is always present and always takes a typed answer. A closed list of your guesses, offered as the only choices, would encode your framing as a requirement; the tool prevents that structurally.
+- **The open escape is not optional** — every probe leaves a free-form answer open. A closed list of your guesses, offered as the only choices, would encode your framing as a requirement; the open escape prevents that. Where the question mechanism supplies it automatically, rely on that; where it does not, add it yourself — either way it is never yours to forget.
 - **When you do not know what is conventional in this domain, say so and let the menu be rougher** rather than inventing a confident default.
 
   > "I don't have a strong sense of what's typical here, so correct me freely — I'd guess it's one of these, but the list is a starting point, not the boundary:"
@@ -132,7 +132,7 @@ Departures are where the requirements actually live; everything else you could h
 
 ### Rules that do not change
 
-- **One question per `AskUserQuestion` call.** The options are choices *within* one question, not a batch of separate questions. The tool accepts up to four questions in a call — do not use that to fire "a few things I'm wondering about" at once; one probe, mined for its correction, then the next. Given ten questions a person answers one; one question with a handful of options gets picked cleanly.
+- **One question at a time.** The options are choices *within* one question, not a batch of separate questions. Even where the question mechanism can carry several questions at once, do not use that to fire "a few things I'm wondering about" all together; one probe, mined for its correction, then the next. Given ten questions a person answers one; one question with a handful of options gets picked cleanly.
 - **Quote the vague phrase back — with a menu.** "You said 'it should be fast' — fast meaning what? p95 under 200ms, under 500ms, under 1s, or a number you have in mind?"
 - **Reject non-answers.** "Whatever makes sense" / "the usual" / "you decide" are not answers — offer the menu so there is something concrete to pick instead.
 - **Force the non-goals.** People define scope by what they will build; make them state what they will not build.

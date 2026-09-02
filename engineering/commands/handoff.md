@@ -36,24 +36,24 @@ needs:
 
 This is an absolute rule, not a guideline, and it has no exceptions. The handoff step has
 **zero authority** to classify anything as deferred, parked, or out of scope. It may only
-*record* a deferral the user has already opted into through an explicit `AskUserQuestion`
-prompt. Nothing else grants that status.
+*record* a deferral the user has already opted into through an explicit choice put to them.
+Nothing else grants that status.
 
 The single gate for writing "deferred" — or "parked," "for later," "out of scope,"
 "separate change," or any synonym — about any item:
 
-> The user was shown that specific item in an `AskUserQuestion` prompt and chose to defer
+> The user was shown that specific item in an explicit choice prompt and chose to defer
 > it, and you can point to that prompt.
 
 If that gate is not met, you may not mark the item deferred. Not because "it obviously is
 a separate concern," not because "the user implied it," not because "it came up and nobody
 pursued it," not because "it's out of scope for this piece of work." Every one of those is
 *you* deciding to defer — and deciding to defer is the one act this step is forbidden to
-perform. You do not have the authority; only an `AskUserQuestion` opt-in does.
+perform. You do not have the authority; only an explicit choice the user made does.
 
 So, for any adjacent or unresolved item you are tempted to park:
 
-- **Ask, then record.** Put it to the user with `AskUserQuestion` (in scope / defer / drop)
+- **Ask, then record.** Put it to the user as an explicit choice (in scope / defer / drop)
   before you finish the handoff, and record their actual answer. This is the *only* route
   to a "deferred" label.
 - **Or leave it open.** If you do not ask, record it as an **open question the reader still

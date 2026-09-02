@@ -22,8 +22,8 @@ inherits.
 
 First check whether isolation already exists — a worktree this session entered, or a branch other
 than the repository's default branch already checked out. Either means the work is already
-isolated: join it and skip the question. Otherwise put the choice to the user through a single
-`AskUserQuestion`:
+isolated: join it and skip the question. Otherwise put the choice to the user as a single
+structured choice — selectable options with a free-form escape, holding the turn until they answer:
 
 - **Worktree (Recommended)** — invoke `engineering:using-git-worktrees` (it detects existing
   isolation and no-ops if a worktree this session already entered is in place).
@@ -49,9 +49,9 @@ it — ask the user whether to resume that run.
 
 This is the beat particular to signal, and signal always runs it. Invoke
 `engineering:interrogating-requirements` in the main thread (it is interactive; it cannot run as a
-dispatched subagent). Supply it the run directory. Probe through the `AskUserQuestion` tool — one
-question per call, its options led by the conventional default (first, marked Recommended) and
-mining the correction, the tool's automatic "Other" carrying the open escape — keeping
+dispatched subagent). Supply it the run directory. Probe as structured questions — one
+question at a time, its options led by the conventional default (first, marked Recommended) and
+mining the correction, a free-form escape carrying the open answer — keeping
 `open-threads.md` current as you go. Do not advance until the gate is met: at least 3 rounds AND all
 six coverage dimensions filled. **The moment it is met, it writes `brief.md` §1–§6** — the whole
 brief, in the main thread, so the interrogation is durable. That file is the deliverable, and the

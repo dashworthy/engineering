@@ -49,9 +49,11 @@ for f in gh glab gt; do
 done
 if grep -q "gh api" "$CMD"; then echo "FAIL: entrance must not hard-code a GitHub-only 'gh api' path (forge-agnostic)"; fail=1; fi
 
-# Resolve flow: for each FIXED ask, AskUserQuestion shows the full comment + what was done, then asks
-# whether to resolve the thread.
-grep -q "AskUserQuestion" "$CMD" || { echo "FAIL: entrance must gate thread-resolution behind AskUserQuestion"; fail=1; }
+# Resolve flow: for each FIXED ask, a structured choice shows the full comment + what was done, then
+# asks whether to resolve the thread. The question mechanism is left to the harness, so guard the
+# tool-agnostic phrasing, not a harness-specific question tool.
+grep -q "structured choice" "$CMD" || { echo "FAIL: entrance must gate thread-resolution behind a structured choice"; fail=1; }
+if grep -q "AskUserQuestion" "$CMD"; then echo "FAIL: entrance must not name a harness-specific question tool (portable)"; fail=1; fi
 grep -qi "full.*comment\|full original comment\|the full comment" "$CMD" || { echo "FAIL: resolve prompt must display the full original comment"; fail=1; }
 grep -qi "what was done\|what we did\|what changed" "$CMD" || { echo "FAIL: resolve prompt must display what was done to resolve it"; fail=1; }
 

@@ -1,6 +1,6 @@
 ---
 name: auditing-skills
-description: Audit an existing skill or a whole plugin for efficiency and quality problems — anti-patterns, verbosity, confusing logic, cross-skill duplication, costly subagent usage, and dead skills no task ever reaches — then propose each fix, or a dead skill's fate, through AskUserQuestion and apply the approved ones. Use when reviewing, optimizing, cutting the token cost of, or pruning a skill or plugin.
+description: Audit an existing skill or a whole plugin for efficiency and quality problems — anti-patterns, verbosity, confusing logic, cross-skill duplication, costly subagent usage, and dead skills no task ever reaches — then propose each fix, or a dead skill's fate, as an explicit choice put to the user and apply the approved ones. Use when reviewing, optimizing, cutting the token cost of, or pruning a skill or plugin.
 ---
 
 # Auditing Skills
@@ -56,11 +56,11 @@ reference loads only when reached. Cheap, high-frequency wins go first.
 
 ## Propose fixes — one finding, one question
 
-Put each fixable finding to the user through `AskUserQuestion`:
+Put each fixable finding to the user as a structured choice:
 
 - The options are 2–3 concrete fix variants (reword / cut / extract-to-reference / merge-and-link),
-  your recommendation first and marked `(Recommended)`, with the estimated token saving in its
-  description. `AskUserQuestion` supplies **Skip** — the "Other" choice — so declining is always
+  your recommendation first and marked `(Recommended)`, with the estimated token saving alongside
+  each. Include **Skip** as the free-form escape so declining is always
   available.
 - Where the fix is a concrete before/after, use a `preview` so the user compares the actual diff,
   not a paraphrase.
@@ -69,7 +69,7 @@ Put each fixable finding to the user through `AskUserQuestion`:
   Windows-path corrections) — those may share one question.
 
 **A dead skill is a question of fate, not a fix variant.** When the finding is a whole dead skill
-(dimension 6), the `AskUserQuestion` options are the three outcomes — **wire it in** (keep the skill,
+(dimension 6), the options are the three outcomes — **wire it in** (keep the skill,
 repair its discovery), **fold into a sibling** (merge its content, then delete it), **remove** (delete
 it) — recommendation first and marked `(Recommended)`, each option's description naming what it keeps
 and what it deletes. This is genuinely the user's call: folding and removal delete a skill and rewrite
@@ -89,7 +89,7 @@ its `description` now carries the folded triggers, *then* delete the dead skill 
 `plugin.json`, `README.md`, and any caller or command that routed to it. On a **remove**, delete the
 directory and scrub the same references. On **wire it in**, keep the skill and edit only its discovery
 surface (its `description`, name, or the forward reference that should reach it). Removal is hard to
-reverse, and the `AskUserQuestion` approval is its only gate.
+reverse, and the user's explicit approval is its only gate.
 
 One rule holds without exception: **a fix preserves what the skill does.** If a proposed cut would
 drop a real instruction, it was never verbosity — keep it. Verify the executable parts (any scripts,

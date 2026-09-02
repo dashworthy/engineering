@@ -26,7 +26,8 @@ isolated: join it and skip the question. In particular, if `signal` established 
 isolation first and the user then reached triage, triage joins that same workspace rather than
 stacking a second one.
 
-Otherwise put the choice to the user through a single `AskUserQuestion`:
+Otherwise put the choice to the user as a single structured choice — selectable options with a
+free-form escape, holding the turn until they answer:
 
 - **Worktree (Recommended)** — invoke `engineering:using-git-worktrees`.
 - **Feature branch in this checkout** — no worktree; cut a named feature branch off the base with

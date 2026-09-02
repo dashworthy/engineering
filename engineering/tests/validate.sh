@@ -261,7 +261,10 @@ RP="$PLUGIN/skills/reviewing-plans/SKILL.md"
 if [ -f "$RP" ]; then
   grep -q '^name: reviewing-plans$' "$RP"; check $? "reviewing-plans frontmatter names itself"
   grep_flat "$RP" "codebase-design"; check $? "reviewing-plans runs the architecture lens via codebase-design"
-  grep_flat "$RP" "AskUserQuestion"; check $? "reviewing-plans flags one-off data structures via AskUserQuestion"
+  # The one-off flags are put to the human as an explicit choice; the question mechanism is left to
+  # the harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
+  grep_flat "$RP" "explicit choice"; check $? "reviewing-plans flags one-off data structures as an explicit choice"
+  ! grep_flat "$RP" "AskUserQuestion"; check $? "reviewing-plans names no harness-specific question tool"
 fi
 WP="$PLUGIN/skills/writing-plans/SKILL.md"
 grep_flat "$WP" "reviewing-plans"; check $? "writing-plans invokes reviewing-plans"

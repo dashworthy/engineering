@@ -59,7 +59,7 @@ opt-in and not tenancy-gated.
    the upper of guardtower's **two-gate** model: a repo-level menu-proposal gate that sits *above*
    each facet's own per-change relevance gate — a proposed facet still self-skips on a change that
    touches no tenant-scoped surface, so proposing is not running.
-2. **Pick the facets.** Present the facet menu through `AskUserQuestion` (multi-select), with the
+2. **Pick the facets.** Present the facet menu as a structured multi-select choice, with the
    three **core** facets **pre-checked**, plus any tenant-isolation facet the menu-proposal step
    above proposed (pre-checked when proposed). The **Data Presentation** facet is always offered,
    opt-in. The human unchecks or adds; only available facets run (a not-yet-available pick is
