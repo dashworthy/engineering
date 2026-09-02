@@ -114,19 +114,29 @@ tree is unstaged, and `git diff` is the review.
 
 ## Run directory
 
-`.engineering/<run>/vernacular/` in the **user's** project - never inside the plugin. `<run>`
-is not yours to name: obtain it by running
-`sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" vernacular`, which prints the absolute path
-of `.engineering/<run>/vernacular/` and creates it if needed. Run standalone - no earlier phase
+`.engineering/<run>/vernacular/<NNN>/` in the **user's** project - never inside the plugin.
+Neither `<run>` nor the `<NNN>` leaf is yours to name: obtain the whole path by running
+`sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" vernacular --fresh`, which prints the absolute
+path of a fresh per-invocation leaf and creates it if needed. Run standalone - no earlier phase
 this session - it creates the `.engineering/.current-run` pointer itself; if a run is already
 active, it joins that run. It reads or writes that single pointer file and never enumerates
-prior runs, so "a run never reads a previous run's artifacts" holds with no carve-out.
+prior runs, so "a run never reads a previous run's artifacts" holds with no carve-out. Treat the
+printed path as `$RUN_DIR`; everything below is relative to it.
+
+**Why `--fresh`, and why it matters to reconcile.** A plan runs vernacular once per task, and
+every task joins the same run - so without a per-invocation leaf all of them would share one
+`vernacular/` directory. `reconcile.py` globs *every* receipt under the directory it is handed,
+so a later task's reconcile would re-check an earlier task's receipt whose `before/` snapshot no
+longer matches the file the working tree has since moved on to: a clean run failing on stale
+evidence. The `--fresh` leaf isolates each invocation's `before/`, `receipts/`, `quarantine/`,
+and `report.md`, so reconcile only ever sees the receipts of the invocation being checked, and
+each task keeps its own proof and report.
 
 ```
-before/<path>          byte copies - Proof 1's left-hand side
-receipts/<slug>.json   claimed ranges, per file
-quarantine/<path>      only on a proof failure
-report.md              the run's account of itself
+$RUN_DIR/before/<path>          byte copies - Proof 1's left-hand side
+$RUN_DIR/receipts/<slug>.json   claimed ranges, per file
+$RUN_DIR/quarantine/<path>      only on a proof failure
+$RUN_DIR/report.md              the invocation's account of itself
 ```
 
 `<slug>` is the repository-relative path with `/` replaced by `-`, so two files sharing a
@@ -162,8 +172,8 @@ budget (~1500 lines - the same figure as the small/large threshold above), and d
     {
       "file":         "<absolute path in the working tree>",
       "hunks":        [{"start": 104, "end": 131}],
-      "before_path":  "<absolute path to .engineering/<run>/vernacular/before/<path>>",
-      "receipt_path": "<absolute path to .engineering/<run>/vernacular/receipts/<slug>.json>"
+      "before_path":  "<absolute path to $RUN_DIR/before/<path>>",
+      "receipt_path": "<absolute path to $RUN_DIR/receipts/<slug>.json>"
     }
   ],
   "skill_path":   "<absolute path to that skill's SKILL.md>",
