@@ -56,10 +56,10 @@ from `git log` alone.
 
 ## Track the plan as todos
 
-Before working the first task, seed your todo list from the plan: use `TodoWrite` to create
-one todo per task in the plan, in the plan's order. This is not optional bookkeeping — the todo
-list is how a long, unattended run stays legible, to you as you work it and to the human reading
-along. A plan worked without a todo list is a plan whose progress lives only in your head and the
+Before working the first task, seed your todo list from the plan: create one todo per task in
+the plan, in the plan's order, in whatever todo list your harness provides. This is not optional
+bookkeeping — the todo list is how a long, unattended run stays legible, to you as you work it
+and to the human reading along. A plan worked without a todo list is a plan whose progress lives only in your head and the
 plan file's checkboxes, and the two drift the moment anything goes sideways.
 
 Keep the list and the plan in lockstep as you go: in the sequential loop exactly one task is

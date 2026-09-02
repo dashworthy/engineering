@@ -276,10 +276,13 @@ grep_flat "$CD/SKILL.md" "Review mode"; check $? "codebase-design carries a revi
 grep_flat "$CD/SHAPE-REVIEW.md" "one-off data structure"; check $? "SHAPE-REVIEW names the reinvented data-structure smell"
 
 # --- executing-plans tracks the plan as todos --------------------------------
-# The unattended build stays legible by mirroring the plan into the todo system: one todo per
-# task, marked in_progress/completed in lockstep with the plan's checkboxes.
+# The unattended build stays legible by mirroring the plan into a todo list: one todo per task,
+# marked in_progress/completed in lockstep with the plan's checkboxes. The todo mechanism is left
+# to the harness (mirroring superpowers), so this guards the tool-agnostic phrasing, not a tool
+# name — a check tied to Claude Code's TodoWrite would tether the skill to one harness.
 EP="$PLUGIN/skills/executing-plans/SKILL.md"
-grep_flat "$EP" "TodoWrite"; check $? "executing-plans seeds the plan into TodoWrite"
+grep_flat "$EP" "one todo per task"; check $? "executing-plans seeds the plan into a todo list"
+! grep_flat "$EP" "TodoWrite"; check $? "executing-plans names no harness-specific todo tool"
 grep_flat "$EP" "in_progress"; check $? "executing-plans marks a task in_progress as it starts"
 
 exit $fail
