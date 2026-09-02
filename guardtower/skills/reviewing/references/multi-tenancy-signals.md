@@ -62,7 +62,8 @@ Reason over the signals and emit exactly one verdict, consumed only by menu cons
   facet — they don't appear on the menu.
 - **`ambiguous`** — signals are mixed, weak, or conflicting and no model clearly dominates. The
   resolution is to **ask once**: put a single structured question to the human naming what was found
-  (shared-schema vs per-tenant-DB vs single-tenant), take the answer as the verdict, and do not
+  (shared-schema vs per-tenant-DB vs single-tenant), using a tool to ask it where one is available,
+  take the answer as the verdict, and do not
   re-ask within the run.
 
 The verdict governs only *which tenant facets the menu proposes and pre-checks*. It never runs a

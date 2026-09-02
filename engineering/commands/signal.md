@@ -23,7 +23,8 @@ inherits.
 First check whether isolation already exists — a worktree this session entered, or a branch other
 than the repository's default branch already checked out. Either means the work is already
 isolated: join it and skip the question. Otherwise put the choice to the user as a single
-structured choice — selectable options with a free-form escape, holding the turn until they answer:
+structured choice — selectable options with a free-form escape, holding the turn until they answer,
+using a tool to ask it where one is available:
 
 - **Worktree (Recommended)** — invoke `engineering:using-git-worktrees` (it detects existing
   isolation and no-ops if a worktree this session already entered is in place).

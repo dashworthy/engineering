@@ -27,7 +27,7 @@ isolation first and the user then reached triage, triage joins that same workspa
 stacking a second one.
 
 Otherwise put the choice to the user as a single structured choice — selectable options with a
-free-form escape, holding the turn until they answer:
+free-form escape, holding the turn until they answer, using a tool to ask it where one is available:
 
 - **Worktree (Recommended)** — invoke `engineering:using-git-worktrees`.
 - **Feature branch in this checkout** — no worktree; cut a named feature branch off the base with

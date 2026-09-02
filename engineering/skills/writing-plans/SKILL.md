@@ -138,7 +138,7 @@ Most plans ship as a single pull request opened at the end. Some plans instead s
 reviewer can approve and land the tasks in order rather than reading the whole change at
 once. Which one a plan uses is decided at plan-writing time, not left to whoever executes
 it — and it is decided by **asking**: put it to your human partner as a single structured
-choice (**Single PR at the end** (Recommended), or **Stacked — one PR per task**), and
+choice, using a tool to ask it where one is available (**Single PR at the end** (Recommended), or **Stacked — one PR per task**), and
 do not finalize the plan until they choose. This is a required gate, not a default you may
 assume: even when the spec or the caller seems to imply one, confirm it through the question
 rather than reading it off silently.
@@ -241,7 +241,8 @@ the plan for approval until `reviewing-plans` has returned.
 
 The plan gate is the pipeline's second human-approval gate; the first is the spec gate in
 `to-spec`. A written plan is a draft until a human approves it: present the finished plan,
-then put the verdict to the human as a structured choice — `Approve` or `Request changes` — so the
+then put the verdict to the human as a structured choice — `Approve` or `Request changes`, using a
+tool to ask it where one is available — so the
 turn holds and nothing is built against the plan until they pick Approve. On `Request changes`
 (their edits ride the free-form escape or the reply), revise and present again; do not hand
 an unapproved plan onward. Headless, no interactive prompt: wait for an explicit typed approval and

@@ -75,7 +75,8 @@ Search the codebase for an existing type that already carries the shape before d
 task's structure is genuinely new. Reuse over reinvention is the default; a new structure has
 to earn its place against what already exists.
 
-**Flag each candidate one-off structure to the human as an explicit choice** — do not
+**Flag each candidate one-off structure to the human as an explicit choice**, using a tool to ask
+it where one is available. Do not
 silently revise these, and do not silently let them stand. Frame the question around the one
 structure: name the bespoke shape the task introduces, name the existing type it could reuse
 (if one exists), and offer:

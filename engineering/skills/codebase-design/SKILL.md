@@ -144,7 +144,8 @@ where a lens fires, its remedy usually names a pattern.
 `PATTERN-MATRIX.md`, alongside this file, is the **selectable** half: the 23 Gang-of-Four
 patterns, each with the one trigger condition under which it is the appropriate shape. Consult it
 for the boundary in front of you. **When — and only when — a named trigger genuinely describes
-this boundary**, propose that pattern to the developer as a structured choice, the
+this boundary**, propose that pattern to the developer as a structured choice, using a tool to ask
+it where one is available, the
 way `brainstorming` proposes an approach: the pattern as the recommended option, its rationale
 tied to *this* session — why this pattern, for this boundary, now, in the words of the design you
 are actually shaping — with **"plain shape, no pattern"** always present and the default whenever

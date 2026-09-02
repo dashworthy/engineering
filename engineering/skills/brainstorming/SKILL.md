@@ -48,7 +48,8 @@ to build, what it costs to live with, what it makes harder later. Then recommend
 and say why, so the human is approving a reasoned pick, not refereeing a pile of
 options with no author's opinion attached.
 
-Put that pick to the human as a structured choice: the 2-3 approaches as selectable options, your
+Put that pick to the human as a structured choice, using a tool to ask it where one is available:
+the 2-3 approaches as selectable options, your
 recommendation first and marked `(Recommended)` with its rationale carried alongside it. This keeps
 the choice a selection rather than a wall of prose the human has to answer freehand — but it stays a
 working dialogue, not a sign-off: a free-form escape is where a correction, a hybrid of two
@@ -115,7 +116,7 @@ explicit opt-in, this skill may skip the spec-**creation** step and hand straigh
 instead.
 
 Judge whether the work is that small. If it might be, put it to the human as a
-structured choice:
+structured choice, using a tool to ask it where one is available:
 
 - **Write the full spec (Recommended)** — hand the design to `engineering:to-spec`; the spec gate
   takes approval, the default path.

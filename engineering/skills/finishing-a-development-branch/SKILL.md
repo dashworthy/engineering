@@ -54,7 +54,8 @@ one is there, it is the human's authorized choice: carry it out without asking a
 there is **no plan, or no finish strategy recorded on it** — a branch built outside the
 pipeline — fall back to presenting the options as a structured choice — `Merge directly`,
 `Open a pull request` (or `Land the stack` for a stacked run), `Clean up only`, offering only
-the ones actually live for this project — and asking, since no gate ever authorized one.
+the ones actually live for this project — and asking, since no gate ever authorized one, using a
+tool to ask it where one is available.
 
 Either way, detect whether this was a **stacked run**: a plan whose Global Constraints carry a
 `PR strategy: stacked` line, or open stacked pull requests already sitting on the branch. A
