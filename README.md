@@ -183,6 +183,19 @@ The full index lives at
 7 slash commands sit on top of the suite: `/signal`, `/triage`, `/receiving-code-review`,
 `/vernacular`, `/implement`, `/handoff`, and `/wait-what`.
 
+### The entrance gate
+
+Picking an entrance is enforced, not merely advised. A `PreToolUse` hook
+(`engineering/hooks/require-entrance.sh`) blocks the build move — `Edit`/`Write` on a real
+file — until the session has engaged the pipeline, which any entrance does by calling
+`run-context.sh`. A fresh session therefore starts unable to build: it must shape the request
+through `/signal`, `/triage`, or `/receiving-code-review` first. Reading, searching, and writes
+under `.engineering/` or scratch space are never gated, so discovery and pipeline bookkeeping
+stay free. The single sanctioned bypass is `engineering/scripts/entrance-ack.sh "<reason>"` — a
+reason-logged acknowledgement for continuing already-approved work or recording a bypass the
+user explicitly authorized, never for self-certifying a change as "trivial." A companion
+`SessionStart` hook re-arms the gate at each startup.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
