@@ -62,9 +62,9 @@ are always in the menu, opt-in and not tenancy-gated.
    touches no tenant-scoped surface, so proposing is not running.
 2. **Pick the facets.** Present the facet menu as a structured multi-select choice, with the
    three **core** facets **pre-checked**, plus any tenant-isolation facet the menu-proposal step
-   above proposed (pre-checked when proposed). The **Data Presentation** facet is always offered,
-   opt-in. The human unchecks or adds; only available facets run (a not-yet-available pick is
-   reported as skipped, not failed).
+   above proposed (pre-checked when proposed). The **Data Presentation** and **Accessibility**
+   facets are always offered, opt-in. The human unchecks or adds; only available facets run (a
+   not-yet-available pick is reported as skipped, not failed).
 3. **Resolve the change and the run.** Resolve `change_ref` once (the diff/branch/PR under review).
    Create the run directory with `run-context.sh` — the per-facet path is
    `.guardtower/<run>/<facet-skill>/findings.md`.
