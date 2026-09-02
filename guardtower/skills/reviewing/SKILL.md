@@ -20,10 +20,11 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 
 ## The facets
 
-Thirteen facets exist; each is a thin skill owning one lens. The three **core** facets (**Security**,
-**Technical**, **Architectural**) are pre-checked by default; seven additional facets (**Error Handling
+Fourteen facets exist; each is a thin skill owning one lens. The three **core** facets (**Security**,
+**Technical**, **Architectural**) are pre-checked by default; eight additional facets (**Error Handling
 & Resilience**, **Test Quality**, **Data & Migration Safety**, **API & Backward Compatibility**,
-**Concurrency & Race Safety**, **Idempotency & Retry Safety**, **Numeric Precision & Units**) are
+**Concurrency & Race Safety**, **Idempotency & Retry Safety**, **Numeric Precision & Units**,
+**API Consumption**) are
 selectable per run; two **tenant-isolation** facets are **core-when-present** — proposed and
 pre-checked only when the repo-level detection step finds the matching tenancy model (see the
 menu-proposal step in the workflow); and the **Data Presentation** facet is always in the menu,
@@ -41,6 +42,7 @@ opt-in and not tenancy-gated.
 | `reviewing-concurrency` | Race conditions and unsafe interleaving: check-then-act, non-atomic read-modify-write, missing lock/transaction | — |
 | `reviewing-idempotency` | Side effects unsafe to run twice: no idempotency key, non-idempotent retry, duplicate on replay | — |
 | `reviewing-numeric-precision` | Precision and unit defects: float for money, silent rounding, unit mismatch, overflow, lossy cast | — |
+| `reviewing-api-consumption` | Remote/HTTP API consumption: over-fetch, doing the API's filtering client-side, excessive call volume, 429 rate-limit safety | — |
 | `reviewing-tenant-isolation-shared-db` | Cross-tenant leaks in a single-DB / shared-schema app: a query that lost its tenant scope | core-when-present |
 | `reviewing-tenant-isolation-isolated-db` | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | core-when-present |
 | `reviewing-data-presentation` | Identity-ambiguous presentation: distinct records a person can't tell apart | — |
