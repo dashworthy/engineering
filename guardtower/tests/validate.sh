@@ -784,6 +784,40 @@ if [ -f "$PLUGIN/README.md" ]; then
 fi
 
 # ============================================================================
+# Facet — reviewing-api-consumption facet skill
+# ============================================================================
+
+APICON="$PLUGIN/skills/reviewing-api-consumption/SKILL.md"
+[ -f "$APICON" ]; check $? "reviewing-api-consumption/SKILL.md exists"
+if [ -f "$APICON" ]; then
+  head -1 "$APICON" | grep -q '^---$'; check $? "reviewing-api-consumption has frontmatter"
+  grep -q '^name: reviewing-api-consumption$' "$APICON"; check $? "reviewing-api-consumption frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$APICON")
+  printf '%s' "$desc" | grep -qiE "api.consumption|api usage|consuming"; check $? "reviewing-api-consumption description carries an API-consumption trigger"
+  printf '%s' "$desc" | grep -qiE "over-fetch|over.fetch|fetch|polling|call volume"; check $? "reviewing-api-consumption description names an over-fetch/over-call class"
+  printf '%s' "$desc" | grep -qiE "429|rate.limit"; check $? "reviewing-api-consumption description names the 429/rate-limit class"
+  grep_flat "$APICON" "relevance gate"; check $? "reviewing-api-consumption runs the relevance gate"
+  grep_flat "$APICON" "before any lens work"; check $? "reviewing-api-consumption short-circuits before lens work"
+  grep_flat "$APICON" "top_n"; check $? "reviewing-api-consumption applies the top-N cap"
+  grep_flat "$APICON" "floor"; check $? "reviewing-api-consumption applies the confidence/severity floor"
+  grep_flat "$APICON" "report-only"; check $? "reviewing-api-consumption is report-only"
+  grep_flat "$APICON" "findings.md"; check $? "reviewing-api-consumption writes findings.md"
+  grep_flat "$APICON" "no proactive"; check $? "reviewing-api-consumption states its analysis boundary inline"
+  grep_flat "$APICON" "visible in the diff"; check $? "reviewing-api-consumption scopes its reach to the diff"
+  grep_flat "$APICON" "references/api-consumption-checklist.md"; check $? "reviewing-api-consumption links references/api-consumption-checklist.md"
+fi
+
+APICONCL="$PLUGIN/skills/reviewing-api-consumption/references/api-consumption-checklist.md"
+[ -f "$APICONCL" ]; check $? "reviewing-api-consumption/references/api-consumption-checklist.md exists"
+if [ -f "$APICONCL" ]; then
+  grep_flat "$APICONCL" "Over-fetching payload"; check $? "api-consumption-checklist covers over-fetching payload"
+  grep_flat "$APICONCL" "Client-side work the API"; check $? "api-consumption-checklist covers client-side work the API offers server-side"
+  grep_flat "$APICONCL" "Excessive call volume"; check $? "api-consumption-checklist covers excessive call volume"
+  grep_flat "$APICONCL" "Rate-limit"; check $? "api-consumption-checklist covers rate-limit (429) safety"
+  grep_flat "$APICONCL" "not a finding"; check $? "api-consumption-checklist states what is not a finding"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
