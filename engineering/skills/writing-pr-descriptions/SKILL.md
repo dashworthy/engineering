@@ -32,6 +32,14 @@ skill, a phase, or an internal workflow term — no "per the code-review gate," 
 loop," no "the design dialogue decided," no skill name at all, quoted or not. Say what changed
 and why in terms of the product or the codebase, never in terms of the pipeline that built it.
 
+## Never sign it
+
+The body ends when the description does — no sign-off naming Claude, an AI, or any tool at all.
+No "🤖" or other tool emoji, no "Generated with Claude Code" footer, no `Co-Authored-By: Claude`
+trailer, no "Reviewed by," "Written by," or "Posted by" line naming a tool. The PR speaks for
+the work, not for whatever helped write it. The exception is a project that has explicitly asked
+for such attribution — its stated convention wins; absent that, leave it out.
+
 ## Run the checklist — verify, don't recite
 
 Before writing the body, check each item below against the actual branch. An item that can be
