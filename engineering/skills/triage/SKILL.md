@@ -1,9 +1,11 @@
 ---
-description: Triage a reported defect — isolate it in a worktree, verify it reproduces, isolate it to a domain concept, and hand it to the design dialogue.
-argument-hint: the problem or defect being reported
+name: triage
+description: "The defect entrance: verify a reported problem reproduces, isolate it to a domain concept, then hand it to the shared design dialogue. Use when a bug or defect is reported. One of three entrances; converges on brainstorming and never invokes another entrance (never hands off to signal)."
 ---
 
 # triage
+
+Say this first, plainly: `Using the triage skill to verify and isolate the defect.`
 
 Triage a reported defect. triage is one of the three engineering entrances: it **shapes context**
 from a defect report — verifying and isolating it — then hands that context to the shared design
@@ -107,6 +109,4 @@ brainstorming — record the disposition in `.engineering/<run>/triage/` and clo
 on record. Either outcome — handed off, or closed with a written reason — leaves no report sitting
 unexamined.
 
-Report: $ARGUMENTS
-
-If no report was provided above, ask the user what's going wrong before proceeding.
+If the report in hand is unclear or empty, ask the user what's going wrong before proceeding.

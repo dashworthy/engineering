@@ -1,8 +1,8 @@
 #!/bin/sh
-# The three entrances are parallel and self-contained: each command carries the identical four-beat
-# labeled skeleton (1. Isolate via using-git-worktrees -> 2. establish/join a run via run-context.sh
-# -> 3. a divergent shape-context beat -> 4. hand to engineering:brainstorming), and none invokes
-# another entrance — the three converge on brainstorming, never on each other.
+# The three entrances are parallel and self-contained skills: each SKILL.md carries the identical
+# four-beat labeled skeleton (1. Isolate via using-git-worktrees -> 2. establish/join a run via
+# run-context.sh -> 3. a divergent shape-context beat -> 4. hand to engineering:brainstorming), and
+# none invokes another entrance — the three converge on brainstorming, never on each other.
 set -e
 ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
 cd "$ROOT/engineering"
@@ -11,8 +11,9 @@ fail=0
 ENTRANCES="signal triage receiving-code-review"
 
 for e in $ENTRANCES; do
-  CMD="commands/$e.md"
+  CMD="skills/$e/SKILL.md"
   [ -f "$CMD" ] || { echo "FAIL: $CMD must exist"; fail=1; continue; }
+  [ ! -e "commands/$e.md" ] || { echo "FAIL: commands/$e.md must be removed (entrances are skills now)"; fail=1; }
 
   # Four labeled skeleton beats, in order, identical across the three commands.
   grep -q "^## 1\. Isolate" "$CMD" || { echo "FAIL: $e missing labeled beat 1 (Isolate)"; fail=1; }

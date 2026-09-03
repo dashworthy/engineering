@@ -1,11 +1,13 @@
 ---
-description: Run the signal discovery pipeline (interrogate a request into a brief) and hand it to the design dialogue.
-argument-hint: what you want built (a feature / build / change request)
+name: signal
+description: "The discovery entrance: interrogate a feature or vague request into a brief (brief.md §1–§6), then hand it to the shared design dialogue. Use when a feature or a vague ask enters the pipeline. One of three entrances; converges on brainstorming and never invokes another entrance."
 ---
 
 # signal
 
-Run the signal discovery pipeline for the request below. signal is one of the three engineering
+Say this first, plainly: `Using the signal skill to interrogate the request into a brief.`
+
+Run the signal discovery pipeline for the request in hand. signal is one of the three engineering
 entrances: it **shapes context** from a vague ask — interrogating it into a brief — then hands that
 context to the shared design dialogue. It does the same four beats every entrance does; only the
 third (how it shapes context) is particular to signal. signal is opt-in: it runs here because the
@@ -72,6 +74,4 @@ interrogating and do not design, plan, or build yourself — it is not a stop to
 proceed. There is no gate at this seam; parking the brief with a "want me to start design?" is not
 an available move — brainstorming is the next act, take it.
 
-Request: $ARGUMENTS
-
-If no request was provided above, ask the user what they want built before proceeding.
+If the request in hand is unclear or empty, ask the user what they want built before proceeding.
