@@ -11,9 +11,23 @@ sh "$d/suite.sh"
 sh "$d/plan02.sh"
 sh "$d/plan03.sh"
 
-# 2. Seven commands resolve.
-for c in signal triage receiving-code-review vernacular implement handoff wait-what; do
-  test -f "$eng/commands/$c.md" || { echo "FAIL: missing command /$c"; fail=1; }
+# 2. No slash-commands remain — every entry point is a skill now (decoupling from Claude-specific
+#    command syntax). The three entrances carried real content and resolve as skills.
+#    implement/vernacular never got a skill: they were shallow wrappers adding nothing over
+#    engineering:executing-plans and engineering:clarifying-docblocks, invoked directly instead.
+#    handoff/wait-what are deprecated and removed outright — no skill, no command.
+cmds=$(find "$eng/commands" -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
+[ "$cmds" = 0 ] || { echo "FAIL: engineering/commands must hold no command files (all commands are skills now); found $cmds"; fail=1; }
+for s in signal triage receiving-code-review; do
+  test -f "$eng/skills/$s/SKILL.md" || { echo "FAIL: missing skill engineering:$s"; fail=1; }
+  test ! -e "$eng/commands/$s.md" || { echo "FAIL: $s must be a skill, not a command"; fail=1; }
+done
+for wrapper in implement vernacular; do
+  test ! -e "$eng/skills/$wrapper" || { echo "FAIL: skills/$wrapper must not exist (was a shallow wrapper; invoke the underlying skill directly)"; fail=1; }
+done
+for deprecated in handoff wait-what; do
+  test ! -e "$eng/skills/$deprecated" || { echo "FAIL: skills/$deprecated must not exist (deprecated)"; fail=1; }
+  test ! -e "$eng/commands/$deprecated.md" || { echo "FAIL: commands/$deprecated.md must not exist (deprecated)"; fail=1; }
 done
 
 # 3. Every skill's frontmatter is valid: `name` matches its dir and `description` is present.
@@ -34,8 +48,8 @@ if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2
 
 # 6. to-spec is the sole Tier-1 writer; all three entrances reach it (via brainstorming).
 grep -q ".engineering/<run>/spec/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
-grep -q "engineering:brainstorming" "$eng/commands/signal.md" || { echo "FAIL: signal command must hand the brief to the brainstorming design gate"; fail=1; }
-grep -q "engineering:brainstorming" "$eng/commands/triage.md" || { echo "FAIL: triage (command entrance) must reach to-spec via brainstorming"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/skills/signal/SKILL.md" || { echo "FAIL: signal skill must hand the brief to the brainstorming design gate"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/skills/triage/SKILL.md" || { echo "FAIL: triage (skill entrance) must reach to-spec via brainstorming"; fail=1; }
 
 # 6b. to-spec is single-caller via brainstorming, stamps Approved (post-gate input), and carries no
 # stale section-for-section mapping claim.
@@ -51,7 +65,7 @@ if grep -q "section for section" "$eng/skills/to-spec/SKILL.md"; then echo "FAIL
 # "does it call engineering:to-spec") that describe the wiring without performing it. brainstorming/SKILL.md
 # is the one allowed caller and is excluded. Any other hit means a second caller has crept in — the exact
 # regression (a conductor/command re-dispatching to-spec, bypassing the design gate) this branch removed.
-callers=$(grep -rnEi '(dispatch|hand[^.]*to|invoke|route[^.]*to|send[^.]*to|pass[^.]*to|delegate[^.]*to|run)[^.]*engineering:to-spec' "$eng/commands" "$eng/skills" --include='*.md' | grep -v '/skills/brainstorming/SKILL.md:' || true)
+callers=$(grep -rnEi '(dispatch|hand[^.]*to|invoke|route[^.]*to|send[^.]*to|pass[^.]*to|delegate[^.]*to|run)[^.]*engineering:to-spec' "$eng/skills" --include='*.md' | grep -v '/skills/brainstorming/SKILL.md:' || true)
 if [ -n "$callers" ]; then echo "FAIL: only engineering:brainstorming may imperatively invoke to-spec; found other caller(s):"; echo "$callers"; fail=1; fi
 
 # 6d. The single-caller wiring's other half and the two doc surfaces the earlier tasks left unguarded:
@@ -90,7 +104,7 @@ tr '\n' ' ' < "$eng/skills/executing-plans/SKILL.md" | grep -qiE "hand[^.]*engin
 # Word-form namespace match only: the bare pattern "signal:" false-fails on legit prose such as
 # writing-tests-from-brief "...that is the signal: it almost always means...". Requiring a lowercase
 # letter after the colon matches real namespaced refs (signal:foo) but not sentence punctuation.
-if grep -rnE '(signal|verity|vernacular):[a-z]|\.signal/|\.verity\b|\.vernacular\b' "$eng/skills" "$eng/commands" "$eng/hooks" "$eng/scripts" "$eng/README.md"; then echo "FAIL: dangling refs"; fail=1; fi
+if grep -rnE '(signal|verity|vernacular):[a-z]|\.signal/|\.verity\b|\.vernacular\b' "$eng/skills" "$eng/hooks" "$eng/scripts" "$eng/README.md"; then echo "FAIL: dangling refs"; fail=1; fi
 
 # 9. .engineering/ gitignored.
 grep -qxF '.engineering/' "$root/.gitignore" || { echo "FAIL: .engineering not gitignored"; fail=1; }

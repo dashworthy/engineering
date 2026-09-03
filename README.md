@@ -26,9 +26,9 @@ One install: `engineering` carries the whole pipeline.
 ## What it does
 
 Work enters through one of three doors and leaves through one. A feature or a vague
-request enters at **discover** (`/signal`); a reported defect enters at **triage**
-(`/triage`); received review feedback enters at **receiving code review**
-(`/receiving-code-review`). All three doors open onto the same **design dialogue**
+request enters at **discover** (`engineering:signal`); a reported defect enters at **triage**
+(`engineering:triage`); received review feedback enters at **receiving code review**
+(`engineering:receiving-code-review`). Each door is a skill. All three open onto the same **design dialogue**
 (`brainstorming`), which recommends a design, then hands off to **`to-spec`**, the single
 writer that turns that design into one spec document and holds the pipeline's first
 approval gate — on the spec.
@@ -73,14 +73,14 @@ flowchart LR
     classDef entry fill:#2563eb,stroke:#1e3a8a,color:#fff
     classDef done fill:#16a34a,stroke:#14532d,color:#fff
 
-    S(["/signal"]):::entry --> S1["interrogate<br/>requirements"]
+    S(["signal"]):::entry --> S1["interrogate<br/>requirements"]
     S1 -. "trivial" .-> X(["exit — no brief"])
     S1 -->|"gate: 3+ rounds,<br/>6 dimensions"| BR["brainstorming<br/>recommend design"]
     BR --> SP["to-spec<br/>spec gate"]
     SP --> STOP(["brief → design → approved spec"]):::done
 ```
 
-### 2. Triage — `/triage`
+### 2. Triage — `triage`
 
 A reported defect is verified to reproduce and isolated to a domain concept, then handed
 to the design dialogue — the same convergence every entrance makes. A report whose expected
@@ -91,7 +91,7 @@ reproduce, already fixed, or already rejected is closed with the reason on recor
 flowchart TD
     classDef entry fill:#2563eb,stroke:#1e3a8a,color:#fff
 
-    T(["/triage"]):::entry --> T1["verify /<br/>reproduce"]
+    T(["triage"]):::entry --> T1["verify /<br/>reproduce"]
     T1 --> T2["isolate to a<br/>domain concept"]
     T2 --> T3{"outcome"}
     T3 -->|"expected behavior unclear"| Q["interrogate<br/>requirements"]
@@ -100,7 +100,7 @@ flowchart TD
     Q --> BR
 ```
 
-### 3. Receiving code review — `/receiving-code-review`
+### 3. Receiving code review — `receiving-code-review`
 
 Review feedback is aggregated, verified against the codebase, and impact-checked — does the
 issue reach beyond the line the reviewer pointed at — before any of it is implemented. Each
@@ -112,7 +112,7 @@ then meets the same design dialogue.
 flowchart TD
     classDef entry fill:#2563eb,stroke:#1e3a8a,color:#fff
 
-    RC(["/receiving-code-review"]):::entry --> RC1["aggregate<br/>comments"]
+    RC(["receiving-code-review"]):::entry --> RC1["aggregate<br/>comments"]
     RC1 --> RC2["verify each<br/>against the code"]
     RC2 --> RC3["impact-check<br/>beyond the comment"]
     RC3 --> BR["brainstorming"]
@@ -140,7 +140,7 @@ flowchart LR
 Every spec leaves the same way. `writing-plans` turns it into an ordered, bite-sized
 plan — each task carrying a code sketch of the change it makes — then `reviewing-plans` runs
 the architecture lens over those sketches and flags any one-off data structure before the
-plan reaches the second human gate; `/implement` drives each task through a test-first `tdd`
+plan reaches the second human gate; `engineering:executing-plans` drives each task through a test-first `tdd`
 loop gated by `code-review`; and docs hardening rewrites the prose the branch touched into
 plain language. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
 against a branch when you want it.)
@@ -161,7 +161,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **20 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **23 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
@@ -178,10 +178,14 @@ none.
 The full index lives at
 [engineering/skills/README.md](engineering/skills/README.md).
 
-### Commands
+### Entry points
 
-7 slash commands sit on top of the suite: `/signal`, `/triage`, `/receiving-code-review`,
-`/vernacular`, `/implement`, `/handoff`, and `/wait-what`.
+Every entry point is a skill — there are no slash-commands, so nothing here depends on
+Claude-specific command syntax. The three entrances open the work: `engineering:signal`,
+`engineering:triage`, and `engineering:receiving-code-review`. Building an approved plan and
+clarifying docblock prose are not separate entry points — invoke `engineering:executing-plans`
+and `engineering:clarifying-docblocks` directly; a thin wrapper skill over an existing skill
+would add a name and nothing else.
 
 ## License
 

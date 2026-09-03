@@ -1,9 +1,11 @@
 ---
-description: Work through received code-review feedback — verify each comment against the codebase, reply on each thread, land stacked fixes onto the original review branch, and hand the shaped context to the design dialogue.
-argument-hint: the PR / branch under review, or the review comments themselves
+name: receiving-code-review
+description: "The review-feedback entrance: aggregate received code-review comments, verify each against the codebase, reply on each thread, stack the fixes onto the original review branch, and hand the shaped context to the design dialogue. Use when code-review feedback arrives. One of three entrances; converges on brainstorming and never invokes another entrance."
 ---
 
 # receiving-code-review
+
+Say this first, plainly: `Using the receiving-code-review skill to aggregate, verify, and shape the review.`
 
 Work through code-review feedback. receiving-code-review is one of the three engineering entrances:
 it **shapes context** from a set of review comments — aggregating, verifying, and impact-checking
@@ -117,7 +119,5 @@ lives downstream — the spec gate in `to-spec`, the plan gate in `writing-plans
 entrance and never in brainstorming. Reporting the findings and asking whether to proceed is not a
 move here: once the context is shaped and written into the run, invoke brainstorming.
 
-Report: $ARGUMENTS
-
-If no review was provided above, ask the user for the PR, branch, or comments under review before
+If no review is in hand, ask the user for the PR, branch, or comments under review before
 proceeding.

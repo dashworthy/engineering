@@ -1,7 +1,7 @@
 {
   "name": "engineering",
   "description": "Full software-development pipeline: discover, triage, or receive code review, then shape the design, spec, plan, build with TDD, and harden docs — file-based, no tracker.",
-  "version": "0.17.2",
+  "version": "0.18.0",
   "author": {
     "name": "Andrew Leach",
     "email": "7387639+andyleach@users.noreply.github.com"
