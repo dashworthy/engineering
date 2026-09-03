@@ -55,7 +55,8 @@ there is **no plan, or no finish strategy recorded on it** — a branch built ou
 pipeline — fall back to presenting the options as a structured choice — `Merge directly`,
 `Open a pull request` (or `Land the stack` for a stacked run), `Clean up only`, offering only
 the ones actually live for this project — and asking, since no gate ever authorized one, using a
-tool to ask it where one is available.
+tool to ask it where one is available. No such tool: present the same options as plain text and say
+the run is degraded.
 
 Either way, detect whether this was a **stacked run**: a plan whose Global Constraints carry a
 `PR strategy: stacked` line, or open stacked pull requests already sitting on the branch. A

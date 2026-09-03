@@ -34,6 +34,8 @@ using a tool to ask it where one is available:
   `git switch -c <task-branch>`, where `<task-branch>` carries the same slug you derive for the run.
   Never leave the work sitting on the default branch.
 
+No such tool: present the same options as plain text and say the run is degraded.
+
 ## 2. Establish or join a run
 
 Then obtain the run directory:

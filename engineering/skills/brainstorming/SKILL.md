@@ -53,7 +53,8 @@ the 2-3 approaches as selectable options, your
 recommendation first and marked `(Recommended)` with its rationale carried alongside it. This keeps
 the choice a selection rather than a wall of prose the human has to answer freehand — but it stays a
 working dialogue, not a sign-off: a free-form escape is where a correction, a hybrid of two
-approaches, or "keep talking" lands, so the pick never traps them into one of your framings.
+approaches, or "keep talking" lands, so the pick never traps them into one of your framings. No such
+tool: present the same options as plain text and say the run is degraded.
 
 If the work is too large to fit one spec once an approach is chosen, say so before
 presenting it, and decompose along the same line a plan set would later split
@@ -122,6 +123,8 @@ structured choice, using a tool to ask it where one is available:
   takes approval, the default path.
 - **Skip the spec, go straight to the plan** — for a small, well-pinned change where a spec
   document adds no decision the plan won't already carry.
+
+No such tool: present the same options as plain text and say the run is degraded.
 
 On the default pick, hand to `to-spec` as above. On the skip pick — never silently, only on this
 explicit choice — mint `.engineering/<run>/to-spec/SPEC-SKIPPED.md` recording who opted in and the

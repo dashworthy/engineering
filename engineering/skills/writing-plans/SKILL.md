@@ -245,8 +245,9 @@ then put the verdict to the human as a structured choice — `Approve` or `Reque
 tool to ask it where one is available — so the
 turn holds and nothing is built against the plan until they pick Approve. On `Request changes`
 (their edits ride the free-form escape or the reply), revise and present again; do not hand
-an unapproved plan onward. Headless, no interactive prompt: wait for an explicit typed approval and
-treat silence as not-approved.
+an unapproved plan onward. No such tool, or a headless run: present `Approve` / `Request changes`
+as plain text, say the run is degraded, and wait for an explicit typed approval — treat silence as
+not-approved.
 
 On approval, create the run's writing-plans phase directory with
 `run-context.sh writing-plans <slug>` and write `.engineering/<run>/writing-plans/APPROVED.md`

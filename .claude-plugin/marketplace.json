@@ -9,7 +9,7 @@
     {
       "name": "engineering",
       "description": "Full software-development pipeline: discovery, triage, or received code review, then design dialogue, spec, plan, TDD build, docs hardening. File-based, no tracker.",
-      "version": "0.19.1",
+      "version": "0.19.2",
       "source": "./engineering",
       "author": {
         "name": "Andrew Leach",

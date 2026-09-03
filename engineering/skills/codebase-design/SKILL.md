@@ -150,7 +150,7 @@ way `brainstorming` proposes an approach: the pattern as the recommended option,
 tied to *this* session — why this pattern, for this boundary, now, in the words of the design you
 are actually shaping — with **"plain shape, no pattern"** always present and the default whenever
 no trigger fires. A free-form escape leaves room for a different pattern or a
-correction.
+correction. No such tool: present the same options as plain text and say the run is degraded.
 
 The default is load-bearing. A pattern is worth proposing only when its trigger fires on its
 own; running the whole catalog against every boundary and offering the closest match is how a

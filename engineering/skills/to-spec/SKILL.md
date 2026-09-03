@@ -78,8 +78,9 @@ skill does not stamp `Approved` on faith:
    question holding the turn so this is a real stop: nothing is `Approved`, and no marker is
    written, until they pick Approve. Their edits ride the free-form escape or a `Request
    changes` reply; on that, revise the draft — or hand back to `brainstorming` for a rethink —
-   and present again. Do not promote a spec the human has not approved. Headless, no interactive
-   prompt: wait for an explicit typed approval and treat silence as not-approved.
+   and present again. Do not promote a spec the human has not approved. No such tool, or a headless
+   run: present `Approve` / `Request changes` as plain text, say the run is degraded, and wait for
+   an explicit typed approval — treat silence as not-approved.
 3. **On approval, mint the marker and promote.** Create the run's to-spec phase directory
    with `run-context.sh to-spec <slug>` and write `.engineering/<run>/to-spec/APPROVED.md`
    into it — do this only on approval, never before — a Tier-2, run-scoped trace that the
