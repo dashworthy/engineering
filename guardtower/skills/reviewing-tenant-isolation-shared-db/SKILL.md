@@ -52,18 +52,13 @@ this facet chases.
    - **Un-namespaced cache key** — a cache or memoization key on tenant-scoped data with no tenant
      component, so one tenant is served another's entry.
 
-3. **Floor, then cap.** Drop every candidate weaker than `caps.floor` (on the weaker of its severity
-   and confidence). Order what remains most-severe-first and keep at most `caps.top_n`.
-
-4. **Write the artifact and return.** Write the kept findings to `artifact_path` (the facet's
-   `findings.md`) in the Finding schema (severity, confidence, location, claim, why, optional
-   suggestion) — each `claim`/`why` legible to a reviewer with no shared context. Write the artifact
-   even when nothing survives the floor (record "no findings above the floor"). Return the contract
-   result.
+3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
+   `caps.top_n`.
+4. **Write the artifact and return** per facet-contract.md's Finding schema, to
+   `findings.md`.
 
 ## What this does not do
 
-- It does not **fix** anything — report-only; a `suggestion` names a direction, never an edit.
 - It does not **crawl the schema or trace callers** — its reach is the statement the diff shows; it
   does not enumerate every query against a table or prove which enforced global scope constrains a
   finder it can't see.

@@ -50,19 +50,15 @@ framework asserts; **no proactive whole-suite audit**, no coverage run, no execu
    - **Bound to the mock, not the behavior** — an assertion that only checks a mock's own canned
      return rather than real behavior.
 
-3. **Floor, then cap.** Drop every candidate weaker than `caps.floor` (on the weaker of its severity
-   and confidence). Order what remains most-severe-first and keep at most `caps.top_n`.
-
-4. **Write the artifact and return.** Write the kept findings to `artifact_path` (the facet's `findings.md`) in the Finding
-   schema (severity, confidence, location, claim, why, optional suggestion) — each `claim`/`why`
-   legible to a reviewer with no shared context. Write the artifact even when nothing survives the
-   floor (record "no findings above the floor"). Return the contract result.
+3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
+   `caps.top_n`.
+4. **Write the artifact and return** per facet-contract.md's Finding schema, to
+   `findings.md`.
 
 ## What this does not do
 
 - It does not **run the tests.** It reasons about whether an assertion would fail on a regression; it
   never executes the suite, measures coverage, or reports a pass/fail.
-- It does not **fix** anything — report-only; a `suggestion` names a direction, never an edit.
 - It does not **audit the whole suite** — its reach is the change's own tests and the code they
   cover; a coverage gap the diff doesn't touch is out of scope.
 - It does not **review beyond test quality** — a security or correctness smell in the code under test

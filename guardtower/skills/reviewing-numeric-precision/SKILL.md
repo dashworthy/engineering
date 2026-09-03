@@ -54,19 +54,14 @@ spot, not a defect this facet chases.
    - **Mixed scale or currency without normalization** — arithmetic across values at different scales or
      in different currencies with no normalization to a common basis first.
 
-3. **Floor, then cap.** Drop every candidate weaker than `caps.floor` (on the weaker of its severity
-   and confidence). Order what remains most-severe-first and keep at most `caps.top_n`.
-
-4. **Write the artifact and return.** Write the kept findings to `artifact_path` (the facet's
-   `findings.md`) in the Finding schema (severity, confidence, location, claim, why, optional
-   suggestion) — each `claim`/`why` legible to a reviewer with no shared context. Name the quantity, the
-   operation, and the wrong value it can produce, so the finding stands on its own. Write the artifact
-   even when nothing survives the floor (record "no findings above the floor"). Return the contract
-   result.
+3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
+   `caps.top_n`.
+4. **Write the artifact and return** per facet-contract.md's Finding schema, to `findings.md`.
+   Name the quantity, the operation, and the wrong value it can produce, so the finding stands on
+   its own.
 
 ## What this does not do
 
-- It does not **fix** anything — report-only; a `suggestion` names a direction, never an edit.
 - It does not **scan the repository** — its reach is the arithmetic the diff shows; it does not hunt
   every unsafe numeric expression in code the change leaves untouched.
 - It does not **review general computational logic** — a wrong formula that is dimensionally sound and
