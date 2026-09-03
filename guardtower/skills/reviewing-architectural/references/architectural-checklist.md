@@ -51,6 +51,13 @@ the same thing:
 - **A re-modeled concept** — a new type or module that re-describes a domain concept an
   already-touched module already owns. This is the architectural sibling of the technical facet's
   reuse lens: there, a reinvented helper; here, a reinvented *structure*.
+- **A second mechanism, not just a second interface** — the duplication doesn't have to be a
+  named type. A change can implement two branches that do the same kind of work and build them
+  two different ways — one going through a seam the change already established for that work,
+  the other reimplementing the equivalent behavior on its own instead of using it. That is the
+  same "two ways to do one thing" defect as a parallel hierarchy, just at the mechanism level
+  rather than the type level. The finding is the inconsistency between the branches, not either
+  one judged alone.
 
 ## Leaky abstraction
 
