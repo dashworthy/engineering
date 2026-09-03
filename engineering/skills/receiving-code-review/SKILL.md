@@ -103,6 +103,9 @@ available tooling to determine which forge hosts the review (`gh` for GitHub, `g
 Do not hard-code one forge's REST calls as the only path; the mechanics are named by what they do
 (reply to a thread, resolve a thread, stack a branch onto a named base), not by one vendor's API.
 
+Compose the reply text for each thread with `engineering:writing-review-comments` rather than
+drafting it inline — plain language, no performative agreement, no skill or process names.
+
 **Resolving a thread is the user's call, per fixed ask.** When a comment has been fixed, do not
 resolve its thread silently. Put it to the user as a structured choice, using a tool to ask it
 where one is available, and in the prompt display
