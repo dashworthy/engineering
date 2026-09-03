@@ -274,5 +274,5 @@ the human whether to build. Parking an approved plan with a "want me to start im
 is not an available move — the approval was the answer to that question; `executing-plans` is
 the next act, take it. Running the plan task by task is `executing-plans`' job — it reads the
 plan this skill wrote (and the plan-approval marker behind it) and works it task by task.
-(`engineering:implement` remains the entry point for building a plan approved in an earlier
-session; a plan approved just now does not wait for it.)
+(`engineering:executing-plans` remains the entry point for building a plan approved in an
+earlier session; a plan approved just now does not wait for it.)

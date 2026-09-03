@@ -333,12 +333,12 @@ if ! install_out=$(claude plugin install engineering@dashworthy --scope local 2>
 fi
 
 # 1. The skill must be discoverable. The prompt deliberately does NOT name the plugin
-#    ("engineering") or the skill ("vernacular") - a prompt supplying either would let a
-#    coherent non-answer ("I don't see any skills from that plugin") satisfy the 'vernacular'
-#    pattern below by echoing the question back, not by actually finding the skill. Ask about
-#    installed-plugin skills generally instead, so a match is real evidence the skill was
-#    discovered. Do not put the plugin name back in this prompt.
-run_with_quorum 'vernacular' \
+#    ("engineering") or the skill ("clarifying-docblocks") - a prompt supplying either would let a
+#    coherent non-answer ("I don't see any skills from that plugin") satisfy the pattern below by
+#    echoing the question back, not by actually finding the skill. Ask about installed-plugin
+#    skills generally instead, so a match is real evidence the skill was discovered. Do not put
+#    the plugin name back in this prompt.
+run_with_quorum 'clarifying-docblocks' \
   claude -p "List the skills available from your installed plugins. Names only." \
   --model claude-haiku-4-5-20251001
 case "$qr_result" in
@@ -350,7 +350,7 @@ esac
 # 2. With a dirty in-scope file, preflight must halt before any dispatch.
 echo '// scratch' >> src/Billing.php
 run_with_quorum 'uncommitted|dirty|commit or stash|modified relative to HEAD' \
-  claude -p "Use the engineering:vernacular skill" --model claude-haiku-4-5-20251001
+  claude -p "Use the engineering:clarifying-docblocks skill" --model claude-haiku-4-5-20251001
 case "$qr_result" in
   ok)   printf 'ok   - halts on a dirty in-scope file\n' ;;
   fail) printf 'FAIL - halts on a dirty in-scope file\n%s\n' "$qr_text"; fail=1 ;;

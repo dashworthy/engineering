@@ -1,6 +1,6 @@
 ---
 name: executing-plans
-description: "Execute an approved plan task by task — each driven through tdd and gated by code-review. Runs to completion with no human checkpoints. User-invoked via the engineering:implement skill."
+description: "Execute an approved plan task by task — each driven through tdd and gated by code-review. Runs to completion with no human checkpoints. Use to build out a plan that already exists under .engineering/<run>/plan/."
 ---
 
 # Executing Plans
@@ -16,8 +16,8 @@ on the plan gets marked done without going through the cycle the plan was writte
 
 ## Finding the plan
 
-Accept a plan path directly — `engineering:implement` passes one through when the caller supplied
-one. Without one, look in `.engineering/<run>/plan/` for the most recently
+Accept a plan path directly if the caller supplied one. Without one, look in
+`.engineering/<run>/plan/` for the most recently
 written plan and confirm it with the user before starting; a plan chosen by file mtime
 with no confirmation is a guess about which piece of work the caller meant, and guessing
 wrong here means driving several tasks through tdd and code-review against the wrong plan

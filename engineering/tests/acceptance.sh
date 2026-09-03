@@ -12,12 +12,18 @@ sh "$d/plan02.sh"
 sh "$d/plan03.sh"
 
 # 2. No slash-commands remain — every entry point is a skill now (decoupling from Claude-specific
-#    command syntax). The seven former commands all resolve as skills.
+#    command syntax). The five entrances/standalone commands that carried real content resolve as
+#    skills. implement and vernacular do NOT get a skill: they were shallow wrappers adding nothing
+#    over engineering:executing-plans and engineering:clarifying-docblocks, so those are invoked
+#    directly and no wrapper name exists for them.
 cmds=$(find "$eng/commands" -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
 [ "$cmds" = 0 ] || { echo "FAIL: engineering/commands must hold no command files (all commands are skills now); found $cmds"; fail=1; }
-for s in signal triage receiving-code-review implement vernacular handoff wait-what; do
+for s in signal triage receiving-code-review handoff wait-what; do
   test -f "$eng/skills/$s/SKILL.md" || { echo "FAIL: missing skill engineering:$s"; fail=1; }
   test ! -e "$eng/commands/$s.md" || { echo "FAIL: $s must be a skill, not a command"; fail=1; }
+done
+for wrapper in implement vernacular; do
+  test ! -e "$eng/skills/$wrapper" || { echo "FAIL: skills/$wrapper must not exist (was a shallow wrapper; invoke the underlying skill directly)"; fail=1; }
 done
 
 # 3. Every skill's frontmatter is valid: `name` matches its dir and `description` is present.

@@ -140,7 +140,7 @@ flowchart LR
 Every spec leaves the same way. `writing-plans` turns it into an ordered, bite-sized
 plan — each task carrying a code sketch of the change it makes — then `reviewing-plans` runs
 the architecture lens over those sketches and flags any one-off data structure before the
-plan reaches the second human gate; `engineering:implement` drives each task through a test-first `tdd`
+plan reaches the second human gate; `engineering:executing-plans` drives each task through a test-first `tdd`
 loop gated by `code-review`; and docs hardening rewrites the prose the branch touched into
 plain language. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
 against a branch when you want it.)
@@ -161,7 +161,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **27 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **25 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
@@ -182,10 +182,12 @@ The full index lives at
 
 Every entry point is a skill — there are no slash-commands, so nothing here depends on
 Claude-specific command syntax. The three entrances open the work: `engineering:signal`,
-`engineering:triage`, and `engineering:receiving-code-review`. Four more skills are invoked
-in-flight: `engineering:implement` (build an approved plan to completion),
-`engineering:vernacular` (clarify docblock prose in place), `engineering:handoff` (compact a
-session for the next one), and `engineering:wait-what` (re-pitch a message that didn't land).
+`engineering:triage`, and `engineering:receiving-code-review`. Two more skills are invoked
+in-flight for their own sake: `engineering:handoff` (compact a session for the next one) and
+`engineering:wait-what` (re-pitch a message that didn't land). Building an approved plan and
+clarifying docblock prose are not separate entry points — invoke `engineering:executing-plans`
+and `engineering:clarifying-docblocks` directly; a thin wrapper skill over an existing skill
+would add a name and nothing else.
 
 ## License
 

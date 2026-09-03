@@ -210,13 +210,16 @@ personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$P
 
 # --- entry-point skills and READMEs -------------------------------------------
 
-# vernacular is a skill now (no backing command); it still invokes the clarifying-docblocks conductor.
-VERN="$PLUGIN/skills/vernacular/SKILL.md"
-[ -f "$VERN" ]; check $? "skills/vernacular/SKILL.md exists"
-if [ -f "$VERN" ]; then
-  grep -q '^description:' "$VERN"; check $? "vernacular skill has a description"
-  grep_flat "$VERN" "clarifying-docblocks"; check $? "vernacular invokes the conductor by name"
-fi
+# vernacular and implement were shallow wrappers adding nothing over clarifying-docblocks and
+# executing-plans; they were removed rather than converted, and those two skills are invoked
+# directly. Guard both directions: no wrapper skill exists, and the underlying skill still
+# carries the behavior the wrapper used to describe (the ref-resolution/two-rules discipline;
+# direct-invocation plan-finding).
+for wrapper in implement vernacular; do
+  [ ! -e "$PLUGIN/skills/$wrapper" ]; check $? "skills/$wrapper does not exist (was a shallow wrapper)"
+done
+CDB="$PLUGIN/skills/clarifying-docblocks/SKILL.md"
+grep_flat "$CDB" "never authors a docblock"; check $? "clarifying-docblocks states the prose-only rule directly"
 
 [ -f "$PLUGIN/README.md" ]; check $? "engineering/README.md exists"
 

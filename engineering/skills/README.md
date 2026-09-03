@@ -9,8 +9,8 @@ human map of which skill belongs to which process.
 | Discovery | `interrogating-requirements`, `to-spec` |
 | Design | `brainstorming`, `codebase-design` |
 | Planning | `writing-plans`, `reviewing-plans`, `executing-plans` |
-| Build | `implement`, `tdd`, `diagnosing-bugs`, `code-review` |
-| Docs | `vernacular`, `clarifying-docblocks`, `rewriting-docblock-prose` |
+| Build | `tdd`, `diagnosing-bugs`, `code-review` |
+| Docs | `clarifying-docblocks`, `rewriting-docblock-prose` |
 | Session | `handoff`, `wait-what` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
 | Cross-cutting | `resolving-merge-conflicts`, `using-diagrams` |
