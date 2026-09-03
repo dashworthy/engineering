@@ -8,7 +8,7 @@ if grep -rn "verity:" skills; then echo "FAIL: stale verity: namespace"; fail=1;
 # Verity's session-start reminder must NOT be ported: the only hook is the entrance bootstrap.
 if grep -rq "Verity applies once implementation work is finished" hooks/ 2>/dev/null; then
   echo "FAIL: verity session-start reminder was ported"; fail=1; fi
-[ -f hooks/session-start.sh ] && grep -q "/triage" hooks/session-start.sh || { echo "FAIL: entrance bootstrap missing"; fail=1; }
+[ -f hooks/session-start.sh ] && grep -q "engineering:triage" hooks/session-start.sh || { echo "FAIL: entrance bootstrap missing"; fail=1; }
 
 # --- Sever assertions: the four test-hardening skills have moved to verity ---
 # engineering must no longer carry the skills, reference them (in skills OR commands), or
