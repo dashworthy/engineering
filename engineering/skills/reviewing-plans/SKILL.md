@@ -45,8 +45,12 @@ interactive design-it-twice or pattern-proposal machinery. It judges the shape a
 page; it does not design a new one.
 
 A finding that names a clear defect — a leaked call order, a fat interface a caller uses a
-third of, high-level policy bound to a concrete detail — is an objective flaw in the sketch,
-not a judgment call. **Revise the plan's Interfaces block to close it**, the same way you'd
+third of, high-level policy bound to a concrete detail, or a task with two branches doing the
+same kind of work that aren't built the same way — one composes through the sketched boundary,
+a sibling branch reimplements the equivalent behavior on its own instead of using it — is an
+objective flaw in the sketch, not a judgment call. Check this last one deliberately: it's easy
+to approve because the correctly-routed branch reads clean, and the defect is the inconsistency
+between the two, not either branch alone. **Revise the plan's Interfaces block to close it**, the same way you'd
 fix a placeholder the self-review caught: reshape the signature, split the interface, invert
 the dependency. Note the change in the task so a reader sees the sketch changed and why. You
 do not need to ask the human to approve closing a defect the lens objectively fired on; you

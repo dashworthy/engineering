@@ -9,7 +9,7 @@
     {
       "name": "engineering",
       "description": "Full software-development pipeline: discovery, triage, or received code review, then design dialogue, spec, plan, TDD build, docs hardening. File-based, no tracker.",
-      "version": "0.19.1",
+      "version": "0.19.2",
       "source": "./engineering",
       "author": {
         "name": "Andrew Leach",
@@ -39,7 +39,7 @@
     {
       "name": "guardtower",
       "description": "In-depth, opt-in code review gate: a facet menu (Security, Novelty, Technical, Architectural, and more) fanned out as self-limiting reviewers that relevance-gate, cap, and floor their own findings, write a durable per-facet record under .guardtower/, and never touch your code.",
-      "version": "0.6.1",
+      "version": "0.6.2",
       "source": "./guardtower",
       "author": {
         "name": "Andrew Leach",
