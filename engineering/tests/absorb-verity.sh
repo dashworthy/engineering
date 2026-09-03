@@ -11,13 +11,12 @@ if grep -rq "Verity applies once implementation work is finished" hooks/ 2>/dev/
 [ -f hooks/session-start.sh ] && grep -q "engineering:triage" hooks/session-start.sh || { echo "FAIL: entrance bootstrap missing"; fail=1; }
 
 # --- Sever assertions: the four test-hardening skills have moved to verity ---
-# engineering must no longer carry the skills, reference them (in skills OR commands), or
-# read their run record.
+# engineering must no longer carry the skills, reference them, or read their run record.
 for skill in conducting-test-hardening auditing-test-gaps verifying-test-integrity writing-tests-from-brief; do
   if [ -d "skills/$skill" ]; then
     echo "FAIL: skills/$skill still exists (moved to verity)"; fail=1; fi
-  if grep -rlq "$skill" skills commands; then
-    echo "FAIL: content still references $skill ($(grep -rl "$skill" skills commands | tr '\n' ' '))"; fail=1; fi
+  if grep -rlq "$skill" skills; then
+    echo "FAIL: content still references $skill ($(grep -rl "$skill" skills | tr '\n' ' '))"; fail=1; fi
 done
 # The finishing-a-development-branch filesystem reader for the hardening run record is gone.
 if grep -q "test-hardening/" skills/finishing-a-development-branch/SKILL.md 2>/dev/null; then

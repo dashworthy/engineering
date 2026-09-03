@@ -1,14 +1,16 @@
 ---
-description: Re-pitch a message that didn't land, rewritten in plain and unambiguous language a specific reader can't misread.
-argument-hint: the message that didn't land, and who it was for
+name: wait-what
+description: "Re-pitch a message that didn't land, rewritten in plain, unambiguous language a specific reader can't misread. Use when a message caused confusion or a needless follow-up. Writes nothing to disk; the output is the rewritten message."
 ---
 
 # wait-what
 
+Say this first, plainly: `Using the wait-what skill to re-pitch the message so it can't be misread.`
+
 "Wait, what?" is the reaction a message gets when it doesn't land — confusion, a
 follow-up question that shouldn't have been needed, silence where there should have
-been action. $ARGUMENTS is the message that missed and, where known, who it was meant
-for. This command doesn't diagnose why the first attempt failed in the abstract; it
+been action. You are given the message that missed and, where known, who it was meant
+for. This skill doesn't diagnose why the first attempt failed in the abstract; it
 produces a second attempt the reader can't misread.
 
 ## Re-pitch the message
@@ -35,10 +37,10 @@ discipline of writing so a message can be read only one way.
 
 ## What this does not do
 
-This command writes nothing to disk. Its entire output is the rewritten message, shown
+This skill writes nothing to disk. Its entire output is the rewritten message, shown
 in the conversation, ready to paste wherever the original went — chat, email, a review
 comment, a ticket. It keeps no record of the miscommunication and produces no artifact;
 there is nothing here to commit.
 
-If no argument was given, ask for the message that didn't land, and who it was for,
+If you have not been given the message that didn't land, and who it was for, ask for them
 before rewriting anything.

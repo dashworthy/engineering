@@ -140,7 +140,7 @@ flowchart LR
 Every spec leaves the same way. `writing-plans` turns it into an ordered, bite-sized
 plan — each task carrying a code sketch of the change it makes — then `reviewing-plans` runs
 the architecture lens over those sketches and flags any one-off data structure before the
-plan reaches the second human gate; `/implement` drives each task through a test-first `tdd`
+plan reaches the second human gate; `engineering:implement` drives each task through a test-first `tdd`
 loop gated by `code-review`; and docs hardening rewrites the prose the branch touched into
 plain language. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
 against a branch when you want it.)
@@ -161,7 +161,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **23 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **27 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
@@ -178,11 +178,14 @@ none.
 The full index lives at
 [engineering/skills/README.md](engineering/skills/README.md).
 
-### Entrances and commands
+### Entry points
 
-The three entrances are skills, invoked at the start of the work: `engineering:signal`,
-`engineering:triage`, and `engineering:receiving-code-review`. 4 slash commands sit on top
-of the suite for in-flight use: `/vernacular`, `/implement`, `/handoff`, and `/wait-what`.
+Every entry point is a skill — there are no slash-commands, so nothing here depends on
+Claude-specific command syntax. The three entrances open the work: `engineering:signal`,
+`engineering:triage`, and `engineering:receiving-code-review`. Four more skills are invoked
+in-flight: `engineering:implement` (build an approved plan to completion),
+`engineering:vernacular` (clarify docblock prose in place), `engineering:handoff` (compact a
+session for the next one), and `engineering:wait-what` (re-pitch a message that didn't land).
 
 ## License
 

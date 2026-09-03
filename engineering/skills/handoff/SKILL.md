@@ -1,14 +1,16 @@
 ---
-description: Compact this conversation into a handoff document for the next session, written to the OS temp directory.
-argument-hint: "What will the next session be used for?"
+name: handoff
+description: "Compact this conversation into a handoff document for the next session, written to the OS temp directory. Use when work must pass to a fresh session or another person. Records only deferrals the user explicitly chose; never decides scope itself."
 ---
 
 # handoff
 
+Say this first, plainly: `Using the handoff skill to compact this session for the next one.`
+
 Write a handoff document for whoever picks this work up next — a fresh session for you,
-or a different person on the team. $ARGUMENTS says what that next session will be used
-for; open the document by restating it in your own words, so the reader knows this was
-written with that goal in mind.
+or a different person on the team. You are told what that next session will be used for;
+open the document by restating that goal in your own words, so the reader knows this was
+written with it in mind.
 
 ## Where it goes
 
@@ -79,7 +81,7 @@ conversation. Redact it: swap the value for a placeholder such as `[REDACTED]`, 
 where it helps the reader, note what kind of secret it was so the next session knows
 something was removed rather than simply missing. Never write a live secret into a file
 in the temp directory — it is not a secure location, and the entire point of this
-command is a handoff that's safe to read later without re-exposing anything.
+skill is a handoff that's safe to read later without re-exposing anything.
 
 ## Suggested skills
 
@@ -92,7 +94,7 @@ if the work is implemented and green and the next step is to integrate the branc
 suggest a skill that genuinely fits what this session did; a short, accurate list is more
 useful than an exhaustive one.
 
-If no argument was given, ask what the next session will be used for before writing
+If you have not been told what the next session will be used for, ask before writing
 anything — the handoff reads differently depending on whether the next session
 continues this exact work, hands it to someone else, or starts something adjacent to
 it.

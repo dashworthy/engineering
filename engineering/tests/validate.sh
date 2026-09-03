@@ -208,13 +208,14 @@ check $? "interrogating-requirements forbids recording a personal email"
 personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$PLUGIN/skills" "$PLUGIN/commands" 2>/dev/null | grep -viE '@users\.noreply\.github\.com$' | sort -u)
 [ -z "$personal_email" ]; check $? "no personal email address appears in any skill/command (GitHub addresses only)"
 
-# --- command and READMEs ------------------------------------------------------
+# --- entry-point skills and READMEs -------------------------------------------
 
-CMD="$PLUGIN/commands/vernacular.md"
-[ -f "$CMD" ]; check $? "commands/vernacular.md exists"
-if [ -f "$CMD" ]; then
-  grep -q '^description:' "$CMD"; check $? "command has a description"
-  grep_flat "$CMD" "clarifying-docblocks"; check $? "command invokes the conductor by name"
+# vernacular is a skill now (no backing command); it still invokes the clarifying-docblocks conductor.
+VERN="$PLUGIN/skills/vernacular/SKILL.md"
+[ -f "$VERN" ]; check $? "skills/vernacular/SKILL.md exists"
+if [ -f "$VERN" ]; then
+  grep -q '^description:' "$VERN"; check $? "vernacular skill has a description"
+  grep_flat "$VERN" "clarifying-docblocks"; check $? "vernacular invokes the conductor by name"
 fi
 
 [ -f "$PLUGIN/README.md" ]; check $? "engineering/README.md exists"
@@ -239,17 +240,13 @@ claimed=$(grep -oE '[0-9]+ skills' "$ROOT/README.md" | grep -oE '[0-9]+' | head 
 actual=$(find "$PLUGIN/skills" -name SKILL.md | wc -l | tr -d ' ')
 [ "$claimed" = "$actual" ]; check $? "root README skill count ($claimed) matches disk ($actual)"
 
-# The command count the root README advertises matches the commands on disk, and every command
-# file is named in the README's command list — the command analogue of the skill guard above.
-# A conventions PR shipped two commands the README never listed and the advertised count still
-# said eight; the skill-count guard had no command twin to catch it.
-cmd_claimed=$(grep -oE '[0-9]+ slash commands' "$ROOT/README.md" | grep -oE '[0-9]+' | head -1)
-cmd_actual=$(find "$PLUGIN/commands" -name '*.md' | wc -l | tr -d ' ')
-[ "$cmd_claimed" = "$cmd_actual" ]; check $? "root README command count ($cmd_claimed) matches disk ($cmd_actual)"
-for c in "$PLUGIN"/commands/*.md; do
-  name=$(basename "$c" .md)
-  grep_flat "$ROOT/README.md" "/$name"; check $? "root README names /$name"
-done
+# No slash-commands remain: the plugin's entry points are all skills now (decoupling from
+# Claude-specific command syntax). Assert nothing survives under commands/, and that the root
+# README makes no stale slash-command count claim.
+cmd_actual=$(find "$PLUGIN/commands" -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
+[ "$cmd_actual" = 0 ]; check $? "no slash-commands remain on disk (all entry points are skills)"
+if grep -qE '[0-9]+ slash commands' "$ROOT/README.md"; then false; else true; fi
+check $? "root README makes no stale slash-command count claim"
 
 # --- plan review phase (reviewing-plans) ----------------------------------------
 # writing-plans makes each task sketch its interface, then runs reviewing-plans BEFORE the plan
