@@ -63,9 +63,10 @@ different things, `test_intent` wins.
 
 ### What gets a test rejected
 
-The verifier applies a fixed nine-defect taxonomy — the same one it rules against, defined in the
-`verifying-test-integrity` skill. Every defect is something you control while writing. Three matter
-most when **appending** to an existing file, so guard them in full:
+The verifier applies a fixed nine-defect taxonomy, defined in full at
+`${CLAUDE_PLUGIN_ROOT}/skills/verifying-test-integrity/references/defect-taxonomy.md` — read it
+before writing. Every defect is something you control while writing. Three matter most when
+**appending** to an existing file, so guard them here beyond what the taxonomy table says:
 
 - **Over-mocked** — stubbing the unit under test itself, *or* mocking its dependencies so
   thoroughly that nothing real executes. The second form is the common one, and the easier to
@@ -79,13 +80,11 @@ most when **appending** to an existing file, so guard them in full:
 - **Never ran** — a test the runner never collects, because of a wrong name, wrong directory, or
   missing wiring (see Gherkin below). It passes the suite simply by not existing in it.
 
-The other six, in brief: **Tautology** (assertion cannot fail), **Vacuous act** (result never
-asserted on), **Loose assertion** (presence check where the brief specified a value), **Misnamed
-intent** (name claims X, assertions check Y), **Brief drift** (tests a different gap than the
-`test_intent` you were given — `test_intent` is the authoritative anchor), and **False green**
-(passes for an unrelated reason: a swallowed exception or an early return before the interesting
-branch). A test that contains a correct assertion but fails on any of these is not a satisfied
-item. Write past the taxonomy, not just far enough to type an assertion.
+The other six are in the taxonomy table linked above — **Tautology**, **Vacuous act**, **Loose
+assertion**, **Misnamed intent**, **Brief drift** (`test_intent` is the authoritative anchor when
+it and `behavior` seem to point at different things), and **False green**. A test that contains a
+correct assertion but fails on any of these is not a satisfied item. Write past the taxonomy, not
+just far enough to type an assertion.
 
 ## Run what you wrote
 

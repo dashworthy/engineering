@@ -53,18 +53,13 @@ the markup in front of it — it does not run axe-core, a browser, a linter, or 
    - **Dynamic announcements** — a status or live-region update not exposed to assistive tech;
      focus not managed after a route change, a modal open, or a dynamic content swap.
 
-3. **Floor, then cap.** Drop every candidate weaker than `caps.floor` (on the weaker of its
-   severity and confidence). Order what remains most-severe-first and keep at most `caps.top_n`.
-
-4. **Write the artifact and return.** Write the kept findings to `artifact_path` (the facet's
-   `findings.md`) in the Finding schema (severity, confidence, location, claim, why, optional
-   suggestion) — each `claim`/`why` legible to a reviewer with no shared context. Write the
-   artifact even when nothing survives the floor (record "no findings above the floor"). Return
-   the contract result.
+3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
+   `caps.top_n`.
+4. **Write the artifact and return** per facet-contract.md's Finding schema, to
+   `findings.md`.
 
 ## What this does not do
 
-- It does not **fix** anything — report-only; a `suggestion` names a direction, never an edit.
 - It does not **run a scanner** — no axe-core, no browser, no linter; it reasons statically about
   the diff-visible markup, the way every guardtower facet reasons structurally.
 - It does not **crawl the UI or the design system** — its reach is the presentation the diff

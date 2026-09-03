@@ -36,7 +36,11 @@ Six dimensions; detection cues and fix shapes for each are in
 
 1. **Anti-patterns** — writing-skills' own list (menu-of-options, nested references, Windows paths,
    time-sensitive wording, thin descriptions), plus structural ones it doesn't name — notably a
-   **caller back-reference** in a `description`, which is always-loaded cost.
+   **caller back-reference** in a `description`, which is always-loaded cost, and **harness-specific
+   tool naming** (`AskUserQuestion`, `TodoWrite`, or similar named in place of the need it meets):
+   the fix isn't just dropping the tool's name, it's an instruction to look for a fitting tool
+   *and* a named fallback for when none exists — half a fix that drops the tool name but not the
+   instruction to look just produces plain-prose questions instead.
 2. **Excessive verbosity** — prose that tells a capable agent what it already knows.
 3. **Confusing logic** — control flow an agent can misread under load.
 4. **Cross-skill duplication** — the same content across skills; fix with one canonical owner or a

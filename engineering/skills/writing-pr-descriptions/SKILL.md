@@ -1,6 +1,6 @@
 ---
 name: writing-pr-descriptions
-description: "Write a pull-request body in plain language: what changed and why, any decisions made, any key data touched, and a pre-PR checklist that is actually verified, not just printed. Never names a skill or an internal process step. Use whenever a PR description is being written — invoked by finishing-a-development-branch when it opens a pull request or lands a stack."
+description: "Write a pull-request body in plain language: what changed and why, any decisions made, any key data touched, and a pre-PR checklist that is actually verified, not just printed. Never names a skill or an internal process step. Use whenever a PR description is being written, including opening a pull request or landing a stack."
 ---
 
 # Writing PR Descriptions

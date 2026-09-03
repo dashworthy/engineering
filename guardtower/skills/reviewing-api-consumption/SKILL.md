@@ -52,18 +52,13 @@ counts — a browser/front-end client and a backend service calling a third-part
      per-item calls, no throttle/debounce on user-driven bursts) and the *response* (no retry
      with backoff, ignoring `Retry-After`, retry storms).
 
-3. **Floor, then cap.** Drop every candidate weaker than `caps.floor` (on the weaker of its
-   severity and confidence). Order what remains most-severe-first and keep at most `caps.top_n`.
-
-4. **Write the artifact and return.** Write the kept findings to `artifact_path` (the facet's
-   `findings.md`) in the Finding schema (severity, confidence, location, claim, why, optional
-   suggestion) — each `claim`/`why` legible to a reviewer with no shared context. Write the
-   artifact even when nothing survives the floor (record "no findings above the floor"). Return
-   the contract result.
+3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
+   `caps.top_n`.
+4. **Write the artifact and return** per facet-contract.md's Finding schema, to
+   `findings.md`.
 
 ## What this does not do
 
-- It does not **fix** anything — report-only; a `suggestion` names a direction, never an edit.
 - It does not **scan the repository** — its reach is the diff plus the API client the change
   already uses; it does not index every call site to find every possible waste.
 - It does not **review data-layer / database access** — N+1 on an ORM, unbounded SQL, a query

@@ -50,6 +50,29 @@ Structural anti-patterns that list does not name:
   own. **Fix:** name the terminal act explicitly ("invoke X now" / "close with a disposition"), and
   state that reporting the route and waiting for a "yes, go" is not one of the skill's outcomes.
 
+- **Harness-specific tool naming.** A skill names a concrete tool — `AskUserQuestion`, `TodoWrite`,
+  or any other tool that belongs to one particular harness — as *the* way to meet a need every
+  harness meets somehow (putting a structured choice to the user, tracking a todo list). It breaks
+  on any harness that names the capability differently or doesn't carry that exact tool. A
+  half-fix that only deletes the tool name and says "ask the user" or "track progress" is not
+  enough — that drops the instruction to actually look, and a plain-prose question is exactly what
+  this idiom exists to prevent (the user reads a wall of text instead of picking off a menu).
+  **Fix — carry both halves of the idiom, phrased generically, never naming a sibling plugin's own
+  skill as the example:**
+  1. **Direct instruction to look.** Tell the agent to check what it has and use a fitting tool if
+     one exists — e.g. "put it to the user as a structured choice, **using a tool** to ask it where
+     one is available," or "track it in whatever todo list your harness provides." This is an
+     instruction to search its own tool list, not a hedge that lets it skip straight to prose.
+  2. **A named fallback for when none exists.** State what happens when no such tool is available:
+     fall back to the same content as plain text — still structured (a menu, not open prose) — and
+     say the run is degraded rather than silently downgrading.
+  A concrete tool name may still appear once, parenthetically, anchored to "in this harness" —
+  never as the only instruction, with no capability-first fallback. When auditing a plugin that
+  ships its own skills side by side (as opposed to auditing a single skill in isolation), citing
+  one of its own sibling skills as a positive example of this idiom is fine; a skill belonging to
+  a *different* plugin is not a legitimate example to point to or depend on, even inside this
+  marketplace's own `references/` — a plugin's doctrine must stand on its own if installed alone.
+
 ## Excessive verbosity
 
 The tell is prose a capable agent didn't need: a paragraph defining an ordinary term, an explanation
