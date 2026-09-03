@@ -20,8 +20,8 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 
 ## The facets
 
-Fifteen facets exist; each is a thin skill owning one lens. The three **core** facets (**Security**,
-**Technical**, **Architectural**) are pre-checked by default; eight additional facets (**Error Handling
+Sixteen facets exist; each is a thin skill owning one lens. The four **core** facets (**Security**,
+**Novelty**, **Technical**, **Architectural**) are pre-checked by default; eight additional facets (**Error Handling
 & Resilience**, **Test Quality**, **Data & Migration Safety**, **API & Backward Compatibility**,
 **Concurrency & Race Safety**, **Idempotency & Retry Safety**, **Numeric Precision & Units**,
 **API Consumption**) are
@@ -33,7 +33,8 @@ are always in the menu, opt-in and not tenancy-gated.
 | Facet (skill) | Lens | Core? |
 |---|---|---|
 | `reviewing-security` | OWASP best practices; authorization enforced, not assumed | core |
-| `reviewing-technical` | Reuse over reinvention; inefficient queries; best practice | core |
+| `reviewing-novelty` | Reuse over reinvention: reinventing what the framework, standard library, a depended-on library, or an already-imported module already provides | core |
+| `reviewing-technical` | Inefficient data access (N+1, unbounded queries); correctness-scoped best practice | core |
 | `reviewing-architectural` | Sustainable architecture: coupling, dependency direction, cohesion, leaky abstractions | core |
 | `reviewing-error-handling` | Silent failures, swallowed exceptions, bad fallbacks | — |
 | `reviewing-test-quality` | Do tests exercise the change and fail if it breaks? | — |
@@ -62,7 +63,7 @@ are always in the menu, opt-in and not tenancy-gated.
    touches no tenant-scoped surface, so proposing is not running.
 2. **Pick the facets.** Present the facet menu as a structured multi-select choice, using a tool to
    ask it where one is available, with the
-   three **core** facets **pre-checked**, plus any tenant-isolation facet the menu-proposal step
+   four **core** facets **pre-checked**, plus any tenant-isolation facet the menu-proposal step
    above proposed (pre-checked when proposed). The **Data Presentation** and **Accessibility**
    facets are always offered, opt-in. The human unchecks or adds; only available facets run (a
    not-yet-available pick is reported as skipped, not failed).

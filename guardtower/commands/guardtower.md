@@ -21,7 +21,7 @@ Steps:
    and joins an active run if one exists).
 
 3. **Hand off to the reviewing orchestrator.** Invoke `guardtower:reviewing` with the resolved
-   change. It presents the facet menu (the three core facets pre-checked), dispatches the selected
+   change. It presents the facet menu (the four core facets pre-checked), dispatches the selected
    facets as self-limiting reviewers, and reconciles their findings into one report alongside the
    durable per-facet artifacts.
 

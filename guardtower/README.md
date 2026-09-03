@@ -22,7 +22,7 @@ code** — it reports, you decide.
 /guardtower <a diff, branch, or PR to review>
 ```
 
-You're shown a facet menu (the three core facets pre-checked); guardtower fans out the selected
+You're shown a facet menu (the four core facets pre-checked); guardtower fans out the selected
 facets, then returns one reconciled report plus the per-facet artifacts under `.guardtower/`.
 
 ## The facets
@@ -30,7 +30,8 @@ facets, then returns one reconciled report plus the per-facet artifacts under `.
 | Facet | Asks |
 |---|---|
 | **Security** | OWASP best practices, and is authorization *enforced* rather than assumed? |
-| **Technical** | Reuse over reinvention, inefficient queries, best-practice adherence. |
+| **Novelty** | Did we reinvent something that already exists — a capability the framework, standard library, a depended-on library, or an already-imported module already provides? |
+| **Technical** | Inefficient data access (N+1, unbounded queries), correctness-scoped best-practice adherence. |
 | **Architectural** | Sustainable architecture — coupling, dependency direction, cohesion, leaky abstractions. |
 | **Error Handling & Resilience** | Silent failures, swallowed exceptions, bad fallbacks. |
 | **Test Quality** | Do the tests exercise the change and fail if it breaks? |
@@ -45,7 +46,7 @@ facets, then returns one reconciled report plus the per-facet artifacts under `.
 | **Data Presentation** | Identity-ambiguous presentation — distinct records a person cannot tell apart. |
 | **Accessibility** | Perceivability & operability for assistive tech — missing alt text or labels, ARIA/semantic misuse, keyboard/focus traps, insufficient contrast, unrespected reduced-motion, unannounced dynamic updates. |
 
-This release ships **fifteen** facets — the three **core** (**Security**, **Technical**,
+This release ships **sixteen** facets — the four **core** (**Security**, **Novelty**, **Technical**,
 **Architectural**), pre-checked by default, plus **Error Handling & Resilience**, **Test Quality**,
 **Data & Migration Safety**, **API & Backward Compatibility**, **Concurrency & Race Safety**,
 **Idempotency & Retry Safety**, **Numeric Precision & Units**, and **API Consumption** — on the
