@@ -1,35 +1,14 @@
-# Technical review checklist — reuse, efficiency, correctness
+# Technical review checklist — efficiency, correctness
 
 The lens for the technical facet. Language-agnostic: these are classes of defect to reason about in
-whatever stack the change is written in, not a rule table for one framework. The `Carbon.eq()` case
-is an *illustration* of reinventing what a dependency already provides, not a Laravel target.
-Contents:
+whatever stack the change is written in, not a rule table for one framework. The reach is the diff
+and a glance at the public surface of already-imported modules — **no proactive repo-wide scan**.
+Reinvention of an existing capability is a sibling lens the **Novelty** facet owns; flag it there,
+not here. Contents:
 
-- Reuse over reinvention — the headline class, and its analysis boundary
 - Inefficient data access
 - Correctness-scoped best practices
 - What is not a finding
-
-## Reuse over reinvention
-
-For each helper, comparison, loop, parser, or conversion the change **newly introduces**, ask whether
-something already provides it:
-
-- **Standard library** — the language's own built-ins for dates, collections, strings, math, I/O.
-  Hand-rolling what the standard library already does correctly is a finding.
-- **Well-known libraries** — an already-depended-on library's documented API. The motivating case: a
-  hand-written comparison of two dates when the date library already exposes `eq()` / `isSame()` /
-  equivalent. Re-implementing a library primitive is a finding.
-- **Already-imported modules** — the public surface of the modules *this change already imports or
-  uses*. If the change writes a private helper that duplicates a function it already imports, that's a
-  finding.
-
-**The boundary.** Reason from the diff, model knowledge of standard and well-known
-libraries, and a glance at the public surface of already-imported modules — and **no proactive
-repo-wide scan or function index**. A bespoke helper that exists elsewhere in the repository but the
-change does not import is out of reach and *not* a finding here: chasing it would mean the repo-wide
-scan the token budget rules out. Say what is reinvented and what already provides it, so the reviewer
-can confirm without the author's context.
 
 ## Inefficient data access
 
@@ -62,7 +41,7 @@ Keep the floor honest — these belong to other facets, to a linter, or to no on
 
 - A style / formatting / naming preference with no correctness consequence — a linter owns it, or
   nobody does.
-- A reuse a linter or the language's own tooling already flags automatically.
+- A reinvention of an existing capability — the **Novelty** facet owns reuse over reinvention.
 - A micro-optimization with no measured or reasoned cost on the change's actual path (below the
   confidence floor).
 - A security or architectural concern — the Security or Architectural facet owns it, not this one.

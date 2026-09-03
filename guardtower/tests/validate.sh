@@ -80,7 +80,7 @@ if [ -f "$ORCH" ]; then
   # harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
   grep_flat "$ORCH" "multi-select choice"; check $? "reviewing runs the facet menu as a multi-select choice"
   ! grep_flat "$ORCH" "AskUserQuestion"; check $? "reviewing names no harness-specific question tool"
-  grep_flat "$ORCH" "pre-checked"; check $? "reviewing states the 3 core facets are pre-checked"
+  grep_flat "$ORCH" "pre-checked"; check $? "reviewing states the core facets are pre-checked"
   grep_flat "$ORCH" ".guardtower/"; check $? "reviewing writes under .guardtower/"
   grep_flat "$ORCH" "dispatching-parallel-agents"; check $? "reviewing fans out via dispatching-parallel-agents"
   # Each dispatched facet is tracked as its own todo (one seam, one item) so the human sees what was
@@ -171,7 +171,7 @@ if [ -f "$TECH" ]; then
   grep -q '^name: reviewing-technical$' "$TECH"; check $? "reviewing-technical frontmatter names itself"
   desc=$(awk '/^description:/{print; exit}' "$TECH")
   printf '%s' "$desc" | grep -qi "technical"; check $? "reviewing-technical description carries a technical trigger"
-  printf '%s' "$desc" | grep -qi "reuse"; check $? "reviewing-technical description names reuse"
+  printf '%s' "$desc" | grep -qi "Novelty"; check $? "reviewing-technical description points reuse to the Novelty facet"
   printf '%s' "$desc" | grep -qiE "inefficient|query"; check $? "reviewing-technical description names inefficiency/queries"
   # self-limiting behavior, at the source
   grep_flat "$TECH" "relevance gate"; check $? "reviewing-technical runs the relevance gate"
@@ -188,8 +188,9 @@ fi
 TCL="$PLUGIN/skills/reviewing-technical/references/technical-checklist.md"
 [ -f "$TCL" ]; check $? "reviewing-technical/references/technical-checklist.md exists"
 if [ -f "$TCL" ]; then
-  grep_flat "$TCL" "Reuse over reinvention"; check $? "technical-checklist covers reuse over reinvention"
   grep_flat "$TCL" "Inefficient data access"; check $? "technical-checklist covers inefficient data access"
+  grep_flat "$TCL" "Correctness-scoped best practices"; check $? "technical-checklist covers correctness-scoped best practices"
+  ! grep_flat "$TCL" "Reuse over reinvention"; check $? "technical-checklist no longer owns reuse over reinvention (moved to Novelty)"
   grep_flat "$TCL" "not a finding"; check $? "technical-checklist states what is not a finding"
   grep_flat "$TCL" "no proactive"; check $? "technical-checklist states the no-proactive-scan boundary"
 fi
@@ -205,6 +206,63 @@ if [ -f "$ORCH" ]; then
   else
     bad "reviewing menu wires reviewing-technical (not coming soon)"
   fi
+fi
+
+# ============================================================================
+# Facet — reviewing-novelty facet skill (core; reuse over reinvention)
+# ============================================================================
+
+NOV="$PLUGIN/skills/reviewing-novelty/SKILL.md"
+[ -f "$NOV" ]; check $? "reviewing-novelty/SKILL.md exists"
+if [ -f "$NOV" ]; then
+  head -1 "$NOV" | grep -q '^---$'; check $? "reviewing-novelty has frontmatter"
+  grep -q '^name: reviewing-novelty$' "$NOV"; check $? "reviewing-novelty frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$NOV")
+  printf '%s' "$desc" | grep -qiE "novelty|reuse|reinvent"; check $? "reviewing-novelty description carries a novelty/reuse trigger"
+  printf '%s' "$desc" | grep -qiE "framework|standard library|library|module"; check $? "reviewing-novelty description names the source of the existing capability"
+  printf '%s' "$desc" | grep -qiE "provides|already"; check $? "reviewing-novelty description names that something already provides it"
+  # self-limiting behavior, at the source
+  grep_flat "$NOV" "relevance gate"; check $? "reviewing-novelty runs the relevance gate"
+  grep_flat "$NOV" "before any lens work"; check $? "reviewing-novelty short-circuits before lens work"
+  grep_flat "$NOV" "top_n"; check $? "reviewing-novelty applies the top-N cap"
+  grep_flat "$NOV" "floor"; check $? "reviewing-novelty applies the confidence/severity floor"
+  grep_flat "$NOV" "report-only"; check $? "reviewing-novelty is report-only"
+  grep_flat "$NOV" "findings.md"; check $? "reviewing-novelty writes findings.md"
+  # analysis boundary stated inline (no ADR pointer — the plugin ships without docs/adr/)
+  grep_flat "$NOV" "no proactive"; check $? "reviewing-novelty states its analysis boundary inline"
+  # the defining constraint: it flags duplication, not newness for its own sake
+  grep_flat "$NOV" "warranted novelty"; check $? "reviewing-novelty spares warranted novelty (duplication is the defect, not newness)"
+  grep_flat "$NOV" "references/novelty-checklist.md"; check $? "reviewing-novelty links references/novelty-checklist.md"
+fi
+
+NCL="$PLUGIN/skills/reviewing-novelty/references/novelty-checklist.md"
+[ -f "$NCL" ]; check $? "reviewing-novelty/references/novelty-checklist.md exists"
+if [ -f "$NCL" ]; then
+  grep_flat "$NCL" "Reinvented framework capability"; check $? "novelty-checklist covers a reinvented framework capability"
+  grep_flat "$NCL" "Reinvented standard-library primitive"; check $? "novelty-checklist covers a reinvented standard-library primitive"
+  grep_flat "$NCL" "Reinvented library API"; check $? "novelty-checklist covers a reinvented library API"
+  grep_flat "$NCL" "Reinvented already-imported capability"; check $? "novelty-checklist covers a reinvented already-imported capability"
+  grep_flat "$NCL" "Warranted novelty"; check $? "novelty-checklist states warranted novelty is not a finding"
+  grep_flat "$NCL" "not a finding"; check $? "novelty-checklist states what is not a finding"
+  grep_flat "$NCL" "no proactive"; check $? "novelty-checklist states the no-proactive-scan boundary"
+fi
+
+# --- orchestrator wiring: novelty is live, not "coming soon" -----------------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-novelty' "$ORCH"; then
+    if grep 'reviewing-novelty' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-novelty (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-novelty (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-novelty (not coming soon)"
+  fi
+fi
+
+# --- README lists the novelty facet -----------------------------------------
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "Novelty"; check $? "README lists the novelty facet"
 fi
 
 # ============================================================================

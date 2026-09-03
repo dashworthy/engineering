@@ -1,6 +1,6 @@
 ---
 name: reviewing-technical
-description: "Guardtower's technical facet: review a change for reinventing what a library or an already-imported module already provides (reuse over reinvention), for inefficient data access (N+1, unbounded queries), and for correctness-scoped best-practice defects, returning capped, floored, self-contained findings. Use when a technical review of a diff/branch/PR is requested."
+description: "Guardtower's technical facet: review a change for inefficient data access (N+1, queries in loops, unbounded loads) and correctness-scoped best-practice defects (a resource left open, an off-by-one, a truthiness trap), returning capped, floored, self-contained findings. Reuse over reinvention is the Novelty facet's job, not this one. Use when a technical review of a diff/branch/PR is requested."
 ---
 
 # Reviewing — Technical facet
@@ -9,19 +9,19 @@ Say this first, plainly: `Using the guardtower technical facet to review this ch
 
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for technical defects — reinventing what
-already exists, inefficient data access, and correctness-scoped best-practice lapses — and returns a
-short, ordered, self-contained list of findings, capped and floored, with a durable record written
-to its artifact. It is **report-only**: it never edits code.
+One thing: given the change under review, this facet looks for technical defects — inefficient data
+access and correctness-scoped best-practice lapses — and returns a short, ordered, self-contained
+list of findings, capped and floored, with a durable record written to its artifact. It is
+**report-only**: it never edits code.
 
 This facet self-limits at the source (see `../reviewing/references/hard-stops.md`), under the shared `../reviewing/references/facet-contract.md`.
 
-Its analysis stays inside a fixed boundary:
-the diff, the reviewer's knowledge of well-known and standard libraries, and a glance at the public
-surface of the modules the change already imports — **no proactive repo-wide scan or function
-index**. Reinventing an already-imported `eq()` is in reach; reinventing a bespoke helper that lives
-elsewhere in the repo and the change never imports is an accepted blind spot, not a defect this facet
-chases.
+Its analysis stays inside a fixed boundary: the diff and a glance at the public surface of the
+modules the change already imports — **no proactive repo-wide scan or function index**. An N+1 or an
+unbounded load visible in the changed code is in reach; a pre-existing inefficiency the change never
+touches is out of scope. Reinvention of an existing capability — a framework, library, or
+already-imported module already providing what the change hand-rolls — is a sibling lens the
+**Novelty** facet owns; a reinvention this facet happens to notice belongs there, not here.
 
 ## The workflow
 
@@ -33,15 +33,14 @@ chases.
    having spent almost nothing, and write an artifact recording the skip.
 
 2. **Apply the lenses.** For a change that passed the gate, work
-   [references/technical-checklist.md](references/technical-checklist.md), leading with the two
-   high-value classes:
-   - **Reuse over reinvention** — for each helper, comparison, loop, or parser the change *newly
-     introduces*, check it against the standard library, well-known libraries, and the public surface
-     of the modules the change already imports. If something already provides it, that's a finding.
+   [references/technical-checklist.md](references/technical-checklist.md):
    - **Inefficient data access** — N+1 patterns, queries inside loops, unbounded or unpaginated loads,
      repeated identical queries.
    - **Correctness-scoped best practices** — only defects with a correctness or maintainability
      consequence; never style.
+
+   Reuse over reinvention has moved to the **Novelty** facet — a hand-rolled duplicate of a framework
+   idiom, a standard-library primitive, or an already-imported helper is a finding there, not here.
 
 3. **Floor, then cap.** Drop every candidate weaker than `caps.floor` (on the weaker of its severity
    and confidence). Order what remains most-severe-first and keep at most `caps.top_n`.
