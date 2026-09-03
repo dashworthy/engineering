@@ -161,7 +161,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **25 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **23 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
@@ -182,9 +182,7 @@ The full index lives at
 
 Every entry point is a skill — there are no slash-commands, so nothing here depends on
 Claude-specific command syntax. The three entrances open the work: `engineering:signal`,
-`engineering:triage`, and `engineering:receiving-code-review`. Two more skills are invoked
-in-flight for their own sake: `engineering:handoff` (compact a session for the next one) and
-`engineering:wait-what` (re-pitch a message that didn't land). Building an approved plan and
+`engineering:triage`, and `engineering:receiving-code-review`. Building an approved plan and
 clarifying docblock prose are not separate entry points — invoke `engineering:executing-plans`
 and `engineering:clarifying-docblocks` directly; a thin wrapper skill over an existing skill
 would add a name and nothing else.
