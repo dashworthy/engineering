@@ -36,6 +36,8 @@ free-form escape, holding the turn until they answer, using a tool to ask it whe
   `git switch -c <task-branch>`, where `<task-branch>` carries the slug you derive from the report.
   Never leave the work sitting on the default branch.
 
+No such tool: present the same options as plain text and say the run is degraded.
+
 ## 2. Establish or join a run
 
 Before reading the report closely, get somewhere to put what you find:

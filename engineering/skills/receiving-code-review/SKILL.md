@@ -36,6 +36,8 @@ holding the turn until they answer, using a tool to ask it where one is availabl
   carries the slug you derive from the review. Never base the fixes on the default trunk — they
   would not contain the commits under review.
 
+No such tool: present the same options as plain text and say the run is degraded.
+
 ## 2. Establish or join a run
 
 Before reading the comments closely, get somewhere to put what you find:
@@ -111,7 +113,8 @@ resolve its thread silently. Put it to the user as a structured choice, using a 
 where one is available, and in the prompt display
 both **the full original comment** and **what was done** to address it, so the decision is made with
 the whole picture in view. Resolve the thread only on an explicit yes; a comment pushed back on
-rather than fixed stays open with the reasoning on its thread.
+rather than fixed stays open with the reasoning on its thread. No such tool: present the same
+choice as plain text and say the run is degraded.
 
 ## 4. Hand to brainstorming
 
