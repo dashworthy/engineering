@@ -1131,6 +1131,20 @@ if [ -f "$TSCL" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — JavaScript content (piece 2)
+# ============================================================================
+
+JSCL="$PLUGIN/skills/reviewing-framework-best-practices/references/javascript.md"
+[ -f "$JSCL" ]; check $? "reviewing-framework-best-practices/references/javascript.md exists"
+if [ -f "$JSCL" ]; then
+  grep_flat "$JSCL" "await"; check $? "javascript.md covers async idioms"
+  grep_flat "$JSCL" "coercion"; check $? "javascript.md covers equality/coercion idioms"
+  grep_flat "$JSCL" "closure"; check $? "javascript.md covers scope/closure idioms"
+  grep_flat "$JSCL" "require()"; check $? "javascript.md covers module-system idioms"
+  grep_flat "$JSCL" "not a finding"; check $? "javascript.md states what is not a finding"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
