@@ -130,7 +130,7 @@ commit.
 Offer this mode rather than assuming it — ask before fanning a stretch of tasks out, don't
 default to it. When the user takes it, identify the run of genuinely independent tasks (no
 task in the run reads a file another one in the same run writes) and follow
-`dispatching-parallel-agents` for how the fan-out and the return are structured; that skill
+`using-parallel-agents` for how the fan-out and the return are structured; that skill
 owns the mechanics of splitting independent work across agents and bringing the results
 back — this skill supplies which tasks qualify and what each dispatched worker still owes:
 the full per-task loop, not a shortcut version of it.

@@ -60,7 +60,7 @@ fewer, one hunk — two subagent spin-ups plus a reconcile cost more than the re
 Below that floor, look at both axes yourself inline and skip the fan-out; both still get their
 full review, just in one pass. Above it, fan out:
 
-Dispatch at least one sub-reviewer per axis, in parallel, following `dispatching-parallel-agents`
+Dispatch at least one sub-reviewer per axis, in parallel, following `using-parallel-agents`
 for how the fan-out and the return are structured — that skill owns the mechanics; this skill
 supplies the split itself, plus what each sub-reviewer needs: the diff and the matched spec
 document (or the plain statement that none was found).

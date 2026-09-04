@@ -14,7 +14,7 @@ conductor is already driving.
 | Bootstrap | `using-skills` |
 | Entrances | `signal`, `triage`, `receiving-code-review` |
 | Phase conductors | `design`, `plan`, `build`, `document`, `finish` |
-| Cross-cutting | `using-git-worktrees`, `using-stacked-pull-requests`, `resolving-merge-conflicts`, `using-diagrams`, `verification-before-completion`, `dispatching-parallel-agents` |
+| Cross-cutting | `using-git-worktrees`, `using-stacked-pull-requests`, `resolving-merge-conflicts`, `using-diagrams`, `verification-before-completion`, `using-parallel-agents` |
 
 Reference files (not skills) that a conductor loads:
 

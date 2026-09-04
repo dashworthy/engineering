@@ -1,11 +1,11 @@
 ---
-name: dispatching-parallel-agents
-description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive, distinct from build' plan-scoped subagent mode."
+name: using-parallel-agents
+description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive, distinct from build's plan-scoped subagent mode."
 ---
 
-# Dispatching Parallel Agents
+# Using Parallel Agents
 
-Say this first, plainly: `Using the dispatching-parallel-agents skill to run the independent
+Say this first, plainly: `Using the using-parallel-agents skill to run the independent
 work in parallel.`
 
 ## What this guarantees
