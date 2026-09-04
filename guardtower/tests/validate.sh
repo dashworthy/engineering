@@ -985,6 +985,38 @@ if [ -f "$TAILWINDCL" ]; then
 fi
 
 # ============================================================================
+# reviewing-framework-best-practices facet skill + index
+# ============================================================================
+
+FBPIDX="$PLUGIN/skills/reviewing-framework-best-practices/references/framework-best-practices-index.md"
+[ -f "$FBPIDX" ]; check $? "framework-best-practices-index.md exists"
+if [ -f "$FBPIDX" ]; then
+  grep_flat "$FBPIDX" "references/laravel.md"; check $? "index maps Laravel to its file"
+  grep_flat "$FBPIDX" "references/tailwind.md"; check $? "index maps Tailwind to its file"
+  grep_flat "$FBPIDX" "deliberate exception"; check $? "index states the multi-file exception explicitly"
+fi
+
+FBP="$PLUGIN/skills/reviewing-framework-best-practices/SKILL.md"
+[ -f "$FBP" ]; check $? "reviewing-framework-best-practices/SKILL.md exists"
+if [ -f "$FBP" ]; then
+  head -1 "$FBP" | grep -q '^---$'; check $? "reviewing-framework-best-practices has frontmatter"
+  grep -q '^name: reviewing-framework-best-practices$' "$FBP"; check $? "reviewing-framework-best-practices frontmatter names itself"
+  desc=$(awk '/^description:/{print; exit}' "$FBP")
+  printf '%s' "$desc" | grep -qiE "framework|stack|idiom"; check $? "description carries a framework-idiom trigger"
+  printf '%s' "$desc" | grep -qiE "laravel|tailwind"; check $? "description names an in-scope stack"
+  grep_flat "$FBP" "relevance gate"; check $? "reviewing-framework-best-practices runs the relevance gate"
+  grep_flat "$FBP" "before any lens work"; check $? "reviewing-framework-best-practices short-circuits before lens work"
+  grep_flat "$FBP" "top_n"; check $? "reviewing-framework-best-practices applies the top-N cap"
+  grep_flat "$FBP" "floor"; check $? "reviewing-framework-best-practices applies the confidence/severity floor"
+  grep_flat "$FBP" "report-only"; check $? "reviewing-framework-best-practices is report-only"
+  grep_flat "$FBP" "findings.md"; check $? "reviewing-framework-best-practices writes findings.md"
+  grep_flat "$FBP" "references/framework-best-practices-index.md"; check $? "reviewing-framework-best-practices links its index"
+  grep_flat "$FBP" "Novelty"; check $? "reviewing-framework-best-practices states its boundary against Novelty"
+  grep_flat "$FBP" "Technical"; check $? "reviewing-framework-best-practices states its boundary against Technical"
+  grep_flat "$FBP" "deliberate exception"; check $? "reviewing-framework-best-practices calls out the multi-file exception"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
