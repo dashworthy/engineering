@@ -1,6 +1,6 @@
 ---
 name: reviewing-framework-best-practices
-description: "Guardtower's framework best-practices facet: review a change for stack-specific idiom violations — Laravel (validation/authorization placement, Eloquent query shape, queue/cache/scheduling safety, Pest testing conventions, Inertia/React page conventions, config/error-handling idioms) and Tailwind (reinvented utility patterns, deprecated v3 utilities, responsive/dark-mode consistency) today — returning capped, floored, self-contained findings. Reuse over reinvention is the Novelty facet's job and generic inefficiency is the Technical facet's job, not this one. Use when a framework/stack-idiom review of a diff/branch/PR is requested."
+description: "Guardtower's framework best-practices facet: review a change for stack-specific idiom violations across Laravel, Tailwind, Symfony, OroCommerce, React, Vue, TypeScript, JavaScript, and Backbone — returning capped, floored, self-contained findings. Reuse over reinvention is the Novelty facet's job and generic inefficiency is the Technical facet's job, not this one. Use when a framework/stack-idiom review of a diff/branch/PR is requested."
 ---
 
 # Reviewing — Framework Best Practices facet
@@ -22,9 +22,9 @@ shared `../reviewing/references/facet-contract.md`.
 This is a deliberate exception: unlike every other facet, this one's lens is split across
 [references/framework-best-practices-index.md](references/framework-best-practices-index.md)
 plus one file per stack, not a single checklist — read only the file(s) the matched stack(s) in
-the index name. Laravel and Tailwind are covered today; the other stacks this facet will
-eventually cover (Symfony, React, Vue, TypeScript, JavaScript, Backbone, OroCommerce) are a
-deferred follow-up, not silently approximated by whichever file happens to be closest.
+the index name. Nine stacks are covered: Laravel, Tailwind, Symfony, OroCommerce, React, Vue,
+TypeScript, JavaScript, and Backbone. A stack with no matching row in the index is out of scope
+for this facet, not silently approximated by whichever file happens to be closest.
 
 ## The workflow
 
@@ -49,9 +49,8 @@ that boundary is stated there, not repeated here.
 
 ## What this does not do
 
-- It does not **cover a stack with no reference file yet** — Symfony, React, Vue, TypeScript,
-  JavaScript, Backbone, and OroCommerce are a deferred follow-up, not silently approximated by
-  whichever file happens to be closest.
+- It does not **cover a stack with no reference file** — a stack outside the index's nine rows is
+  out of scope, not silently approximated by whichever file happens to be closest.
 - It does not **scan the repository** beyond the diff and the index/stack files it reads — no
   proactive repo-wide audit of every file in a detected stack.
 - It does not **enumerate style nits** with no idiom-shape consequence — the cap and floor are

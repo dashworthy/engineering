@@ -1159,6 +1159,36 @@ if [ -f "$BBCL" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — piece 2 wiring (detection seam, index, README, version)
+# ============================================================================
+
+if [ -f "$STACKSIG" ]; then
+  grep_flat "$STACKSIG" "## Symfony signals"; check $? "stack-signals documents Symfony detection"
+  grep_flat "$STACKSIG" "## OroCommerce signals"; check $? "stack-signals documents OroCommerce detection"
+  grep_flat "$STACKSIG" "## React signals"; check $? "stack-signals documents React detection"
+  grep_flat "$STACKSIG" "## Vue signals"; check $? "stack-signals documents Vue detection"
+  grep_flat "$STACKSIG" "## TypeScript signals"; check $? "stack-signals documents TypeScript detection"
+  grep_flat "$STACKSIG" "## JavaScript signals"; check $? "stack-signals documents JavaScript detection"
+  grep_flat "$STACKSIG" "## Backbone signals"; check $? "stack-signals documents Backbone detection"
+fi
+
+if [ -f "$FBPIDX" ]; then
+  grep_flat "$FBPIDX" "references/symfony.md"; check $? "index maps Symfony to its file"
+  grep_flat "$FBPIDX" "references/orocommerce.md"; check $? "index maps OroCommerce to its file"
+  grep_flat "$FBPIDX" "references/react.md"; check $? "index maps React to its file"
+  grep_flat "$FBPIDX" "references/vue.md"; check $? "index maps Vue to its file"
+  grep_flat "$FBPIDX" "references/typescript.md"; check $? "index maps TypeScript to its file"
+  grep_flat "$FBPIDX" "references/javascript.md"; check $? "index maps JavaScript to its file"
+  grep_flat "$FBPIDX" "references/backbone.md"; check $? "index maps Backbone to its file"
+  grep_flat "$FBPIDX" "orocommerce.md"; check $? "index's multi-match example covers the piece-2 stacks"
+fi
+
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "Symfony"; check $? "README names Symfony among the covered stacks"
+  grep_flat "$PLUGIN/README.md" "Backbone"; check $? "README names Backbone among the covered stacks"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
