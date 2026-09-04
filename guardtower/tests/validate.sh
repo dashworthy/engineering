@@ -131,15 +131,9 @@ fi
 # Task 5 — reviewing-security facet skill
 # ============================================================================
 
-SEC="$PLUGIN/skills/reviewing-security/SKILL.md"
+SEC="$PLUGIN/skills/reviewing/references/facets/reviewing-security/facet.md"
 [ -f "$SEC" ]; check $? "reviewing-security/SKILL.md exists"
 if [ -f "$SEC" ]; then
-  head -1 "$SEC" | grep -q '^---$'; check $? "reviewing-security has frontmatter"
-  grep -q '^name: reviewing-security$' "$SEC"; check $? "reviewing-security frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$SEC")
-  printf '%s' "$desc" | grep -qi "security"; check $? "reviewing-security description carries a security trigger"
-  printf '%s' "$desc" | grep -qi "OWASP"; check $? "reviewing-security description names OWASP"
-  printf '%s' "$desc" | grep -qi "authorization"; check $? "reviewing-security description names authorization"
   # self-limiting behavior, at the source
   grep_flat "$SEC" "relevance gate"; check $? "reviewing-security runs the relevance gate"
   grep_flat "$SEC" "before any lens work"; check $? "reviewing-security short-circuits before lens work"
@@ -152,7 +146,7 @@ if [ -f "$SEC" ]; then
   grep_flat "$SEC" "references/owasp-checklist.md"; check $? "reviewing-security links references/owasp-checklist.md"
 fi
 
-OWASP="$PLUGIN/skills/reviewing-security/references/owasp-checklist.md"
+OWASP="$PLUGIN/skills/reviewing/references/facets/reviewing-security/references/owasp-checklist.md"
 [ -f "$OWASP" ]; check $? "reviewing-security/references/owasp-checklist.md exists"
 if [ -f "$OWASP" ]; then
   grep_flat "$OWASP" "Broken Access Control"; check $? "owasp-checklist covers Broken Access Control"
@@ -164,15 +158,9 @@ fi
 # Spec 2 Task 1 — reviewing-technical facet skill
 # ============================================================================
 
-TECH="$PLUGIN/skills/reviewing-technical/SKILL.md"
+TECH="$PLUGIN/skills/reviewing/references/facets/reviewing-technical/facet.md"
 [ -f "$TECH" ]; check $? "reviewing-technical/SKILL.md exists"
 if [ -f "$TECH" ]; then
-  head -1 "$TECH" | grep -q '^---$'; check $? "reviewing-technical has frontmatter"
-  grep -q '^name: reviewing-technical$' "$TECH"; check $? "reviewing-technical frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$TECH")
-  printf '%s' "$desc" | grep -qi "technical"; check $? "reviewing-technical description carries a technical trigger"
-  printf '%s' "$desc" | grep -qi "Novelty"; check $? "reviewing-technical description points reuse to the Novelty facet"
-  printf '%s' "$desc" | grep -qiE "inefficient|query"; check $? "reviewing-technical description names inefficiency/queries"
   # self-limiting behavior, at the source
   grep_flat "$TECH" "relevance gate"; check $? "reviewing-technical runs the relevance gate"
   grep_flat "$TECH" "before any lens work"; check $? "reviewing-technical short-circuits before lens work"
@@ -185,7 +173,7 @@ if [ -f "$TECH" ]; then
   grep_flat "$TECH" "references/technical-checklist.md"; check $? "reviewing-technical links references/technical-checklist.md"
 fi
 
-TCL="$PLUGIN/skills/reviewing-technical/references/technical-checklist.md"
+TCL="$PLUGIN/skills/reviewing/references/facets/reviewing-technical/references/technical-checklist.md"
 [ -f "$TCL" ]; check $? "reviewing-technical/references/technical-checklist.md exists"
 if [ -f "$TCL" ]; then
   grep_flat "$TCL" "Inefficient data access"; check $? "technical-checklist covers inefficient data access"
@@ -212,15 +200,9 @@ fi
 # Facet — reviewing-novelty facet skill (core; reuse over reinvention)
 # ============================================================================
 
-NOV="$PLUGIN/skills/reviewing-novelty/SKILL.md"
+NOV="$PLUGIN/skills/reviewing/references/facets/reviewing-novelty/facet.md"
 [ -f "$NOV" ]; check $? "reviewing-novelty/SKILL.md exists"
 if [ -f "$NOV" ]; then
-  head -1 "$NOV" | grep -q '^---$'; check $? "reviewing-novelty has frontmatter"
-  grep -q '^name: reviewing-novelty$' "$NOV"; check $? "reviewing-novelty frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$NOV")
-  printf '%s' "$desc" | grep -qiE "novelty|reuse|reinvent"; check $? "reviewing-novelty description carries a novelty/reuse trigger"
-  printf '%s' "$desc" | grep -qiE "framework|standard library|library|module"; check $? "reviewing-novelty description names the source of the existing capability"
-  printf '%s' "$desc" | grep -qiE "provides|already"; check $? "reviewing-novelty description names that something already provides it"
   # self-limiting behavior, at the source
   grep_flat "$NOV" "relevance gate"; check $? "reviewing-novelty runs the relevance gate"
   grep_flat "$NOV" "before any lens work"; check $? "reviewing-novelty short-circuits before lens work"
@@ -235,7 +217,7 @@ if [ -f "$NOV" ]; then
   grep_flat "$NOV" "references/novelty-checklist.md"; check $? "reviewing-novelty links references/novelty-checklist.md"
 fi
 
-NCL="$PLUGIN/skills/reviewing-novelty/references/novelty-checklist.md"
+NCL="$PLUGIN/skills/reviewing/references/facets/reviewing-novelty/references/novelty-checklist.md"
 [ -f "$NCL" ]; check $? "reviewing-novelty/references/novelty-checklist.md exists"
 if [ -f "$NCL" ]; then
   grep_flat "$NCL" "Reinvented framework capability"; check $? "novelty-checklist covers a reinvented framework capability"
@@ -269,14 +251,9 @@ fi
 # Spec 2 Task 2 — reviewing-architectural facet skill
 # ============================================================================
 
-ARCH="$PLUGIN/skills/reviewing-architectural/SKILL.md"
+ARCH="$PLUGIN/skills/reviewing/references/facets/reviewing-architectural/facet.md"
 [ -f "$ARCH" ]; check $? "reviewing-architectural/SKILL.md exists"
 if [ -f "$ARCH" ]; then
-  head -1 "$ARCH" | grep -q '^---$'; check $? "reviewing-architectural has frontmatter"
-  grep -q '^name: reviewing-architectural$' "$ARCH"; check $? "reviewing-architectural frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$ARCH")
-  printf '%s' "$desc" | grep -qi "architectur"; check $? "reviewing-architectural description carries an architecture trigger"
-  printf '%s' "$desc" | grep -qiE "coupling|dependency"; check $? "reviewing-architectural description names coupling/dependency"
   # self-limiting behavior, at the source
   grep_flat "$ARCH" "relevance gate"; check $? "reviewing-architectural runs the relevance gate"
   grep_flat "$ARCH" "before any lens work"; check $? "reviewing-architectural short-circuits before lens work"
@@ -290,7 +267,7 @@ if [ -f "$ARCH" ]; then
   grep_flat "$ARCH" "references/architectural-checklist.md"; check $? "reviewing-architectural links references/architectural-checklist.md"
 fi
 
-ACL="$PLUGIN/skills/reviewing-architectural/references/architectural-checklist.md"
+ACL="$PLUGIN/skills/reviewing/references/facets/reviewing-architectural/references/architectural-checklist.md"
 [ -f "$ACL" ]; check $? "reviewing-architectural/references/architectural-checklist.md exists"
 if [ -f "$ACL" ]; then
   grep_flat "$ACL" "Dependency-direction"; check $? "architectural-checklist covers dependency-direction/coupling"
@@ -319,15 +296,9 @@ fi
 # Spec 3 Task 1 — reviewing-error-handling facet skill
 # ============================================================================
 
-EH="$PLUGIN/skills/reviewing-error-handling/SKILL.md"
+EH="$PLUGIN/skills/reviewing/references/facets/reviewing-error-handling/facet.md"
 [ -f "$EH" ]; check $? "reviewing-error-handling/SKILL.md exists"
 if [ -f "$EH" ]; then
-  head -1 "$EH" | grep -q '^---$'; check $? "reviewing-error-handling has frontmatter"
-  grep -q '^name: reviewing-error-handling$' "$EH"; check $? "reviewing-error-handling frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$EH")
-  printf '%s' "$desc" | grep -qiE "error.handling|silent failure"; check $? "reviewing-error-handling description carries an error-handling trigger"
-  printf '%s' "$desc" | grep -qi "swallow"; check $? "reviewing-error-handling description names swallowed errors"
-  printf '%s' "$desc" | grep -qiE "resilience|fallback"; check $? "reviewing-error-handling description names resilience/fallback"
   # self-limiting behavior, at the source
   grep_flat "$EH" "relevance gate"; check $? "reviewing-error-handling runs the relevance gate"
   grep_flat "$EH" "before any lens work"; check $? "reviewing-error-handling short-circuits before lens work"
@@ -340,7 +311,7 @@ if [ -f "$EH" ]; then
   grep_flat "$EH" "references/error-handling-checklist.md"; check $? "reviewing-error-handling links references/error-handling-checklist.md"
 fi
 
-EHCL="$PLUGIN/skills/reviewing-error-handling/references/error-handling-checklist.md"
+EHCL="$PLUGIN/skills/reviewing/references/facets/reviewing-error-handling/references/error-handling-checklist.md"
 [ -f "$EHCL" ]; check $? "reviewing-error-handling/references/error-handling-checklist.md exists"
 if [ -f "$EHCL" ]; then
   grep_flat "$EHCL" "Swallowed"; check $? "error-handling-checklist covers swallowed/empty catch"
@@ -368,15 +339,9 @@ fi
 # Spec 3 Task 2 — reviewing-test-quality facet skill
 # ============================================================================
 
-TQ="$PLUGIN/skills/reviewing-test-quality/SKILL.md"
+TQ="$PLUGIN/skills/reviewing/references/facets/reviewing-test-quality/facet.md"
 [ -f "$TQ" ]; check $? "reviewing-test-quality/SKILL.md exists"
 if [ -f "$TQ" ]; then
-  head -1 "$TQ" | grep -q '^---$'; check $? "reviewing-test-quality has frontmatter"
-  grep -q '^name: reviewing-test-quality$' "$TQ"; check $? "reviewing-test-quality frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$TQ")
-  printf '%s' "$desc" | grep -qiE "test.quality|test review"; check $? "reviewing-test-quality description carries a test-quality trigger"
-  printf '%s' "$desc" | grep -qiE "exercise|assertion"; check $? "reviewing-test-quality description names exercising/assertions"
-  printf '%s' "$desc" | grep -qiE "regression|fail if"; check $? "reviewing-test-quality description names catching a regression"
   # self-limiting behavior, at the source
   grep_flat "$TQ" "relevance gate"; check $? "reviewing-test-quality runs the relevance gate"
   grep_flat "$TQ" "before any lens work"; check $? "reviewing-test-quality short-circuits before lens work"
@@ -391,7 +356,7 @@ if [ -f "$TQ" ]; then
   grep_flat "$TQ" "references/test-quality-checklist.md"; check $? "reviewing-test-quality links references/test-quality-checklist.md"
 fi
 
-TQCL="$PLUGIN/skills/reviewing-test-quality/references/test-quality-checklist.md"
+TQCL="$PLUGIN/skills/reviewing/references/facets/reviewing-test-quality/references/test-quality-checklist.md"
 [ -f "$TQCL" ]; check $? "reviewing-test-quality/references/test-quality-checklist.md exists"
 if [ -f "$TQCL" ]; then
   grep_flat "$TQCL" "Vacuous"; check $? "test-quality-checklist covers vacuous/tautological assertion"
@@ -420,15 +385,9 @@ fi
 # Spec 3 Task 3 — reviewing-data-safety facet skill
 # ============================================================================
 
-DS="$PLUGIN/skills/reviewing-data-safety/SKILL.md"
+DS="$PLUGIN/skills/reviewing/references/facets/reviewing-data-safety/facet.md"
 [ -f "$DS" ]; check $? "reviewing-data-safety/SKILL.md exists"
 if [ -f "$DS" ]; then
-  head -1 "$DS" | grep -q '^---$'; check $? "reviewing-data-safety has frontmatter"
-  grep -q '^name: reviewing-data-safety$' "$DS"; check $? "reviewing-data-safety frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$DS")
-  printf '%s' "$desc" | grep -qiE "data.safety|migration"; check $? "reviewing-data-safety description carries a data-safety trigger"
-  printf '%s' "$desc" | grep -qiE "destructive|irreversible"; check $? "reviewing-data-safety description names destructive/irreversible ops"
-  printf '%s' "$desc" | grep -qiE "data.loss|data loss"; check $? "reviewing-data-safety description names data loss"
   # self-limiting behavior, at the source
   grep_flat "$DS" "relevance gate"; check $? "reviewing-data-safety runs the relevance gate"
   grep_flat "$DS" "before any lens work"; check $? "reviewing-data-safety short-circuits before lens work"
@@ -442,7 +401,7 @@ if [ -f "$DS" ]; then
   grep_flat "$DS" "references/data-safety-checklist.md"; check $? "reviewing-data-safety links references/data-safety-checklist.md"
 fi
 
-DSCL="$PLUGIN/skills/reviewing-data-safety/references/data-safety-checklist.md"
+DSCL="$PLUGIN/skills/reviewing/references/facets/reviewing-data-safety/references/data-safety-checklist.md"
 [ -f "$DSCL" ]; check $? "reviewing-data-safety/references/data-safety-checklist.md exists"
 if [ -f "$DSCL" ]; then
   grep_flat "$DSCL" "Unbounded"; check $? "data-safety-checklist covers unbounded UPDATE/DELETE"
@@ -470,15 +429,9 @@ fi
 # Spec 3 Task 4 — reviewing-api-compat facet skill
 # ============================================================================
 
-AC="$PLUGIN/skills/reviewing-api-compat/SKILL.md"
+AC="$PLUGIN/skills/reviewing/references/facets/reviewing-api-compat/facet.md"
 [ -f "$AC" ]; check $? "reviewing-api-compat/SKILL.md exists"
 if [ -f "$AC" ]; then
-  head -1 "$AC" | grep -q '^---$'; check $? "reviewing-api-compat has frontmatter"
-  grep -q '^name: reviewing-api-compat$' "$AC"; check $? "reviewing-api-compat frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$AC")
-  printf '%s' "$desc" | grep -qiE "api.compat|backward.compat"; check $? "reviewing-api-compat description carries an api/backward-compat trigger"
-  printf '%s' "$desc" | grep -qi "breaking"; check $? "reviewing-api-compat description names breaking changes"
-  printf '%s' "$desc" | grep -qiE "public|contract"; check $? "reviewing-api-compat description names public contracts"
   # self-limiting behavior, at the source
   grep_flat "$AC" "relevance gate"; check $? "reviewing-api-compat runs the relevance gate"
   grep_flat "$AC" "before any lens work"; check $? "reviewing-api-compat short-circuits before lens work"
@@ -492,7 +445,7 @@ if [ -f "$AC" ]; then
   grep_flat "$AC" "references/api-compat-checklist.md"; check $? "reviewing-api-compat links references/api-compat-checklist.md"
 fi
 
-ACCL="$PLUGIN/skills/reviewing-api-compat/references/api-compat-checklist.md"
+ACCL="$PLUGIN/skills/reviewing/references/facets/reviewing-api-compat/references/api-compat-checklist.md"
 [ -f "$ACCL" ]; check $? "reviewing-api-compat/references/api-compat-checklist.md exists"
 if [ -f "$ACCL" ]; then
   grep_flat "$ACCL" "Removed or renamed"; check $? "api-compat-checklist covers a removed/renamed public member"
@@ -526,15 +479,9 @@ fi
 # Plan 01 Task 1 — reviewing-tenant-isolation-shared-db facet skill
 # ============================================================================
 
-TISHARED="$PLUGIN/skills/reviewing-tenant-isolation-shared-db/SKILL.md"
+TISHARED="$PLUGIN/skills/reviewing/references/facets/reviewing-tenant-isolation-shared-db/facet.md"
 [ -f "$TISHARED" ]; check $? "reviewing-tenant-isolation-shared-db/SKILL.md exists"
 if [ -f "$TISHARED" ]; then
-  head -1 "$TISHARED" | grep -q '^---$'; check $? "reviewing-tenant-isolation-shared-db has frontmatter"
-  grep -q '^name: reviewing-tenant-isolation-shared-db$' "$TISHARED"; check $? "reviewing-tenant-isolation-shared-db frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$TISHARED")
-  printf '%s' "$desc" | grep -qiE "tenant|multi-tenan"; check $? "reviewing-tenant-isolation-shared-db description carries a tenant trigger"
-  printf '%s' "$desc" | grep -qiE "shared.database|single.database|shared.schema"; check $? "reviewing-tenant-isolation-shared-db description names the shared-DB model"
-  printf '%s' "$desc" | grep -qiE "scope|scoping|isolation"; check $? "reviewing-tenant-isolation-shared-db description names scoping/isolation"
   grep_flat "$TISHARED" "relevance gate"; check $? "reviewing-tenant-isolation-shared-db runs the relevance gate"
   grep_flat "$TISHARED" "before any lens work"; check $? "reviewing-tenant-isolation-shared-db short-circuits before lens work"
   grep_flat "$TISHARED" "top_n"; check $? "reviewing-tenant-isolation-shared-db applies the top-N cap"
@@ -546,7 +493,7 @@ if [ -f "$TISHARED" ]; then
   grep_flat "$TISHARED" "references/tenant-isolation-shared-db-checklist.md"; check $? "reviewing-tenant-isolation-shared-db links references/tenant-isolation-shared-db-checklist.md"
 fi
 
-TISHAREDCL="$PLUGIN/skills/reviewing-tenant-isolation-shared-db/references/tenant-isolation-shared-db-checklist.md"
+TISHAREDCL="$PLUGIN/skills/reviewing/references/facets/reviewing-tenant-isolation-shared-db/references/tenant-isolation-shared-db-checklist.md"
 [ -f "$TISHAREDCL" ]; check $? "reviewing-tenant-isolation-shared-db/references/tenant-isolation-shared-db-checklist.md exists"
 if [ -f "$TISHAREDCL" ]; then
   grep_flat "$TISHAREDCL" "Missing tenant scope"; check $? "shared-db-checklist covers missing tenant scope on a query"
@@ -562,15 +509,9 @@ fi
 # Plan 01 Task 2 — reviewing-tenant-isolation-isolated-db facet skill
 # ============================================================================
 
-TISOLATED="$PLUGIN/skills/reviewing-tenant-isolation-isolated-db/SKILL.md"
+TISOLATED="$PLUGIN/skills/reviewing/references/facets/reviewing-tenant-isolation-isolated-db/facet.md"
 [ -f "$TISOLATED" ]; check $? "reviewing-tenant-isolation-isolated-db/SKILL.md exists"
 if [ -f "$TISOLATED" ]; then
-  head -1 "$TISOLATED" | grep -q '^---$'; check $? "reviewing-tenant-isolation-isolated-db has frontmatter"
-  grep -q '^name: reviewing-tenant-isolation-isolated-db$' "$TISOLATED"; check $? "reviewing-tenant-isolation-isolated-db frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$TISOLATED")
-  printf '%s' "$desc" | grep -qiE "tenant|multi-tenan"; check $? "reviewing-tenant-isolation-isolated-db description carries a tenant trigger"
-  printf '%s' "$desc" | grep -qiE "per-tenant|per.database|database-per|schema-per|isolated.database"; check $? "reviewing-tenant-isolation-isolated-db description names the per-tenant-DB model"
-  printf '%s' "$desc" | grep -qiE "connection|isolation"; check $? "reviewing-tenant-isolation-isolated-db description names connection/isolation"
   grep_flat "$TISOLATED" "relevance gate"; check $? "reviewing-tenant-isolation-isolated-db runs the relevance gate"
   grep_flat "$TISOLATED" "before any lens work"; check $? "reviewing-tenant-isolation-isolated-db short-circuits before lens work"
   grep_flat "$TISOLATED" "top_n"; check $? "reviewing-tenant-isolation-isolated-db applies the top-N cap"
@@ -582,7 +523,7 @@ if [ -f "$TISOLATED" ]; then
   grep_flat "$TISOLATED" "references/tenant-isolation-isolated-db-checklist.md"; check $? "reviewing-tenant-isolation-isolated-db links references/tenant-isolation-isolated-db-checklist.md"
 fi
 
-TISOLATEDCL="$PLUGIN/skills/reviewing-tenant-isolation-isolated-db/references/tenant-isolation-isolated-db-checklist.md"
+TISOLATEDCL="$PLUGIN/skills/reviewing/references/facets/reviewing-tenant-isolation-isolated-db/references/tenant-isolation-isolated-db-checklist.md"
 [ -f "$TISOLATEDCL" ]; check $? "reviewing-tenant-isolation-isolated-db/references/tenant-isolation-isolated-db-checklist.md exists"
 if [ -f "$TISOLATEDCL" ]; then
   grep_flat "$TISOLATEDCL" "Connection not switched"; check $? "isolated-db-checklist covers connection/tenant context not switched"
@@ -598,14 +539,9 @@ fi
 # Plan 01 Task 3 — reviewing-data-presentation facet skill
 # ============================================================================
 
-DATAPRES="$PLUGIN/skills/reviewing-data-presentation/SKILL.md"
+DATAPRES="$PLUGIN/skills/reviewing/references/facets/reviewing-data-presentation/facet.md"
 [ -f "$DATAPRES" ]; check $? "reviewing-data-presentation/SKILL.md exists"
 if [ -f "$DATAPRES" ]; then
-  head -1 "$DATAPRES" | grep -q '^---$'; check $? "reviewing-data-presentation has frontmatter"
-  grep -q '^name: reviewing-data-presentation$' "$DATAPRES"; check $? "reviewing-data-presentation frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$DATAPRES")
-  printf '%s' "$desc" | grep -qiE "presentation|present"; check $? "reviewing-data-presentation description carries a presentation trigger"
-  printf '%s' "$desc" | grep -qiE "disambiguat|distinguish|ambiguous|identity"; check $? "reviewing-data-presentation description names identity disambiguation"
   grep_flat "$DATAPRES" "relevance gate"; check $? "reviewing-data-presentation runs the relevance gate"
   grep_flat "$DATAPRES" "before any lens work"; check $? "reviewing-data-presentation short-circuits before lens work"
   grep_flat "$DATAPRES" "top_n"; check $? "reviewing-data-presentation applies the top-N cap"
@@ -617,7 +553,7 @@ if [ -f "$DATAPRES" ]; then
   grep_flat "$DATAPRES" "references/data-presentation-checklist.md"; check $? "reviewing-data-presentation links references/data-presentation-checklist.md"
 fi
 
-DATAPRESCL="$PLUGIN/skills/reviewing-data-presentation/references/data-presentation-checklist.md"
+DATAPRESCL="$PLUGIN/skills/reviewing/references/facets/reviewing-data-presentation/references/data-presentation-checklist.md"
 [ -f "$DATAPRESCL" ]; check $? "reviewing-data-presentation/references/data-presentation-checklist.md exists"
 if [ -f "$DATAPRESCL" ]; then
   grep_flat "$DATAPRESCL" "Non-unique label"; check $? "data-presentation-checklist covers a non-unique label without its disambiguating path"
@@ -702,15 +638,9 @@ fi
 # Plan 02 Task 1 — reviewing-concurrency facet skill
 # ============================================================================
 
-CONC="$PLUGIN/skills/reviewing-concurrency/SKILL.md"
+CONC="$PLUGIN/skills/reviewing/references/facets/reviewing-concurrency/facet.md"
 [ -f "$CONC" ]; check $? "reviewing-concurrency/SKILL.md exists"
 if [ -f "$CONC" ]; then
-  head -1 "$CONC" | grep -q '^---$'; check $? "reviewing-concurrency has frontmatter"
-  grep -q '^name: reviewing-concurrency$' "$CONC"; check $? "reviewing-concurrency frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$CONC")
-  printf '%s' "$desc" | grep -qiE "concurren|race|thread.saf"; check $? "reviewing-concurrency description carries a concurrency trigger"
-  printf '%s' "$desc" | grep -qiE "interleav|check-then-act|read-modify-write|TOCTOU"; check $? "reviewing-concurrency description names an interleaving class"
-  printf '%s' "$desc" | grep -qiE "lock|transaction|atomic|synchroniz"; check $? "reviewing-concurrency description names a synchronization primitive"
   grep_flat "$CONC" "relevance gate"; check $? "reviewing-concurrency runs the relevance gate"
   grep_flat "$CONC" "before any lens work"; check $? "reviewing-concurrency short-circuits before lens work"
   grep_flat "$CONC" "top_n"; check $? "reviewing-concurrency applies the top-N cap"
@@ -722,7 +652,7 @@ if [ -f "$CONC" ]; then
   grep_flat "$CONC" "references/concurrency-checklist.md"; check $? "reviewing-concurrency links references/concurrency-checklist.md"
 fi
 
-CONCCL="$PLUGIN/skills/reviewing-concurrency/references/concurrency-checklist.md"
+CONCCL="$PLUGIN/skills/reviewing/references/facets/reviewing-concurrency/references/concurrency-checklist.md"
 [ -f "$CONCCL" ]; check $? "reviewing-concurrency/references/concurrency-checklist.md exists"
 if [ -f "$CONCCL" ]; then
   grep_flat "$CONCCL" "Check-then-act"; check $? "concurrency-checklist covers check-then-act (TOCTOU)"
@@ -750,15 +680,9 @@ fi
 # Plan 02 Task 2 — reviewing-idempotency facet skill
 # ============================================================================
 
-IDEM="$PLUGIN/skills/reviewing-idempotency/SKILL.md"
+IDEM="$PLUGIN/skills/reviewing/references/facets/reviewing-idempotency/facet.md"
 [ -f "$IDEM" ]; check $? "reviewing-idempotency/SKILL.md exists"
 if [ -f "$IDEM" ]; then
-  head -1 "$IDEM" | grep -q '^---$'; check $? "reviewing-idempotency has frontmatter"
-  grep -q '^name: reviewing-idempotency$' "$IDEM"; check $? "reviewing-idempotency frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$IDEM")
-  printf '%s' "$desc" | grep -qiE "idempoten|retry.saf"; check $? "reviewing-idempotency description carries an idempotency trigger"
-  printf '%s' "$desc" | grep -qiE "twice|retr|replay|redeliver|duplicate"; check $? "reviewing-idempotency description names a repeat trigger"
-  printf '%s' "$desc" | grep -qiE "webhook|consumer|queue|at-least-once|idempotency key"; check $? "reviewing-idempotency description names a repeatable-effect surface"
   grep_flat "$IDEM" "relevance gate"; check $? "reviewing-idempotency runs the relevance gate"
   grep_flat "$IDEM" "before any lens work"; check $? "reviewing-idempotency short-circuits before lens work"
   grep_flat "$IDEM" "top_n"; check $? "reviewing-idempotency applies the top-N cap"
@@ -770,7 +694,7 @@ if [ -f "$IDEM" ]; then
   grep_flat "$IDEM" "references/idempotency-checklist.md"; check $? "reviewing-idempotency links references/idempotency-checklist.md"
 fi
 
-IDEMCL="$PLUGIN/skills/reviewing-idempotency/references/idempotency-checklist.md"
+IDEMCL="$PLUGIN/skills/reviewing/references/facets/reviewing-idempotency/references/idempotency-checklist.md"
 [ -f "$IDEMCL" ]; check $? "reviewing-idempotency/references/idempotency-checklist.md exists"
 if [ -f "$IDEMCL" ]; then
   grep_flat "$IDEMCL" "Side effect with no idempotency key"; check $? "idempotency-checklist covers a side effect with no idempotency key"
@@ -798,15 +722,9 @@ fi
 # Plan 02 Task 3 — reviewing-numeric-precision facet skill
 # ============================================================================
 
-NUM="$PLUGIN/skills/reviewing-numeric-precision/SKILL.md"
+NUM="$PLUGIN/skills/reviewing/references/facets/reviewing-numeric-precision/facet.md"
 [ -f "$NUM" ]; check $? "reviewing-numeric-precision/SKILL.md exists"
 if [ -f "$NUM" ]; then
-  head -1 "$NUM" | grep -q '^---$'; check $? "reviewing-numeric-precision has frontmatter"
-  grep -q '^name: reviewing-numeric-precision$' "$NUM"; check $? "reviewing-numeric-precision frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$NUM")
-  printf '%s' "$desc" | grep -qiE "numeric|precision|money|units"; check $? "reviewing-numeric-precision description carries a numeric-precision trigger"
-  printf '%s' "$desc" | grep -qiE "float|rounding|truncat"; check $? "reviewing-numeric-precision description names a precision class"
-  printf '%s' "$desc" | grep -qiE "unit mismatch|overflow|cast|cents|scale"; check $? "reviewing-numeric-precision description names a units/overflow class"
   grep_flat "$NUM" "relevance gate"; check $? "reviewing-numeric-precision runs the relevance gate"
   grep_flat "$NUM" "before any lens work"; check $? "reviewing-numeric-precision short-circuits before lens work"
   grep_flat "$NUM" "top_n"; check $? "reviewing-numeric-precision applies the top-N cap"
@@ -818,7 +736,7 @@ if [ -f "$NUM" ]; then
   grep_flat "$NUM" "references/numeric-precision-checklist.md"; check $? "reviewing-numeric-precision links references/numeric-precision-checklist.md"
 fi
 
-NUMCL="$PLUGIN/skills/reviewing-numeric-precision/references/numeric-precision-checklist.md"
+NUMCL="$PLUGIN/skills/reviewing/references/facets/reviewing-numeric-precision/references/numeric-precision-checklist.md"
 [ -f "$NUMCL" ]; check $? "reviewing-numeric-precision/references/numeric-precision-checklist.md exists"
 if [ -f "$NUMCL" ]; then
   grep_flat "$NUMCL" "Binary float for an exact value"; check $? "numeric-precision-checklist covers a binary float for an exact value"
@@ -854,15 +772,9 @@ fi
 # Facet — reviewing-api-consumption facet skill
 # ============================================================================
 
-APICON="$PLUGIN/skills/reviewing-api-consumption/SKILL.md"
+APICON="$PLUGIN/skills/reviewing/references/facets/reviewing-api-consumption/facet.md"
 [ -f "$APICON" ]; check $? "reviewing-api-consumption/SKILL.md exists"
 if [ -f "$APICON" ]; then
-  head -1 "$APICON" | grep -q '^---$'; check $? "reviewing-api-consumption has frontmatter"
-  grep -q '^name: reviewing-api-consumption$' "$APICON"; check $? "reviewing-api-consumption frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$APICON")
-  printf '%s' "$desc" | grep -qiE "api.consumption|api usage|consuming"; check $? "reviewing-api-consumption description carries an API-consumption trigger"
-  printf '%s' "$desc" | grep -qiE "over-fetch|over.fetch|fetch|polling|call volume"; check $? "reviewing-api-consumption description names an over-fetch/over-call class"
-  printf '%s' "$desc" | grep -qiE "429|rate.limit"; check $? "reviewing-api-consumption description names the 429/rate-limit class"
   grep_flat "$APICON" "relevance gate"; check $? "reviewing-api-consumption runs the relevance gate"
   grep_flat "$APICON" "before any lens work"; check $? "reviewing-api-consumption short-circuits before lens work"
   grep_flat "$APICON" "top_n"; check $? "reviewing-api-consumption applies the top-N cap"
@@ -874,7 +786,7 @@ if [ -f "$APICON" ]; then
   grep_flat "$APICON" "references/api-consumption-checklist.md"; check $? "reviewing-api-consumption links references/api-consumption-checklist.md"
 fi
 
-APICONCL="$PLUGIN/skills/reviewing-api-consumption/references/api-consumption-checklist.md"
+APICONCL="$PLUGIN/skills/reviewing/references/facets/reviewing-api-consumption/references/api-consumption-checklist.md"
 [ -f "$APICONCL" ]; check $? "reviewing-api-consumption/references/api-consumption-checklist.md exists"
 if [ -f "$APICONCL" ]; then
   grep_flat "$APICONCL" "Over-fetching payload"; check $? "api-consumption-checklist covers over-fetching payload"
@@ -906,15 +818,9 @@ fi
 # Facet — reviewing-accessibility facet skill
 # ============================================================================
 
-A11Y="$PLUGIN/skills/reviewing-accessibility/SKILL.md"
+A11Y="$PLUGIN/skills/reviewing/references/facets/reviewing-accessibility/facet.md"
 [ -f "$A11Y" ]; check $? "reviewing-accessibility/SKILL.md exists"
 if [ -f "$A11Y" ]; then
-  head -1 "$A11Y" | grep -q '^---$'; check $? "reviewing-accessibility has frontmatter"
-  grep -q '^name: reviewing-accessibility$' "$A11Y"; check $? "reviewing-accessibility frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$A11Y")
-  printf '%s' "$desc" | grep -qiE "accessib|a11y"; check $? "reviewing-accessibility description carries an accessibility trigger"
-  printf '%s' "$desc" | grep -qiE "alt text|label|aria|contrast|keyboard|semantic"; check $? "reviewing-accessibility description names a defect class"
-  printf '%s' "$desc" | grep -qiE "assistive|screen reader|perceiv|operab"; check $? "reviewing-accessibility description names the perceivability/operability concern"
   grep_flat "$A11Y" "relevance gate"; check $? "reviewing-accessibility runs the relevance gate"
   grep_flat "$A11Y" "before any lens work"; check $? "reviewing-accessibility short-circuits before lens work"
   grep_flat "$A11Y" "top_n"; check $? "reviewing-accessibility applies the top-N cap"
@@ -926,7 +832,7 @@ if [ -f "$A11Y" ]; then
   grep_flat "$A11Y" "references/accessibility-checklist.md"; check $? "reviewing-accessibility links references/accessibility-checklist.md"
 fi
 
-A11YCL="$PLUGIN/skills/reviewing-accessibility/references/accessibility-checklist.md"
+A11YCL="$PLUGIN/skills/reviewing/references/facets/reviewing-accessibility/references/accessibility-checklist.md"
 [ -f "$A11YCL" ]; check $? "reviewing-accessibility/references/accessibility-checklist.md exists"
 if [ -f "$A11YCL" ]; then
   grep_flat "$A11YCL" "Structural & naming"; check $? "accessibility-checklist covers structural & naming defects"
@@ -959,7 +865,7 @@ fi
 # Framework best practices — Laravel content
 # ============================================================================
 
-LARAVELCL="$PLUGIN/skills/reviewing-framework-best-practices/references/laravel.md"
+LARAVELCL="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/references/laravel.md"
 [ -f "$LARAVELCL" ]; check $? "reviewing-framework-best-practices/references/laravel.md exists"
 if [ -f "$LARAVELCL" ]; then
   grep_flat "$LARAVELCL" "Form Request"; check $? "laravel.md covers validation/authorization placement"
@@ -976,7 +882,7 @@ fi
 # Framework best practices — Tailwind content
 # ============================================================================
 
-TAILWINDCL="$PLUGIN/skills/reviewing-framework-best-practices/references/tailwind.md"
+TAILWINDCL="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/references/tailwind.md"
 [ -f "$TAILWINDCL" ]; check $? "reviewing-framework-best-practices/references/tailwind.md exists"
 if [ -f "$TAILWINDCL" ]; then
   grep_flat "$TAILWINDCL" "utility"; check $? "tailwind.md covers reinvented utility patterns"
@@ -988,7 +894,7 @@ fi
 # reviewing-framework-best-practices facet skill + index
 # ============================================================================
 
-FBPIDX="$PLUGIN/skills/reviewing-framework-best-practices/references/framework-best-practices-index.md"
+FBPIDX="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/references/framework-best-practices-index.md"
 [ -f "$FBPIDX" ]; check $? "framework-best-practices-index.md exists"
 if [ -f "$FBPIDX" ]; then
   grep_flat "$FBPIDX" "references/laravel.md"; check $? "index maps Laravel to its file"
@@ -996,14 +902,9 @@ if [ -f "$FBPIDX" ]; then
   grep_flat "$FBPIDX" "deliberate exception"; check $? "index states the multi-file exception explicitly"
 fi
 
-FBP="$PLUGIN/skills/reviewing-framework-best-practices/SKILL.md"
+FBP="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/facet.md"
 [ -f "$FBP" ]; check $? "reviewing-framework-best-practices/SKILL.md exists"
 if [ -f "$FBP" ]; then
-  head -1 "$FBP" | grep -q '^---$'; check $? "reviewing-framework-best-practices has frontmatter"
-  grep -q '^name: reviewing-framework-best-practices$' "$FBP"; check $? "reviewing-framework-best-practices frontmatter names itself"
-  desc=$(awk '/^description:/{print; exit}' "$FBP")
-  printf '%s' "$desc" | grep -qiE "framework|stack|idiom"; check $? "description carries a framework-idiom trigger"
-  printf '%s' "$desc" | grep -qiE "laravel|tailwind"; check $? "description names an in-scope stack"
   grep_flat "$FBP" "relevance gate"; check $? "reviewing-framework-best-practices runs the relevance gate"
   grep_flat "$FBP" "before any lens work"; check $? "reviewing-framework-best-practices short-circuits before lens work"
   grep_flat "$FBP" "top_n"; check $? "reviewing-framework-best-practices applies the top-N cap"
@@ -1054,7 +955,7 @@ fi
 # Framework best practices — Symfony content (piece 2)
 # ============================================================================
 
-SYMFONYCL="$PLUGIN/skills/reviewing-framework-best-practices/references/symfony.md"
+SYMFONYCL="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/references/symfony.md"
 [ -f "$SYMFONYCL" ]; check $? "reviewing-framework-best-practices/references/symfony.md exists"
 if [ -f "$SYMFONYCL" ]; then
   grep_flat "$SYMFONYCL" "autowired"; check $? "symfony.md covers dependency-injection/service-configuration idioms"
@@ -1072,7 +973,7 @@ fi
 # Framework best practices — OroCommerce content (piece 2)
 # ============================================================================
 
-OROCL="$PLUGIN/skills/reviewing-framework-best-practices/references/orocommerce.md"
+OROCL="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/references/orocommerce.md"
 [ -f "$OROCL" ]; check $? "reviewing-framework-best-practices/references/orocommerce.md exists"
 if [ -f "$OROCL" ]; then
   grep_flat "$OROCL" "extend field"; check $? "orocommerce.md covers entity-extension idioms"
@@ -1089,7 +990,7 @@ fi
 # Framework best practices — React content (piece 2)
 # ============================================================================
 
-REACTCL="$PLUGIN/skills/reviewing-framework-best-practices/references/react.md"
+REACTCL="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/references/react.md"
 [ -f "$REACTCL" ]; check $? "reviewing-framework-best-practices/references/react.md exists"
 if [ -f "$REACTCL" ]; then
   grep_flat "$REACTCL" "useEffect"; check $? "react.md covers hook-dependency idioms"
@@ -1105,7 +1006,7 @@ fi
 # Framework best practices — Vue content (piece 2)
 # ============================================================================
 
-VUECL="$PLUGIN/skills/reviewing-framework-best-practices/references/vue.md"
+VUECL="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/references/vue.md"
 [ -f "$VUECL" ]; check $? "reviewing-framework-best-practices/references/vue.md exists"
 if [ -f "$VUECL" ]; then
   grep_flat "$VUECL" "toRefs"; check $? "vue.md covers reactivity idioms"
@@ -1120,7 +1021,7 @@ fi
 # Framework best practices — TypeScript content (piece 2)
 # ============================================================================
 
-TSCL="$PLUGIN/skills/reviewing-framework-best-practices/references/typescript.md"
+TSCL="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/references/typescript.md"
 [ -f "$TSCL" ]; check $? "reviewing-framework-best-practices/references/typescript.md exists"
 if [ -f "$TSCL" ]; then
   grep_flat "$TSCL" "any"; check $? "typescript.md covers type-safety idioms"
@@ -1134,7 +1035,7 @@ fi
 # Framework best practices — JavaScript content (piece 2)
 # ============================================================================
 
-JSCL="$PLUGIN/skills/reviewing-framework-best-practices/references/javascript.md"
+JSCL="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/references/javascript.md"
 [ -f "$JSCL" ]; check $? "reviewing-framework-best-practices/references/javascript.md exists"
 if [ -f "$JSCL" ]; then
   grep_flat "$JSCL" "await"; check $? "javascript.md covers async idioms"
@@ -1148,7 +1049,7 @@ fi
 # Framework best practices — Backbone content (piece 2)
 # ============================================================================
 
-BBCL="$PLUGIN/skills/reviewing-framework-best-practices/references/backbone.md"
+BBCL="$PLUGIN/skills/reviewing/references/facets/reviewing-framework-best-practices/references/backbone.md"
 [ -f "$BBCL" ]; check $? "reviewing-framework-best-practices/references/backbone.md exists"
 if [ -f "$BBCL" ]; then
   grep_flat "$BBCL" "stopListening"; check $? "backbone.md covers view-lifecycle idioms"
