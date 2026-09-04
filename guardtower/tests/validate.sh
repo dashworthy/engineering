@@ -1086,6 +1086,22 @@ if [ -f "$OROCL" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — React content (piece 2)
+# ============================================================================
+
+REACTCL="$PLUGIN/skills/reviewing-framework-best-practices/references/react.md"
+[ -f "$REACTCL" ]; check $? "reviewing-framework-best-practices/references/react.md exists"
+if [ -f "$REACTCL" ]; then
+  grep_flat "$REACTCL" "useEffect"; check $? "react.md covers hook-dependency idioms"
+  grep_flat "$REACTCL" "state"; check $? "react.md covers state-management idioms"
+  grep_flat "$REACTCL" "key"; check $? "react.md covers list/key idioms"
+  grep_flat "$REACTCL" "cleanup"; check $? "react.md covers side-effect idioms"
+  grep_flat "$REACTCL" "memo"; check $? "react.md covers memoization idioms"
+  grep_flat "$REACTCL" "not a finding"; check $? "react.md states what is not a finding"
+  grep_flat "$REACTCL" "laravel.md"; check $? "react.md states its boundary against laravel.md's Inertia section"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
