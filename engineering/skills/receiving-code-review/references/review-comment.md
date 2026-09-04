@@ -1,11 +1,7 @@
----
-name: writing-review-comments
-description: "Write the text of a reply to a review-thread comment, or a new comment left on a PR, in plain language with no jargon and no performative agreement. Never names a skill or an internal process step. Use whenever review-comment text is being written — a reply on a review thread, or any other comment left on a PR or review."
----
+# Writing Review Comments (reference)
 
-# Writing Review Comments
-
-Say this first, plainly: `Using the writing-review-comments skill to write the comment in plain language.`
+> This is a reference the `receiving-code-review` conductor loads when it writes reply text for a
+> review thread. It is not a skill and is never discovered on its own; the conductor drives it.
 
 ## What this guarantees
 
@@ -46,23 +42,22 @@ this," no skill name at all, quoted or not.
 
 ## Never sign it
 
-The comment ends when the point does — same "Never sign it" policy
-`engineering:writing-pr-descriptions` states in full: no sign-off naming Claude, an AI, or any
+The comment ends when the point does — the same "Never sign it" policy
+`finish/references/pr-description.md` states in full: no sign-off naming Claude, an AI, or any
 tool at all, no exception absent a project that has explicitly asked for it. The comment reads
 exactly like a person on the team wrote it and stopped when they were done.
 
-## Where this is invoked from
+## Where this is loaded from
 
-`engineering:receiving-code-review` calls this skill to write the reply text for each thread's
-forge tail (`Reply to each ask` in that skill). It can also be invoked directly whenever comment
-text is being written on a PR or review outside that flow.
+The `receiving-code-review` conductor loads this reference to write the reply text for each
+thread's forge tail (`Reply to each ask` in that conductor).
 
 ## What this does not do
 
-- It does not **decide whether a comment is correct.** `engineering:receiving-code-review`
-  verifies each claim against the codebase before this skill ever writes a word; this skill only
-  phrases what was already decided.
-- It does not **decide whether to resolve a thread.** That stays the user's call, per
-  `engineering:receiving-code-review`; this skill only supplies the reply text.
+- It does not **decide whether a comment is correct.** The `receiving-code-review` conductor
+  verifies each claim against the codebase before this reference is ever loaded; this only phrases
+  what was already decided.
+- It does not **decide whether to resolve a thread.** That stays the user's call, per the
+  `receiving-code-review` conductor; this reference only supplies the reply text.
 - It does not **write the fix.** It describes a fix, a pushback, or a question in plain language;
   the fix itself happens elsewhere.

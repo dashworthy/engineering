@@ -28,7 +28,7 @@ The status line alone is not proof — check the trace behind it. Resolve the ru
 `.engineering/<run>/to-spec/APPROVED.md`, actually exists. An `Approved` status with
 no marker behind it is the signature of a hand-edited status line or a spec written before
 this mechanism existed — either way the spec gate was never cleared, so refuse and stop
-rather than plan it. This mirrors `finishing-a-development-branch`'s rule to prefer the
+rather than plan it. This mirrors `finish`'s rule to prefer the
 trace over the checkbox: the marker is the trace, the status line is only the checkbox.
 
 **Or start from the right-size bypass marker.** The spec-approval marker is one of two
@@ -259,7 +259,7 @@ never before.
 build runs unattended, the plan gate is also where the branch's finish strategy gets settled —
 how it re-enters the repository (merge, pull request, or landing a stack) and whether its
 branch is deleted afterward. Record it in the plan's Global Constraints as a `Finish strategy:`
-line, so `finishing-a-development-branch` carries out a choice the human already authorized
+line, so `finish` carries out a choice the human already authorized
 rather than stopping to ask again at the end. A stacked plan's `PR strategy: stacked` line
 already implies landing the stack; state the cleanup intent alongside it.
 

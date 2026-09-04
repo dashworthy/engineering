@@ -11,7 +11,7 @@ human map of which skill belongs to which process.
 | Planning | `writing-plans`, `reviewing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review` |
 | Docs | `document` |
-| Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
-| Cross-cutting | `resolving-merge-conflicts`, `using-diagrams`, `writing-pr-descriptions`, `writing-review-comments` |
+| Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finish`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
+| Cross-cutting | `resolving-merge-conflicts`, `using-diagrams` |
 
 Skills authored in later plans are added to this table as they land.

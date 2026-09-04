@@ -31,7 +31,7 @@ Prefer Graphite when the repository is already set up for it: `gt` on `PATH` **a
 gt-initialized (its `gt` commands resolve against this repo rather than erroring that it isn't
 tracked). Where both hold, use `gt` — its stacks and restacking are what this skill would
 otherwise reconstruct by hand. Where either is missing, fall back to plain `git` + `gh` (the
-baseline, already assumed by `finishing-a-development-branch`). Same prefer-native-else-raw-git
+baseline, already assumed by `finish`). Same prefer-native-else-raw-git
 shape as `using-git-worktrees`. Do not install `gt` or initialize Graphite in a repo that
 hasn't chosen it — this skill works in a bare repo with nothing but `git` and `gh`.
 
@@ -83,7 +83,7 @@ Landing is bottom-up: merge the lowest open PR first, then restack what remains,
 and so on to the top — never the top PR first, which would try to merge every task's diff at
 once and defeat the point of stacking. With `gt`, `gt merge` walks the stack in that order and
 restacks between merges. With `git` + `gh`, merge the bottom PR (`gh pr merge`), restack the
-remainder onto the new trunk, and repeat. This is the path `finishing-a-development-branch`
+remainder onto the new trunk, and repeat. This is the path `finish`
 delegates to when it detects a stacked run and offers **Land the stack** in place of opening a
 single pull request.
 
@@ -101,5 +101,5 @@ single pull request.
   where the whole stack lives; this skill switches branches inside it and never creates isolation
   of its own.
 - It does not **decide the work is good enough to land.** Whether and when to land the stack is
-  the user's call, carried out through `finishing-a-development-branch`; this skill performs the
+  the user's call, carried out through `finish`; this skill performs the
   bottom-up merge when asked, it does not choose to.

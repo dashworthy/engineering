@@ -1,12 +1,11 @@
 ---
-name: finishing-a-development-branch
-description: "When work is complete and green, carry out the finish strategy the plan gate authorized (merge / PR / land the stack / cleanup); with no plan behind the branch, present the options and ask."
+name: finish
+description: "The finish phase: when work is complete and green, carry out the finish strategy the plan gate authorized (merge / PR / land the stack / cleanup); with no plan behind the branch, present the options and ask."
 ---
 
-# Finishing A Development Branch
+# Finish
 
-Say this first, plainly: `Using the finishing-a-development-branch skill to decide how this
-branch gets integrated.`
+Say this first, plainly: `Using the finish skill to decide how this branch gets integrated.`
 
 ## What this guarantees
 
@@ -67,10 +66,10 @@ configuration, any branch protection, and the branch's existing state before act
 treating all of them as available every time.
 
 Whenever this skill writes a pull-request body — opening one, or opening each PR in a stacked
-land — invoke `engineering:writing-pr-descriptions` to compose it rather than drafting it
-inline. A commit or merge message this skill writes directly follows the same spirit: about the
+land — load `references/pr-description.md` and follow it to compose the body rather than drafting
+it inline. A commit or merge message this skill writes directly follows the same spirit: about the
 change, what it does, why, and how it was verified — and the same "Never sign it" policy
-`engineering:writing-pr-descriptions` states in full: no self-promotion for Claude or any
+`references/pr-description.md` states in full: no self-promotion for Claude or any
 AI/LLM vendor, no AI-authorship attribution, no exception absent a project that has explicitly
 asked for it.
 

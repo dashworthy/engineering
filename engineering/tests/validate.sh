@@ -134,7 +134,7 @@ fi
 
 # --- requesting-code-review stays removed ------------------------------------
 # The thin request-a-review wrapper was retired: executing-plans invokes engineering:code-review
-# directly per task, and finishing-a-development-branch runs it once on the whole branch. Guard
+# directly per task, and finish runs it once on the whole branch. Guard
 # that the wrapper does not creep back.
 [ ! -e "$PLUGIN/skills/requesting-code-review" ]; check $? "retired requesting-code-review skill is absent"
 

@@ -5,7 +5,7 @@
 # mid-flow human checkpoints. These checks pin those specific gates and the stages that hold
 # none — adding a further gate elsewhere would not invalidate them. Note code-review is NOT a
 # human-approval gate: it runs per task (executing-plans' automated gate) and once on the whole
-# branch at finish (finishing-a-development-branch), addressing findings in code without a fresh
+# branch at finish (finish), addressing findings in code without a fresh
 # human sign-off. The right-size bypass (brainstorming's opt-in SPEC-SKIPPED.md → writing-plans)
 # is likewise a routing choice, not a gate: it skips only the spec-CREATION step, never a human
 # approval — the plan gate still holds on that path. Prose-anchor checks over the shipped SKILL
@@ -30,7 +30,7 @@ BRAIN="$PLUGIN/skills/brainstorming/SKILL.md"
 TOSPEC="$PLUGIN/skills/to-spec/SKILL.md"
 PLANS="$PLUGIN/skills/writing-plans/SKILL.md"
 EXEC="$PLUGIN/skills/executing-plans/SKILL.md"
-FINISH="$PLUGIN/skills/finishing-a-development-branch/SKILL.md"
+FINISH="$PLUGIN/skills/finish/SKILL.md"
 SPECFMT="$PLUGIN/skills/to-spec/SPEC-FORMAT.md"
 
 # --- brainstorming: no gate, no marker -- approval lives at the spec gate ------

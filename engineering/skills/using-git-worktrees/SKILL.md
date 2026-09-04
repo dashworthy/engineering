@@ -109,7 +109,7 @@ human or another skill — has to re-derive it later from the workspace's state.
   `engineering:verification-before-completion`, run against the change this workspace
   eventually holds — not this skill's baseline check, which runs before any change exists.
 - It does not **merge, open a pull request, or clean up the workspace once work
-  finishes.** That is `engineering:finishing-a-development-branch`; this skill only ever
+  finishes.** That is `engineering:finish`; this skill only ever
   sets a workspace up, never tears one down or integrates it back.
 - It does not **fix a red baseline.** If the test suite fails before any change is made,
   this skill reports that fact and stops there — diagnosing or repairing a pre-existing

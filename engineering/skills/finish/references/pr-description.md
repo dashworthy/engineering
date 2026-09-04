@@ -1,11 +1,7 @@
----
-name: writing-pr-descriptions
-description: "Write a pull-request body in plain language: what changed and why, any decisions made, any key data touched, and a pre-PR checklist that is actually verified, not just printed. Never names a skill or an internal process step. Use whenever a PR description is being written, including opening a pull request or landing a stack."
----
+# Writing PR Descriptions (reference)
 
-# Writing PR Descriptions
-
-Say this first, plainly: `Using the writing-pr-descriptions skill to write the pull-request body in plain language.`
+> This is a reference the `finish` conductor loads when it writes a pull-request body. It is not a
+> skill and is never discovered on its own; `finish` drives it.
 
 ## What this guarantees
 
@@ -77,17 +73,15 @@ Only check an item once you've actually looked; an item you couldn't verify is r
 5. **Before merging** — the checklist from above, each line stating what was checked and what
    was found, not a bare checkbox.
 
-## Where this is invoked from
+## Where this is loaded from
 
-`engineering:finishing-a-development-branch` calls this skill to compose the body for
-**Open a pull request** and for each PR in **Land the stack**. It can also be invoked directly
-whenever a PR description needs writing outside that flow.
+The `finish` conductor loads this reference to compose the body for **Open a pull request** and for
+each PR in **Land the stack**.
 
 ## What this does not do
 
-- It does not **decide whether to open a PR.** That choice belongs to
-  `engineering:finishing-a-development-branch`; this skill only writes the body once the
-  decision is made.
+- It does not **decide whether to open a PR.** That choice belongs to the `finish` conductor; this
+  reference only shapes the body once the decision is made.
 - It does not **run verification itself.** It relies on
   `engineering:verification-before-completion`'s evidence rather than re-executing the suite.
 - It does not **fix what the checklist finds.** An unchecked or unverified item is reported

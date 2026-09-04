@@ -61,8 +61,8 @@ need "$E" "using-stacked-pull-requests"                  "executing-plans: names
 need "$E" "sequentially"                                 "executing-plans: stacked runs sequentially"
 need "$E" "land on that task's own branch" "executing-plans: commit on the right branch"
 
-# --- finishing-a-development-branch lands the stack --------------------------
-F="$PLUGIN/skills/finishing-a-development-branch/SKILL.md"
+# --- finish lands the stack --------------------------
+F="$PLUGIN/skills/finish/SKILL.md"
 need "$F" "Land the stack"                               "finishing: land-the-stack option"
 need "$F" "using-stacked-pull-requests"                  "finishing: delegates to the skill"
 need "$F" "open stacked pull requests already sitting on the branch" "finishing: detect stacked via open PRs"

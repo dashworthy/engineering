@@ -18,8 +18,8 @@ for skill in conducting-test-hardening auditing-test-gaps verifying-test-integri
   if grep -rlq "$skill" skills; then
     echo "FAIL: content still references $skill ($(grep -rl "$skill" skills | tr '\n' ' '))"; fail=1; fi
 done
-# The finishing-a-development-branch filesystem reader for the hardening run record is gone.
-if grep -q "test-hardening/" skills/finishing-a-development-branch/SKILL.md 2>/dev/null; then
-  echo "FAIL: finishing-a-development-branch still reads .engineering/<run>/test-hardening/"; fail=1; fi
+# The finish filesystem reader for the hardening run record is gone.
+if grep -q "test-hardening/" skills/finish/SKILL.md 2>/dev/null; then
+  echo "FAIL: finish still reads .engineering/<run>/test-hardening/"; fail=1; fi
 
 [ "$fail" = 0 ] && echo "PASS absorb-verity.sh" || exit 1

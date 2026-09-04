@@ -161,7 +161,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **24 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **22 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
@@ -172,8 +172,8 @@ none.
 | Planning | `writing-plans`, `reviewing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review` |
 | Docs | `document` |
-| Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
-| Cross-cutting | `resolving-merge-conflicts`, `using-diagrams`, `writing-pr-descriptions`, `writing-review-comments` |
+| Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finish`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
+| Cross-cutting | `resolving-merge-conflicts`, `using-diagrams` |
 
 The full index lives at
 [engineering/skills/README.md](engineering/skills/README.md).
