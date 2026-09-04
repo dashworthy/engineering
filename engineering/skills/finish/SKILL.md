@@ -31,12 +31,14 @@ unrelated.
 
 ## Review the whole branch once, as a unit
 
-The per-task `engineering:code-review` gates each saw one task's diff. Before the branch
+The per-task gates in `build` each saw one task's diff. Before the branch
 re-enters the repository, review it once more as a whole — the complete change, base at the
 trunk the branch forks from and head at the branch tip — so an issue that only shows up across
 tasks (a seam two tasks share, a pattern that drifted over the branch's life) gets one read no
-per-task gate had the scope to catch. Invoke `engineering:code-review` on that whole-branch
-boundary now, in addition to the per-task gates that already ran.
+per-task gate had the scope to catch. Load the build phase's review protocol
+(`skills/build/references/review-protocol.md`) and apply it to that whole-branch
+boundary now, in addition to the per-task gates that already ran. (A deeper, opt-in review is
+guardtower's job, not this one.)
 
 This is a review, **not a new approval gate**: findings are addressed in the code before
 integrating, the same as any other review's are, and the branch does not wait on a fresh human
@@ -102,8 +104,8 @@ asked for it.
 - It does not **run the project's tests itself** in place of its own suite or
   `engineering:verification-before-completion` — it relies on that skill's evidence rather than
   reimplementing it.
-- It does not **adjudicate the whole-branch review it runs.** The final
-  `engineering:code-review` pass above surfaces findings; addressing them is ordinary fix work
+- It does not **adjudicate the whole-branch review it runs.** The final whole-branch review
+  pass above surfaces findings; addressing them is ordinary fix work
   under the skills that own it, and this skill does not turn that review into a human approval
   gate or hold the branch for a fresh sign-off — the plan gate already authorized how the branch
   finishes. Its own remaining job is only how the reviewed, green branch re-enters the repository.

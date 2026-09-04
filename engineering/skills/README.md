@@ -8,8 +8,8 @@ human map of which skill belongs to which process.
 | Entrances | `signal`, `triage`, `receiving-code-review` |
 | Discovery | `interrogating-requirements`, `to-spec` |
 | Design | `brainstorming`, `codebase-design` |
-| Planning | `plan`, `executing-plans` |
-| Build | `tdd`, `diagnosing-bugs`, `code-review` |
+| Planning | `plan` |
+| Build | `build` |
 | Docs | `document` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finish`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
 | Cross-cutting | `resolving-merge-conflicts`, `using-diagrams` |

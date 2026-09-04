@@ -1,10 +1,10 @@
 #!/bin/sh
 # Approval-gate model: the human-approval gates are the spec gate (to-spec, when the spec is
 # created) and the plan gate (plan, when the plan is created). brainstorming holds no
-# gate and mints no marker; executing-plans runs to completion after the plan gate with no
+# gate and mints no marker; build runs to completion after the plan gate with no
 # mid-flow human checkpoints. These checks pin those specific gates and the stages that hold
 # none — adding a further gate elsewhere would not invalidate them. Note code-review is NOT a
-# human-approval gate: it runs per task (executing-plans' automated gate) and once on the whole
+# human-approval gate: it runs per task (build' automated gate) and once on the whole
 # branch at finish (finish), addressing findings in code without a fresh
 # human sign-off. The right-size bypass (brainstorming's opt-in SPEC-SKIPPED.md → plan)
 # is likewise a routing choice, not a gate: it skips only the spec-CREATION step, never a human
@@ -29,7 +29,7 @@ grep_flat() {  # grep_flat <file> <literal phrase>
 BRAIN="$PLUGIN/skills/brainstorming/SKILL.md"
 TOSPEC="$PLUGIN/skills/to-spec/SKILL.md"
 PLANS="$PLUGIN/skills/plan/SKILL.md"
-EXEC="$PLUGIN/skills/executing-plans/SKILL.md"
+EXEC="$PLUGIN/skills/build/SKILL.md"
 FINISH="$PLUGIN/skills/finish/SKILL.md"
 SPECFMT="$PLUGIN/skills/to-spec/SPEC-FORMAT.md"
 
@@ -93,25 +93,25 @@ check $? "plan records the finish strategy at the plan gate"
 ! grep_flat "$PLANS" "Review checkpoints"
 check $? "plan no longer emits mid-flow review checkpoints"
 
-# --- After Gate 2: executing-plans runs with no mid-flow human checkpoints -----
+# --- After Gate 2: build runs with no mid-flow human checkpoints -----
 grep_flat "$EXEC" "plan/APPROVED.md"
-check $? "executing-plans requires the plan-approval marker"
+check $? "build requires the plan-approval marker"
 ! grep_flat "$EXEC" "until the user says to continue"
-check $? "executing-plans no longer stops mid-run waiting for the user"
+check $? "build no longer stops mid-run waiting for the user"
 ! grep_flat "$EXEC" "stops the plan for a human look"
-check $? "executing-plans has no mid-flow human checkpoint"
+check $? "build has no mid-flow human checkpoint"
 
 # --- finishing: executes the plan-authorized finish strategy, no fresh asking --
 grep_flat "$FINISH" "finish strategy"
 check $? "finishing executes the plan-authorized finish strategy"
 
 # --- finishing: a final whole-branch code-review before integration ------------
-# Code-review now runs per task (executing-plans' gate) AND once on the whole branch here, so a
+# Code-review now runs per task (build' gate) AND once on the whole branch here, so a
 # cross-task issue no per-task diff had the scope to catch gets one read before the branch lands.
 # It stays a review, not a new approval gate (the plan gate already authorized how the branch
 # finishes), so these anchors must not reintroduce a human sign-off at this seam.
-grep_flat "$FINISH" "engineering:code-review"
-check $? "finishing runs a final engineering:code-review pass"
+grep_flat "$FINISH" "review-protocol.md"
+check $? "finishing runs a final whole-branch review via the build review-protocol reference"
 grep_flat "$FINISH" "the whole branch"
 check $? "finishing reviews the whole branch as a unit before integrating (not just per-task)"
 grep_flat "$FINISH" "not a new approval gate"

@@ -1,11 +1,8 @@
----
-name: tdd
-description: "Drive implementation with a strict red-green-refactor loop: write a failing test, watch it fail, write minimal code to pass, refactor. Use when building any behavior that can be tested first."
----
+# TDD loop (reference)
 
-# TDD
-
-Say this first, plainly: `Using the tdd skill to drive this implementation.`
+> This is a reference the `build` conductor loads to drive a task's behavior-changing steps through
+> a strict red-green-refactor loop. It is not a skill and is never discovered on its own; the
+> `build` conductor drives it. `mocking.md` and `tests.md` alongside it are loaded the same way.
 
 ## What this guarantees
 

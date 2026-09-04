@@ -1,6 +1,6 @@
 ---
 name: dispatching-parallel-agents
-description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive, distinct from executing-plans' plan-scoped subagent mode."
+description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive, distinct from build' plan-scoped subagent mode."
 ---
 
 # Dispatching Parallel Agents

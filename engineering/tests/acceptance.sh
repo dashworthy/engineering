@@ -14,7 +14,7 @@ sh "$d/plan03.sh"
 # 2. No slash-commands remain — every entry point is a skill now (decoupling from Claude-specific
 #    command syntax). The three entrances carried real content and resolve as skills.
 #    implement/vernacular never got a skill: they were shallow wrappers adding nothing over
-#    engineering:executing-plans and engineering:document, invoked directly instead.
+#    engineering:build and engineering:document, invoked directly instead.
 #    handoff/wait-what are deprecated and removed outright — no skill, no command.
 cmds=$(find "$eng/commands" -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
 [ "$cmds" = 0 ] || { echo "FAIL: engineering/commands must hold no command files (all commands are skills now); found $cmds"; fail=1; }
@@ -85,17 +85,17 @@ grep -qF 'dimensions"| BR["brainstorming' "$root/README.md" && grep -qF 'BR --> 
 # re-launch it. This is exactly the failure of a handoff that says "print the path and stop" without
 # the "now continue" half. Flatten newlines: the invoke phrase wraps.
 tr '\n' ' ' < "$eng/skills/to-spec/SKILL.md" | grep -qiE "invoke[^.]*plan[^.]*now" || { echo "FAIL: to-spec must invoke plan on spec approval (forward seam must not park)"; fail=1; }
-tr '\n' ' ' < "$eng/skills/plan/SKILL.md" | grep -qiE "invoke[^.]*executing-plans[^.]*now" || { echo "FAIL: plan must invoke executing-plans on plan approval (forward seam must not park)"; fail=1; }
+tr '\n' ' ' < "$eng/skills/plan/SKILL.md" | grep -qiE "invoke[^.]*build[^.]*now" || { echo "FAIL: plan must invoke build on plan approval (forward seam must not park)"; fail=1; }
 
 # 7. The test-hardening discipline has moved to the standalone verity plugin: engineering no
 # longer bakes a hardening step into its planning or finish skills.
 if grep -rq "conducting-test-hardening" "$eng/skills"; then echo "FAIL: engineering still references the moved conducting-test-hardening skill"; fail=1; fi
 
-# 7b. executing-plans must hand off to finish when the plan completes. The plan
+# 7b. build must hand off to finish when the plan completes. The plan
 # gate pre-authorizes the finish strategy so finishing carries it out unattended (plan gate = last human
 # stop); a handoff that stops at the last checked box without reaching finishing re-opens the
 # phantom-gate the pre-authorization was meant to close. Flatten newlines: the phrase wraps.
-tr '\n' ' ' < "$eng/skills/executing-plans/SKILL.md" | grep -qiE "hand[^.]*engineering:finish" || { echo "FAIL: executing-plans must hand off to finish on plan completion"; fail=1; }
+tr '\n' ' ' < "$eng/skills/build/SKILL.md" | grep -qiE "hand[^.]*engineering:finish" || { echo "FAIL: build must hand off to finish on plan completion"; fail=1; }
 
 # 8. No dangling cross-plugin namespaces or Tier-2 paths anywhere in the plugin's content.
 # Scans every content surface — skills, commands, hooks, scripts, and the plugin README; tests/ is

@@ -1,11 +1,9 @@
----
-name: diagnosing-bugs
-description: "Find a defect's root cause before changing code: reproduce, hypothesize, isolate, confirm with evidence. Use when a bug is reported or a test fails for a non-obvious reason. Does not isolate whether a report is valid — that is triage."
----
+# Diagnosing bugs (reference)
 
-# Diagnosing Bugs
-
-Say this first, plainly: `Using the diagnosing-bugs skill to find why, before changing anything.`
+> This is a reference the `build` conductor loads when a test fails for a non-obvious reason — find
+> the root cause before changing code. It is not a skill and is never discovered on its own; the
+> `build` conductor drives it. (Isolating whether a report is even valid is the `triage` entrance's
+> job, not this.)
 
 ## What this guarantees
 

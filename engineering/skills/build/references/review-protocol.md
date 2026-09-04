@@ -1,11 +1,10 @@
----
-name: code-review
-description: "Review a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. Use before merging or when asked to review a diff/branch/PR."
----
+# Review protocol (reference)
 
-# Code Review
-
-Say this first, plainly: `Using the code-review skill to review this change.`
+> This is a reference the `build` conductor loads for its automated per-task gate, and the `finish`
+> conductor loads for the whole-branch review. It reviews a change on two axes — Standards (meets
+> engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. It is not a skill
+> and is never discovered on its own; a conductor drives it. A deeper, opt-in review is guardtower's
+> job, not this.
 
 ## What this guarantees
 

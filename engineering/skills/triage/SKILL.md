@@ -58,8 +58,8 @@ into `.engineering/<run>/triage/` as it's found, not reconstructed afterward fro
 
 This is the beat particular to triage. Isolate only as far as the hand-off needs: enough to place
 the problem at a domain concept and hand it on with confidence, and no more. Triage is not
-diagnosis — finding the exact conditional is `diagnosing-bugs`' job, one step further than triage
-goes.
+diagnosis — finding the exact conditional is a job for the build phase's diagnosing reference, one
+step further than triage goes.
 
 **Reproduce first.** Before isolating anything, get the failure to happen under your own control —
 not just the reporter's word for it. Establish which of three outcomes is true, and write it down

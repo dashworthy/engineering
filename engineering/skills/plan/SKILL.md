@@ -146,7 +146,7 @@ rather than reading it off silently.
 When the plan is stacked, record it in the plan's Global Constraints as a single line —
 `PR strategy: stacked (one PR per task, via engineering:using-stacked-pull-requests)` — so
 every downstream skill reads the same marker. State in that same section that a stacked
-plan is **not eligible for** `executing-plans`' subagent parallel mode: stacking is linear,
+plan is **not eligible for** `build`' subagent parallel mode: stacking is linear,
 each task's branch is based on the one before it, so the tasks run sequentially and cannot
 fan out across parallel agents.
 
@@ -232,8 +232,8 @@ the plan for approval until the arch-lens review has returned.
 - It does not **design.** The approach a plan sequences into steps was already settled in
   `brainstorming` and written into the spec's approach section by `to-spec`; this skill
   does not weigh alternatives or choose between them, it schedules the one already chosen.
-- It does not **run the tasks.** Driving each task through `engineering:tdd` and gating with
-  `engineering:code-review` is `executing-plans` — a separate skill, downstream of this one.
+- It does not **run the tasks.** Driving each task through the TDD loop and gating it with the
+  internal review is `build` — a separate skill, downstream of this one.
   This skill schedules the work and, on approval, hands off to it; it does not perform the
   build itself.
 
@@ -251,7 +251,7 @@ not-approved.
 
 On approval, create the run's plan phase directory with
 `run-context.sh plan <slug>` and write `.engineering/<run>/plan/APPROVED.md`
-into it — a Tier-2, run-scoped trace that the plan cleared the gate. `executing-plans` reads
+into it — a Tier-2, run-scoped trace that the plan cleared the gate. `build` reads
 that marker as its precondition and refuses to build without it, so mint it only on approval,
 never before.
 
@@ -270,10 +270,10 @@ the human has not approved waits at the gate and is not handed onward. Once the 
 approves — the marker written, the finish strategy authorized — that approval *is* the go,
 and the plan gate was the last human stop before the build runs. There is no second gate at
 this seam, so print the plan's path — or, for a set, every path in sequence — and **invoke
-`executing-plans` now.** "Stop" here means stop *writing the plan*; it is not a stop to ask
+`build` now.** "Stop" here means stop *writing the plan*; it is not a stop to ask
 the human whether to build. Parking an approved plan with a "want me to start implementing?"
-is not an available move — the approval was the answer to that question; `executing-plans` is
-the next act, take it. Running the plan task by task is `executing-plans`' job — it reads the
+is not an available move — the approval was the answer to that question; `build` is
+the next act, take it. Running the plan task by task is `build`' job — it reads the
 plan this skill wrote (and the plan-approval marker behind it) and works it task by task.
-(`engineering:executing-plans` remains the entry point for building a plan approved in an
+(`engineering:build` remains the entry point for building a plan approved in an
 earlier session; a plan approved just now does not wait for it.)

@@ -113,7 +113,7 @@ to route to `codebase-design` or `brainstorming` rather than patching around it 
 - It does not **hold the plan gate.** Presenting the plan for human approval and minting the
   plan-approval marker is `plan`. This skill's per-finding flags are explicit-choice
   approvals inside the review, not the gate; it returns the reviewed plan and the gate follows.
-- It does not **run the tasks.** Building the plan is `executing-plans`, downstream of the gate.
+- It does not **run the tasks.** Building the plan is `build`, downstream of the gate.
 
 ## Handoff
 

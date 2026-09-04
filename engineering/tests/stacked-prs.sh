@@ -54,12 +54,12 @@ need "$W" "starts the task's stacked branch off the previous task's branch" "pla
 need "$W" "decided at plan-writing time"                "plan: strategy chosen at plan time"
 need "$W" "Stacked mode is opt-in per plan"             "plan: opt-in, non-stacked unchanged"
 
-# --- executing-plans honors the strategy -------------------------------------
-E="$PLUGIN/skills/executing-plans/SKILL.md"
-need "$E" "PR strategy"                                  "executing-plans: reads PR strategy"
-need "$E" "using-stacked-pull-requests"                  "executing-plans: names the skill"
-need "$E" "sequentially"                                 "executing-plans: stacked runs sequentially"
-need "$E" "land on that task's own branch" "executing-plans: commit on the right branch"
+# --- build honors the strategy -------------------------------------
+E="$PLUGIN/skills/build/SKILL.md"
+need "$E" "PR strategy"                                  "build: reads PR strategy"
+need "$E" "using-stacked-pull-requests"                  "build: names the skill"
+need "$E" "sequentially"                                 "build: stacked runs sequentially"
+need "$E" "land on that task's own branch" "build: commit on the right branch"
 
 # --- finish lands the stack --------------------------
 F="$PLUGIN/skills/finish/SKILL.md"

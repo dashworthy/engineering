@@ -1,11 +1,11 @@
 ---
-name: executing-plans
-description: "Execute an approved plan task by task — each driven through tdd and gated by code-review. Runs to completion with no human checkpoints. Use to build out a plan that already exists under .engineering/<run>/plan/."
+name: build
+description: "The build phase: execute an approved plan task by task — each driven through the TDD loop and gated by an internal review. Runs to completion with no human checkpoints. Use to build out a plan that already exists under .engineering/<run>/plan/."
 ---
 
-# Executing Plans
+# Build
 
-Say this first, plainly: `Using the executing-plans skill to execute the plan.`
+Say this first, plainly: `Using the build skill to execute the plan.`
 
 ## What this guarantees
 
@@ -79,18 +79,19 @@ task, in order:
    every numbered step under it — before touching anything, and **mark its todo `in_progress`**.
    A task read one step at a time is a task whose later steps might contradict a constraint an
    earlier one already set.
-2. **Drive the build steps through `engineering:tdd`.** Where a step changes behavior,
-   that means the red-green-refactor cycle tdd owns, not implementation written straight
-   from the plan's prose. A step that's pure scaffolding — a directory, a stub file with no
-   behavior yet — has nothing for tdd to grip and can be done directly; anything that
-   produces behavior gets a test that existed first.
+2. **Drive the build steps through the TDD loop** — load `references/tdd-loop.md` and follow it.
+   Where a step changes behavior, that means the red-green-refactor cycle the loop owns, not
+   implementation written straight from the plan's prose. A step that's pure scaffolding — a
+   directory, a stub file with no behavior yet — has nothing for the loop to grip and can be done
+   directly; anything that produces behavior gets a test that existed first.
 3. **Run the task's own verification** — the command its steps name and the output they
    say counts as passing. A task whose verification doesn't come back clean is not done,
    whatever the code looks like; fix it and check again before moving on.
-4. **Gate with `engineering:code-review`** on the task's own diff. A clean review is what
-   earns the box; a review with findings gets addressed and then re-reviewed on the corrected
-   diff before the box is checked. This gate is automated — it does not stop for a human — so a
-   finding is resolved in the diff, not referred upward for a ruling.
+4. **Gate the task's own diff** — load `references/review-protocol.md` and apply it. A clean
+   review is what earns the box; a review with findings gets addressed and then re-reviewed on the
+   corrected diff before the box is checked. This gate is automated — it does not stop for a human —
+   so a finding is resolved in the diff, not referred upward for a ruling. (This is the internal
+   per-task gate; a deeper, opt-in review is guardtower's job, not this one.)
 5. **Check the box** — flip the task's `- [ ]` to `- [x]` in the plan file itself, and **mark
    its todo `completed`** in the same breath, so the two records never disagree. The plan is the
    durable record of progress; a task that's actually done and still shows unchecked is a plan

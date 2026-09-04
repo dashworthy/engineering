@@ -133,8 +133,8 @@ fi
 [ ! -e "$PLUGIN/skills/domain-modeling" ]; check $? "domain-modeling skill removed"
 
 # --- requesting-code-review stays removed ------------------------------------
-# The thin request-a-review wrapper was retired: executing-plans invokes engineering:code-review
-# directly per task, and finish runs it once on the whole branch. Guard
+# The thin request-a-review wrapper was retired: build applies its review-protocol reference
+# per task, and finish applies it once on the whole branch. Guard
 # that the wrapper does not creep back.
 [ ! -e "$PLUGIN/skills/requesting-code-review" ]; check $? "retired requesting-code-review skill is absent"
 
@@ -210,7 +210,7 @@ personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$P
 # --- entry-point skills and READMEs -------------------------------------------
 
 # vernacular and implement were shallow wrappers adding nothing over document and
-# executing-plans; they were removed rather than converted, and those two skills are invoked
+# build; they were removed rather than converted, and those two skills are invoked
 # directly. Guard both directions: no wrapper skill exists, and the underlying skill still
 # carries the behavior the wrapper used to describe (the ref-resolution/two-rules discipline;
 # direct-invocation plan-finding).
@@ -278,14 +278,14 @@ check $? "plan runs the arch-lens review before the plan gate"
 grep_flat "$CD/SKILL.md" "Review mode"; check $? "codebase-design carries a review mode"
 grep_flat "$CD/SHAPE-REVIEW.md" "one-off data structure"; check $? "SHAPE-REVIEW names the reinvented data-structure smell"
 
-# --- executing-plans tracks the plan as todos --------------------------------
+# --- build tracks the plan as todos --------------------------------
 # The unattended build stays legible by mirroring the plan into a todo list: one todo per task,
 # marked in_progress/completed in lockstep with the plan's checkboxes. The todo mechanism is left
 # to the harness (mirroring superpowers), so this guards the tool-agnostic phrasing, not a tool
 # name — a check tied to Claude Code's TodoWrite would tether the skill to one harness.
-EP="$PLUGIN/skills/executing-plans/SKILL.md"
-grep_flat "$EP" "one todo per task"; check $? "executing-plans seeds the plan into a todo list"
-! grep_flat "$EP" "TodoWrite"; check $? "executing-plans names no harness-specific todo tool"
-grep_flat "$EP" "in_progress"; check $? "executing-plans marks a task in_progress as it starts"
+EP="$PLUGIN/skills/build/SKILL.md"
+grep_flat "$EP" "one todo per task"; check $? "build seeds the plan into a todo list"
+! grep_flat "$EP" "TodoWrite"; check $? "build names no harness-specific todo tool"
+grep_flat "$EP" "in_progress"; check $? "build marks a task in_progress as it starts"
 
 exit $fail

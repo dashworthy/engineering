@@ -140,7 +140,7 @@ flowchart LR
 Every spec leaves the same way. `plan` turns it into an ordered, bite-sized
 plan — each task carrying a code sketch of the change it makes — then `plan`'s own arch-lens review runs
 the architecture lens over those sketches and flags any one-off data structure before the
-plan reaches the second human gate; `engineering:executing-plans` drives each task through a test-first `tdd`
+plan reaches the second human gate; `engineering:build` drives each task through a test-first `tdd`
 loop gated by `code-review`; and docs hardening rewrites the prose the branch touched into
 plain language. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
 against a branch when you want it.)
@@ -161,7 +161,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **21 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **18 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
@@ -169,8 +169,8 @@ none.
 |---|---|
 | Discovery | `interrogating-requirements`, `to-spec` |
 | Design | `brainstorming`, `codebase-design` |
-| Planning | `plan`, `executing-plans` |
-| Build | `tdd`, `diagnosing-bugs`, `code-review` |
+| Planning | `plan` |
+| Build | `build` |
 | Docs | `document` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finish`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
 | Cross-cutting | `resolving-merge-conflicts`, `using-diagrams` |
@@ -183,7 +183,7 @@ The full index lives at
 Every entry point is a skill — there are no slash-commands, so nothing here depends on
 Claude-specific command syntax. The three entrances open the work: `engineering:signal`,
 `engineering:triage`, and `engineering:receiving-code-review`. Building an approved plan and
-clarifying docblock prose are not separate entry points — invoke `engineering:executing-plans`
+clarifying docblock prose are not separate entry points — invoke `engineering:build`
 and `engineering:document` directly; a thin wrapper skill over an existing skill
 would add a name and nothing else.
 

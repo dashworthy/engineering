@@ -21,7 +21,7 @@ put it there.
 
 Only when the plan's Global Constraints carry `PR strategy: stacked`. `plan` writes
 that line and emits, per task, a step that starts the task's branch and a step — after the
-task's commit — that submits its PR; `executing-plans` reaches those steps in order and
+task's commit — that submits its PR; `build` reaches those steps in order and
 dispatches this skill for them. A plan with no such line is an ordinary single-branch plan and
 never reaches here; do not stack a plan that didn't ask to be stacked.
 
