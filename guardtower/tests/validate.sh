@@ -973,6 +973,18 @@ if [ -f "$LARAVELCL" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — Tailwind content
+# ============================================================================
+
+TAILWINDCL="$PLUGIN/skills/reviewing-framework-best-practices/references/tailwind.md"
+[ -f "$TAILWINDCL" ]; check $? "reviewing-framework-best-practices/references/tailwind.md exists"
+if [ -f "$TAILWINDCL" ]; then
+  grep_flat "$TAILWINDCL" "utility"; check $? "tailwind.md covers reinvented utility patterns"
+  grep_flat "$TAILWINDCL" "dark mode"; check $? "tailwind.md covers responsive/dark-mode consistency"
+  grep_flat "$TAILWINDCL" "not a finding"; check $? "tailwind.md states what is not a finding"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
