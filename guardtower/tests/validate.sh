@@ -1145,6 +1145,20 @@ if [ -f "$JSCL" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — Backbone content (piece 2)
+# ============================================================================
+
+BBCL="$PLUGIN/skills/reviewing-framework-best-practices/references/backbone.md"
+[ -f "$BBCL" ]; check $? "reviewing-framework-best-practices/references/backbone.md exists"
+if [ -f "$BBCL" ]; then
+  grep_flat "$BBCL" "stopListening"; check $? "backbone.md covers view-lifecycle idioms"
+  grep_flat "$BBCL" "listenTo"; check $? "backbone.md covers event-binding idioms"
+  grep_flat "$BBCL" "model.set"; check $? "backbone.md covers model/collection sync idioms"
+  grep_flat "$BBCL" "render()"; check $? "backbone.md covers re-render idioms"
+  grep_flat "$BBCL" "not a finding"; check $? "backbone.md states what is not a finding"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
