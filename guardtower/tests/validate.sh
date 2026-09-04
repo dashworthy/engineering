@@ -1117,6 +1117,20 @@ if [ -f "$VUECL" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — TypeScript content (piece 2)
+# ============================================================================
+
+TSCL="$PLUGIN/skills/reviewing-framework-best-practices/references/typescript.md"
+[ -f "$TSCL" ]; check $? "reviewing-framework-best-practices/references/typescript.md exists"
+if [ -f "$TSCL" ]; then
+  grep_flat "$TSCL" "any"; check $? "typescript.md covers type-safety idioms"
+  grep_flat "$TSCL" "duplicat"; check $? "typescript.md covers type-duplication idioms"
+  grep_flat "$TSCL" "generic"; check $? "typescript.md covers generics idioms"
+  grep_flat "$TSCL" "enum"; check $? "typescript.md covers enum-vs-union idioms"
+  grep_flat "$TSCL" "not a finding"; check $? "typescript.md states what is not a finding"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
