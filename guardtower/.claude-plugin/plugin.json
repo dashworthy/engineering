@@ -1,7 +1,7 @@
 {
   "name": "guardtower",
   "description": "In-depth, opt-in code review gate: a facet menu (Security, Novelty, Technical, Architectural, and more) fanned out as self-limiting reviewers that relevance-gate, cap, and floor their own findings, write a durable per-facet record under .guardtower/, and never touch your code.",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "author": {
     "name": "Andrew Leach",
     "email": "7387639+andyleach@users.noreply.github.com"

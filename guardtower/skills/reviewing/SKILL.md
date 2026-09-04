@@ -20,15 +20,17 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 
 ## The facets
 
-Sixteen facets exist; each is a thin skill owning one lens. The four **core** facets (**Security**,
+Seventeen facets exist; each is a thin skill owning one lens. The four **core** facets (**Security**,
 **Novelty**, **Technical**, **Architectural**) are pre-checked by default; eight additional facets (**Error Handling
 & Resilience**, **Test Quality**, **Data & Migration Safety**, **API & Backward Compatibility**,
 **Concurrency & Race Safety**, **Idempotency & Retry Safety**, **Numeric Precision & Units**,
 **API Consumption**) are
 selectable per run; two **tenant-isolation** facets are **core-when-present** — proposed and
 pre-checked only when the repo-level detection step finds the matching tenancy model (see the
-menu-proposal step in the workflow); and the **Data Presentation** and **Accessibility** facets
-are always in the menu, opt-in and not tenancy-gated.
+menu-proposal step in the workflow); the **Framework Best Practices** facet is likewise
+**core-when-present** — proposed and pre-checked only when the repo-level stack classification
+finds at least one covered framework (Laravel and Tailwind today) — and the **Data Presentation**
+and **Accessibility** facets are always in the menu, opt-in and not tenancy- or stack-gated.
 
 | Facet (skill) | Lens | Core? |
 |---|---|---|
@@ -48,25 +50,34 @@ are always in the menu, opt-in and not tenancy-gated.
 | `reviewing-tenant-isolation-isolated-db` | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | core-when-present |
 | `reviewing-data-presentation` | Identity-ambiguous presentation: distinct records a person can't tell apart | — |
 | `reviewing-accessibility` | Accessibility: perceivability & operability — alt text, labels, ARIA/semantics, keyboard/focus, contrast, reduced-motion, live-region announcements | — |
+| `reviewing-framework-best-practices` | Stack-specific idiom violations for the detected framework(s) — Laravel and Tailwind today | core-when-present |
 
 ## The workflow
 
-1. **Classify the tenancy model — the menu-proposal gate.** Before building the menu, decide once,
-   at the **repo level**, whether this application is multi-tenant and how it isolates tenants —
-   reasoning against [references/multi-tenancy-signals.md](references/multi-tenancy-signals.md).
-   This is **agent-driven** (weigh the signals in the codebase), never a shell script. Emit one
-   verdict — `shared`, `per-db`, `both`, `none`, or `ambiguous` — and on `ambiguous` ask the human
-   once. The verdict governs only which tenant facets the menu proposes and pre-checks: `shared` →
-   the shared-DB facet, `per-db` → the isolated-DB facet, `both` → both, `none` → neither. This is
-   the upper of guardtower's **two-gate** model: a repo-level menu-proposal gate that sits *above*
-   each facet's own per-change relevance gate — a proposed facet still self-skips on a change that
-   touches no tenant-scoped surface, so proposing is not running.
+1. **Classify the tenancy model and the stack — the menu-proposal gate.** Before building the
+   menu, decide once, at the **repo level**: whether this application is multi-tenant and how it
+   isolates tenants, reasoning against
+   [references/multi-tenancy-signals.md](references/multi-tenancy-signals.md); and which
+   framework(s) it runs, reasoning against
+   [references/stack-signals.md](references/stack-signals.md). Both are **agent-driven** (weigh
+   the signals in the codebase), never a shell script. Emit the tenancy verdict — `shared`,
+   `per-db`, `both`, `none`, or `ambiguous` — and on `ambiguous` ask the human once; separately
+   emit the stack verdict as a **set** of matched frameworks (zero or more of `laravel`,
+   `tailwind`), never a single mutually-exclusive value, since a repo can run more than one at
+   once. The tenancy verdict governs only which tenant facets the menu proposes and pre-checks:
+   `shared` → the shared-DB facet, `per-db` → the isolated-DB facet, `both` → both, `none` →
+   neither. The stack verdict governs only whether `reviewing-framework-best-practices` is
+   proposed and pre-checked: any non-empty set → proposed; an empty set → not on the menu at all.
+   This is the upper of guardtower's **two-gate** model: a repo-level menu-proposal gate that sits
+   *above* each facet's own per-change relevance gate — a proposed facet still self-skips on a
+   change that touches no tenant-scoped or stack-relevant surface, so proposing is not running.
 2. **Pick the facets.** Present the facet menu as a structured multi-select choice, using a tool to
    ask it where one is available, with the
    four **core** facets **pre-checked**, plus any tenant-isolation facet the menu-proposal step
-   above proposed (pre-checked when proposed). The **Data Presentation** and **Accessibility**
-   facets are always offered, opt-in. The human unchecks or adds; only available facets run (a
-   not-yet-available pick is reported as skipped, not failed).
+   above proposed (pre-checked when proposed), plus `reviewing-framework-best-practices` when the
+   stack classification found at least one match (pre-checked when proposed). The **Data
+   Presentation** and **Accessibility** facets are always offered, opt-in. The human unchecks or
+   adds; only available facets run (a not-yet-available pick is reported as skipped, not failed).
 3. **Resolve the change and the run.** Resolve `change_ref` once (the diff/branch/PR under review).
    Create the run directory with `run-context.sh` — the per-facet path is
    `.guardtower/<run>/<facet-skill>/findings.md`.

@@ -1017,6 +1017,40 @@ if [ -f "$FBP" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — detection seam, orchestrator wiring, README, version
+# ============================================================================
+
+STACKSIG="$PLUGIN/skills/reviewing/references/stack-signals.md"
+[ -f "$STACKSIG" ]; check $? "reviewing/references/stack-signals.md exists"
+if [ -f "$STACKSIG" ]; then
+  grep_flat "$STACKSIG" "Laravel"; check $? "stack-signals documents Laravel detection"
+  grep_flat "$STACKSIG" "Tailwind"; check $? "stack-signals documents Tailwind detection"
+  grep_flat "$STACKSIG" "set"; check $? "stack-signals emits a set, not a single mutually-exclusive verdict"
+fi
+
+if [ -f "$ORCH" ]; then
+  grep_flat "$ORCH" "references/stack-signals.md"; check $? "reviewing links references/stack-signals.md"
+  grep_flat "$ORCH" "reviewing-framework-best-practices"; check $? "reviewing menu table lists reviewing-framework-best-practices"
+fi
+
+# --- orchestrator wiring: framework-best-practices facet is live, not "coming soon" ---
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-framework-best-practices' "$ORCH"; then
+    if grep 'reviewing-framework-best-practices' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-framework-best-practices (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-framework-best-practices (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-framework-best-practices (not coming soon)"
+  fi
+fi
+
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "Framework Best Practices"; check $? "README lists the framework-best-practices facet"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
