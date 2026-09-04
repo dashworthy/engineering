@@ -39,13 +39,52 @@ directory layout each framework conventionally expects.
 - A `tailwind.config.js` or `tailwind.config.ts` at the repo root, **or** a CSS entry file using
   the v4 CSS-first `@theme` directive / `@import "tailwindcss"`.
 
+## Symfony signals
+
+- `symfony/symfony` or `symfony/framework-bundle` present in `composer.json`'s `require`.
+- A `bin/console` file at the repo root.
+- The conventional Symfony directory layout — `src/Controller`, `config/services.yaml`.
+
+## OroCommerce signals
+
+- `oro/platform` or `oro/commerce` present in `composer.json`'s `require`.
+- The Oro-conventional bundle layout — one or more `src/*/Bundle` directories following Oro's own
+  bundle-per-concern structure.
+
+## React signals
+
+- `react` present in `package.json`'s `dependencies` or `devDependencies`.
+- `.jsx`/`.tsx` files containing JSX, outside a directory that's purely Inertia page components
+  (Inertia's own React-page conventions are `laravel.md`'s section; this signal is for React
+  itself).
+
+## Vue signals
+
+- `vue` present in `package.json`'s `dependencies` or `devDependencies`.
+- `.vue` single-file component files.
+
+## TypeScript signals
+
+- `typescript` present in `package.json`'s `dependencies` or `devDependencies`.
+- A `tsconfig.json` at the repo root.
+- `.ts`/`.tsx` files.
+
+## JavaScript signals
+
+- A `package.json` present, with **no** `typescript` dependency, and `.js` files outside any
+  directory a more specific framework's own signals above already claim — the residual/default
+  case for a repo with no TypeScript and no detected framework directory structure of its own.
+  This signal governs only which stacks join the set for *this* run; it never fires standalone
+  inside a repo that's purely React/Vue/TypeScript with no separate untyped-JS surface.
+
+## Backbone signals
+
+- `backbone` present in `package.json`'s `dependencies` or `devDependencies`.
+
 ## Classification — the verdict
 
-Emit the **set** of matched stacks — zero or more of: `laravel`, `tailwind`. These are the only
-two this facet covers today; the other seven (Symfony, React, Vue, TypeScript, JavaScript,
-Backbone, OroCommerce) are a deferred follow-up and are never part of this verdict yet, however
-strong their signals might look — do not guess at their detection ahead of their own reference
-file existing.
+Emit the **set** of matched stacks — zero or more of: `laravel`, `tailwind`, `symfony`,
+`orocommerce`, `react`, `vue`, `typescript`, `javascript`, `backbone`.
 
 - **Non-empty set** — propose the `reviewing-framework-best-practices` facet, pre-checked.
 - **Empty set** — propose neither; the facet does not appear on the menu at all, mirroring how

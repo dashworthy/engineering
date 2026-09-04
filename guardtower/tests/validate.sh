@@ -1051,6 +1051,144 @@ if [ -f "$PLUGIN/README.md" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — Symfony content (piece 2)
+# ============================================================================
+
+SYMFONYCL="$PLUGIN/skills/reviewing-framework-best-practices/references/symfony.md"
+[ -f "$SYMFONYCL" ]; check $? "reviewing-framework-best-practices/references/symfony.md exists"
+if [ -f "$SYMFONYCL" ]; then
+  grep_flat "$SYMFONYCL" "autowired"; check $? "symfony.md covers dependency-injection/service-configuration idioms"
+  grep_flat "$SYMFONYCL" "controller"; check $? "symfony.md covers controller/routing idioms"
+  grep_flat "$SYMFONYCL" "DQL"; check $? "symfony.md covers Doctrine ORM/query-shape idioms"
+  grep_flat "$SYMFONYCL" "Validator"; check $? "symfony.md covers validation/Form idioms"
+  grep_flat "$SYMFONYCL" "EventSubscriber"; check $? "symfony.md covers event-system idioms"
+  grep_flat "$SYMFONYCL" "Messenger"; check $? "symfony.md covers console/Messenger idioms"
+  grep_flat "$SYMFONYCL" "parameter bag"; check $? "symfony.md covers config/environment idioms"
+  grep_flat "$SYMFONYCL" "not a finding"; check $? "symfony.md states what is not a finding"
+  grep_flat "$SYMFONYCL" "Novelty"; check $? "symfony.md cedes generic reinvention to Novelty"
+fi
+
+# ============================================================================
+# Framework best practices — OroCommerce content (piece 2)
+# ============================================================================
+
+OROCL="$PLUGIN/skills/reviewing-framework-best-practices/references/orocommerce.md"
+[ -f "$OROCL" ]; check $? "reviewing-framework-best-practices/references/orocommerce.md exists"
+if [ -f "$OROCL" ]; then
+  grep_flat "$OROCL" "extend field"; check $? "orocommerce.md covers entity-extension idioms"
+  grep_flat "$OROCL" "Workflow"; check $? "orocommerce.md covers workflow/process idioms"
+  grep_flat "$OROCL" "layout"; check $? "orocommerce.md covers layout-system idioms"
+  grep_flat "$OROCL" "DataGrid"; check $? "orocommerce.md covers DataGrid idioms"
+  grep_flat "$OROCL" "extension point"; check $? "orocommerce.md covers extension-point idioms"
+  grep_flat "$OROCL" "not a finding"; check $? "orocommerce.md states what is not a finding"
+  grep_flat "$OROCL" "symfony.md"; check $? "orocommerce.md states its boundary against symfony.md"
+  grep_flat "$OROCL" "ACL"; check $? "orocommerce.md states its ACL-mechanism boundary against Security"
+fi
+
+# ============================================================================
+# Framework best practices — React content (piece 2)
+# ============================================================================
+
+REACTCL="$PLUGIN/skills/reviewing-framework-best-practices/references/react.md"
+[ -f "$REACTCL" ]; check $? "reviewing-framework-best-practices/references/react.md exists"
+if [ -f "$REACTCL" ]; then
+  grep_flat "$REACTCL" "useEffect"; check $? "react.md covers hook-dependency idioms"
+  grep_flat "$REACTCL" "state"; check $? "react.md covers state-management idioms"
+  grep_flat "$REACTCL" "key"; check $? "react.md covers list/key idioms"
+  grep_flat "$REACTCL" "cleanup"; check $? "react.md covers side-effect idioms"
+  grep_flat "$REACTCL" "memo"; check $? "react.md covers memoization idioms"
+  grep_flat "$REACTCL" "not a finding"; check $? "react.md states what is not a finding"
+  grep_flat "$REACTCL" "laravel.md"; check $? "react.md states its boundary against laravel.md's Inertia section"
+fi
+
+# ============================================================================
+# Framework best practices — Vue content (piece 2)
+# ============================================================================
+
+VUECL="$PLUGIN/skills/reviewing-framework-best-practices/references/vue.md"
+[ -f "$VUECL" ]; check $? "reviewing-framework-best-practices/references/vue.md exists"
+if [ -f "$VUECL" ]; then
+  grep_flat "$VUECL" "toRefs"; check $? "vue.md covers reactivity idioms"
+  grep_flat "$VUECL" "Composition"; check $? "vue.md covers Composition/Options API consistency"
+  grep_flat "$VUECL" "computed"; check $? "vue.md covers computed-vs-method idioms"
+  grep_flat "$VUECL" "v-for"; check $? "vue.md covers v-for key idioms"
+  grep_flat "$VUECL" "watch"; check $? "vue.md covers watcher idioms"
+  grep_flat "$VUECL" "not a finding"; check $? "vue.md states what is not a finding"
+fi
+
+# ============================================================================
+# Framework best practices — TypeScript content (piece 2)
+# ============================================================================
+
+TSCL="$PLUGIN/skills/reviewing-framework-best-practices/references/typescript.md"
+[ -f "$TSCL" ]; check $? "reviewing-framework-best-practices/references/typescript.md exists"
+if [ -f "$TSCL" ]; then
+  grep_flat "$TSCL" "any"; check $? "typescript.md covers type-safety idioms"
+  grep_flat "$TSCL" "duplicat"; check $? "typescript.md covers type-duplication idioms"
+  grep_flat "$TSCL" "generic"; check $? "typescript.md covers generics idioms"
+  grep_flat "$TSCL" "enum"; check $? "typescript.md covers enum-vs-union idioms"
+  grep_flat "$TSCL" "not a finding"; check $? "typescript.md states what is not a finding"
+fi
+
+# ============================================================================
+# Framework best practices — JavaScript content (piece 2)
+# ============================================================================
+
+JSCL="$PLUGIN/skills/reviewing-framework-best-practices/references/javascript.md"
+[ -f "$JSCL" ]; check $? "reviewing-framework-best-practices/references/javascript.md exists"
+if [ -f "$JSCL" ]; then
+  grep_flat "$JSCL" "await"; check $? "javascript.md covers async idioms"
+  grep_flat "$JSCL" "coercion"; check $? "javascript.md covers equality/coercion idioms"
+  grep_flat "$JSCL" "closure"; check $? "javascript.md covers scope/closure idioms"
+  grep_flat "$JSCL" "require()"; check $? "javascript.md covers module-system idioms"
+  grep_flat "$JSCL" "not a finding"; check $? "javascript.md states what is not a finding"
+fi
+
+# ============================================================================
+# Framework best practices — Backbone content (piece 2)
+# ============================================================================
+
+BBCL="$PLUGIN/skills/reviewing-framework-best-practices/references/backbone.md"
+[ -f "$BBCL" ]; check $? "reviewing-framework-best-practices/references/backbone.md exists"
+if [ -f "$BBCL" ]; then
+  grep_flat "$BBCL" "stopListening"; check $? "backbone.md covers view-lifecycle idioms"
+  grep_flat "$BBCL" "listenTo"; check $? "backbone.md covers event-binding idioms"
+  grep_flat "$BBCL" "model.set"; check $? "backbone.md covers model/collection sync idioms"
+  grep_flat "$BBCL" "render()"; check $? "backbone.md covers re-render idioms"
+  grep_flat "$BBCL" "not a finding"; check $? "backbone.md states what is not a finding"
+fi
+
+# ============================================================================
+# Framework best practices — piece 2 wiring (detection seam, index, README, version)
+# ============================================================================
+
+if [ -f "$STACKSIG" ]; then
+  grep_flat "$STACKSIG" "## Symfony signals"; check $? "stack-signals documents Symfony detection"
+  grep_flat "$STACKSIG" "## OroCommerce signals"; check $? "stack-signals documents OroCommerce detection"
+  grep_flat "$STACKSIG" "## React signals"; check $? "stack-signals documents React detection"
+  grep_flat "$STACKSIG" "## Vue signals"; check $? "stack-signals documents Vue detection"
+  grep_flat "$STACKSIG" "## TypeScript signals"; check $? "stack-signals documents TypeScript detection"
+  grep_flat "$STACKSIG" "## JavaScript signals"; check $? "stack-signals documents JavaScript detection"
+  grep_flat "$STACKSIG" "## Backbone signals"; check $? "stack-signals documents Backbone detection"
+fi
+
+if [ -f "$FBPIDX" ]; then
+  grep_flat "$FBPIDX" "references/symfony.md"; check $? "index maps Symfony to its file"
+  grep_flat "$FBPIDX" "references/orocommerce.md"; check $? "index maps OroCommerce to its file"
+  grep_flat "$FBPIDX" "references/react.md"; check $? "index maps React to its file"
+  grep_flat "$FBPIDX" "references/vue.md"; check $? "index maps Vue to its file"
+  grep_flat "$FBPIDX" "references/typescript.md"; check $? "index maps TypeScript to its file"
+  grep_flat "$FBPIDX" "references/javascript.md"; check $? "index maps JavaScript to its file"
+  grep_flat "$FBPIDX" "references/backbone.md"; check $? "index maps Backbone to its file"
+  grep_flat "$FBPIDX" "orocommerce.md"; check $? "index's multi-match example covers the piece-2 stacks"
+fi
+
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "Symfony"; check $? "README names Symfony among the covered stacks"
+  grep_flat "$PLUGIN/README.md" "Backbone"; check $? "README names Backbone among the covered stacks"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running

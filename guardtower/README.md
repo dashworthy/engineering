@@ -45,7 +45,7 @@ facets, then returns one reconciled report plus the per-facet artifacts under `.
 | **Tenant Isolation (isolated DB)** | Cross-tenant leaks in a database-per-tenant app — an operation on the wrong connection. |
 | **Data Presentation** | Identity-ambiguous presentation — distinct records a person cannot tell apart. |
 | **Accessibility** | Perceivability & operability for assistive tech — missing alt text or labels, ARIA/semantic misuse, keyboard/focus traps, insufficient contrast, unrespected reduced-motion, unannounced dynamic updates. |
-| **Framework Best Practices** | Stack-specific idiom violations — Laravel and Tailwind today, more to follow. |
+| **Framework Best Practices** | Stack-specific idiom violations — Laravel, Tailwind, Symfony, OroCommerce, React, Vue, TypeScript, JavaScript, and Backbone. |
 
 This release ships **seventeen** facets — the four **core** (**Security**, **Novelty**, **Technical**,
 **Architectural**), pre-checked by default, plus **Error Handling & Resilience**, **Test Quality**,
@@ -57,7 +57,8 @@ tenancy model once per run and pre-checks the matching facet (shared-DB or datab
 neither when the app is single-tenant — a repo-level menu-proposal gate above each facet's own
 per-change relevance check. **Framework Best Practices** is proposed the same way, against a
 separate classification of which framework(s) the repo runs — pre-checked when at least one
-covered stack (Laravel or Tailwind) is detected, absent from the menu otherwise. **Data
+covered stack (Laravel, Tailwind, Symfony, OroCommerce, React, Vue, TypeScript, JavaScript, or
+Backbone) is detected, absent from the menu otherwise. **Data
 Presentation** and **Accessibility** are always in the menu, opt-in.
 
 ## Design principles
