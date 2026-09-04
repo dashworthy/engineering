@@ -45,8 +45,9 @@ facets, then returns one reconciled report plus the per-facet artifacts under `.
 | **Tenant Isolation (isolated DB)** | Cross-tenant leaks in a database-per-tenant app — an operation on the wrong connection. |
 | **Data Presentation** | Identity-ambiguous presentation — distinct records a person cannot tell apart. |
 | **Accessibility** | Perceivability & operability for assistive tech — missing alt text or labels, ARIA/semantic misuse, keyboard/focus traps, insufficient contrast, unrespected reduced-motion, unannounced dynamic updates. |
+| **Framework Best Practices** | Stack-specific idiom violations — Laravel and Tailwind today, more to follow. |
 
-This release ships **sixteen** facets — the four **core** (**Security**, **Novelty**, **Technical**,
+This release ships **seventeen** facets — the four **core** (**Security**, **Novelty**, **Technical**,
 **Architectural**), pre-checked by default, plus **Error Handling & Resilience**, **Test Quality**,
 **Data & Migration Safety**, **API & Backward Compatibility**, **Concurrency & Race Safety**,
 **Idempotency & Retry Safety**, **Numeric Precision & Units**, and **API Consumption** — on the
@@ -54,8 +55,10 @@ shared review spine. The
 two **Tenant Isolation** facets are **proposed automatically**: guardtower classifies the repo's
 tenancy model once per run and pre-checks the matching facet (shared-DB or database-per-tenant), or
 neither when the app is single-tenant — a repo-level menu-proposal gate above each facet's own
-per-change relevance check. **Data Presentation** and **Accessibility** are always in the menu,
-opt-in.
+per-change relevance check. **Framework Best Practices** is proposed the same way, against a
+separate classification of which framework(s) the repo runs — pre-checked when at least one
+covered stack (Laravel or Tailwind) is detected, absent from the menu otherwise. **Data
+Presentation** and **Accessibility** are always in the menu, opt-in.
 
 ## Design principles
 
