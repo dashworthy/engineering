@@ -50,7 +50,7 @@ straight to the carrying-out skill because it looked like the closer match skips
 the shape was supposed to get decided at all, and the carrying-out skill has no way to notice
 the gap — it will simply carry out an unexamined default instead of a deliberate one.
 
-`engineering:brainstorming` settling an approach before `engineering:build` builds any of it, and
+`engineering:design` settling an approach before `engineering:build` builds any of it, and
 `engineering:plan` breaking an approved design into ordered tasks before
 `engineering:build` works through them one by one, are this plugin's clearest
 instances of the pattern: process first, implementation second, never the reverse.

@@ -3,7 +3,7 @@ set -e
 d=$(CDPATH= cd "$(dirname "$0")" && pwd)
 sh "$d/frontmatter.sh" "$d/../skills/plan"
 sh "$d/frontmatter.sh" "$d/../skills/build"
-sh "$d/frontmatter.sh" "$d/../skills/brainstorming"
+sh "$d/frontmatter.sh" "$d/../skills/design"
 sh "$d/frontmatter.sh" "$d/../skills/resolving-merge-conflicts"
 sh "$d/triage.sh"
 echo "ALL PLAN-03 CHECKS PASS"

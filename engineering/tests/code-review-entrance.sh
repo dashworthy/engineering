@@ -1,6 +1,6 @@
 #!/bin/sh
 # receiving-code-review is a self-contained SKILL entrance — no backing command. It carries the
-# shared four-beat skeleton (Isolate -> establish run -> shape context -> hand to brainstorming);
+# shared four-beat skeleton (Isolate -> establish run -> shape context -> hand to design);
 # its divergent third beat aggregates the review comments, verifies each against the codebase,
 # checks whether an issue reaches beyond the commented area, and interrogates only when needed —
 # carrying two standing instructions forward (reply to each ask; target each fix's PR at the
@@ -23,7 +23,7 @@ SKILL=skills/receiving-code-review/SKILL.md
 grep -q "using-git-worktrees" "$SKILL" || { echo "FAIL: entrance must carry the Isolate beat (using-git-worktrees)"; fail=1; }
 grep -qE 'run-context\.sh" receiving-code-review|run-context\.sh receiving-code-review' "$SKILL" || { echo "FAIL: entrance must establish/join a run via run-context.sh receiving-code-review"; fail=1; }
 grep -q "\.engineering/" "$SKILL" || { echo "FAIL: entrance must log to .engineering/<run>/receiving-code-review"; fail=1; }
-grep -q "engineering:brainstorming" "$SKILL" || { echo "FAIL: entrance must hand context to brainstorming"; fail=1; }
+grep -q "engineering:design" "$SKILL" || { echo "FAIL: entrance must hand context to design"; fail=1; }
 
 # Divergent shape-context beat: aggregate -> verify against codebase -> impact beyond the comment ->
 # interrogate only when needed.

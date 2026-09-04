@@ -1,6 +1,6 @@
 ---
 name: receiving-code-review
-description: "The review-feedback entrance: aggregate received code-review comments, verify each against the codebase, reply on each thread, stack the fixes onto the original review branch, and hand the shaped context to the design dialogue. Use when code-review feedback arrives. One of three entrances; converges on brainstorming and never invokes another entrance."
+description: "The review-feedback entrance: aggregate received code-review comments, verify each against the codebase, reply on each thread, stack the fixes onto the original review branch, and hand the shaped context to the design dialogue. Use when code-review feedback arrives. One of three entrances; converges on design and never invokes another entrance."
 ---
 
 # receiving-code-review
@@ -80,7 +80,7 @@ the reviewer happened to point at.
 
 **Interrogate only when needed.** When how to proceed on a comment genuinely needs the user — an
 ambiguous ask, a conflict with a decision already made, expected behavior that must be synthesized —
-and only then, drive the shared discovery primitive `engineering:interrogating-requirements` (it
+and only then, load the shared discovery reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) and drive it (it
 self-drives the interrogation and writes what it learns into this run's directory). This is this
 entrance's own discovery leg — it is **not** a hand-off to another entrance; the three entrances are
 distinct and never invoke one another.
@@ -88,7 +88,7 @@ distinct and never invoke one another.
 ### Two standing instructions to carry forward
 
 The design and build that follow inherit two instructions particular to a received review. State
-them plainly in the shaped context so brainstorming and everything downstream honor them:
+them plainly in the shaped context so design and everything downstream honor them:
 
 1. **Reply to each ask.** Every distinct comment gets a reply on its own thread — a technical
    response attached to the line it answers, not a detached top-level comment.
@@ -116,14 +116,14 @@ the whole picture in view. Resolve the thread only on an explicit yes; a comment
 rather than fixed stays open with the reasoning on its thread. No such tool: present the same
 choice as plain text and say the run is degraded.
 
-## 4. Hand to brainstorming
+## 4. Hand to design
 
 Once the comments are aggregated, verified, and impact-checked — and the two standing instructions
 are written into the shaped context — hand it to the shared design dialogue: invoke
-`engineering:brainstorming` now. Everything converges there; there is no gate at this seam. Approval
-lives downstream — the spec gate in `to-spec`, the plan gate in `plan` — never in this
-entrance and never in brainstorming. Reporting the findings and asking whether to proceed is not a
-move here: once the context is shaped and written into the run, invoke brainstorming.
+`engineering:design` now. Everything converges there; there is no gate at this seam. Approval
+lives downstream — the spec gate in `design`, the plan gate in `plan` — never in this
+entrance and never in design. Reporting the findings and asking whether to proceed is not a
+move here: once the context is shaped and written into the run, invoke design.
 
 If no review is in hand, ask the user for the PR, branch, or comments under review before
 proceeding.

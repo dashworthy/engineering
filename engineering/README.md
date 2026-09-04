@@ -16,7 +16,7 @@ ends at a green, documented branch — deployment and release are out of scope.
 | Discover | `signal` (interrogate → design dialogue) |
 | Triage | `triage` (verify → isolate → design dialogue) |
 | Receiving review | `receiving-code-review` (aggregate → verify → design dialogue) |
-| Design | `brainstorming` → `to-spec` |
+| Design | `design` → `to-spec` |
 | Build | `plan` → `tdd` · `code-review` → docs |
 
 The full pipeline diagram and phase-by-phase walk-through live in the

@@ -1,15 +1,13 @@
----
-name: to-spec
-description: "The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Invoked by the design dialogue with a recommended design; does not self-trigger on arbitrary requests."
----
+# Spec-writing stage (reference) — the single Tier-1 writer and the spec gate
 
-# To Spec
-
-Say this first, plainly: `Using the to-spec skill to write the spec.`
+> This is a reference the `design` conductor loads after the design dialogue to serialize the
+> recommended design into the one Tier-1 spec, present it, and hold the spec-approval gate. It is
+> not a skill and is never discovered on its own; the `design` conductor drives it. Its run-dir slug
+> stays `to-spec` (`.engineering/<run>/to-spec/APPROVED.md`), which `plan` reads as its precondition.
 
 ## What this guarantees
 
-One thing: given an entrance's finished material, this skill writes exactly one Tier-1
+One thing: given an entrance's finished material, this stage writes exactly one Tier-1
 spec, in exactly one format, at exactly one path. It is the only skill in this plugin
 permitted to write to the run's spec dir, `.engineering/<run>/spec/`.
 
@@ -52,9 +50,9 @@ Two source shapes map onto the one format — and the mapping is by meaning, not
 section number:
 - a **signal** brief supplies §1–§5 in order, and its §6 (Existing Context) becomes
   the spec's §7; the brief ends at §6. The spec's §6 (Approach) does not come from
-  the brief at all — it is transcribed from the recommended design `engineering:brainstorming` hands
+  the brief at all — it is transcribed from the recommended design `engineering:design` hands
   off: the chosen approach, the alternatives it beat, and — when the approach turned on a
-  boundary — the boundary `engineering:codebase-design` shaped, named at decision altitude
+  boundary — the boundary the shape-lenses reference shaped, named at decision altitude
   (which boundary, its chosen shape, what a caller must know), which together are exactly §6's
   content. The concrete signatures that realize the boundary are not §6's job — they land in
   the plan; §6 carries the commitment, `plan` carries the code.
@@ -77,7 +75,7 @@ skill does not stamp `Approved` on faith:
    finished spec and wait for the human's approval — ask them to `Approve` or `Request changes`, the
    question holding the turn so this is a real stop: nothing is `Approved`, and no marker is
    written, until they pick Approve. Their edits ride the free-form escape or a `Request
-   changes` reply; on that, revise the draft — or hand back to `brainstorming` for a rethink —
+   changes` reply; on that, revise the draft — or hand back to `design` for a rethink —
    and present again. Do not promote a spec the human has not approved. No such tool, or a headless
    run: present `Approve` / `Request changes` as plain text, say the run is degraded, and wait for
    an explicit typed approval — treat silence as not-approved.
@@ -94,7 +92,7 @@ the status are only ever promoted together, here, at the moment the human approv
 
 ## What this does not do
 
-- It does not **design**. The §6 approach was argued out in `brainstorming` upstream; this
+- It does not **design**. The §6 approach was argued out in `design` upstream; this
   skill transcribes that outcome, it does not weigh alternatives itself.
 - It does not **plan**. Breaking the approved approach into steps is `plan`,
   downstream of the spec this skill produces.

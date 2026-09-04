@@ -1,6 +1,6 @@
 ---
 name: signal
-description: "The discovery entrance: interrogate a feature or vague request into a brief (brief.md §1–§6), then hand it to the shared design dialogue. Use when a feature or a vague ask enters the pipeline. One of three entrances; converges on brainstorming and never invokes another entrance."
+description: "The discovery entrance: interrogate a feature or vague request into a brief (brief.md §1–§6), then hand it to the shared design dialogue. Use when a feature or a vague ask enters the pipeline. One of three entrances; converges on design and never invokes another entrance."
 ---
 
 # signal
@@ -52,28 +52,28 @@ it — ask the user whether to resume that run.
 
 ## 3. Shape context — interrogate the request
 
-This is the beat particular to signal, and signal always runs it. Invoke
-`engineering:interrogating-requirements` in the main thread (it is interactive; it cannot run as a
-dispatched subagent). Supply it the run directory. Probe as structured questions — one
+This is the beat particular to signal, and signal always runs it. Load
+`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md` and drive it in the main thread (it
+is interactive; it cannot run as a dispatched subagent). Supply it the run directory. Probe as structured questions — one
 question at a time, its options led by the conventional default (first, marked Recommended) and
 mining the correction, a free-form escape carrying the open answer — keeping
 `open-threads.md` current as you go. Do not advance until the gate is met: at least 3 rounds AND all
 six coverage dimensions filled. **The moment it is met, it writes `brief.md` §1–§6** — the whole
 brief, in the main thread, so the interrogation is durable. That file is the deliverable, and the
-brief ends at §6. If the request is genuinely trivial, interrogating-requirements says so in one
+brief ends at §6. If the request is genuinely trivial, the interrogation says so in one
 sentence and exits with no brief.
 
-## 4. Hand to brainstorming
+## 4. Hand to design
 
-Once `brief.md` §1–§6 is on disk, hand its path to `engineering:brainstorming` — the shared design
-dialogue — in the main thread; signal does not write a spec. Brainstorming recommends a design and
-hands it to `to-spec`, which holds the spec-approval gate and renders the Tier-1 spec under
+Once `brief.md` §1–§6 is on disk, hand its path to `engineering:design` — the shared design
+dialogue — in the main thread; signal does not write a spec. The design phase recommends a design,
+then its spec-writing stage holds the spec-approval gate and renders the Tier-1 spec under
 `.engineering/<run>/spec/` once the human approves.
 
-**signal ends at the brief and hands it to `engineering:brainstorming`.** Once `brief.md` is on
-disk, report its path and **invoke `engineering:brainstorming` now.** "Stop" means stop
+**signal ends at the brief and hands it to `engineering:design`.** Once `brief.md` is on
+disk, report its path and **invoke `engineering:design` now.** "Stop" means stop
 interrogating and do not design, plan, or build yourself — it is not a stop to ask whether to
 proceed. There is no gate at this seam; parking the brief with a "want me to start design?" is not
-an available move — brainstorming is the next act, take it.
+an available move — design is the next act, take it.
 
 If the request in hand is unclear or empty, ask the user what they want built before proceeding.

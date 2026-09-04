@@ -1,6 +1,6 @@
 ---
 name: triage
-description: "The defect entrance: verify a reported problem reproduces, isolate it to a domain concept, then hand it to the shared design dialogue. Use when a bug or defect is reported. One of three entrances; converges on brainstorming and never invokes another entrance (never hands off to signal)."
+description: "The defect entrance: verify a reported problem reproduces, isolate it to a domain concept, then hand it to the shared design dialogue. Use when a bug or defect is reported. One of three entrances; converges on design and never invokes another entrance (never hands off to signal)."
 ---
 
 # triage
@@ -92,22 +92,22 @@ run that closed it as out of scope? If so, say which prior decision is being fol
 re-litigating it. Finding nothing is the normal result.
 
 **When expected behavior is unclear**, and only then, synthesize it with the user before handing
-off: drive the shared discovery primitive `engineering:interrogating-requirements` (it self-drives
+off: load the shared discovery reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) and drive it (it self-drives
 the interrogation and writes the requirements, brief.md §1–§6, into this run's `triage/`
 directory). This is triage's own discovery leg — it is **not** a hand-off to `signal`; the two
 entrances are distinct and never invoke each other.
 
-## 4. Hand to brainstorming
+## 4. Hand to design
 
 Once the defect is verified and isolated far enough to design a fix against, hand that context to
-the shared design dialogue — invoke `engineering:brainstorming` now. Everything converges there;
+the shared design dialogue — invoke `engineering:design` now. Everything converges there;
 there is no routing table and no quick-fix side door, and there is no gate at this seam. Approval
-lives downstream — the spec gate in `to-spec`, the plan gate in `plan` — never in triage
-and never in brainstorming. Reporting the isolation and asking whether to proceed is not a move
-here: once the context is shaped and written into the run, invoke brainstorming.
+lives downstream — the spec gate in `design`, the plan gate in `plan` — never in triage
+and never in design. Reporting the isolation and asking whether to proceed is not a move
+here: once the context is shaped and written into the run, invoke design.
 
 A report that turns out **Not reproducible**, already fixed, or already rejected does not go to
-brainstorming — record the disposition in `.engineering/<run>/triage/` and close it with the reason
+design — record the disposition in `.engineering/<run>/triage/` and close it with the reason
 on record. Either outcome — handed off, or closed with a written reason — leaves no report sitting
 unexamined.
 

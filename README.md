@@ -29,7 +29,7 @@ Work enters through one of three doors and leaves through one. A feature or a va
 request enters at **discover** (`engineering:signal`); a reported defect enters at **triage**
 (`engineering:triage`); received review feedback enters at **receiving code review**
 (`engineering:receiving-code-review`). Each door is a skill. All three open onto the same **design dialogue**
-(`brainstorming`), which recommends a design, then hands off to **`to-spec`**, the single
+(`design`), which recommends a design, then hands off to **`to-spec`**, the single
 writer that turns that design into one spec document and holds the pipeline's first
 approval gate — on the spec.
 From that spec, a fixed backbone runs the work to done: **plan** it, behind the second
@@ -45,7 +45,7 @@ flowchart TD
     D(["reported defect"]):::entry --> TRI["triage"]
     R(["received review feedback"]):::entry --> RCR["receiving-code-review"]
 
-    SIG --> DES["brainstorming<br/>design dialogue"]
+    SIG --> DES["design<br/>design dialogue"]
     TRI --> DES
     RCR --> DES
 
@@ -64,7 +64,7 @@ phase already settled. The sections below walk each phase in turn.
 A vague ask becomes a brief, then a recommended design, then an approved spec.
 Interrogation probes the request one question at a time, offering a conventional baseline
 and mining the correction, until every coverage dimension is filled and `brief.md` §1–§6
-is written. The finished brief then passes to `brainstorming` — signal's terminal hand-off
+is written. The finished brief then passes to `design` — signal's terminal hand-off
 — which recommends a design and hands it to `to-spec`, where the spec gate takes the
 human's approval. A genuinely trivial request exits before any brief is written.
 
@@ -75,7 +75,7 @@ flowchart LR
 
     S(["signal"]):::entry --> S1["interrogate<br/>requirements"]
     S1 -. "trivial" .-> X(["exit — no brief"])
-    S1 -->|"gate: 3+ rounds,<br/>6 dimensions"| BR["brainstorming<br/>recommend design"]
+    S1 -->|"gate: 3+ rounds,<br/>6 dimensions"| BR["design<br/>recommend design"]
     BR --> SP["to-spec<br/>spec gate"]
     SP --> STOP(["brief → design → approved spec"]):::done
 ```
@@ -95,7 +95,7 @@ flowchart TD
     T1 --> T2["isolate to a<br/>domain concept"]
     T2 --> T3{"outcome"}
     T3 -->|"expected behavior unclear"| Q["interrogate<br/>requirements"]
-    T3 -->|"isolated"| BR["brainstorming"]
+    T3 -->|"isolated"| BR["design"]
     T3 -->|"not reproducible /<br/>already handled"| CL(["close — reason on record"])
     Q --> BR
 ```
@@ -115,14 +115,14 @@ flowchart TD
     RC(["receiving-code-review"]):::entry --> RC1["aggregate<br/>comments"]
     RC1 --> RC2["verify each<br/>against the code"]
     RC2 --> RC3["impact-check<br/>beyond the comment"]
-    RC3 --> BR["brainstorming"]
+    RC3 --> BR["design"]
 ```
 
-### 4. Design dialogue — `brainstorming`
+### 4. Design dialogue — `design`
 
 All three entrances meet here. The design phase explores the context, proposes two or three
 approaches with their trade-offs, and recommends one with its reasoning. It holds no
-approval gate of its own: brainstorming hands the recommended design to `to-spec`, where
+approval gate of its own: design hands the recommended design to `to-spec`, where
 the spec gate takes the human's approval — the pipeline's first human-approval gate.
 
 ```mermaid
@@ -161,14 +161,14 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **18 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **15 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
 | Group | Skills |
 |---|---|
 | Discovery | `interrogating-requirements`, `to-spec` |
-| Design | `brainstorming`, `codebase-design` |
+| Design | `design`, `codebase-design` |
 | Planning | `plan` |
 | Build | `build` |
 | Docs | `document` |

@@ -1,9 +1,9 @@
----
-name: interrogating-requirements
-description: "Turn a vague or underspecified request into hard requirements — brief.md §1–§6. Interactive, main-thread: only a discovery entrance drives it, never self-triggered on a feature request, and it cannot run as a dispatched subagent."
----
+# Interrogating Requirements (shared entrance reference)
 
-# Interrogating Requirements
+> This is a shared reference (at the plugin's `references/` root, owned by no single entrance) that
+> the `signal`, `triage`, and `receiving-code-review` entrances load when a request must be
+> interrogated into hard requirements. It is interactive and main-thread only — it cannot run as a
+> dispatched subagent. It is not a skill and is never discovered on its own; an entrance drives it.
 
 ## Overview
 
@@ -222,11 +222,11 @@ Write `brief.md` into the run directory supplied by the entrance that invoked yo
 
 **§6 — existing context.** This section exists because the interrogation forced an answer for it. Prior art, current workarounds and the systems this must fit into are what stop a downstream builder rebuilding something that already exists. Write what the user actually told you; do not fold it into §4 constraints and do not leave it out because it "isn't a requirement".
 
-**Stop at §6.** The brief ends at §6 — there is no §7 or §8. Do not sketch further sections, leave placeholder headings, or order the work by dependency; that is design work for `brainstorming` downstream, not the brief's.
+**Stop at §6.** The brief ends at §6 — there is no §7 or §8. Do not sketch further sections, leave placeholder headings, or order the work by dependency; that is design work for `design` downstream, not the brief's.
 
 **Every write is the whole file.** Write `brief.md` from line 1 and end it at §6, discarding anything that was there before. On a resumed run restarted from the top, that means replacing whatever an earlier run left on disk with the requirements as they now stand, not patching it. The write lands the moment the gate is met, so the interrogation is durable the instant it is complete.
 
-Then hand control back to the entrance that invoked you — signal or triage — which routes from there. You do not design, write a spec, plan, or invoke `brainstorming` yourself; the brief is the deliverable and your job ends at it.
+Then hand control back to the entrance that invoked you — signal or triage — which routes from there. You do not design, write a spec, plan, or invoke `design` yourself; the brief is the deliverable and your job ends at it.
 
 ## Red Flags — STOP, Do Not Advance
 

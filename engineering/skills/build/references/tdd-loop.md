@@ -64,9 +64,9 @@ lie about what was actually proven.
   front of it; it does not weigh in on which behavior to build next or whether the feature
   is worth building at all.
 - It does not **design the interface.** Shaping a module's boundary — what it exposes, what
-  it hides — is `codebase-design`, and belongs before or alongside the first cycle, not
+  it hides — is the design phase, and belongs before or alongside the first cycle, not
   inside it. A cycle can reveal that an interface is awkward; fixing that is a refactor
-  step or a trip back to `codebase-design`, not a reason to skip watching a test fail.
+  step or a trip back to the design phase, not a reason to skip watching a test fail.
 - It does not **skip the watch.** Writing a test and the code together and running the
   suite once, green, is not this skill's cycle. If a test has never been seen to fail, this
   skill has not run yet, however much code already exists.

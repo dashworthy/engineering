@@ -145,10 +145,10 @@ UD="$PLUGIN/skills/using-diagrams/SKILL.md"
 if [ -f "$UD" ]; then
   grep_flat "$UD" "consider a diagram"; check $? "using-diagrams states the consider-a-diagram authoring obligation"
 fi
-for sk in to-spec plan; do
-  f="$PLUGIN/skills/$sk/SKILL.md"
+# The spec-writing stage (design's reference) and plan each carry it.
+for f in "$PLUGIN/skills/design/references/spec-writing.md" "$PLUGIN/skills/plan/SKILL.md"; do
   grep_flat "$f" "using-diagrams" && grep_flat "$f" "consider a diagram"
-  check $? "$sk carries the consider-a-diagram obligation via using-diagrams"
+  check $? "$(basename "$(dirname "$f")")/$(basename "$f") carries the consider-a-diagram obligation via using-diagrams"
 done
 
 # --- codebase-design companions ----------------------------------------------
@@ -159,10 +159,12 @@ done
 # PATTERN-MATRIX.md (the selectable GoF matrix) and SHAPE-REVIEW.md (the evaluative SOLID +
 # anti-pattern lens) joined DEEPENING.md and DESIGN-IT-TWICE.md when the design-pattern
 # catalog landed.
-CD="$PLUGIN/skills/codebase-design"
+# codebase-design folded into the design conductor as design/references/shape-lenses.md; its
+# uppercase companions moved alongside it under design/references/.
+CD="$PLUGIN/skills/design/references"
 for comp in DEEPENING.md DESIGN-IT-TWICE.md PATTERN-MATRIX.md SHAPE-REVIEW.md TENANCY-SHARED-DB.md TENANCY-ISOLATED-DB.md; do
-  [ -f "$CD/$comp" ]; check $? "codebase-design/$comp exists"
-  grep_flat "$CD/SKILL.md" "$comp"; check $? "codebase-design/SKILL.md references $comp"
+  [ -f "$CD/$comp" ]; check $? "design/references/$comp exists"
+  grep_flat "$CD/shape-lenses.md" "$comp"; check $? "shape-lenses.md references $comp"
 done
 
 # --- codebase-design tenancy boundary (design-time multi-tenancy prevention) --
@@ -176,7 +178,7 @@ done
 # reach authorization decision both models share. SKILL.md must wire
 # the behavior: determine the model, consult ONLY the matching companion, then force the decision
 # when a boundary touches tenant-scoped data.
-CDSK="$CD/SKILL.md"
+CDSK="$CD/shape-lenses.md"
 SDB="$CD/TENANCY-SHARED-DB.md"
 if [ -f "$SDB" ]; then
   grep_flat "$SDB" "unscoped query"; check $? "TENANCY-SHARED-DB covers where scoping lives so no caller builds an unscoped query"
@@ -202,9 +204,9 @@ grep_flat "$CDSK" "force the tenant-boundary decision"; check $? "Tenancy bounda
 # GitHub handle — never a personal or business email. The only email form allowed anywhere in
 # the suite is a GitHub address. interrogating-requirements carries the rule at the capture
 # point; this guard enforces it across every tracked skill and command.
-grep_flat "$PLUGIN/skills/interrogating-requirements/SKILL.md" "Never record a personal email"
+grep_flat "$PLUGIN/references/interrogating-requirements.md" "Never record a personal email"
 check $? "interrogating-requirements forbids recording a personal email"
-personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$PLUGIN/skills" "$PLUGIN/commands" 2>/dev/null | grep -viE '@users\.noreply\.github\.com$' | sort -u)
+personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$PLUGIN/skills" "$PLUGIN/references" "$PLUGIN/commands" 2>/dev/null | grep -viE '@users\.noreply\.github\.com$' | sort -u)
 [ -z "$personal_email" ]; check $? "no personal email address appears in any skill/command (GitHub addresses only)"
 
 # --- entry-point skills and READMEs -------------------------------------------
@@ -260,7 +262,7 @@ RP="$PLUGIN/skills/plan/references/arch-lens.md"
 [ -f "$RP" ]; check $? "plan/references/arch-lens.md exists"
 if [ -f "$RP" ]; then
   head -1 "$RP" | grep -qv '^---$'; check $? "arch-lens is a reference, not a skill (no frontmatter)"
-  grep_flat "$RP" "codebase-design"; check $? "arch-lens review runs the architecture lens via codebase-design"
+  grep_flat "$RP" "shape-lenses.md"; check $? "arch-lens review runs the architecture lens via the shape-lenses reference"
   # The one-off flags are put to the human as an explicit choice; the question mechanism is left to
   # the harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
   grep_flat "$RP" "explicit choice"; check $? "arch-lens review flags one-off data structures as an explicit choice"
@@ -275,7 +277,7 @@ awk '/arch-lens/{r=NR} /plan\/APPROVED\.md/{if(!g)g=NR} END{exit !(r && g && r <
 check $? "plan runs the arch-lens review before the plan gate"
 
 # codebase-design's review mode is what the arch-lens review leans on; SHAPE-REVIEW names the one-off shape.
-grep_flat "$CD/SKILL.md" "Review mode"; check $? "codebase-design carries a review mode"
+grep_flat "$CDSK" "Review mode"; check $? "shape-lenses carries a review mode"
 grep_flat "$CD/SHAPE-REVIEW.md" "one-off data structure"; check $? "SHAPE-REVIEW names the reinvented data-structure smell"
 
 # --- build tracks the plan as todos --------------------------------

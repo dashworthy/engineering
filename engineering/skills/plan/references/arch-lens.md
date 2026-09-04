@@ -34,8 +34,8 @@ everything found rather than the plan churning once per finding.
 Read every **Interfaces block** and code sketch the plan's tasks carry — the signatures,
 types, and returned shapes the tasks will actually produce (this is why `plan` makes
 tasks sketch them). For each boundary a task introduces or reshapes, run it through
-`codebase-design` **in review mode**: invoke `engineering:codebase-design` with the argument
-`review` and the proposed shape, and it returns the findings from its `SHAPE-REVIEW.md`
+the **shape lenses in review mode**: load `skills/design/references/shape-lenses.md`, run it with the
+argument `review` and the proposed shape, and it returns the findings from its `SHAPE-REVIEW.md`
 evaluative lenses — the SOLID questions and the anti-pattern table — without running its
 interactive design-it-twice or pattern-proposal machinery. It judges the shape already on the
 page; it does not design a new one.
@@ -103,13 +103,13 @@ Keep the plan's own shape intact: this pass corrects sketches and swaps structur
 not add tasks, reorder them, or change the approach the spec settled. If a finding can't be
 closed without changing the approach itself — the lens reveals the whole boundary is wrong,
 not just its sketch — that's beyond a plan review; say so and hand it back to `plan`
-to route to `codebase-design` or `brainstorming` rather than patching around it here.
+to route to the `design` phase (its shape lenses or the dialogue) rather than patching around it here.
 
 ## What this does not do
 
-- It does not **design.** Choosing an approach is `brainstorming`; shaping a boundary from two
-  competing designs is `codebase-design`. This skill runs `codebase-design`'s *evaluative* lens
-  over a shape already chosen and sketched; it does not generate a shape or weigh approaches.
+- It does not **design.** Choosing an approach is the `design` dialogue; shaping a boundary from two
+  competing designs is the shape-lenses reference. The arch-lens review runs the shape lenses'
+  *evaluative* pass over a shape already chosen and sketched; it does not generate a shape or weigh approaches.
 - It does not **hold the plan gate.** Presenting the plan for human approval and minting the
   plan-approval marker is `plan`. This skill's per-finding flags are explicit-choice
   approvals inside the review, not the gate; it returns the reviewed plan and the gate follows.

@@ -1,12 +1,12 @@
 #!/bin/sh
 # Approval-gate model: the human-approval gates are the spec gate (to-spec, when the spec is
-# created) and the plan gate (plan, when the plan is created). brainstorming holds no
+# created) and the plan gate (plan, when the plan is created). design holds no
 # gate and mints no marker; build runs to completion after the plan gate with no
 # mid-flow human checkpoints. These checks pin those specific gates and the stages that hold
 # none — adding a further gate elsewhere would not invalidate them. Note code-review is NOT a
 # human-approval gate: it runs per task (build' automated gate) and once on the whole
 # branch at finish (finish), addressing findings in code without a fresh
-# human sign-off. The right-size bypass (brainstorming's opt-in SPEC-SKIPPED.md → plan)
+# human sign-off. The right-size bypass (design's opt-in SPEC-SKIPPED.md → plan)
 # is likewise a routing choice, not a gate: it skips only the spec-CREATION step, never a human
 # approval — the plan gate still holds on that path. Prose-anchor checks over the shipped SKILL
 # bodies (the suite's convention for model-executed skills). No script enforces the gates at
@@ -26,23 +26,23 @@ grep_flat() {  # grep_flat <file> <literal phrase>
   tr '\n' ' ' < "$1" | tr -s ' ' | grep -qF -- "$2"
 }
 
-BRAIN="$PLUGIN/skills/brainstorming/SKILL.md"
-TOSPEC="$PLUGIN/skills/to-spec/SKILL.md"
+BRAIN="$PLUGIN/skills/design/SKILL.md"
+TOSPEC="$PLUGIN/skills/design/references/spec-writing.md"
 PLANS="$PLUGIN/skills/plan/SKILL.md"
 EXEC="$PLUGIN/skills/build/SKILL.md"
 FINISH="$PLUGIN/skills/finish/SKILL.md"
-SPECFMT="$PLUGIN/skills/to-spec/SPEC-FORMAT.md"
+SPECFMT="$PLUGIN/skills/design/references/SPEC-FORMAT.md"
 
-# --- brainstorming: no gate, no marker -- approval lives at the spec gate ------
+# --- design: no gate, no marker -- approval lives at the spec gate ------
 ! grep_flat "$BRAIN" "APPROVED.md"
-check $? "brainstorming no longer writes an approval marker"
+check $? "design no longer writes an approval marker"
 ! grep_flat "$BRAIN" "hard gate"
-check $? "brainstorming no longer holds a hard approval gate"
+check $? "design no longer holds a hard approval gate"
 grep_flat "$BRAIN" "approval happens at the spec gate"
-check $? "brainstorming points design approval to the spec gate"
+check $? "design points design approval to the spec gate"
 
-# --- brainstorming: right-size bypass is an explicit opt-in routing choice -----
-# brainstorming MAY offer to skip spec creation and go straight to the plan, but only through an
+# --- design: right-size bypass is an explicit opt-in routing choice -----
+# design MAY offer to skip spec creation and go straight to the plan, but only through an
 # explicit structured choice; on that pick it mints the run-scoped SPEC-SKIPPED.md marker (a routing
 # record, NOT an approval) and hands to plan. The default path is unchanged, and the plan
 # gate downstream still holds. The bypass must not reintroduce the approval-marker / hard-gate
@@ -50,13 +50,13 @@ check $? "brainstorming points design approval to the spec gate"
 # The spec-skip is posed as an explicit structured choice; the question mechanism is left to the
 # harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
 grep_flat "$BRAIN" "structured choice"
-check $? "brainstorming poses the spec-skip as an explicit opt-in"
+check $? "design poses the spec-skip as an explicit opt-in"
 ! grep_flat "$BRAIN" "AskUserQuestion"
-check $? "brainstorming names no harness-specific question tool"
+check $? "design names no harness-specific question tool"
 grep_flat "$BRAIN" "SPEC-SKIPPED.md"
-check $? "brainstorming mints the spec-skip marker on the opt-in pick"
+check $? "design mints the spec-skip marker on the opt-in pick"
 grep_flat "$BRAIN" "plan"
-check $? "brainstorming hands straight to plan when the spec is skipped"
+check $? "design hands straight to plan when the spec is skipped"
 
 # --- Gate 1: to-spec presents the spec, waits for approval, mints the marker ---
 grep_flat "$TOSPEC" "APPROVED.md"
@@ -77,7 +77,7 @@ check $? "SPEC-FORMAT documents the Draft-then-Approved flip at the spec gate"
 
 # --- Gate 2: plan requires the spec marker, then holds the plan gate --
 grep_flat "$PLANS" "to-spec/APPROVED.md"
-check $? "plan requires the spec-approval marker (relocated from brainstorming)"
+check $? "plan requires the spec-approval marker (relocated from design)"
 grep_flat "$PLANS" "to-spec/SPEC-SKIPPED.md"
 check $? "plan also accepts the spec-skip marker as its precondition (right-size bypass)"
 grep_flat "$PLANS" "the marker is the trace, the status line is only the checkbox"

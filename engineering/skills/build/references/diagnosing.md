@@ -90,7 +90,7 @@ inability to reproduce becomes the finding, handed back rather than papered over
 
 - It does not **choose the fix's design.** Confirming a root cause is not the same as
   choosing how to patch it; a fix substantial enough to need weighing alternatives belongs
-  in `codebase-design` or a spec, not tacked onto the end of a diagnosis.
+  in the design phase or a spec, not tacked onto the end of a diagnosis.
 - It does not **keep any external record of the defect.** Everything this skill produces —
   the reproduction steps, the hypothesis log, the evidence that confirmed or killed each
   one — lives as files in the run's own scratch space, nowhere else.

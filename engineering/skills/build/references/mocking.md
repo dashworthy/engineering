@@ -82,7 +82,7 @@ behavior instead of exercising it.
 ## A mock-heavy test is a design signal, not just a test problem
 
 When a unit needs five mocks to construct in a test, that is rarely a testing inconvenience
-to work around — it is usually the same signal `codebase-design` looks for from the other
+to work around — it is usually the same signal the design phase looks for from the other
 direction: a unit with too many collaborators, each one a piece of information the caller
 (here, the test) has to know how to supply. A test straining under its own mock setup is
 often the first place that shows up, before it's obvious anywhere else. When it happens,

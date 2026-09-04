@@ -1,15 +1,14 @@
----
-name: codebase-design
-description: "Shape module interfaces so complexity hides behind narrow, deep boundaries — or, in review mode (argument `review`), judge an already-sketched shape against the same lenses without designing a new one. Use when defining a module's interface, judging whether a boundary earns its keep, or reviewing a proposed interface. Not approach design (brainstorming)."
----
+# Shape lenses (reference) — module-interface design and review
 
-# Codebase Design
-
-Say this first, plainly: `Using the codebase-design skill to shape this interface.`
+> This is a reference loaded by the `design` conductor (to shape a boundary the approach turns on)
+> and by the `plan` conductor's arch-lens review (in review mode, argument `review`, to judge an
+> already-sketched shape). It is not a skill and is never discovered on its own; a conductor drives
+> it. Its sub-references (`DEEPENING.md`, `DESIGN-IT-TWICE.md`, `PATTERN-MATRIX.md`, `SHAPE-REVIEW.md`,
+> `TENANCY-*.md`) sit alongside it.
 
 ## What this guarantees
 
-One thing: given a module — new or existing — this skill produces an interface shaped
+One thing: given a module — new or existing — this reference produces an interface shaped
 deliberately, from at least two competing designs, judged against what it costs a caller
 to use and what it hides from them. The interface earned its shape instead of being
 whatever fell out of the first draft.
@@ -90,7 +89,7 @@ leaks another customer's data, not just a private field.
 
 1. **Determine the model.** The first move is to determine the app's tenancy model, stated from
    the approach context you already have —
-   the designer decides, from what `brainstorming` established about the application, whether it
+   the designer decides, from what `design` established about the application, whether it
    is **shared-database** (one schema, rows told apart by a discriminator column), **isolated
    database** (a database or schema per tenant), or **single-tenant** (not multi-tenant at all).
    This is a stated fact, not an auto-detection: `codebase-design` runs at design time with a
@@ -146,7 +145,7 @@ patterns, each with the one trigger condition under which it is the appropriate 
 for the boundary in front of you. **When — and only when — a named trigger genuinely describes
 this boundary**, propose that pattern to the developer as a structured choice, using a tool to ask
 it where one is available, the
-way `brainstorming` proposes an approach: the pattern as the recommended option, its rationale
+way `design` proposes an approach: the pattern as the recommended option, its rationale
 tied to *this* session — why this pattern, for this boundary, now, in the words of the design you
 are actually shaping — with **"plain shape, no pattern"** always present and the default whenever
 no trigger fires. A free-form escape leaves room for a different pattern or a
@@ -193,7 +192,7 @@ findings to close in the plan and which to surface to the human. Hand back the f
   this skill's vocabulary at a different scale. This skill shapes the one boundary in
   front of it and stops there.
 - It does not **decide what to build.** Whether a feature is worth building, and which
-  approach it takes, is settled in `brainstorming`; this skill does not weigh in on product
+  approach it takes, is settled in `design`; this skill does not weigh in on product
   direction. It starts once an approach has named a boundary that needs shaping — a module
   new or existing, one that nothing may have built yet — before the spec is written. A
   boundary to shape, not a module already sitting in the tree, is what this skill needs to

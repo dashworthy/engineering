@@ -110,10 +110,10 @@ genuinely unknown, say so in prose and leave it undrawn.
 ## What this does not do
 
 - It does not **decide what to build or design.** The approach a process flow pictures was
-  argued out in `brainstorming`; the boundary an ER model reflects was shaped in
-  `codebase-design`. This skill draws a decision already made; it does
+  argued out in `design`; the boundary an ER model reflects was shaped by the design phase's
+  shape-lenses reference. This skill draws a decision already made; it does
   not make it.
-- It does not **write the document.** `to-spec` owns the spec, `plan` owns the plan.
+- It does not **write the document.** The design phase's spec-writing stage owns the spec, `plan` owns the plan.
   This skill supplies
   a diagram for one of them to hold; it does not author the surrounding document or choose its
   home beyond the section guidance above.
