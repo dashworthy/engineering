@@ -956,6 +956,23 @@ if [ -f "$PLUGIN/README.md" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — Laravel content
+# ============================================================================
+
+LARAVELCL="$PLUGIN/skills/reviewing-framework-best-practices/references/laravel.md"
+[ -f "$LARAVELCL" ]; check $? "reviewing-framework-best-practices/references/laravel.md exists"
+if [ -f "$LARAVELCL" ]; then
+  grep_flat "$LARAVELCL" "Form Request"; check $? "laravel.md covers validation/authorization placement"
+  grep_flat "$LARAVELCL" "Eloquent"; check $? "laravel.md covers Eloquent/query-shape idioms"
+  grep_flat "$LARAVELCL" "withoutOverlapping"; check $? "laravel.md covers queue/cache/scheduling safety"
+  grep_flat "$LARAVELCL" "Pest"; check $? "laravel.md covers Pest testing conventions"
+  grep_flat "$LARAVELCL" "Inertia"; check $? "laravel.md covers Inertia/React page conventions"
+  grep_flat "$LARAVELCL" "env("; check $? "laravel.md covers config/error-handling/mail/events idioms"
+  grep_flat "$LARAVELCL" "not a finding"; check $? "laravel.md states what is not a finding"
+  grep_flat "$LARAVELCL" "Novelty"; check $? "laravel.md cedes generic reinvention to Novelty"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
