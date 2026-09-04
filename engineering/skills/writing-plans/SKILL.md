@@ -119,7 +119,7 @@ Every task closes the same way, and the plan spells the closing steps out rather
 them to whoever executes it. After a task's build steps and their commits — the tree now clean —
 and before the task hands off to the next one (or, in a stacked plan, to its own PR):
 
-- **Clarify the task's docblocks.** A `- [ ]` step naming `engineering:clarifying-docblocks`
+- **Clarify the task's docblocks.** A `- [ ]` step naming `engineering:document`
   explicitly (the `vernacular` flow — not described around it as "tidy the comments"), run once
   against the task's committed changes. It rewrites only the prose of docblocks the task's diff
   already reached, proves executable code and structured annotations came out byte-identical, and

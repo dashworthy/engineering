@@ -1,9 +1,7 @@
----
-name: rewriting-docblock-prose
-description: "A dispatched docblock-prose beat — or run inline on a small pass — that rewrites docblock prose in the file, or batch of files, it is handed. Applies the comprehension gate, rewrites only descriptions that fail it, writes in place, returns a receipt per file of the line ranges replaced. Improves existing docblocks only; never authors one where none existed, never touches an annotation or executable code."
----
+# Rewriting Docblock Prose (dispatched beat)
 
-# Rewriting Docblock Prose
+> This is a reference, not a skill: the `document` conductor loads it inline on a small run, or
+> hands it to a subagent as the beat instructions on a large one. It is never discovered on its own.
 
 You are applied against **one or more files** - dispatched as a subagent carrying a batch on a
 large run, or run inline by the conductor on a small one. For each file you read it, decide which

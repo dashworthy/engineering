@@ -1,9 +1,9 @@
 ---
-name: clarifying-docblocks
-description: "Rewrite a branch's docblock prose into plain language: prefilter to files carrying a docblock, rewrite in place, and prove only comment prose moved. Improves existing docblocks only; never writes @param/@return or any tag, never authors a docblock where none existed."
+name: document
+description: "The documentation phase: rewrite a branch's docblock prose into plain language — prefilter to files carrying a docblock, rewrite in place, and prove only comment prose moved. Improves existing docblocks only; never writes @param/@return or any tag, never authors a docblock where none existed."
 ---
 
-# Clarifying Docblocks
+# Document
 
 ## The two rules
 
@@ -147,8 +147,8 @@ basename in different directories cannot collide.
 Count the surviving files and their combined line count.
 
 - **Small run - at most 3 files and at most 1500 combined lines** - take the **inline path**. The
-  conductor reads each survivor and rewrites it itself. Reading `rewriting-docblock-prose`'s
-  `SKILL.md` and `comprehension-gate.md` once, apply their gate and prohibitions to every file,
+  conductor reads each survivor and rewrites it itself. Reading `references/rewrite-beat.md`
+  and `comprehension-gate.md` once, apply their gate and prohibitions to every file,
   write the file in place, and write each file's receipt per `receipt-schema.md`. This is the
   Rule-two relaxation; it needs no subagent.
 - **Large run - more than 3 files, or more than 1500 combined lines** - take the **dispatched
@@ -163,7 +163,7 @@ wins. Announce which path the run took.
 
 Group the surviving files into **batches** whose combined changed-line count stays within a
 budget (~1500 lines - the same figure as the small/large threshold above), and dispatch one
-`rewriting-docblock-prose` beat per batch. Batching amortises the beat's fixed cold-start
+rewrite beat (`references/rewrite-beat.md`) per batch. Batching amortises the beat's fixed cold-start
 (skill + references, read once) across every file in the batch instead of paying it per file:
 
 ```json
@@ -176,7 +176,7 @@ budget (~1500 lines - the same figure as the small/large threshold above), and d
       "receipt_path": "<absolute path to $RUN_DIR/receipts/<slug>.json>"
     }
   ],
-  "skill_path":   "<absolute path to that skill's SKILL.md>",
+  "skill_path":   "<absolute path to references/rewrite-beat.md>",
   "gate_path":    "<absolute path to references/comprehension-gate.md>",
   "schema_path":  "<absolute path to references/receipt-schema.md>"
 }

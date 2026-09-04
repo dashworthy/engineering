@@ -10,7 +10,7 @@ sh "$d/absorb-vernacular.sh"
 sh "$d/absorb-verity.sh"
 sh "$d/absorb-approval-gate.sh"
 sh "$d/validate.sh"
-for name in signal triage receiving-code-review to-spec interrogating-requirements clarifying-docblocks rewriting-docblock-prose; do
+for name in signal triage receiving-code-review to-spec interrogating-requirements document; do
   sh "$d/frontmatter.sh" "$d/../skills/$name"
 done
 sh "$d/stacked-prs.sh"

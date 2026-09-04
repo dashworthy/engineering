@@ -54,7 +54,7 @@ check $? "marketplace engineering entry version matches plugin.json"
 
 # --- references --------------------------------------------------------------
 
-REF="$PLUGIN/skills/clarifying-docblocks/references"
+REF="$PLUGIN/skills/document/references"
 for f in comprehension-gate.md receipt-schema.md; do
   [ -f "$REF/$f" ]; check $? "references/$f exists"
 done
@@ -77,23 +77,22 @@ if [ -f "$REF/receipt-schema.md" ]; then
   grep_flat "$REF/receipt-schema.md" "end_before = start - 1"; check $? "receipt schema documents the insertion form"
 fi
 
-# No language table may be reintroduced in vernacular's own docs skills — this is
+# No language table may be reintroduced in the document phase's own files — this is
 # vernacular's invariant that it never hard-codes a language/stack table. Scoped to just the
-# two vernacular docs skill dirs so it checks only the skills that own the invariant.
-if find "$PLUGIN/skills/clarifying-docblocks" "$PLUGIN/skills/rewriting-docblock-prose" -type f -exec grep -liE 'detecting-the-stack|stack-marker' {} + 2>/dev/null | grep -q .; then
+# document skill dir (conductor plus its references) so it checks only the code that owns it.
+if find "$PLUGIN/skills/document" -type f -exec grep -liE 'detecting-the-stack|stack-marker' {} + 2>/dev/null | grep -q .; then
   bad "no stack-detection artefact exists in the vernacular docs skills"
 else
   ok "no stack-detection artefact exists in the vernacular docs skills"
 fi
 
-# --- rewriter ----------------------------------------------------------------
+# --- rewriter (dispatched beat, now a reference under document) ---------------
 
-REWRITER="$PLUGIN/skills/rewriting-docblock-prose/SKILL.md"
-[ -f "$REWRITER" ]; check $? "rewriting-docblock-prose/SKILL.md exists"
+REWRITER="$PLUGIN/skills/document/references/rewrite-beat.md"
+[ -f "$REWRITER" ]; check $? "document/references/rewrite-beat.md exists"
 
 if [ -f "$REWRITER" ]; then
-  head -1 "$REWRITER" | grep -q '^---$'; check $? "rewriter has frontmatter"
-  grep -q '^name: rewriting-docblock-prose$' "$REWRITER"; check $? "rewriter frontmatter names itself"
+  head -1 "$REWRITER" | grep -qv '^---$'; check $? "rewrite beat is a reference, not a skill (no frontmatter)"
   grep_flat "$REWRITER" "never return a description you wrote"; check $? "rewriter states the receipt-only return"
   grep_flat "$REWRITER" "Never claim a range containing an annotation line"; check $? "rewriter states the annotation prohibition"
   grep_flat "$REWRITER" "whole lines"; check $? "rewriter states the whole-line replacement rule"
@@ -107,11 +106,11 @@ fi
 
 # --- conductor ---------------------------------------------------------------
 
-COND="$PLUGIN/skills/clarifying-docblocks/SKILL.md"
-[ -f "$COND" ]; check $? "clarifying-docblocks/SKILL.md exists"
+COND="$PLUGIN/skills/document/SKILL.md"
+[ -f "$COND" ]; check $? "document/SKILL.md exists"
 
 if [ -f "$COND" ]; then
-  grep -q '^name: clarifying-docblocks$' "$COND"; check $? "conductor frontmatter names itself"
+  grep -q '^name: document$' "$COND"; check $? "conductor frontmatter names itself"
   grep_flat "$COND" "file modified relative to"; check $? "conductor states the dirty-file halt"
   grep_flat "$COND" "never opens a source file"; check $? "conductor states the context firewall"
   grep_flat "$COND" "restore it from"; check $? "conductor states the quarantine-and-restore path"
@@ -210,7 +209,7 @@ personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$P
 
 # --- entry-point skills and READMEs -------------------------------------------
 
-# vernacular and implement were shallow wrappers adding nothing over clarifying-docblocks and
+# vernacular and implement were shallow wrappers adding nothing over document and
 # executing-plans; they were removed rather than converted, and those two skills are invoked
 # directly. Guard both directions: no wrapper skill exists, and the underlying skill still
 # carries the behavior the wrapper used to describe (the ref-resolution/two-rules discipline;
@@ -218,8 +217,8 @@ personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$P
 for wrapper in implement vernacular; do
   [ ! -e "$PLUGIN/skills/$wrapper" ]; check $? "skills/$wrapper does not exist (was a shallow wrapper)"
 done
-CDB="$PLUGIN/skills/clarifying-docblocks/SKILL.md"
-grep_flat "$CDB" "never authors a docblock"; check $? "clarifying-docblocks states the prose-only rule directly"
+CDB="$PLUGIN/skills/document/SKILL.md"
+grep_flat "$CDB" "never authors a docblock"; check $? "document states the prose-only rule directly"
 
 [ -f "$PLUGIN/README.md" ]; check $? "engineering/README.md exists"
 

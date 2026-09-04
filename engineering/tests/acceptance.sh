@@ -14,7 +14,7 @@ sh "$d/plan03.sh"
 # 2. No slash-commands remain — every entry point is a skill now (decoupling from Claude-specific
 #    command syntax). The three entrances carried real content and resolve as skills.
 #    implement/vernacular never got a skill: they were shallow wrappers adding nothing over
-#    engineering:executing-plans and engineering:clarifying-docblocks, invoked directly instead.
+#    engineering:executing-plans and engineering:document, invoked directly instead.
 #    handoff/wait-what are deprecated and removed outright — no skill, no command.
 cmds=$(find "$eng/commands" -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
 [ "$cmds" = 0 ] || { echo "FAIL: engineering/commands must hold no command files (all commands are skills now); found $cmds"; fail=1; }

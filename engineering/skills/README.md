@@ -10,7 +10,7 @@ human map of which skill belongs to which process.
 | Design | `brainstorming`, `codebase-design` |
 | Planning | `writing-plans`, `reviewing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review` |
-| Docs | `clarifying-docblocks`, `rewriting-docblock-prose` |
+| Docs | `document` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
 | Cross-cutting | `resolving-merge-conflicts`, `using-diagrams`, `writing-pr-descriptions`, `writing-review-comments` |
 

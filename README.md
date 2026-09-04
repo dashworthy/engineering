@@ -161,7 +161,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **25 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **24 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
@@ -171,7 +171,7 @@ none.
 | Design | `brainstorming`, `codebase-design` |
 | Planning | `writing-plans`, `reviewing-plans`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review` |
-| Docs | `clarifying-docblocks`, `rewriting-docblock-prose` |
+| Docs | `document` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
 | Cross-cutting | `resolving-merge-conflicts`, `using-diagrams`, `writing-pr-descriptions`, `writing-review-comments` |
 
@@ -184,7 +184,7 @@ Every entry point is a skill — there are no slash-commands, so nothing here de
 Claude-specific command syntax. The three entrances open the work: `engineering:signal`,
 `engineering:triage`, and `engineering:receiving-code-review`. Building an approved plan and
 clarifying docblock prose are not separate entry points — invoke `engineering:executing-plans`
-and `engineering:clarifying-docblocks` directly; a thin wrapper skill over an existing skill
+and `engineering:document` directly; a thin wrapper skill over an existing skill
 would add a name and nothing else.
 
 ## License
