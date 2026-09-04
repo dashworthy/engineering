@@ -1051,6 +1051,24 @@ if [ -f "$PLUGIN/README.md" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — Symfony content (piece 2)
+# ============================================================================
+
+SYMFONYCL="$PLUGIN/skills/reviewing-framework-best-practices/references/symfony.md"
+[ -f "$SYMFONYCL" ]; check $? "reviewing-framework-best-practices/references/symfony.md exists"
+if [ -f "$SYMFONYCL" ]; then
+  grep_flat "$SYMFONYCL" "autowired"; check $? "symfony.md covers dependency-injection/service-configuration idioms"
+  grep_flat "$SYMFONYCL" "controller"; check $? "symfony.md covers controller/routing idioms"
+  grep_flat "$SYMFONYCL" "DQL"; check $? "symfony.md covers Doctrine ORM/query-shape idioms"
+  grep_flat "$SYMFONYCL" "Validator"; check $? "symfony.md covers validation/Form idioms"
+  grep_flat "$SYMFONYCL" "EventSubscriber"; check $? "symfony.md covers event-system idioms"
+  grep_flat "$SYMFONYCL" "Messenger"; check $? "symfony.md covers console/Messenger idioms"
+  grep_flat "$SYMFONYCL" "parameter bag"; check $? "symfony.md covers config/environment idioms"
+  grep_flat "$SYMFONYCL" "not a finding"; check $? "symfony.md states what is not a finding"
+  grep_flat "$SYMFONYCL" "Novelty"; check $? "symfony.md cedes generic reinvention to Novelty"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
