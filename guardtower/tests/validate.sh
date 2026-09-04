@@ -1069,6 +1069,23 @@ if [ -f "$SYMFONYCL" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — OroCommerce content (piece 2)
+# ============================================================================
+
+OROCL="$PLUGIN/skills/reviewing-framework-best-practices/references/orocommerce.md"
+[ -f "$OROCL" ]; check $? "reviewing-framework-best-practices/references/orocommerce.md exists"
+if [ -f "$OROCL" ]; then
+  grep_flat "$OROCL" "extend field"; check $? "orocommerce.md covers entity-extension idioms"
+  grep_flat "$OROCL" "Workflow"; check $? "orocommerce.md covers workflow/process idioms"
+  grep_flat "$OROCL" "layout"; check $? "orocommerce.md covers layout-system idioms"
+  grep_flat "$OROCL" "DataGrid"; check $? "orocommerce.md covers DataGrid idioms"
+  grep_flat "$OROCL" "extension point"; check $? "orocommerce.md covers extension-point idioms"
+  grep_flat "$OROCL" "not a finding"; check $? "orocommerce.md states what is not a finding"
+  grep_flat "$OROCL" "symfony.md"; check $? "orocommerce.md states its boundary against symfony.md"
+  grep_flat "$OROCL" "ACL"; check $? "orocommerce.md states its ACL-mechanism boundary against Security"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
