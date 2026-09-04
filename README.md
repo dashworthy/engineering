@@ -29,9 +29,8 @@ Work enters through one of three doors and leaves through one. A feature or a va
 request enters at **discover** (`engineering:signal`); a reported defect enters at **triage**
 (`engineering:triage`); received review feedback enters at **receiving code review**
 (`engineering:receiving-code-review`). Each door is a skill. All three open onto the same **design dialogue**
-(`design`), which recommends a design, then hands off to **`to-spec`**, the single
-writer that turns that design into one spec document and holds the pipeline's first
-approval gate — on the spec.
+(`design`), which recommends a design, then writes that design into one spec document and
+holds the pipeline's first approval gate — on the spec.
 From that spec, a fixed backbone runs the work to done: **plan** it, behind the second
 gate; **build** it test-first; **harden** the tests; and **document** the prose the
 branch touched.
@@ -49,7 +48,7 @@ flowchart TD
     TRI --> DES
     RCR --> DES
 
-    DES --> SPEC["to-spec"]
+    DES --> SPEC["spec gate"]
     SPEC --> BB["plan · build · harden · document"]
     BB --> DONE(["green, documented branch"]):::done
 ```
@@ -65,7 +64,7 @@ A vague ask becomes a brief, then a recommended design, then an approved spec.
 Interrogation probes the request one question at a time, offering a conventional baseline
 and mining the correction, until every coverage dimension is filled and `brief.md` §1–§6
 is written. The finished brief then passes to `design` — signal's terminal hand-off
-— which recommends a design and hands it to `to-spec`, where the spec gate takes the
+— which recommends a design, then writes the spec, where the spec gate takes the
 human's approval. A genuinely trivial request exits before any brief is written.
 
 ```mermaid
@@ -76,7 +75,7 @@ flowchart LR
     S(["signal"]):::entry --> S1["interrogate<br/>requirements"]
     S1 -. "trivial" .-> X(["exit — no brief"])
     S1 -->|"gate: 3+ rounds,<br/>6 dimensions"| BR["design<br/>recommend design"]
-    BR --> SP["to-spec<br/>spec gate"]
+    BR --> SP["spec gate"]
     SP --> STOP(["brief → design → approved spec"]):::done
 ```
 
@@ -122,7 +121,7 @@ flowchart TD
 
 All three entrances meet here. The design phase explores the context, proposes two or three
 approaches with their trade-offs, and recommends one with its reasoning. It holds no
-approval gate of its own: design hands the recommended design to `to-spec`, where
+approval gate of its own: after the dialogue, the design phase writes the spec, where
 the spec gate takes the human's approval — the pipeline's first human-approval gate.
 
 ```mermaid
@@ -132,7 +131,7 @@ flowchart LR
     IN(["brief / isolated defect"]) --> A["explore<br/>context"]
     A --> B["propose 2-3<br/>approaches"]
     B --> C["recommend one,<br/>with reasoning"]
-    C --> OUT(["recommended design<br/>→ to-spec (spec gate)"]):::done
+    C --> OUT(["recommended design<br/>→ spec + spec gate"]):::done
 ```
 
 ### 5. Build backbone — `plan → build → document`
@@ -141,7 +140,7 @@ Every spec leaves the same way. `plan` turns it into an ordered, bite-sized
 plan — each task carrying a code sketch of the change it makes — then `plan`'s own arch-lens review runs
 the architecture lens over those sketches and flags any one-off data structure before the
 plan reaches the second human gate; `engineering:build` drives each task through a test-first `tdd`
-loop gated by `code-review`; and docs hardening rewrites the prose the branch touched into
+loop gated by an internal per-task review; and docs hardening rewrites the prose the branch touched into
 plain language. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
 against a branch when you want it.)
 
@@ -161,19 +160,22 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **15 skills**, grouped by the phase they serve. Process-tied skills
-carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
-none.
+The plugin ships **15 skills**: a bootstrap, three entrances, five phase conductors, and six
+cross-cutting skills. Everything else a phase needs lives as reference files the conductor loads,
+not as a separately discoverable skill.
 
 | Group | Skills |
 |---|---|
-| Discovery | `interrogating-requirements`, `to-spec` |
-| Design | `design`, `codebase-design` |
-| Planning | `plan` |
-| Build | `build` |
-| Docs | `document` |
-| Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finish`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
-| Cross-cutting | `resolving-merge-conflicts`, `using-diagrams` |
+| Bootstrap | `using-skills` |
+| Entrances | `signal`, `triage`, `receiving-code-review` |
+| Phase conductors | `design`, `plan`, `build`, `document`, `finish` |
+| Cross-cutting | `using-git-worktrees`, `using-stacked-pull-requests`, `resolving-merge-conflicts`, `using-diagrams`, `verification-before-completion`, `dispatching-parallel-agents` |
+
+Each phase conductor drives its substages from reference files under its own `references/`
+directory — the design dialogue loads the shape lenses and the spec-writing stage, `build` loads
+the TDD loop and the review protocol, and so on — and hands work to subagents where a context
+firewall or parallelism earns it. Folding those substages out of the skill list is what took the
+suite from 25 skills to 15 without changing the pipeline's flow.
 
 The full index lives at
 [engineering/skills/README.md](engineering/skills/README.md).
