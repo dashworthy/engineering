@@ -19,7 +19,7 @@ put it there.
 
 ## When this runs
 
-Only when the plan's Global Constraints carry `PR strategy: stacked`. `writing-plans` writes
+Only when the plan's Global Constraints carry `PR strategy: stacked`. `plan` writes
 that line and emits, per task, a step that starts the task's branch and a step — after the
 task's commit — that submits its PR; `executing-plans` reaches those steps in order and
 dispatches this skill for them. A plan with no such line is an ordinary single-branch plan and
@@ -90,7 +90,7 @@ single pull request.
 ## What this does not do
 
 - It does not **write the plan** or decide which tasks exist. The tasks, their order, and their
-  branches were set by `writing-plans`; this skill stacks what the plan already laid out.
+  branches were set by `plan`; this skill stacks what the plan already laid out.
 - It does not **decide whether a plan is stacked.** That's the `PR strategy: stacked` line —
   see "When this runs"; a plan without it is never stacked here.
 - It does not **run tdd, code review, or test hardening.** Each task's build, review gate, and

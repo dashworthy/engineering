@@ -121,7 +121,7 @@ choice as plain text and say the run is degraded.
 Once the comments are aggregated, verified, and impact-checked — and the two standing instructions
 are written into the shaped context — hand it to the shared design dialogue: invoke
 `engineering:brainstorming` now. Everything converges there; there is no gate at this seam. Approval
-lives downstream — the spec gate in `to-spec`, the plan gate in `writing-plans` — never in this
+lives downstream — the spec gate in `to-spec`, the plan gate in `plan` — never in this
 entrance and never in brainstorming. Reporting the findings and asking whether to proceed is not a
 move here: once the context is shaped and written into the run, invoke brainstorming.
 

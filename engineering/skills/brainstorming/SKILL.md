@@ -58,7 +58,7 @@ tool: present the same options as plain text and say the run is degraded.
 
 If the work is too large to fit one spec once an approach is chosen, say so before
 presenting it, and decompose along the same line a plan set would later split
-along — the test is the one `writing-plans` uses for a plan set: does finishing the
+along — the test is the one `plan` uses for a plan set: does finishing the
 first piece alone leave something working, with the second piece not yet started. A
 design that can't answer that question hasn't found its seams yet, and it isn't ready
 to present as one design.
@@ -128,9 +128,9 @@ No such tool: present the same options as plain text and say the run is degraded
 
 On the default pick, hand to `to-spec` as above. On the skip pick — never silently, only on this
 explicit choice — mint `.engineering/<run>/to-spec/SPEC-SKIPPED.md` recording who opted in and the
-one-line reason, then hand the recommended design straight to `engineering:writing-plans`. That
+one-line reason, then hand the recommended design straight to `engineering:plan`. That
 marker records a **routing choice, not an approval**: it skips only writing a spec, never a human
-gate. The plan gate in `writing-plans` still holds exactly as it always does, so there is no
+gate. The plan gate in `plan` still holds exactly as it always does, so there is no
 skip-to-build here — approval simply moves to the plan instead of the spec. Design approval
 otherwise happens at the spec gate, unchanged.
 

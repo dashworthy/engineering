@@ -1,15 +1,11 @@
----
-name: reviewing-plans
-description: "Review a written implementation plan before its human gate — run the architecture lens over the interfaces the tasks sketch and flag any one-off data structure for human approval, revising the plan for what it finds."
----
+# Reviewing Plans (arch-lens reference)
 
-# Review Plans
-
-Say this first, plainly: `Using the reviewing-plans skill to review the plan before its gate.`
+> This is a reference the `plan` conductor loads and runs after it writes the plan and before the
+> plan gate. It is not a skill and is never discovered on its own; the `plan` conductor drives it.
 
 ## What this guarantees
 
-One thing: given a plan `writing-plans` has written and self-reviewed, this skill returns
+One thing: given a plan the `plan` conductor has written and self-reviewed, this review returns
 that plan with its design vetted — every interface a task sketches has been run through the
 architecture lens, and every data structure a task introduces is either a reuse of something
 the codebase already has or a bespoke shape a human explicitly approved. It does not rewrite
@@ -19,13 +15,13 @@ them, so the plan that reaches the human gate is the reviewed one.
 
 ## Where this runs
 
-`writing-plans` invokes this skill after it has written the plan file and run its own
+The `plan` conductor runs this review after it has written the plan file and run its own
 self-review, and *before* the plan gate — the human-approval step. So the plan is finished
 as a document (no placeholders, full spec coverage, consistent task shape) but has not yet
-been shown to a human. Read the plan from the path `writing-plans` hands over, or the plan
+been shown to a human. Read the plan from the path the conductor is working, or the plan
 already sitting in context. For a plan set, review each plan file in the set.
 
-This skill is not a human gate. It is a machine pass with two checks, one of which asks the
+This review is not a human gate. It is a machine pass with two checks, one of which asks the
 human a narrow question per finding.
 
 ## The two checks
@@ -36,7 +32,7 @@ everything found rather than the plan churning once per finding.
 ### 1. The architecture check
 
 Read every **Interfaces block** and code sketch the plan's tasks carry — the signatures,
-types, and returned shapes the tasks will actually produce (this is why `writing-plans` makes
+types, and returned shapes the tasks will actually produce (this is why `plan` makes
 tasks sketch them). For each boundary a task introduces or reshapes, run it through
 `codebase-design` **in review mode**: invoke `engineering:codebase-design` with the argument
 `review` and the proposed shape, and it returns the findings from its `SHAPE-REVIEW.md`
@@ -106,7 +102,7 @@ left the plan inconsistent; walk the tasks that touch a changed boundary and bri
 Keep the plan's own shape intact: this pass corrects sketches and swaps structures, it does
 not add tasks, reorder them, or change the approach the spec settled. If a finding can't be
 closed without changing the approach itself — the lens reveals the whole boundary is wrong,
-not just its sketch — that's beyond a plan review; say so and hand it back to `writing-plans`
+not just its sketch — that's beyond a plan review; say so and hand it back to `plan`
 to route to `codebase-design` or `brainstorming` rather than patching around it here.
 
 ## What this does not do
@@ -115,12 +111,12 @@ to route to `codebase-design` or `brainstorming` rather than patching around it 
   competing designs is `codebase-design`. This skill runs `codebase-design`'s *evaluative* lens
   over a shape already chosen and sketched; it does not generate a shape or weigh approaches.
 - It does not **hold the plan gate.** Presenting the plan for human approval and minting the
-  plan-approval marker is `writing-plans`. This skill's per-finding flags are explicit-choice
+  plan-approval marker is `plan`. This skill's per-finding flags are explicit-choice
   approvals inside the review, not the gate; it returns the reviewed plan and the gate follows.
 - It does not **run the tasks.** Building the plan is `executing-plans`, downstream of the gate.
 
 ## Handoff
 
-Return the reviewed plan to `writing-plans` — the plan file revised in place, every one-off
-structure resolved, every objective architecture defect closed. `writing-plans` holds the plan
+Return the reviewed plan to `plan` — the plan file revised in place, every one-off
+structure resolved, every objective architecture defect closed. `plan` holds the plan
 gate next, presenting *this* reviewed plan to the human.

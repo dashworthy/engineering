@@ -33,7 +33,7 @@
     boundary, the shape `codebase-design` chose (Strategy, Facade, plain split), and what a
     caller must know to use it — the commitment, not its code. The concrete signatures,
     fields, and code sketches that realize this boundary belong in the plan, not here; §6
-    records *which* boundary and *why*, `writing-plans` records *exactly how it's typed*.
+    records *which* boundary and *why*, `plan` records *exactly how it's typed*.
     Where the approach has forks a linear list flattens, include a process-flow diagram
     (mermaid — a spec renders it); see `engineering:using-diagrams`.
 

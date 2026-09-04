@@ -51,7 +51,7 @@ the shape was supposed to get decided at all, and the carrying-out skill has no 
 the gap — it will simply carry out an unexamined default instead of a deliberate one.
 
 `engineering:brainstorming` settling an approach before `engineering:tdd` builds any of it, and
-`engineering:writing-plans` breaking an approved design into ordered tasks before
+`engineering:plan` breaking an approved design into ordered tasks before
 `engineering:executing-plans` works through them one by one, are this plugin's clearest
 instances of the pattern: process first, implementation second, never the reverse.
 

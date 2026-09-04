@@ -57,7 +57,7 @@ section number:
   boundary — the boundary `engineering:codebase-design` shaped, named at decision altitude
   (which boundary, its chosen shape, what a caller must know), which together are exactly §6's
   content. The concrete signatures that realize the boundary are not §6's job — they land in
-  the plan; §6 carries the commitment, `writing-plans` carries the code.
+  the plan; §6 carries the commitment, `plan` carries the code.
 - a **triage** isolation record maps onto the same eight sections with two repurposed:
   §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including
   why the smaller fixes on the table were rejected, not only the one that won.
@@ -88,7 +88,7 @@ skill does not stamp `Approved` on faith:
    The marker's existence *is* the approval; never write it on the assumption that reaching
    this skill implies one.
 
-`writing-plans` reads that marker as its precondition: an `Approved` status with no
+`plan` reads that marker as its precondition: an `Approved` status with no
 `.engineering/<run>/to-spec/APPROVED.md` behind it is refused downstream, so the marker and
 the status are only ever promoted together, here, at the moment the human approves.
 
@@ -96,7 +96,7 @@ the status are only ever promoted together, here, at the moment the human approv
 
 - It does not **design**. The §6 approach was argued out in `brainstorming` upstream; this
   skill transcribes that outcome, it does not weigh alternatives itself.
-- It does not **plan**. Breaking the approved approach into steps is `writing-plans`,
+- It does not **plan**. Breaking the approved approach into steps is `plan`,
   downstream of the spec this skill produces.
 - It does not **interrogate**. If the material handed to it is missing something a
   section needs, this skill does not go ask questions to fill the gap — that already
@@ -111,9 +111,9 @@ The only stop on this skill is the spec gate itself, and it sits *before* approv
 still in `Draft` because the human has not approved it waits at the gate and is not handed
 onward. Once the human approves — the marker written, the status flipped to `Approved` — that
 approval *is* the go. There is no second gate at this seam, so print the spec's path and
-**invoke `writing-plans` now.** "Stop" here means stop *writing the spec*; it is not a stop to
+**invoke `plan` now.** "Stop" here means stop *writing the spec*; it is not a stop to
 ask the human whether to proceed. Parking an approved spec with a "want me to write the plan?"
-is not an available move — the approval was the answer to that question; `writing-plans` is
-the next act, take it. This skill does not itself author the plan — that is `writing-plans`'
+is not an available move — the approval was the answer to that question; `plan` is
+the next act, take it. This skill does not itself author the plan — that is `plan`'
 one job — and does not summarize the spec beyond that one path; it hands off and lets
-`writing-plans` read the spec and the marker behind it.
+`plan` read the spec and the marker behind it.

@@ -1,11 +1,11 @@
 ---
-name: writing-plans
+name: plan
 description: "Turn an approved spec into an ordered, bite-sized implementation plan with TDD integration points, then hold the plan-approval gate — present the plan, wait for approval, mint the plan-approval marker. Use after a spec is approved and before building."
 ---
 
-# Writing Plans
+# Plan
 
-Say this first, plainly: `Using the writing-plans skill to create the implementation plan.`
+Say this first, plainly: `Using the plan skill to create the implementation plan.`
 
 ## What this guarantees
 
@@ -210,10 +210,10 @@ Before calling the plan finished, run a self-review pass over what was just writ
 The self-review above is a check on the plan *as a document* — coverage, placeholders,
 consistency. It does not judge the plan's *design*: whether the interfaces the tasks sketch
 are well-shaped, and whether any task quietly introduces a one-off data structure where an
-existing type would do. That judgment is `reviewing-plans`' job, and it runs here — after the
+existing type would do. That judgment is the arch-lens review's job, and it runs here — after the
 plan is written and self-reviewed, before a human ever sees it.
 
-**Invoke `engineering:reviewing-plans` now, on the plan just written.** It reads the plan's
+**Load `references/arch-lens.md` and run it now, on the plan just written.** It reads the plan's
 Interfaces blocks and code sketches, runs the architecture lens over them (via
 `codebase-design` in review mode), and scans for reinvented data structures — flagging each
 to the human as an explicit choice before it can stand. It hands back the plan revised
@@ -225,7 +225,7 @@ review phase nothing concrete to judge.
 The review phase is not a human gate — it is a machine pass with per-item human approvals
 inside it (the one-off-data-structure flags). The human gate is still the plan gate below,
 and it comes after review, so the plan the human approves is the reviewed one. Do not present
-the plan for approval until `reviewing-plans` has returned.
+the plan for approval until the arch-lens review has returned.
 
 ## What this does not do
 
@@ -249,8 +249,8 @@ an unapproved plan onward. No such tool, or a headless run: present `Approve` / 
 as plain text, say the run is degraded, and wait for an explicit typed approval — treat silence as
 not-approved.
 
-On approval, create the run's writing-plans phase directory with
-`run-context.sh writing-plans <slug>` and write `.engineering/<run>/writing-plans/APPROVED.md`
+On approval, create the run's plan phase directory with
+`run-context.sh plan <slug>` and write `.engineering/<run>/plan/APPROVED.md`
 into it — a Tier-2, run-scoped trace that the plan cleared the gate. `executing-plans` reads
 that marker as its precondition and refuses to build without it, so mint it only on approval,
 never before.

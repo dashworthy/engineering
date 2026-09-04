@@ -102,7 +102,7 @@ entrances are distinct and never invoke each other.
 Once the defect is verified and isolated far enough to design a fix against, hand that context to
 the shared design dialogue — invoke `engineering:brainstorming` now. Everything converges there;
 there is no routing table and no quick-fix side door, and there is no gate at this seam. Approval
-lives downstream — the spec gate in `to-spec`, the plan gate in `writing-plans` — never in triage
+lives downstream — the spec gate in `to-spec`, the plan gate in `plan` — never in triage
 and never in brainstorming. Reporting the isolation and asking whether to proceed is not a move
 here: once the context is shaped and written into the run, invoke brainstorming.
 

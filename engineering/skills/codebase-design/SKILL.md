@@ -167,7 +167,7 @@ shape *already chosen and written down* — an interface a plan sketches, a sign
 produce — it judges that shape and returns findings, without designing a new one.
 
 Enter review mode when invoked with the argument `review` and a proposed shape to judge (this
-is how `reviewing-plans` calls this skill over a plan's Interfaces blocks). In review mode:
+is how the `plan` conductor's arch-lens review calls this skill over a plan's Interfaces blocks). In review mode:
 
 - **Run `SHAPE-REVIEW.md` over the given shape** — the SOLID lens and the anti-pattern table —
   exactly as design mode runs them over its two sketches, but here over the one shape handed in.
@@ -183,7 +183,7 @@ is how `reviewing-plans` calls this skill over a plan's Interfaces blocks). In r
   shape, supplied, and the job is to judge it, not to replace it. Return the findings and let the
   caller decide what to revise.
 
-Review mode judges a shape; it does not own the fix. The caller — `reviewing-plans` — decides which
+Review mode judges a shape; it does not own the fix. The caller — the `plan` conductor's arch-lens review — decides which
 findings to close in the plan and which to surface to the human. Hand back the findings and stop.
 
 ## Boundaries — what this does not do

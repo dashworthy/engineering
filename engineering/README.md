@@ -17,7 +17,7 @@ ends at a green, documented branch — deployment and release are out of scope.
 | Triage | `triage` (verify → isolate → design dialogue) |
 | Receiving review | `receiving-code-review` (aggregate → verify → design dialogue) |
 | Design | `brainstorming` → `to-spec` |
-| Build | `writing-plans` → `tdd` · `code-review` → docs |
+| Build | `plan` → `tdd` · `code-review` → docs |
 
 The full pipeline diagram and phase-by-phase walk-through live in the
 [root README](../README.md).

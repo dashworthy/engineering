@@ -9,7 +9,7 @@ Say this first, plainly: `Using the executing-plans skill to execute the plan.`
 
 ## What this guarantees
 
-One thing: given a plan written by `writing-plans`, this skill works it task by task, in
+One thing: given a plan written by `plan`, this skill works it task by task, in
 order, until every task is checked off — and for each one that changes behavior, a test
 existed before the code, gated by an independent review before the box gets checked. Nothing
 on the plan gets marked done without going through the cycle the plan was written to enforce.
@@ -23,7 +23,7 @@ with no confirmation is a guess about which piece of work the caller meant, and 
 wrong here means driving several tasks through tdd and code-review against the wrong plan
 before anyone notices.
 
-`writing-plans` sometimes produces a **set** — `<topic>-01-<subsystem>.md`,
+`plan` sometimes produces a **set** — `<topic>-01-<subsystem>.md`,
 `<topic>-02-<subsystem>.md`, ordered by the number in the filename. Work a set in that
 order, one plan file finished before the next one starts; a later plan in the set may
 assume something the earlier one produces.
@@ -32,7 +32,7 @@ A plan already partly checked off is a plan already in progress, not a fresh one
 at its first unchecked step rather than starting over or redoing work already marked done.
 
 Before working any task, confirm the plan cleared its gate: resolve the run from
-`.engineering/.current-run` and check that `.engineering/<run>/writing-plans/APPROVED.md`
+`.engineering/.current-run` and check that `.engineering/<run>/plan/APPROVED.md`
 exists. Without that marker the plan gate was never cleared (or the plan was hand-written
 outside the pipeline), and this skill refuses to build rather than run an unapproved plan
 unattended — the same trace-over-checkbox rule the spec gate uses, one step downstream. This
@@ -96,7 +96,7 @@ task, in order:
    durable record of progress; a task that's actually done and still shows unchecked is a plan
    lying about its own state to the next person who opens it.
 6. **Commit** — run the commit the task's own final step already specifies. Plans written
-   by `writing-plans` carry the exact `git add`/`git commit` invocation as that task's last
+   by `plan` carry the exact `git add`/`git commit` invocation as that task's last
    step; run it as written rather than composing a message of your own.
 
 Then move to the next task.
@@ -137,7 +137,7 @@ the full per-task loop, not a shortcut version of it.
 ## What this does not do
 
 - It does not **write the plan.** The tasks and their order were all decided by
-  `writing-plans` before this skill ever runs; this skill executes what's already on the
+  `plan` before this skill ever runs; this skill executes what's already on the
   page, it doesn't add, remove, or reorder a task itself.
 - It does not **decide the plan is finished early.** A plan is done when its last task is
   checked, not when the build tasks look complete or the user seems satisfied partway

@@ -113,7 +113,7 @@ genuinely unknown, say so in prose and leave it undrawn.
   argued out in `brainstorming`; the boundary an ER model reflects was shaped in
   `codebase-design`. This skill draws a decision already made; it does
   not make it.
-- It does not **write the document.** `to-spec` owns the spec, `writing-plans` owns the plan.
+- It does not **write the document.** `to-spec` owns the spec, `plan` owns the plan.
   This skill supplies
   a diagram for one of them to hold; it does not author the surrounding document or choose its
   home beyond the section guidance above.

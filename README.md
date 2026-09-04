@@ -137,8 +137,8 @@ flowchart LR
 
 ### 5. Build backbone — `plan → build → document`
 
-Every spec leaves the same way. `writing-plans` turns it into an ordered, bite-sized
-plan — each task carrying a code sketch of the change it makes — then `reviewing-plans` runs
+Every spec leaves the same way. `plan` turns it into an ordered, bite-sized
+plan — each task carrying a code sketch of the change it makes — then `plan`'s own arch-lens review runs
 the architecture lens over those sketches and flags any one-off data structure before the
 plan reaches the second human gate; `engineering:executing-plans` drives each task through a test-first `tdd`
 loop gated by `code-review`; and docs hardening rewrites the prose the branch touched into
@@ -149,8 +149,8 @@ against a branch when you want it.)
 flowchart LR
     classDef done fill:#16a34a,stroke:#14532d,color:#fff
 
-    SPEC(["spec"]) --> P["writing-plans"]
-    P --> RV["reviewing-plans<br/>(arch lens · one-off scan)"]
+    SPEC(["spec"]) --> P["plan"]
+    P --> RV["arch-lens review<br/>(one-off scan)"]
     RV --> PG{"plan gate"}
     PG --> B["tdd build<br/>(red-green-refactor)"]
     B -->|"per task"| R{"code-review<br/>gate"}
@@ -161,7 +161,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **22 skills**, grouped by the phase they serve. Process-tied skills
+The plugin ships **21 skills**, grouped by the phase they serve. Process-tied skills
 carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
 none.
 
@@ -169,7 +169,7 @@ none.
 |---|---|
 | Discovery | `interrogating-requirements`, `to-spec` |
 | Design | `brainstorming`, `codebase-design` |
-| Planning | `writing-plans`, `reviewing-plans`, `executing-plans` |
+| Planning | `plan`, `executing-plans` |
 | Build | `tdd`, `diagnosing-bugs`, `code-review` |
 | Docs | `document` |
 | Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finish`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |

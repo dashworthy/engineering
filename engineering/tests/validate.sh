@@ -140,12 +140,12 @@ fi
 
 # --- diagrams: authoring phases consider a diagram ---------------------------
 # using-diagrams is *consider*, not *always draw*, so the obligation does not flood. The
-# authoring phases (to-spec, writing-plans) each carry a "consider a diagram" obligation.
+# authoring phases (to-spec, plan) each carry a "consider a diagram" obligation.
 UD="$PLUGIN/skills/using-diagrams/SKILL.md"
 if [ -f "$UD" ]; then
   grep_flat "$UD" "consider a diagram"; check $? "using-diagrams states the consider-a-diagram authoring obligation"
 fi
-for sk in to-spec writing-plans; do
+for sk in to-spec plan; do
   f="$PLUGIN/skills/$sk/SKILL.md"
   grep_flat "$f" "using-diagrams" && grep_flat "$f" "consider a diagram"
   check $? "$sk carries the consider-a-diagram obligation via using-diagrams"
@@ -250,30 +250,31 @@ cmd_actual=$(find "$PLUGIN/commands" -name '*.md' 2>/dev/null | wc -l | tr -d ' 
 if grep -qE '[0-9]+ slash commands' "$ROOT/README.md"; then false; else true; fi
 check $? "root README makes no stale slash-command count claim"
 
-# --- plan review phase (reviewing-plans) ----------------------------------------
-# writing-plans makes each task sketch its interface, then runs reviewing-plans BEFORE the plan
+# --- plan review phase (arch-lens reference) ------------------------------------
+# plan makes each task sketch its interface, then runs its arch-lens review BEFORE the plan
 # gate: an architecture lens (codebase-design in review mode) plus a one-off-data-structure scan
-# that flags each candidate to the human. Guard the skill exists, the seam is wired before the
-# gate, and codebase-design carries the review mode reviewing-plans depends on.
-RP="$PLUGIN/skills/reviewing-plans/SKILL.md"
-[ -f "$RP" ]; check $? "reviewing-plans/SKILL.md exists"
+# that flags each candidate to the human. The review folded from a skill into a reference the plan
+# conductor loads. Guard the reference exists, the seam is wired before the gate, and
+# codebase-design carries the review mode the arch-lens review depends on.
+RP="$PLUGIN/skills/plan/references/arch-lens.md"
+[ -f "$RP" ]; check $? "plan/references/arch-lens.md exists"
 if [ -f "$RP" ]; then
-  grep -q '^name: reviewing-plans$' "$RP"; check $? "reviewing-plans frontmatter names itself"
-  grep_flat "$RP" "codebase-design"; check $? "reviewing-plans runs the architecture lens via codebase-design"
+  head -1 "$RP" | grep -qv '^---$'; check $? "arch-lens is a reference, not a skill (no frontmatter)"
+  grep_flat "$RP" "codebase-design"; check $? "arch-lens review runs the architecture lens via codebase-design"
   # The one-off flags are put to the human as an explicit choice; the question mechanism is left to
   # the harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
-  grep_flat "$RP" "explicit choice"; check $? "reviewing-plans flags one-off data structures as an explicit choice"
-  ! grep_flat "$RP" "AskUserQuestion"; check $? "reviewing-plans names no harness-specific question tool"
+  grep_flat "$RP" "explicit choice"; check $? "arch-lens review flags one-off data structures as an explicit choice"
+  ! grep_flat "$RP" "AskUserQuestion"; check $? "arch-lens review names no harness-specific question tool"
 fi
-WP="$PLUGIN/skills/writing-plans/SKILL.md"
-grep_flat "$WP" "reviewing-plans"; check $? "writing-plans invokes reviewing-plans"
-grep_flat "$WP" "Interfaces block"; check $? "writing-plans has tasks carry a code-sketch Interfaces block"
-# The review phase must sit before the plan gate: reviewing-plans' invocation appears earlier in the
+WP="$PLUGIN/skills/plan/SKILL.md"
+grep_flat "$WP" "arch-lens.md"; check $? "plan loads the arch-lens review reference"
+grep_flat "$WP" "Interfaces block"; check $? "plan has tasks carry a code-sketch Interfaces block"
+# The review phase must sit before the plan gate: the arch-lens load appears earlier in the
 # file than the plan-approval marker the gate mints.
-awk '/reviewing-plans/{r=NR} /writing-plans\/APPROVED\.md/{if(!g)g=NR} END{exit !(r && g && r < g)}' "$WP"
-check $? "writing-plans runs reviewing-plans before the plan gate"
+awk '/arch-lens/{r=NR} /plan\/APPROVED\.md/{if(!g)g=NR} END{exit !(r && g && r < g)}' "$WP"
+check $? "plan runs the arch-lens review before the plan gate"
 
-# codebase-design's review mode is what reviewing-plans leans on; SHAPE-REVIEW names the one-off shape.
+# codebase-design's review mode is what the arch-lens review leans on; SHAPE-REVIEW names the one-off shape.
 grep_flat "$CD/SKILL.md" "Review mode"; check $? "codebase-design carries a review mode"
 grep_flat "$CD/SHAPE-REVIEW.md" "one-off data structure"; check $? "SHAPE-REVIEW names the reinvented data-structure smell"
 
