@@ -1102,6 +1102,21 @@ if [ -f "$REACTCL" ]; then
 fi
 
 # ============================================================================
+# Framework best practices — Vue content (piece 2)
+# ============================================================================
+
+VUECL="$PLUGIN/skills/reviewing-framework-best-practices/references/vue.md"
+[ -f "$VUECL" ]; check $? "reviewing-framework-best-practices/references/vue.md exists"
+if [ -f "$VUECL" ]; then
+  grep_flat "$VUECL" "toRefs"; check $? "vue.md covers reactivity idioms"
+  grep_flat "$VUECL" "Composition"; check $? "vue.md covers Composition/Options API consistency"
+  grep_flat "$VUECL" "computed"; check $? "vue.md covers computed-vs-method idioms"
+  grep_flat "$VUECL" "v-for"; check $? "vue.md covers v-for key idioms"
+  grep_flat "$VUECL" "watch"; check $? "vue.md covers watcher idioms"
+  grep_flat "$VUECL" "not a finding"; check $? "vue.md states what is not a finding"
+fi
+
+# ============================================================================
 # Cross-cutting — shipped skills carry no dangling ADR pointers
 # ============================================================================
 # docs/adr/ lives at the repo root, outside the packaged plugin, so a facet running
