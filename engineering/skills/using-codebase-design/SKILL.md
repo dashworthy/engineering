@@ -7,11 +7,15 @@ description: "Shape module interfaces so complexity hides behind narrow, deep bo
 
 Say this first, plainly: `Using the using-codebase-design skill to shape this interface.`
 
-Shape a module interface deep-not-shallow, or judge one already sketched. using-codebase-design is a shared
-skill with two callers: `brainstorming` invokes it when an approach turns on a boundary, and `plan`'s
-arch-lens review invokes it in review mode (argument `review`) to judge the interfaces a plan sketches.
+Shape a module interface deep-not-shallow, or judge one already sketched. using-codebase-design runs in
+two modes: design mode (default) shapes a boundary an approach turns on; review mode (argument
+`review`) judges an interface already sketched.
 Its companion references (`references/DEEPENING.md`, `references/DESIGN-IT-TWICE.md`,
 `references/PATTERN-MATRIX.md`, `references/SHAPE-REVIEW.md`, `references/TENANCY-*.md`) carry the mechanics.
+
+**If invoked with the argument `review`, go straight to *Review mode* at the end and skip every
+generative step above** — you judge one supplied shape, with no second sketch, no pattern-matrix
+proposal, and no choosing.
 
 ## What this guarantees
 
@@ -166,14 +170,13 @@ shape win by default.
 
 ## Review mode
 
-This skill has two modes, and they are the design/review split its callers need. The default —
+The default —
 everything above — is **design mode**: given a boundary that needs shaping, it sketches two
 competing designs, runs the catalog, and chooses. **Review mode** is the other half: given a
 shape *already chosen and written down* — an interface a plan sketches, a signature a task will
 produce — it judges that shape and returns findings, without designing a new one.
 
-Enter review mode when invoked with the argument `review` and a proposed shape to judge (this
-is how the `plan` conductor's arch-lens review calls this skill over a plan's Interfaces blocks). In review mode:
+Enter review mode when invoked with the argument `review` and a proposed shape to judge. In review mode:
 
 - **Run `references/SHAPE-REVIEW.md` over the given shape** — the SOLID lens and the anti-pattern table —
   exactly as design mode runs them over its two sketches, but here over the one shape handed in.
@@ -189,8 +192,8 @@ is how the `plan` conductor's arch-lens review calls this skill over a plan's In
   shape, supplied, and the job is to judge it, not to replace it. Return the findings and let the
   caller decide what to revise.
 
-Review mode judges a shape; it does not own the fix. The caller — the `plan` conductor's arch-lens review — decides which
-findings to close in the plan and which to surface to the human. Hand back the findings and stop.
+Review mode judges a shape; it does not own the fix. The caller decides which
+findings to close and which to surface to the human. Hand back the findings and stop.
 
 ## Boundaries — what this does not do
 

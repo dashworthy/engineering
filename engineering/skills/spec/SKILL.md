@@ -1,14 +1,14 @@
 ---
 name: spec
-description: "The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Invoked by `brainstorming` with a recommended design; does not self-trigger on arbitrary requests. Run-dir slug stays `to-spec`."
+description: "The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Runs on a recommended design already handed off from the design phase; does not self-trigger on arbitrary requests. Run-dir slug stays `to-spec`."
 ---
 
 # spec
 
 Say this first, plainly: `Using the spec skill to write the spec.`
 
-The spec phase is the single Tier-1 writer and the pipeline's first human-approval gate. `brainstorming`
-invokes it with a recommended design; it serializes that design into the one Tier-1 spec, presents it,
+The spec phase is the single Tier-1 writer and the pipeline's first human-approval gate. It
+serializes the recommended design it is handed into the one Tier-1 spec, presents it,
 and holds the spec gate. Its run-dir slug stays `to-spec` (`.engineering/<run>/to-spec/APPROVED.md`),
 which `plan` reads as its precondition.
 
@@ -42,8 +42,7 @@ run's start date, if the two differ.
 
 The spec is a run-scoped artifact: it lives under `.engineering/<run>/spec/`, alongside the
 run's other working state, not in the repository's tracked docs tree — the run dir is the
-single home for a run's spec, plan, markers, and scratch. `Tier-1` marks the spec's formality
-(the one approved, structured document), not a separate location. Beside the spec this skill
+single home for a run's spec, plan, markers, and scratch. Beside the spec this skill
 also writes the run-scoped approval marker (`.engineering/<run>/to-spec/APPROVED.md`), minted at
 the spec gate below — the marker is the trace that the spec cleared the gate.
 

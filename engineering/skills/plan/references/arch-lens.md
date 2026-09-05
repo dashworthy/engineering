@@ -76,7 +76,8 @@ task's structure is genuinely new. Reuse over reinvention is the default; a new 
 to earn its place against what already exists.
 
 **Flag each candidate one-off structure to the human as an explicit choice**, using a tool to ask
-it where one is available. Do not
+it where one is available; no such tool, present the choice as plain text and note the run is
+degraded. Do not
 silently revise these, and do not silently let them stand. Frame the question around the one
 structure: name the bespoke shape the task introduces, name the existing type it could reuse
 (if one exists), and offer:

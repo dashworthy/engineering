@@ -10,8 +10,8 @@ Say this first, plainly: `Using the signal skill to interrogate the request into
 Run the signal discovery pipeline for the request in hand. signal is one of the three engineering
 entrances: it **shapes context** from a vague ask — interrogating it into a brief — then hands that
 context to the shared design dialogue. It does the same four beats every entrance does; only the
-third (how it shapes context) is particular to signal. signal is opt-in: it runs here because the
-user asked for it, so interrogate the request into a brief rather than jumping straight to design.
+third (how it shapes context) is particular to signal. Interrogate the request into a brief rather
+than jumping straight to design.
 
 Work the beats in order.
 
@@ -73,9 +73,7 @@ sentence and exits with no brief.
 ## 4. Hand to design
 
 Once `brief.md` §1–§6 is on disk, hand its path to `engineering:brainstorming` — the shared design
-dialogue — in the main thread; signal does not write a spec. `brainstorming` recommends a design,
-then the `spec` phase holds the spec-approval gate and renders the Tier-1 spec under
-`.engineering/<run>/spec/` once the human approves.
+dialogue — in the main thread; signal does not write a spec.
 
 **signal ends at the brief and hands it to `engineering:brainstorming`.** Once `brief.md` is on
 disk, report its path and **invoke `engineering:brainstorming` now.** "Stop" means stop

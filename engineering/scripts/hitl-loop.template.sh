@@ -16,7 +16,7 @@
 #   sh hitl-loop.sh
 #
 # Every pass appends one record to $LOG, so a finished session is a single file you can
-# hand to diagnosing-bugs as the evidence a hypothesis is checked against.
+# hand to the diagnosis step as the evidence a hypothesis is checked against.
 
 set -e
 

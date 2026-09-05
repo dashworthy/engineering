@@ -1,13 +1,13 @@
 ---
 name: brainstorming
-description: "The design phase where all three entrances converge: explore context, propose 2-3 approaches with trade-offs, recommend one, and shape any boundary the approach turns on (via using-codebase-design). Use after signal, triage, or receiving-code-review; hands the recommended design to spec. Weighs approach; does not interrogate requirements (the entrances' job) or design module internals (that is using-codebase-design)."
+description: "The design phase: explore context, propose 2-3 approaches with trade-offs, recommend one, and shape any boundary the approach turns on (via using-codebase-design). Use once a request has been interrogated into a brief or a defect isolated; hands the recommended design to spec. Weighs approach; does not interrogate requirements (the entrances' job) or design module internals (that is using-codebase-design)."
 ---
 
 # brainstorming
 
 Say this first, plainly: `Using the brainstorming skill to shape the design.`
 
-brainstorming is the design phase where all three entrances converge. The dialogue below shapes a
+brainstorming is the design phase. The dialogue below shapes a
 recommended design — an approach chosen over its alternatives, with any load-bearing boundary shaped
 via `using-codebase-design` — then hands that design to the `spec` phase, which serializes it and holds the
 spec gate. This skill drives the dialogue and hands off; it does not write the spec itself.
@@ -16,7 +16,7 @@ spec gate. This skill drives the dialogue and hands off; it does not write the s
 
 One thing: given a signal brief or a triage problem, this phase produces a recommended
 design — an approach chosen over its rejected alternatives, with the reasoning laid
-out — then serializes it into the standard spec and holds the spec gate on it.
+out — then hands it to the `spec` phase to serialize and gate.
 
 ## Starting material
 
@@ -30,12 +30,6 @@ One of the two is the entry ticket. Starting without either — no brief, no iso
 problem, just a request typed straight at this skill — means the interrogation that
 should have come first didn't happen; send it back to `signal` or `triage` rather than
 inventing requirements to fill the gap.
-
-On the signal path, signal hands its finished brief straight
-here once discovery is done; on the triage path, a defect isolated as
-spec-worthy is routed here. Either way the entry ticket is already on disk before this
-skill's first question.
-
 ## Explore context
 
 Before sketching anything, read what the codebase already has to say. Skim the files
@@ -105,14 +99,11 @@ marker; nothing downstream builds until that marker exists. The dialogue itself 
 spec and does not write into `.engineering/<run>/spec/` — the `spec` phase is the only writer
 there.
 
-So the dialogue's job ends at a recommendation, not a ratification. Don't stage a
-section-by-section sign-off in the dialogue or treat the human nodding along as approval —
-collecting that approval is the spec gate's job, and another gate in the dialogue would only
-duplicate it. So carry the recommended design onward — **proceed to the next act now** (which act,
-the `spec` phase by default, is the right-size decision below). "Stop" here means stop
-*designing* and stop trying to collect approval; it is not a stop to ask the human whether to
-continue. There is no gate at this seam, so parking the design with a "want me to write the spec?"
-is not an available move — the recommendation is done, proceeding is the next act, take it.
+So the dialogue's job ends at a recommendation, not a ratification: **proceed to the next act
+now** — the `spec` phase by default (the right-size decision is below). "Stop" here means stop
+*designing*, not a stop to ask the human whether to continue; parking the design with a "want me
+to write the spec?" is not an available move — the recommendation is done, proceeding is the next
+act, take it.
 
 ## Right-size the path — spec by default, plan-direct only by opt-in
 
@@ -147,15 +138,11 @@ otherwise happens at the spec gate, unchanged.
   constraints are `signal`'s job — or `triage`'s, for a defect — and are settled before
   this skill's first question. This skill starts once there's a problem worth designing
   a solution for; it does not go find one.
-- The **dialogue** does not **shape interfaces itself.** Designing a module's interface — narrow
-  versus leaky, one boundary at a time — is `using-codebase-design`'s work; the
-  dialogue weighs how to build at the level of approach, not a single interface's method signatures.
-  When the approach turns on a boundary it invokes `engineering:using-codebase-design` (see above) rather
-  than shaping the interface in the dialogue.
-- The **dialogue** does not **write the spec.** Serializing the recommended design into the standard
-  document is the `spec` phase's job (invoked after the dialogue).
-  The dialogue produces the recommendation; the `spec` phase produces the record of it and
-  holds the gate on it.
+- The **dialogue** does not **shape interfaces itself.** Designing a module's interface is
+  `using-codebase-design`'s work; the dialogue weighs approach, not a single interface's method
+  signatures, and invokes `engineering:using-codebase-design` when the approach turns on a boundary.
+- The **dialogue** does not **write the spec.** Serializing the recommended design is the `spec`
+  phase's job, invoked after the dialogue.
 - It does not **plan or build.** Nothing past the spec is this phase's to
   touch, including sketching what a plan for the design might look like.
 - It is not always required. A triage quick fix with one obvious fix and nothing

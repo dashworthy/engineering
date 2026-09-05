@@ -28,8 +28,7 @@ The status line alone is not proof — check the trace behind it. Resolve the ru
 `.engineering/<run>/to-spec/APPROVED.md`, actually exists. An `Approved` status with
 no marker behind it is the signature of a hand-edited status line or a spec written before
 this mechanism existed — either way the spec gate was never cleared, so refuse and stop
-rather than plan it. This mirrors `finish`'s rule to prefer the
-trace over the checkbox: the marker is the trace, the status line is only the checkbox.
+rather than plan it — the marker is the trace, the status line is only the checkbox.
 
 **Or start from the right-size bypass marker.** The spec-approval marker is one of two
 acceptable preconditions; the other is the spec-skip marker
@@ -139,14 +138,15 @@ reviewer can approve and land the tasks in order rather than reading the whole c
 once. Which one a plan uses is decided at plan-writing time, not left to whoever executes
 it — and it is decided by **asking**: put it to your human partner as a single structured
 choice, using a tool to ask it where one is available (**Single PR at the end** (Recommended), or **Stacked — one PR per task**), and
-do not finalize the plan until they choose. This is a required gate, not a default you may
+do not finalize the plan until they choose. No such tool, or a headless run: present the two
+options as plain text, say the run is degraded, and wait for an explicit typed choice. This is a required gate, not a default you may
 assume: even when the spec or the caller seems to imply one, confirm it through the question
 rather than reading it off silently.
 
 When the plan is stacked, record it in the plan's Global Constraints as a single line —
 `PR strategy: stacked (one PR per task, via engineering:using-stacked-pull-requests)` — so
 every downstream skill reads the same marker. State in that same section that a stacked
-plan is **not eligible for** `build`' subagent parallel mode: stacking is linear,
+plan is **not eligible for** `build`'s subagent parallel mode: stacking is linear,
 each task's branch is based on the one before it, so the tasks run sequentially and cannot
 fan out across parallel agents.
 
@@ -215,7 +215,7 @@ plan is written and self-reviewed, before a human ever sees it.
 
 **Load `references/arch-lens.md` and run it now, on the plan just written.** It reads the plan's
 Interfaces blocks and code sketches, runs the architecture lens over them (via
-the shape-lenses reference in review mode), and scans for reinvented data structures — flagging each
+`engineering:using-codebase-design` in review mode), and scans for reinvented data structures — flagging each
 to the human as an explicit choice before it can stand. It hands back the plan revised
 for whatever it found: a signature reshaped to close a leak, a bespoke shape replaced with
 the existing type, or an ad-hoc structure the human explicitly approved. This is why the
@@ -273,7 +273,5 @@ this seam, so print the plan's path — or, for a set, every path in sequence �
 `build` now.** "Stop" here means stop *writing the plan*; it is not a stop to ask
 the human whether to build. Parking an approved plan with a "want me to start implementing?"
 is not an available move — the approval was the answer to that question; `build` is
-the next act, take it. Running the plan task by task is `build`' job — it reads the
+the next act, take it. Running the plan task by task is `build`'s job — it reads the
 plan this skill wrote (and the plan-approval marker behind it) and works it task by task.
-(`engineering:build` remains the entry point for building a plan approved in an
-earlier session; a plan approved just now does not wait for it.)

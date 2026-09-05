@@ -145,7 +145,7 @@ UD="$PLUGIN/skills/using-diagrams/SKILL.md"
 if [ -f "$UD" ]; then
   grep_flat "$UD" "consider a diagram"; check $? "using-diagrams states the consider-a-diagram authoring obligation"
 fi
-# The spec-writing stage (design's reference) and plan each carry it.
+# The spec skill and plan each carry it.
 for f in "$PLUGIN/skills/spec/SKILL.md" "$PLUGIN/skills/plan/SKILL.md"; do
   grep_flat "$f" "using-diagrams" && grep_flat "$f" "consider a diagram"
   check $? "$(basename "$(dirname "$f")")/$(basename "$f") carries the consider-a-diagram obligation via using-diagrams"

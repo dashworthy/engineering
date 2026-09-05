@@ -21,8 +21,7 @@ put it there.
 
 Only when the plan's Global Constraints carry `PR strategy: stacked`. `plan` writes
 that line and emits, per task, a step that starts the task's branch and a step — after the
-task's commit — that submits its PR; `build` reaches those steps in order and
-dispatches this skill for them. A plan with no such line is an ordinary single-branch plan and
+task's commit — that submits its PR. A plan with no such line is an ordinary single-branch plan and
 never reaches here; do not stack a plan that didn't ask to be stacked.
 
 ## Detect the tool
@@ -83,9 +82,8 @@ Landing is bottom-up: merge the lowest open PR first, then restack what remains,
 and so on to the top — never the top PR first, which would try to merge every task's diff at
 once and defeat the point of stacking. With `gt`, `gt merge` walks the stack in that order and
 restacks between merges. With `git` + `gh`, merge the bottom PR (`gh pr merge`), restack the
-remainder onto the new trunk, and repeat. This is the path `finish`
-delegates to when it detects a stacked run and offers **Land the stack** in place of opening a
-single pull request.
+remainder onto the new trunk, and repeat. This is the bottom-up landing path for a finished
+stacked run — offered as **Land the stack** in place of opening a single pull request.
 
 ## What this does not do
 

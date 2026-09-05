@@ -73,7 +73,7 @@ starting point. The template only structures the loop — ask, observe, record, 
 to narrow further or stop. What each prompt asks, what "pinned down" means for this failure,
 and what gets logged at each pass are yours to fill in once it's copied.
 
-## Boundary: diagnosing-bugs finds why, triage decides what
+## Boundary: diagnosis finds why, triage decides what
 
 A bug report reaches this skill only after triage — which decides whether a report is real,
 whether it's already understood, and what should happen to it (reproduce further, hand to a
