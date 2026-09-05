@@ -1,15 +1,16 @@
 ---
-name: design
-description: "The design phase where all three entrances converge: explore context, propose 2-3 approaches with trade-offs, recommend one, shape any boundary the approach turns on, then write the Tier-1 spec and hold the spec gate. Use after signal, triage, or receiving-code-review. Does not interrogate requirements — that is the entrances' job."
+name: brainstorming
+description: "The design phase where all three entrances converge: explore context, propose 2-3 approaches with trade-offs, recommend one, and shape any boundary the approach turns on (via using-codebase-design). Use after signal, triage, or receiving-code-review; hands the recommended design to spec. Weighs approach; does not interrogate requirements (the entrances' job) or design module internals (that is using-codebase-design)."
 ---
 
-# Design
+# brainstorming
 
-Say this first, plainly: `Using the design skill to shape the design.`
+Say this first, plainly: `Using the brainstorming skill to shape the design.`
 
-The design phase runs in two stages: the **design dialogue** below shapes a recommended design,
-then the **spec-writing stage** (`references/spec-writing.md`, which this conductor loads) serializes
-it and holds the spec gate. This file drives the dialogue and routes into that stage.
+brainstorming is the design phase where all three entrances converge. The dialogue below shapes a
+recommended design — an approach chosen over its alternatives, with any load-bearing boundary shaped
+via `using-codebase-design` — then hands that design to the `spec` phase, which serializes it and holds the
+spec gate. This skill drives the dialogue and hands off; it does not write the spec itself.
 
 ## What this guarantees
 
@@ -72,19 +73,19 @@ to present as one design.
 Some approaches are settled the moment one is picked. Others turn on a module
 boundary — a new interface, or an existing seam the approach reshapes — where the
 load-bearing decision isn't *which* approach but *what the interface looks like*. When the
-recommended approach is that second kind, shape that interface here, before the spec stage, by
-loading `references/shape-lenses.md` and shaping the boundary with it: it designs the interface
+recommended approach is that second kind, shape that interface here, before the spec phase, by
+invoking `engineering:using-codebase-design` on the boundary: it designs the interface
 from at least two competing shapes and judges them on what a caller has to know. Apply it once per
 boundary the approach introduces — a design that stands up three modules applies it three
 times — and let the shaped interfaces travel with the recommended design into the spec,
 where they become part of §6's Approach.
 
-Shaping the interface here, not later, is deliberate: the spec gate (the spec-writing stage below)
+Shaping the interface here, not later, is deliberate: the spec gate (held by the `spec` phase)
 is the first human approval, and an interface is usually the
 highest-leverage decision in a design. Deferring it past that gate would mean the human
 approved an approach whose real shape was still open. An approach with no new or reshaped
 boundary — a behavior change on an existing path, a config move, most quick fixes — has
-nothing for the shape lenses to shape and skips them; this is a call the approach earns, not
+nothing for `using-codebase-design` to shape and skips it; this is a call the approach earns, not
 a step every design takes.
 
 ## Recommend the design, then hand off
@@ -97,25 +98,25 @@ output is a recommended design, ready to serialize.
 ## No gate in the dialogue — approval is the spec gate
 
 Design approval happens at the spec gate, not in the dialogue. Once the design is recommended,
-continue into the **spec-writing stage** — load `references/spec-writing.md` and follow it — which
+hand off to the **`spec` phase** — **invoke `engineering:spec`** with the recommended design — which
 serializes the design into the plugin's one Tier-1 spec format, writes it as a draft, presents it,
 and waits for the human's approval before stamping `Approved` and minting the run's spec-approval
 marker; nothing downstream builds until that marker exists. The dialogue itself does not write the
-spec and does not write into `.engineering/<run>/spec/` — the spec-writing stage is the only writer
+spec and does not write into `.engineering/<run>/spec/` — the `spec` phase is the only writer
 there.
 
 So the dialogue's job ends at a recommendation, not a ratification. Don't stage a
 section-by-section sign-off in the dialogue or treat the human nodding along as approval —
 collecting that approval is the spec gate's job, and another gate in the dialogue would only
 duplicate it. So carry the recommended design onward — **proceed to the next act now** (which act,
-the spec-writing stage by default, is the right-size decision below). "Stop" here means stop
+the `spec` phase by default, is the right-size decision below). "Stop" here means stop
 *designing* and stop trying to collect approval; it is not a stop to ask the human whether to
 continue. There is no gate at this seam, so parking the design with a "want me to write the spec?"
 is not an available move — the recommendation is done, proceeding is the next act, take it.
 
 ## Right-size the path — spec by default, plan-direct only by opt-in
 
-Most work takes the full path: continue into the spec-writing stage, and the spec gate takes the
+Most work takes the full path: invoke `engineering:spec`, and the spec gate takes the
 human's approval. Some work is small enough that a separate spec document earns nothing a plan wouldn't —
 a change the recommended design already pins down completely. For that case, and only through an
 explicit opt-in, this skill may skip the spec-**creation** step and hand straight to the plan
@@ -124,14 +125,14 @@ instead.
 Judge whether the work is that small. If it might be, put it to the human as a
 structured choice, using a tool to ask it where one is available:
 
-- **Write the full spec (Recommended)** — continue into the spec-writing stage; the spec gate
+- **Write the full spec (Recommended)** — invoke `engineering:spec`; the spec gate
   takes approval, the default path.
 - **Skip the spec, go straight to the plan** — for a small, well-pinned change where a spec
   document adds no decision the plan won't already carry.
 
 No such tool: present the same options as plain text and say the run is degraded.
 
-On the default pick, load `references/spec-writing.md` and follow it as above. On the skip pick —
+On the default pick, invoke `engineering:spec` as above. On the skip pick —
 never silently, only on this
 explicit choice — mint `.engineering/<run>/to-spec/SPEC-SKIPPED.md` recording who opted in and the
 one-line reason, then hand the recommended design straight to `engineering:plan`. That
@@ -147,13 +148,13 @@ otherwise happens at the spec gate, unchanged.
   this skill's first question. This skill starts once there's a problem worth designing
   a solution for; it does not go find one.
 - The **dialogue** does not **shape interfaces itself.** Designing a module's interface — narrow
-  versus leaky, one boundary at a time — is the `references/shape-lenses.md` reference's work; the
+  versus leaky, one boundary at a time — is `using-codebase-design`'s work; the
   dialogue weighs how to build at the level of approach, not a single interface's method signatures.
-  When the approach turns on a boundary it loads `references/shape-lenses.md` (see above) rather
+  When the approach turns on a boundary it invokes `engineering:using-codebase-design` (see above) rather
   than shaping the interface in the dialogue.
 - The **dialogue** does not **write the spec.** Serializing the recommended design into the standard
-  document is the spec-writing stage's job (`references/spec-writing.md`, loaded after the dialogue).
-  The dialogue produces the recommendation; the spec-writing stage produces the record of it and
+  document is the `spec` phase's job (invoked after the dialogue).
+  The dialogue produces the recommendation; the `spec` phase produces the record of it and
   holds the gate on it.
 - It does not **plan or build.** Nothing past the spec is this phase's to
   touch, including sketching what a plan for the design might look like.

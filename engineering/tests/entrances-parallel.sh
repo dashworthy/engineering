@@ -1,7 +1,7 @@
 #!/bin/sh
 # The three entrances are parallel and self-contained skills: each SKILL.md carries the identical
-# four-beat labeled skeleton (1. Isolate via using-git-worktrees -> 2. establish/join a run via
-# run-context.sh -> 3. a divergent shape-context beat -> 4. hand to engineering:design), and
+# four-beat labeled skeleton (1. Isolate the workspace, worktree recommended -> 2. establish/join a run via
+# run-context.sh -> 3. a divergent shape-context beat -> 4. hand to engineering:brainstorming), and
 # none invokes another entrance — the three converge on design, never on each other.
 set -e
 ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
@@ -17,12 +17,12 @@ for e in $ENTRANCES; do
 
   # Four labeled skeleton beats, in order, identical across the three commands.
   grep -q "^## 1\. Isolate" "$CMD" || { echo "FAIL: $e missing labeled beat 1 (Isolate)"; fail=1; }
-  grep -q "using-git-worktrees" "$CMD" || { echo "FAIL: $e beat 1 must name the worktree-isolation step"; fail=1; }
+  grep -q "Worktree" "$CMD" || { echo "FAIL: $e beat 1 must carry the worktree-isolation choice"; fail=1; }
   grep -qE "^## 2\. Establish" "$CMD" || { echo "FAIL: $e missing labeled beat 2 (Establish/join a run)"; fail=1; }
   grep -q "run-context.sh" "$CMD" || { echo "FAIL: $e beat 2 must establish/join a run via run-context.sh"; fail=1; }
   grep -qE "^## 3\. Shape context" "$CMD" || { echo "FAIL: $e missing labeled beat 3 (Shape context)"; fail=1; }
   grep -qE "^## 4\. Hand to design" "$CMD" || { echo "FAIL: $e missing labeled beat 4 (Hand to design)"; fail=1; }
-  grep -q "engineering:design" "$CMD" || { echo "FAIL: $e beat 4 must hand context to design"; fail=1; }
+  grep -q "engineering:brainstorming" "$CMD" || { echo "FAIL: $e beat 4 must hand context to design"; fail=1; }
 
   # Convergence, not cross-calls: no entrance invokes another entrance.
   for other in $ENTRANCES; do

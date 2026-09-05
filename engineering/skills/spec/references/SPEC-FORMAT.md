@@ -1,6 +1,6 @@
 # Spec format
 
-The spec-writing stage renders every spec to this shape, at
+The spec skill renders every spec to this shape, at
 `.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`. One format for all three entrances.
 
     # <Title> — spec
@@ -27,7 +27,7 @@ The spec-writing stage renders every spec to this shape, at
     **Deferred:** parked, with the trigger that would revive it.
 
     ## 6. Approach (from the design dialogue)
-    The approved approach and the alternatives weighed against it (from `design`).
+    The approved approach and the alternatives weighed against it (from `brainstorming`).
     For a triage-origin fix, the chosen fix strategy and why the smaller options were rejected.
     Where the approach turned on a module boundary, name it at decision altitude: which
     boundary, the shape the shape lenses chose (Strategy, Facade, plain split), and what a
@@ -49,5 +49,5 @@ Rules:
 - Never invent content the source material does not support; mark unknowns in §8.
 - A triage-origin spec still fills every section; §1 is the reproduced problem, §6 the fix approach.
 - The topic slug matches the run slug where possible (correspondence, not coupling).
-- The status line is `Draft` when written; the spec-writing stage's spec gate flips it to Approved after
-  the human approves the draft, minting the approval marker alongside the flip (see `spec-writing.md`).
+- The status line is `Draft` when written; the spec skill's spec gate flips it to Approved after
+  the human approves the draft, minting the approval marker alongside the flip (see the `spec` skill).

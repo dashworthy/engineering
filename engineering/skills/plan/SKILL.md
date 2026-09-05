@@ -33,9 +33,9 @@ trace over the checkbox: the marker is the trace, the status line is only the ch
 
 **Or start from the right-size bypass marker.** The spec-approval marker is one of two
 acceptable preconditions; the other is the spec-skip marker
-`.engineering/<run>/to-spec/SPEC-SKIPPED.md`, which `design` mints when the human
+`.engineering/<run>/to-spec/SPEC-SKIPPED.md`, which `brainstorming` mints when the human
 explicitly opts to skip spec creation for a small, well-pinned change. When that marker is
-present there is no spec to read — plan directly from the recommended design `design`
+present there is no spec to read — plan directly from the recommended design `brainstorming`
 handed over, treating it as the approach the plan sequences. Accept **either**
 `to-spec/APPROVED.md` **or** `to-spec/SPEC-SKIPPED.md`; with neither present, no gate was
 cleared upstream, so refuse and stop the same as for a missing spec-approval marker. Whichever
@@ -230,7 +230,7 @@ the plan for approval until the arch-lens review has returned.
 ## What this does not do
 
 - It does not **design.** The approach a plan sequences into steps was already settled in
-  `design` and written into the spec's approach section by the spec-writing stage; this skill
+  `brainstorming` and written into the spec's approach section by the `spec` phase; this skill
   does not weigh alternatives or choose between them, it schedules the one already chosen.
 - It does not **run the tasks.** Driving each task through the TDD loop and gating it with the
   internal review is `build` — a separate skill, downstream of this one.
@@ -240,7 +240,7 @@ the plan for approval until the arch-lens review has returned.
 ## The plan gate — present the plan, then hold for approval
 
 The plan gate is the pipeline's second human-approval gate; the first is the spec gate in
-`design`. A written plan is a draft until a human approves it: present the finished plan,
+`spec`. A written plan is a draft until a human approves it: present the finished plan,
 then put the verdict to the human as a structured choice — `Approve` or `Request changes`, using a
 tool to ask it where one is available — so the
 turn holds and nothing is built against the plan until they pick Approve. On `Request changes`

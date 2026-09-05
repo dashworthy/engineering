@@ -1,11 +1,11 @@
 ---
-name: verification-before-completion
+name: using-verification
 description: "Before claiming done, fixed, or passing, run the verification commands and confirm their output — show the proof, don't just assert it. Use whenever you're about to report success."
 ---
 
-# Verification Before Completion
+# using-verification
 
-Say this first, plainly: `Using the verification-before-completion skill to confirm the check
+Say this first, plainly: `Using the using-verification skill to confirm the check
 actually passed.`
 
 ## What this guarantees

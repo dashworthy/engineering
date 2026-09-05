@@ -26,12 +26,12 @@ grep_flat() {  # grep_flat <file> <literal phrase>
   tr '\n' ' ' < "$1" | tr -s ' ' | grep -qF -- "$2"
 }
 
-BRAIN="$PLUGIN/skills/design/SKILL.md"
-TOSPEC="$PLUGIN/skills/design/references/spec-writing.md"
+BRAIN="$PLUGIN/skills/brainstorming/SKILL.md"
+TOSPEC="$PLUGIN/skills/spec/SKILL.md"
 PLANS="$PLUGIN/skills/plan/SKILL.md"
 EXEC="$PLUGIN/skills/build/SKILL.md"
 FINISH="$PLUGIN/skills/finish/SKILL.md"
-SPECFMT="$PLUGIN/skills/design/references/SPEC-FORMAT.md"
+SPECFMT="$PLUGIN/skills/spec/references/SPEC-FORMAT.md"
 
 # --- design: no gate, no marker -- approval lives at the spec gate ------
 ! grep_flat "$BRAIN" "APPROVED.md"

@@ -1,9 +1,9 @@
 # Diagnosing bugs (reference)
 
-> This is a reference the `build` conductor loads when a test fails for a non-obvious reason — find
-> the root cause before changing code. It is not a skill and is never discovered on its own; the
-> `build` conductor drives it. (Isolating whether a report is even valid is the `triage` entrance's
-> job, not this.)
+> This is a reference the `triage` entrance loads to shape a defect before it hands off to the
+> design phase — pinning the root cause with evidence before any fix is designed. It is not a
+> skill and is never discovered on its own; the `triage` entrance drives it. (Deciding whether a
+> report is even valid is triage's own job, upstream of this.)
 
 ## What this guarantees
 

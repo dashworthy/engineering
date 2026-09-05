@@ -13,17 +13,19 @@ conductor is already driving.
 |---|---|
 | Bootstrap | `using-skills` |
 | Entrances | `signal`, `triage`, `receiving-code-review` |
-| Phase conductors | `design`, `plan`, `build`, `document`, `finish` |
-| Cross-cutting | `using-git-worktrees`, `using-stacked-pull-requests`, `resolving-merge-conflicts`, `using-diagrams`, `verification-before-completion`, `using-parallel-agents` |
+| Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `document`, `finish` |
+| Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-verification`, `using-parallel-agents` |
 
 Reference files (not skills) that a conductor loads:
 
 | Owner | References |
 |---|---|
-| `design` | `references/spec-writing.md` (spec stage + spec gate), `references/shape-lenses.md` (+ `SHAPE-REVIEW`, `DESIGN-IT-TWICE`, `PATTERN-MATRIX`, `DEEPENING`, `TENANCY-*`), `references/SPEC-FORMAT.md` |
+| `spec` | `references/SPEC-FORMAT.md` |
+| `using-codebase-design` | `references/SHAPE-REVIEW.md`, `references/DESIGN-IT-TWICE.md`, `references/PATTERN-MATRIX.md`, `references/DEEPENING.md`, `references/TENANCY-ISOLATED-DB.md`, `references/TENANCY-SHARED-DB.md` |
 | `plan` | `references/arch-lens.md` |
-| `build` | `references/tdd-loop.md` (+ `mocking.md`, `tests.md`), `references/diagnosing.md`, `references/review-protocol.md` |
+| `build` | `references/tdd-loop.md` (+ `mocking.md`, `tests.md`), `references/review-protocol.md` |
 | `document` | `references/comprehension-gate.md`, `references/receipt-schema.md`, `references/rewrite-beat.md` |
 | `finish` | `references/pr-description.md` |
+| `triage` | `references/diagnosing.md` |
 | `receiving-code-review` | `references/review-comment.md` |
 | shared (plugin `references/`) | `interrogating-requirements.md` (loaded by all three entrances) |

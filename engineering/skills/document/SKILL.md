@@ -236,7 +236,7 @@ An unavailable check that goes unmentioned reads exactly like a check that passe
 Then say plainly: the rewrites are unstaged in the working tree, `git diff` is the review, and
 `git checkout -- .` is the undo.
 
-Invoke `engineering:verification-before-completion` before reporting anything as done.
+Invoke `engineering:using-verification` before reporting anything as done.
 
 ## Error handling
 

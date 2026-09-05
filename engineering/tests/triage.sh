@@ -18,10 +18,10 @@ SKILL=skills/triage/SKILL.md
 [ ! -e commands/triage.md ] || { echo "FAIL: commands/triage.md must be removed (triage is now a skill entrance)"; fail=1; }
 
 # Four-beat entrance skeleton, self-contained in the skill.
-grep -q "using-git-worktrees" "$SKILL" || { echo "FAIL: triage must carry the Isolate beat (using-git-worktrees)"; fail=1; }
+grep -q "Worktree" "$SKILL" || { echo "FAIL: triage must carry the Isolate beat (worktree choice)"; fail=1; }
 grep -qE 'run-context\.sh" triage|run-context\.sh triage' "$SKILL" || { echo "FAIL: triage must establish/join a run via run-context.sh triage"; fail=1; }
 grep -q "\.engineering/" "$SKILL" || { echo "FAIL: triage must log to .engineering/<run>/triage"; fail=1; }
-grep -q "engineering:design" "$SKILL" || { echo "FAIL: triage must hand context to design"; fail=1; }
+grep -q "engineering:brainstorming" "$SKILL" || { echo "FAIL: triage must hand context to design"; fail=1; }
 
 # Shape-context beat: the reproduce/isolate mechanics folded in from the retired checklist.
 for anchor in "reproduce" "Confirmed" "Not reproducible" "Under-specified" "domain concept"; do

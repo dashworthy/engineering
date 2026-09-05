@@ -1,6 +1,6 @@
 ---
 name: triage
-description: "The defect entrance: verify a reported problem reproduces, isolate it to a domain concept, then hand it to the shared design dialogue. Use when a bug or defect is reported. One of three entrances; converges on design and never invokes another entrance (never hands off to signal)."
+description: "The defect entrance: verify a reported problem reproduces, isolate it to a domain concept, then hand it to the shared design dialogue. Use when a bug or defect is reported. One of three entrances; converges on brainstorming and never invokes another entrance (never hands off to signal)."
 ---
 
 # triage
@@ -24,14 +24,21 @@ switch orphans it on the base branch.
 
 First check whether isolation already exists — a worktree this session entered, or a branch other
 than the repository's default branch already checked out. Either means the work is already
-isolated: join it and skip the question. In particular, if `signal` established the run and its
+isolated: join it and skip the question. When it is ambiguous whether the current checkout is
+already a linked worktree, confirm it: inside a work tree, `git rev-parse --git-dir
+--git-common-dir` printing two different paths while `git rev-parse
+--show-superproject-working-tree` prints nothing is a linked worktree (already isolated); equal
+paths are the repository's one shared checkout, and a non-empty superproject path is a submodule —
+treat neither as isolation. In particular, if `signal` established the run and its
 isolation first and the user then reached triage, triage joins that same workspace rather than
 stacking a second one.
 
 Otherwise put the choice to the user as a single structured choice — selectable options with a
 free-form escape, holding the turn until they answer, using a tool to ask it where one is available:
 
-- **Worktree (Recommended)** — invoke `engineering:using-git-worktrees`.
+- **Worktree (Recommended)** — create a linked worktree on a new task branch carrying the run
+  slug: prefer the harness's native worktree tool if it has one, else `git worktree add -b
+  <task-branch> <path>`. Change into it, run the project's setup, and note the baseline test result.
 - **Feature branch in this checkout** — no worktree; cut a named feature branch off the base with
   `git switch -c <task-branch>`, where `<task-branch>` carries the slug you derive from the report.
   Never leave the work sitting on the default branch.
@@ -58,8 +65,9 @@ into `.engineering/<run>/triage/` as it's found, not reconstructed afterward fro
 
 This is the beat particular to triage. Isolate only as far as the hand-off needs: enough to place
 the problem at a domain concept and hand it on with confidence, and no more. Triage is not
-diagnosis — finding the exact conditional is a job for the build phase's diagnosing reference, one
-step further than triage goes.
+diagnosis — finding the exact conditional is one step further than triage usually goes; when the
+hand-off needs the root cause pinned down first, follow `references/diagnosing.md` (reproduce,
+hypothesize, isolate, confirm with evidence) to shape it before handing off.
 
 **Reproduce first.** Before isolating anything, get the failure to happen under your own control —
 not just the reporter's word for it. Establish which of three outcomes is true, and write it down
@@ -100,11 +108,11 @@ entrances are distinct and never invoke each other.
 ## 4. Hand to design
 
 Once the defect is verified and isolated far enough to design a fix against, hand that context to
-the shared design dialogue — invoke `engineering:design` now. Everything converges there;
+the shared design dialogue — invoke `engineering:brainstorming` now. Everything converges there;
 there is no routing table and no quick-fix side door, and there is no gate at this seam. Approval
-lives downstream — the spec gate in `design`, the plan gate in `plan` — never in triage
-and never in design. Reporting the isolation and asking whether to proceed is not a move
-here: once the context is shaped and written into the run, invoke design.
+lives downstream — the spec gate in `spec`, the plan gate in `plan` — never in triage
+and never in brainstorming. Reporting the isolation and asking whether to proceed is not a move
+here: once the context is shaped and written into the run, invoke brainstorming.
 
 A report that turns out **Not reproducible**, already fixed, or already rejected does not go to
 design — record the disposition in `.engineering/<run>/triage/` and close it with the reason

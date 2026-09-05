@@ -1,6 +1,6 @@
 ---
 name: receiving-code-review
-description: "The review-feedback entrance: aggregate received code-review comments, verify each against the codebase, reply on each thread, stack the fixes onto the original review branch, and hand the shaped context to the design dialogue. Use when code-review feedback arrives. One of three entrances; converges on design and never invokes another entrance."
+description: "The review-feedback entrance: aggregate received code-review comments, verify each against the codebase, reply on each thread, stack the fixes onto the original review branch, and hand the shaped context to the design dialogue. Use when code-review feedback arrives. One of three entrances; converges on brainstorming and never invokes another entrance."
 ---
 
 # receiving-code-review
@@ -25,12 +25,19 @@ established first, and `run-context.sh` then writes `.engineering/<run>/` **insi
 
 First identify the original review branch. Then check whether isolation already exists — a worktree
 this session entered, or a branch (other than the review branch itself) already checked out on top
-of it. Either means the work is already isolated: join it and skip the question. Otherwise put the
-choice to the user as a single structured choice — selectable options with a free-form escape,
-holding the turn until they answer, using a tool to ask it where one is available:
+of it. Either means the work is already isolated: join it and skip the question. When it is
+ambiguous whether the current checkout is already a linked worktree, confirm it: inside a work
+tree, `git rev-parse --git-dir --git-common-dir` printing two different paths while `git rev-parse
+--show-superproject-working-tree` prints nothing is a linked worktree (already isolated); equal
+paths are the repository's one shared checkout, and a non-empty superproject path is a submodule —
+treat neither as isolation. Otherwise put the choice to the user as a single structured choice —
+selectable options with a free-form escape, holding the turn until they answer, using a tool to ask
+it where one is available:
 
-- **Worktree (Recommended)** — invoke `engineering:using-git-worktrees`, with the worktree checked
-  out on the original review branch so the fixes build on the code under review.
+- **Worktree (Recommended)** — create a linked worktree checked out on the original review branch,
+  so the fixes build on the code under review: prefer the harness's native worktree tool if it has
+  one, else `git worktree add <path> <review-branch>`. Change into it, run the project's setup, and
+  note the baseline test result.
 - **Feature branch off the review branch** — no worktree; cut a named feature branch off the
   original review branch with `git switch -c <task-branch> <review-branch>`, where `<task-branch>`
   carries the slug you derive from the review. Never base the fixes on the default trunk — they
@@ -120,10 +127,10 @@ choice as plain text and say the run is degraded.
 
 Once the comments are aggregated, verified, and impact-checked — and the two standing instructions
 are written into the shaped context — hand it to the shared design dialogue: invoke
-`engineering:design` now. Everything converges there; there is no gate at this seam. Approval
-lives downstream — the spec gate in `design`, the plan gate in `plan` — never in this
+`engineering:brainstorming` now. Everything converges there; there is no gate at this seam. Approval
+lives downstream — the spec gate in `spec`, the plan gate in `plan` — never in this
 entrance and never in design. Reporting the findings and asking whether to proceed is not a
-move here: once the context is shaped and written into the run, invoke design.
+move here: once the context is shaped and written into the run, invoke brainstorming.
 
 If no review is in hand, ask the user for the PR, branch, or comments under review before
 proceeding.

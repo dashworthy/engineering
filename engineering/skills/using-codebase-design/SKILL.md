@@ -1,10 +1,17 @@
-# Shape lenses (reference) — module-interface design and review
+---
+name: using-codebase-design
+description: "Shape module interfaces so complexity hides behind narrow, deep boundaries — or, in review mode (argument `review`), judge an already-sketched shape against the same lenses without designing a new one. Use when defining a module's interface, judging whether a boundary earns its keep, or reviewing a proposed interface. Not approach design (brainstorming)."
+---
 
-> This is a reference loaded by the `design` conductor (to shape a boundary the approach turns on)
-> and by the `plan` conductor's arch-lens review (in review mode, argument `review`, to judge an
-> already-sketched shape). It is not a skill and is never discovered on its own; a conductor drives
-> it. Its sub-references (`DEEPENING.md`, `DESIGN-IT-TWICE.md`, `PATTERN-MATRIX.md`, `SHAPE-REVIEW.md`,
-> `TENANCY-*.md`) sit alongside it.
+# using-codebase-design
+
+Say this first, plainly: `Using the using-codebase-design skill to shape this interface.`
+
+Shape a module interface deep-not-shallow, or judge one already sketched. using-codebase-design is a shared
+skill with two callers: `brainstorming` invokes it when an approach turns on a boundary, and `plan`'s
+arch-lens review invokes it in review mode (argument `review`) to judge the interfaces a plan sketches.
+Its companion references (`references/DEEPENING.md`, `references/DESIGN-IT-TWICE.md`,
+`references/PATTERN-MATRIX.md`, `references/SHAPE-REVIEW.md`, `references/TENANCY-*.md`) carry the mechanics.
 
 ## What this guarantees
 
@@ -39,7 +46,7 @@ nobody can extend, and some seams belong to the caller (a widget library shouldn
 your layout for you). Judge each boundary on its own call sites, not by a rule that deeper
 is always better.
 
-`DEEPENING.md`, alongside this file, is the list of concrete moves that turn a shallow
+`references/DEEPENING.md` is the list of concrete moves that turn a shallow
 module deep: pulling complexity down behind the interface, widening what one call is
 responsible for, collapsing layers that only forward, and defaulting the case that shows
 up nine times out of ten. Use it once you've decided a module is shallow and need to know
@@ -89,19 +96,19 @@ leaks another customer's data, not just a private field.
 
 1. **Determine the model.** The first move is to determine the app's tenancy model, stated from
    the approach context you already have —
-   the designer decides, from what `design` established about the application, whether it
+   the designer decides, from what `brainstorming` established about the application, whether it
    is **shared-database** (one schema, rows told apart by a discriminator column), **isolated
    database** (a database or schema per tenant), or **single-tenant** (not multi-tenant at all).
-   This is a stated fact, not an auto-detection: `codebase-design` runs at design time with a
+   This is a stated fact, not an auto-detection: this skill runs at design time with a
    human present, so there is no signal-scanning step and no dependency on any other plugin's
    detection machinery. If you cannot state the model from context, ask — do not guess.
 
-2. **Consult only the matching companion.** Two companion files sit alongside this one, one per
+2. **Consult only the matching companion.** Two companion files sit in `references/`, one per
    model, and their failure modes are near-disjoint — so consult only the matching companion and
-   leave the other closed. `TENANCY-SHARED-DB.md` carries the shared-database boundary decision —
+   leave the other closed. `references/TENANCY-SHARED-DB.md` carries the shared-database boundary decision —
    where the scope lives so no caller can build an unscoped query, ambient vs. explicit tenant
    context, discriminator mass-assignment, and whether cross-tenant reach is permitted at all.
-   `TENANCY-ISOLATED-DB.md` carries the isolated-database decision — where and when the tenant
+   `references/TENANCY-ISOLATED-DB.md` carries the isolated-database decision — where and when the tenant
    connection is resolved and switched, carrying tenant context across async boundaries, and
    central/landlord vs. tenant DB binding. A shared-database app has no connection to route; an
    isolated-database app has no discriminator to forget. Reading the wrong companion is reading
@@ -123,7 +130,7 @@ leaks another customer's data, not just a private field.
 Before committing to a module's interface, sketch at least two genuinely different
 shapes — two different allocations of responsibility between caller and module, not two
 phrasings of the same shape — and do it before writing the implementation, not after.
-`DESIGN-IT-TWICE.md`, alongside this file, owns how to generate a second design that
+`references/DESIGN-IT-TWICE.md` owns how to generate a second design that
 actually differs from the first, and the criteria for choosing between them once both
 exist: what a call site has to know, how much of the module's machinery never has to
 reach the interface, and whether the interface lets a caller hold it wrong and not notice.
@@ -134,18 +141,18 @@ Once two shapes are on the table, before choosing between them, put them through
 catalog the field already has a vocabulary for. Two companion files carry it, split by how they
 are used.
 
-`SHAPE-REVIEW.md`, alongside this file, is the **evaluative** half: the five SOLID principles and
+`references/SHAPE-REVIEW.md` is the **evaluative** half: the five SOLID principles and
 a set of common anti-patterns, each a lens you run over the two competing shapes to catch one
 that is already wrong — a fat interface, a switch that will not stay closed, a god object. Run it
-over both shapes as an extra set of judging criteria beside the three in `DESIGN-IT-TWICE.md`;
+over both shapes as an extra set of judging criteria beside the three in `references/DESIGN-IT-TWICE.md`;
 where a lens fires, its remedy usually names a pattern.
 
-`PATTERN-MATRIX.md`, alongside this file, is the **selectable** half: the 23 Gang-of-Four
+`references/PATTERN-MATRIX.md` is the **selectable** half: the 23 Gang-of-Four
 patterns, each with the one trigger condition under which it is the appropriate shape. Consult it
 for the boundary in front of you. **When — and only when — a named trigger genuinely describes
 this boundary**, propose that pattern to the developer as a structured choice, using a tool to ask
 it where one is available, the
-way `design` proposes an approach: the pattern as the recommended option, its rationale
+way `brainstorming` proposes an approach: the pattern as the recommended option, its rationale
 tied to *this* session — why this pattern, for this boundary, now, in the words of the design you
 are actually shaping — with **"plain shape, no pattern"** always present and the default whenever
 no trigger fires. A free-form escape leaves room for a different pattern or a
@@ -168,11 +175,11 @@ produce — it judges that shape and returns findings, without designing a new o
 Enter review mode when invoked with the argument `review` and a proposed shape to judge (this
 is how the `plan` conductor's arch-lens review calls this skill over a plan's Interfaces blocks). In review mode:
 
-- **Run `SHAPE-REVIEW.md` over the given shape** — the SOLID lens and the anti-pattern table —
+- **Run `references/SHAPE-REVIEW.md` over the given shape** — the SOLID lens and the anti-pattern table —
   exactly as design mode runs them over its two sketches, but here over the one shape handed in.
   Each lens that fires is a finding: name the smell, name where it shows at this boundary, and
-  name the remedy the table points to (a `PATTERN-MATRIX.md` pattern, a `DEEPENING.md` move, or
-  a plain split).
+  name the remedy the table points to (a `references/PATTERN-MATRIX.md` pattern, a
+  `references/DEEPENING.md` move, or a plain split).
 - **Also apply the leakage tests** from *Information hiding and leakage* above — a parameter that
   only makes sense with inside knowledge, a required call order, repeated call-site choreography,
   a change inside forcing a change outside. A sketched interface leaks the same way a built one
@@ -192,7 +199,7 @@ findings to close in the plan and which to surface to the human. Hand back the f
   this skill's vocabulary at a different scale. This skill shapes the one boundary in
   front of it and stops there.
 - It does not **decide what to build.** Whether a feature is worth building, and which
-  approach it takes, is settled in `design`; this skill does not weigh in on product
+  approach it takes, is settled in `brainstorming`; this skill does not weigh in on product
   direction. It starts once an approach has named a boundary that needs shaping — a module
   new or existing, one that nothing may have built yet — before the spec is written. A
   boundary to shape, not a module already sitting in the tree, is what this skill needs to

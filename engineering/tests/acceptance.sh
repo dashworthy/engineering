@@ -46,34 +46,33 @@ done
 sh "$d/hook.sh" >/dev/null || { echo "FAIL: hook"; fail=1; }
 if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2>/dev/null; then echo "FAIL: retired verity reminder present"; fail=1; fi
 
-# 6. The design conductor's spec-writing stage is the sole Tier-1 writer; all three entrances reach
-# the design conductor. to-spec folded into design/references/spec-writing.md (the run-dir slug stays
-# `to-spec`); the spec is still written under .engineering/<run>/spec/.
-SPECWRITE="$eng/skills/design/references/spec-writing.md"
-SPECFMT="$eng/skills/design/references/SPEC-FORMAT.md"
+# 6. The spec phase is the sole Tier-1 writer; all three entrances reach the design dialogue
+# (brainstorming), which hands the recommended design to the spec phase. The spec skill's run-dir
+# slug stays `to-spec`; the spec is still written under .engineering/<run>/spec/.
+SPECWRITE="$eng/skills/spec/SKILL.md"
+SPECFMT="$eng/skills/spec/references/SPEC-FORMAT.md"
 grep -q ".engineering/<run>/spec/" "$SPECWRITE" || { echo "FAIL: spec-writing stage spec path"; fail=1; }
-grep -q "engineering:design" "$eng/skills/signal/SKILL.md" || { echo "FAIL: signal skill must hand the brief to the design phase"; fail=1; }
-grep -q "engineering:design" "$eng/skills/triage/SKILL.md" || { echo "FAIL: triage entrance must reach the design phase"; fail=1; }
-grep -q "engineering:design" "$eng/skills/receiving-code-review/SKILL.md" || { echo "FAIL: receiving-code-review entrance must reach the design phase"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/skills/signal/SKILL.md" || { echo "FAIL: signal skill must hand the brief to the design phase"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/skills/triage/SKILL.md" || { echo "FAIL: triage entrance must reach the design phase"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/skills/receiving-code-review/SKILL.md" || { echo "FAIL: receiving-code-review entrance must reach the design phase"; fail=1; }
 
 # 6b. The spec-writing stage stamps Approved (post-gate) and carries no stale section-for-section claim.
 grep -q "Status: Approved" "$SPECWRITE" || { echo "FAIL: spec-writing stage must name the Approved status it flips to at the spec gate"; fail=1; }
 grep -q "flips it to Approved" "$SPECFMT" || { echo "FAIL: SPEC-FORMAT must document the Draft-then-Approved flip at the spec gate"; fail=1; }
 if grep -q "section for section" "$SPECWRITE"; then echo "FAIL: stale section-for-section mapping claim"; fail=1; fi
 
-# 6c. to-spec is no longer a skill — no skill or reference may invoke engineering:to-spec (the
-# design conductor loads references/spec-writing.md internally instead). A lingering
-# engineering:to-spec invocation would mean the fold left a dangling dispatch that bypasses the
-# design conductor's own spec stage.
+# 6c. The spec phase is the skill `spec`, not `to-spec` — no skill or reference may invoke
+# engineering:to-spec (only the run-dir slug `to-spec` survives). A lingering engineering:to-spec
+# invocation would mean a dangling dispatch to a skill name that no longer exists.
 if grep -rn 'engineering:to-spec' "$eng/skills" --include='*.md'; then
-  echo "FAIL: engineering:to-spec must not be invoked anywhere (to-spec folded into the design conductor)"; fail=1; fi
+  echo "FAIL: engineering:to-spec must not be invoked anywhere (the spec skill is 'spec', not 'to-spec')"; fail=1; fi
 
-# 6d. The design conductor must actually route into its spec-writing stage (else the spec is never
-# written); the SPEC-FORMAT template stamps **Status:** Draft (flipped to Approved at the gate); and
-# the root README's signal sub-diagram routes interrogate → design.
-grep -q 'references/spec-writing.md' "$eng/skills/design/SKILL.md" || { echo "FAIL: design conductor must load its spec-writing stage"; fail=1; }
+# 6d. brainstorming must actually hand off to the spec phase (else the spec is never written); the
+# SPEC-FORMAT template stamps **Status:** Draft (flipped to Approved at the gate); and the root
+# README's signal sub-diagram routes interrogate → brainstorming → spec gate.
+grep -q 'engineering:spec' "$eng/skills/brainstorming/SKILL.md" || { echo "FAIL: brainstorming must hand off to the spec phase"; fail=1; }
 grep -qF '**Status:** Draft' "$SPECFMT" || { echo "FAIL: SPEC-FORMAT template must stamp **Status:** Draft (written first, flipped to Approved at the spec gate)"; fail=1; }
-grep -qF 'dimensions"| BR["design' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route interrogate -> design"; fail=1; }
+grep -qF 'dimensions"| BR["brainstorming' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route interrogate -> brainstorming -> spec gate"; fail=1; }
 
 # 6e. The gated seams must chain FORWARD past their approval gate, not park. Once the human approves
 # there is no second gate, so each stage must invoke the next act rather than wait to be re-launched.

@@ -20,10 +20,10 @@ SKILL=skills/receiving-code-review/SKILL.md
 [ ! -e commands/to-signal.md ] || { echo "FAIL: commands/to-signal.md must be removed (/to-signal is retired)"; fail=1; }
 
 # Four-beat entrance skeleton, self-contained in the skill.
-grep -q "using-git-worktrees" "$SKILL" || { echo "FAIL: entrance must carry the Isolate beat (using-git-worktrees)"; fail=1; }
+grep -q "Worktree" "$SKILL" || { echo "FAIL: entrance must carry the Isolate beat (worktree choice)"; fail=1; }
 grep -qE 'run-context\.sh" receiving-code-review|run-context\.sh receiving-code-review' "$SKILL" || { echo "FAIL: entrance must establish/join a run via run-context.sh receiving-code-review"; fail=1; }
 grep -q "\.engineering/" "$SKILL" || { echo "FAIL: entrance must log to .engineering/<run>/receiving-code-review"; fail=1; }
-grep -q "engineering:design" "$SKILL" || { echo "FAIL: entrance must hand context to design"; fail=1; }
+grep -q "engineering:brainstorming" "$SKILL" || { echo "FAIL: entrance must hand context to design"; fail=1; }
 
 # Divergent shape-context beat: aggregate -> verify against codebase -> impact beyond the comment ->
 # interrogate only when needed.

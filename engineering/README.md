@@ -13,11 +13,11 @@ ends at a green, documented branch — deployment and release are out of scope.
 
 | Phase | Skill(s) |
 |---|---|
-| Discover | `signal` (interrogate → design dialogue) |
-| Triage | `triage` (verify → isolate → design dialogue) |
-| Receiving review | `receiving-code-review` (aggregate → verify → design dialogue) |
-| Design | `design` → `to-spec` |
-| Build | `plan` → `tdd` · `code-review` → docs |
+| Discover | `signal` (interrogate → brainstorming) |
+| Triage | `triage` (verify → isolate → brainstorming) |
+| Receiving review | `receiving-code-review` (aggregate → verify → brainstorming) |
+| Design | `brainstorming` (approach; shapes boundaries via `using-codebase-design`) → `spec` (write + gate) |
+| Build | `plan` → `build` → `document` → `finish` |
 
 The full pipeline diagram and phase-by-phase walk-through live in the
 [root README](../README.md).

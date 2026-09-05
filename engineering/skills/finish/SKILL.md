@@ -18,7 +18,7 @@ happen to require.
 
 ## Require green and verified before anything else
 
-Compose with `engineering:verification-before-completion`: before this skill even considers
+Compose with `engineering:using-verification`: before this skill even considers
 which integration option to offer, confirm verification has run against the branch's current
 state and that its output, not a summary of it, is what's being relied on. The rule specific to
 this skill: if the branch has moved since verification last ran, re-run it now rather than
@@ -77,8 +77,8 @@ asked for it.
 
 - **Merge directly** — the branch talks straight to its target with no review gate expected or
   required. Perform the merge (or the native equivalent), and once the branch's work is folded
-  into its target, clean up after it: delete the branch and remove any worktree
-  `engineering:using-git-worktrees` set up for it. A merged branch left standing is a place
+  into its target, clean up after it: delete the branch and remove any worktree the entrance
+  set up for it (`git worktree remove`, or the harness's native equivalent). A merged branch left standing is a place
   someone could mistakenly resume work next to the copy that already landed.
 - **Open a pull request** — for a non-stacked branch, the default wherever the project expects
   review or the remote's permission model requires one; check whether a PR already exists for
@@ -102,7 +102,7 @@ asked for it.
 ## What this does not do
 
 - It does not **run the project's tests itself** in place of its own suite or
-  `engineering:verification-before-completion` — it relies on that skill's evidence rather than
+  `engineering:using-verification` — it relies on that skill's evidence rather than
   reimplementing it.
 - It does not **adjudicate the whole-branch review it runs.** The final whole-branch review
   pass above surfaces findings; addressing them is ordinary fix work

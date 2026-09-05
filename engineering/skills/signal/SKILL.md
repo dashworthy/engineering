@@ -1,6 +1,6 @@
 ---
 name: signal
-description: "The discovery entrance: interrogate a feature or vague request into a brief (brief.md §1–§6), then hand it to the shared design dialogue. Use when a feature or a vague ask enters the pipeline. One of three entrances; converges on design and never invokes another entrance."
+description: "The discovery entrance: interrogate a feature or vague request into a brief (brief.md §1–§6), then hand it to the shared design dialogue. Use when a feature or a vague ask enters the pipeline. One of three entrances; converges on brainstorming and never invokes another entrance."
 ---
 
 # signal
@@ -24,12 +24,19 @@ inherits.
 
 First check whether isolation already exists — a worktree this session entered, or a branch other
 than the repository's default branch already checked out. Either means the work is already
-isolated: join it and skip the question. Otherwise put the choice to the user as a single
-structured choice — selectable options with a free-form escape, holding the turn until they answer,
-using a tool to ask it where one is available:
+isolated: join it and skip the question. When it is ambiguous whether the current checkout is
+already a linked worktree, confirm it: inside a work tree, `git rev-parse --git-dir
+--git-common-dir` printing two different paths while `git rev-parse
+--show-superproject-working-tree` prints nothing is a linked worktree (already isolated); equal
+paths are the repository's one shared checkout, and a non-empty superproject path is a submodule —
+treat neither as isolation. Otherwise put the choice to the user as a single structured choice —
+selectable options with a free-form escape, holding the turn until they answer, using a tool to ask
+it where one is available:
 
-- **Worktree (Recommended)** — invoke `engineering:using-git-worktrees` (it detects existing
-  isolation and no-ops if a worktree this session already entered is in place).
+- **Worktree (Recommended)** — create a linked worktree on a new task branch carrying the run
+  slug: prefer the harness's native worktree tool if it has one, else `git worktree add -b
+  <task-branch> <path>`. Change into it, run the project's setup, and note the baseline test
+  result before the first question.
 - **Feature branch in this checkout** — no worktree; cut a named feature branch off the base with
   `git switch -c <task-branch>`, where `<task-branch>` carries the same slug you derive for the run.
   Never leave the work sitting on the default branch.
@@ -65,13 +72,13 @@ sentence and exits with no brief.
 
 ## 4. Hand to design
 
-Once `brief.md` §1–§6 is on disk, hand its path to `engineering:design` — the shared design
-dialogue — in the main thread; signal does not write a spec. The design phase recommends a design,
-then its spec-writing stage holds the spec-approval gate and renders the Tier-1 spec under
+Once `brief.md` §1–§6 is on disk, hand its path to `engineering:brainstorming` — the shared design
+dialogue — in the main thread; signal does not write a spec. `brainstorming` recommends a design,
+then the `spec` phase holds the spec-approval gate and renders the Tier-1 spec under
 `.engineering/<run>/spec/` once the human approves.
 
-**signal ends at the brief and hands it to `engineering:design`.** Once `brief.md` is on
-disk, report its path and **invoke `engineering:design` now.** "Stop" means stop
+**signal ends at the brief and hands it to `engineering:brainstorming`.** Once `brief.md` is on
+disk, report its path and **invoke `engineering:brainstorming` now.** "Stop" means stop
 interrogating and do not design, plan, or build yourself — it is not a stop to ask whether to
 proceed. There is no gate at this seam; parking the brief with a "want me to start design?" is not
 an available move — design is the next act, take it.

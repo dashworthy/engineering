@@ -146,28 +146,29 @@ if [ -f "$UD" ]; then
   grep_flat "$UD" "consider a diagram"; check $? "using-diagrams states the consider-a-diagram authoring obligation"
 fi
 # The spec-writing stage (design's reference) and plan each carry it.
-for f in "$PLUGIN/skills/design/references/spec-writing.md" "$PLUGIN/skills/plan/SKILL.md"; do
+for f in "$PLUGIN/skills/spec/SKILL.md" "$PLUGIN/skills/plan/SKILL.md"; do
   grep_flat "$f" "using-diagrams" && grep_flat "$f" "consider a diagram"
   check $? "$(basename "$(dirname "$f")")/$(basename "$f") carries the consider-a-diagram obligation via using-diagrams"
 done
 
-# --- codebase-design companions ----------------------------------------------
-# codebase-design states its principle in SKILL.md and carries the mechanics in uppercase
+# --- using-codebase-design companions ----------------------------------------------
+# using-codebase-design states its principle in SKILL.md and carries the mechanics in uppercase
 # companion files beside it. Each companion must both exist AND be referenced from SKILL.md:
 # a companion nothing links is unreachable, and a SKILL.md reference to a deleted file is a
 # dangling pointer. Neither failure trips the frontmatter checks above, so guard both here.
 # PATTERN-MATRIX.md (the selectable GoF matrix) and SHAPE-REVIEW.md (the evaluative SOLID +
 # anti-pattern lens) joined DEEPENING.md and DESIGN-IT-TWICE.md when the design-pattern
 # catalog landed.
-# codebase-design folded into the design conductor as design/references/shape-lenses.md; its
-# uppercase companions moved alongside it under design/references/.
-CD="$PLUGIN/skills/design/references"
+# using-codebase-design is a shared skill; its shape lenses live in using-codebase-design/SKILL.md and its
+# uppercase companions under using-codebase-design/references/.
+CD="$PLUGIN/skills/using-codebase-design/references"
+CDSK="$PLUGIN/skills/using-codebase-design/SKILL.md"
 for comp in DEEPENING.md DESIGN-IT-TWICE.md PATTERN-MATRIX.md SHAPE-REVIEW.md TENANCY-SHARED-DB.md TENANCY-ISOLATED-DB.md; do
-  [ -f "$CD/$comp" ]; check $? "design/references/$comp exists"
-  grep_flat "$CD/shape-lenses.md" "$comp"; check $? "shape-lenses.md references $comp"
+  [ -f "$CD/$comp" ]; check $? "using-codebase-design/references/$comp exists"
+  grep_flat "$CDSK" "$comp"; check $? "using-codebase-design SKILL.md references $comp"
 done
 
-# --- codebase-design tenancy boundary (design-time multi-tenancy prevention) --
+# --- using-codebase-design tenancy boundary (design-time multi-tenancy prevention) --
 # The tenancy companions carry the design-time boundary decision, split by tenancy model the
 # same way guardtower's review facets are — but stated by the designer, not auto-detected. The
 # shared-DB companion must actually cover the shared-schema failure shape (a caller left free to
@@ -178,7 +179,6 @@ done
 # reach authorization decision both models share. SKILL.md must wire
 # the behavior: determine the model, consult ONLY the matching companion, then force the decision
 # when a boundary touches tenant-scoped data.
-CDSK="$CD/shape-lenses.md"
 SDB="$CD/TENANCY-SHARED-DB.md"
 if [ -f "$SDB" ]; then
   grep_flat "$SDB" "unscoped query"; check $? "TENANCY-SHARED-DB covers where scoping lives so no caller builds an unscoped query"
@@ -194,7 +194,7 @@ if [ -f "$IDB" ]; then
   grep_flat "$IDB" "landlord vs. tenant DB binding"; check $? "TENANCY-ISOLATED-DB covers central/landlord vs. tenant DB binding"
   grep_flat "$IDB" "cross-tenant reach"; check $? "TENANCY-ISOLATED-DB covers whether cross-tenant reach is permitted"
 fi
-grep_flat "$CDSK" "Tenancy boundary"; check $? "codebase-design SKILL.md has a Tenancy boundary section"
+grep_flat "$CDSK" "Tenancy boundary"; check $? "using-codebase-design SKILL.md has a Tenancy boundary section"
 grep_flat "$CDSK" "determine the app's tenancy model"; check $? "Tenancy boundary section states determine-model behavior"
 grep_flat "$CDSK" "consult only the matching companion"; check $? "Tenancy boundary section states consult-only-the-matching behavior"
 grep_flat "$CDSK" "force the tenant-boundary decision"; check $? "Tenancy boundary section states force-when-relevant behavior"
@@ -254,15 +254,15 @@ check $? "root README makes no stale slash-command count claim"
 
 # --- plan review phase (arch-lens reference) ------------------------------------
 # plan makes each task sketch its interface, then runs its arch-lens review BEFORE the plan
-# gate: an architecture lens (codebase-design in review mode) plus a one-off-data-structure scan
+# gate: an architecture lens (using-codebase-design in review mode) plus a one-off-data-structure scan
 # that flags each candidate to the human. The review folded from a skill into a reference the plan
 # conductor loads. Guard the reference exists, the seam is wired before the gate, and
-# codebase-design carries the review mode the arch-lens review depends on.
+# using-codebase-design carries the review mode the arch-lens review depends on.
 RP="$PLUGIN/skills/plan/references/arch-lens.md"
 [ -f "$RP" ]; check $? "plan/references/arch-lens.md exists"
 if [ -f "$RP" ]; then
   head -1 "$RP" | grep -qv '^---$'; check $? "arch-lens is a reference, not a skill (no frontmatter)"
-  grep_flat "$RP" "shape-lenses.md"; check $? "arch-lens review runs the architecture lens via the shape-lenses reference"
+  grep_flat "$RP" "using-codebase-design"; check $? "arch-lens review runs the architecture lens via engineering:using-codebase-design"
   # The one-off flags are put to the human as an explicit choice; the question mechanism is left to
   # the harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
   grep_flat "$RP" "explicit choice"; check $? "arch-lens review flags one-off data structures as an explicit choice"
@@ -276,8 +276,8 @@ grep_flat "$WP" "Interfaces block"; check $? "plan has tasks carry a code-sketch
 awk '/arch-lens/{r=NR} /plan\/APPROVED\.md/{if(!g)g=NR} END{exit !(r && g && r < g)}' "$WP"
 check $? "plan runs the arch-lens review before the plan gate"
 
-# codebase-design's review mode is what the arch-lens review leans on; SHAPE-REVIEW names the one-off shape.
-grep_flat "$CDSK" "Review mode"; check $? "shape-lenses carries a review mode"
+# using-codebase-design's review mode is what the arch-lens review leans on; SHAPE-REVIEW names the one-off shape.
+grep_flat "$CDSK" "Review mode"; check $? "using-codebase-design carries a review mode"
 grep_flat "$CD/SHAPE-REVIEW.md" "one-off data structure"; check $? "SHAPE-REVIEW names the reinvented data-structure smell"
 
 # --- build tracks the plan as todos --------------------------------

@@ -1,9 +1,16 @@
-# Spec-writing stage (reference) — the single Tier-1 writer and the spec gate
+---
+name: spec
+description: "The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Invoked by `brainstorming` with a recommended design; does not self-trigger on arbitrary requests. Run-dir slug stays `to-spec`."
+---
 
-> This is a reference the `design` conductor loads after the design dialogue to serialize the
-> recommended design into the one Tier-1 spec, present it, and hold the spec-approval gate. It is
-> not a skill and is never discovered on its own; the `design` conductor drives it. Its run-dir slug
-> stays `to-spec` (`.engineering/<run>/to-spec/APPROVED.md`), which `plan` reads as its precondition.
+# spec
+
+Say this first, plainly: `Using the spec skill to write the spec.`
+
+The spec phase is the single Tier-1 writer and the pipeline's first human-approval gate. `brainstorming`
+invokes it with a recommended design; it serializes that design into the one Tier-1 spec, presents it,
+and holds the spec gate. Its run-dir slug stays `to-spec` (`.engineering/<run>/to-spec/APPROVED.md`),
+which `plan` reads as its precondition.
 
 ## What this guarantees
 
@@ -42,7 +49,7 @@ the spec gate below — the marker is the trace that the spec cleared the gate.
 
 ## How it renders
 
-Follow `SPEC-FORMAT.md`, in this same directory — do not restate its shape here or
+Follow `references/SPEC-FORMAT.md` — do not restate its shape here or
 reinvent it inline. Every section in that file gets filled; a section with nothing to
 say gets a line explaining why, not silence.
 
@@ -50,9 +57,9 @@ Two source shapes map onto the one format — and the mapping is by meaning, not
 section number:
 - a **signal** brief supplies §1–§5 in order, and its §6 (Existing Context) becomes
   the spec's §7; the brief ends at §6. The spec's §6 (Approach) does not come from
-  the brief at all — it is transcribed from the recommended design `engineering:design` hands
+  the brief at all — it is transcribed from the recommended design `brainstorming` hands
   off: the chosen approach, the alternatives it beat, and — when the approach turned on a
-  boundary — the boundary the shape-lenses reference shaped, named at decision altitude
+  boundary — the boundary `using-codebase-design` shaped, named at decision altitude
   (which boundary, its chosen shape, what a caller must know), which together are exactly §6's
   content. The concrete signatures that realize the boundary are not §6's job — they land in
   the plan; §6 carries the commitment, `plan` carries the code.
@@ -69,13 +76,13 @@ draw*; the skill's own earned-its-place test decides whether one is actually dra
 This is the pipeline's first human-approval gate, and it lives here, on the spec. This
 skill does not stamp `Approved` on faith:
 
-1. **Write it as a draft.** Set the status line to `Status: Draft` (see `SPEC-FORMAT.md`).
+1. **Write it as a draft.** Set the status line to `Status: Draft` (see `references/SPEC-FORMAT.md`).
 2. **Present the draft, then put the verdict to the human as a structured choice**, using a tool to
    ask it where one is available. Show the
    finished spec and wait for the human's approval — ask them to `Approve` or `Request changes`, the
    question holding the turn so this is a real stop: nothing is `Approved`, and no marker is
    written, until they pick Approve. Their edits ride the free-form escape or a `Request
-   changes` reply; on that, revise the draft — or hand back to `design` for a rethink —
+   changes` reply; on that, revise the draft — or hand back to `brainstorming` for a rethink —
    and present again. Do not promote a spec the human has not approved. No such tool, or a headless
    run: present `Approve` / `Request changes` as plain text, say the run is degraded, and wait for
    an explicit typed approval — treat silence as not-approved.
@@ -92,7 +99,7 @@ the status are only ever promoted together, here, at the moment the human approv
 
 ## What this does not do
 
-- It does not **design**. The §6 approach was argued out in `design` upstream; this
+- It does not **design**. The §6 approach was argued out in `brainstorming` upstream; this
   skill transcribes that outcome, it does not weigh alternatives itself.
 - It does not **plan**. Breaking the approved approach into steps is `plan`,
   downstream of the spec this skill produces.

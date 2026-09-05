@@ -48,7 +48,7 @@ already answered.
 - **Clean-up finished** — no debug prints, commented-out code, stray `TODO`s left from the
   process, or scratch/temp files sitting in the diff. Check with `git status` and a scan of the
   diff, not by assumption.
-- **Verified green** — defer to `engineering:verification-before-completion`'s evidence rather
+- **Verified green** — defer to `engineering:using-verification`'s evidence rather
   than re-running the suite here; confirm that evidence exists and is current for this branch's
   tip.
 - **No secrets** — scan the diff for anything that looks like a credential, key, or token before
@@ -83,6 +83,6 @@ each PR in **Land the stack**.
 - It does not **decide whether to open a PR.** That choice belongs to the `finish` conductor; this
   reference only shapes the body once the decision is made.
 - It does not **run verification itself.** It relies on
-  `engineering:verification-before-completion`'s evidence rather than re-executing the suite.
+  `engineering:using-verification`'s evidence rather than re-executing the suite.
 - It does not **fix what the checklist finds.** An unchecked or unverified item is reported
   back to the caller to address; this skill describes the branch, it doesn't change it.
