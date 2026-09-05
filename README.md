@@ -29,9 +29,8 @@ Work enters through one of three doors and leaves through one. A feature or a va
 request enters at **discover** (`engineering:signal`); a reported defect enters at **triage**
 (`engineering:triage`); received review feedback enters at **receiving code review**
 (`engineering:receiving-code-review`). Each door is a skill. All three open onto the same **design dialogue**
-(`brainstorming`), which recommends a design, then hands off to **`to-spec`**, the single
-writer that turns that design into one spec document and holds the pipeline's first
-approval gate — on the spec.
+(`brainstorming`), which recommends a design; the **spec** phase then writes that design into one spec
+document and holds the pipeline's first approval gate — on the spec.
 From that spec, a fixed backbone runs the work to done: **plan** it, behind the second
 gate; **build** it test-first; **harden** the tests; and **document** the prose the
 branch touched.
@@ -45,11 +44,11 @@ flowchart TD
     D(["reported defect"]):::entry --> TRI["triage"]
     R(["received review feedback"]):::entry --> RCR["receiving-code-review"]
 
-    SIG --> DES["brainstorming<br/>design dialogue"]
+    SIG --> DES["design<br/>design dialogue"]
     TRI --> DES
     RCR --> DES
 
-    DES --> SPEC["to-spec"]
+    DES --> SPEC["spec gate"]
     SPEC --> BB["plan · build · harden · document"]
     BB --> DONE(["green, documented branch"]):::done
 ```
@@ -65,7 +64,7 @@ A vague ask becomes a brief, then a recommended design, then an approved spec.
 Interrogation probes the request one question at a time, offering a conventional baseline
 and mining the correction, until every coverage dimension is filled and `brief.md` §1–§6
 is written. The finished brief then passes to `brainstorming` — signal's terminal hand-off
-— which recommends a design and hands it to `to-spec`, where the spec gate takes the
+— which recommends a design; the `spec` phase then writes the spec, where the spec gate takes the
 human's approval. A genuinely trivial request exits before any brief is written.
 
 ```mermaid
@@ -76,7 +75,7 @@ flowchart LR
     S(["signal"]):::entry --> S1["interrogate<br/>requirements"]
     S1 -. "trivial" .-> X(["exit — no brief"])
     S1 -->|"gate: 3+ rounds,<br/>6 dimensions"| BR["brainstorming<br/>recommend design"]
-    BR --> SP["to-spec<br/>spec gate"]
+    BR --> SP["spec gate"]
     SP --> STOP(["brief → design → approved spec"]):::done
 ```
 
@@ -118,12 +117,13 @@ flowchart TD
     RC3 --> BR["brainstorming"]
 ```
 
-### 4. Design dialogue — `brainstorming`
+### 4. Design — `brainstorming` → `spec`
 
-All three entrances meet here. The design phase explores the context, proposes two or three
-approaches with their trade-offs, and recommends one with its reasoning. It holds no
-approval gate of its own: brainstorming hands the recommended design to `to-spec`, where
-the spec gate takes the human's approval — the pipeline's first human-approval gate.
+All three entrances meet at `brainstorming`. It explores the context, proposes two or three
+approaches with their trade-offs, recommends one with its reasoning, and shapes any load-bearing
+boundary the approach turns on via `using-codebase-design`. It holds no approval gate of its own: it hands
+the recommended design to the `spec` phase, which writes the spec and holds the spec gate — the
+pipeline's first human-approval gate.
 
 ```mermaid
 flowchart LR
@@ -132,16 +132,16 @@ flowchart LR
     IN(["brief / isolated defect"]) --> A["explore<br/>context"]
     A --> B["propose 2-3<br/>approaches"]
     B --> C["recommend one,<br/>with reasoning"]
-    C --> OUT(["recommended design<br/>→ to-spec (spec gate)"]):::done
+    C --> OUT(["recommended design<br/>→ spec + spec gate"]):::done
 ```
 
 ### 5. Build backbone — `plan → build → document`
 
-Every spec leaves the same way. `writing-plans` turns it into an ordered, bite-sized
-plan — each task carrying a code sketch of the change it makes — then `reviewing-plans` runs
+Every spec leaves the same way. `plan` turns it into an ordered, bite-sized
+plan — each task carrying a code sketch of the change it makes — then `plan`'s own arch-lens review runs
 the architecture lens over those sketches and flags any one-off data structure before the
-plan reaches the second human gate; `engineering:executing-plans` drives each task through a test-first `tdd`
-loop gated by `code-review`; and docs hardening rewrites the prose the branch touched into
+plan reaches the second human gate; `engineering:build` drives each task through a test-first `tdd`
+loop gated by an internal per-task review; and docs hardening rewrites the prose the branch touched into
 plain language. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
 against a branch when you want it.)
 
@@ -149,8 +149,8 @@ against a branch when you want it.)
 flowchart LR
     classDef done fill:#16a34a,stroke:#14532d,color:#fff
 
-    SPEC(["spec"]) --> P["writing-plans"]
-    P --> RV["reviewing-plans<br/>(arch lens · one-off scan)"]
+    SPEC(["spec"]) --> P["plan"]
+    P --> RV["arch-lens review<br/>(one-off scan)"]
     RV --> PG{"plan gate"}
     PG --> B["tdd build<br/>(red-green-refactor)"]
     B -->|"per task"| R{"code-review<br/>gate"}
@@ -161,19 +161,23 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **25 skills**, grouped by the phase they serve. Process-tied skills
-carry their group as a `[Tag]` in the skill's description; cross-cutting skills carry
-none.
+The plugin ships **15 skills**: a bootstrap, three entrances, six phase conductors, and five
+cross-cutting skills. Everything else a phase needs lives as reference files the conductor loads,
+not as a separately discoverable skill.
 
 | Group | Skills |
 |---|---|
-| Discovery | `interrogating-requirements`, `to-spec` |
-| Design | `brainstorming`, `codebase-design` |
-| Planning | `writing-plans`, `reviewing-plans`, `executing-plans` |
-| Build | `tdd`, `diagnosing-bugs`, `code-review` |
-| Docs | `clarifying-docblocks`, `rewriting-docblock-prose` |
-| Foundation | `using-git-worktrees`, `using-stacked-pull-requests`, `finishing-a-development-branch`, `verification-before-completion`, `dispatching-parallel-agents`, `using-skills` |
-| Cross-cutting | `resolving-merge-conflicts`, `using-diagrams`, `writing-pr-descriptions`, `writing-review-comments` |
+| Bootstrap | `using-skills` |
+| Entrances | `signal`, `triage`, `receiving-code-review` |
+| Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `document`, `finish` |
+| Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-verification`, `using-parallel-agents` |
+
+Each phase conductor drives its substages from reference files under its own `references/`
+directory — `build` loads the TDD loop and the review protocol, and so on — and hands work to
+subagents where a context firewall or parallelism earns it. Folding most substages out of the skill
+list is what keeps the suite compact; a piece stays a skill when more than one conductor invokes it
+by name — `using-codebase-design` (the shape lenses), for instance, is invoked by `brainstorming` to shape
+a boundary and by `plan`'s arch-lens review to judge one.
 
 The full index lives at
 [engineering/skills/README.md](engineering/skills/README.md).
@@ -183,8 +187,8 @@ The full index lives at
 Every entry point is a skill — there are no slash-commands, so nothing here depends on
 Claude-specific command syntax. The three entrances open the work: `engineering:signal`,
 `engineering:triage`, and `engineering:receiving-code-review`. Building an approved plan and
-clarifying docblock prose are not separate entry points — invoke `engineering:executing-plans`
-and `engineering:clarifying-docblocks` directly; a thin wrapper skill over an existing skill
+clarifying docblock prose are not separate entry points — invoke `engineering:build`
+and `engineering:document` directly; a thin wrapper skill over an existing skill
 would add a name and nothing else.
 
 ## License

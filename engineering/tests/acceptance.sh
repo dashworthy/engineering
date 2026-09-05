@@ -14,7 +14,7 @@ sh "$d/plan03.sh"
 # 2. No slash-commands remain — every entry point is a skill now (decoupling from Claude-specific
 #    command syntax). The three entrances carried real content and resolve as skills.
 #    implement/vernacular never got a skill: they were shallow wrappers adding nothing over
-#    engineering:executing-plans and engineering:clarifying-docblocks, invoked directly instead.
+#    engineering:build and engineering:document, invoked directly instead.
 #    handoff/wait-what are deprecated and removed outright — no skill, no command.
 cmds=$(find "$eng/commands" -name '*.md' 2>/dev/null | wc -l | tr -d ' ')
 [ "$cmds" = 0 ] || { echo "FAIL: engineering/commands must hold no command files (all commands are skills now); found $cmds"; fail=1; }
@@ -46,56 +46,49 @@ done
 sh "$d/hook.sh" >/dev/null || { echo "FAIL: hook"; fail=1; }
 if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2>/dev/null; then echo "FAIL: retired verity reminder present"; fail=1; fi
 
-# 6. to-spec is the sole Tier-1 writer; all three entrances reach it (via brainstorming).
-grep -q ".engineering/<run>/spec/" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec spec path"; fail=1; }
-grep -q "engineering:brainstorming" "$eng/skills/signal/SKILL.md" || { echo "FAIL: signal skill must hand the brief to the brainstorming design gate"; fail=1; }
-grep -q "engineering:brainstorming" "$eng/skills/triage/SKILL.md" || { echo "FAIL: triage (skill entrance) must reach to-spec via brainstorming"; fail=1; }
+# 6. The spec phase is the sole Tier-1 writer; all three entrances reach the design dialogue
+# (brainstorming), which hands the recommended design to the spec phase. The spec skill's run-dir
+# slug stays `to-spec`; the spec is still written under .engineering/<run>/spec/.
+SPECWRITE="$eng/skills/spec/SKILL.md"
+SPECFMT="$eng/skills/spec/references/SPEC-FORMAT.md"
+grep -q ".engineering/<run>/spec/" "$SPECWRITE" || { echo "FAIL: spec-writing stage spec path"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/skills/signal/SKILL.md" || { echo "FAIL: signal skill must hand the brief to the design phase"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/skills/triage/SKILL.md" || { echo "FAIL: triage entrance must reach the design phase"; fail=1; }
+grep -q "engineering:brainstorming" "$eng/skills/receiving-code-review/SKILL.md" || { echo "FAIL: receiving-code-review entrance must reach the design phase"; fail=1; }
 
-# 6b. to-spec is single-caller via brainstorming, stamps Approved (post-gate input), and carries no
-# stale section-for-section mapping claim.
-grep -q "engineering:brainstorming" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec must name brainstorming as its caller"; fail=1; }
-if grep -qE 'invoked by .*(conducting-discovery|triage)' "$eng/skills/to-spec/SKILL.md"; then echo "FAIL: to-spec names a stale caller (conducting-discovery/triage)"; fail=1; fi
-grep -q "Status: Approved" "$eng/skills/to-spec/SKILL.md" || { echo "FAIL: to-spec must name the Approved status it flips to at the spec gate"; fail=1; }
-grep -q "flips it to Approved" "$eng/skills/to-spec/SPEC-FORMAT.md" || { echo "FAIL: SPEC-FORMAT must document the Draft-then-Approved flip at the spec gate"; fail=1; }
-if grep -q "section for section" "$eng/skills/to-spec/SKILL.md"; then echo "FAIL: stale section-for-section mapping claim"; fail=1; fi
+# 6b. The spec-writing stage stamps Approved (post-gate) and carries no stale section-for-section claim.
+grep -q "Status: Approved" "$SPECWRITE" || { echo "FAIL: spec-writing stage must name the Approved status it flips to at the spec gate"; fail=1; }
+grep -q "flips it to Approved" "$SPECFMT" || { echo "FAIL: SPEC-FORMAT must document the Draft-then-Approved flip at the spec gate"; fail=1; }
+if grep -q "section for section" "$SPECWRITE"; then echo "FAIL: stale section-for-section mapping claim"; fail=1; fi
 
-# 6c. to-spec has exactly one imperative caller: engineering:brainstorming. Scan every skill and command
-# for an imperative invocation of engineering:to-spec (verbs dispatch / hand ... to / invoke), which is
-# distinct from the legitimate third-person PROSE mentions ("Brainstorming calls engineering:to-spec",
-# "does it call engineering:to-spec") that describe the wiring without performing it. brainstorming/SKILL.md
-# is the one allowed caller and is excluded. Any other hit means a second caller has crept in — the exact
-# regression (a conductor/command re-dispatching to-spec, bypassing the design gate) this branch removed.
-callers=$(grep -rnEi '(dispatch|hand[^.]*to|invoke|route[^.]*to|send[^.]*to|pass[^.]*to|delegate[^.]*to|run)[^.]*engineering:to-spec' "$eng/skills" --include='*.md' | grep -v '/skills/brainstorming/SKILL.md:' || true)
-if [ -n "$callers" ]; then echo "FAIL: only engineering:brainstorming may imperatively invoke to-spec; found other caller(s):"; echo "$callers"; fail=1; fi
+# 6c. The spec phase is the skill `spec`, not `to-spec` — no skill or reference may invoke
+# engineering:to-spec (only the run-dir slug `to-spec` survives). A lingering engineering:to-spec
+# invocation would mean a dangling dispatch to a skill name that no longer exists.
+if grep -rn 'engineering:to-spec' "$eng/skills" --include='*.md'; then
+  echo "FAIL: engineering:to-spec must not be invoked anywhere (the spec skill is 'spec', not 'to-spec')"; fail=1; fi
 
-# 6d. The single-caller wiring's other half and the two doc surfaces the earlier tasks left unguarded:
-# (a) brainstorming must actually hand off to to-spec (else to-spec has no caller at all); (b) under the
-# spec-gate model the SPEC-FORMAT template stamps **Status:** Draft — the spec is written as a draft and
-# the spec gate in to-spec flips it to Approved, so a stale template hard-coding Approved (pre-gate) must
-# fail here; (c) the root README's signal sub-diagram routes interrogate → brainstorming → to-spec.
-# Flatten newlines first: the handoff sentence wraps ("Hand the recommended design to" /
-# "engineering:to-spec"), and a line-based grep would miss a phrase that straddles the wrap.
-tr '\n' ' ' < "$eng/skills/brainstorming/SKILL.md" | grep -qiE "hand[^.]*engineering:to-spec" || { echo "FAIL: brainstorming must hand off to to-spec (single-caller's other half)"; fail=1; }
-grep -qF '**Status:** Draft' "$eng/skills/to-spec/SPEC-FORMAT.md" || { echo "FAIL: SPEC-FORMAT template must stamp **Status:** Draft (written first, flipped to Approved at the spec gate)"; fail=1; }
-grep -qF 'dimensions"| BR["brainstorming' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route interrogate -> brainstorming -> to-spec"; fail=1; }
+# 6d. brainstorming must actually hand off to the spec phase (else the spec is never written); the
+# SPEC-FORMAT template stamps **Status:** Draft (flipped to Approved at the gate); and the root
+# README's signal sub-diagram routes interrogate → brainstorming → spec gate.
+grep -q 'engineering:spec' "$eng/skills/brainstorming/SKILL.md" || { echo "FAIL: brainstorming must hand off to the spec phase"; fail=1; }
+grep -qF '**Status:** Draft' "$SPECFMT" || { echo "FAIL: SPEC-FORMAT template must stamp **Status:** Draft (written first, flipped to Approved at the spec gate)"; fail=1; }
+grep -qF 'dimensions"| BR["brainstorming' "$root/README.md" && grep -qF 'BR --> SP' "$root/README.md" || { echo "FAIL: root README signal sub-diagram must route interrogate -> brainstorming -> spec gate"; fail=1; }
 
-# 6e. The two gated seams must chain FORWARD past their approval gate, not park. Under the gate
-# model the "stop" on to-spec / writing-plans is the gate *before* approval; once the human approves
-# there is no second gate, so each skill must invoke the next act rather than wait for the user to
-# re-launch it. This is exactly the failure of a handoff that says "print the path and stop" without
-# the "now continue" half. Flatten newlines: the invoke phrase wraps.
-tr '\n' ' ' < "$eng/skills/to-spec/SKILL.md" | grep -qiE "invoke[^.]*writing-plans[^.]*now" || { echo "FAIL: to-spec must invoke writing-plans on spec approval (forward seam must not park)"; fail=1; }
-tr '\n' ' ' < "$eng/skills/writing-plans/SKILL.md" | grep -qiE "invoke[^.]*executing-plans[^.]*now" || { echo "FAIL: writing-plans must invoke executing-plans on plan approval (forward seam must not park)"; fail=1; }
+# 6e. The gated seams must chain FORWARD past their approval gate, not park. Once the human approves
+# there is no second gate, so each stage must invoke the next act rather than wait to be re-launched.
+# Flatten newlines: the invoke phrase wraps.
+tr '\n' ' ' < "$SPECWRITE" | grep -qiE "invoke[^.]*plan[^.]*now" || { echo "FAIL: spec-writing stage must invoke plan on spec approval (forward seam must not park)"; fail=1; }
+tr '\n' ' ' < "$eng/skills/plan/SKILL.md" | grep -qiE "invoke[^.]*build[^.]*now" || { echo "FAIL: plan must invoke build on plan approval (forward seam must not park)"; fail=1; }
 
 # 7. The test-hardening discipline has moved to the standalone verity plugin: engineering no
 # longer bakes a hardening step into its planning or finish skills.
 if grep -rq "conducting-test-hardening" "$eng/skills"; then echo "FAIL: engineering still references the moved conducting-test-hardening skill"; fail=1; fi
 
-# 7b. executing-plans must hand off to finishing-a-development-branch when the plan completes. The plan
+# 7b. build must hand off to finish when the plan completes. The plan
 # gate pre-authorizes the finish strategy so finishing carries it out unattended (plan gate = last human
 # stop); a handoff that stops at the last checked box without reaching finishing re-opens the
 # phantom-gate the pre-authorization was meant to close. Flatten newlines: the phrase wraps.
-tr '\n' ' ' < "$eng/skills/executing-plans/SKILL.md" | grep -qiE "hand[^.]*engineering:finishing-a-development-branch" || { echo "FAIL: executing-plans must hand off to finishing-a-development-branch on plan completion"; fail=1; }
+tr '\n' ' ' < "$eng/skills/build/SKILL.md" | grep -qiE "hand[^.]*engineering:finish" || { echo "FAIL: build must hand off to finish on plan completion"; fail=1; }
 
 # 8. No dangling cross-plugin namespaces or Tier-2 paths anywhere in the plugin's content.
 # Scans every content surface — skills, commands, hooks, scripts, and the plugin README; tests/ is

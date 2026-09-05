@@ -19,10 +19,9 @@ put it there.
 
 ## When this runs
 
-Only when the plan's Global Constraints carry `PR strategy: stacked`. `writing-plans` writes
+Only when the plan's Global Constraints carry `PR strategy: stacked`. `plan` writes
 that line and emits, per task, a step that starts the task's branch and a step — after the
-task's commit — that submits its PR; `executing-plans` reaches those steps in order and
-dispatches this skill for them. A plan with no such line is an ordinary single-branch plan and
+task's commit — that submits its PR. A plan with no such line is an ordinary single-branch plan and
 never reaches here; do not stack a plan that didn't ask to be stacked.
 
 ## Detect the tool
@@ -31,17 +30,16 @@ Prefer Graphite when the repository is already set up for it: `gt` on `PATH` **a
 gt-initialized (its `gt` commands resolve against this repo rather than erroring that it isn't
 tracked). Where both hold, use `gt` — its stacks and restacking are what this skill would
 otherwise reconstruct by hand. Where either is missing, fall back to plain `git` + `gh` (the
-baseline, already assumed by `finishing-a-development-branch`). Same prefer-native-else-raw-git
-shape as `using-git-worktrees`. Do not install `gt` or initialize Graphite in a repo that
+baseline, already assumed by `finish`). Same prefer-native-else-raw-git
+shape build uses to set up its worktree. Do not install `gt` or initialize Graphite in a repo that
 hasn't chosen it — this skill works in a bare repo with nothing but `git` and `gh`.
 
 ## Branch and base model
 
-The model is **one branch per task**, all inside the single isolated checkout the entrance
-already established — the worktree from `using-git-worktrees`, or the feature branch a
-no-worktree entrance cut in the shared checkout. Either way it is one checkout: this skill
-switches branches within it, and it does not spawn a worktree per task. The first task's branch
-starts from the trunk the work targets — the branch the PRs merge into, not the entrance's own
+The model is **one branch per task**, all inside the single isolated checkout build
+already established — the worktree or feature branch build set up. Either way it is one checkout:
+this skill switches branches within it, and it does not spawn a worktree per task. The first task's
+branch starts from the trunk the work targets — the branch the PRs merge into, not build's own
 isolation branch, so even in the feature-branch case the stack sits on task branches and no
 work lands on the default branch; task N's
 branch starts from task N-1's branch, so the branches form a linear chain in the plan's own
@@ -83,23 +81,22 @@ Landing is bottom-up: merge the lowest open PR first, then restack what remains,
 and so on to the top — never the top PR first, which would try to merge every task's diff at
 once and defeat the point of stacking. With `gt`, `gt merge` walks the stack in that order and
 restacks between merges. With `git` + `gh`, merge the bottom PR (`gh pr merge`), restack the
-remainder onto the new trunk, and repeat. This is the path `finishing-a-development-branch`
-delegates to when it detects a stacked run and offers **Land the stack** in place of opening a
-single pull request.
+remainder onto the new trunk, and repeat. This is the bottom-up landing path for a finished
+stacked run — offered as **Land the stack** in place of opening a single pull request.
 
 ## What this does not do
 
 - It does not **write the plan** or decide which tasks exist. The tasks, their order, and their
-  branches were set by `writing-plans`; this skill stacks what the plan already laid out.
+  branches were set by `plan`; this skill stacks what the plan already laid out.
 - It does not **decide whether a plan is stacked.** That's the `PR strategy: stacked` line —
   see "When this runs"; a plan without it is never stacked here.
 - It does not **run tdd, code review, or test hardening.** Each task's build, review gate, and
-  the closing hardening pass belong to their own skills; this skill runs only after a task's
+  the closing hardening pass belong to `build`; this skill runs only after a task's
   work is committed.
-- It does not **establish the isolation.** The entrance already did — a worktree via
-  `using-git-worktrees`, or a feature branch in the shared checkout — and that single checkout is
+- It does not **establish the isolation.** `build` already did — a worktree, or a feature
+  branch in the shared checkout — and that single checkout is
   where the whole stack lives; this skill switches branches inside it and never creates isolation
-  of its own.
+  of its own. (`build`'s Establish-the-workspace step is where that isolation is created.)
 - It does not **decide the work is good enough to land.** Whether and when to land the stack is
-  the user's call, carried out through `finishing-a-development-branch`; this skill performs the
+  the user's call, carried out through `finish`; this skill performs the
   bottom-up merge when asked, it does not choose to.

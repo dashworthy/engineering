@@ -1,6 +1,7 @@
 #!/bin/sh
-# receiving-code-review is a self-contained SKILL entrance — no backing command. It carries the
-# shared four-beat skeleton (Isolate -> establish run -> shape context -> hand to brainstorming);
+# receiving-code-review is a self-contained SKILL entrance — no backing command. It checks out the
+# review branch (base selection; isolation itself is build's job now), establishes a run, shapes
+# context, and hands to design;
 # its divergent third beat aggregates the review comments, verifies each against the codebase,
 # checks whether an issue reaches beyond the commented area, and interrogates only when needed —
 # carrying two standing instructions forward (reply to each ask; target each fix's PR at the
@@ -19,11 +20,13 @@ SKILL=skills/receiving-code-review/SKILL.md
 [ ! -e commands/receiving-code-review.md ] || { echo "FAIL: commands/receiving-code-review.md must be removed (it is now a skill entrance)"; fail=1; }
 [ ! -e commands/to-signal.md ] || { echo "FAIL: commands/to-signal.md must be removed (/to-signal is retired)"; fail=1; }
 
-# Four-beat entrance skeleton, self-contained in the skill.
-grep -q "using-git-worktrees" "$SKILL" || { echo "FAIL: entrance must carry the Isolate beat (using-git-worktrees)"; fail=1; }
+# Entrance skeleton, self-contained in the skill. It checks out the review branch first (base
+# selection); isolation itself moved to build, so no Isolate beat.
+grep -q "^## 1\. Check out the review branch" "$SKILL" || { echo "FAIL: entrance must check out the review branch first (base selection)"; fail=1; }
+! grep -q "^## 1\. Isolate" "$SKILL" || { echo "FAIL: entrance must not carry an Isolate beat (isolation is build's job now)"; fail=1; }
 grep -qE 'run-context\.sh" receiving-code-review|run-context\.sh receiving-code-review' "$SKILL" || { echo "FAIL: entrance must establish/join a run via run-context.sh receiving-code-review"; fail=1; }
 grep -q "\.engineering/" "$SKILL" || { echo "FAIL: entrance must log to .engineering/<run>/receiving-code-review"; fail=1; }
-grep -q "engineering:brainstorming" "$SKILL" || { echo "FAIL: entrance must hand context to brainstorming"; fail=1; }
+grep -q "engineering:brainstorming" "$SKILL" || { echo "FAIL: entrance must hand context to design"; fail=1; }
 
 # Divergent shape-context beat: aggregate -> verify against codebase -> impact beyond the comment ->
 # interrogate only when needed.

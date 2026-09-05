@@ -9,34 +9,26 @@ Say this first, plainly: `Using the receiving-code-review skill to aggregate, ve
 
 Work through code-review feedback. receiving-code-review is one of the three engineering entrances:
 it **shapes context** from a set of review comments — aggregating, verifying, and impact-checking
-them — then hands that context to the shared design dialogue. It does the same four beats every
-entrance does; only the third (how it shapes context) is particular to receiving a review.
+them — then hands that context to the shared design dialogue. Beyond getting onto the review branch first,
+it runs the same establish-run, shape-context, and hand-to-design beats as the other entrances;
+only how it shapes context is particular to receiving a review.
 
 Work the beats in order.
 
-## 1. Isolate the workspace
+## 1. Check out the review branch
 
-Before the run directory, before reading the comments closely: settle how the fixes are isolated.
-This is a hard gate — but the base here is particular to this entrance. The fixes happen off the
-**original review branch** (the branch the feedback was left against), **not** the repository's
-default trunk, because each fix stacks back onto that review branch (beat 3); isolating off the
-trunk would produce a workspace that doesn't even contain the commits under review. Isolation is
-established first, and `run-context.sh` then writes `.engineering/<run>/` **inside** it.
+Before reading the comments closely, get onto the code under review. The fixes are built off the
+**original review branch** — the branch the feedback was left against — **not** the repository's
+default trunk, because each fix stacks back onto that review branch and the trunk doesn't even
+contain the commits under review. This entrance also verifies each comment against that code, so the
+review branch must be checked out now.
 
-First identify the original review branch. Then check whether isolation already exists — a worktree
-this session entered, or a branch (other than the review branch itself) already checked out on top
-of it. Either means the work is already isolated: join it and skip the question. Otherwise put the
-choice to the user as a single structured choice — selectable options with a free-form escape,
-holding the turn until they answer, using a tool to ask it where one is available:
-
-- **Worktree (Recommended)** — invoke `engineering:using-git-worktrees`, with the worktree checked
-  out on the original review branch so the fixes build on the code under review.
-- **Feature branch off the review branch** — no worktree; cut a named feature branch off the
-  original review branch with `git switch -c <task-branch> <review-branch>`, where `<task-branch>`
-  carries the slug you derive from the review. Never base the fixes on the default trunk — they
-  would not contain the commits under review.
-
-No such tool: present the same options as plain text and say the run is degraded.
+First identify the original review branch. If it isn't the branch currently checked out, switch to
+it with `git switch <review-branch>` (a worktree this session already entered on that branch counts —
+join it). No code changes here: this only establishes the base. The isolated workspace itself —
+worktree or feature branch off this review branch — is created later by `build`, per the isolation
+strategy the plan gate records; because the session is on the review branch by then, build isolates
+off it automatically.
 
 ## 2. Establish or join a run
 
@@ -80,7 +72,7 @@ the reviewer happened to point at.
 
 **Interrogate only when needed.** When how to proceed on a comment genuinely needs the user — an
 ambiguous ask, a conflict with a decision already made, expected behavior that must be synthesized —
-and only then, drive the shared discovery primitive `engineering:interrogating-requirements` (it
+and only then, load the shared discovery reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) and drive it (it
 self-drives the interrogation and writes what it learns into this run's directory). This is this
 entrance's own discovery leg — it is **not** a hand-off to another entrance; the three entrances are
 distinct and never invoke one another.
@@ -88,7 +80,7 @@ distinct and never invoke one another.
 ### Two standing instructions to carry forward
 
 The design and build that follow inherit two instructions particular to a received review. State
-them plainly in the shaped context so brainstorming and everything downstream honor them:
+them plainly in the shaped context so design and everything downstream honor them:
 
 1. **Reply to each ask.** Every distinct comment gets a reply on its own thread — a technical
    response attached to the line it answers, not a detached top-level comment.
@@ -105,8 +97,8 @@ available tooling to determine which forge hosts the review (`gh` for GitHub, `g
 Do not hard-code one forge's REST calls as the only path; the mechanics are named by what they do
 (reply to a thread, resolve a thread, stack a branch onto a named base), not by one vendor's API.
 
-Compose the reply text for each thread with `engineering:writing-review-comments` rather than
-drafting it inline — plain language, no performative agreement, no skill or process names.
+Compose the reply text for each thread by loading `references/review-comment.md` and following it
+rather than drafting inline — plain language, no performative agreement, no skill or process names.
 
 **Resolving a thread is the user's call, per fixed ask.** When a comment has been fixed, do not
 resolve its thread silently. Put it to the user as a structured choice, using a tool to ask it
@@ -116,13 +108,13 @@ the whole picture in view. Resolve the thread only on an explicit yes; a comment
 rather than fixed stays open with the reasoning on its thread. No such tool: present the same
 choice as plain text and say the run is degraded.
 
-## 4. Hand to brainstorming
+## 4. Hand to design
 
 Once the comments are aggregated, verified, and impact-checked — and the two standing instructions
 are written into the shaped context — hand it to the shared design dialogue: invoke
 `engineering:brainstorming` now. Everything converges there; there is no gate at this seam. Approval
-lives downstream — the spec gate in `to-spec`, the plan gate in `writing-plans` — never in this
-entrance and never in brainstorming. Reporting the findings and asking whether to proceed is not a
+lives downstream — the spec gate in `spec`, the plan gate in `plan` — never in this
+entrance and never in design. Reporting the findings and asking whether to proceed is not a
 move here: once the context is shaped and written into the run, invoke brainstorming.
 
 If no review is in hand, ask the user for the PR, branch, or comments under review before

@@ -54,7 +54,7 @@ check $? "marketplace engineering entry version matches plugin.json"
 
 # --- references --------------------------------------------------------------
 
-REF="$PLUGIN/skills/clarifying-docblocks/references"
+REF="$PLUGIN/skills/document/references"
 for f in comprehension-gate.md receipt-schema.md; do
   [ -f "$REF/$f" ]; check $? "references/$f exists"
 done
@@ -77,23 +77,22 @@ if [ -f "$REF/receipt-schema.md" ]; then
   grep_flat "$REF/receipt-schema.md" "end_before = start - 1"; check $? "receipt schema documents the insertion form"
 fi
 
-# No language table may be reintroduced in vernacular's own docs skills — this is
+# No language table may be reintroduced in the document phase's own files — this is
 # vernacular's invariant that it never hard-codes a language/stack table. Scoped to just the
-# two vernacular docs skill dirs so it checks only the skills that own the invariant.
-if find "$PLUGIN/skills/clarifying-docblocks" "$PLUGIN/skills/rewriting-docblock-prose" -type f -exec grep -liE 'detecting-the-stack|stack-marker' {} + 2>/dev/null | grep -q .; then
+# document skill dir (conductor plus its references) so it checks only the code that owns it.
+if find "$PLUGIN/skills/document" -type f -exec grep -liE 'detecting-the-stack|stack-marker' {} + 2>/dev/null | grep -q .; then
   bad "no stack-detection artefact exists in the vernacular docs skills"
 else
   ok "no stack-detection artefact exists in the vernacular docs skills"
 fi
 
-# --- rewriter ----------------------------------------------------------------
+# --- rewriter (dispatched beat, now a reference under document) ---------------
 
-REWRITER="$PLUGIN/skills/rewriting-docblock-prose/SKILL.md"
-[ -f "$REWRITER" ]; check $? "rewriting-docblock-prose/SKILL.md exists"
+REWRITER="$PLUGIN/skills/document/references/rewrite-beat.md"
+[ -f "$REWRITER" ]; check $? "document/references/rewrite-beat.md exists"
 
 if [ -f "$REWRITER" ]; then
-  head -1 "$REWRITER" | grep -q '^---$'; check $? "rewriter has frontmatter"
-  grep -q '^name: rewriting-docblock-prose$' "$REWRITER"; check $? "rewriter frontmatter names itself"
+  head -1 "$REWRITER" | grep -qv '^---$'; check $? "rewrite beat is a reference, not a skill (no frontmatter)"
   grep_flat "$REWRITER" "never return a description you wrote"; check $? "rewriter states the receipt-only return"
   grep_flat "$REWRITER" "Never claim a range containing an annotation line"; check $? "rewriter states the annotation prohibition"
   grep_flat "$REWRITER" "whole lines"; check $? "rewriter states the whole-line replacement rule"
@@ -107,11 +106,11 @@ fi
 
 # --- conductor ---------------------------------------------------------------
 
-COND="$PLUGIN/skills/clarifying-docblocks/SKILL.md"
-[ -f "$COND" ]; check $? "clarifying-docblocks/SKILL.md exists"
+COND="$PLUGIN/skills/document/SKILL.md"
+[ -f "$COND" ]; check $? "document/SKILL.md exists"
 
 if [ -f "$COND" ]; then
-  grep -q '^name: clarifying-docblocks$' "$COND"; check $? "conductor frontmatter names itself"
+  grep -q '^name: document$' "$COND"; check $? "conductor frontmatter names itself"
   grep_flat "$COND" "file modified relative to"; check $? "conductor states the dirty-file halt"
   grep_flat "$COND" "never opens a source file"; check $? "conductor states the context firewall"
   grep_flat "$COND" "restore it from"; check $? "conductor states the quarantine-and-restore path"
@@ -134,39 +133,42 @@ fi
 [ ! -e "$PLUGIN/skills/domain-modeling" ]; check $? "domain-modeling skill removed"
 
 # --- requesting-code-review stays removed ------------------------------------
-# The thin request-a-review wrapper was retired: executing-plans invokes engineering:code-review
-# directly per task, and finishing-a-development-branch runs it once on the whole branch. Guard
+# The thin request-a-review wrapper was retired: build applies its review-protocol reference
+# per task, and finish applies it once on the whole branch. Guard
 # that the wrapper does not creep back.
 [ ! -e "$PLUGIN/skills/requesting-code-review" ]; check $? "retired requesting-code-review skill is absent"
 
 # --- diagrams: authoring phases consider a diagram ---------------------------
 # using-diagrams is *consider*, not *always draw*, so the obligation does not flood. The
-# authoring phases (to-spec, writing-plans) each carry a "consider a diagram" obligation.
+# authoring phases (to-spec, plan) each carry a "consider a diagram" obligation.
 UD="$PLUGIN/skills/using-diagrams/SKILL.md"
 if [ -f "$UD" ]; then
   grep_flat "$UD" "consider a diagram"; check $? "using-diagrams states the consider-a-diagram authoring obligation"
 fi
-for sk in to-spec writing-plans; do
-  f="$PLUGIN/skills/$sk/SKILL.md"
+# The spec skill and plan each carry it.
+for f in "$PLUGIN/skills/spec/SKILL.md" "$PLUGIN/skills/plan/SKILL.md"; do
   grep_flat "$f" "using-diagrams" && grep_flat "$f" "consider a diagram"
-  check $? "$sk carries the consider-a-diagram obligation via using-diagrams"
+  check $? "$(basename "$(dirname "$f")")/$(basename "$f") carries the consider-a-diagram obligation via using-diagrams"
 done
 
-# --- codebase-design companions ----------------------------------------------
-# codebase-design states its principle in SKILL.md and carries the mechanics in uppercase
+# --- using-codebase-design companions ----------------------------------------------
+# using-codebase-design states its principle in SKILL.md and carries the mechanics in uppercase
 # companion files beside it. Each companion must both exist AND be referenced from SKILL.md:
 # a companion nothing links is unreachable, and a SKILL.md reference to a deleted file is a
 # dangling pointer. Neither failure trips the frontmatter checks above, so guard both here.
 # PATTERN-MATRIX.md (the selectable GoF matrix) and SHAPE-REVIEW.md (the evaluative SOLID +
 # anti-pattern lens) joined DEEPENING.md and DESIGN-IT-TWICE.md when the design-pattern
 # catalog landed.
-CD="$PLUGIN/skills/codebase-design"
+# using-codebase-design is a shared skill; its shape lenses live in using-codebase-design/SKILL.md and its
+# uppercase companions under using-codebase-design/references/.
+CD="$PLUGIN/skills/using-codebase-design/references"
+CDSK="$PLUGIN/skills/using-codebase-design/SKILL.md"
 for comp in DEEPENING.md DESIGN-IT-TWICE.md PATTERN-MATRIX.md SHAPE-REVIEW.md TENANCY-SHARED-DB.md TENANCY-ISOLATED-DB.md; do
-  [ -f "$CD/$comp" ]; check $? "codebase-design/$comp exists"
-  grep_flat "$CD/SKILL.md" "$comp"; check $? "codebase-design/SKILL.md references $comp"
+  [ -f "$CD/$comp" ]; check $? "using-codebase-design/references/$comp exists"
+  grep_flat "$CDSK" "$comp"; check $? "using-codebase-design SKILL.md references $comp"
 done
 
-# --- codebase-design tenancy boundary (design-time multi-tenancy prevention) --
+# --- using-codebase-design tenancy boundary (design-time multi-tenancy prevention) --
 # The tenancy companions carry the design-time boundary decision, split by tenancy model the
 # same way guardtower's review facets are — but stated by the designer, not auto-detected. The
 # shared-DB companion must actually cover the shared-schema failure shape (a caller left free to
@@ -177,7 +179,6 @@ done
 # reach authorization decision both models share. SKILL.md must wire
 # the behavior: determine the model, consult ONLY the matching companion, then force the decision
 # when a boundary touches tenant-scoped data.
-CDSK="$CD/SKILL.md"
 SDB="$CD/TENANCY-SHARED-DB.md"
 if [ -f "$SDB" ]; then
   grep_flat "$SDB" "unscoped query"; check $? "TENANCY-SHARED-DB covers where scoping lives so no caller builds an unscoped query"
@@ -193,7 +194,7 @@ if [ -f "$IDB" ]; then
   grep_flat "$IDB" "landlord vs. tenant DB binding"; check $? "TENANCY-ISOLATED-DB covers central/landlord vs. tenant DB binding"
   grep_flat "$IDB" "cross-tenant reach"; check $? "TENANCY-ISOLATED-DB covers whether cross-tenant reach is permitted"
 fi
-grep_flat "$CDSK" "Tenancy boundary"; check $? "codebase-design SKILL.md has a Tenancy boundary section"
+grep_flat "$CDSK" "Tenancy boundary"; check $? "using-codebase-design SKILL.md has a Tenancy boundary section"
 grep_flat "$CDSK" "determine the app's tenancy model"; check $? "Tenancy boundary section states determine-model behavior"
 grep_flat "$CDSK" "consult only the matching companion"; check $? "Tenancy boundary section states consult-only-the-matching behavior"
 grep_flat "$CDSK" "force the tenant-boundary decision"; check $? "Tenancy boundary section states force-when-relevant behavior"
@@ -203,23 +204,23 @@ grep_flat "$CDSK" "force the tenant-boundary decision"; check $? "Tenancy bounda
 # GitHub handle — never a personal or business email. The only email form allowed anywhere in
 # the suite is a GitHub address. interrogating-requirements carries the rule at the capture
 # point; this guard enforces it across every tracked skill and command.
-grep_flat "$PLUGIN/skills/interrogating-requirements/SKILL.md" "Never record a personal email"
+grep_flat "$PLUGIN/references/interrogating-requirements.md" "Never record a personal email"
 check $? "interrogating-requirements forbids recording a personal email"
-personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$PLUGIN/skills" "$PLUGIN/commands" 2>/dev/null | grep -viE '@users\.noreply\.github\.com$' | sort -u)
+personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$PLUGIN/skills" "$PLUGIN/references" "$PLUGIN/commands" 2>/dev/null | grep -viE '@users\.noreply\.github\.com$' | sort -u)
 [ -z "$personal_email" ]; check $? "no personal email address appears in any skill/command (GitHub addresses only)"
 
 # --- entry-point skills and READMEs -------------------------------------------
 
-# vernacular and implement were shallow wrappers adding nothing over clarifying-docblocks and
-# executing-plans; they were removed rather than converted, and those two skills are invoked
+# vernacular and implement were shallow wrappers adding nothing over document and
+# build; they were removed rather than converted, and those two skills are invoked
 # directly. Guard both directions: no wrapper skill exists, and the underlying skill still
 # carries the behavior the wrapper used to describe (the ref-resolution/two-rules discipline;
 # direct-invocation plan-finding).
 for wrapper in implement vernacular; do
   [ ! -e "$PLUGIN/skills/$wrapper" ]; check $? "skills/$wrapper does not exist (was a shallow wrapper)"
 done
-CDB="$PLUGIN/skills/clarifying-docblocks/SKILL.md"
-grep_flat "$CDB" "never authors a docblock"; check $? "clarifying-docblocks states the prose-only rule directly"
+CDB="$PLUGIN/skills/document/SKILL.md"
+grep_flat "$CDB" "never authors a docblock"; check $? "document states the prose-only rule directly"
 
 [ -f "$PLUGIN/README.md" ]; check $? "engineering/README.md exists"
 
@@ -251,41 +252,42 @@ cmd_actual=$(find "$PLUGIN/commands" -name '*.md' 2>/dev/null | wc -l | tr -d ' 
 if grep -qE '[0-9]+ slash commands' "$ROOT/README.md"; then false; else true; fi
 check $? "root README makes no stale slash-command count claim"
 
-# --- plan review phase (reviewing-plans) ----------------------------------------
-# writing-plans makes each task sketch its interface, then runs reviewing-plans BEFORE the plan
-# gate: an architecture lens (codebase-design in review mode) plus a one-off-data-structure scan
-# that flags each candidate to the human. Guard the skill exists, the seam is wired before the
-# gate, and codebase-design carries the review mode reviewing-plans depends on.
-RP="$PLUGIN/skills/reviewing-plans/SKILL.md"
-[ -f "$RP" ]; check $? "reviewing-plans/SKILL.md exists"
+# --- plan review phase (arch-lens reference) ------------------------------------
+# plan makes each task sketch its interface, then runs its arch-lens review BEFORE the plan
+# gate: an architecture lens (using-codebase-design in review mode) plus a one-off-data-structure scan
+# that flags each candidate to the human. The review folded from a skill into a reference the plan
+# conductor loads. Guard the reference exists, the seam is wired before the gate, and
+# using-codebase-design carries the review mode the arch-lens review depends on.
+RP="$PLUGIN/skills/plan/references/arch-lens.md"
+[ -f "$RP" ]; check $? "plan/references/arch-lens.md exists"
 if [ -f "$RP" ]; then
-  grep -q '^name: reviewing-plans$' "$RP"; check $? "reviewing-plans frontmatter names itself"
-  grep_flat "$RP" "codebase-design"; check $? "reviewing-plans runs the architecture lens via codebase-design"
+  head -1 "$RP" | grep -qv '^---$'; check $? "arch-lens is a reference, not a skill (no frontmatter)"
+  grep_flat "$RP" "using-codebase-design"; check $? "arch-lens review runs the architecture lens via engineering:using-codebase-design"
   # The one-off flags are put to the human as an explicit choice; the question mechanism is left to
   # the harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
-  grep_flat "$RP" "explicit choice"; check $? "reviewing-plans flags one-off data structures as an explicit choice"
-  ! grep_flat "$RP" "AskUserQuestion"; check $? "reviewing-plans names no harness-specific question tool"
+  grep_flat "$RP" "explicit choice"; check $? "arch-lens review flags one-off data structures as an explicit choice"
+  ! grep_flat "$RP" "AskUserQuestion"; check $? "arch-lens review names no harness-specific question tool"
 fi
-WP="$PLUGIN/skills/writing-plans/SKILL.md"
-grep_flat "$WP" "reviewing-plans"; check $? "writing-plans invokes reviewing-plans"
-grep_flat "$WP" "Interfaces block"; check $? "writing-plans has tasks carry a code-sketch Interfaces block"
-# The review phase must sit before the plan gate: reviewing-plans' invocation appears earlier in the
+WP="$PLUGIN/skills/plan/SKILL.md"
+grep_flat "$WP" "arch-lens.md"; check $? "plan loads the arch-lens review reference"
+grep_flat "$WP" "Interfaces block"; check $? "plan has tasks carry a code-sketch Interfaces block"
+# The review phase must sit before the plan gate: the arch-lens load appears earlier in the
 # file than the plan-approval marker the gate mints.
-awk '/reviewing-plans/{r=NR} /writing-plans\/APPROVED\.md/{if(!g)g=NR} END{exit !(r && g && r < g)}' "$WP"
-check $? "writing-plans runs reviewing-plans before the plan gate"
+awk '/arch-lens/{r=NR} /plan\/APPROVED\.md/{if(!g)g=NR} END{exit !(r && g && r < g)}' "$WP"
+check $? "plan runs the arch-lens review before the plan gate"
 
-# codebase-design's review mode is what reviewing-plans leans on; SHAPE-REVIEW names the one-off shape.
-grep_flat "$CD/SKILL.md" "Review mode"; check $? "codebase-design carries a review mode"
+# using-codebase-design's review mode is what the arch-lens review leans on; SHAPE-REVIEW names the one-off shape.
+grep_flat "$CDSK" "Review mode"; check $? "using-codebase-design carries a review mode"
 grep_flat "$CD/SHAPE-REVIEW.md" "one-off data structure"; check $? "SHAPE-REVIEW names the reinvented data-structure smell"
 
-# --- executing-plans tracks the plan as todos --------------------------------
+# --- build tracks the plan as todos --------------------------------
 # The unattended build stays legible by mirroring the plan into a todo list: one todo per task,
 # marked in_progress/completed in lockstep with the plan's checkboxes. The todo mechanism is left
 # to the harness (mirroring superpowers), so this guards the tool-agnostic phrasing, not a tool
 # name — a check tied to Claude Code's TodoWrite would tether the skill to one harness.
-EP="$PLUGIN/skills/executing-plans/SKILL.md"
-grep_flat "$EP" "one todo per task"; check $? "executing-plans seeds the plan into a todo list"
-! grep_flat "$EP" "TodoWrite"; check $? "executing-plans names no harness-specific todo tool"
-grep_flat "$EP" "in_progress"; check $? "executing-plans marks a task in_progress as it starts"
+EP="$PLUGIN/skills/build/SKILL.md"
+grep_flat "$EP" "one todo per task"; check $? "build seeds the plan into a todo list"
+! grep_flat "$EP" "TodoWrite"; check $? "build names no harness-specific todo tool"
+grep_flat "$EP" "in_progress"; check $? "build marks a task in_progress as it starts"
 
 exit $fail

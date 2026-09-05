@@ -44,25 +44,25 @@ need "$S" "--force-with-lease"                           "skill: restack force-p
 need "$S" "gh pr edit --base"                            "skill: restack retargets a deleted parent"
 need "$S" "gh pr merge"                                  "skill: land the bottom PR command"
 
-# --- writing-plans emits stacked-PR plans ------------------------------------
-W="$PLUGIN/skills/writing-plans/SKILL.md"
-need "$W" "PR strategy: stacked"                         "writing-plans: stacked strategy marker"
-need "$W" "using-stacked-pull-requests"                  "writing-plans: names the skill"
-need "$W" "not eligible for"                             "writing-plans: parallel-mode exclusion"
-need "$W" "submit the stacked PR"                        "writing-plans: per-task submit step"
-need "$W" "starts the task's stacked branch off the previous task's branch" "writing-plans: per-task opening branch-start step"
-need "$W" "decided at plan-writing time"                "writing-plans: strategy chosen at plan time"
-need "$W" "Stacked mode is opt-in per plan"             "writing-plans: opt-in, non-stacked unchanged"
+# --- plan emits stacked-PR plans ------------------------------------
+W="$PLUGIN/skills/plan/SKILL.md"
+need "$W" "PR strategy: stacked"                         "plan: stacked strategy marker"
+need "$W" "using-stacked-pull-requests"                  "plan: names the skill"
+need "$W" "not eligible for"                             "plan: parallel-mode exclusion"
+need "$W" "submit the stacked PR"                        "plan: per-task submit step"
+need "$W" "starts the task's stacked branch off the previous task's branch" "plan: per-task opening branch-start step"
+need "$W" "decided at plan-writing time"                "plan: strategy chosen at plan time"
+need "$W" "Stacked mode is opt-in per plan"             "plan: opt-in, non-stacked unchanged"
 
-# --- executing-plans honors the strategy -------------------------------------
-E="$PLUGIN/skills/executing-plans/SKILL.md"
-need "$E" "PR strategy"                                  "executing-plans: reads PR strategy"
-need "$E" "using-stacked-pull-requests"                  "executing-plans: names the skill"
-need "$E" "sequentially"                                 "executing-plans: stacked runs sequentially"
-need "$E" "land on that task's own branch" "executing-plans: commit on the right branch"
+# --- build honors the strategy -------------------------------------
+E="$PLUGIN/skills/build/SKILL.md"
+need "$E" "PR strategy"                                  "build: reads PR strategy"
+need "$E" "using-stacked-pull-requests"                  "build: names the skill"
+need "$E" "sequentially"                                 "build: stacked runs sequentially"
+need "$E" "land on that task's own branch" "build: commit on the right branch"
 
-# --- finishing-a-development-branch lands the stack --------------------------
-F="$PLUGIN/skills/finishing-a-development-branch/SKILL.md"
+# --- finish lands the stack --------------------------
+F="$PLUGIN/skills/finish/SKILL.md"
 need "$F" "Land the stack"                               "finishing: land-the-stack option"
 need "$F" "using-stacked-pull-requests"                  "finishing: delegates to the skill"
 need "$F" "open stacked pull requests already sitting on the branch" "finishing: detect stacked via open PRs"

@@ -1,11 +1,10 @@
 #!/bin/sh
 set -e
 d=$(CDPATH= cd "$(dirname "$0")" && pwd)
-sh "$d/frontmatter.sh" "$d/../skills/codebase-design"
-sh "$d/frontmatter.sh" "$d/../skills/tdd"
-sh "$d/frontmatter.sh" "$d/../skills/diagnosing-bugs"
-sh "$d/frontmatter.sh" "$d/../skills/code-review"
-# No NOTICE / attribution introduced by this plan.
-if grep -rIl "NOTICE" "$d/../skills/codebase-design" "$d/../skills/tdd" "$d/../skills/diagnosing-bugs" "$d/../skills/code-review" 2>/dev/null; then
+# using-codebase-design is a shared skill (its shape lenses in using-codebase-design/SKILL.md); to-spec became
+# the spec skill; tdd and code-review folded into build/references/; diagnosing.md into
+# triage/references/. brainstorming, spec, and using-codebase-design are skills.
+# No NOTICE / attribution introduced — scan the moved references.
+if grep -rIl "NOTICE" "$d/../skills/using-codebase-design/references" "$d/../skills/spec/references" "$d/../skills/build/references" "$d/../skills/triage/references" 2>/dev/null; then
   echo "FAIL: attribution/NOTICE leak"; exit 1; fi
 echo "ALL PLAN-02 CHECKS PASS"

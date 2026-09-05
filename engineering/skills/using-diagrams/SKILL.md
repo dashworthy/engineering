@@ -16,11 +16,10 @@ traces to something already known, not something the diagram invented to look co
 
 ## An authoring obligation
 
-The intake trigger lives in the authoring phases: when an authoring phase — a spec or a plan —
-describes a data model, a flow, or a state machine, it is obligated to
-**consider a diagram** via this skill. The guard is *consider*, not *always draw* — the
-earned-its-place test below still decides whether one is actually drawn, so the obligation
-prompts a diagram where one would help without flooding every document with pictures.
+When a document being authored describes a data model, a flow, or a state machine, consider a
+diagram. The guard is *consider*, not *always draw* — the earned-its-place test below decides
+whether one is actually drawn, so it prompts a diagram where one would help without flooding every
+document with pictures.
 
 ## When a diagram earns its place
 
@@ -110,12 +109,10 @@ genuinely unknown, say so in prose and leave it undrawn.
 ## What this does not do
 
 - It does not **decide what to build or design.** The approach a process flow pictures was
-  argued out in `brainstorming`; the boundary an ER model reflects was shaped in
-  `codebase-design`. This skill draws a decision already made; it does
+  argued out in `brainstorming`; the boundary an ER model reflects was shaped by
+  `using-codebase-design`. This skill draws a decision already made; it does
   not make it.
-- It does not **write the document.** `to-spec` owns the spec, `writing-plans` owns the plan.
+- It does not **write the document.** The `spec` phase owns the spec, `plan` owns the plan.
   This skill supplies
   a diagram for one of them to hold; it does not author the surrounding document or choose its
   home beyond the section guidance above.
-- It does not **invent.** No entity, edge, or step goes into a diagram that isn't in the
-  material the diagram is drawn from.
