@@ -154,15 +154,12 @@ Count the surviving files and their combined line count.
 - **Large run - more than 3 files, or more than 1500 combined lines** - take the **dispatched
   path** below. The firewall holds: you route ranges, never source.
 
-The threshold is a token trade. A subagent's fixed cold-start (skill + references) outweighs a
-handful of small files held briefly in the conductor's context; past the threshold the persistent
-weight of source in the conductor - re-sent every turn - outweighs the cold-start, and dispatch
-wins. Announce which path the run took.
+Announce which path the run took.
 
 ## Dispatch (large run only)
 
 Group the surviving files into **batches** whose combined changed-line count stays within a
-budget (~1500 lines - the same figure as the small/large threshold above), and dispatch one
+budget (~1500 changed lines), and dispatch one
 rewrite beat (`references/rewrite-beat.md`) per batch. Batching amortises the beat's fixed cold-start
 (skill + references, read once) across every file in the batch instead of paying it per file:
 

@@ -9,7 +9,7 @@ Say this first, plainly: `Using the build skill to execute the plan.`
 
 ## What this guarantees
 
-One thing: given a plan written by `plan`, this skill works it task by task, in
+One thing: given an approved plan, this skill works it task by task, in
 order, until every task is checked off — and for each one that changes behavior, a test
 existed before the code, gated by an independent review before the box gets checked. Nothing
 on the plan gets marked done without going through the cycle the plan was written to enforce.
@@ -23,7 +23,7 @@ with no confirmation is a guess about which piece of work the caller meant, and 
 wrong here means driving several tasks through tdd and code-review against the wrong plan
 before anyone notices.
 
-`plan` sometimes produces a **set** — `<topic>-01-<subsystem>.md`,
+A plan is sometimes a **set** — `<topic>-01-<subsystem>.md`,
 `<topic>-02-<subsystem>.md`, ordered by the number in the filename. Work a set in that
 order, one plan file finished before the next one starts; a later plan in the set may
 assume something the earlier one produces.
@@ -149,8 +149,8 @@ the full per-task loop, not a shortcut version of it.
 
 ## What this does not do
 
-- It does not **write the plan.** The tasks and their order were all decided by
-  `plan` before this skill ever runs; this skill executes what's already on the
+- It does not **write the plan.** The tasks and their order were all decided during
+  planning before this skill ever runs; this skill executes what's already on the
   page, it doesn't add, remove, or reorder a task itself.
 - It does not **decide the plan is finished early.** A plan is done when its last task is
   checked, not when the build tasks look complete or the user seems satisfied partway

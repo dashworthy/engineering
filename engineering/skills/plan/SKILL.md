@@ -78,8 +78,7 @@ Global Constraints, this uses X," not repeat the reasoning for X.
 The plan owns the concrete code. The spec's §6 named the boundary at decision altitude —
 which boundary, its chosen shape, what a caller must know — and deliberately stopped short of
 the exact signature; typing it out is the plan's job. So where §6 committed to a boundary, a
-task here realizes it: the signature, the fields, the returned shape. The spec says *which*;
-the plan says *exactly how it's typed*.
+task here realizes it: the signature, the fields, the returned shape.
 
 A task that changes an interface or adds a type describes it in prose *and* shows it. Carry
 a short code sketch in the task — an **Interfaces block** — of the actual shape the step
@@ -281,5 +280,5 @@ this seam, so print the plan's path — or, for a set, every path in sequence �
 `build` now.** "Stop" here means stop *writing the plan*; it is not a stop to ask
 the human whether to build. Parking an approved plan with a "want me to start implementing?"
 is not an available move — the approval was the answer to that question; `build` is
-the next act, take it. Running the plan task by task is `build`'s job — it reads the
-plan this skill wrote (and the plan-approval marker behind it) and works it task by task.
+the next act, take it. It reads the plan this skill wrote, and the plan-approval marker
+behind it, and works it task by task.

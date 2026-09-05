@@ -3,7 +3,7 @@ name: using-verification
 description: "Before claiming done, fixed, or passing, run the verification commands and confirm their output — show the proof, don't just assert it. Use whenever you're about to report success."
 ---
 
-# using-verification
+# Using Verification
 
 Say this first, plainly: `Using the using-verification skill to confirm the check
 actually passed.`

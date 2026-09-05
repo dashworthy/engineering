@@ -58,10 +58,7 @@ section number:
   the spec's §7; the brief ends at §6. The spec's §6 (Approach) does not come from
   the brief at all — it is transcribed from the recommended design `brainstorming` hands
   off: the chosen approach, the alternatives it beat, and — when the approach turned on a
-  boundary — the boundary `using-codebase-design` shaped, named at decision altitude
-  (which boundary, its chosen shape, what a caller must know), which together are exactly §6's
-  content. The concrete signatures that realize the boundary are not §6's job — they land in
-  the plan; §6 carries the commitment, `plan` carries the code.
+  boundary — the boundary `using-codebase-design` shaped. Together these are §6's content.
 - a **triage** isolation record maps onto the same eight sections with two repurposed:
   §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including
   why the smaller fixes on the table were rejected, not only the one that won.

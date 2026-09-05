@@ -6,7 +6,7 @@ conductor on a small run.
 ```json
 {
   "file": "/abs/path/in/the/working/tree/src/Billing.php",
-  "before": "/abs/path/to/.engineering/<run>/vernacular/before/src/Billing.php",
+  "before": "/abs/path/to/.engineering/<run>/vernacular/<NNN>/before/src/Billing.php",
   "edits": [
     {"start": 108, "end_before": 110, "lines_after": 9},
     {"start": 240, "end_before": 239, "lines_after": 7}

@@ -2,7 +2,7 @@
 
 ## What this guarantees
 
-One thing: given a plan the `plan` conductor has written and self-reviewed, this review returns
+One thing: given a plan already written and self-reviewed, this review returns
 that plan with its design vetted — every interface a task sketches has been run through the
 architecture lens, and every data structure a task introduces is either a reuse of something
 the codebase already has or a bespoke shape a human explicitly approved. It does not rewrite
@@ -12,8 +12,8 @@ them, so the plan that reaches the human gate is the reviewed one.
 
 ## Where this runs
 
-The `plan` conductor runs this review after it has written the plan file and run its own
-self-review, and *before* the plan gate — the human-approval step. So the plan is finished
+This review runs after the plan file is written and self-reviewed, before the plan gate — the
+human-approval step. So the plan is finished
 as a document (no placeholders, full spec coverage, consistent task shape) but has not yet
 been shown to a human. Read the plan from the path the conductor is working, or the plan
 already sitting in context. For a plan set, review each plan file in the set.
@@ -112,9 +112,3 @@ to route to `brainstorming` or `using-codebase-design` rather than patching arou
   plan-approval marker is `plan`. This skill's per-finding flags are explicit-choice
   approvals inside the review, not the gate; it returns the reviewed plan and the gate follows.
 - It does not **run the tasks.** Building the plan is `build`, downstream of the gate.
-
-## Handoff
-
-Return the reviewed plan to `plan` — the plan file revised in place, every one-off
-structure resolved, every objective architecture defect closed. `plan` holds the plan
-gate next, presenting *this* reviewed plan to the human.

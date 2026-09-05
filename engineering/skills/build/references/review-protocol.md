@@ -1,8 +1,7 @@
 # Review protocol (reference)
 
 Reviews a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) —
-via parallel sub-reviewers, at a per-task gate and again in a whole-branch pass. A deeper, opt-in
-review is guardtower's job, not this.
+via parallel sub-reviewers, at a per-task gate and again in a whole-branch pass.
 
 ## What this guarantees
 

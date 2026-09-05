@@ -2,7 +2,7 @@
 
 ## What this guarantees
 
-One thing: given a defect already worth investigating, this skill produces a root cause
+One thing: given a defect already worth investigating, this reference produces a root cause
 backed by evidence — not the first plausible story, but a mechanism a test or observation
 actually confirms. Whatever fix follows is aimed at the thing actually wrong, not at the
 symptom that happened to be visible first.
@@ -13,7 +13,7 @@ A failure you cannot make happen on command is not yet something you can diagnos
 a description of one. Before any theory about the cause gets written down, get the
 failure to happen again, deliberately, under your own control. A fix aimed at a failure
 you never reproduced is aimed at whatever the report's author guessed was wrong, and their
-guess is exactly the thing this skill exists to check.
+guess is exactly the thing this reference exists to check.
 
 Reproducing is not "it happened once, so the report is probably right." It's steps you can
 run again with a failure that shows up each time — or, for something intermittent, a
@@ -70,7 +70,7 @@ and what gets logged at each pass are yours to fill in once it's copied.
 
 ## Boundary: diagnosis finds why, triage decides what
 
-A bug report reaches this skill only after triage — which decides whether a report is real,
+A bug report reaches this reference only after triage — which decides whether a report is real,
 whether it's already understood, and what should happen to it (reproduce further, hand to a
 human, close as known, or route here for root-cause work). This skill takes a report already
 judged worth pursuing and answers the one question triage does not: why does this happen. It
@@ -86,6 +86,6 @@ inability to reproduce becomes the finding, handed back rather than papered over
 - It does not **choose the fix's design.** Confirming a root cause is not the same as
   choosing how to patch it; a fix substantial enough to need weighing alternatives belongs
   in the design phase or a spec, not tacked onto the end of a diagnosis.
-- It does not **keep any external record of the defect.** Everything this skill produces —
+- It does not **keep any external record of the defect.** Everything this reference produces —
   the reproduction steps, the hypothesis log, the evidence that confirmed or killed each
   one — lives as files in the run's own scratch space, nowhere else.

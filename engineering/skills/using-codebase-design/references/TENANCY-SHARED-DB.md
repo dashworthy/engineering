@@ -7,7 +7,7 @@ the way one tenant's data stays out of another's hands is that every query carri
 that filters to the current tenant. The design question is not *whether* to filter — it is
 **where the filter lives**, so that no caller is in a position to forget it.
 
-This is not a new concern bolted onto `codebase-design`; it is the leakage principle
+This is not a new concern bolted on; it is the leakage principle
 (`SKILL.md`, "Information hiding and leakage") applied to one specific invariant. A tenant scope
 the caller has to remember to add is an **information leak** — the module externalizing its own
 isolation invariant — and "which layer enforces isolation" is a **depth** question, the same one

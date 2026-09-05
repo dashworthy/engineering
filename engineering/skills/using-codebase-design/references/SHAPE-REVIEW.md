@@ -31,7 +31,7 @@ Each principle is a question asked of an interface, and a "yes" is the violation
 ## The anti-pattern lens — smell to remedy
 
 Each row is a smell, how it shows *at a boundary* (not in the small), and the remedy — which
-names a `PATTERN-MATRIX.md` pattern or a `DEEPENING.md` move. Some restate a `codebase-design`
+names a `PATTERN-MATRIX.md` pattern or a `DEEPENING.md` move. Some restate a `SKILL.md`
 leak shape in smell vocabulary; that overlap is deliberate — a fat interface simply *is* the ISP
 violation above.
 

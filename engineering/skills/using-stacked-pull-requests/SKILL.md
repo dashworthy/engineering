@@ -91,7 +91,7 @@ stacked run — offered as **Land the stack** in place of opening a single pull 
 - It does not **decide whether a plan is stacked.** That's the `PR strategy: stacked` line —
   see "When this runs"; a plan without it is never stacked here.
 - It does not **run tdd, code review, or test hardening.** Each task's build, review gate, and
-  the closing hardening pass belong to their own skills; this skill runs only after a task's
+  the closing hardening pass belong to `build`; this skill runs only after a task's
   work is committed.
 - It does not **establish the isolation.** `build` already did — a worktree, or a feature
   branch in the shared checkout — and that single checkout is

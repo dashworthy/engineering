@@ -86,8 +86,7 @@ a step every design takes.
 
 Walk the human through the approaches and the trade-offs, recommend one, and take
 whatever correction they offer on the spot — when part of the design comes back wrong,
-fix that part and re-present it. This is a working dialogue, not a sign-off ceremony: its
-output is a recommended design, ready to serialize.
+fix that part and re-present it. Its output is a recommended design, ready to serialize.
 
 ## No gate in the dialogue — approval is the spec gate
 

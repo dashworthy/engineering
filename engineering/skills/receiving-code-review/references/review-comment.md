@@ -49,7 +49,7 @@ exactly like a person on the team wrote it and stopped when they were done.
 - It does not **decide whether a comment is correct.** The caller
   verifies each claim against the codebase before this reference is loaded; this only phrases
   what was already decided.
-- It does not **decide whether to resolve a thread.** That stays the user's call, per the
-  `receiving-code-review` conductor; this reference only supplies the reply text.
+- It does not **decide whether to resolve a thread.** That stays the user's call; this reference
+  only supplies the reply text.
 - It does not **write the fix.** It describes a fix, a pushback, or a question in plain language;
   the fix itself happens elsewhere.

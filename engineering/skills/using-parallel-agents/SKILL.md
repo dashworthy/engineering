@@ -1,6 +1,6 @@
 ---
 name: using-parallel-agents
-description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive, distinct from build's plan-scoped subagent mode."
+description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive, distinct from a phase's own plan-scoped subagent mode."
 ---
 
 # Using Parallel Agents
@@ -35,7 +35,7 @@ independence established; if a caller can't say concretely, for every pair in th
 of them reads or writes what the other one does, that is the signal to stop and either get
 that answer or split the run into ordered waves instead — never to guess and fan out anyway
 on the hope that nothing collides. Below two units, there's nothing to gate: a single task
-goes straight to a single agent, sequentially, without this skill's machinery at all.
+the caller just carries out directly, without this skill's machinery at all.
 
 ## Splitting the work
 

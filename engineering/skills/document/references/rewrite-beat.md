@@ -29,8 +29,8 @@ paths shared across the whole batch:
 
 A batch may hold a single file. `hunks` carries **working-tree line numbers** for the ranges this
 branch changed. Read `gate_path` and `schema_path` once before you start - they are the contract,
-shared across every file in the batch; this document does not restate them, so that there is one
-copy to change. Run inline there is no payload: the conductor already holds these paths and writes
+shared across every file in the batch. This document repeats only the rules easiest to get wrong
+here - before-anchoring, `left_alone`, `flagged` - and leaves the rest to `schema_path`. Run inline there is no payload: the conductor already holds these paths and writes
 each receipt itself.
 
 ## Scope

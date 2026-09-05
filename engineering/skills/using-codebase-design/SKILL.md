@@ -170,12 +170,6 @@ shape win by default.
 
 ## Review mode
 
-The default —
-everything above — is **design mode**: given a boundary that needs shaping, it sketches two
-competing designs, runs the catalog, and chooses. **Review mode** is the other half: given a
-shape *already chosen and written down* — an interface a plan sketches, a signature a task will
-produce — it judges that shape and returns findings, without designing a new one.
-
 Enter review mode when invoked with the argument `review` and a proposed shape to judge. In review mode:
 
 - **Run `references/SHAPE-REVIEW.md` over the given shape** — the SOLID lens and the anti-pattern table —

@@ -4,7 +4,7 @@ Four moves turn a shallow interface into a deep one. None are about making the m
 smaller — some make it bigger; all move a cost the caller was paying into the module, where
 it's paid once instead of at every call site.
 
-Use these once `codebase-design`'s depth principle has flagged a module as shallow. Each
+Use these once `SKILL.md`'s depth principle has flagged a module as shallow. Each
 move is a shape sketch, not a language-specific pattern — translate the signatures into
 whatever the module's actual language looks like.
 

@@ -22,12 +22,6 @@ The check belongs before the first tool call and before the first sentence back 
 not deferred until the request "turns out" to need it. By the time "later" arrives, the
 clarifying question has already been asked unskilled and the file has already been opened
 unskilled, and whatever skill would have shaped that first move now arrives too late.
-
-This holds for clarifying questions exactly as much as it holds for action. A skill for this
-territory, if one exists, is where the questions worth asking get decided — which ones, in what
-order, and why. Asking first and checking second means the questions got invented on the spot
-instead of found where they already lived.
-
 ## Finding the skill that owns the request
 
 Read the request for what kind of work it actually is, not for the words it happens to use, and
