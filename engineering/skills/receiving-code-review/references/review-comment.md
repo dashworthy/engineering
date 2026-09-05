@@ -1,8 +1,5 @@
 # Writing Review Comments (reference)
 
-> This is a reference the `receiving-code-review` conductor loads when it writes reply text for a
-> review thread. It is not a skill and is never discovered on its own; the conductor drives it.
-
 ## What this guarantees
 
 One thing: every comment or reply this skill writes reads in plain language a reviewer outside
@@ -47,15 +44,10 @@ The comment ends when the point does — the same "Never sign it" policy
 tool at all, no exception absent a project that has explicitly asked for it. The comment reads
 exactly like a person on the team wrote it and stopped when they were done.
 
-## Where this is loaded from
-
-The `receiving-code-review` conductor loads this reference to write the reply text for each
-thread's forge tail (`Reply to each ask` in that conductor).
-
 ## What this does not do
 
-- It does not **decide whether a comment is correct.** The `receiving-code-review` conductor
-  verifies each claim against the codebase before this reference is ever loaded; this only phrases
+- It does not **decide whether a comment is correct.** The caller
+  verifies each claim against the codebase before this reference is loaded; this only phrases
   what was already decided.
 - It does not **decide whether to resolve a thread.** That stays the user's call, per the
   `receiving-code-review` conductor; this reference only supplies the reply text.

@@ -1,8 +1,5 @@
 # Reviewing Plans (arch-lens reference)
 
-> This is a reference the `plan` conductor loads and runs after it writes the plan and before the
-> plan gate. It is not a skill and is never discovered on its own; the `plan` conductor drives it.
-
 ## What this guarantees
 
 One thing: given a plan the `plan` conductor has written and self-reviewed, this review returns

@@ -1,8 +1,5 @@
 # Writing PR Descriptions (reference)
 
-> This is a reference the `finish` conductor loads when it writes a pull-request body. It is not a
-> skill and is never discovered on its own; `finish` drives it.
-
 ## What this guarantees
 
 One thing: the body this skill produces reads the same to someone outside the team as to
@@ -72,11 +69,6 @@ Only check an item once you've actually looked; an item you couldn't verify is r
    when nothing changed here.
 5. **Before merging** — the checklist from above, each line stating what was checked and what
    was found, not a bare checkbox.
-
-## Where this is loaded from
-
-The `finish` conductor loads this reference to compose the body for **Open a pull request** and for
-each PR in **Land the stack**.
 
 ## What this does not do
 

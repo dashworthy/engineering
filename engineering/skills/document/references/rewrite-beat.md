@@ -1,8 +1,5 @@
 # Rewriting Docblock Prose (dispatched beat)
 
-> This is a reference, not a skill: the `document` conductor loads it inline on a small run, or
-> hands it to a subagent as the beat instructions on a large one. It is never discovered on its own.
-
 You are applied against **one or more files** - dispatched as a subagent carrying a batch on a
 large run, or run inline by the conductor on a small one. For each file you read it, decide which
 docblock descriptions fail the comprehension gate, rewrite only those, write the file, and return

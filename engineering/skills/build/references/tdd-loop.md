@@ -1,8 +1,7 @@
 # TDD loop (reference)
 
-> This is a reference the `build` conductor loads to drive a task's behavior-changing steps through
-> a strict red-green-refactor loop. It is not a skill and is never discovered on its own; the
-> `build` conductor drives it. `mocking.md` and `tests.md` alongside it are loaded the same way.
+Drives a task's behavior-changing steps through a strict red-green-refactor loop. `mocking.md` and
+`tests.md` sit alongside it.
 
 ## What this guarantees
 

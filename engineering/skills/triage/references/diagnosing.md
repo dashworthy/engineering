@@ -1,10 +1,5 @@
 # Diagnosing bugs (reference)
 
-> This is a reference the `triage` entrance loads to shape a defect before it hands off to the
-> design phase — pinning the root cause with evidence before any fix is designed. It is not a
-> skill and is never discovered on its own; the `triage` entrance drives it. (Deciding whether a
-> report is even valid is triage's own job, upstream of this.)
-
 ## What this guarantees
 
 One thing: given a defect already worth investigating, this skill produces a root cause

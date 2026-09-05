@@ -1,10 +1,8 @@
 # Review protocol (reference)
 
-> This is a reference the `build` conductor loads for its automated per-task gate, and the `finish`
-> conductor loads for the whole-branch review. It reviews a change on two axes — Standards (meets
-> engineering norms) and Spec (does what was asked) — via parallel sub-reviewers. It is not a skill
-> and is never discovered on its own; a conductor drives it. A deeper, opt-in review is guardtower's
-> job, not this.
+Reviews a change on two axes — Standards (meets engineering norms) and Spec (does what was asked) —
+via parallel sub-reviewers, at a per-task gate and again in a whole-branch pass. A deeper, opt-in
+review is guardtower's job, not this.
 
 ## What this guarantees
 

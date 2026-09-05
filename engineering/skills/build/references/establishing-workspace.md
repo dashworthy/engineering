@@ -1,6 +1,6 @@
 # Establishing the workspace
 
-Build owns VCS isolation: before a single file changes, the work is moved into a workspace
+Before a single file changes, the work is moved into a workspace
 nothing else depends on — its own checkout or its own branch, off whatever branch is currently
 checked out. This is the one place the pipeline creates that workspace; the pre-build phases
 (the entrances, the design dialogue, spec, plan) run on the current branch and write only the
