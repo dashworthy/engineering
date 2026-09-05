@@ -31,16 +31,15 @@ gt-initialized (its `gt` commands resolve against this repo rather than erroring
 tracked). Where both hold, use `gt` — its stacks and restacking are what this skill would
 otherwise reconstruct by hand. Where either is missing, fall back to plain `git` + `gh` (the
 baseline, already assumed by `finish`). Same prefer-native-else-raw-git
-shape the entrance uses to set up its worktree. Do not install `gt` or initialize Graphite in a repo that
+shape build uses to set up its worktree. Do not install `gt` or initialize Graphite in a repo that
 hasn't chosen it — this skill works in a bare repo with nothing but `git` and `gh`.
 
 ## Branch and base model
 
-The model is **one branch per task**, all inside the single isolated checkout the entrance
-already established — the worktree the entrance set up, or the feature branch a
-no-worktree entrance cut in the shared checkout. Either way it is one checkout: this skill
-switches branches within it, and it does not spawn a worktree per task. The first task's branch
-starts from the trunk the work targets — the branch the PRs merge into, not the entrance's own
+The model is **one branch per task**, all inside the single isolated checkout build
+already established — the worktree or feature branch build set up. Either way it is one checkout:
+this skill switches branches within it, and it does not spawn a worktree per task. The first task's
+branch starts from the trunk the work targets — the branch the PRs merge into, not build's own
 isolation branch, so even in the feature-branch case the stack sits on task branches and no
 work lands on the default branch; task N's
 branch starts from task N-1's branch, so the branches form a linear chain in the plan's own
@@ -94,10 +93,10 @@ stacked run — offered as **Land the stack** in place of opening a single pull 
 - It does not **run tdd, code review, or test hardening.** Each task's build, review gate, and
   the closing hardening pass belong to their own skills; this skill runs only after a task's
   work is committed.
-- It does not **establish the isolation.** The entrance already did — a worktree, or a feature
+- It does not **establish the isolation.** `build` already did — a worktree, or a feature
   branch in the shared checkout — and that single checkout is
   where the whole stack lives; this skill switches branches inside it and never creates isolation
-  of its own.
+  of its own. (`build`'s Establish-the-workspace step is where that isolation is created.)
 - It does not **decide the work is good enough to land.** Whether and when to land the stack is
   the user's call, carried out through `finish`; this skill performs the
   bottom-up merge when asked, it does not choose to.

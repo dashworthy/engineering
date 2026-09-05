@@ -1,7 +1,7 @@
 #!/bin/sh
-# Triage is a self-contained SKILL entrance — no backing command. It carries the shared four-beat
-# skeleton (Isolate -> establish run -> shape context by verify/reproduce/isolate -> hand to
-# design), folds in the isolation mechanics the old references/ carried, and drives the
+# Triage is a self-contained SKILL entrance — no backing command. It carries the shared entrance
+# skeleton (establish run -> shape context by verify/reproduce/isolate -> hand to design), runs on
+# the current branch (isolation is build's job now), and drives the
 # shared interrogating-requirements primitive only when expected behavior must be synthesized.
 # Everything converges on design: no routing table, no quick-fix row. triage and signal stay
 # decoupled — triage never hands off to signal (the entrances converge on design, never on
@@ -17,8 +17,8 @@ SKILL=skills/triage/SKILL.md
 [ -f "$SKILL" ] || { echo "FAIL: skills/triage/SKILL.md must exist (triage is now a skill entrance)"; fail=1; }
 [ ! -e commands/triage.md ] || { echo "FAIL: commands/triage.md must be removed (triage is now a skill entrance)"; fail=1; }
 
-# Four-beat entrance skeleton, self-contained in the skill.
-grep -q "Worktree" "$SKILL" || { echo "FAIL: triage must carry the Isolate beat (worktree choice)"; fail=1; }
+# Entrance skeleton, self-contained in the skill. Isolation moved to build: no Isolate beat.
+! grep -q "^## 1\. Isolate" "$SKILL" || { echo "FAIL: triage must not carry an Isolate beat (isolation is build's job now)"; fail=1; }
 grep -qE 'run-context\.sh" triage|run-context\.sh triage' "$SKILL" || { echo "FAIL: triage must establish/join a run via run-context.sh triage"; fail=1; }
 grep -q "\.engineering/" "$SKILL" || { echo "FAIL: triage must log to .engineering/<run>/triage"; fail=1; }
 grep -q "engineering:brainstorming" "$SKILL" || { echo "FAIL: triage must hand context to design"; fail=1; }

@@ -263,6 +263,14 @@ line, so `finish` carries out a choice the human already authorized
 rather than stopping to ask again at the end. A stacked plan's `PR strategy: stacked` line
 already implies landing the stack; state the cleanup intent alongside it.
 
+**The isolation strategy is authorized here too.** The build runs in an isolated workspace, and
+which kind it creates is settled here, at the last human stop before it runs unattended. Put it to
+the human as a structured choice — **Worktree** (Recommended) or **Feature branch in this
+checkout** — using a tool to ask it where one is available; no such tool, or a headless run,
+present the two as plain text and say the run is degraded. Record the answer in the plan's Global
+Constraints as an `Isolation:` line (`worktree` or `feature-branch`), which `build` reads to
+establish the workspace before its first task.
+
 ## Handoff
 
 The only stop on this skill is the plan gate itself, and it sits *before* approval: a plan

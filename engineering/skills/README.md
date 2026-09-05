@@ -23,7 +23,7 @@ Reference files (not skills) that a conductor loads:
 | `spec` | `references/SPEC-FORMAT.md` |
 | `using-codebase-design` | `references/SHAPE-REVIEW.md`, `references/DESIGN-IT-TWICE.md`, `references/PATTERN-MATRIX.md`, `references/DEEPENING.md`, `references/TENANCY-ISOLATED-DB.md`, `references/TENANCY-SHARED-DB.md` |
 | `plan` | `references/arch-lens.md` |
-| `build` | `references/tdd-loop.md` (+ `mocking.md`, `tests.md`), `references/review-protocol.md` |
+| `build` | `references/establishing-workspace.md`, `references/tdd-loop.md` (+ `mocking.md`, `tests.md`), `references/review-protocol.md` |
 | `document` | `references/comprehension-gate.md`, `references/receipt-schema.md`, `references/rewrite-beat.md` |
 | `finish` | `references/pr-description.md` |
 | `triage` | `references/diagnosing.md` |

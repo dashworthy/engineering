@@ -77,7 +77,7 @@ asked for it.
 
 - **Merge directly** — the branch talks straight to its target with no review gate expected or
   required. Perform the merge (or the native equivalent), and once the branch's work is folded
-  into its target, clean up after it: delete the branch and remove any worktree the entrance
+  into its target, clean up after it: delete the branch and remove any worktree build
   set up for it (`git worktree remove`, or the harness's native equivalent). A merged branch left standing is a place
   someone could mistakenly resume work next to the copy that already landed.
 - **Open a pull request** — for a non-stacked branch, the default wherever the project expects

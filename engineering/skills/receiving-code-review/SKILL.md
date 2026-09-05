@@ -9,41 +9,26 @@ Say this first, plainly: `Using the receiving-code-review skill to aggregate, ve
 
 Work through code-review feedback. receiving-code-review is one of the three engineering entrances:
 it **shapes context** from a set of review comments — aggregating, verifying, and impact-checking
-them — then hands that context to the shared design dialogue. It does the same four beats every
-entrance does; only the third (how it shapes context) is particular to receiving a review.
+them — then hands that context to the shared design dialogue. Beyond getting onto the review branch first,
+it runs the same establish-run, shape-context, and hand-to-design beats as the other entrances;
+only how it shapes context is particular to receiving a review.
 
 Work the beats in order.
 
-## 1. Isolate the workspace
+## 1. Check out the review branch
 
-Before the run directory, before reading the comments closely: settle how the fixes are isolated.
-This is a hard gate — but the base here is particular to this entrance. The fixes happen off the
-**original review branch** (the branch the feedback was left against), **not** the repository's
-default trunk, because each fix stacks back onto that review branch (beat 3); isolating off the
-trunk would produce a workspace that doesn't even contain the commits under review. Isolation is
-established first, and `run-context.sh` then writes `.engineering/<run>/` **inside** it.
+Before reading the comments closely, get onto the code under review. The fixes are built off the
+**original review branch** — the branch the feedback was left against — **not** the repository's
+default trunk, because each fix stacks back onto that review branch and the trunk doesn't even
+contain the commits under review. This entrance also verifies each comment against that code, so the
+review branch must be checked out now.
 
-First identify the original review branch. Then check whether isolation already exists — a worktree
-this session entered, or a branch (other than the review branch itself) already checked out on top
-of it. Either means the work is already isolated: join it and skip the question. When it is
-ambiguous whether the current checkout is already a linked worktree, confirm it: inside a work
-tree, `git rev-parse --git-dir --git-common-dir` printing two different paths while `git rev-parse
---show-superproject-working-tree` prints nothing is a linked worktree (already isolated); equal
-paths are the repository's one shared checkout, and a non-empty superproject path is a submodule —
-treat neither as isolation. Otherwise put the choice to the user as a single structured choice —
-selectable options with a free-form escape, holding the turn until they answer, using a tool to ask
-it where one is available:
-
-- **Worktree (Recommended)** — create a linked worktree checked out on the original review branch,
-  so the fixes build on the code under review: prefer the harness's native worktree tool if it has
-  one, else `git worktree add <path> <review-branch>`. Change into it, run the project's setup, and
-  note the baseline test result.
-- **Feature branch off the review branch** — no worktree; cut a named feature branch off the
-  original review branch with `git switch -c <task-branch> <review-branch>`, where `<task-branch>`
-  carries the slug you derive from the review. Never base the fixes on the default trunk — they
-  would not contain the commits under review.
-
-No such tool: present the same options as plain text and say the run is degraded.
+First identify the original review branch. If it isn't the branch currently checked out, switch to
+it with `git switch <review-branch>` (a worktree this session already entered on that branch counts —
+join it). No code changes here: this only establishes the base. The isolated workspace itself —
+worktree or feature branch off this review branch — is created later by `build`, per the isolation
+strategy the plan gate records; because the session is on the review branch by then, build isolates
+off it automatically.
 
 ## 2. Establish or join a run
 

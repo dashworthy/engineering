@@ -9,43 +9,12 @@ Say this first, plainly: `Using the triage skill to verify and isolate the defec
 
 Triage a reported defect. triage is one of the three engineering entrances: it **shapes context**
 from a defect report — verifying and isolating it — then hands that context to the shared design
-dialogue. It does the same four beats every entrance does; only the third (how it shapes context)
-is particular to triage.
+dialogue. It runs the same beats every entrance does — establish a run, shape context, hand to the design
+dialogue — and only how it shapes context is particular to triage.
 
 Work the beats in order.
 
-## 1. Isolate the workspace
-
-Before the run directory, before reading the report closely, before reproducing anything: settle
-how this work is isolated. This is a hard gate — everything a triaged defect leads to happens off
-the base branch from the first step, so isolation is established first and `run-context.sh` then
-writes `.engineering/<run>/` **inside** it; establish the run first and a later branch or worktree
-switch orphans it on the base branch.
-
-First check whether isolation already exists — a worktree this session entered, or a branch other
-than the repository's default branch already checked out. Either means the work is already
-isolated: join it and skip the question. When it is ambiguous whether the current checkout is
-already a linked worktree, confirm it: inside a work tree, `git rev-parse --git-dir
---git-common-dir` printing two different paths while `git rev-parse
---show-superproject-working-tree` prints nothing is a linked worktree (already isolated); equal
-paths are the repository's one shared checkout, and a non-empty superproject path is a submodule —
-treat neither as isolation. In particular, if `signal` established the run and its
-isolation first and the user then reached triage, triage joins that same workspace rather than
-stacking a second one.
-
-Otherwise put the choice to the user as a single structured choice — selectable options with a
-free-form escape, holding the turn until they answer, using a tool to ask it where one is available:
-
-- **Worktree (Recommended)** — create a linked worktree on a new task branch carrying the run
-  slug: prefer the harness's native worktree tool if it has one, else `git worktree add -b
-  <task-branch> <path>`. Change into it, run the project's setup, and note the baseline test result.
-- **Feature branch in this checkout** — no worktree; cut a named feature branch off the base with
-  `git switch -c <task-branch>`, where `<task-branch>` carries the slug you derive from the report.
-  Never leave the work sitting on the default branch.
-
-No such tool: present the same options as plain text and say the run is degraded.
-
-## 2. Establish or join a run
+## 1. Establish or join a run
 
 Before reading the report closely, get somewhere to put what you find:
 
@@ -61,7 +30,7 @@ one, seeded from a kebab-case slug you derive from the report in a couple of wor
 Everything triage produces — reproduction notes, isolation, the routing decision and why — goes
 into `.engineering/<run>/triage/` as it's found, not reconstructed afterward from memory.
 
-## 3. Shape context — verify, reproduce, isolate
+## 2. Shape context — verify, reproduce, isolate
 
 This is the beat particular to triage. Isolate only as far as the hand-off needs: enough to place
 the problem at a domain concept and hand it on with confidence, and no more. Triage is not
@@ -105,7 +74,7 @@ the interrogation and writes the requirements, brief.md §1–§6, into this run
 directory). This is triage's own discovery leg — it is **not** a hand-off to `signal`; the two
 entrances are distinct and never invoke each other.
 
-## 4. Hand to design
+## 3. Hand to design
 
 Once the defect is verified and isolated far enough to design a fix against, hand that context to
 the shared design dialogue — invoke `engineering:brainstorming` now. Everything converges there;

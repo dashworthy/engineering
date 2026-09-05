@@ -1,7 +1,7 @@
 #!/bin/sh
 # Signal is the discovery SKILL entrance, driving the shared interrogating-requirements primitive:
 # no conductor skill, no expansion beat, no sequencing stage. No stale signal: namespaces or .signal/
-# paths; the skill isolates a worktree, redirects artifacts to .engineering/, writes brief.md §1–§6,
+# paths; the skill runs on the current branch, redirects artifacts to .engineering/, writes brief.md §1–§6,
 # and hands the brief to engineering:brainstorming (the design dialogue), with the spec phase downstream.
 set -e
 ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
@@ -23,8 +23,8 @@ done
 grep -q "references/interrogating-requirements.md" "$SKILL" || { echo "FAIL: signal skill must load the shared interrogating-requirements reference"; fail=1; }
 if grep -q "engineering:conducting-discovery" "$SKILL"; then echo "FAIL: signal must not name the removed conductor"; fail=1; fi
 grep -q "\.engineering/" "$SKILL" || { echo "FAIL: run dir not redirected to .engineering/"; fail=1; }
-# signal is an entrance: it isolates a workspace (worktree recommended) before obtaining the run dir.
-grep -q "Worktree" "$SKILL" || { echo "FAIL: signal skill must carry the worktree-isolation choice"; fail=1; }
+# Isolation moved to build: signal runs on the current branch and carries no Isolate beat.
+! grep -q "^## 1\. Isolate" "$SKILL" || { echo "FAIL: signal must not carry an Isolate beat (isolation is build's job now)"; fail=1; }
 grep -q "engineering:brainstorming" "$SKILL" || { echo "FAIL: signal must hand the brief to the design design gate"; fail=1; }
 # No expansion beat or sequencing stage survives in the skill or the primitive.
 if grep -rqi "expanding-scope\|sequencing-requirements\|expansion beat" "$SKILL" "$INTERROGATE"; then echo "FAIL: stale expansion/sequencing references"; fail=1; fi

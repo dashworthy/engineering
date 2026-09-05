@@ -9,43 +9,15 @@ Say this first, plainly: `Using the signal skill to interrogate the request into
 
 Run the signal discovery pipeline for the request in hand. signal is one of the three engineering
 entrances: it **shapes context** from a vague ask — interrogating it into a brief — then hands that
-context to the shared design dialogue. It does the same four beats every entrance does; only the
-third (how it shapes context) is particular to signal. Interrogate the request into a brief rather
-than jumping straight to design.
+context to the shared design dialogue. It runs the same beats every entrance does — establish a run, shape
+context, hand to the design dialogue — and only how it shapes context is particular to signal.
+Interrogate the request into a brief rather than jumping straight to design.
 
 Work the beats in order.
 
-## 1. Isolate the workspace
+## 1. Establish or join a run
 
-Before the run directory and the first question, settle how this work is isolated. This is a hard
-gate: do not create the run directory or ask the first interrogation question until it is settled.
-Whichever isolation signal establishes — worktree or feature branch — is the one every later phase
-inherits.
-
-First check whether isolation already exists — a worktree this session entered, or a branch other
-than the repository's default branch already checked out. Either means the work is already
-isolated: join it and skip the question. When it is ambiguous whether the current checkout is
-already a linked worktree, confirm it: inside a work tree, `git rev-parse --git-dir
---git-common-dir` printing two different paths while `git rev-parse
---show-superproject-working-tree` prints nothing is a linked worktree (already isolated); equal
-paths are the repository's one shared checkout, and a non-empty superproject path is a submodule —
-treat neither as isolation. Otherwise put the choice to the user as a single structured choice —
-selectable options with a free-form escape, holding the turn until they answer, using a tool to ask
-it where one is available:
-
-- **Worktree (Recommended)** — create a linked worktree on a new task branch carrying the run
-  slug: prefer the harness's native worktree tool if it has one, else `git worktree add -b
-  <task-branch> <path>`. Change into it, run the project's setup, and note the baseline test
-  result before the first question.
-- **Feature branch in this checkout** — no worktree; cut a named feature branch off the base with
-  `git switch -c <task-branch>`, where `<task-branch>` carries the same slug you derive for the run.
-  Never leave the work sitting on the default branch.
-
-No such tool: present the same options as plain text and say the run is degraded.
-
-## 2. Establish or join a run
-
-Then obtain the run directory:
+Obtain the run directory:
 
 ```
 sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" signal <slug>
@@ -57,7 +29,7 @@ and the slug is ignored. Write `00-request.md` into that directory yourself, wit
 verbatim, before the first question. If the directory already holds a `brief.md`, do not overwrite
 it — ask the user whether to resume that run.
 
-## 3. Shape context — interrogate the request
+## 2. Shape context — interrogate the request
 
 This is the beat particular to signal, and signal always runs it. Load
 `${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md` and drive it in the main thread (it
@@ -70,7 +42,7 @@ brief, in the main thread, so the interrogation is durable. That file is the del
 brief ends at §6. If the request is genuinely trivial, the interrogation says so in one
 sentence and exits with no brief.
 
-## 4. Hand to design
+## 3. Hand to design
 
 Once `brief.md` §1–§6 is on disk, hand its path to `engineering:brainstorming` — the shared design
 dialogue — in the main thread; signal does not write a spec.

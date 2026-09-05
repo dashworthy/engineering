@@ -39,6 +39,18 @@ unattended — the same trace-over-checkbox rule the spec gate uses, one step do
 is the last human-approval gate before the build; once it clears, the plan runs to completion
 with no further human stops.
 
+## Establish the workspace
+
+Before touching any code, move the work into an isolated workspace — the branch or worktree the
+whole build runs in. This is the one place the pipeline creates it: the entrances and the design
+phases ran on the current branch, writing only gitignored `.engineering/` scratch, so nothing has
+landed on the branch yet. Read the plan's Global Constraints for the `Isolation:` line
+(`worktree` or `feature-branch`, settled at the plan gate) and follow
+`references/establishing-workspace.md` — it detects isolation that already exists and joins it,
+otherwise creates the recorded kind (a worktree, migrating the run's `.engineering/` into it, or a
+feature branch cut in the current checkout), then runs project setup and confirms a clean baseline.
+Everything below runs inside that workspace.
+
 ## Run directory
 
 `.engineering/<run>/implement/` in the **user's** project — never inside the plugin.
