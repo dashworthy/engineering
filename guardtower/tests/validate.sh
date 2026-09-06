@@ -862,6 +862,55 @@ if [ -f "$PLUGIN/README.md" ]; then
 fi
 
 # ============================================================================
+# Facet — reviewing-electron facet
+# ============================================================================
+
+ELEC="$PLUGIN/skills/reviewing/references/facets/reviewing-electron/facet.md"
+[ -f "$ELEC" ]; check $? "reviewing-electron/facet.md exists"
+if [ -f "$ELEC" ]; then
+  grep_flat "$ELEC" "relevance gate"; check $? "reviewing-electron runs the relevance gate"
+  grep_flat "$ELEC" "before any lens work"; check $? "reviewing-electron short-circuits before lens work"
+  grep_flat "$ELEC" "top_n"; check $? "reviewing-electron applies the top-N cap"
+  grep_flat "$ELEC" "floor"; check $? "reviewing-electron applies the confidence/severity floor"
+  grep_flat "$ELEC" "report-only"; check $? "reviewing-electron is report-only"
+  grep_flat "$ELEC" "findings.md"; check $? "reviewing-electron writes findings.md"
+  grep_flat "$ELEC" "no proactive"; check $? "reviewing-electron states its analysis boundary inline"
+  grep_flat "$ELEC" "visible in the diff"; check $? "reviewing-electron scopes its reach to the diff"
+  grep_flat "$ELEC" "Security"; check $? "reviewing-electron cedes generic web vulns to Security"
+  grep_flat "$ELEC" "references/electron-checklist.md"; check $? "reviewing-electron links references/electron-checklist.md"
+fi
+
+ELECCL="$PLUGIN/skills/reviewing/references/facets/reviewing-electron/references/electron-checklist.md"
+[ -f "$ELECCL" ]; check $? "reviewing-electron/references/electron-checklist.md exists"
+if [ -f "$ELECCL" ]; then
+  grep_flat "$ELECCL" "Renderer isolation"; check $? "electron-checklist covers renderer isolation"
+  grep_flat "$ELECCL" "Preload & context bridge"; check $? "electron-checklist covers preload & context bridge exposure"
+  grep_flat "$ELECCL" "IPC trust boundary"; check $? "electron-checklist covers the IPC trust boundary"
+  grep_flat "$ELECCL" "Navigation & window control"; check $? "electron-checklist covers navigation & window control"
+  grep_flat "$ELECCL" "Shell, protocol & external content"; check $? "electron-checklist covers shell/protocol/external content"
+  grep_flat "$ELECCL" "Best practices & idiom"; check $? "electron-checklist covers non-security best practices & idiom"
+  grep_flat "$ELECCL" "not a finding"; check $? "electron-checklist states what is not a finding"
+fi
+
+# --- orchestrator wiring: electron is live, not "coming soon" ----------------
+if [ -f "$ORCH" ]; then
+  if grep -q 'reviewing-electron' "$ORCH"; then
+    if grep 'reviewing-electron' "$ORCH" | grep -q 'coming soon'; then
+      bad "reviewing menu wires reviewing-electron (not coming soon)"
+    else
+      ok "reviewing menu wires reviewing-electron (not coming soon)"
+    fi
+  else
+    bad "reviewing menu wires reviewing-electron (not coming soon)"
+  fi
+fi
+
+# --- README lists the electron facet ----------------------------------------
+if [ -f "$PLUGIN/README.md" ]; then
+  grep_flat "$PLUGIN/README.md" "Electron"; check $? "README lists the electron facet"
+fi
+
+# ============================================================================
 # Framework best practices — Laravel content
 # ============================================================================
 
