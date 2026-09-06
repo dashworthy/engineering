@@ -45,9 +45,10 @@ facets, then returns one reconciled report plus the per-facet artifacts under `.
 | **Tenant Isolation (isolated DB)** | Cross-tenant leaks in a database-per-tenant app — an operation on the wrong connection. |
 | **Data Presentation** | Identity-ambiguous presentation — distinct records a person cannot tell apart. |
 | **Accessibility** | Perceivability & operability for assistive tech — missing alt text or labels, ARIA/semantic misuse, keyboard/focus traps, insufficient contrast, unrespected reduced-motion, unannounced dynamic updates. |
+| **Electron** | Electron process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging). |
 | **Framework Best Practices** | Stack-specific idiom violations — Laravel, Tailwind, Symfony, OroCommerce, React, Vue, TypeScript, JavaScript, and Backbone. |
 
-This release ships **seventeen** facets — the four **core** (**Security**, **Novelty**, **Technical**,
+This release ships **eighteen** facets — the four **core** (**Security**, **Novelty**, **Technical**,
 **Architectural**), pre-checked by default, plus **Error Handling & Resilience**, **Test Quality**,
 **Data & Migration Safety**, **API & Backward Compatibility**, **Concurrency & Race Safety**,
 **Idempotency & Retry Safety**, **Numeric Precision & Units**, and **API Consumption** — on the
@@ -59,7 +60,7 @@ per-change relevance check. **Framework Best Practices** is proposed the same wa
 separate classification of which framework(s) the repo runs — pre-checked when at least one
 covered stack (Laravel, Tailwind, Symfony, OroCommerce, React, Vue, TypeScript, JavaScript, or
 Backbone) is detected, absent from the menu otherwise. **Data
-Presentation** and **Accessibility** are always in the menu, opt-in.
+Presentation**, **Accessibility**, and **Electron** are always in the menu, opt-in.
 
 ## Design principles
 

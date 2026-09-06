@@ -20,7 +20,7 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 
 ## The facets
 
-Seventeen facets exist; each is one lens, defined in a reference file under
+Eighteen facets exist; each is one lens, defined in a reference file under
 [references/facets/](references/facets/) (`references/facets/<facet>/facet.md`), and dispatched as
 an independent reviewer — not a standalone skill. The four **core** facets (**Security**,
 **Novelty**, **Technical**, **Architectural**) are pre-checked by default; eight additional facets (**Error Handling
@@ -31,8 +31,9 @@ selectable per run; two **tenant-isolation** facets are **core-when-present** �
 pre-checked only when the repo-level detection step finds the matching tenancy model (see the
 menu-proposal step in the workflow); the **Framework Best Practices** facet is likewise
 **core-when-present** — proposed and pre-checked only when the repo-level stack classification
-finds at least one covered framework (Laravel and Tailwind today) — and the **Data Presentation**
-and **Accessibility** facets are always in the menu, opt-in and not tenancy- or stack-gated.
+finds at least one covered framework (Laravel and Tailwind today) — and the **Data Presentation**,
+**Accessibility**, and **Electron** facets are always in the menu, opt-in and not tenancy- or
+stack-gated.
 
 | Facet (file) | Lens | Core? |
 |---|---|---|
@@ -52,6 +53,7 @@ and **Accessibility** facets are always in the menu, opt-in and not tenancy- or 
 | [`reviewing-tenant-isolation-isolated-db`](references/facets/reviewing-tenant-isolation-isolated-db/facet.md) | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | core-when-present |
 | [`reviewing-data-presentation`](references/facets/reviewing-data-presentation/facet.md) | Identity-ambiguous presentation: distinct records a person can't tell apart | — |
 | [`reviewing-accessibility`](references/facets/reviewing-accessibility/facet.md) | Accessibility: perceivability & operability — alt text, labels, ARIA/semantics, keyboard/focus, contrast, reduced-motion, live-region announcements | — |
+| [`reviewing-electron`](references/facets/reviewing-electron/facet.md) | Electron: process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging) | — |
 | [`reviewing-framework-best-practices`](references/facets/reviewing-framework-best-practices/facet.md) | Stack-specific idiom violations for the detected framework(s) — Laravel and Tailwind today | core-when-present |
 
 ## The workflow
