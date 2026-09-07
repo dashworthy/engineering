@@ -52,6 +52,17 @@ broken into steps small enough that each one can be built, verified, and committ
 moving to the next — a step that takes a full session to finish is too big and belongs
 split, not attempted whole.
 
+The spec settled scope before this skill ran: its In-scope list is the approved work, and the
+plan's job is to turn **all** of it into tasks — not to renegotiate it downward. So the plan
+never reaches for deferral to make itself smaller or easier, and it never hands that choice to the
+user: no requested item quietly moved to a Deferred bucket the spec didn't already carry, and no
+plan gate that asks "should we leave X for later?" about work the approved spec put in scope.
+Asking the user to defer requested work reopens a scope decision that was already made and offers
+them a cut the plan should simply have planned. If a genuinely new obstacle surfaces — a
+dependency the spec assumed that the code doesn't actually have — that is an escalation about the
+spec, raised as one, not a deferral menu dropped on the user mid-plan. See
+`engineering:refusing-deferral`.
+
 Each step:
 
 - Is a single `- [ ]` line (or a short run of them under one task heading), not a
@@ -193,7 +204,17 @@ Before calling the plan finished, run a self-review pass over what was just writ
 - **Spec coverage.** Walk the spec's goals, constraints, and decision table entries one by
   one and confirm each has a task that addresses it. An item with no task behind it is
   either forgotten or genuinely out of scope for this plan — decide which, and if it's the
-  former, add the task rather than note the gap and move on.
+  former, add the task rather than note the gap and move on. "Genuinely out of scope" is a
+  decision, not a shrug: record it where the human sees it — the spec's Deferred bucket or an
+  open question — never drop it silently. Anything less is the punt `engineering:refusing-deferral`
+  refuses.
+- **No deferred request.** Section-by-section coverage can still miss the subtler drop: a piece of
+  work the user actually asked for that ended up *neither* a task *nor* a deferral the spec
+  recorded on purpose — just absent, because the plan grew long or the item was awkward to place.
+  Requested work has two honest fates in a plan and only two: a task that builds it, or a deferral
+  the approved spec already carries (its Deferred bucket, an open question) with the trigger that
+  revives it. A third fate — silently gone — is the punt `engineering:refusing-deferral` refuses;
+  a plan that drops requested work looks finished and isn't. Restore each missing one as a task.
 - **Placeholder scan.** Search the finished plan for anything a task author would have to
   guess at — `TBD`, `...`, "the appropriate file," a step with no file path, a verification
   with nothing to run. A plan with a placeholder in it isn't a draft of a finished plan;

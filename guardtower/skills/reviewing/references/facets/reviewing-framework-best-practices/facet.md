@@ -32,8 +32,9 @@ for this facet, not silently approximated by whichever file happens to be closes
 2. **Apply the lens(es).** For each matched stack, read its reference file and work its classes of
    defect against the diff. A change matching more than one stack (e.g. a Blade template touching
    both Laravel and Tailwind conventions) applies every matched file's lens, not just the first.
-3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
-   `caps.top_n`.
+3. **Floor, then cap, then tally the cap's drops** per hard-stops.md §2–3 — drop below
+   `caps.floor`, keep at most `caps.top_n`, and report `dropped` (how many genuine
+   above-floor findings the cap held back) so nothing real vanishes unseen.
 4. **Write the artifact and return** per facet-contract.md's Finding schema, to `findings.md`.
 
 Idiom-specific findings — a convention particular to the detected stack — are this facet's job.

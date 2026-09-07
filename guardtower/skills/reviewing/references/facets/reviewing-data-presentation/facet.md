@@ -45,8 +45,9 @@ show is an accepted blind spot, not a defect this facet chases.
      off or hides distinguishing information the data actually carries, collapsing distinct records
      into one appearance.
 
-3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
-   `caps.top_n`.
+3. **Floor, then cap, then tally the cap's drops** per hard-stops.md §2–3 — drop below
+   `caps.floor`, keep at most `caps.top_n`, and report `dropped` (how many genuine
+   above-floor findings the cap held back) so nothing real vanishes unseen.
 4. **Write the artifact and return** per facet-contract.md's Finding schema, to
    `findings.md`.
 

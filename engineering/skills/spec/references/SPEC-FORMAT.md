@@ -46,6 +46,10 @@ Every spec renders to this shape, at
     Anything unresolved that does not block starting. Empty is fine.
 
 Rules:
+- The **Deferred** bucket in §5 is the sanctioned home for parked work — and the only honest one.
+  Work waits here in the open, with the trigger that revives it, where the human sees and owns the
+  decision; it never becomes a silent `TODO` in the code or a "later" no one tracks. Parking work
+  anywhere else is the deferral `engineering:refusing-deferral` refuses.
 - Never invent content the source material does not support; mark unknowns in §8.
 - A triage-origin spec still fills every section; §1 is the reproduced problem, §6 the fix approach.
 - The topic slug matches the run slug where possible (correspondence, not coupling).

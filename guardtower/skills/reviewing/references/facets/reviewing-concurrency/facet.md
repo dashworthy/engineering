@@ -49,8 +49,9 @@ defect this facet chases.
    - **Shared mutable state without synchronization** — a field, singleton, or container mutated across
      concurrent requests or threads with no guard, so readers observe torn or inconsistent state.
 
-3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
-   `caps.top_n`.
+3. **Floor, then cap, then tally the cap's drops** per hard-stops.md §2–3 — drop below
+   `caps.floor`, keep at most `caps.top_n`, and report `dropped` (how many genuine
+   above-floor findings the cap held back) so nothing real vanishes unseen.
 4. **Write the artifact and return** per facet-contract.md's Finding schema, to `findings.md`.
    Name the two executions and the state they corrupt, so the interleaving is legible without
    rerunning the reasoning.

@@ -271,6 +271,11 @@ fi
 WP="$PLUGIN/skills/plan/SKILL.md"
 grep_flat "$WP" "arch-lens.md"; check $? "plan loads the arch-lens review reference"
 grep_flat "$WP" "Interfaces block"; check $? "plan has tasks carry a code-sketch Interfaces block"
+# Anti-deferral: plan creation never asks the user to defer requested work, and the self-review
+# pass checks that no requested work was silently dropped from the plan.
+grep_flat "$WP" "deferral menu dropped on the user"; check $? "plan creation does not ask the user to defer requested work"
+grep_flat "$WP" "No deferred request"; check $? "plan self-review checks for silently deferred requested work"
+grep_flat "$WP" "refusing-deferral"; check $? "plan names engineering:refusing-deferral"
 # The review phase must sit before the plan gate: the arch-lens load appears earlier in the
 # file than the plan-approval marker the gate mints.
 awk '/arch-lens/{r=NR} /plan\/APPROVED\.md/{if(!g)g=NR} END{exit !(r && g && r < g)}' "$WP"

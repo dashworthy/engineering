@@ -110,3 +110,7 @@ asked for it.
 - It does not **pick the project's integration policy for it.** The finish strategy is the
   human's — authorized at the plan gate, or, for a branch with no plan behind it, asked here;
   never hard-coded to whichever one this skill used last.
+- It does not **let the branch integrate with work parked inside it.** A finding from the
+  whole-branch review is fixed before the branch re-enters the repository, not shipped as a stray
+  `TODO` or a "follow-up PR" nobody has committed to; where something genuinely must wait, it is
+  surfaced as an explicit decision, not buried in the diff. See `engineering:refusing-deferral`.

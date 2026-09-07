@@ -102,7 +102,11 @@ stack-gated.
    because it returned first; mark each facet's todo `completed` as its result lands. Deduplicate
    where two facets flag the same location, order the findings, and present **one** report alongside
    the durable per-facet artifacts. Reconciliation is the one thing a facet does not own; it needs
-   every result at once.
+   every result at once. Carry each facet's `dropped` count through into the report: where any facet
+   hit its cap, the report states how many genuine findings wait behind it (e.g. "Security: 3 more
+   above the floor — re-run to see them"). The cap keeps the report short; it does not get to make
+   the report *look* complete when it isn't. A reader deciding whether to re-run needs to know work
+   was held back, not discover it by accident.
 
 ## Track each facet as a todo
 

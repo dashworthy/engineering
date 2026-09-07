@@ -48,8 +48,9 @@ counts — a browser/front-end client and a backend service calling a third-part
      per-item calls, no throttle/debounce on user-driven bursts) and the *response* (no retry
      with backoff, ignoring `Retry-After`, retry storms).
 
-3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
-   `caps.top_n`.
+3. **Floor, then cap, then tally the cap's drops** per hard-stops.md §2–3 — drop below
+   `caps.floor`, keep at most `caps.top_n`, and report `dropped` (how many genuine
+   above-floor findings the cap held back) so nothing real vanishes unseen.
 4. **Write the artifact and return** per facet-contract.md's Finding schema, to
    `findings.md`.
 
