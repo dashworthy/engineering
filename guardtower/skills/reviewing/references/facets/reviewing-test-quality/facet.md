@@ -46,8 +46,9 @@ framework asserts; **no proactive whole-suite audit**, no coverage run, no execu
    - **Bound to the mock, not the behavior** — an assertion that only checks a mock's own canned
      return rather than real behavior.
 
-3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
-   `caps.top_n`.
+3. **Floor, then cap, then tally the cap's drops** per hard-stops.md §2–3 — drop below
+   `caps.floor`, keep at most `caps.top_n`, and report `dropped` (how many genuine
+   above-floor findings the cap held back) so nothing real vanishes unseen.
 4. **Write the artifact and return** per facet-contract.md's Finding schema, to
    `findings.md`.
 

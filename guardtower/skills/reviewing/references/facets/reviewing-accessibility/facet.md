@@ -49,8 +49,9 @@ the markup in front of it — it does not run axe-core, a browser, a linter, or 
    - **Dynamic announcements** — a status or live-region update not exposed to assistive tech;
      focus not managed after a route change, a modal open, or a dynamic content swap.
 
-3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
-   `caps.top_n`.
+3. **Floor, then cap, then tally the cap's drops** per hard-stops.md §2–3 — drop below
+   `caps.floor`, keep at most `caps.top_n`, and report `dropped` (how many genuine
+   above-floor findings the cap held back) so nothing real vanishes unseen.
 4. **Write the artifact and return** per facet-contract.md's Finding schema, to
    `findings.md`.
 

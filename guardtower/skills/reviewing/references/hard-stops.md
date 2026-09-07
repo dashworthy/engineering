@@ -23,6 +23,15 @@ does not enumerate every nit it could name. If there are more than `top_n` genui
 `top_n` most severe are the ones that matter first; the rest can surface on a re-run after those
 are addressed.
 
+But "can surface on a re-run" is only honest if the reader knows they exist. The cap orders and
+defers; it must never *hide*. So a facet that hits the cap reports **`dropped`** — the count of
+genuine, above-floor findings it held back beyond `top_n` — alongside its findings. `dropped` is
+`0` when the cap wasn't reached. A capped list that looks complete is the cap lying: a reader who
+cannot see that four more real findings wait behind it cannot choose to re-run for them. The
+count is the difference between deferral the human can act on and deferral that silently vanishes.
+(The floor's drops in §3 are low-confidence or cosmetic noise excluded by design, not deferred
+work; `dropped` counts what the *cap* set aside, not what the floor excluded.)
+
 ## 3. Confidence / severity floor
 
 The facet drops any finding weaker than `caps.floor` — low-confidence guesses and cosmetic nits do

@@ -49,8 +49,9 @@ accepted blind spot, not a defect this facet chases.
    - **Partial-completion re-run** — a multi-effect operation with no checkpoint or guard, so a re-run
      after a mid-way failure redoes the effects that already succeeded.
 
-3. **Floor, then cap** per hard-stops.md §2–3 — drop below `caps.floor`, keep at most
-   `caps.top_n`.
+3. **Floor, then cap, then tally the cap's drops** per hard-stops.md §2–3 — drop below
+   `caps.floor`, keep at most `caps.top_n`, and report `dropped` (how many genuine
+   above-floor findings the cap held back) so nothing real vanishes unseen.
 4. **Write the artifact and return** per facet-contract.md's Finding schema, to `findings.md`.
    Name what triggers the repeat (a redelivery, a retry, a client replay) and the duplicated effect,
    so the finding stands on its own.

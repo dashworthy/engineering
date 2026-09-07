@@ -155,6 +155,11 @@ the full per-task loop, not a shortcut version of it.
 - It does not **decide the plan is finished early.** A plan is done when its last task is
   checked, not when the build tasks look complete or the user seems satisfied partway
   through.
+- It does not **punt a task's own gaps to "later."** A gap a task turns up while being built — a
+  finding from its own review gate, a missing case, a follow-up the change plainly needs — is
+  closed in that task's diff, or surfaced as an explicit decision the human can see; it is never
+  left as a `TODO`, a "next steps" note, or a hand-off nobody tracks, for a pass that may never
+  come. See `engineering:refusing-deferral`.
 
 ## Handoff
 

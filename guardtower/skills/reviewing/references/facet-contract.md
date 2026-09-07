@@ -29,6 +29,7 @@ facet, so the discipline is tuned in one place.
   facet:         <facet-skill name>,
   relevance:     "ran" | { skipped: <one-line reason> },   // decided FIRST, before any lens work
   findings:      [ Finding, ... ],   // already floored and capped to <= top_n; [] is a valid clean result
+  dropped:       <int>,              // genuine above-floor findings the cap held back beyond top_n; 0 when the cap wasn't hit — a count, never silently gone
   artifact_path: <the same path, now written>              // written even when findings == []
 }
 ```
@@ -52,5 +53,7 @@ shared context.
 ## The artifact
 
 Each facet writes its findings to `artifact_path` as a small Markdown document: the facet name, its
-relevance verdict, and the findings (or an explicit "no findings above the floor"). The artifact is
-the durable record of what the facet examined — it exists even on a clean or skipped run.
+relevance verdict, the findings (or an explicit "no findings above the floor"), and — when the cap
+held anything back — the `dropped` count stated in words, e.g. "3 more findings above the floor
+were not reported (cap); re-run to see them." The artifact is the durable record of what the facet
+examined — it exists even on a clean or skipped run.
