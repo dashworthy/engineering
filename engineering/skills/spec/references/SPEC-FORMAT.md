@@ -10,6 +10,13 @@ Every spec renders to this shape, at
     **Status:** Draft
     **Origin:** signal (discovery) | triage (<issue ref or one-line problem>)
 
+    ## 0. ELI5
+    The whole spec in plain language — as if explaining to a smart friend with no context on
+    this codebase. In a few sentences and no jargon: what's broken or missing, what we're
+    going to do about it, and how we'll know it worked. A reader should grasp the point of the
+    entire spec from this section alone, before deciding whether to read the rest. This is a
+    synthesis of the sections below, written last but placed first for easy consumption.
+
     ## 1. Problem
     What we are solving and why now. From a signal brief §1, or a triage problem statement.
 
@@ -46,6 +53,9 @@ Every spec renders to this shape, at
     Anything unresolved that does not block starting. Empty is fine.
 
 Rules:
+- §0 ELI5 is required in every spec and is never omitted — it is the plain-language summary
+  the whole format exists to make easy to consume. Write it last, from the finished sections,
+  but place it first. Keep it jargon-free; if a term can't be avoided, it doesn't belong here.
 - The **Deferred** bucket in §5 is the sanctioned home for parked work — and the only honest one.
   Work waits here in the open, with the trigger that revives it, where the human sees and owns the
   decision; it never becomes a silent `TODO` in the code or a "later" no one tracks. Parking work

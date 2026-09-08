@@ -1,6 +1,6 @@
 ---
 name: using-stacked-pull-requests
-description: "Put each plan task on its own branch stacked on the one before it, open one pull request per task, keep the stack current when a lower PR changes, and land it in order — via Graphite (gt) when present, plain git+gh otherwise. Use when a plan's Global Constraints say `PR strategy: stacked`."
+description: "Put each plan task on its own branch stacked on the one before it, open one pull request per task, and keep the stack current when a lower PR changes — via Graphite (gt) when present, plain git+gh otherwise. The pipeline opens and maintains the stack but never lands it; a human merges the PRs outside the pipeline. Use when a plan's Global Constraints say `PR strategy: stacked`."
 ---
 
 # Using Stacked Pull Requests
@@ -11,8 +11,9 @@ pull request.`
 ## What this guarantees
 
 One thing: given a task whose work is already committed, this skill produces **one pull
-request per task**, each based on the correct parent branch, keeps the stack current when a
-lower pull request changes, and lands the stack in order when it's ready. It reaches that end
+request per task**, each based on the correct parent branch, and keeps the stack current when a
+lower pull request changes. It never merges the stack — landing is a human's job outside the
+pipeline. It reaches that end
 state through `gt` when the repository already uses Graphite and through plain `git` + `gh`
 when it doesn't; the guarantee is the stacked PR sitting on the correct base, not which tool
 put it there.
@@ -75,14 +76,14 @@ bases automatically. With `git` + `gh`, rebase each child branch onto its update
 order from the bottom up, force-push each with `--force-with-lease`, and, where a parent branch
 was deleted by a merge, retarget the child's PR base with `gh pr edit --base <new-base>`.
 
-## Land the stack
+## The pipeline does not land the stack
 
-Landing is bottom-up: merge the lowest open PR first, then restack what remains, then the next,
-and so on to the top — never the top PR first, which would try to merge every task's diff at
-once and defeat the point of stacking. With `gt`, `gt merge` walks the stack in that order and
-restacks between merges. With `git` + `gh`, merge the bottom PR (`gh pr merge`), restack the
-remainder onto the new trunk, and repeat. This is the bottom-up landing path for a finished
-stacked run — offered as **Land the stack** in place of opening a single pull request.
+This skill opens and maintains the stack; it never merges it. Landing a stacked run is
+bottom-up — the lowest open PR first, then restack what remains, then the next — but that
+merge is a human's job, done outside the pipeline once the PRs are reviewed and approved. When
+a human lands a lower PR that way, the branches above it need restacking onto the new base;
+that is the "Keep the stack current" step above, and it is the only part of landing this skill
+takes part in.
 
 ## What this does not do
 
@@ -97,6 +98,6 @@ stacked run — offered as **Land the stack** in place of opening a single pull 
   branch in the shared checkout — and that single checkout is
   where the whole stack lives; this skill switches branches inside it and never creates isolation
   of its own. (`build`'s Establish-the-workspace step is where that isolation is created.)
-- It does not **decide the work is good enough to land.** Whether and when to land the stack is
-  the user's call, carried out through `finish`; this skill performs the
-  bottom-up merge when asked, it does not choose to.
+- It does not **land or merge the stack.** The pipeline integrates only by opening pull
+  requests; merging the stack bottom-up is a human's job outside the pipeline, once the PRs are
+  approved. This skill opens and maintains the stack — it never merges it, and is never asked to.

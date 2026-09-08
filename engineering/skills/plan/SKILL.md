@@ -9,12 +9,13 @@ Say this first, plainly: `Using the plan skill to create the implementation plan
 
 ## What this guarantees
 
-One thing: given an approved spec, this skill produces an ordered implementation plan —
-or, when the spec doesn't fit in one, an ordered set of them — written to
+One thing: given an approved spec, this skill produces exactly one ordered implementation
+plan — a single plan file, always, however large the spec — written to
 `.engineering/<run>/plan/`, where every step is small enough to build and check
 in on its own and the test-driven cycle is wired into the step sequence instead of left as
 an aside. It does not guarantee the plan is short, only that nothing in it is too big to
-finish and verify in one sitting.
+finish and verify in one sitting. One spec yields one plan; the work is never spread across
+multiple plan documents.
 
 ## Reading the spec
 
@@ -170,34 +171,22 @@ step (see Each task's closing steps), with a step to **submit the stacked PR** f
 Leave non-stacked plans exactly as they are: no PR-strategy line, no per-task branch or
 submit steps, the single-PR-at-the-end flow unchanged. Stacked mode is opt-in per plan.
 
-## Splitting into a plan set
+## One spec, one plan — no splitting
 
-Some specs cover one subsystem end to end; a single ordered plan fits them. Others cover
-several subsystems that don't depend on each other's internals to ship — each could go out
-on its own and leave the codebase in a working state. When the spec is the second kind,
-write a plan set: one plan file per independent piece, each internally ordered, sequenced
-against each other only where one piece's task genuinely produces something the next
-consumes.
-
-The test for whether a split is warranted is not "is this spec long" — it's "does
-finishing plan A alone leave working software, with plan B not yet started." If stopping
-after A leaves the build broken until B lands, that's one plan with two phases, not two
-plans. If it doesn't, splitting means a reviewer can approve and ship A without holding B
-hostage to it, and a set of small plans is easier to reason about than one long one that
-happens to have a seam in the middle.
-
-A plan set is a set of complete plans, not one plan's steps distributed across several
-files that only add up to whole once all of them land.
+However large or many-subsystemed the spec, it becomes exactly one plan file. A spec that
+spans several subsystems is sequenced *within* one plan — ordered so that each phase leaves
+the build in a working state — not spread across multiple plan documents. If a spec is so
+large that a single plan genuinely can't hold it, that is a signal the *scope* was drawn too
+wide: raise it as an escalation about the spec (per `engineering:refusing-deferral`), don't
+quietly split the plan to absorb it.
 
 ## Writing the plan file, then reviewing it
 
 Write to `.engineering/<run>/plan/<YYYY-MM-DD>-<topic>.md`. `<YYYY-MM-DD>` is
 today's date — the day the plan is written, not the spec's approval date, which may be
 days or weeks earlier. `<topic>` is the spec's own topic slug, reused rather than
-reinvented, so the spec and the plan it produced sort next to each other by name. For a
-plan set, keep the shared topic and distinguish members with an ordinal and a short
-per-plan suffix — `<topic>-01-<subsystem>.md`, `<topic>-02-<subsystem>.md` — ordered the
-same way the set is sequenced.
+reinvented, so the spec and the plan it produced sort next to each other by name. There is
+one plan file per run — never an ordinal-suffixed set.
 
 Before calling the plan finished, run a self-review pass over what was just written:
 
@@ -275,13 +264,13 @@ into it — a Tier-2, run-scoped trace that the plan cleared the gate. `build` r
 that marker as its precondition and refuses to build without it, so mint it only on approval,
 never before.
 
-**The finish strategy is authorized here too.** Because this is the last human stop before the
-build runs unattended, the plan gate is also where the branch's finish strategy gets settled —
-how it re-enters the repository (merge, pull request, or landing a stack) and whether its
-branch is deleted afterward. Record it in the plan's Global Constraints as a `Finish strategy:`
-line, so `finish` carries out a choice the human already authorized
-rather than stopping to ask again at the end. A stacked plan's `PR strategy: stacked` line
-already implies landing the stack; state the cleanup intent alongside it.
+**The finish strategy is recorded here too.** The branch re-enters the repository exactly one
+way — as a pull request — so there is no merge-or-PR choice to put to the human: the pipeline
+never merges a branch to its target, directly or by landing a stack (see `finish`). Record the
+fixed strategy in the plan's Global Constraints as a `Finish strategy: pull request` line so
+`finish` reads a consistent marker rather than re-deriving it. A stacked plan's `PR strategy:
+stacked` line means the stack is opened as pull requests and left for a human to land outside the
+pipeline; the pipeline itself never lands it.
 
 **The isolation strategy is authorized here too.** The build runs in an isolated workspace, and
 which kind it creates is settled here, at the last human stop before it runs unattended. Put it to
@@ -297,7 +286,7 @@ The only stop on this skill is the plan gate itself, and it sits *before* approv
 the human has not approved waits at the gate and is not handed onward. Once the human
 approves — the marker written, the finish strategy authorized — that approval *is* the go,
 and the plan gate was the last human stop before the build runs. There is no second gate at
-this seam, so print the plan's path — or, for a set, every path in sequence — and **invoke
+this seam, so print the plan's path and **invoke
 `build` now.** "Stop" here means stop *writing the plan*; it is not a stop to ask
 the human whether to build. Parking an approved plan with a "want me to start implementing?"
 is not an available move — the approval was the answer to that question; `build` is

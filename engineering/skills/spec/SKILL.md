@@ -52,6 +52,10 @@ Follow `references/SPEC-FORMAT.md` — do not restate its shape here or
 reinvent it inline. Every section in that file gets filled; a section with nothing to
 say gets a line explaining why, not silence.
 
+§0 ELI5 is not mapped from any source section — it is a plain-language synthesis of the
+finished spec, written last from the completed sections and placed first for easy consumption.
+Every spec carries one; see `references/SPEC-FORMAT.md`.
+
 Two source shapes map onto the one format — and the mapping is by meaning, not by
 section number:
 - a **signal** brief supplies §1–§5 in order, and its §6 (Existing Context) becomes
