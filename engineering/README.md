@@ -20,6 +20,10 @@ release are out of scope.
 | Design | `brainstorming` (approach; shapes boundaries via `using-codebase-design`) → `spec` (write + gate) |
 | Build | `plan` → `build` → `finish` |
 
+Alongside the pipeline, the plugin ships `code-review` — an opt-in, facet-menu deep review
+(folded in from guardtower) that routes its findings locally, to the PR, or back into
+`receiving-code-review`.
+
 The full pipeline diagram and phase-by-phase walk-through live in the
 [root README](../README.md).
 

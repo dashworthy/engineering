@@ -9,6 +9,13 @@ verity is the test-hardening discipline extracted from the `engineering` pipelin
 plugin, so it can be installed and evolve on its own. It does not depend on `engineering` at
 runtime.
 
+## Install
+
+```
+/plugin marketplace add https://github.com/dashworthy/engineering
+/plugin install verity@dashworthy
+```
+
 ## Entry point
 
 ```
@@ -47,3 +54,7 @@ verity/
   scripts/run-context.sh
   tests/
 ```
+
+## License
+
+MIT. See [LICENSE](../LICENSE).

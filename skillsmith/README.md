@@ -7,6 +7,13 @@ skill or plugin is wasting, prunes a skill that no longer earns its place, and �
 opt into it — pressure-tests whether a finished skill survives contact with a distracted
 agent under time and authority pressure.
 
+## Install
+
+```
+/plugin marketplace add https://github.com/dashworthy/engineering
+/plugin install skillsmith@dashworthy
+```
+
 ## Skills
 
 - **writing-skills** — author and edit a skill so an agent reliably finds it and follows
@@ -29,3 +36,7 @@ is its own file under `references/checks/<check>/`, dispatched as an independent
 under a uniform contract, self-limiting at the source (relevance gate, cap, floor). The
 static seams *read* the artifact; the pressure-test seam *runs* it — the audit's one
 expensive, opt-in track — and both report their findings on the same contract.
+
+## License
+
+MIT. See [LICENSE](../LICENSE).
