@@ -94,6 +94,12 @@ if [ -f "$ORCH" ]; then
   # references linked one level deep
   grep_flat "$ORCH" "references/facet-contract.md"; check $? "reviewing links references/facet-contract.md"
   grep_flat "$ORCH" "references/hard-stops.md"; check $? "reviewing links references/hard-stops.md"
+  # --- step 2 pre-fills the menu from each facet's Selection signal ---
+  grep_flat "$ORCH" "Selection signal"; check $? "reviewing step 2 gathers each facet's Selection signal"
+  grep_flat "$ORCH" "pre-fill"; check $? "reviewing step 2 pre-fills the menu"
+  grep_flat "$ORCH" "fall back"; check $? "reviewing step 2 falls back when no strong signal"
+  grep_flat "$ORCH" "never pre-filled with fewer"; check $? "reviewing states the never-fewer-than-today floor"
+  grep_flat "$ORCH" "stays authoritative"; check $? "reviewing states the relevance gate stays authoritative over the pre-fill"
 fi
 
 CONTRACT="$PLUGIN/skills/reviewing/references/facet-contract.md"

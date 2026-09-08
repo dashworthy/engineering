@@ -35,6 +35,10 @@ finds at least one covered framework (Laravel and Tailwind today) — and the **
 **Accessibility**, and **Electron** facets are always in the menu, opt-in and not tenancy- or
 stack-gated.
 
+Which of these arrive **pre-checked** on a given run is not a fixed default: it is decided by each
+facet's own `## Selection signal` at menu-fill time (workflow step 2), which pre-fills the menu from
+the character of the change under review. The human still confirms or overrides that pre-filled set.
+
 | Facet (file) | Lens | Core? |
 |---|---|---|
 | [`reviewing-security`](references/facets/reviewing-security/facet.md) | OWASP best practices; authorization enforced, not assumed | core |
@@ -75,17 +79,32 @@ stack-gated.
    This is the upper of guardtower's **two-gate** model: a repo-level menu-proposal gate that sits
    *above* each facet's own per-change relevance gate — a proposed facet still self-skips on a
    change that touches no tenant-scoped or stack-relevant surface, so proposing is not running.
-2. **Pick the facets.** Present the facet menu as a structured multi-select choice, using a tool to
-   ask it where one is available, with the
-   four **core** facets **pre-checked**, plus any tenant-isolation facet the menu-proposal step
-   above proposed (pre-checked when proposed), plus `reviewing-framework-best-practices` when the
-   stack classification found at least one match (pre-checked when proposed). The **Data
-   Presentation** and **Accessibility** facets are always offered, opt-in. The human unchecks or
-   adds; only available facets run (a not-yet-available pick is reported as skipped, not failed).
-3. **Resolve the change and the run.** Resolve `change_ref` once (the diff/branch/PR under review).
-   Create the run directory with `run-context.sh` — the per-facet path is
-   `.guardtower/<run>/<facet>/findings.md`, where `<facet>` is the facet's identifier (e.g.
-   `reviewing-security`).
+2. **Resolve the change, then pre-fill the facet menu.** First resolve `change_ref` (the
+   diff/branch/PR under review) so the pre-fill can read what the change actually does. Then
+   **pre-fill** the menu instead of asking the human to pick from scratch: gather every facet's
+   `## Selection signal` — the generic, change-character predictor each facet declares beside its
+   relevance gate (see [references/facet-contract.md](references/facet-contract.md)) — and reason
+   over the change's character (*what it does*, never its file paths or types) together with the
+   step-1 tenancy/stack verdicts, to decide which facets arrive pre-checked:
+   - the four **core** facets are **pre-checked** on every run, always;
+   - each **opt-in** facet whose Selection signal matches the change's character is pre-checked,
+     erring toward inclusion — a false skip (a lens left off) is the harmful direction, while a
+     false-positive self-skips cheaply at dispatch or is unchecked by the human here;
+   - each **core-when-present** facet (the two tenant-isolation facets and
+     `reviewing-framework-best-practices`) is pre-checked when the step-1 menu-proposal gate
+     proposed it and its Selection signal matches.
+
+   When no opt-in signal clearly matches, or the change cannot be read, **fall back** to the
+   original defaults — the four core facets plus any core-when-present facet step 1 proposed — so a
+   run is **never pre-filled with fewer** facets than it would have been before auto-assignment.
+   Present the pre-filled set as a structured **multi-select choice**, using a tool to ask it where
+   one is available; the human unchecks or adds, and only available facets run (a not-yet-available
+   pick is reported as skipped, not failed). The Selection signal only pre-fills the menu — each
+   facet's own per-change relevance gate **stays authoritative** at dispatch, so a pre-checked facet
+   the change never touches self-skips there rather than producing a hollow review.
+3. **Create the run directory.** With `change_ref` already resolved in step 2, create the run
+   directory with `run-context.sh` — the per-facet path is `.guardtower/<run>/<facet>/findings.md`,
+   where `<facet>` is the facet's identifier (e.g. `reviewing-security`).
 4. **Decide fan-out vs. inline.** On a small change — roughly one file, ~20 changed lines or fewer,
    one hunk — reviewing every selected facet inline costs less than spinning up subagents; do it
    inline. Above that floor, **fan out** the selected facets in parallel, following
