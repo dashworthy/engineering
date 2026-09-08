@@ -23,10 +23,9 @@ with no confirmation is a guess about which piece of work the caller meant, and 
 wrong here means driving several tasks through tdd and code-review against the wrong plan
 before anyone notices.
 
-A plan is sometimes a **set** — `<topic>-01-<subsystem>.md`,
-`<topic>-02-<subsystem>.md`, ordered by the number in the filename. Work a set in that
-order, one plan file finished before the next one starts; a later plan in the set may
-assume something the earlier one produces.
+A run has exactly one plan file — never a numbered set. If `.engineering/<run>/plan/` holds
+more than one plan document, that is a leftover or a mistake, not a set to work in sequence;
+confirm which plan is the live one with the user rather than working them in filename order.
 
 A plan already partly checked off is a plan already in progress, not a fresh one — resume
 at its first unchecked step rather than starting over or redoing work already marked done.
@@ -165,8 +164,8 @@ the full per-task loop, not a shortcut version of it.
 
 Once the last task is checked off, report the plan's path and its final commit, then **hand off
 to `engineering:finish` now** — it carries out the finish strategy the
-plan gate already authorized (merge, PR, land the stack, or cleanup) without asking again,
-re-verifying green itself first. Deciding *how* the branch integrates is not this skill's job;
+plan gate already authorized (open a pull request, or cleanup — the pipeline never merges)
+without asking again, re-verifying green itself first. Deciding *how* the branch integrates is not this skill's job;
 reaching the skill that owns that decision is. So don't stop at the checked box and hand control
 back with a "want me to finish the branch?" — there is no gate at this seam (the plan gate
 already settled the finish strategy), the plan is complete, and finishing is the next act. Take

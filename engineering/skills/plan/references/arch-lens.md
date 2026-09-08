@@ -16,7 +16,7 @@ This review runs after the plan file is written and self-reviewed, before the pl
 human-approval step. So the plan is finished
 as a document (no placeholders, full spec coverage, consistent task shape) but has not yet
 been shown to a human. Read the plan from the path the conductor is working, or the plan
-already sitting in context. For a plan set, review each plan file in the set.
+already sitting in context.
 
 This review is not a human gate. It is a machine pass with two checks, one of which asks the
 human a narrow question per finding.

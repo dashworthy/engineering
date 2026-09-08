@@ -55,12 +55,11 @@ working dialogue, not a sign-off: a free-form escape is where a correction, a hy
 approaches, or "keep talking" lands, so the pick never traps them into one of your framings. No such
 tool: present the same options as plain text and say the run is degraded.
 
-If the work is too large to fit one spec once an approach is chosen, say so before
-presenting it, and decompose along the same line a plan set would later split
-along — the test is the one `plan` uses for a plan set: does finishing the
-first piece alone leave something working, with the second piece not yet started. A
-design that can't answer that question hasn't found its seams yet, and it isn't ready
-to present as one design.
+One approach becomes one design, one spec, and one plan — brainstorming does not split the
+work into pieces, and does not propose decomposing it into multiple specs or plans. If an
+approach looks too large to hold as a single design, that is a signal its *scope* is drawn
+too wide: narrow the approach, or raise the scope as a question for your human partner —
+never quietly break it into several designs to make it fit.
 
 ## Shape the interface when the approach turns on a boundary
 
