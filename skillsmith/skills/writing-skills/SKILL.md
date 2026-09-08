@@ -85,7 +85,7 @@ note where it actually fails — those failures are the only thing the skill nee
 Then write the least content that closes them and check the agent now succeeds. A skill
 written from imagined failures documents problems no one has; a skill written from observed
 failures earns every line. To pressure-test a finished skill — does the agent still follow
-it when rushed or second-guessing? — use the **testing-skills** skill.
+it when rushed or second-guessing? — check the **auditing-skills** pressure-test seam.
 
 ## Anti-patterns
 
