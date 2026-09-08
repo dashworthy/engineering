@@ -94,8 +94,7 @@ if [ -f "$ORCH" ]; then
   # references linked one level deep
   grep_flat "$ORCH" "references/facet-contract.md"; check $? "reviewing links references/facet-contract.md"
   grep_flat "$ORCH" "references/hard-stops.md"; check $? "reviewing links references/hard-stops.md"
-  # --- step 2 pre-fills the menu from each facet's Selection signal ---
-  grep_flat "$ORCH" "Selection signal"; check $? "reviewing step 2 gathers each facet's Selection signal"
+  # --- step 2 pre-fills the menu from the facet selection matrix ---
   grep_flat "$ORCH" "pre-fill"; check $? "reviewing step 2 pre-fills the menu"
   grep_flat "$ORCH" "fall back"; check $? "reviewing step 2 falls back when no strong signal"
   grep_flat "$ORCH" "never pre-filled with fewer"; check $? "reviewing states the never-fewer-than-today floor"
@@ -108,32 +107,25 @@ if [ -f "$CONTRACT" ]; then
   for field in change_ref artifact_path relevance findings severity confidence top_n floor; do
     grep_flat "$CONTRACT" "$field"; check $? "facet-contract names the $field field"
   done
-  # --- Selection signal section (menu pre-fill contract) ---
-  grep_flat "$CONTRACT" "Selection signal"; check $? "facet-contract documents the Selection signal section"
-  grep_flat "$CONTRACT" "character of the change"; check $? "facet-contract keys selection on the character of the change"
-  grep_flat "$CONTRACT" "a false skip is the harmful direction"; check $? "facet-contract states the bias-toward-inclusion rule"
-  grep_flat "$CONTRACT" "never a path"; check $? "facet-contract forbids path/type/glob selection signals"
-  grep_flat "$CONTRACT" "stays authoritative"; check $? "facet-contract states the relevance gate stays authoritative"
 fi
 
-# --- every facet carries a Selection signal section (menu pre-fill) ----------
-FACETS_DIR="$PLUGIN/skills/reviewing/references/facets"
-for f in reviewing-security reviewing-novelty reviewing-technical reviewing-architectural \
-         reviewing-error-handling reviewing-test-quality reviewing-data-safety reviewing-api-compat \
-         reviewing-concurrency reviewing-idempotency reviewing-numeric-precision reviewing-api-consumption \
-         reviewing-tenant-isolation-shared-db reviewing-tenant-isolation-isolated-db \
-         reviewing-framework-best-practices reviewing-data-presentation reviewing-accessibility reviewing-electron; do
-  ff="$FACETS_DIR/$f/facet.md"
-  if [ -f "$ff" ]; then
-    grep_flat "$ff" "## Selection signal"; check $? "$f declares a Selection signal section"
-  else
-    bad "$f facet.md exists"
-  fi
-done
-# content anchors — two opt-in representatives keyed on generic change-character, one core
-grep_flat "$FACETS_DIR/reviewing-concurrency/facet.md" "reachable by more than one execution at once"; check $? "concurrency Selection signal keys on concurrently-reachable work"
-grep_flat "$FACETS_DIR/reviewing-data-safety/facet.md" "destructive or irreversible data operation"; check $? "data-safety Selection signal keys on destructive/irreversible data ops"
-grep_flat "$FACETS_DIR/reviewing-security/facet.md" "pre-checked on every run"; check $? "security (core) Selection signal states it is pre-checked every run"
+# --- the facet selection matrix lives in the reviewing doc (menu pre-fill) ---
+# The signals live in ONE place the orchestrator already loads (SKILL.md), not scattered across
+# facet docs, so the pre-fill decides without reading a facet's file to guess whether to run it.
+if [ -f "$ORCH" ]; then
+  grep_flat "$ORCH" "facet selection matrix"; check $? "reviewing carries the facet selection matrix"
+  grep_flat "$ORCH" "without opening any facet's file"; check $? "matrix pre-fills without reading facet docs"
+  grep_flat "$ORCH" "Pre-check when the change"; check $? "matrix has a pre-check-when-the-change column"
+  grep_flat "$ORCH" "reachable by more than one execution at once"; check $? "matrix carries the concurrency signal (generic character)"
+  grep_flat "$ORCH" "destructive or irreversible data operation"; check $? "matrix carries the data-safety signal (generic character)"
+  grep_flat "$ORCH" "step 1 proposed it"; check $? "matrix pre-checks core-when-present facets on step-1 proposal"
+fi
+# No facet.md may re-declare a Selection signal — the matrix is the single home.
+if grep -rl '## Selection signal' "$PLUGIN/skills/reviewing/references/facets" >/dev/null 2>&1; then
+  bad "no facet.md re-declares a Selection signal (matrix is the single home)"
+else
+  ok "no facet.md re-declares a Selection signal (matrix is the single home)"
+fi
 
 # --- README/command describe the menu pre-fill (auto-assignment) -------------
 grep_flat "$PLUGIN/README.md" "pre-fill"; check $? "README describes the menu pre-fill (auto-assignment)"

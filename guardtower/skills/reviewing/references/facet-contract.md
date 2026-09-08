@@ -50,39 +50,6 @@ facet, so the discipline is tuned in one place.
 `claim` and `why` must read on their own, for a reviewer who did not write the code and holds no
 shared context.
 
-## The `## Selection signal` section — menu pre-fill
-
-Every facet file (`references/facets/<facet>/facet.md`) carries one `## Selection signal` section,
-near the top, immediately above `## The workflow` — so the signal sits directly beside the
-relevance gate it predicts (workflow step 1). It is part of this uniform contract: the orchestrator
-reads every facet's section once, at the menu-fill step, to decide which facets to **pre-check** on
-the menu before the human confirms or overrides. It is a cheap predictor, not a second gate.
-
-The rules the section obeys:
-
-- **Generic character only.** It describes the *character of the change* that warrants the facet —
-  what the change is doing, conceptually — and **never a path**, file type, extension, directory
-  name, or glob. Any such specificity would falsely skip the facet the moment a repo lays out or
-  names its files unexpectedly.
-- **Bias toward inclusion — a false skip is the harmful direction.** A facet left *off* the menu
-  means a lens never runs; a facet pre-checked that the change doesn't really touch is cheap — it
-  self-skips at dispatch, or the operator unchecks it. So the wording errs toward pre-checking when
-  a change's character plausibly warrants the lens.
-- **Pre-fill only; the relevance gate stays authoritative.** The signal decides only what the menu
-  arrives pre-checked with. The facet's own per-change relevance gate (workflow step 1) still runs
-  at dispatch and is the authoritative decision on whether the facet actually reviews — a
-  pre-checked facet the change never touches self-skips there.
-
-Two variants of the section:
-
-- **Core facets** state, in place of a character description: `Core — pre-checked on every run
-  regardless of the change's character.`
-- **Core-when-present facets** state that they are pre-checked whenever step 1's classification
-  proposed them — the proposal (a matching tenancy model or detected stack) is their selection
-  signal, not an additional character match. The upper menu-proposal gate governs whether they are
-  on the menu at all; once proposed, they pre-check exactly as they did before auto-assignment, so
-  auto-assignment never drops a facet the previous fixed default would have pre-checked.
-
 ## The artifact
 
 Each facet writes its findings to `artifact_path` as a small Markdown document: the facet name, its

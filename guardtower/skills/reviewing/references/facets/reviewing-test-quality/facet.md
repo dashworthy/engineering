@@ -23,10 +23,6 @@ behavior would change a value the test actually asserts on. Its reach is a fixed
 change's own tests and the code they cover, read against the reviewer's knowledge of how the test
 framework asserts; **no proactive whole-suite audit**, no coverage run, no execution.
 
-## Selection signal
-
-Pre-check this facet at menu-fill time when the change's character is: the change adds or alters tests, or changes behavior that existing tests are meant to exercise. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
-
 ## The workflow
 
 1. **Relevance gate — first, before any lens work.** Run the relevance gate before touching a single

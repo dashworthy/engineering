@@ -22,10 +22,6 @@ graph to prove which connection is live when a statement runs; a wrong-connectio
 shows is in reach, and what the diff does not show is an accepted blind spot, not a defect this facet
 chases.
 
-## Selection signal
-
-Pre-checked at menu-fill time whenever step 1's classification proposed this facet — the proposal (a matching tenancy model or detected stack) is this facet's selection signal, so pre-fill is not further gated on the change's character. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
-
 ## The workflow
 
 1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before

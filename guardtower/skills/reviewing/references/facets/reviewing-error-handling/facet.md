@@ -20,10 +20,6 @@ place a swallowed error might have mattered. A silent failure the change introdu
 pre-existing swallow elsewhere the diff never touches is out of scope, not a defect this facet
 chases.
 
-## Selection signal
-
-Pre-check this facet at menu-fill time when the change's character is: the change adds or alters error handling — a catch or rescue block, a fallback path, or an ignored error, rejection, or return code. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
-
 ## The workflow
 
 1. **Relevance gate — first, before any lens work.** Run the relevance gate before touching a single

@@ -20,10 +20,6 @@ dependency-graph build**. A coupling violation the change introduces at a bounda
 reach; the whole system's architecture the diff never touches is an explicit non-goal, not a defect
 this facet chases.
 
-## Selection signal
-
-Core — pre-checked on every run regardless of the change's character.
-
 ## The workflow
 
 1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before touching

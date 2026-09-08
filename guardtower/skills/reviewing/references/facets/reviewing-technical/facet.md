@@ -19,10 +19,6 @@ touches is out of scope. Reinvention of an existing capability — a framework, 
 already-imported module already providing what the change hand-rolls — is a sibling lens the
 **Novelty** facet owns; a reinvention this facet happens to notice belongs there, not here.
 
-## Selection signal
-
-Core — pre-checked on every run regardless of the change's character.
-
 ## The workflow
 
 1. **Relevance gate — first, before any lens work.** Run the relevance gate before touching a single

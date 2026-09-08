@@ -20,10 +20,6 @@ proactive** scan for every consumer of that surface; whether a given consumer is
 from the contract change itself, and finding each caller across the repo is an accepted blind spot,
 not work this facet does.
 
-## Selection signal
-
-Pre-check this facet at menu-fill time when the change's character is: the change alters a public contract others consume — an exported signature, a response shape or status, or a serialized form. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
-
 ## The workflow
 
 1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before touching

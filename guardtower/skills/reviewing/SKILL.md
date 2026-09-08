@@ -35,9 +35,10 @@ finds at least one covered framework (Laravel and Tailwind today) — and the **
 **Accessibility**, and **Electron** facets are always in the menu, opt-in and not tenancy- or
 stack-gated.
 
-Which of these arrive **pre-checked** on a given run is not a fixed default: it is decided by each
-facet's own `## Selection signal` at menu-fill time (workflow step 2), which pre-fills the menu from
-the character of the change under review. The human still confirms or overrides that pre-filled set.
+Which of these arrive **pre-checked** on a given run is not a fixed default: it is decided by the
+**facet selection matrix** below, which the orchestrator reads at menu-fill time (workflow step 2)
+to pre-fill the menu from the character of the change under review. The human still confirms or
+overrides that pre-filled set.
 
 | Facet (file) | Lens | Core? |
 |---|---|---|
@@ -60,6 +61,37 @@ the character of the change under review. The human still confirms or overrides 
 | [`reviewing-electron`](references/facets/reviewing-electron/facet.md) | Electron: process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging) | — |
 | [`reviewing-framework-best-practices`](references/facets/reviewing-framework-best-practices/facet.md) | Stack-specific idiom violations for the detected framework(s) — Laravel and Tailwind today | core-when-present |
 
+## The facet selection matrix
+
+Step 2 reads this — and only this, plus the change and step 1's verdicts — to pre-fill the menu. It
+lives here, in the orchestrator's own doc, on purpose: the pre-fill must decide *which* facets to
+run **without opening any facet's file**, so a facet's own doc is read only once it is actually
+dispatched (step 5), never merely to guess whether to run it — the review does not pay to load
+seventeen facet docs to choose the four it will use. Each signal names the **character of the
+change** the facet cares about — *what the change does* — never a path, file type, directory, or
+glob, since that would falsely skip a facet the moment a repo is laid out or named unexpectedly. Err
+toward pre-checking: a false skip (a lens left off) is the harmful direction, while a false-positive
+self-skips cheaply at dispatch — each facet's own relevance gate stays authoritative there — or the
+human unchecks it.
+
+| Facet | Pre-check when the change… |
+|---|---|
+| the four **core** facets | **always** — pre-checked on every run, whatever the change |
+| `reviewing-error-handling` | adds or alters error handling — a catch/rescue block, a fallback path, or an ignored error, rejection, or return code |
+| `reviewing-test-quality` | adds or alters tests, or changes behavior existing tests are meant to exercise |
+| `reviewing-data-safety` | alters stored-data structure or performs a destructive or irreversible data operation — a migration, a bulk update/delete, a drop |
+| `reviewing-api-compat` | alters a public contract others consume — an exported signature, a response shape or status, or a serialized form |
+| `reviewing-concurrency` | introduces work reachable by more than one execution at once — shared mutable state, a concurrent/async handler, a background job or consumer, or a lock/transaction |
+| `reviewing-idempotency` | performs a side effect that may run more than once — a retry, a queued/at-least-once handler, or a replayable operation — with no guard against duplication |
+| `reviewing-numeric-precision` | does arithmetic on exact-valued or unit-bearing quantities — money, measurements, scaled integers, or mixed units and currencies |
+| `reviewing-api-consumption` | consumes a remote/HTTP API it does not own — issuing calls, fetching, filtering, or paging over a service |
+| `reviewing-data-presentation` | alters how records are labeled or identified to a person — a list, selection, or display where distinct records could become indistinguishable |
+| `reviewing-accessibility` | alters user-facing rendered output — markup, components, or interactions affecting perceivability or operability (labels, alt text, focus, contrast, motion) |
+| `reviewing-electron` | touches an Electron process-model or security surface — renderer isolation, preload/context-bridge, IPC, navigation, shell/protocol, packaging, or the main/renderer split |
+| `reviewing-tenant-isolation-shared-db` | **step 1 proposed it** (a `shared`/`both` tenancy verdict) — pre-checked on the proposal, not further gated on the change |
+| `reviewing-tenant-isolation-isolated-db` | **step 1 proposed it** (a `per-db`/`both` tenancy verdict) — pre-checked on the proposal |
+| `reviewing-framework-best-practices` | **step 1 proposed it** (at least one covered stack detected) — pre-checked on the proposal |
+
 ## The workflow
 
 1. **Classify the tenancy model and the stack — the menu-proposal gate.** Before building the
@@ -81,21 +113,20 @@ the character of the change under review. The human still confirms or overrides 
    change that touches no tenant-scoped or stack-relevant surface, so proposing is not running.
 2. **Resolve the change, then pre-fill the facet menu.** First resolve `change_ref` (the
    diff/branch/PR under review) so the pre-fill can read what the change actually does. Then
-   **pre-fill** the menu instead of asking the human to pick from scratch: gather every facet's
-   `## Selection signal` — the generic, change-character predictor each facet declares beside its
-   relevance gate (see [references/facet-contract.md](references/facet-contract.md)) — and reason
-   over the change's character (*what it does*, never its file paths or types) together with the
-   step-1 tenancy/stack verdicts, to decide which facets arrive pre-checked:
+   **pre-fill** the menu instead of asking the human to pick from scratch: read **the facet
+   selection matrix above** and reason over the change's character (*what it does*, never its file
+   paths or types) together with the step-1 tenancy/stack verdicts, to decide which facets arrive
+   pre-checked:
    - the four **core** facets are **pre-checked** on every run, always;
-   - each **opt-in** facet whose Selection signal matches the change's character is pre-checked,
+   - each **opt-in** facet whose matrix row matches the change's character is pre-checked,
      erring toward inclusion — a false skip (a lens left off) is the harmful direction, while a
      false-positive self-skips cheaply at dispatch or is unchecked by the human here;
    - each **core-when-present** facet (the two tenant-isolation facets and
      `reviewing-framework-best-practices`) is pre-checked when the step-1 menu-proposal gate
-     proposed it — the proposal is its signal, so it is *not* further gated on the change's
+     proposed it — the proposal is its matrix signal, so it is *not* further gated on the change's
      character; a proposed facet pre-checks exactly as it did before auto-assignment.
 
-   When no opt-in signal clearly matches, or the change cannot be read, **fall back** to the
+   When no opt-in row clearly matches, or the change cannot be read, **fall back** to the
    original defaults — the four core facets plus any core-when-present facet step 1 proposed. This
    floor is a genuine guarantee, not just the fallback's: because core and step-1-proposed
    core-when-present facets are always pre-checked and auto-assignment only ever *adds* matched
@@ -103,9 +134,10 @@ the character of the change under review. The human still confirms or overrides 
    before auto-assignment.
    Present the pre-filled set as a structured **multi-select choice**, using a tool to ask it where
    one is available; the human unchecks or adds, and only available facets run (a not-yet-available
-   pick is reported as skipped, not failed). The Selection signal only pre-fills the menu — each
-   facet's own per-change relevance gate **stays authoritative** at dispatch, so a pre-checked facet
-   the change never touches self-skips there rather than producing a hollow review.
+   pick is reported as skipped, not failed). The matrix only pre-fills the menu — each facet's own
+   per-change relevance gate **stays authoritative** at dispatch, so a pre-checked facet the change
+   never touches self-skips there rather than producing a hollow review. The orchestrator opens no
+   facet's own doc to pre-fill; a facet's file is read only when it is dispatched (step 5).
 3. **Create the run directory.** With `change_ref` already resolved in step 2, create the run
    directory with `run-context.sh` — the per-facet path is `.guardtower/<run>/<facet>/findings.md`,
    where `<facet>` is the facet's identifier (e.g. `reviewing-security`).

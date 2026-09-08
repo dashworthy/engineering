@@ -22,10 +22,6 @@ the index name. Nine stacks are covered: Laravel, Tailwind, Symfony, OroCommerce
 TypeScript, JavaScript, and Backbone. A stack with no matching row in the index is out of scope
 for this facet, not silently approximated by whichever file happens to be closest.
 
-## Selection signal
-
-Pre-checked at menu-fill time whenever step 1's classification proposed this facet — the proposal (a matching tenancy model or detected stack) is this facet's selection signal, so pre-fill is not further gated on the change's character. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
-
 ## The workflow
 
 1. **Relevance gate — first, before any lens work.** Run the relevance gate before touching a

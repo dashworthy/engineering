@@ -12,10 +12,6 @@ artifact. It is **report-only**: it never edits code.
 
 This facet self-limits at the source (see `../../hard-stops.md`), under the shared `../../facet-contract.md`.
 
-## Selection signal
-
-Core — pre-checked on every run regardless of the change's character.
-
 ## The workflow
 
 1. **Relevance gate — first, before any lens work.** Run the relevance gate before touching a single

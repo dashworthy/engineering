@@ -22,10 +22,6 @@ elsewhere in the codebase and the change never touches is an accepted blind spot
 this facet chases. The surface is transport-general: any code that calls a remote API this way
 counts — a browser/front-end client and a backend service calling a third-party API alike.
 
-## Selection signal
-
-Pre-check this facet at menu-fill time when the change's character is: the change consumes a remote or HTTP API it does not own — issuing calls, fetching, filtering, or paging over a service. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
-
 ## The workflow
 
 1. **Relevance gate — first, before any lens work.** Run the relevance gate before touching a
