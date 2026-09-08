@@ -56,11 +56,12 @@ never "$S" "gh pr merge"                                 "skill: never issues a 
 W="$PLUGIN/skills/plan/SKILL.md"
 need "$W" "PR strategy: stacked"                         "plan: stacked strategy marker"
 need "$W" "using-stacked-pull-requests"                  "plan: names the skill"
-need "$W" "not eligible for"                             "plan: parallel-mode exclusion"
 need "$W" "submit the stacked PR"                        "plan: per-task submit step"
 need "$W" "starts the task's stacked branch off the previous task's branch" "plan: per-task opening branch-start step"
-need "$W" "decided at plan-writing time"                "plan: strategy chosen at plan time"
-need "$W" "Stacked mode is opt-in per plan"             "plan: opt-in, non-stacked unchanged"
+need  "$W" "Every plan ships as a"                        "plan: every plan is stacked, no single-PR option"
+need  "$W" "there is no parallel fan-out"                "plan: stacking is linear, no parallel fan-out"
+never "$W" "opt-in per plan"                             "plan: stacking is mandatory, not opt-in"
+never "$W" "Single PR at the end"                        "plan: no single-PR alternative offered"
 
 # --- build honors the strategy -------------------------------------
 E="$PLUGIN/skills/build/SKILL.md"

@@ -1,6 +1,6 @@
 ---
 name: using-parallel-agents
-description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive, distinct from a phase's own plan-scoped subagent mode."
+description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive — for example, build's review protocol uses it to fan out sub-reviewers per axis."
 ---
 
 # Using Parallel Agents
