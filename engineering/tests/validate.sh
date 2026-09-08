@@ -52,6 +52,28 @@ assert e["version"]==pv, f'marketplace version {e["version"]!r} != plugin.json {
 PY
 check $? "marketplace engineering entry version matches plugin.json"
 
+# --- review lenses (orchestrator + three lens references) --------------------
+# review-protocol.md is an orchestrator that fans out one subagent per lens; each lens's
+# own judgement lives in its own reference under references/lenses/.
+LENSES="$PLUGIN/skills/build/references/lenses"
+for lens in standards spec eli5; do
+  [ -f "$LENSES/$lens.md" ]; check $? "review lens $lens.md exists"
+done
+RP="$PLUGIN/skills/build/references/review-protocol.md"
+[ -f "$RP" ]; check $? "review-protocol.md exists (orchestrator)"
+if [ -f "$RP" ]; then
+  for lens in standards spec eli5; do
+    grep_flat "$RP" "$lens"; check $? "orchestrator names the $lens lens"
+  done
+  grep_flat "$RP" "using-parallel-agents"; check $? "orchestrator fans out via using-parallel-agents"
+  grep_flat "$RP" "inline"; check $? "orchestrator keeps the small-diff inline floor"
+fi
+if [ -f "$LENSES/eli5.md" ]; then
+  grep_flat "$LENSES/eli5.md" "when in doubt, leave it"; check $? "eli5 lens keeps the untouchable-prose rule"
+  grep_flat "$LENSES/eli5.md" "public symbol"; check $? "eli5 lens flags a missing docblock on a public symbol"
+  grep_flat "$LENSES/eli5.md" "never author, edit, or propose"; check $? "eli5 lens is prose-only (never structured tags)"
+fi
+
 # --- references --------------------------------------------------------------
 
 REF="$PLUGIN/skills/document/references"
