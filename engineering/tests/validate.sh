@@ -271,4 +271,25 @@ grep_flat "$SF" "## 0. ELI5"; check $? "SPEC-FORMAT carries the section-0 ELI5 s
 SSK="$PLUGIN/skills/spec/SKILL.md"
 grep_flat "$SSK" "ELI5"; check $? "spec conductor names the ELI5 section"
 
+# --- code-review: opt-in deep review with three findings routes --------------
+# The deep-review orchestrator folded in from guardtower is report-only, but after reconciling it
+# puts the fate of the findings to the human: keep them local, post them to the PR, or hand them to
+# the fix pipeline. Guard the skill exists, still edits nothing, and wires all three routes — the
+# hand-off target most of all, since that is the piece this fold added.
+CR="$PLUGIN/skills/code-review/SKILL.md"
+[ -f "$CR" ]; check $? "skills/code-review/SKILL.md exists"
+if [ -f "$CR" ]; then
+  grep -q '^name: code-review$' "$CR"; check $? "code-review frontmatter names itself"
+  grep_flat "$CR" "run-context.sh"; check $? "code-review derives its run directory via run-context.sh"
+  grep_flat "$CR" ".engineering/<run>/"; check $? "code-review writes under the engineering run directory"
+  ! grep_flat "$CR" ".guardtower"; check $? "code-review leaves no .guardtower path behind"
+  grep_flat "$CR" "Report locally"; check $? "code-review offers the report-locally route"
+  grep_flat "$CR" "Post to the PR"; check $? "code-review offers the post-to-PR route"
+  grep_flat "$CR" "engineering:receiving-code-review"; check $? "code-review hands findings off to receiving-code-review"
+  grep_flat "$CR" "never edits code"; check $? "code-review states it never edits code even when routing findings onward"
+  # The routing choice is left to the harness, like the plan and receiving-code-review gates — no
+  # skill may hard-code Claude Code's question tool.
+  ! grep_flat "$CR" "AskUserQuestion"; check $? "code-review names no harness-specific question tool"
+fi
+
 exit $fail
