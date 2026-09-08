@@ -25,6 +25,10 @@ already-imported helper is in reach; a bespoke helper that lives elsewhere in th
 change never imports is an accepted blind spot, not a defect this facet chases — chasing it would
 mean the repo-wide scan the token budget rules out.
 
+## Selection signal
+
+Core — pre-checked on every run regardless of the change's character.
+
 ## The workflow
 
 1. **Relevance gate — first, before any lens work.** Run the relevance gate before touching a single

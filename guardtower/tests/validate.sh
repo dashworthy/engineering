@@ -110,6 +110,25 @@ if [ -f "$CONTRACT" ]; then
   grep_flat "$CONTRACT" "stays authoritative"; check $? "facet-contract states the relevance gate stays authoritative"
 fi
 
+# --- every facet carries a Selection signal section (menu pre-fill) ----------
+FACETS_DIR="$PLUGIN/skills/reviewing/references/facets"
+for f in reviewing-security reviewing-novelty reviewing-technical reviewing-architectural \
+         reviewing-error-handling reviewing-test-quality reviewing-data-safety reviewing-api-compat \
+         reviewing-concurrency reviewing-idempotency reviewing-numeric-precision reviewing-api-consumption \
+         reviewing-tenant-isolation-shared-db reviewing-tenant-isolation-isolated-db \
+         reviewing-framework-best-practices reviewing-data-presentation reviewing-accessibility reviewing-electron; do
+  ff="$FACETS_DIR/$f/facet.md"
+  if [ -f "$ff" ]; then
+    grep_flat "$ff" "## Selection signal"; check $? "$f declares a Selection signal section"
+  else
+    bad "$f facet.md exists"
+  fi
+done
+# content anchors — two opt-in representatives keyed on generic change-character, one core
+grep_flat "$FACETS_DIR/reviewing-concurrency/facet.md" "reachable by more than one execution at once"; check $? "concurrency Selection signal keys on concurrently-reachable work"
+grep_flat "$FACETS_DIR/reviewing-data-safety/facet.md" "destructive or irreversible data operation"; check $? "data-safety Selection signal keys on destructive/irreversible data ops"
+grep_flat "$FACETS_DIR/reviewing-security/facet.md" "pre-checked on every run"; check $? "security (core) Selection signal states it is pre-checked every run"
+
 STOPS="$PLUGIN/skills/reviewing/references/hard-stops.md"
 [ -f "$STOPS" ]; check $? "reviewing/references/hard-stops.md exists"
 if [ -f "$STOPS" ]; then

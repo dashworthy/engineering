@@ -19,6 +19,10 @@ operations behave. It does **no proactive** data-flow graph or table-usage scan 
 statement touches or who else reads the data; a destructive operation the diff shows is in reach, and
 what the diff does not show is an accepted blind spot, not a defect this facet chases.
 
+## Selection signal
+
+Pre-check this facet at menu-fill time when the change's character is: the change alters stored-data structure or performs a destructive or irreversible data operation — a migration, a bulk update or delete, a drop. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
+
 ## The workflow
 
 1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before touching

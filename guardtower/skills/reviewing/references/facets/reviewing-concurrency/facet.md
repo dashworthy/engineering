@@ -22,6 +22,10 @@ read against the reviewer's knowledge of how the language and runtime schedule c
 is in reach, and a pre-existing race elsewhere the diff never touches is an accepted blind spot, not a
 defect this facet chases.
 
+## Selection signal
+
+Pre-check this facet at menu-fill time when the change's character is: the change introduces work reachable by more than one execution at once — shared mutable state, a concurrent or async handler, a background job or consumer, or a lock or transaction primitive. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
+
 ## The workflow
 
 1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before touching

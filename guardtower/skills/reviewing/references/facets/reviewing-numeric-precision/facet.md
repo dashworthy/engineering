@@ -22,6 +22,10 @@ repo-wide hunt for every unsafe numeric expression in the system; a precision or
 introduces is in reach, and a pre-existing one elsewhere the diff never touches is an accepted blind
 spot, not a defect this facet chases.
 
+## Selection signal
+
+Pre-check this facet at menu-fill time when the change's character is: the change performs arithmetic on exact-valued or unit-bearing quantities — money, measurements, scaled integers, or mixed units and currencies. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
+
 ## The workflow
 
 1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before touching

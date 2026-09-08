@@ -21,6 +21,10 @@ identify its record. It does **no proactive** crawl of the whole UI or the data 
 two records can collide; an ambiguous rendering the diff shows is in reach, and what the diff does not
 show is an accepted blind spot, not a defect this facet chases.
 
+## Selection signal
+
+Pre-check this facet at menu-fill time when the change's character is: the change alters how records are labeled or identified to a person — a list, selection, or display where distinct records could become indistinguishable. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
+
 ## The workflow
 
 1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before

@@ -23,6 +23,10 @@ does **no proactive** repo-wide hunt for every non-idempotent path in the system
 change makes unsafe to repeat is in reach, and a pre-existing one elsewhere the diff never touches is an
 accepted blind spot, not a defect this facet chases.
 
+## Selection signal
+
+Pre-check this facet at menu-fill time when the change's character is: the change performs a side effect that may run more than once — a retry, a queued or at-least-once handler, or a replayable operation — with no guard against duplication. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
+
 ## The workflow
 
 1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before touching

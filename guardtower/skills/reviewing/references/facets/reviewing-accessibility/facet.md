@@ -24,6 +24,10 @@ barrier exists; an inaccessible rendering the diff shows is in reach, and what t
 show is an accepted blind spot, not a defect this facet chases. It reasons **statically** about
 the markup in front of it — it does not run axe-core, a browser, a linter, or any scanner.
 
+## Selection signal
+
+Pre-check this facet at menu-fill time when the change's character is: the change alters user-facing rendered output — markup, components, or interactions affecting perceivability or operability, such as labels, alt text, focus, contrast, or motion. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
+
 ## The workflow
 
 1. **Relevance gate — first, before any lens work, and sharp.** Run the relevance gate before
