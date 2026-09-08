@@ -141,35 +141,25 @@ and before the task hands off to the next one (or, in a stacked plan, to its own
 The commit of that clarification, and — in a stacked plan — the submit-PR step, follow it (see
 PR strategy).
 
-## PR strategy
+## PR strategy — always stacked
 
-Most plans ship as a single pull request opened at the end. Some plans instead ship as a
-*stack* — one pull request per task, each based on the branch of the task before it — so a
-reviewer can approve and land the tasks in order rather than reading the whole change at
-once. Which one a plan uses is decided at plan-writing time, not left to whoever executes
-it — and it is decided by **asking**: put it to your human partner as a single structured
-choice, using a tool to ask it where one is available (**Single PR at the end** (Recommended), or **Stacked — one PR per task**), and
-do not finalize the plan until they choose. No such tool, or a headless run: present the two
-options as plain text, say the run is degraded, and wait for an explicit typed choice. This is a required gate, not a default you may
-assume: even when the spec or the caller seems to imply one, confirm it through the question
-rather than reading it off silently.
+Every plan ships as a **stack**: one pull request per task, each based on the branch of the
+task before it, so a reviewer can approve and land the tasks in order rather than reading the
+whole change at once. This is not a choice put to anyone — there is no single-PR alternative
+and no question to ask. Stacking is how the pipeline ships work, every plan, every run.
 
-When the plan is stacked, record it in the plan's Global Constraints as a single line —
+Record it in the plan's Global Constraints as a single line —
 `PR strategy: stacked (one PR per task, via engineering:using-stacked-pull-requests)` — so
-every downstream skill reads the same marker. State in that same section that a stacked
-plan is **not eligible for** `build`'s subagent parallel mode: stacking is linear,
-each task's branch is based on the one before it, so the tasks run sequentially and cannot
-fan out across parallel agents.
+every downstream skill reads the same marker.
 
-A stacked plan also changes the shape of each task. In addition to the ordinary steps, a
-stacked task **opens** with a step that starts the task's stacked branch off the previous
-task's branch — or off the trunk, for the first task, which has no previous task — (before
-any of the task's commits land), and **closes**, after the commit step and the docblock-clarity
-step (see Each task's closing steps), with a step to **submit the stacked PR** for the task via
-`engineering:using-stacked-pull-requests`.
+Stacking shapes each task. In addition to the ordinary steps, every task **opens** with a step
+that starts the task's stacked branch off the previous task's branch — or off the trunk, for the
+first task, which has no previous task — (before any of the task's commits land), and **closes**,
+after the commit step and the docblock-clarity step (see Each task's closing steps), with a step
+to **submit the stacked PR** for the task via `engineering:using-stacked-pull-requests`.
 
-Leave non-stacked plans exactly as they are: no PR-strategy line, no per-task branch or
-submit steps, the single-PR-at-the-end flow unchanged. Stacked mode is opt-in per plan.
+Because the stack is linear — each task's branch is based on the one before it — the tasks run
+**sequentially**, one after another; there is no parallel fan-out of tasks in a build.
 
 ## One spec, one plan — no splitting
 

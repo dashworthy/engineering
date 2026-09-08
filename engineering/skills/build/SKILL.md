@@ -16,12 +16,16 @@ on the plan gets marked done without going through the cycle the plan was writte
 
 ## Finding the plan
 
-Accept a plan path directly if the caller supplied one. Without one, look in
-`.engineering/<run>/plan/` for the most recently
-written plan and confirm it with the user before starting; a plan chosen by file mtime
-with no confirmation is a guess about which piece of work the caller meant, and guessing
-wrong here means driving several tasks through tdd and code-review against the wrong plan
-before anyone notices.
+Accept a plan path directly if the caller supplied one. When `plan` hands off in the same run —
+`.engineering/.current-run` resolves and its `.engineering/<run>/plan/APPROVED.md` marker is
+present — take that run's plan and start: the plan gate just approved it, so re-confirming which
+plan to build would only re-ask a question already answered. There is no second gate at this
+seam; proceed without a fresh prompt.
+
+Only when the plan is **ambiguous** — this skill was invoked cold, with no active run and no
+path supplied, so the plan would be chosen by file mtime — confirm which plan with the user
+before starting. Guessing wrong there means driving several tasks through tdd and code-review
+against the wrong plan before anyone notices; a same-run handoff carries no such ambiguity.
 
 A run has exactly one plan file — never a numbered set. If `.engineering/<run>/plan/` holds
 more than one plan document, that is a leftover or a mistake, not a set to work in sequence;
@@ -73,9 +77,8 @@ bookkeeping — the todo list is how a long, unattended run stays legible, to yo
 and to the human reading along. A plan worked without a todo list is a plan whose progress lives only in your head and the
 plan file's checkboxes, and the two drift the moment anything goes sideways.
 
-Keep the list and the plan in lockstep as you go: in the sequential loop exactly one task is
-`in_progress` at a time (a fanned-out stretch in subagent mode may hold several at once — one per
-dispatched task in flight), each task is marked `completed` the instant its box is checked, and
+Keep the list and the plan in lockstep as you go: exactly one task is
+`in_progress` at a time, each task is marked `completed` the instant its box is checked, and
 nothing is marked done before it actually is. A resumed run rebuilds the list from the plan's checked and unchecked tasks before
 starting, so the todo list picks up where the plan left off rather than starting empty. The
 per-task loop below names where each transition happens.
@@ -115,12 +118,11 @@ Then move to the next task.
 
 ## Stacked plans (PR strategy)
 
-Before starting, read the plan's Global Constraints for a **PR strategy** line. Most plans
-have none — they ship as one pull request at the end, and nothing here changes. When the line
-says `PR strategy: stacked`, two things follow for execution.
+Every plan carries a `PR strategy: stacked` line in its Global Constraints — the pipeline ships
+work only as stacks (see `plan`). Two things follow for execution.
 
-First, a stacked plan runs **sequentially** — task by task, in order — and this skill does
-not offer subagent parallel mode for it, regardless of whether the tasks' files look disjoint.
+First, a stacked plan runs **sequentially** — task by task, in order. The stack is linear, so
+tasks cannot fan out across parallel agents; there is no subagent parallel mode.
 
 Second, a stacked plan's tasks carry extra steps the plan author already wrote: a step at the
 top that starts the task's stacked branch off the previous task's branch, and a step at the
@@ -129,22 +131,6 @@ bottom that submits the task's stacked PR. Honor those steps as written — they
 skill adds no PR logic of its own beyond running the plan's steps in order. Run a task's
 opening step before its commit steps, so its commits land on that task's own branch rather
 than the previous task's by accident.
-
-## Subagent-driven mode
-
-The loop above is sequential by default. Some plans, or some stretches of tasks inside a plan,
-aren't bound to that: a run of tasks that touch disjoint files and neither reads what the other
-produces can be worked in parallel instead of one at a time, without changing anything about
-what each task still owes — its own tdd cycle, its own code-review gate, its own box, its own
-commit.
-
-Offer this mode rather than assuming it — ask before fanning a stretch of tasks out, don't
-default to it. When the user takes it, identify the run of genuinely independent tasks (no
-task in the run reads a file another one in the same run writes) and follow
-`using-parallel-agents` for how the fan-out and the return are structured; that skill
-owns the mechanics of splitting independent work across agents and bringing the results
-back — this skill supplies which tasks qualify and what each dispatched worker still owes:
-the full per-task loop, not a shortcut version of it.
 
 ## What this does not do
 
