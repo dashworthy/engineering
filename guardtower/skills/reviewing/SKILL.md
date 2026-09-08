@@ -22,39 +22,49 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 
 Eighteen facets exist; each is one lens, defined in a reference file under
 [references/facets/](references/facets/) (`references/facets/<facet>/facet.md`), and dispatched as
-an independent reviewer — not a standalone skill. The four **core** facets (**Security**,
-**Novelty**, **Technical**, **Architectural**) are pre-checked by default; eight additional facets (**Error Handling
-& Resilience**, **Test Quality**, **Data & Migration Safety**, **API & Backward Compatibility**,
-**Concurrency & Race Safety**, **Idempotency & Retry Safety**, **Numeric Precision & Units**,
-**API Consumption**) are
-selectable per run; two **tenant-isolation** facets are **core-when-present** — proposed and
-pre-checked only when the repo-level detection step finds the matching tenancy model (see the
-menu-proposal step in the workflow); the **Framework Best Practices** facet is likewise
-**core-when-present** — proposed and pre-checked only when the repo-level stack classification
-finds at least one covered framework (Laravel and Tailwind today) — and the **Data Presentation**,
-**Accessibility**, and **Electron** facets are always in the menu, opt-in and not tenancy- or
-stack-gated.
+an independent reviewer — not a standalone skill. Eight **core** facets — **Security**, **Novelty**,
+**Technical**, **Architectural**, **Error Handling & Resilience**, **Test Quality**, **Concurrency &
+Race Safety**, and **Numeric Precision & Units** — are **always** pre-checked, whatever the change.
+The remaining opt-in facets are pre-checked only when the change's character matches, per the
+**Pre-check when the change…** column of the facet list below. Two **tenant-isolation** facets and
+the **Framework Best Practices** facet are **core-when-present** — pre-checked only when the
+repo-level menu-proposal step (workflow step 1) proposes them: the matching tenancy model, or at
+least one covered framework (Laravel and Tailwind today). **Data Presentation**, **Accessibility**,
+and **Electron** are opt-in, pre-checked by the same character match as the other opt-in facets.
 
-| Facet (file) | Lens | Core? |
+Which of these arrive **pre-checked** on a given run is not a fixed default: it is decided by the
+**Pre-check when the change…** column of the facet list below, which the orchestrator reads at
+menu-fill time (workflow step 2) to pre-fill the menu from the character of the change under review.
+Keeping the pre-check condition in the facet list itself — the orchestrator's own doc, already
+loaded — lets the pre-fill decide **without opening any facet's file**; a facet's own doc is read
+only once that facet is actually dispatched (step 5), never merely to guess whether to run it, so a
+review does not pay to load seventeen facet docs to choose the ones it will use. The condition names
+the **character of the change** — *what the change does* — never a path, file type, directory, or
+glob, since that would falsely skip a facet the moment a repo is laid out or named unexpectedly. Err
+toward pre-checking: a false skip (a lens left off) is the harmful direction, while a false-positive
+self-skips cheaply at dispatch — each facet's own relevance gate stays authoritative there — or the
+human unchecks it. The human still confirms or overrides the pre-filled set.
+
+| Facet (file) | Lens | Pre-check when the change… |
 |---|---|---|
-| [`reviewing-security`](references/facets/reviewing-security/facet.md) | OWASP best practices; authorization enforced, not assumed | core |
-| [`reviewing-novelty`](references/facets/reviewing-novelty/facet.md) | Reuse over reinvention: reinventing what the framework, standard library, a depended-on library, or an already-imported module already provides | core |
-| [`reviewing-technical`](references/facets/reviewing-technical/facet.md) | Inefficient data access (N+1, unbounded queries); correctness-scoped best practice | core |
-| [`reviewing-architectural`](references/facets/reviewing-architectural/facet.md) | Sustainable architecture: coupling, dependency direction, cohesion, leaky abstractions | core |
-| [`reviewing-error-handling`](references/facets/reviewing-error-handling/facet.md) | Silent failures, swallowed exceptions, bad fallbacks | — |
-| [`reviewing-test-quality`](references/facets/reviewing-test-quality/facet.md) | Do tests exercise the change and fail if it breaks? | — |
-| [`reviewing-data-safety`](references/facets/reviewing-data-safety/facet.md) | Destructive/irreversible ops, migrations, data loss | — |
-| [`reviewing-api-compat`](references/facets/reviewing-api-compat/facet.md) | Breaking changes to public contracts | — |
-| [`reviewing-concurrency`](references/facets/reviewing-concurrency/facet.md) | Race conditions and unsafe interleaving: check-then-act, non-atomic read-modify-write, missing lock/transaction | — |
-| [`reviewing-idempotency`](references/facets/reviewing-idempotency/facet.md) | Side effects unsafe to run twice: no idempotency key, non-idempotent retry, duplicate on replay | — |
-| [`reviewing-numeric-precision`](references/facets/reviewing-numeric-precision/facet.md) | Precision and unit defects: float for money, silent rounding, unit mismatch, overflow, lossy cast | — |
-| [`reviewing-api-consumption`](references/facets/reviewing-api-consumption/facet.md) | Remote/HTTP API consumption: over-fetch, doing the API's filtering client-side, excessive call volume, 429 rate-limit safety | — |
-| [`reviewing-tenant-isolation-shared-db`](references/facets/reviewing-tenant-isolation-shared-db/facet.md) | Cross-tenant leaks in a single-DB / shared-schema app: a query that lost its tenant scope | core-when-present |
-| [`reviewing-tenant-isolation-isolated-db`](references/facets/reviewing-tenant-isolation-isolated-db/facet.md) | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | core-when-present |
-| [`reviewing-data-presentation`](references/facets/reviewing-data-presentation/facet.md) | Identity-ambiguous presentation: distinct records a person can't tell apart | — |
-| [`reviewing-accessibility`](references/facets/reviewing-accessibility/facet.md) | Accessibility: perceivability & operability — alt text, labels, ARIA/semantics, keyboard/focus, contrast, reduced-motion, live-region announcements | — |
-| [`reviewing-electron`](references/facets/reviewing-electron/facet.md) | Electron: process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging) | — |
-| [`reviewing-framework-best-practices`](references/facets/reviewing-framework-best-practices/facet.md) | Stack-specific idiom violations for the detected framework(s) — Laravel and Tailwind today | core-when-present |
+| [`reviewing-security`](references/facets/reviewing-security/facet.md) | OWASP best practices; authorization enforced, not assumed | **Always** (core) |
+| [`reviewing-novelty`](references/facets/reviewing-novelty/facet.md) | Reuse over reinvention: reinventing what the framework, standard library, a depended-on library, or an already-imported module already provides | **Always** (core) |
+| [`reviewing-technical`](references/facets/reviewing-technical/facet.md) | Inefficient data access (N+1, unbounded queries); correctness-scoped best practice | **Always** (core) |
+| [`reviewing-architectural`](references/facets/reviewing-architectural/facet.md) | Sustainable architecture: coupling, dependency direction, cohesion, leaky abstractions | **Always** (core) |
+| [`reviewing-error-handling`](references/facets/reviewing-error-handling/facet.md) | Silent failures, swallowed exceptions, bad fallbacks | **Always** (core) |
+| [`reviewing-test-quality`](references/facets/reviewing-test-quality/facet.md) | Do tests exercise the change and fail if it breaks? | **Always** (core) |
+| [`reviewing-data-safety`](references/facets/reviewing-data-safety/facet.md) | Destructive/irreversible ops, migrations, data loss | alters stored-data structure or performs a destructive or irreversible data operation — a migration, a bulk update/delete, a drop |
+| [`reviewing-api-compat`](references/facets/reviewing-api-compat/facet.md) | Breaking changes to public contracts | alters a public contract others consume — an exported signature, a response shape or status, or a serialized form |
+| [`reviewing-concurrency`](references/facets/reviewing-concurrency/facet.md) | Race conditions and unsafe interleaving: check-then-act, non-atomic read-modify-write, missing lock/transaction | **Always** (core) |
+| [`reviewing-idempotency`](references/facets/reviewing-idempotency/facet.md) | Side effects unsafe to run twice: no idempotency key, non-idempotent retry, duplicate on replay | performs a side effect that may run more than once — a retry, a queued/at-least-once handler, or a replayable operation — with no guard against duplication |
+| [`reviewing-numeric-precision`](references/facets/reviewing-numeric-precision/facet.md) | Precision and unit defects: float for money, silent rounding, unit mismatch, overflow, lossy cast | **Always** (core) |
+| [`reviewing-api-consumption`](references/facets/reviewing-api-consumption/facet.md) | Remote/HTTP API consumption: over-fetch, doing the API's filtering client-side, excessive call volume, 429 rate-limit safety | consumes a remote/HTTP API it does not own — issuing calls, fetching, filtering, or paging over a service |
+| [`reviewing-tenant-isolation-shared-db`](references/facets/reviewing-tenant-isolation-shared-db/facet.md) | Cross-tenant leaks in a single-DB / shared-schema app: a query that lost its tenant scope | When **step 1 proposed it** (a `shared`/`both` tenancy verdict) — on the proposal, not further gated on the change |
+| [`reviewing-tenant-isolation-isolated-db`](references/facets/reviewing-tenant-isolation-isolated-db/facet.md) | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | When **step 1 proposed it** (a `per-db`/`both` tenancy verdict) — on the proposal |
+| [`reviewing-data-presentation`](references/facets/reviewing-data-presentation/facet.md) | Identity-ambiguous presentation: distinct records a person can't tell apart | alters how records are labeled or identified to a person — a list, selection, or display where distinct records could become indistinguishable |
+| [`reviewing-accessibility`](references/facets/reviewing-accessibility/facet.md) | Accessibility: perceivability & operability — alt text, labels, ARIA/semantics, keyboard/focus, contrast, reduced-motion, live-region announcements | alters user-facing rendered output — markup, components, or interactions affecting perceivability or operability (labels, alt text, focus, contrast, motion) |
+| [`reviewing-electron`](references/facets/reviewing-electron/facet.md) | Electron: process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging) | touches an Electron process-model or security surface — renderer isolation, preload/context-bridge, IPC, navigation, shell/protocol, packaging, or the main/renderer split |
+| [`reviewing-framework-best-practices`](references/facets/reviewing-framework-best-practices/facet.md) | Stack-specific idiom violations for the detected framework(s) — Laravel and Tailwind today | When **step 1 proposed it** (at least one covered stack detected) — on the proposal |
 
 ## The workflow
 
@@ -75,17 +85,37 @@ stack-gated.
    This is the upper of guardtower's **two-gate** model: a repo-level menu-proposal gate that sits
    *above* each facet's own per-change relevance gate — a proposed facet still self-skips on a
    change that touches no tenant-scoped or stack-relevant surface, so proposing is not running.
-2. **Pick the facets.** Present the facet menu as a structured multi-select choice, using a tool to
-   ask it where one is available, with the
-   four **core** facets **pre-checked**, plus any tenant-isolation facet the menu-proposal step
-   above proposed (pre-checked when proposed), plus `reviewing-framework-best-practices` when the
-   stack classification found at least one match (pre-checked when proposed). The **Data
-   Presentation** and **Accessibility** facets are always offered, opt-in. The human unchecks or
-   adds; only available facets run (a not-yet-available pick is reported as skipped, not failed).
-3. **Resolve the change and the run.** Resolve `change_ref` once (the diff/branch/PR under review).
-   Create the run directory with `run-context.sh` — the per-facet path is
-   `.guardtower/<run>/<facet>/findings.md`, where `<facet>` is the facet's identifier (e.g.
-   `reviewing-security`).
+2. **Resolve the change, then pre-fill the facet menu.** First resolve `change_ref` (the
+   diff/branch/PR under review) so the pre-fill can read what the change actually does. Then
+   **pre-fill** the menu instead of asking the human to pick from scratch: read the **Pre-check when
+   the change…** column of the facet list above and reason over the change's character (*what it
+   does*, never its file paths or types) together with the step-1 tenancy/stack verdicts, to decide
+   which facets arrive pre-checked:
+   - the **core** facets (the eight marked **Always** in the list) are **pre-checked** on every run,
+     whatever the change;
+   - each **opt-in** facet whose list entry matches the change's character is pre-checked,
+     erring toward inclusion — a false skip (a lens left off) is the harmful direction, while a
+     false-positive self-skips cheaply at dispatch or is unchecked by the human here;
+   - each **core-when-present** facet (the two tenant-isolation facets and
+     `reviewing-framework-best-practices`) is pre-checked when the step-1 menu-proposal gate
+     proposed it — the proposal is its list entry, so it is *not* further gated on the change's
+     character; a proposed facet pre-checks exactly as it did before auto-assignment.
+
+   When no opt-in entry clearly matches, or the change cannot be read, **fall back** to the
+   original defaults — the core facets plus any core-when-present facet step 1 proposed. This
+   floor is a genuine guarantee, not just the fallback's: because core and step-1-proposed
+   core-when-present facets are always pre-checked and auto-assignment only ever *adds* matched
+   opt-in facets on top, a run is **never pre-filled with fewer** facets than it would have been
+   before auto-assignment.
+   Present the pre-filled set as a structured **multi-select choice**, using a tool to ask it where
+   one is available; the human unchecks or adds, and only available facets run (a not-yet-available
+   pick is reported as skipped, not failed). The facet list only pre-fills the menu — each facet's
+   own per-change relevance gate **stays authoritative** at dispatch, so a pre-checked facet the
+   change never touches self-skips there rather than producing a hollow review. The orchestrator
+   opens no facet's own doc to pre-fill; a facet's file is read only when it is dispatched (step 5).
+3. **Create the run directory.** With `change_ref` already resolved in step 2, create the run
+   directory with `run-context.sh` — the per-facet path is `.guardtower/<run>/<facet>/findings.md`,
+   where `<facet>` is the facet's identifier (e.g. `reviewing-security`).
 4. **Decide fan-out vs. inline.** On a small change — roughly one file, ~20 changed lines or fewer,
    one hunk — reviewing every selected facet inline costs less than spinning up subagents; do it
    inline. Above that floor, **fan out** the selected facets in parallel, following
