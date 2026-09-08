@@ -7,9 +7,10 @@ Three entrances open the work — `engineering:signal` (discovery, for a feature
 `engineering:receiving-code-review` (for received review feedback). Each is a skill, invoked
 at the start of the work. All three pass through a design dialogue that recommends
 an approach, then a spec approved at the pipeline's first human-approval gate, and a plan
-approved at the second. From there the work flows through TDD build and documentation
-hardening. All artifacts are files; there is no issue-tracker integration. The pipeline
-ends at a green, documented branch — deployment and release are out of scope.
+approved at the second. From there the work flows through the TDD build, whose per-task review
+gate applies three lenses — standards, spec, and an ELI5 docblock lens. All artifacts are files;
+there is no issue-tracker integration. The pipeline ends at a green branch — deployment and
+release are out of scope.
 
 | Phase | Skill(s) |
 |---|---|
@@ -17,7 +18,7 @@ ends at a green, documented branch — deployment and release are out of scope.
 | Triage | `triage` (verify → isolate → brainstorming) |
 | Receiving review | `receiving-code-review` (aggregate → verify → brainstorming) |
 | Design | `brainstorming` (approach; shapes boundaries via `using-codebase-design`) → `spec` (write + gate) |
-| Build | `plan` → `build` → `document` → `finish` |
+| Build | `plan` → `build` → `finish` |
 
 The full pipeline diagram and phase-by-phase walk-through live in the
 [root README](../README.md).

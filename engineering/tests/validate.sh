@@ -52,19 +52,29 @@ assert e["version"]==pv, f'marketplace version {e["version"]!r} != plugin.json {
 PY
 check $? "marketplace engineering entry version matches plugin.json"
 
-# --- references --------------------------------------------------------------
-
-REF="$PLUGIN/skills/document/references"
-for f in comprehension-gate.md receipt-schema.md; do
-  [ -f "$REF/$f" ]; check $? "references/$f exists"
+# --- review lenses (orchestrator + three lens references) --------------------
+# review-protocol.md is an orchestrator that fans out one subagent per lens; each lens's
+# own judgement lives in its own reference under references/lenses/.
+LENSES="$PLUGIN/skills/build/references/lenses"
+for lens in standards spec eli5; do
+  [ -f "$LENSES/$lens.md" ]; check $? "review lens $lens.md exists"
 done
-
-if [ -f "$REF/comprehension-gate.md" ]; then
-  grep_flat "$REF/comprehension-gate.md" "Restates the signature";       check $? "gate names the restates-the-signature failure"
-  grep_flat "$REF/comprehension-gate.md" "Describes mechanism, not purpose"; check $? "gate names the mechanism failure"
-  grep_flat "$REF/comprehension-gate.md" "Machine-facing residue";       check $? "gate names the machine-residue failure"
-  grep_flat "$REF/comprehension-gate.md" "when in doubt, leave it";      check $? "gate states the leave-it default"
+RP="$PLUGIN/skills/build/references/review-protocol.md"
+[ -f "$RP" ]; check $? "review-protocol.md exists (orchestrator)"
+if [ -f "$RP" ]; then
+  for lens in standards spec eli5; do
+    grep_flat "$RP" "$lens"; check $? "orchestrator names the $lens lens"
+  done
+  grep_flat "$RP" "using-parallel-agents"; check $? "orchestrator fans out via using-parallel-agents"
+  grep_flat "$RP" "inline"; check $? "orchestrator keeps the small-diff inline floor"
 fi
+if [ -f "$LENSES/eli5.md" ]; then
+  grep_flat "$LENSES/eli5.md" "when in doubt, leave it"; check $? "eli5 lens keeps the untouchable-prose rule"
+  grep_flat "$LENSES/eli5.md" "public symbol"; check $? "eli5 lens flags a missing docblock on a public symbol"
+  grep_flat "$LENSES/eli5.md" "never author, edit, or propose"; check $? "eli5 lens is prose-only (never structured tags)"
+fi
+
+# --- references --------------------------------------------------------------
 
 DREF="$PLUGIN/skills/using-diagrams/references/diagram-rules.md"
 [ -f "$DREF" ]; check $? "using-diagrams references/diagram-rules.md exists"
@@ -72,61 +82,12 @@ if [ -f "$DREF" ]; then
   grep_flat "$DREF" "72 columns including the comment leader"; check $? "diagram rules state the width budget"
 fi
 
-if [ -f "$REF/receipt-schema.md" ]; then
-  grep_flat "$REF/receipt-schema.md" "lines_after";  check $? "receipt schema documents lines_after"
-  grep_flat "$REF/receipt-schema.md" "end_before = start - 1"; check $? "receipt schema documents the insertion form"
-fi
-
-# No language table may be reintroduced in the document phase's own files — this is
-# vernacular's invariant that it never hard-codes a language/stack table. Scoped to just the
-# document skill dir (conductor plus its references) so it checks only the code that owns it.
-if find "$PLUGIN/skills/document" -type f -exec grep -liE 'detecting-the-stack|stack-marker' {} + 2>/dev/null | grep -q .; then
-  bad "no stack-detection artefact exists in the vernacular docs skills"
-else
-  ok "no stack-detection artefact exists in the vernacular docs skills"
-fi
-
-# --- rewriter (dispatched beat, now a reference under document) ---------------
-
-REWRITER="$PLUGIN/skills/document/references/rewrite-beat.md"
-[ -f "$REWRITER" ]; check $? "document/references/rewrite-beat.md exists"
-
-if [ -f "$REWRITER" ]; then
-  head -1 "$REWRITER" | grep -qv '^---$'; check $? "rewrite beat is a reference, not a skill (no frontmatter)"
-  grep_flat "$REWRITER" "never return a description you wrote"; check $? "rewriter states the receipt-only return"
-  grep_flat "$REWRITER" "Never claim a range containing an annotation line"; check $? "rewriter states the annotation prohibition"
-  grep_flat "$REWRITER" "whole lines"; check $? "rewriter states the whole-line replacement rule"
-  grep_flat "$REWRITER" "never author a docblock where none existed"; check $? "rewriter states existing-docblocks-only scope"
-  grep_flat "$REWRITER" "flagged"; check $? "rewriter states the self-flag concession"
-fi
-
-# The verifier skill was retired in 0.5.0: vernacular defers claim-checking to the human's
-# git-diff review. Its removal is a guarded invariant, not an omission.
-[ ! -e "$PLUGIN/skills/verifying-docblock-claims" ]; check $? "retired verifier skill is absent"
-
-# --- conductor ---------------------------------------------------------------
-
-COND="$PLUGIN/skills/document/SKILL.md"
-[ -f "$COND" ]; check $? "document/SKILL.md exists"
-
-if [ -f "$COND" ]; then
-  grep -q '^name: document$' "$COND"; check $? "conductor frontmatter names itself"
-  grep_flat "$COND" "file modified relative to"; check $? "conductor states the dirty-file halt"
-  grep_flat "$COND" "never opens a source file"; check $? "conductor states the context firewall"
-  grep_flat "$COND" "restore it from"; check $? "conductor states the quarantine-and-restore path"
-  grep_flat "$COND" "Left alone"; check $? "conductor reports the left-alone count"
-  grep_flat "$COND" "run-context.sh"; check $? "conductor derives the run directory via run-context.sh"
-  # The dispatch payload must name skill_path so a subagent can resolve its own SKILL.md. One
-  # payload now (the verifier was retired in 0.5.0), so one occurrence suffices.
-  grep -c 'skill_path' "$COND" | awk '$1 >= 1 {exit 0} {exit 1}'
-  check $? "conductor names skill_path in the dispatch payload"
-  ! grep_flat "$COND" "so there is none to read"
-  check $? "conductor does not claim --unified=0 removes the diff body"
-  grep_flat "$COND" "Never run a bare"; check $? "conductor forbids the unfiltered git diff"
-  grep_flat "$COND" "no comment leader"; check $? "conductor prefilters files with no docblock"
-  grep_flat "$COND" "inline path"; check $? "conductor states the small-run inline path"
-  grep_flat "$COND" "Verify these yourself"; check $? "conductor reports rewriter self-flags"
-fi
+# --- document phase stays retired --------------------------------------------
+# The document (vernacular) phase and its byte-proof were retired: the eli5 review lens now
+# owns docblock quality, surfacing findings the build loop fixes in the diff. Guard that the
+# skill, its references, and the reconcile proof do not creep back.
+[ ! -e "$PLUGIN/skills/document" ]; check $? "retired document skill dir is absent"
+[ ! -e "$PLUGIN/scripts/reconcile.py" ]; check $? "retired reconcile.py proof is absent"
 
 # --- domain-modeling stays removed -------------------------------------------
 # A previously-removed skill; guard that it does not creep back.
@@ -211,16 +172,12 @@ personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$P
 
 # --- entry-point skills and READMEs -------------------------------------------
 
-# vernacular and implement were shallow wrappers adding nothing over document and
-# build; they were removed rather than converted, and those two skills are invoked
-# directly. Guard both directions: no wrapper skill exists, and the underlying skill still
-# carries the behavior the wrapper used to describe (the ref-resolution/two-rules discipline;
-# direct-invocation plan-finding).
+# vernacular and implement were shallow wrappers; they were removed rather than converted.
+# (The document phase vernacular once wrapped is itself now retired — see "document phase stays
+# retired" above.) Guard that neither wrapper dir creeps back.
 for wrapper in implement vernacular; do
   [ ! -e "$PLUGIN/skills/$wrapper" ]; check $? "skills/$wrapper does not exist (was a shallow wrapper)"
 done
-CDB="$PLUGIN/skills/document/SKILL.md"
-grep_flat "$CDB" "never authors a docblock"; check $? "document states the prose-only rule directly"
 
 [ -f "$PLUGIN/README.md" ]; check $? "engineering/README.md exists"
 

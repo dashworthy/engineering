@@ -129,16 +129,12 @@ Every task closes the same way, and the plan spells the closing steps out rather
 them to whoever executes it. After a task's build steps and their commits — the tree now clean —
 and before the task hands off to the next one (or, in a stacked plan, to its own PR):
 
-- **Clarify the task's docblocks.** A `- [ ]` step naming `engineering:document`
-  explicitly (the `vernacular` flow — not described around it as "tidy the comments"), run once
-  against the task's committed changes. It rewrites only the prose of docblocks the task's diff
-  already reached, proves executable code and structured annotations came out byte-identical, and
-  self-noops when the diff reaches no docblock — so it is safe to run on every task. It requires a
-  clean tree, which is why it runs after the task's work is committed, and its own rewrite is then
-  committed too, so the clarified prose is part of what a reviewer reads. This runs after the task
-  is done and before any PR is opened for it — never carried over into the next task.
+Docblock quality is **not** a separate closing step: the build phase's per-task review gate runs
+an ELI5 lens that surfaces any docblock whose prose reads badly (or a public symbol missing one)
+as a finding, which the build loop then resolves in the task's own diff — the same path every
+other review finding takes. There is no standalone documentation phase to schedule here.
 
-The commit of that clarification, and — in a stacked plan — the submit-PR step, follow it (see
+The commit of the task's work, and — in a stacked plan — the submit-PR step, follow it (see
 PR strategy).
 
 ## PR strategy — always stacked
