@@ -37,16 +37,6 @@
       }
     },
     {
-      "name": "guardtower",
-      "description": "In-depth, opt-in code review gate: a facet menu (Security, Novelty, Technical, Architectural, and more) fanned out as self-limiting reviewers that relevance-gate, cap, and floor their own findings, write a durable per-facet record under .guardtower/, and never touch your code.",
-      "version": "0.11.0",
-      "source": "./guardtower",
-      "author": {
-        "name": "Andrew Leach",
-        "email": "7387639+andyleach@users.noreply.github.com"
-      }
-    },
-    {
       "name": "verity",
       "description": "Standalone test-hardening discipline: harden an arbitrary branch via /harden — audit coverage and mutation gaps, write the missing tests, verify their integrity, and measure against thresholds, fanned out as self-limiting audit agents that write a durable run record under .verity/ and never touch application code.",
       "version": "0.1.1",

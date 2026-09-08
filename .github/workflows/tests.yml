@@ -17,7 +17,7 @@ jobs:
       matrix:
         # Each plugin that ships a self-contained foundation suite. Plugins
         # without a tests/suite.sh (laravel) are intentionally absent.
-        plugin: [engineering, guardtower, skillsmith, verity]
+        plugin: [engineering, skillsmith, verity]
     steps:
       - uses: actions/checkout@v4
 
