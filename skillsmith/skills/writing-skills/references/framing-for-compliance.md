@@ -14,7 +14,7 @@ measured. The study persuaded a model to comply with requests it was supposed to
 guardrails — not evidence that framing makes a *legitimate* instruction stick better. The two
 are different phenomena, and the second doesn't follow from the first. Treat these principles
 as plausible, mechanism-based heuristics worth testing on your own skill (see the
-**testing-skills** skill), not as a proven multiplier. Don't quote the number as proof.
+**auditing-skills** pressure-test seam), not as a proven multiplier. Don't quote the number as proof.
 
 ## Principles worth using
 
