@@ -23,7 +23,7 @@ itself, caps and floors its own findings, writes a durable record under
 /guardtower <a diff, branch, or PR to review>
 ```
 
-You're shown a facet menu **pre-filled** from the change's character (the four core facets always
+You're shown a facet menu **pre-filled** from the change's character (the core facets always
 pre-checked); you confirm or override, then guardtower fans out the selected facets and returns one
 reconciled report plus the per-facet artifacts under `.guardtower/`.
 
@@ -50,11 +50,12 @@ reconciled report plus the per-facet artifacts under `.guardtower/`.
 | **Electron** | Electron process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging). |
 | **Framework Best Practices** | Stack-specific idiom violations — Laravel, Tailwind, Symfony, OroCommerce, React, Vue, TypeScript, JavaScript, and Backbone. |
 
-This release ships **eighteen** facets — the four **core** (**Security**, **Novelty**, **Technical**,
-**Architectural**), pre-checked by default, plus **Error Handling & Resilience**, **Test Quality**,
-**Data & Migration Safety**, **API & Backward Compatibility**, **Concurrency & Race Safety**,
-**Idempotency & Retry Safety**, **Numeric Precision & Units**, and **API Consumption** — on the
-shared review spine. The
+This release ships **eighteen** facets. Eight are **core** — **Security**, **Novelty**,
+**Technical**, **Architectural**, **Error Handling & Resilience**, **Test Quality**, **Concurrency &
+Race Safety**, and **Numeric Precision & Units** — and are **always** pre-checked, whatever the
+change. The other opt-in facets — **Data & Migration Safety**, **API & Backward Compatibility**,
+**Idempotency & Retry Safety**, and **API Consumption** — are pre-checked only when the change's
+character matches (see the reviewing skill's facet list). The
 two **Tenant Isolation** facets are **proposed automatically**: guardtower classifies the repo's
 tenancy model once per run and pre-checks the matching facet (shared-DB or database-per-tenant), or
 neither when the app is single-tenant — a repo-level menu-proposal gate above each facet's own

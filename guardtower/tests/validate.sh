@@ -109,16 +109,19 @@ if [ -f "$CONTRACT" ]; then
   done
 fi
 
-# --- the facet selection matrix lives in the reviewing doc (menu pre-fill) ---
-# The signals live in ONE place the orchestrator already loads (SKILL.md), not scattered across
-# facet docs, so the pre-fill decides without reading a facet's file to guess whether to run it.
+# --- facet selection folded into the facet list in the reviewing doc (pre-fill) ---
+# The pre-check condition lives in ONE place the orchestrator already loads (SKILL.md's facet
+# list), not scattered across facet docs, so the pre-fill decides without reading a facet's file.
 if [ -f "$ORCH" ]; then
-  grep_flat "$ORCH" "facet selection matrix"; check $? "reviewing carries the facet selection matrix"
-  grep_flat "$ORCH" "without opening any facet's file"; check $? "matrix pre-fills without reading facet docs"
-  grep_flat "$ORCH" "Pre-check when the change"; check $? "matrix has a pre-check-when-the-change column"
-  grep_flat "$ORCH" "reachable by more than one execution at once"; check $? "matrix carries the concurrency signal (generic character)"
-  grep_flat "$ORCH" "destructive or irreversible data operation"; check $? "matrix carries the data-safety signal (generic character)"
-  grep_flat "$ORCH" "step 1 proposed it"; check $? "matrix pre-checks core-when-present facets on step-1 proposal"
+  grep_flat "$ORCH" "Pre-check when the change"; check $? "facet list carries the Pre-check-when column (selection folded in)"
+  grep_flat "$ORCH" "without opening any facet's file"; check $? "pre-fill decides without reading facet docs"
+  grep_flat "$ORCH" "consumes a remote/HTTP API it does not own"; check $? "facet list carries an opt-in character signal (api-consumption)"
+  grep_flat "$ORCH" "destructive or irreversible data operation"; check $? "facet list carries an opt-in character signal (data-safety)"
+  grep_flat "$ORCH" "step 1 proposed it"; check $? "core-when-present facets pre-check on step-1 proposal"
+  # the always-checked core set is the expanded eight (error-handling, test-quality, concurrency,
+  # numeric-precision promoted alongside the original four)
+  grep_flat "$ORCH" "and **Numeric Precision & Units** — are **always** pre-checked"; check $? "expanded core set is always pre-checked"
+  grep_flat "$ORCH" "**Error Handling & Resilience**, **Test Quality**, **Concurrency & Race Safety**"; check $? "error-handling, test-quality, concurrency promoted into the always-checked core"
 fi
 # No facet.md may re-declare a Selection signal — the matrix is the single home.
 if grep -rl '## Selection signal' "$PLUGIN/skills/reviewing/references/facets" >/dev/null 2>&1; then
