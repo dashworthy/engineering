@@ -23,7 +23,7 @@ this facet chases.
 
 ## Selection signal
 
-Pre-check this facet at menu-fill time when the change's character is: the change touches tenant-scoped data in a shared-schema application — a query, write, cache key, or aggregate over rows told apart by a tenant discriminator — and only when step 1's classification proposed this facet. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
+Pre-checked at menu-fill time whenever step 1's classification proposed this facet — the proposal (a matching tenancy model or detected stack) is this facet's selection signal, so pre-fill is not further gated on the change's character. Err toward pre-checking; a false skip is the harmful direction. This only pre-fills the menu — the relevance gate below stays authoritative at dispatch.
 
 ## The workflow
 

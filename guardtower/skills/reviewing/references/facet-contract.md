@@ -77,9 +77,11 @@ Two variants of the section:
 
 - **Core facets** state, in place of a character description: `Core — pre-checked on every run
   regardless of the change's character.`
-- **Core-when-present facets** add to their character description: `…and only when step 1's
-  classification proposed this facet.` (The upper menu-proposal gate still governs whether they are
-  on the menu at all.)
+- **Core-when-present facets** state that they are pre-checked whenever step 1's classification
+  proposed them — the proposal (a matching tenancy model or detected stack) is their selection
+  signal, not an additional character match. The upper menu-proposal gate governs whether they are
+  on the menu at all; once proposed, they pre-check exactly as they did before auto-assignment, so
+  auto-assignment never drops a facet the previous fixed default would have pre-checked.
 
 ## The artifact
 

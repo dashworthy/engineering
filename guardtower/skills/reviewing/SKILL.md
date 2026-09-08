@@ -23,7 +23,7 @@ decides a change is worth a deep look and runs it; nothing here watches for chan
 Eighteen facets exist; each is one lens, defined in a reference file under
 [references/facets/](references/facets/) (`references/facets/<facet>/facet.md`), and dispatched as
 an independent reviewer — not a standalone skill. The four **core** facets (**Security**,
-**Novelty**, **Technical**, **Architectural**) are pre-checked by default; eight additional facets (**Error Handling
+**Novelty**, **Technical**, **Architectural**) are always pre-checked; eight additional facets (**Error Handling
 & Resilience**, **Test Quality**, **Data & Migration Safety**, **API & Backward Compatibility**,
 **Concurrency & Race Safety**, **Idempotency & Retry Safety**, **Numeric Precision & Units**,
 **API Consumption**) are
@@ -92,11 +92,15 @@ the character of the change under review. The human still confirms or overrides 
      false-positive self-skips cheaply at dispatch or is unchecked by the human here;
    - each **core-when-present** facet (the two tenant-isolation facets and
      `reviewing-framework-best-practices`) is pre-checked when the step-1 menu-proposal gate
-     proposed it and its Selection signal matches.
+     proposed it — the proposal is its signal, so it is *not* further gated on the change's
+     character; a proposed facet pre-checks exactly as it did before auto-assignment.
 
    When no opt-in signal clearly matches, or the change cannot be read, **fall back** to the
-   original defaults — the four core facets plus any core-when-present facet step 1 proposed — so a
-   run is **never pre-filled with fewer** facets than it would have been before auto-assignment.
+   original defaults — the four core facets plus any core-when-present facet step 1 proposed. This
+   floor is a genuine guarantee, not just the fallback's: because core and step-1-proposed
+   core-when-present facets are always pre-checked and auto-assignment only ever *adds* matched
+   opt-in facets on top, a run is **never pre-filled with fewer** facets than it would have been
+   before auto-assignment.
    Present the pre-filled set as a structured **multi-select choice**, using a tool to ask it where
    one is available; the human unchecks or adds, and only available facets run (a not-yet-available
    pick is reported as skipped, not failed). The Selection signal only pre-fills the menu — each
