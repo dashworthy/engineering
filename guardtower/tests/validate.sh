@@ -102,6 +102,12 @@ if [ -f "$CONTRACT" ]; then
   for field in change_ref artifact_path relevance findings severity confidence top_n floor; do
     grep_flat "$CONTRACT" "$field"; check $? "facet-contract names the $field field"
   done
+  # --- Selection signal section (menu pre-fill contract) ---
+  grep_flat "$CONTRACT" "Selection signal"; check $? "facet-contract documents the Selection signal section"
+  grep_flat "$CONTRACT" "character of the change"; check $? "facet-contract keys selection on the character of the change"
+  grep_flat "$CONTRACT" "a false skip is the harmful direction"; check $? "facet-contract states the bias-toward-inclusion rule"
+  grep_flat "$CONTRACT" "never a path"; check $? "facet-contract forbids path/type/glob selection signals"
+  grep_flat "$CONTRACT" "stays authoritative"; check $? "facet-contract states the relevance gate stays authoritative"
 fi
 
 STOPS="$PLUGIN/skills/reviewing/references/hard-stops.md"
