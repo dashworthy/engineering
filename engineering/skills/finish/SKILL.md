@@ -40,7 +40,7 @@ tasks (a seam two tasks share, a pattern that drifted over the branch's life) ge
 per-task gate had the scope to catch. Load the build phase's review protocol
 (`${CLAUDE_PLUGIN_ROOT}/skills/build/references/review-protocol.md`) and apply it to that whole-branch
 boundary now, in addition to the per-task gates that already ran. (A deeper, opt-in review is
-guardtower's job, not this one.)
+the `code-review` skill's job, not this one.)
 
 This is a review, **not a new approval gate**: findings are addressed in the code before
 integrating, the same as any other review's are, and the branch does not wait on a fresh human

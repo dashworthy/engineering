@@ -105,7 +105,7 @@ task, in order:
    review is what earns the box; a review with findings gets addressed and then re-reviewed on the
    corrected diff before the box is checked. This gate is automated — it does not stop for a human —
    so a finding is resolved in the diff, not referred upward for a ruling. (This is the internal
-   per-task gate; a deeper, opt-in review is guardtower's job, not this one.)
+   per-task gate; a deeper, opt-in review is the `code-review` skill's job, not this one.)
 5. **Check the box** — flip the task's `- [ ]` to `- [x]` in the plan file itself, and **mark
    its todo `completed`** in the same breath, so the two records never disagree. The plan is the
    durable record of progress; a task that's actually done and still shows unchecked is a plan
