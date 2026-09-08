@@ -97,7 +97,7 @@ tr '\n' ' ' < "$eng/skills/build/SKILL.md" | grep -qiE "hand[^.]*engineering:fin
 # Word-form namespace match only: the bare pattern "signal:" false-fails on legit prose such as
 # writing-tests-from-brief "...that is the signal: it almost always means...". Requiring a lowercase
 # letter after the colon matches real namespaced refs (signal:foo) but not sentence punctuation.
-if grep -rnE '(signal|verity|vernacular):[a-z]|\.signal/|\.verity\b|\.vernacular\b' "$eng/skills" "$eng/hooks" "$eng/scripts" "$eng/README.md"; then echo "FAIL: dangling refs"; fail=1; fi
+if grep -rnE '(signal|verity|vernacular):[a-z]|engineering:document\b|\.signal/|\.verity\b|\.vernacular\b' "$eng/skills" "$eng/hooks" "$eng/scripts" "$eng/README.md"; then echo "FAIL: dangling refs"; fail=1; fi
 
 # 9. .engineering/ gitignored.
 grep -qxF '.engineering/' "$root/.gitignore" || { echo "FAIL: .engineering not gitignored"; fail=1; }

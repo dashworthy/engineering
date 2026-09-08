@@ -2,15 +2,15 @@
 # Resolve (creating if needed) the Tier-2 scratch dir for one phase of the current run.
 #
 # Usage: run-context.sh <name> [slug] [--fresh]
-#   <name>   phase subdir, e.g. signal | triage | test-hardening | vernacular | implement
+#   <name>   phase subdir, e.g. signal | triage | test-hardening | implement
 #   [slug]   short kebab name for a NEW run; ignored if a run is already active.
 #   --fresh  return a fresh per-invocation leaf .engineering/<run>/<name>/<NNN>/ instead of
 #            the shared phase dir. For a phase invoked more than once in one run whose scratch
-#            describes a single invocation (vernacular: before/ + receipts/ + report.md are one
-#            proof cycle). Without it, repeat invocations share .engineering/<run>/<name>/ and a
-#            later invocation's reconcile re-checks an earlier one's receipts against a file that
-#            has since moved on. The leaf is the next zero-padded integer above the existing ones,
-#            so invocations stay ordered and never collide, and each keeps its own history.
+#            describes a single invocation, so each invocation keeps its own isolated leaf.
+#            Without it, repeat invocations share .engineering/<run>/<name>/ and one invocation's
+#            scratch can be re-read against a file a later invocation has since moved on. The leaf
+#            is the next zero-padded integer above the existing ones, so invocations stay ordered
+#            and never collide, and each keeps its own history.
 #
 # The active run id lives in .engineering/.current-run as "<YYYY-MM-DD>-<slug>".
 # The first caller in a session creates it; later callers join it. Prints the

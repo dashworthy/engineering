@@ -32,8 +32,9 @@ request enters at **discover** (`engineering:signal`); a reported defect enters 
 (`brainstorming`), which recommends a design; the **spec** phase then writes that design into one spec
 document and holds the pipeline's first approval gate — on the spec.
 From that spec, a fixed backbone runs the work to done: **plan** it, behind the second
-gate; **build** it test-first; **harden** the tests; and **document** the prose the
-branch touched.
+gate, then **build** it test-first — the build's per-task review applying three lenses:
+standards (good code), spec (does what was asked), and an ELI5 lens that flags docblocks
+needing plainer prose.
 
 ```mermaid
 flowchart TD
@@ -49,8 +50,8 @@ flowchart TD
     RCR --> DES
 
     DES --> SPEC["spec gate"]
-    SPEC --> BB["plan · build · harden · document"]
-    BB --> DONE(["green, documented branch"]):::done
+    SPEC --> BB["plan · build"]
+    BB --> DONE(["green branch"]):::done
 ```
 
 Each phase reads what the phase before it produced; none re-decides what an earlier
@@ -135,14 +136,16 @@ flowchart LR
     C --> OUT(["recommended design<br/>→ spec + spec gate"]):::done
 ```
 
-### 5. Build backbone — `plan → build → document`
+### 5. Build backbone — `plan → build`
 
 Every spec leaves the same way. `plan` turns it into an ordered, bite-sized
 plan — each task carrying a code sketch of the change it makes — then `plan`'s own arch-lens review runs
 the architecture lens over those sketches and flags any one-off data structure before the
 plan reaches the second human gate; `engineering:build` drives each task through a test-first `tdd`
-loop gated by an internal per-task review; and docs hardening rewrites the prose the branch touched into
-plain language. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
+loop gated by an internal per-task review. That review applies three lenses in parallel —
+standards (good code on its own terms), spec (does what was asked), and an ELI5 docblock lens
+that surfaces prose a reader outside the team couldn't follow — and its findings are fixed in the
+task's own diff. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
 against a branch when you want it.)
 
 ```mermaid
@@ -153,15 +156,14 @@ flowchart LR
     P --> RV["arch-lens review<br/>(one-off scan)"]
     RV --> PG{"plan gate"}
     PG --> B["tdd build<br/>(red-green-refactor)"]
-    B -->|"per task"| R{"code-review<br/>gate"}
-    R -->|"changes"| B
-    R -->|"pass"| DOC["docs<br/>hardening"]
-    DOC --> DONE(["green, documented branch"]):::done
+    B -->|"per task"| R{"review gate<br/>(3 lenses)"}
+    R -->|"findings"| B
+    R -->|"pass"| DONE(["green branch"]):::done
 ```
 
 ## Skill suite
 
-The plugin ships **16 skills**: a bootstrap, three entrances, six phase conductors, and six
+The plugin ships **15 skills**: a bootstrap, three entrances, five phase conductors, and six
 cross-cutting skills. Everything else a phase needs lives as reference files the conductor loads,
 not as a separately discoverable skill.
 
@@ -169,7 +171,7 @@ not as a separately discoverable skill.
 |---|---|
 | Bootstrap | `using-skills` |
 | Entrances | `signal`, `triage`, `receiving-code-review` |
-| Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `document`, `finish` |
+| Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `finish` |
 | Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-verification`, `using-parallel-agents`, `refusing-deferral` |
 
 Each phase conductor drives its substages from reference files under its own `references/`
@@ -186,10 +188,10 @@ The full index lives at
 
 Every entry point is a skill — there are no slash-commands, so nothing here depends on
 Claude-specific command syntax. The three entrances open the work: `engineering:signal`,
-`engineering:triage`, and `engineering:receiving-code-review`. Building an approved plan and
-clarifying docblock prose are not separate entry points — invoke `engineering:build`
-and `engineering:document` directly; a thin wrapper skill over an existing skill
-would add a name and nothing else.
+`engineering:triage`, and `engineering:receiving-code-review`. Building an approved plan is
+not a separate entry point — invoke `engineering:build` directly; a thin wrapper skill over an
+existing skill would add a name and nothing else. (Docblock quality is no longer a phase of its
+own: the build's per-task review carries an ELI5 lens that flags docblocks needing plainer prose.)
 
 ## License
 

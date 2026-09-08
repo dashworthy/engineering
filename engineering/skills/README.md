@@ -13,7 +13,7 @@ conductor is already driving.
 |---|---|
 | Bootstrap | `using-skills` |
 | Entrances | `signal`, `triage`, `receiving-code-review` |
-| Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `document`, `finish` |
+| Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `finish` |
 | Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-verification`, `using-parallel-agents`, `refusing-deferral` |
 
 Reference files (not skills) that a conductor loads:
@@ -24,7 +24,6 @@ Reference files (not skills) that a conductor loads:
 | `using-codebase-design` | `references/SHAPE-REVIEW.md`, `references/DESIGN-IT-TWICE.md`, `references/PATTERN-MATRIX.md`, `references/DEEPENING.md`, `references/TENANCY-ISOLATED-DB.md`, `references/TENANCY-SHARED-DB.md` |
 | `plan` | `references/arch-lens.md` |
 | `build` | `references/establishing-workspace.md`, `references/tdd-loop.md` (+ `mocking.md`, `tests.md`), `references/review-protocol.md` (orchestrator) + `references/lenses/standards.md`, `spec.md`, `eli5.md` |
-| `document` | `references/comprehension-gate.md`, `references/receipt-schema.md`, `references/rewrite-beat.md` |
 | `finish` | `references/pr-description.md` |
 | `triage` | `references/diagnosing.md` |
 | `receiving-code-review` | `references/review-comment.md` |
