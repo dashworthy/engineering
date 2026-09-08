@@ -4,7 +4,10 @@ ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
 cd "$ROOT/engineering"
 fail=0
 if grep -rn "\.verity" skills; then echo "FAIL: stale .verity path"; fail=1; fi
-if grep -rn "verity:" skills; then echo "FAIL: stale verity: namespace"; fail=1; fi
+# Anchor on a word boundary so this catches the `verity:` plugin namespace (e.g. verity:harden)
+# without also matching innocent words that merely end in "verity:" — `severity:` is a field name
+# in code-review's facet result schema, not a stale namespace reference.
+if grep -rnE "(^|[^A-Za-z0-9_])verity:" skills; then echo "FAIL: stale verity: namespace"; fail=1; fi
 # Verity's session-start reminder must NOT be ported: the only hook is the entrance bootstrap.
 if grep -rq "Verity applies once implementation work is finished" hooks/ 2>/dev/null; then
   echo "FAIL: verity session-start reminder was ported"; fail=1; fi

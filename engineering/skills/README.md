@@ -15,6 +15,7 @@ conductor is already driving.
 | Entrances | `signal`, `triage`, `receiving-code-review` |
 | Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `finish` |
 | Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-verification`, `using-parallel-agents`, `refusing-deferral` |
+| Deep review | `code-review` (opt-in facet-menu review; routes its findings local / to the PR / to `receiving-code-review`) |
 
 Reference files (not skills) that a conductor loads:
 
@@ -27,4 +28,5 @@ Reference files (not skills) that a conductor loads:
 | `finish` | `references/pr-description.md` |
 | `triage` | `references/diagnosing.md` |
 | `receiving-code-review` | `references/review-comment.md` |
+| `code-review` | `references/facet-contract.md`, `references/hard-stops.md`, `references/multi-tenancy-signals.md`, `references/stack-signals.md`, `references/facets/<facet>/facet.md` (one per facet) |
 | shared (plugin `references/`) | `interrogating-requirements.md` (loaded by all three entrances) |
