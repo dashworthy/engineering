@@ -295,4 +295,23 @@ grep_flat "$EP" "one todo per task"; check $? "build seeds the plan into a todo 
 ! grep_flat "$EP" "TodoWrite"; check $? "build names no harness-specific todo tool"
 grep_flat "$EP" "in_progress"; check $? "build marks a task in_progress as it starts"
 
+# --- one spec, one plan (no splitting) -----------------------------------------
+# A run yields exactly one spec and one plan. The plan-set fan-out and brainstorming's
+# "too large to fit one spec" decomposition were removed; oversized scope is escalated, not
+# split. Guard the invariant positively and lock the removed prose out so it can't creep back.
+grep_flat "$WP" "One spec, one plan"; check $? "plan states the one-spec-one-plan invariant"
+! grep_flat "$WP" "Splitting into a plan set"; check $? "plan carries no plan-set splitting section"
+! grep_flat "$WP" "write a plan set"; check $? "plan never instructs writing a plan set"
+BR="$PLUGIN/skills/brainstorming/SKILL.md"
+! grep_flat "$BR" "too large to fit one spec"; check $? "brainstorming no longer decomposes an oversized spec"
+
+# --- spec carries an ELI5 (plain-language summary) -----------------------------
+# Every spec renders a §0 ELI5 up top: a jargon-free synthesis of the whole spec for easy
+# consumption. Guard the format section exists and the spec conductor knows it is synthesized.
+SF="$PLUGIN/skills/spec/references/SPEC-FORMAT.md"
+[ -f "$SF" ]; check $? "spec/references/SPEC-FORMAT.md exists"
+grep_flat "$SF" "## 0. ELI5"; check $? "SPEC-FORMAT carries the section-0 ELI5 summary"
+SSK="$PLUGIN/skills/spec/SKILL.md"
+grep_flat "$SSK" "ELI5"; check $? "spec conductor names the ELI5 section"
+
 exit $fail
