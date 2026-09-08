@@ -5,9 +5,10 @@ run deliberately before merging a higher-risk change, on top of whatever everyda
 already do.
 
 Guardtower reviews a change through a **menu of facets**, each a specialized reviewer with its
-own lens. You pick which facets to run; each one relevance-gates itself, caps and floors its own
-findings, writes a durable record under `.guardtower/<run>/<facet>/`, and **never edits your
-code** — it reports, you decide.
+own lens. It **pre-fills** the menu with the facets the change's character warrants — so you
+confirm or override a best guess rather than picking from scratch — and each one relevance-gates
+itself, caps and floors its own findings, writes a durable record under
+`.guardtower/<run>/<facet>/`, and **never edits your code** — it reports, you decide.
 
 ## Install
 
@@ -22,8 +23,9 @@ code** — it reports, you decide.
 /guardtower <a diff, branch, or PR to review>
 ```
 
-You're shown a facet menu (the four core facets pre-checked); guardtower fans out the selected
-facets, then returns one reconciled report plus the per-facet artifacts under `.guardtower/`.
+You're shown a facet menu **pre-filled** from the change's character (the four core facets always
+pre-checked); you confirm or override, then guardtower fans out the selected facets and returns one
+reconciled report plus the per-facet artifacts under `.guardtower/`.
 
 ## The facets
 

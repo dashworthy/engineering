@@ -135,6 +135,10 @@ grep_flat "$FACETS_DIR/reviewing-concurrency/facet.md" "reachable by more than o
 grep_flat "$FACETS_DIR/reviewing-data-safety/facet.md" "destructive or irreversible data operation"; check $? "data-safety Selection signal keys on destructive/irreversible data ops"
 grep_flat "$FACETS_DIR/reviewing-security/facet.md" "pre-checked on every run"; check $? "security (core) Selection signal states it is pre-checked every run"
 
+# --- README/command describe the menu pre-fill (auto-assignment) -------------
+grep_flat "$PLUGIN/README.md" "pre-fill"; check $? "README describes the menu pre-fill (auto-assignment)"
+grep_flat "$PLUGIN/commands/guardtower.md" "pre-fill"; check $? "guardtower command describes the menu pre-fill"
+
 STOPS="$PLUGIN/skills/reviewing/references/hard-stops.md"
 [ -f "$STOPS" ]; check $? "reviewing/references/hard-stops.md exists"
 if [ -f "$STOPS" ]; then
