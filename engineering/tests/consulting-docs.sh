@@ -20,4 +20,13 @@ rflat "record"               # record which docs were consulted (for citation)
 bflat() { tr '\n' ' ' < "$BS" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: brainstorming missing anchor: $1"; exit 1; }; }
 bflat "consulting-documentation"
 
+# --- spec §7 cites the consulted docs (Task 9) --------------------------------
+SF="$ROOT/engineering/skills/spec/references/SPEC-FORMAT.md"
+SSK="$ROOT/engineering/skills/spec/SKILL.md"
+sfflat() { tr '\n' ' ' < "$SF" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: SPEC-FORMAT §7 missing: $1"; exit 1; }; }
+ssflat() { tr '\n' ' ' < "$SSK" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: spec SKILL missing: $1"; exit 1; }; }
+sfflat "cite"                 # §7 requires citing the docs consulted
+sfflat "docs/"                # …the docs/ files
+ssflat "consulted"            # spec conductor carries the consulted-doc list into §7
+
 echo "PASS consulting-docs.sh"

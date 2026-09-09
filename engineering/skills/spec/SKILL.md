@@ -59,7 +59,9 @@ Every spec carries one; see `references/SPEC-FORMAT.md`.
 Two source shapes map onto the one format — and the mapping is by meaning, not by
 section number:
 - a **signal** brief supplies §1–§5 in order, and its §6 (Existing Context) becomes
-  the spec's §7; the brief ends at §6. The spec's §6 (Approach) does not come from
+  the spec's §7 — into which §7 also carries the `docs/` files the design **consulted**
+  (the design dialogue records them via brainstorming's `consulting-documentation`), cited so the
+  next reader sees which documentation was load-bearing. The spec's §6 (Approach) does not come from
   the brief at all — it is transcribed from the recommended design `brainstorming` hands
   off: the chosen approach, the alternatives it beat, and — when the approach turned on a
   boundary — the boundary `using-codebase-design` shaped. Together these are §6's content.
