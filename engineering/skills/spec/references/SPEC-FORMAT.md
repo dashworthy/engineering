@@ -66,6 +66,10 @@ example. §0 below is the plain-language disclosure those conventions lead with.
     Relevant modules. What the work touches.
     Where the work turns on the shape of the data, include an ER diagram (mermaid — a spec
     renders it); see `engineering:using-diagrams`.
+    Cite the `docs/` files the design consulted — the feature docs the design dialogue read to
+    orient itself (see brainstorming's `consulting-documentation`). Listing them tells the next
+    reader which documentation was load-bearing on this design, and where a doc drifted from the
+    code. None consulted (or no docs tree yet) — say so in a line.
 
     ## 8. Open questions
     Anything unresolved that does not block starting. Empty is fine.
