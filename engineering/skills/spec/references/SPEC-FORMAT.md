@@ -3,6 +3,11 @@
 Every spec renders to this shape, at
 `.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`. One format for all three entrances.
 
+Render it per the shared conventions in `../../../references/consumable-markdown.md` — a top-line
+hook, progressive disclosure, **bold** key terms on first use, tables for the enumerable sections,
+diagrams placed where the concept is introduced, and every abstraction grounded in a worked
+example. §0 below is the plain-language disclosure those conventions lead with.
+
     # <Title> — spec
 
     **Date:** <YYYY-MM-DD>
@@ -24,14 +29,22 @@ Every spec renders to this shape, at
     Who is affected; who decides.
 
     ## 3. Goals & success criteria
-    Observable outcomes. Each criterion is checkable.
+    Observable outcomes, each criterion checkable — as a table, so a reader scans them row by row:
+
+    | Criterion | How it's checked |
+    |---|---|
+    | <observable outcome> | <the command, artifact, or observation that confirms it> |
 
     ## 4. Constraints
     Hard limits: platforms, versions, dependencies, deadlines, must-not-break.
 
     ## 5. Scope
     **In:** the committed work. **Out (non-goals):** each with a one-line reason.
-    **Deferred:** parked, with the trigger that would revive it.
+    **Deferred:** parked work, as a table so each item shows the trigger that revives it:
+
+    | Item | Trigger to revive |
+    |---|---|
+    | <parked work> | <the condition that would bring it back into scope> |
 
     ## 6. Approach (from the design dialogue)
     The approved approach and the alternatives weighed against it.

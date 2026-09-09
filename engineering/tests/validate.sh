@@ -292,4 +292,12 @@ if [ -f "$CR" ]; then
   ! grep_flat "$CR" "AskUserQuestion"; check $? "code-review names no harness-specific question tool"
 fi
 
+# --- SPEC-FORMAT consumability refresh ---------------------------------------
+# The spec format cites the one shared consumable-markdown reference rather than restating a
+# house style, and renders its enumerable sections (§3 success criteria, §5 Deferred) as tables
+# so a reader scans them row against row instead of parsing prose.
+grep_flat "$SF" "consumable-markdown.md"; check $? "SPEC-FORMAT cites the shared consumable-markdown reference"
+grep_flat "$SF" "| How it's checked |"; check $? "SPEC-FORMAT renders §3 success criteria as a table"
+grep_flat "$SF" "| Trigger to revive |"; check $? "SPEC-FORMAT renders §5 Deferred as a table"
+
 exit $fail
