@@ -132,7 +132,10 @@ and before the task hands off to the next one (or, in a stacked plan, to its own
 Docblock quality is **not** a separate closing step: the build phase's per-task review gate runs
 an ELI5 lens that surfaces any docblock whose prose reads badly (or a public symbol missing one)
 as a finding, which the build loop then resolves in the task's own diff — the same path every
-other review finding takes. There is no standalone documentation phase to schedule here.
+other review finding takes. Feature documentation is not a per-task closing step either: the
+`engineering:documenting` phase runs once after the whole build (between build and finish) and
+writes the run's docs from what actually shipped, so no task schedules a documentation step of its
+own.
 
 The commit of the task's work, and — in a stacked plan — the submit-PR step, follow it (see
 PR strategy).
