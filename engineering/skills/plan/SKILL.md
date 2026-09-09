@@ -157,14 +157,22 @@ to **submit the stacked PR** for the task via `engineering:using-stacked-pull-re
 Because the stack is linear — each task's branch is based on the one before it — the tasks run
 **sequentially**, one after another; there is no parallel fan-out of tasks in a build.
 
-## One spec, one plan — no splitting
+## One spec, one plan — incremental within, never split
 
-However large or many-subsystemed the spec, it becomes exactly one plan file. A spec that
-spans several subsystems is sequenced *within* one plan — ordered so that each phase leaves
-the build in a working state — not spread across multiple plan documents. If a spec is so
-large that a single plan genuinely can't hold it, that is a signal the *scope* was drawn too
-wide: raise it as an escalation about the spec (per `engineering:refusing-deferral`), don't
-quietly split the plan to absorb it.
+However large or many-subsystemed the spec, it becomes exactly one plan file — never spread
+across multiple plan documents.
+
+When the spec's §6 breaks the work into **increments**, the plan honours that structure: plan
+each increment individually — its own ordered run of tasks, each still small enough to build
+and verify on its own — and lay the increments out in sequence under increment headings, so a
+reader sees where one increment ends and the next begins and that each leaves the build in a
+working state. This is still one plan document and one plan gate: the increments organise the
+tasks *inside* it, they do not each earn their own plan file or their own approval. A spec
+with no increments is planned as one ordered run of tasks, exactly as before.
+
+If a spec is so large that even splitting it into increments can't fit a single plan, that is
+a signal the *scope* was drawn too wide: raise it as an escalation about the spec (per
+`engineering:refusing-deferral`), don't quietly split the plan to absorb it.
 
 ## Writing the plan file, then reviewing it
 

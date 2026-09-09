@@ -55,11 +55,21 @@ working dialogue, not a sign-off: a free-form escape is where a correction, a hy
 approaches, or "keep talking" lands, so the pick never traps them into one of your framings. No such
 tool: present the same options as plain text and say the run is degraded.
 
-One approach becomes one design, one spec, and one plan — brainstorming does not split the
-work into pieces, and does not propose decomposing it into multiple specs or plans. If an
-approach looks too large to hold as a single design, that is a signal its *scope* is drawn
-too wide: narrow the approach, or raise the scope as a question for your human partner —
-never quietly break it into several designs to make it fit.
+One approach becomes one design, one spec, and one plan — brainstorming never splits the
+work across multiple specs or plans, and never proposes doing so. What it *may* do, when a
+problem is too large to land in one pass, is break the approach into ordered **increments**
+within that single design: an increment is a coherent slice of the work that leaves the system
+in a working state, and the increments are sequenced so each builds on the one before.
+Breaking the work into increments is the sanctioned way to take a big problem on — it
+structures the work *inside* the one spec and the one plan, it does not scatter it across
+several.
+
+Reach for increments only when the work genuinely needs them; a change that lands cleanly in
+one pass carries none and says so. And breaking the work up this way is not a licence for
+unbounded scope: if the approach is so large that even splitting it into increments couldn't
+fit it in a single design, that is a signal its *scope* is drawn too wide — narrow the
+approach, or raise the scope as a question for your human partner, rather than stretching the
+increment list to absorb work that doesn't belong.
 
 ## Shape the interface when the approach turns on a boundary
 
