@@ -43,6 +43,11 @@ Every spec renders to this shape, at
     records *which* boundary and *why*, `plan` records *exactly how it's typed*.
     Where the approach has forks a linear list flattens, include a process-flow diagram
     (mermaid — a spec renders it); see `engineering:using-diagrams`.
+    When the design breaks the work into increments (from the design dialogue), lay them out
+    here as one ordered list: each increment named, what it delivers, and why it falls where it
+    does in the sequence. The increments structure this one approach — the spec stays a single
+    document, and `plan` will plan each increment in turn within a single plan. A design that
+    lands in one pass has no increments and this list is simply absent.
 
     ## 7. Existing context
     Relevant modules. What the work touches.
@@ -60,6 +65,8 @@ Rules:
   Work waits here in the open, with the trigger that revives it, where the human sees and owns the
   decision; it never becomes a silent `TODO` in the code or a "later" no one tracks. Parking work
   anywhere else is the deferral `engineering:refusing-deferral` refuses.
+- Increments, when the design has them, live in §6 as one ordered list and structure this
+  single spec; they never become several specs.
 - Never invent content the source material does not support; mark unknowns in §8.
 - A triage-origin spec still fills every section; §1 is the reproduced problem, §6 the fix approach.
 - The topic slug matches the run slug where possible (correspondence, not coupling).

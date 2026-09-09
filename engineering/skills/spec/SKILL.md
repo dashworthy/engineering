@@ -63,6 +63,8 @@ section number:
   the brief at all — it is transcribed from the recommended design `brainstorming` hands
   off: the chosen approach, the alternatives it beat, and — when the approach turned on a
   boundary — the boundary `using-codebase-design` shaped. Together these are §6's content.
+  When that design breaks the work into increments, they travel here too: §6 lays them out as
+  one ordered list (see `references/SPEC-FORMAT.md`), still within this single spec.
 - a **triage** isolation record maps onto the same eight sections with two repurposed:
   §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including
   why the smaller fixes on the table were rejected, not only the one that won.
