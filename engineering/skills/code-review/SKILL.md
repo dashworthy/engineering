@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: "Run code-review's in-depth, opt-in review of a change through a menu of specialized facets (security, and more) fanned out as self-limiting reviewers, then reconcile their findings into one report. Use when asked for a deep/code-review review of a diff, branch, or PR, or a security review, before merging a higher-risk change."
+description: "Run code-review's in-depth, opt-in review of a change through a menu of specialized facets (security, and more) fanned out as self-limiting reviewers, then reconcile their findings into one report. Use when asked for a deep/code-review review of a diff, branch, or PR, or a security review, before merging a higher-risk change. Accepts an optional effort level (low/medium/high/max) and an optional target (a PR/MR link or number, branch, diff, or path)."
 ---
 
 # Code Review (orchestrator)
@@ -18,9 +18,39 @@ states what each facet found and never edits the code.
 This is the heavier, opt-in escalation — not an everyday pass, and not an automatic gate. Someone
 decides a change is worth a deep look and runs it; nothing here watches for changes on its own.
 
+## Arguments
+
+The skill accepts two optional arguments, in either order; both have sensible defaults, so it also
+runs with none.
+
+- **effort** — `low` | `medium` | `high` | `max` (default `medium`). One dial that sets the `caps`
+  the orchestrator hands every facet (`top_n`, `floor` — see
+  [references/facet-contract.md](references/facet-contract.md)), trading breadth for signal in one
+  place rather than per facet. Lower effort returns fewer, higher-confidence findings; higher effort
+  widens coverage and admits less-certain ones:
+
+  | effort | `top_n` | `floor` | character |
+  |---|---|---|---|
+  | `low` | 2 | `high` | only the few strongest findings per facet |
+  | `medium` | 3 | `med` | the default balance |
+  | `high` | 5 | `low` | broad coverage, admits lower-confidence findings |
+  | `max` | 8 | `low` | the widest pass; report may run long |
+
+  effort tunes only the caps — it never changes which facets are selected (that is the menu, workflow
+  steps 1–2). The floor still applies to the *weaker* of a finding's severity and confidence.
+
+- **target** — an optional pointer to what to review, resolved into `change_ref`: a PR/MR link or
+  number, a branch name, a diff, or a path. When omitted, `change_ref` falls back to the working
+  diff / current branch as before. A PR/MR target is also what makes the **Post to the PR** route
+  (workflow step 7) available.
+
+Parse whatever the caller passed: a bare `low`/`medium`/`high`/`max` token is the effort; anything
+that looks like a URL, `#`-number, branch, path, or ref is the target. When either is absent, use
+its default. If a token is genuinely ambiguous, ask once rather than guess.
+
 ## The facets
 
-Eighteen facets exist; each is one lens, defined in a reference file under
+Nineteen facets exist; each is one lens, defined in a reference file under
 [references/facets/](references/facets/) (`references/facets/<facet>/facet.md`), and dispatched as
 an independent reviewer — not a standalone skill. Eight **core** facets — **Security**, **Novelty**,
 **Technical**, **Architectural**, **Error Handling & Resilience**, **Test Quality**, **Concurrency &
@@ -30,7 +60,8 @@ The remaining opt-in facets are pre-checked only when the change's character mat
 the **Framework Best Practices** facet are **core-when-present** — pre-checked only when the
 repo-level menu-proposal step (workflow step 1) proposes them: the matching tenancy model, or at
 least one covered framework (Laravel and Tailwind today). **Data Presentation**, **Accessibility**,
-and **Electron** are opt-in, pre-checked by the same character match as the other opt-in facets.
+**Internationalization (translations)**, and **Electron** are opt-in, pre-checked by the same
+character match as the other opt-in facets.
 
 Which of these arrive **pre-checked** on a given run is not a fixed default: it is decided by the
 **Pre-check when the change…** column of the facet list below, which the orchestrator reads at
@@ -63,6 +94,7 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
 | [`reviewing-tenant-isolation-isolated-db`](references/facets/reviewing-tenant-isolation-isolated-db/facet.md) | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | When **step 1 proposed it** (a `per-db`/`both` tenancy verdict) — on the proposal |
 | [`reviewing-data-presentation`](references/facets/reviewing-data-presentation/facet.md) | Identity-ambiguous presentation: distinct records a person can't tell apart | alters how records are labeled or identified to a person — a list, selection, or display where distinct records could become indistinguishable |
 | [`reviewing-accessibility`](references/facets/reviewing-accessibility/facet.md) | Accessibility: perceivability & operability — alt text, labels, ARIA/semantics, keyboard/focus, contrast, reduced-motion, live-region announcements | alters user-facing rendered output — markup, components, or interactions affecting perceivability or operability (labels, alt text, focus, contrast, motion) |
+| [`reviewing-i18n`](references/facets/reviewing-i18n/facet.md) | Internationalization (translations): user-facing text hard-coded instead of routed through the translation layer; untranslatable message shapes (concatenation, plurals, word order); locale-blind date/number/currency formatting | introduces or alters text shown to a person — a label, message, button, error, or notification body — where the project localizes such text (or plainly should) |
 | [`reviewing-electron`](references/facets/reviewing-electron/facet.md) | Electron: process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging) | touches an Electron process-model or security surface — renderer isolation, preload/context-bridge, IPC, navigation, shell/protocol, packaging, or the main/renderer split |
 | [`reviewing-framework-best-practices`](references/facets/reviewing-framework-best-practices/facet.md) | Stack-specific idiom violations for the detected framework(s) — Laravel and Tailwind today | When **step 1 proposed it** (at least one covered stack detected) — on the proposal |
 
@@ -86,7 +118,9 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
    *above* each facet's own per-change relevance gate — a proposed facet still self-skips on a
    change that touches no tenant-scoped or stack-relevant surface, so proposing is not running.
 2. **Resolve the change, then pre-fill the facet menu.** First resolve `change_ref` (the
-   diff/branch/PR under review) so the pre-fill can read what the change actually does. Then
+   diff/branch/PR under review) — from the **target** argument when one was passed (a PR/MR link or
+   number, branch, diff, or path), otherwise the working diff / current branch — so the pre-fill can
+   read what the change actually does. Then
    **pre-fill** the menu instead of asking the human to pick from scratch: read the **Pre-check when
    the change…** column of the facet list above and reason over the change's character (*what it
    does*, never its file paths or types) together with the step-1 tenancy/stack verdicts, to decide
@@ -125,7 +159,9 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
 5. **Hand each facet the contract.** Each selected facet is defined by its file
    `references/facets/<facet>/facet.md`; dispatch a reviewer by handing it that file to read and
    apply. Pass every facet the same request and expect the same result shape — see
-   [references/facet-contract.md](references/facet-contract.md). Each facet enforces the hard stops
+   [references/facet-contract.md](references/facet-contract.md). Set the request's `caps` (`top_n`,
+   `floor`) from the **effort** argument per the table in **Arguments** — the same caps to every
+   facet, so the discipline is tuned in one place. Each facet enforces the hard stops
    itself, at the source — see [references/hard-stops.md](references/hard-stops.md); the
    orchestrator does not trim findings afterward.
 6. **Reconcile.** Gather all results — nothing dropped because it returned last, nothing picked
