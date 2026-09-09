@@ -9,7 +9,8 @@ sh "$d/absorb-verity.sh"
 sh "$d/absorb-approval-gate.sh"
 sh "$d/validate.sh"
 sh "$d/consumable-markdown.sh"
-for name in signal triage receiving-code-review brainstorming spec using-codebase-design plan build finish code-review; do
+sh "$d/using-documentation.sh"
+for name in signal triage receiving-code-review brainstorming spec using-codebase-design plan build finish code-review using-documentation; do
   sh "$d/frontmatter.sh" "$d/../skills/$name"
 done
 sh "$d/stacked-prs.sh"
