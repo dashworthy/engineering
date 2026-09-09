@@ -37,6 +37,14 @@ the work will touch, any docs sitting near them, and recent commits in the area 
 design that ignores how the neighborhood already does things produces an approach that
 fights the codebase from day one instead of extending it.
 
+**Consult the documentation before you grep.** Where the project keeps feature docs (a `docs/`
+tree with a `docs/toc.md` index — what the `documenting` phase produces), read the index first and
+follow it to the feature docs relevant to this work, *then* let what you learn target your reading
+of the actual code. This is how you avoid greps that sprawl the whole tree: the docs point you at
+where to look. Follow `references/consulting-documentation.md` for how — and record which docs you
+consulted, so the spec can cite them. The docs are a guide, possibly stale; the code is the source
+of truth, and consulting the docs never replaces reading it.
+
 ## Propose approaches, not one approach
 
 A single approach presented as "the plan" is a decision already made, dressed up as a
