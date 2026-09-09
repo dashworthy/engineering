@@ -8,9 +8,11 @@ Three entrances open the work — `engineering:signal` (discovery, for a feature
 at the start of the work. All three pass through a design dialogue that recommends
 an approach, then a spec approved at the pipeline's first human-approval gate, and a plan
 approved at the second. From there the work flows through the TDD build, whose per-task review
-gate applies three lenses — standards, spec, and an ELI5 docblock lens. All artifacts are files;
-there is no issue-tracker integration. The pipeline ends at a green branch — deployment and
-release are out of scope.
+gate applies three lenses — standards, spec, and an ELI5 docblock lens. Once the branch is green,
+the `documenting` phase writes or updates the feature's docs from what actually shipped and
+validates them, then `finish` integrates the branch. All artifacts are files; there is no
+issue-tracker integration. The pipeline ends at a green branch — deployment and release are out of
+scope.
 
 | Phase | Skill(s) |
 |---|---|
@@ -18,7 +20,7 @@ release are out of scope.
 | Triage | `triage` (verify → isolate → brainstorming) |
 | Receiving review | `receiving-code-review` (aggregate → verify → brainstorming) |
 | Design | `brainstorming` (approach; shapes boundaries via `using-codebase-design`) → `spec` (write + gate) |
-| Build | `plan` → `build` → `finish` |
+| Build | `plan` → `build` → `documenting` → `finish` |
 
 Alongside the pipeline, the plugin ships `code-review` — an opt-in, facet-menu deep review
 (folded in from guardtower) that routes its findings locally, to the PR, or back into

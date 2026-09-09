@@ -37,4 +37,17 @@ vpflat "why it bites"            # reuses review-protocol's finding grammar
 grep -qiF "claudish" "$REFS/lenses/structure.md" || { echo "FAIL: structure lens must carry the anti-claudish check"; exit 1; }
 grep -qiF "diff" "$REFS/lenses/accuracy.md" || { echo "FAIL: accuracy lens must check against the shipped diff"; exit 1; }
 
+# --- pipeline wiring: build -> documenting -> finish (Task 7) ------------------
+BUILD="$ROOT/engineering/skills/build/SKILL.md"
+PLAN="$ROOT/engineering/skills/plan/SKILL.md"
+RMROOT="$ROOT/README.md"
+RMENG="$ROOT/engineering/README.md"
+wire() { tr '\n' ' ' < "$1" | tr -s ' ' | grep -qiF -- "$2" || { echo "FAIL: $(basename "$(dirname "$1")")/$(basename "$1") missing: $2"; exit 1; }; }
+
+wire "$BUILD" "engineering:documenting"   # build now hands to documenting, not straight to finish
+# plan no longer denies a documentation phase exists
+grep -qiF "no standalone documentation phase to schedule here" "$PLAN" && { echo "FAIL: plan still denies the documentation phase"; exit 1; }
+grep -qiF "documenting" "$RMENG" || { echo "FAIL: engineering/README does not list the documenting phase"; exit 1; }
+grep -qiF "documenting" "$RMROOT" || { echo "FAIL: root README does not mention the documenting phase"; exit 1; }
+
 echo "PASS documenting-phase.sh"

@@ -136,7 +136,7 @@ flowchart LR
     C --> OUT(["recommended design<br/>→ spec + spec gate"]):::done
 ```
 
-### 5. Build backbone — `plan → build`
+### 5. Build backbone — `plan → build → documenting → finish`
 
 Every spec leaves the same way. `plan` turns it into an ordered, bite-sized
 plan — each task carrying a code sketch of the change it makes — then `plan`'s own arch-lens review runs
@@ -145,7 +145,10 @@ plan reaches the second human gate; `engineering:build` drives each task through
 loop gated by an internal per-task review. That review applies three lenses in parallel —
 standards (good code on its own terms), spec (does what was asked), and an ELI5 docblock lens
 that surfaces prose a reader outside the team couldn't follow — and its findings are fixed in the
-task's own diff. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
+task's own diff. Once the branch is green, `documenting` runs on it: it judges whether the run
+changed documented behavior and, when it did, writes or surgically updates the feature's docs under
+`docs/` from what actually shipped and validates them through a four-lens fan-out, before `finish`
+integrates the branch. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
 against a branch when you want it.)
 
 ```mermaid
@@ -158,7 +161,9 @@ flowchart LR
     PG --> B["tdd build<br/>(red-green-refactor)"]
     B -->|"per task"| R{"review gate<br/>(3 lenses)"}
     R -->|"findings"| B
-    R -->|"pass"| DONE(["green branch"]):::done
+    R -->|"pass"| G(["green branch"]):::done
+    G --> DOC["documenting<br/>(write + validate docs)"]
+    DOC --> FIN["finish<br/>(open stacked PRs)"]
 ```
 
 ## Skill suite
