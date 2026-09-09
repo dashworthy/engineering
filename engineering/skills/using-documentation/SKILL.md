@@ -1,6 +1,6 @@
 ---
 name: using-documentation
-description: "The producer primitive for durable feature documentation: given a run's spec, plan, and the shipped whole-branch diff, write or surgically patch the feature doc under docs/{domain}/{feature}/README.md and upsert its row in docs/toc.md — a doc shaped for humans and agents to consume, so later work reads the map before it greps. Use from the document phase to produce or update a feature's documentation; it writes docs, it does not validate them (that is the document phase's fan-out) and it does not decide whether documentation is warranted (that is the phase's judged call)."
+description: "The producer primitive for durable feature documentation: given a run's spec, plan, and the shipped whole-branch diff, write or surgically patch the feature doc under docs/{domain}/{feature}/README.md and upsert its row in docs/toc.md — a doc shaped for humans and agents to consume, so later work reads the map before it greps. Use from the documenting phase to produce or update a feature's documentation; it writes docs, it does not validate them (that is the documenting phase's fan-out) and it does not decide whether documentation is warranted (that is the phase's judged call)."
 ---
 
 # Using Documentation
@@ -10,7 +10,7 @@ Say this first, plainly: `Using the using-documentation skill to write the featu
 This is the plugin's single writer of durable feature documentation. Given what a run produced,
 it renders one feature doc a human and an agent can consume and keeps the central table of
 contents pointing at it. It writes; it does not judge whether the run warranted a doc (the
-`document` phase decides that) and it does not validate what it wrote (the phase's fan-out does).
+`documenting` phase decides that) and it does not validate what it wrote (the phase's fan-out does).
 
 ## What this guarantees
 
@@ -26,7 +26,7 @@ Inputs:  spec path · plan path · shipped whole-branch diff · {domain}/{featur
 Effect:  write | surgically patch   docs/{domain}/{feature}/README.md      (the feature doc)
          upsert row                 docs/toc.md                            (Name | Description | Domain)
 Rules:   judged      — produce only when the run changed documented behavior; otherwise record a
-                       one-line skip reason (the document phase makes this call before invoking here)
+                       one-line skip reason (the documenting phase makes this call before invoking here)
          surgical    — on an already-documented feature, touch only what changed, then verify the
                        rest of the doc still holds against the change and flag drift
          human-mint  — never invent a domain or feature name; propose each with a recommended
@@ -61,7 +61,7 @@ per feature, never a doc written unasked. Minting a domain or a feature is a hum
 
 ## Judged, and surgical on an update
 
-Documentation is **judged**, not automatic. The `document` phase decides, before invoking this
+Documentation is **judged**, not automatic. The `documenting` phase decides, before invoking this
 skill, whether the run changed documented behavior; a run that did not gets a one-line recorded
 skip reason instead of a doc — a visible decision, never a silent pass (see
 `engineering:refusing-deferral`).
@@ -82,11 +82,11 @@ one updates its row in place; running twice on the same feature never doubles it
 ## What this does not do
 
 - It does not **decide whether to document.** The judged call — did this run change documented
-  behavior — belongs to the `document` phase, upstream; this skill produces the doc once that call
+  behavior — belongs to the `documenting` phase, upstream; this skill produces the doc once that call
   says yes.
 - It does not **validate what it wrote.** Checking the doc for accuracy, structure, links, and
-  scope is the `document` phase's fan-out (`references/validation-protocol.md`), not this skill.
+  scope is the `documenting` phase's fan-out (`references/validation-protocol.md`), not this skill.
 - It does not **invent a taxonomy.** Domain and feature names are minted by the human; this skill
   proposes and records, it does not name.
-- It does not **open a pull request or commit.** It writes files; the `document` phase and `finish`
+- It does not **open a pull request or commit.** It writes files; the `documenting` phase and `finish`
   own how those files reach the repository.
