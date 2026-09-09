@@ -199,6 +199,18 @@ Before calling the plan finished, run a self-review pass over what was just writ
   — and that steps describing the same kind of thing (a test, a command, a commit) are
   phrased the same way throughout. A plan that shifts format halfway through reads as two
   plans stitched together, and whoever executes it has to re-learn the pattern partway in.
+- **Stacked-PR structure.** Every plan ships as a stack (see PR strategy), and the plan is
+  where that structure has to be *in the document* — not left for whoever builds it to
+  reconstruct. Confirm all of: the Global Constraints carry the
+  `PR strategy: stacked (one PR per task, via engineering:using-stacked-pull-requests)` line;
+  **every** task opens with a step that starts its own branch off the previous task's branch —
+  the first task off the trunk, since it has no previous — before any of the task's commits;
+  and **every** task closes, after its commit, with a step that submits its stacked PR via
+  `engineering:using-stacked-pull-requests`. A task missing its branch-start step lands its
+  commits on the parent branch and collapses two tasks into one PR; a task missing its
+  submit step is a task with no PR of its own. Both are the plan failing to break the work
+  up, not the builder's mistake — a task per PR only holds if the plan gave every task both
+  ends. Where a step is missing, add it rather than note the gap.
 
 ## Review the plan before the gate
 
