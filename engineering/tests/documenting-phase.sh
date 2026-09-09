@@ -20,4 +20,21 @@ flat "judged"
 flat "skip"                 # judged skip with a recorded reason
 flat "plan gate already"    # no new human gate — the plan gate already authorized the run
 
+# --- validation-protocol orchestrator + four lens docs (Task 6) ---------------
+REFS="$ROOT/engineering/skills/documenting/references"
+VP="$REFS/validation-protocol.md"
+[ -f "$VP" ] || { echo "FAIL: validation-protocol.md does not exist"; exit 1; }
+for lens in accuracy structure links scope; do
+  [ -f "$REFS/lenses/$lens.md" ] || { echo "FAIL: missing lens $lens.md"; exit 1; }
+done
+
+vpflat() { tr '\n' ' ' < "$VP" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: validation-protocol missing anchor: $1"; exit 1; }; }
+vpflat "using-parallel-agents"   # fan-out mechanics
+vpflat "inline floor"            # trivial-doc inline path, mirroring review-protocol
+vpflat "why it bites"            # reuses review-protocol's finding grammar
+
+# The structure lens carries the plain-language / anti-"claudish" fold-in; accuracy checks the diff.
+grep -qiF "claudish" "$REFS/lenses/structure.md" || { echo "FAIL: structure lens must carry the anti-claudish check"; exit 1; }
+grep -qiF "diff" "$REFS/lenses/accuracy.md" || { echo "FAIL: accuracy lens must check against the shipped diff"; exit 1; }
+
 echo "PASS documenting-phase.sh"
