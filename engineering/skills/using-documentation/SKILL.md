@@ -24,9 +24,9 @@ describing what actually shipped, rendered per the shared consumable-markdown co
 ```
 Inputs:  spec path · plan path · shipped whole-branch diff · {domain}/{feature} identity (human-minted)
 Effect:  write | surgically patch   docs/{domain}/{feature}/README.md      (the feature doc)
-         upsert row                 docs/toc.md                            (Name | Description | Domain)
-Rules:   judged      — produce only when the run changed documented behavior; otherwise record a
-                       one-line skip reason (the documenting phase makes this call before invoking here)
+         upsert row                 docs/toc.md                            (Feature | Description | Domain)
+Rules:   reached     — the documenting phase decides whether the run warranted a doc before
+                       invoking here; this skill is reached only on "yes" and always produces
          surgical    — on an already-documented feature, touch only what changed, then verify the
                        rest of the doc still holds against the change and flag drift
          human-mint  — never invent a domain or feature name; propose each with a recommended
@@ -59,12 +59,10 @@ and say the run is degraded. The same holds for offering to document an adjacent
 established-but-undocumented feature the change sat next to: it is a proposal the human opts into
 per feature, never a doc written unasked. Minting a domain or a feature is a human decision.
 
-## Judged, and surgical on an update
+## Surgical on an update
 
-Documentation is **judged**, not automatic. The `documenting` phase decides, before invoking this
-skill, whether the run changed documented behavior; a run that did not gets a one-line recorded
-skip reason instead of a doc — a visible decision, never a silent pass (see
-`engineering:refusing-deferral`).
+Whether the run warranted a doc at all is the `documenting` phase's **judged** call, settled before
+this skill is invoked (see *The contract* above) — this skill is reached only to produce.
 
 When the feature is **already documented** and this run changed it, the update is **surgical**:
 patch only what the change touched, then run an accuracy check over the rest of the doc against
@@ -74,7 +72,7 @@ true edit plus the drift flags.
 
 ## Upsert the table of contents
 
-`docs/toc.md` is the one central index — every feature as a row (`Name | Description | Domain`),
+`docs/toc.md` is the one central index — every feature as a row (`Feature | Description | Domain`),
 the name linking to its `README.md`. Upsert idempotently: a new feature adds a row, an existing
 one updates its row in place; running twice on the same feature never doubles it. Follow
 `references/TOC-FORMAT.md` for the row shape and the domain grouping.
