@@ -300,4 +300,41 @@ grep_flat "$SF" "consumable-markdown.md"; check $? "SPEC-FORMAT cites the shared
 grep_flat "$SF" "| How it's checked |"; check $? "SPEC-FORMAT renders §3 success criteria as a table"
 grep_flat "$SF" "| Trigger to revive |"; check $? "SPEC-FORMAT renders §5 Deferred as a table"
 
+# --- using-questions: single source of the ask-a-human mechanics + guardrails --
+# The menu mechanics (structured choice, recommended-first, open escape, degraded fallback)
+# used to be restated at ~9 sites; using-questions is now their single source, and it adds the
+# clarity guardrails no site previously enforced. Unlike arch-lens/code-review, this skill is
+# ALLOWED to name harness question tools — it carries a reference table of them by design — so
+# there is deliberately no `! AskUserQuestion` guard here.
+UQ="$PLUGIN/skills/using-questions/SKILL.md"
+[ -f "$UQ" ]; check $? "skills/using-questions/SKILL.md exists"
+if [ -f "$UQ" ]; then
+  grep -q '^name: using-questions$' "$UQ"; check $? "using-questions frontmatter names itself"
+  grep_flat "$UQ" "Say this first, plainly"; check $? "using-questions carries the say-this-first opener"
+  grep_flat "$UQ" "What this guarantees"; check $? "using-questions carries a What-this-guarantees clause"
+  # The shared mechanics, stated once here. Each anchor is chosen to be unique to the mechanics
+  # bullet it guards — not a phrase that also appears in the frontmatter blurb or worked example,
+  # which would let the mechanic itself be deleted while the guard stayed green.
+  grep_flat "$UQ" "(Recommended)"; check $? "using-questions states the recommended-first mechanic"
+  grep_flat "$UQ" "Always leave a free-form escape"; check $? "using-questions states the free-form escape mechanic"
+  grep_flat "$UQ" "say the run is degraded"; check $? "using-questions states the degraded-run fallback"
+  # The seven clarity guardrails, each anchored on a phrase unique to its own guardrail.
+  grep_flat "$UQ" "double negative"; check $? "guardrail: no double negatives"
+  grep_flat "$UQ" "Mutually exclusive"; check $? "guardrail: mutually exclusive options"
+  grep_flat "$UQ" "leading or loaded"; check $? "guardrail: no leading or loaded framing"
+  grep_flat "$UQ" "One decision per question"; check $? "guardrail: one decision per question"
+  grep_flat "$UQ" "2-4"; check $? "guardrail: cap options at 2-4"
+  grep_flat "$UQ" "Concrete over vague"; check $? "guardrail: concrete over vague"
+  grep_flat "$UQ" "field-default"; check $? "guardrail: default at the field-default"
+  # The harness question-tool table (the maintainer-requested aid); anchor on the distinctive,
+  # case-stable mechanism/display name in each row, not the lowercase backtick command alone.
+  grep_flat "$UQ" "AskUserQuestion"; check $? "harness table names Claude Code's AskUserQuestion"
+  grep_flat "$UQ" "askquestion"; check $? "harness table names OpenCode's askquestion tool"
+  grep_flat "$UQ" "Hermes Agent"; check $? "harness table names Hermes Agent"
+  grep_flat "$UQ" "Codex CLI"; check $? "harness table names Codex CLI"
+fi
+# using-questions is registered as a cross-cutting skill in both READMEs.
+grep_flat "$PLUGIN/skills/README.md" "using-questions"; check $? "engineering skills README lists using-questions"
+grep_flat "$ROOT/README.md" "using-questions"; check $? "root README lists using-questions"
+
 exit $fail

@@ -14,7 +14,7 @@ conductor is already driving.
 | Bootstrap | `using-skills` |
 | Entrances | `signal`, `triage`, `receiving-code-review` |
 | Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `finish` |
-| Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-verification`, `using-parallel-agents`, `refusing-deferral` |
+| Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `refusing-deferral` |
 | Deep review | `code-review` (opt-in facet-menu review; routes its findings local / to the PR / to `receiving-code-review`) |
 
 Reference files (not skills) that a conductor loads:
