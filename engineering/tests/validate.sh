@@ -321,6 +321,16 @@ fi
 [ ! -e "$FACETS/reviewing-api-compat" ]; check $? "retired reviewing-api-compat facet is absent"
 [ ! -e "$FACETS/reviewing-api-consumption" ]; check $? "retired reviewing-api-consumption facet is absent"
 
+# tenant-isolation = shared-db + isolated-db, branched on the step-1 topology verdict
+TENANT="$FACETS/reviewing-tenant-isolation/facet.md"
+[ -f "$TENANT" ]; check $? "reviewing-tenant-isolation facet exists"
+if [ -f "$TENANT" ]; then
+  grep_flat "$TENANT" "shared-database"; check $? "tenant facet carries the shared-DB lens"
+  grep_flat "$TENANT" "database-per-tenant"; check $? "tenant facet carries the isolated-DB lens"
+fi
+[ ! -e "$FACETS/reviewing-tenant-isolation-shared-db" ]; check $? "retired shared-db tenant facet is absent"
+[ ! -e "$FACETS/reviewing-tenant-isolation-isolated-db" ]; check $? "retired isolated-db tenant facet is absent"
+
 # --- SPEC-FORMAT consumability refresh ---------------------------------------
 # The spec format cites the one shared consumable-markdown reference rather than restating a
 # house style, and renders its enumerable sections (§3 success criteria, §5 Deferred) as tables
