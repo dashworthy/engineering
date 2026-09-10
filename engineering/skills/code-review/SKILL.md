@@ -50,7 +50,7 @@ its default. If a token is genuinely ambiguous, ask once rather than guess.
 
 ## The facets
 
-Seventeen facets exist; each is one lens, defined in a reference file under
+Sixteen facets exist; each is one lens, defined in a reference file under
 [references/facets/](references/facets/) (`references/facets/<facet>/facet.md`), and dispatched as
 an independent reviewer — not a standalone skill. Eight **core** facets — **Security**, **Novelty**,
 **Technical**, **Architectural**, **Error Handling & Resilience**, **Test Quality**, **Concurrency &
@@ -84,11 +84,10 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
 | [`reviewing-error-handling`](references/facets/reviewing-error-handling/facet.md) | Silent failures, swallowed exceptions, bad fallbacks | **Always** (core) |
 | [`reviewing-test-quality`](references/facets/reviewing-test-quality/facet.md) | Do tests exercise the change and fail if it breaks? | **Always** (core) |
 | [`reviewing-data-safety`](references/facets/reviewing-data-safety/facet.md) | Destructive/irreversible ops, migrations, data loss | alters stored-data structure or performs a destructive or irreversible data operation — a migration, a bulk update/delete, a drop |
-| [`reviewing-api-compat`](references/facets/reviewing-api-compat/facet.md) | Breaking changes to public contracts | alters a public contract others consume — an exported signature, a response shape or status, or a serialized form |
+| [`reviewing-api`](references/facets/reviewing-api/facet.md) | API surface across two lenses — Compatibility (breaking changes to a public contract it provides) and Consumption (over-fetch, client-side filtering, call volume, 429 safety of a remote API it consumes) | alters a public contract others consume, or consumes a remote/HTTP API it does not own |
 | [`reviewing-concurrency`](references/facets/reviewing-concurrency/facet.md) | Race conditions and unsafe interleaving: check-then-act, non-atomic read-modify-write, missing lock/transaction | **Always** (core) |
 | [`reviewing-idempotency`](references/facets/reviewing-idempotency/facet.md) | Side effects unsafe to run twice: no idempotency key, non-idempotent retry, duplicate on replay | performs a side effect that may run more than once — a retry, a queued/at-least-once handler, or a replayable operation — with no guard against duplication |
 | [`reviewing-numeric-precision`](references/facets/reviewing-numeric-precision/facet.md) | Precision and unit defects: float for money, silent rounding, unit mismatch, overflow, lossy cast | **Always** (core) |
-| [`reviewing-api-consumption`](references/facets/reviewing-api-consumption/facet.md) | Remote/HTTP API consumption: over-fetch, doing the API's filtering client-side, excessive call volume, 429 rate-limit safety | consumes a remote/HTTP API it does not own — issuing calls, fetching, filtering, or paging over a service |
 | [`reviewing-tenant-isolation-shared-db`](references/facets/reviewing-tenant-isolation-shared-db/facet.md) | Cross-tenant leaks in a single-DB / shared-schema app: a query that lost its tenant scope | When **step 1 proposed it** (a `shared`/`both` tenancy verdict) — on the proposal, not further gated on the change |
 | [`reviewing-tenant-isolation-isolated-db`](references/facets/reviewing-tenant-isolation-isolated-db/facet.md) | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | When **step 1 proposed it** (a `per-db`/`both` tenancy verdict) — on the proposal |
 | [`reviewing-frontend`](references/facets/reviewing-frontend/facet.md) | Frontend surface across three lenses — Accessibility (perceivability & operability), Data presentation (identity ambiguity), Internationalization (translatability) | alters a user-facing surface — rendered output/markup/interaction, how records are labeled or identified, or localized user-facing text |

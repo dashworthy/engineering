@@ -43,7 +43,7 @@ The detail a reader who will change code review needs. Everything lives under `s
 | Orchestrator | `skills/code-review/SKILL.md` | Parses effort/target, classifies tenancy and stack, resolves the change, pre-fills and confirms the menu, fans out the selected facets, reconciles their results into one report, and routes it. Report-only: never edits code. |
 | Contract | `skills/code-review/references/facet-contract.md` | The uniform request/result/finding interface between the orchestrator and every facet, so the orchestrator holds no facet-specific knowledge and a new facet is "implement this contract + add a menu row." |
 | Hard stops | `skills/code-review/references/hard-stops.md` | The three self-limits every facet enforces at the source: relevance gate first, top-N severity cap (with a `dropped` count), confidence/severity floor. No numeric token ceiling. |
-| Facets | `skills/code-review/references/facets/<facet>/facet.md` | One review lens each (17 today; some facets carry more than one sub-lens under one relevance gate). A facet's own doc is read only when it is dispatched — never merely to decide whether to run it. |
+| Facets | `skills/code-review/references/facets/<facet>/facet.md` | One review lens each (16 today; some facets carry more than one sub-lens under one relevance gate). A facet's own doc is read only when it is dispatched — never merely to decide whether to run it. |
 | Tenancy signals | `skills/code-review/references/multi-tenancy-signals.md` | Reasoned (not scripted) classification of the repo's tenancy model into one verdict — `shared`, `per-db`, `both`, `none`, or `ambiguous` — that decides which tenant-isolation facets the menu proposes. |
 | Stack signals | `skills/code-review/references/stack-signals.md` | Reasoned classification of the repo's frameworks into a *set* (stacks aren't mutually exclusive), deciding whether `reviewing-framework-best-practices` is proposed. |
 
@@ -63,9 +63,8 @@ The detail a reader who will change code review needs. Everything lives under `s
 | `reviewing-tenant-isolation-isolated-db` | Cross-tenant leaks in a database-per-tenant app | Core-when-present (`per-db`/`both` verdict) |
 | `reviewing-framework-best-practices` | Stack-specific idiom violations (Laravel, Tailwind today) | Core-when-present (non-empty stack set) |
 | `reviewing-data-safety` | Destructive/irreversible ops, migrations, data loss | Opt-in: alters stored-data structure or does a destructive/irreversible op |
-| `reviewing-api-compat` | Breaking changes to public contracts | Opt-in: alters a public contract others consume |
+| `reviewing-api` | API surface across two lenses: Compatibility (breaking changes to a public contract it provides) and Consumption (over-fetch, client-side filtering, call volume, 429 safety) | Opt-in: alters a public contract others consume, or consumes a remote/HTTP API it does not own |
 | `reviewing-idempotency` | Side effects unsafe to run twice | Opt-in: performs a side effect that may run more than once with no dedup guard |
-| `reviewing-api-consumption` | Remote/HTTP API consumption: over-fetch, client-side filtering, call volume, 429 safety | Opt-in: consumes a remote/HTTP API it does not own |
 | `reviewing-frontend` | Frontend surface across three lenses: Accessibility (perceivability & operability), Data presentation (identity ambiguity), Internationalization (translatability) | Opt-in: alters a user-facing surface — rendered output, record labeling/identity, or localized text |
 | `reviewing-electron` | Electron process-model & security hardening plus best practices | Opt-in: touches an Electron process-model or security surface |
 
