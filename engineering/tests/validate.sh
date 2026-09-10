@@ -311,6 +311,16 @@ fi
 [ ! -e "$FACETS/reviewing-data-presentation" ]; check $? "retired reviewing-data-presentation facet is absent"
 [ ! -e "$FACETS/reviewing-i18n" ]; check $? "retired reviewing-i18n facet is absent"
 
+# api = api-compat + api-consumption (both gate on an API surface)
+API="$FACETS/reviewing-api/facet.md"
+[ -f "$API" ]; check $? "reviewing-api facet exists"
+if [ -f "$API" ]; then
+  grep_flat "$API" "Compatibility"; check $? "api facet carries the compatibility lens"
+  grep_flat "$API" "Consumption"; check $? "api facet carries the consumption lens"
+fi
+[ ! -e "$FACETS/reviewing-api-compat" ]; check $? "retired reviewing-api-compat facet is absent"
+[ ! -e "$FACETS/reviewing-api-consumption" ]; check $? "retired reviewing-api-consumption facet is absent"
+
 # --- SPEC-FORMAT consumability refresh ---------------------------------------
 # The spec format cites the one shared consumable-markdown reference rather than restating a
 # house style, and renders its enumerable sections (§3 success criteria, §5 Deferred) as tables
