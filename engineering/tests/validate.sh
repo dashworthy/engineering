@@ -292,6 +292,25 @@ if [ -f "$CR" ]; then
   ! grep_flat "$CR" "AskUserQuestion"; check $? "code-review names no harness-specific question tool"
 fi
 
+# --- code-review facets: cohesion consolidation ------------------------------
+# Facets merged by trigger cohesion (run 2026-09-10-structure-and-facet-cleanup): 19 -> 13. Each
+# merged facet still implements the fixed facet-contract; the retired single-lens facet dirs are
+# gone. Assert the merged set exists and names each folded-in lens, and the retired dirs are
+# absent, so the consolidation cannot silently regress.
+FACETS="$PLUGIN/skills/code-review/references/facets"
+
+# frontend = accessibility + data-presentation + i18n (shared "renders a user-facing surface" gate)
+FRONTEND="$FACETS/reviewing-frontend/facet.md"
+[ -f "$FRONTEND" ]; check $? "reviewing-frontend facet exists"
+if [ -f "$FRONTEND" ]; then
+  grep_flat "$FRONTEND" "Accessibility"; check $? "frontend facet carries the accessibility lens"
+  grep_flat "$FRONTEND" "identity"; check $? "frontend facet carries the data-presentation (identity) lens"
+  grep_flat "$FRONTEND" "translat"; check $? "frontend facet carries the i18n (translation) lens"
+fi
+[ ! -e "$FACETS/reviewing-accessibility" ]; check $? "retired reviewing-accessibility facet is absent"
+[ ! -e "$FACETS/reviewing-data-presentation" ]; check $? "retired reviewing-data-presentation facet is absent"
+[ ! -e "$FACETS/reviewing-i18n" ]; check $? "retired reviewing-i18n facet is absent"
+
 # --- SPEC-FORMAT consumability refresh ---------------------------------------
 # The spec format cites the one shared consumable-markdown reference rather than restating a
 # house style, and renders its enumerable sections (§3 success criteria, §5 Deferred) as tables
