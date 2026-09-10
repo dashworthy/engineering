@@ -12,9 +12,8 @@ stack already provides) — and returns a short, ordered, self-contained list of
 and floored, with a durable record written to its artifact. It is **report-only**: it never edits
 code.
 
-These were two facets — Technical and Novelty — that named each other as siblings and share the
-same reach (the diff plus the modules the change already imports). They are one facet now: two
-lenses under one relevance gate, one dispatched reviewer.
+The two lenses share the same reach — the diff plus the modules the change already imports — and
+run under one relevance gate as a single dispatched reviewer.
 
 This facet self-limits at the source (see `../../hard-stops.md`), under the shared
 `../../facet-contract.md`.

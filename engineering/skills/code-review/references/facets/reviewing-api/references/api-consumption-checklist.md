@@ -1,6 +1,6 @@
 # API-consumption review checklist — over-fetch, over-call, filtering, rate limits
 
-The lens for the API-consumption facet. Language- and framework-agnostic: these are classes of
+The Consumption lens of the API facet. Language- and framework-agnostic: these are classes of
 defect to reason about in whatever stack the change is written in — a browser `fetch`, an
 `axios` client, a react-query/SWR hook, a generated SDK, a backend service calling a
 third-party HTTP API — not a rule table for one library. The examples are *illustrations* of a
@@ -86,9 +86,9 @@ Keep the floor honest — these belong to other facets, to another tool, or to n
   boundary here is **transport** — this facet is calls over the network only.
 - **General error handling** — a swallowed exception, an empty catch, or a masking fallback
   that is not specifically about rate limiting. The **Error Handling** facet owns that; this
-  facet owns only the 429-specific resilience (retry/backoff, `Retry-After`).
+  lens owns only the 429-specific resilience (retry/backoff, `Retry-After`).
 - **The API's own contract** — a breaking change, a removed field, a changed response shape.
-  The **API & Backward Compatibility** facet owns the contract; this facet judges only how the
+  The API facet's **Compatibility** lens owns the contract; this lens judges only how the
   change consumes it.
 - **A micro-optimization with no reasoned cost** on the change's actual path — below the
   confidence floor.

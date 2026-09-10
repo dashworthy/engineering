@@ -1,6 +1,6 @@
 # Technical review checklist — efficiency, correctness
 
-The lens for the technical facet. Language-agnostic: these are classes of defect to reason about in
+The Efficiency & correctness lens of the Technical facet. Language-agnostic: these are classes of defect to reason about in
 whatever stack the change is written in, not a rule table for one framework. The reach is the diff
 and a glance at the public surface of already-imported modules — **no proactive repo-wide scan**.
 Reinvention of an existing capability is this facet's **other** lens (Reuse over reinvention,

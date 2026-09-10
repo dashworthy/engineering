@@ -1,6 +1,6 @@
-# Novelty review checklist — reinventing what already exists
+# Reuse-over-reinvention checklist — reinventing what already exists
 
-The lens for the novelty facet. One question runs through all of it: *did the change reinvent a
+The Reuse-over-reinvention lens of the Technical facet. One question runs through all of it: *did the change reinvent a
 capability the stack already provides?* Language- and framework-agnostic — these are classes of
 defect to reason about in whatever stack the change is written in, described as shapes rather than as
 targets for any one framework or library. The reach is the diff, model knowledge of the framework /
@@ -52,7 +52,8 @@ Keep the floor honest — these belong to other facets, to a linter, or to no on
 - **A bespoke helper elsewhere in the repo the change does not import** — out of reach; chasing it
   would mean the repo-wide scan the boundary rules out. **No proactive repo-wide scan.**
 - **Inefficient data access or a correctness lapse** — an N+1, an unbounded query, an off-by-one.
-  The **Technical** facet owns those; this facet owns reuse over reinvention only.
+  The Technical facet's **Efficiency & correctness** lens owns those; this lens owns reuse over
+  reinvention only.
 - **A style / formatting / naming preference** with no correctness consequence — a linter owns it, or
   nobody does.
 - **A trivially different reimplementation with a reasoned cause** — a genuine reason the existing

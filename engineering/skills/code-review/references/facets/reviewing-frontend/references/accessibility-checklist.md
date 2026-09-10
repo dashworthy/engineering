@@ -1,11 +1,11 @@
 # Accessibility review checklist — the barriers a diff can show
 
-The lens for the accessibility facet. One concern: a change that renders a surface a person using
+The Accessibility lens of the Frontend facet. One concern: a change that renders a surface a person using
 assistive technology — a screen reader, a keyboard, a magnifier, a switch — **cannot perceive or
 operate**, because the markup omits a name, drops a text alternative, hides meaning in color,
 moves without consent, or changes without announcing. This is a *perceivability and operability*
 problem, not an *identity* one. **Identity ambiguity — two distinct records a person can't tell
-apart — is the data-presentation facet's job, not this one**; a label that is perfectly
+apart — is the Frontend facet's Data-presentation lens, not this one**; a label that is perfectly
 accessible but points at the wrong record belongs there, and a barrier that has nothing to do
 with telling records apart belongs here. Language- and framework-agnostic: these are classes of
 accessibility barrier to reason about in whatever the change renders — an HTML or Blade template,
@@ -84,7 +84,7 @@ Keep the floor honest — these belong elsewhere or to no one:
   element used correctly, a contrast pair above the floor — is not a barrier; touching it is not a
   finding.
 - **Identity ambiguity** — a name several records share with no disambiguating path, two options
-  that render identically — is the **data-presentation** facet's concern, not this one, even when
+  that render identically — is the **Data-presentation** lens's concern, not this one, even when
   it happens on a rendered surface. Out of scope here.
 - **General visual design, copy quality, or layout taste** — spacing, alignment, brand color
   choices, tone of wording — real, but not an accessibility barrier unless it crosses one of the

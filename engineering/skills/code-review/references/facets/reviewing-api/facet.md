@@ -11,9 +11,8 @@ One thing: given a change that touches an API surface, this facet reviews it acr
 self-contained list of findings, capped and floored, with a durable record written to its
 artifact. It is **report-only**: it never edits code.
 
-These were two adjacent facets that already named each other as siblings. They are one facet now:
-the two lenses are orthogonal — providing a contract vs. consuming one — so a given change usually
-engages just one, and the relevance gate below fires for either.
+The two lenses are orthogonal — providing a contract vs. consuming one — so a given change usually
+engages just one; the relevance gate below fires for either.
 
 This facet self-limits at the source (see `../../hard-stops.md`), under the shared
 `../../facet-contract.md`.

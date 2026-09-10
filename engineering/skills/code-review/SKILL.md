@@ -50,7 +50,7 @@ its default. If a token is genuinely ambiguous, ask once rather than guess.
 
 ## The facets
 
-Fourteen facets exist; each is one lens, defined in a reference file under
+Thirteen facets exist; each is one lens, defined in a reference file under
 [references/facets/](references/facets/) (`references/facets/<facet>/facet.md`), and dispatched as
 an independent reviewer — not a standalone skill. Seven **core** facets — **Security**,
 **Technical** (efficiency/correctness **and** reuse over reinvention), **Architectural**, **Error
@@ -60,8 +60,10 @@ The remaining opt-in facets are pre-checked only when the change's character mat
 **Pre-check when the change…** column of the facet list below. The **tenant-isolation** facet and
 the **Framework Best Practices** facet are **core-when-present** — pre-checked only when the
 repo-level menu-proposal step (workflow step 1) proposes them: the matching tenancy model, or at
-least one covered stack (ten covered today, including Electron's non-security idiom). **Frontend** and **Electron** are opt-in,
-pre-checked by the same character match as the other opt-in facets.
+least one covered stack (ten covered today, including Electron's non-security idiom). **Frontend** is opt-in,
+pre-checked by the same character match as the other opt-in facets. (Electron has no standalone
+facet: its non-security idiom is a Framework Best Practices stack, and its process-model security
+is a lens of the Security facet — each engaged by that facet's own gate.)
 
 Which of these arrive **pre-checked** on a given run is not a fixed default: it is decided by the
 **Pre-check when the change…** column of the facet list below, which the orchestrator reads at
@@ -78,7 +80,7 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
 
 | Facet (file) | Lens | Pre-check when the change… |
 |---|---|---|
-| [`reviewing-security`](references/facets/reviewing-security/facet.md) | OWASP best practices; authorization enforced, not assumed | **Always** (core) |
+| [`reviewing-security`](references/facets/reviewing-security/facet.md) | OWASP best practices; authorization enforced, not assumed; plus Electron process-model security (renderer isolation, preload/IPC, navigation, shell/protocol) when the change touches an Electron surface | **Always** (core) |
 | [`reviewing-technical`](references/facets/reviewing-technical/facet.md) | Two lenses — Efficiency & correctness (N+1, unbounded queries, correctness-scoped best practice) and Reuse over reinvention (rebuilding what a framework/stdlib/library/imported module already provides) | **Always** (core) |
 | [`reviewing-architectural`](references/facets/reviewing-architectural/facet.md) | Sustainable architecture: coupling, dependency direction, cohesion, leaky abstractions | **Always** (core) |
 | [`reviewing-error-handling`](references/facets/reviewing-error-handling/facet.md) | Silent failures, swallowed exceptions, bad fallbacks | **Always** (core) |
@@ -90,7 +92,6 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
 | [`reviewing-numeric-precision`](references/facets/reviewing-numeric-precision/facet.md) | Precision and unit defects: float for money, silent rounding, unit mismatch, overflow, lossy cast | **Always** (core) |
 | [`reviewing-tenant-isolation`](references/facets/reviewing-tenant-isolation/facet.md) | Cross-tenant leaks, branched on DB topology — a shared-schema query that lost its tenant scope, or an isolated-DB operation on the wrong connection | When **step 1 proposed it** (a `shared`/`per-db`/`both` tenancy verdict selects the lens) — on the proposal, not further gated on the change |
 | [`reviewing-frontend`](references/facets/reviewing-frontend/facet.md) | Frontend surface across three lenses — Accessibility (perceivability & operability), Data presentation (identity ambiguity), Internationalization (translatability) | alters a user-facing surface — rendered output/markup/interaction, how records are labeled or identified, or localized user-facing text |
-| [`reviewing-electron`](references/facets/reviewing-electron/facet.md) | Electron: process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging) | touches an Electron process-model or security surface — renderer isolation, preload/context-bridge, IPC, navigation, shell/protocol, packaging, or the main/renderer split |
 | [`reviewing-framework-best-practices`](references/facets/reviewing-framework-best-practices/facet.md) | Stack-specific idiom violations for the detected stack(s) — ten covered, including Electron's non-security idiom (Electron security is the Security facet's) | When **step 1 proposed it** (at least one covered stack detected) — on the proposal |
 
 ## The workflow
@@ -121,7 +122,7 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
    the change…** column of the facet list above and reason over the change's character (*what it
    does*, never its file paths or types) together with the step-1 tenancy/stack verdicts, to decide
    which facets arrive pre-checked:
-   - the **core** facets (the eight marked **Always** in the list) are **pre-checked** on every run,
+   - the **core** facets (the seven marked **Always** in the list) are **pre-checked** on every run,
      whatever the change;
    - each **opt-in** facet whose list entry matches the change's character is pre-checked,
      erring toward inclusion — a false skip (a lens left off) is the harmful direction, while a

@@ -1,6 +1,6 @@
 # Isolated-DB tenant-isolation review checklist — the cross-tenant leaks a diff can show
 
-The lens for the isolated-DB tenant-isolation facet. Scoped to the **database-per-tenant /
+The isolated-DB lens of the Tenant-isolation facet. Scoped to the **database-per-tenant /
 schema-per-tenant** tenancy model: each tenant's data lives in its own database (or its own schema),
 and isolation is a **connection boundary**, not a query predicate. In that model a `WHERE tenant_id`
 is not the guard — the guard is *which database connection the operation runs on*, so the whole
