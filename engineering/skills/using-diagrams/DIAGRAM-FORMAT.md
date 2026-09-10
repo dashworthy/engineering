@@ -24,6 +24,9 @@ local preview and sanitizes for safety. Stay inside what GitHub actually draws:
   `X -->|"on failure"| Y`, `ORDER ||--o{ ITEM : "appears in"`. A bare `?` or `.` in node
   text needs no quoting, and quoting where it isn't needed is its own risk on GitHub's older
   mermaid — quote the breakers, not everything.
+- **Break a label with `<br/>`, never `\n`.** GitHub's mermaid prints a literal `\n` as
+  the two characters `\` and `n` inside the box; only the `<br/>` tag starts a new line:
+  `A["place order<br/>(web)"]`. A label carrying a break is a quoted label like any other.
 - **No `%%{init}%%` theme directives and no `click`/JS interactions** — GitHub strips them;
   the diagram either loses the styling or fails to parse.
 - **When in doubt, preview it** — paste the block into a GitHub issue or PR preview before
