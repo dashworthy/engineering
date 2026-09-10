@@ -50,13 +50,13 @@ its default. If a token is genuinely ambiguous, ask once rather than guess.
 
 ## The facets
 
-Sixteen facets exist; each is one lens, defined in a reference file under
+Fifteen facets exist; each is one lens, defined in a reference file under
 [references/facets/](references/facets/) (`references/facets/<facet>/facet.md`), and dispatched as
 an independent reviewer — not a standalone skill. Eight **core** facets — **Security**, **Novelty**,
 **Technical**, **Architectural**, **Error Handling & Resilience**, **Test Quality**, **Concurrency &
 Race Safety**, and **Numeric Precision & Units** — are **always** pre-checked, whatever the change.
 The remaining opt-in facets are pre-checked only when the change's character matches, per the
-**Pre-check when the change…** column of the facet list below. Two **tenant-isolation** facets and
+**Pre-check when the change…** column of the facet list below. The **tenant-isolation** facet and
 the **Framework Best Practices** facet are **core-when-present** — pre-checked only when the
 repo-level menu-proposal step (workflow step 1) proposes them: the matching tenancy model, or at
 least one covered framework (Laravel and Tailwind today). **Frontend** and **Electron** are opt-in,
@@ -88,8 +88,7 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
 | [`reviewing-concurrency`](references/facets/reviewing-concurrency/facet.md) | Race conditions and unsafe interleaving: check-then-act, non-atomic read-modify-write, missing lock/transaction | **Always** (core) |
 | [`reviewing-idempotency`](references/facets/reviewing-idempotency/facet.md) | Side effects unsafe to run twice: no idempotency key, non-idempotent retry, duplicate on replay | performs a side effect that may run more than once — a retry, a queued/at-least-once handler, or a replayable operation — with no guard against duplication |
 | [`reviewing-numeric-precision`](references/facets/reviewing-numeric-precision/facet.md) | Precision and unit defects: float for money, silent rounding, unit mismatch, overflow, lossy cast | **Always** (core) |
-| [`reviewing-tenant-isolation-shared-db`](references/facets/reviewing-tenant-isolation-shared-db/facet.md) | Cross-tenant leaks in a single-DB / shared-schema app: a query that lost its tenant scope | When **step 1 proposed it** (a `shared`/`both` tenancy verdict) — on the proposal, not further gated on the change |
-| [`reviewing-tenant-isolation-isolated-db`](references/facets/reviewing-tenant-isolation-isolated-db/facet.md) | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | When **step 1 proposed it** (a `per-db`/`both` tenancy verdict) — on the proposal |
+| [`reviewing-tenant-isolation`](references/facets/reviewing-tenant-isolation/facet.md) | Cross-tenant leaks, branched on DB topology — a shared-schema query that lost its tenant scope, or an isolated-DB operation on the wrong connection | When **step 1 proposed it** (a `shared`/`per-db`/`both` tenancy verdict selects the lens) — on the proposal, not further gated on the change |
 | [`reviewing-frontend`](references/facets/reviewing-frontend/facet.md) | Frontend surface across three lenses — Accessibility (perceivability & operability), Data presentation (identity ambiguity), Internationalization (translatability) | alters a user-facing surface — rendered output/markup/interaction, how records are labeled or identified, or localized user-facing text |
 | [`reviewing-electron`](references/facets/reviewing-electron/facet.md) | Electron: process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging) | touches an Electron process-model or security surface — renderer isolation, preload/context-bridge, IPC, navigation, shell/protocol, packaging, or the main/renderer split |
 | [`reviewing-framework-best-practices`](references/facets/reviewing-framework-best-practices/facet.md) | Stack-specific idiom violations for the detected framework(s) — Laravel and Tailwind today | When **step 1 proposed it** (at least one covered stack detected) — on the proposal |
@@ -106,9 +105,10 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
    `per-db`, `both`, `none`, or `ambiguous` — and on `ambiguous` ask the human once; separately
    emit the stack verdict as a **set** of matched frameworks (zero or more of `laravel`,
    `tailwind`), never a single mutually-exclusive value, since a repo can run more than one at
-   once. The tenancy verdict governs only which tenant facets the menu proposes and pre-checks:
-   `shared` → the shared-DB facet, `per-db` → the isolated-DB facet, `both` → both, `none` →
-   neither. The stack verdict governs only whether `reviewing-framework-best-practices` is
+   once. The tenancy verdict governs whether the single `reviewing-tenant-isolation` facet is
+   proposed and which lens it applies: `shared` → proposed, shared-DB lens; `per-db` → proposed,
+   isolated-DB lens; `both` → proposed, both lenses; `none` → not proposed. The stack verdict
+   governs only whether `reviewing-framework-best-practices` is
    proposed and pre-checked: any non-empty set → proposed; an empty set → not on the menu at all.
    This is the upper of code-review's **two-gate** model: a repo-level menu-proposal gate that sits
    *above* each facet's own per-change relevance gate — a proposed facet still self-skips on a
@@ -126,7 +126,7 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
    - each **opt-in** facet whose list entry matches the change's character is pre-checked,
      erring toward inclusion — a false skip (a lens left off) is the harmful direction, while a
      false-positive self-skips cheaply at dispatch or is unchecked by the human here;
-   - each **core-when-present** facet (the two tenant-isolation facets and
+   - each **core-when-present** facet (the `reviewing-tenant-isolation` facet and
      `reviewing-framework-best-practices`) is pre-checked when the step-1 menu-proposal gate
      proposed it — the proposal is its list entry, so it is *not* further gated on the change's
      character; a proposed facet pre-checks exactly as it did before auto-assignment.
