@@ -1,6 +1,6 @@
 # Shared-DB tenant-isolation review checklist — the cross-tenant leaks a diff can show
 
-The lens for the shared-DB tenant-isolation facet. Scoped to the **single-database, shared-schema**
+The shared-DB lens of the Tenant-isolation facet. Scoped to the **single-database, shared-schema**
 tenancy model: one physical database, many tenants in the same tables, told apart by a discriminator
 column (`tenant_id`, `account_id`, `org_id`, or the like). In that model isolation is not a
 connection boundary — it is a predicate every read and write must carry, so the whole failure mode is

@@ -1,6 +1,6 @@
 # i18n review checklist — the translatability defects a diff can show
 
-The lens for the i18n (translations) facet. One narrow concern: a change that puts text in front of a
+The Internationalization lens of the Frontend facet. One narrow concern: a change that puts text in front of a
 person in a way that **cannot be localized** — either because the text bypasses the translation
 mechanism entirely, or because it reaches that mechanism in a shape no translator can correctly
 localize. This is a *translatability* problem, not a *copy* one: **wording quality, tone, grammar,

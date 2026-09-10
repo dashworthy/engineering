@@ -12,7 +12,7 @@ artifact. It is **report-only**: it never edits code.
 
 A multi-tenant app isolates tenants one of two ways, and the defect classes differ by which. This
 facet carries **both lenses** and **branches on the deployment topology** the orchestrator's
-menu-proposal step (workflow step 1) determined — the same tenancy verdict that proposes this
+menu-proposal step determined — the same tenancy verdict that proposes this
 facet also selects which lens applies:
 
 - **Shared-database lens** — a **single-database, shared-schema** app, where every tenant's rows

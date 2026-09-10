@@ -1,11 +1,11 @@
 # Data-presentation review checklist — the identity ambiguities a diff can show
 
-The lens for the data-presentation facet. One narrow concern: a change that renders records so a
+The Data-presentation lens of the Frontend facet. One narrow concern: a change that renders records so a
 person **cannot tell two distinct records apart**, or cannot tell *which* record they are looking at
 or acting on, because the presentation drops the information that distinguishes them. This is an
 *identity* problem, not a styling one. **General UX, accessibility, visual design, copy, and layout
 are out of scope** — colour contrast, spacing, keyboard order, wording quality, and the like belong to
-a UX or accessibility review, not here; this facet fires only when the missing information makes
+a UX or accessibility review, not here; this lens fires only when the missing information makes
 records genuinely ambiguous to identify. (Responsiveness and truncation are UX concerns too — except
 in the one case where the responsive or truncating behaviour is *what* collapses two distinct records
 into one appearance, which is the fourth class below.) Language- and framework-agnostic: these are

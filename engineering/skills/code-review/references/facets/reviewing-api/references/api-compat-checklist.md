@@ -1,9 +1,9 @@
 # API & backward-compatibility review checklist — the breaking changes a diff can show
 
-The lens for the api-compat facet. Language- and protocol-agnostic: these are classes of
+The Compatibility lens of the API facet. Language- and protocol-agnostic: these are classes of
 contract-breaking change to reason about in whatever the change is written in — a library's exported
 functions, an HTTP/RPC endpoint, a message or file schema — not a rule table for one framework. Every
-class here is scoped to the contract change the **diff** actually shows; this facet reasons about the
+class here is scoped to the contract change the **diff** actually shows; this lens reasons about the
 surface the change alters and does not scan the repo for every consumer. Contents:
 
 - Removed or renamed public member — the headline class
@@ -72,4 +72,4 @@ Keep the floor honest — these belong elsewhere or to no one:
   a migration note, a deprecation the change is completing on schedule. The break is intentional and
   on the record.
 - **Consumers outside the diff** — chasing every caller across the repo is out of reach by this
-  facet's boundary; reason about the contract change itself.
+  lens's boundary; reason about the contract change itself.

@@ -11,11 +11,10 @@ across three lenses — **Accessibility** (perceivability & operability), **Data
 ordered, self-contained list of findings, capped and floored, with a durable record written to
 its artifact. It is **report-only**: it never edits code.
 
-These three were separate facets that shared one relevance gate — *does the change render a
-surface a person sees?* — and carved each other out in prose. They are one facet now: one gate,
-three sub-lenses, one dispatched reviewer. The carve-outs they stated between one another
-(accessibility vs. identity ambiguity, i18n vs. markup perceivability, i18n vs. copy quality)
-survive as **intra-facet boundaries** below, telling this facet which lens owns a given finding.
+The three lenses share one relevance gate — *does the change render a surface a person sees?* —
+and run as one dispatched reviewer. Each owns a distinct concern, and the boundaries between them
+tell this facet which lens owns a given finding; the workflow below draws each line where it
+matters.
 
 This facet self-limits at the source (see `../../hard-stops.md`), under the shared
 `../../facet-contract.md`.
