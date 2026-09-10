@@ -347,6 +347,13 @@ if [ -f "$FBP/references/framework-best-practices-index.md" ]; then
 fi
 grep_flat "$PLUGIN/skills/code-review/references/stack-signals.md" "Electron signals"; check $? "stack-signals detects Electron"
 
+# Electron *security* folded into the Security facet; the reviewing-electron facet is retired
+SEC="$FACETS/reviewing-security/facet.md"
+if [ -f "$SEC" ]; then
+  grep_flat "$SEC" "Electron"; check $? "security facet carries the Electron-security lens"
+fi
+[ ! -e "$FACETS/reviewing-electron" ]; check $? "retired reviewing-electron facet is absent"
+
 # --- SPEC-FORMAT consumability refresh ---------------------------------------
 # The spec format cites the one shared consumable-markdown reference rather than restating a
 # house style, and renders its enumerable sections (§3 success criteria, §5 Deferred) as tables
