@@ -91,24 +91,10 @@ Working state for this run. Not the deliverable; `brief.md` is.
 
 **Do not ask open questions. Offer a short menu of concrete choices and invite a pick or a correction.** Picking off a list costs the user far less than composing an answer from a blank prompt.
 
-**Deliver every probe as a structured question — one question at a time, its answers a short menu of selectable options — never as prose the user has to read past.** Plain-text questions are exactly what pile the six dimensions into one wall for the user to answer all at once; a structured question renders one probe as pickable options and stops the turn until it is answered, which is the interactivity this whole skill depends on. **Use a tool to put the question where one is available**, rather than writing the menu into your reply. Shape each probe the same way:
+**Deliver every probe as a structured question — one question at a time, its answers a short menu of selectable options — never as prose the user has to read past.** Plain-text questions are exactly what pile the six dimensions into one wall for the user to answer all at once; a structured question renders one probe as pickable options and stops the turn until it is answered, which is the interactivity this whole skill depends on. **Shape and ask each probe following `engineering:using-questions`** — the recommended-first menu, the always-open escape, the degraded-run fallback, and the clarity guardrails all live there. This section adds only what is particular to interrogation:
 
-- **A short label** — the coverage dimension, ≤12 chars: `Problem`, `Users`, `Success`, `Constraints`, `Scope`, `Context`.
-- **First option** — the **conventional answer**, what most competent practitioners in this domain would do. Its reasoning rides the option; append ` (Recommended)` to its label.
-- **The other options** — the two or three real alternatives, each with a one-line rationale.
-- **Always leave an open escape.** Every probe must let the user type their own answer instead of picking — a free-form "Other" that stops your guesses from being read back as the only choices. Where the question mechanism appends that escape on its own, rely on it and never hand-write "or something else"; where it does not, add the escape yourself.
-
-The same auth probe as one call — `header: Auth`, question "Auth approach?": **SSO (Recommended)** ("kills the password-reset support load, the usual driver") · **Magic links** · **Password + 2FA**. The user picks one or types their own into Other.
-
-**Fallback — interactive prompting is not always there.** In a headless or non-interactive run the harness cannot put a blocking question to the user. *Only* then, fall back to the same menu as plain text and say the run is degraded:
-
-> "Auth approach? Most teams this size pick:
-> - **A) SSO** — to kill the password-reset support load (the usual driver)
-> - B) Magic links
-> - C) Password + 2FA
-> - or something else —
->
-> Pick one, or tell me what's off."
+- **The label is the coverage dimension** — ≤12 chars: `Problem`, `Users`, `Success`, `Constraints`, `Scope`, `Context`.
+- **The recommended-first option is the conventional answer** — what most competent practitioners in this domain would do, with the two or three real alternatives after it. How that recommendation is marked and shaped, and the open escape beside it, are `using-questions`' job; `using-questions` also carries the worked auth-approach example and the plain-text form of a probe for a degraded run.
 
 - **They take the default** — the ground is standard here. Fill it in and move on.
 - **They take an alternative, or write their own** — a departure. Dig.
@@ -117,9 +103,7 @@ Departures are where the requirements actually live; everything else you could h
 
 ### Rules for the menu
 
-- **Set the default at the field default. Never tune it to what the user already told you.** A tuned default that draws a pick tells you only that you were listening; a field-default one tells you something about the world.
-- **Keep it short and local.** Two to four options for one probe — never a lecture up front, never a batch of separate questions dressed up as a list.
-- **The open escape is not optional** — every probe leaves a free-form answer open. A closed list of your guesses, offered as the only choices, would encode your framing as a requirement; the open escape prevents that. Where the question mechanism supplies it automatically, rely on that; where it does not, add it yourself — either way it is never yours to forget.
+- **The menu mechanics are `using-questions`' — rely on them here, don't restate them.** Its guardrails already cover the default set at the field's own convention (not tuned to what the user just told you), the two-to-four option cap, and the never-optional open escape; this section adds only the mining rules below that are particular to interrogation.
 - **When you do not know what is conventional in this domain, say so and let the menu be rougher** rather than inventing a confident default.
 
   > "I don't have a strong sense of what's typical here, so correct me freely — I'd guess it's one of these, but the list is a starting point, not the boundary:"

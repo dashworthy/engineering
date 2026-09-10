@@ -55,13 +55,12 @@ to build, what it costs to live with, what it makes harder later. Then recommend
 and say why, so the human is approving a reasoned pick, not refereeing a pile of
 options with no author's opinion attached.
 
-Put that pick to the human as a structured choice, using a tool to ask it where one is available:
-the 2-3 approaches as selectable options, your
-recommendation first and marked `(Recommended)` with its rationale carried alongside it. This keeps
-the choice a selection rather than a wall of prose the human has to answer freehand — but it stays a
-working dialogue, not a sign-off: a free-form escape is where a correction, a hybrid of two
-approaches, or "keep talking" lands, so the pick never traps them into one of your framings. No such
-tool: present the same options as plain text and say the run is degraded.
+Put that pick to the human as a structured choice — the 2-3 approaches as selectable options, your
+recommendation first — following `engineering:using-questions` for how to shape and ask it and its
+degraded-run fallback. Keep it a
+working dialogue, not a sign-off: the free-form escape (always present, per `using-questions`) is
+where a correction, a hybrid of two
+approaches, or "keep talking" lands, so the pick never traps them into one of your framings.
 
 One approach becomes one design, one spec, and one plan — brainstorming never splits the
 work across multiple specs or plans, and never proposes doing so. What it *may* do, when a
@@ -130,14 +129,13 @@ explicit opt-in, this skill may skip the spec-**creation** step and hand straigh
 instead.
 
 Judge whether the work is that small. If it might be, put it to the human as a
-structured choice, using a tool to ask it where one is available:
+structured choice, following `engineering:using-questions` for how to shape and ask it and its
+degraded-run fallback:
 
 - **Write the full spec (Recommended)** — invoke `engineering:spec`; the spec gate
   takes approval, the default path.
 - **Skip the spec, go straight to the plan** — for a small, well-pinned change where a spec
   document adds no decision the plan won't already carry.
-
-No such tool: present the same options as plain text and say the run is degraded.
 
 On the default pick, invoke `engineering:spec` as above. On the skip pick —
 never silently, only on this

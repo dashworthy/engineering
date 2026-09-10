@@ -43,8 +43,8 @@ test-only change usually did not.
 
 When documentation is warranted, settle **which** feature this is. The agent never invents a domain
 or feature name: propose one — with a recommended answer drawn from the spec's topic and the change
-— as a structured choice, and let the human confirm or rename (this is `using-documentation`'s
-minting step; drive it there). Then **invoke `engineering:using-documentation`**, handing it the
+— as a structured choice (shaped per `engineering:using-questions`), and let the human confirm or
+rename (this is `using-documentation`'s minting step; drive it there). Then **invoke `engineering:using-documentation`**, handing it the
 run's spec path, plan path, the shipped whole-branch diff, and the confirmed `{domain}/{feature}`
 identity. It writes or surgically patches `docs/{domain}/{feature}/README.md` and upserts the
 `docs/toc.md` row. Producing the docs is that skill's job; this phase orchestrates and then
