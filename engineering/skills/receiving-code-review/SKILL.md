@@ -101,12 +101,12 @@ Compose the reply text for each thread by loading `references/review-comment.md`
 rather than drafting inline — plain language, no performative agreement, no skill or process names.
 
 **Resolving a thread is the user's call, per fixed ask.** When a comment has been fixed, do not
-resolve its thread silently. Put it to the user as a structured choice, using a tool to ask it
-where one is available, and in the prompt display
+resolve its thread silently. Put it to the user as a structured choice, following
+`engineering:using-questions` for how to shape and ask it and its degraded-run fallback, and in
+the prompt display
 both **the full original comment** and **what was done** to address it, so the decision is made with
 the whole picture in view. Resolve the thread only on an explicit yes; a comment pushed back on
-rather than fixed stays open with the reasoning on its thread. No such tool: present the same
-choice as plain text and say the run is degraded.
+rather than fixed stays open with the reasoning on its thread.
 
 ## 4. Hand to design
 

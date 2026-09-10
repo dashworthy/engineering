@@ -59,9 +59,9 @@ one is there, it is the human's authorized choice: carry it out without asking a
 there is **no plan, or no finish strategy recorded on it** — a branch built outside the
 pipeline — fall back to presenting the options as a structured choice — `Open a pull request`
 (or `Open the stacked PRs` for a stacked run), `Clean up only`, offering only the ones actually
-live for this project — and asking, since no gate ever authorized one, using a tool to ask it
-where one is available. Merging is never among the options — the pipeline integrates only by
-pull request. No such tool: present the same options as plain text and say the run is degraded.
+live for this project — and asking, since no gate ever authorized one, following
+`engineering:using-questions` for how to shape and ask it and its degraded-run fallback. Merging
+is never among the options — the pipeline integrates only by pull request.
 
 Either way, detect whether this was a **stacked run**: a plan whose Global Constraints carry a
 `PR strategy: stacked` line, or open stacked pull requests already sitting on the branch. A

@@ -337,4 +337,16 @@ fi
 grep_flat "$PLUGIN/skills/README.md" "using-questions"; check $? "engineering skills README lists using-questions"
 grep_flat "$ROOT/README.md" "using-questions"; check $? "root README lists using-questions"
 
+# The in-scope sites delegate the ask-a-human mechanics to using-questions instead of restating
+# them. Gate/approval sites additionally KEEP their own gate semantics at the site — delegating
+# how-to-ask must not move "silence is not approval" into the shared skill (a stated non-goal).
+for f in spec plan finish receiving-code-review; do
+  grep_flat "$PLUGIN/skills/$f/SKILL.md" "using-questions"
+  check $? "$f delegates the ask-a-human mechanics to using-questions"
+done
+grep_flat "$PLUGIN/skills/spec/SKILL.md" "treat silence as not-approved"
+check $? "spec gate keeps its silence-is-not-approval semantics at the site"
+grep_flat "$PLUGIN/skills/plan/SKILL.md" "treat silence as not-approved"
+check $? "plan gate keeps its silence-is-not-approval semantics at the site"
+
 exit $fail

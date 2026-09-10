@@ -81,15 +81,16 @@ This is the pipeline's first human-approval gate, and it lives here, on the spec
 skill does not stamp `Approved` on faith:
 
 1. **Write it as a draft.** Set the status line to `Status: Draft` (see `references/SPEC-FORMAT.md`).
-2. **Present the draft, then put the verdict to the human as a structured choice**, using a tool to
-   ask it where one is available. Show the
-   finished spec and wait for the human's approval — ask them to `Approve` or `Request changes`, the
+2. **Present the draft, then put the verdict to the human as a structured choice** — `Approve` or
+   `Request changes` — following `engineering:using-questions` for how to shape and ask it, and
+   for its degraded-run fallback where no question tool exists. Show the
+   finished spec and wait for the human's approval, the
    question holding the turn so this is a real stop: nothing is `Approved`, and no marker is
    written, until they pick Approve. Their edits ride the free-form escape or a `Request
    changes` reply; on that, revise the draft — or hand back to `brainstorming` for a rethink —
-   and present again. Do not promote a spec the human has not approved. No such tool, or a headless
-   run: present `Approve` / `Request changes` as plain text, say the run is degraded, and wait for
-   an explicit typed approval — treat silence as not-approved.
+   and present again. Do not promote a spec the human has not approved. This is a gate, so its
+   own semantics stay here: wait for an explicit typed approval, and **treat silence as
+   not-approved**.
 3. **On approval, mint the marker and promote.** Create the run's to-spec phase directory
    with `run-context.sh to-spec <slug>` and write `.engineering/<run>/to-spec/APPROVED.md`
    into it — do this only on approval, never before — a Tier-2, run-scoped trace that the
