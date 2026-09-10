@@ -259,13 +259,13 @@ the plan for approval until the arch-lens review has returned.
 
 The plan gate is the pipeline's second human-approval gate; the first is the spec gate in
 `spec`. A written plan is a draft until a human approves it: present the finished plan,
-then put the verdict to the human as a structured choice — `Approve` or `Request changes`, using a
-tool to ask it where one is available — so the
+then put the verdict to the human as a structured choice — `Approve` or `Request changes` —
+following `engineering:using-questions` for how to shape and ask it, and for its degraded-run
+fallback — so the
 turn holds and nothing is built against the plan until they pick Approve. On `Request changes`
 (their edits ride the free-form escape or the reply), revise and present again; do not hand
-an unapproved plan onward. No such tool, or a headless run: present `Approve` / `Request changes`
-as plain text, say the run is degraded, and wait for an explicit typed approval — treat silence as
-not-approved.
+an unapproved plan onward. This is a gate, so its own semantics stay here: wait for an explicit
+typed approval, and treat silence as not-approved.
 
 On approval, create the run's plan phase directory with
 `run-context.sh plan <slug>` and write `.engineering/<run>/plan/APPROVED.md`
@@ -284,8 +284,8 @@ pipeline; the pipeline itself never lands it.
 **The isolation strategy is authorized here too.** The build runs in an isolated workspace, and
 which kind it creates is settled here, at the last human stop before it runs unattended. Put it to
 the human as a structured choice — **Worktree** (Recommended) or **Feature branch in this
-checkout** — using a tool to ask it where one is available; no such tool, or a headless run,
-present the two as plain text and say the run is degraded. Record the answer in the plan's Global
+checkout** — following `engineering:using-questions` for how to shape and ask it and its
+degraded-run fallback. Record the answer in the plan's Global
 Constraints as an `Isolation:` line (`worktree` or `feature-branch`), which `build` reads to
 establish the workspace before its first task.
 
