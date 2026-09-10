@@ -50,7 +50,7 @@ its default. If a token is genuinely ambiguous, ask once rather than guess.
 
 ## The facets
 
-Nineteen facets exist; each is one lens, defined in a reference file under
+Seventeen facets exist; each is one lens, defined in a reference file under
 [references/facets/](references/facets/) (`references/facets/<facet>/facet.md`), and dispatched as
 an independent reviewer — not a standalone skill. Eight **core** facets — **Security**, **Novelty**,
 **Technical**, **Architectural**, **Error Handling & Resilience**, **Test Quality**, **Concurrency &
@@ -59,9 +59,8 @@ The remaining opt-in facets are pre-checked only when the change's character mat
 **Pre-check when the change…** column of the facet list below. Two **tenant-isolation** facets and
 the **Framework Best Practices** facet are **core-when-present** — pre-checked only when the
 repo-level menu-proposal step (workflow step 1) proposes them: the matching tenancy model, or at
-least one covered framework (Laravel and Tailwind today). **Data Presentation**, **Accessibility**,
-**Internationalization (translations)**, and **Electron** are opt-in, pre-checked by the same
-character match as the other opt-in facets.
+least one covered framework (Laravel and Tailwind today). **Frontend** and **Electron** are opt-in,
+pre-checked by the same character match as the other opt-in facets.
 
 Which of these arrive **pre-checked** on a given run is not a fixed default: it is decided by the
 **Pre-check when the change…** column of the facet list below, which the orchestrator reads at
@@ -69,7 +68,7 @@ menu-fill time (workflow step 2) to pre-fill the menu from the character of the 
 Keeping the pre-check condition in the facet list itself — the orchestrator's own doc, already
 loaded — lets the pre-fill decide **without opening any facet's file**; a facet's own doc is read
 only once that facet is actually dispatched (step 5), never merely to guess whether to run it, so a
-review does not pay to load seventeen facet docs to choose the ones it will use. The condition names
+review does not pay to load every facet's doc to choose the ones it will use. The condition names
 the **character of the change** — *what the change does* — never a path, file type, directory, or
 glob, since that would falsely skip a facet the moment a repo is laid out or named unexpectedly. Err
 toward pre-checking: a false skip (a lens left off) is the harmful direction, while a false-positive
@@ -92,9 +91,7 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
 | [`reviewing-api-consumption`](references/facets/reviewing-api-consumption/facet.md) | Remote/HTTP API consumption: over-fetch, doing the API's filtering client-side, excessive call volume, 429 rate-limit safety | consumes a remote/HTTP API it does not own — issuing calls, fetching, filtering, or paging over a service |
 | [`reviewing-tenant-isolation-shared-db`](references/facets/reviewing-tenant-isolation-shared-db/facet.md) | Cross-tenant leaks in a single-DB / shared-schema app: a query that lost its tenant scope | When **step 1 proposed it** (a `shared`/`both` tenancy verdict) — on the proposal, not further gated on the change |
 | [`reviewing-tenant-isolation-isolated-db`](references/facets/reviewing-tenant-isolation-isolated-db/facet.md) | Cross-tenant leaks in a database-per-tenant app: an operation on the wrong connection | When **step 1 proposed it** (a `per-db`/`both` tenancy verdict) — on the proposal |
-| [`reviewing-data-presentation`](references/facets/reviewing-data-presentation/facet.md) | Identity-ambiguous presentation: distinct records a person can't tell apart | alters how records are labeled or identified to a person — a list, selection, or display where distinct records could become indistinguishable |
-| [`reviewing-accessibility`](references/facets/reviewing-accessibility/facet.md) | Accessibility: perceivability & operability — alt text, labels, ARIA/semantics, keyboard/focus, contrast, reduced-motion, live-region announcements | alters user-facing rendered output — markup, components, or interactions affecting perceivability or operability (labels, alt text, focus, contrast, motion) |
-| [`reviewing-i18n`](references/facets/reviewing-i18n/facet.md) | Internationalization (translations): user-facing text hard-coded instead of routed through the translation layer; untranslatable message shapes (concatenation, plurals, word order); locale-blind date/number/currency formatting | introduces or alters text shown to a person — a label, message, button, error, or notification body — where the project localizes such text (or plainly should) |
+| [`reviewing-frontend`](references/facets/reviewing-frontend/facet.md) | Frontend surface across three lenses — Accessibility (perceivability & operability), Data presentation (identity ambiguity), Internationalization (translatability) | alters a user-facing surface — rendered output/markup/interaction, how records are labeled or identified, or localized user-facing text |
 | [`reviewing-electron`](references/facets/reviewing-electron/facet.md) | Electron: process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging) | touches an Electron process-model or security surface — renderer isolation, preload/context-bridge, IPC, navigation, shell/protocol, packaging, or the main/renderer split |
 | [`reviewing-framework-best-practices`](references/facets/reviewing-framework-best-practices/facet.md) | Stack-specific idiom violations for the detected framework(s) — Laravel and Tailwind today | When **step 1 proposed it** (at least one covered stack detected) — on the proposal |
 
