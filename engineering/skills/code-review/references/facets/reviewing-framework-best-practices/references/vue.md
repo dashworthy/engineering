@@ -2,7 +2,7 @@
 
 The Vue lens for the framework best-practices facet. These are classes of defect specific to how
 Vue's reactivity system and component APIs expect a component to be shaped — not the generic
-reinvention/inefficiency classes the Novelty and Technical facets already own. The reach is the
+reinvention/inefficiency classes the Technical facet already owns. The reach is the
 diff: a pattern visible in the changed code, not a proactive audit of the whole application.
 Authored directly from well-established public Vue conventions — no Boost-style source material
 exists for this stack. Contents:
@@ -57,7 +57,7 @@ exists for this stack. Contents:
 ## What is not a finding
 
 - A reinvention of an existing Vue capability with no Vue-specific placement/shape angle — the
-  **Novelty** facet owns reuse over reinvention generically.
+  **Technical** facet's reuse lens owns reuse over reinvention generically.
 - A generic inefficiency (an N+1 shape, an unbounded load) with nothing Vue-specific about it —
   the **Technical** facet already covers inefficient data access in the abstract.
 - A style/formatting preference with no correctness or maintainability consequence.

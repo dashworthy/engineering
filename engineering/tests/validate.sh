@@ -331,6 +331,14 @@ fi
 [ ! -e "$FACETS/reviewing-tenant-isolation-shared-db" ]; check $? "retired shared-db tenant facet is absent"
 [ ! -e "$FACETS/reviewing-tenant-isolation-isolated-db" ]; check $? "retired isolated-db tenant facet is absent"
 
+# technical absorbs the novelty (reuse over reinvention) lens; the novelty facet is retired
+TECH="$FACETS/reviewing-technical/facet.md"
+if [ -f "$TECH" ]; then
+  grep_flat "$TECH" "capability the stack already provides"; check $? "technical facet carries the reuse-over-reinvention lens"
+  ! grep_flat "$TECH" "has moved to the"; check $? "technical facet drops the stale moved-to-Novelty pointer"
+fi
+[ ! -e "$FACETS/reviewing-novelty" ]; check $? "retired reviewing-novelty facet is absent"
+
 # --- SPEC-FORMAT consumability refresh ---------------------------------------
 # The spec format cites the one shared consumable-markdown reference rather than restating a
 # house style, and renders its enumerable sections (§3 success criteria, §5 Deferred) as tables

@@ -38,9 +38,10 @@ for this facet, not silently approximated by whichever file happens to be closes
 4. **Write the artifact and return** per facet-contract.md's Finding schema, to `findings.md`.
 
 Idiom-specific findings — a convention particular to the detected stack — are this facet's job.
-A reinvention of an existing framework capability with no stack-specific placement/shape angle is
-the **Novelty** facet's job; a generic inefficiency with nothing stack-specific about it is the
-**Technical** facet's job — this facet does not duplicate either. Where a stack's own reference
+A reinvention of an existing framework capability with no stack-specific placement/shape angle
+belongs to the **Technical** facet's reuse-over-reinvention lens; a generic inefficiency with
+nothing stack-specific about it belongs to the **Technical** facet's efficiency lens — this facet
+does not duplicate either. Where a stack's own reference
 file draws a further boundary against a sibling facet (Laravel's against Security, for instance),
 that boundary is stated there, not repeated here.
 

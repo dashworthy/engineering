@@ -2,7 +2,7 @@
 
 The Backbone lens for the framework best-practices facet. These are classes of defect specific to
 how Backbone's view/model/event lifecycle expects a change to be shaped — not the generic
-reinvention/inefficiency classes the Novelty and Technical facets already own. The reach is the
+reinvention/inefficiency classes the Technical facet already owns. The reach is the
 diff: a pattern visible in the changed code, not a proactive audit of the whole application.
 Authored directly from well-established public Backbone conventions — no Boost-style source
 material exists for this stack. Contents:
@@ -46,7 +46,7 @@ material exists for this stack. Contents:
 ## What is not a finding
 
 - A reinvention of an existing Backbone capability with no Backbone-specific placement/shape
-  angle — the **Novelty** facet owns reuse over reinvention generically.
+  angle — the **Technical** facet's reuse lens owns reuse over reinvention generically.
 - A generic inefficiency (an N+1 shape, an unbounded load) with nothing Backbone-specific about
   it — the **Technical** facet already covers inefficient data access in the abstract.
 - A style/formatting preference with no correctness or maintainability consequence.
