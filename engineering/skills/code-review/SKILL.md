@@ -122,7 +122,7 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
    the change…** column of the facet list above and reason over the change's character (*what it
    does*, never its file paths or types) together with the step-1 tenancy/stack verdicts, to decide
    which facets arrive pre-checked:
-   - the **core** facets (the eight marked **Always** in the list) are **pre-checked** on every run,
+   - the **core** facets (the seven marked **Always** in the list) are **pre-checked** on every run,
      whatever the change;
    - each **opt-in** facet whose list entry matches the change's character is pre-checked,
      erring toward inclusion — a false skip (a lens left off) is the harmful direction, while a
