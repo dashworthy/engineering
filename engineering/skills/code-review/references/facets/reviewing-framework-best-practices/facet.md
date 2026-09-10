@@ -18,8 +18,11 @@ shared `../../facet-contract.md`.
 This is a deliberate exception: unlike every other facet, this one's lens is split across
 [references/framework-best-practices-index.md](references/framework-best-practices-index.md)
 plus one file per stack, not a single checklist — read only the file(s) the matched stack(s) in
-the index name. Nine stacks are covered: Laravel, Tailwind, Symfony, OroCommerce, React, Vue,
-TypeScript, JavaScript, and Backbone. A stack with no matching row in the index is out of scope
+the index name. Ten stacks are covered: Laravel, Tailwind, Symfony, OroCommerce, React, Vue,
+TypeScript, JavaScript, Backbone, and Electron — the last covering Electron's **non-security
+idiom** only (main/renderer split, main-thread work, lifecycle, packaging); Electron *security*
+(renderer isolation, preload/IPC, navigation, shell/protocol) is the **Security** facet's Electron
+lens, not this facet's. A stack with no matching row in the index is out of scope
 for this facet, not silently approximated by whichever file happens to be closest.
 
 ## The workflow

@@ -59,7 +59,7 @@ The detail a reader who will change code review needs. Everything lives under `s
 | `reviewing-concurrency` | Races and unsafe interleaving: check-then-act, non-atomic read-modify-write, missing lock/transaction | Core (always) |
 | `reviewing-numeric-precision` | Precision/unit defects: float for money, silent rounding, unit mismatch, overflow, lossy cast | Core (always) |
 | `reviewing-tenant-isolation` | Cross-tenant leaks, branched on DB topology: a shared-schema query that lost its tenant scope (shared-DB lens) or an isolated-DB operation on the wrong connection (isolated-DB lens) | Core-when-present (`shared`/`per-db`/`both` verdict selects the lens) |
-| `reviewing-framework-best-practices` | Stack-specific idiom violations (Laravel, Tailwind today) | Core-when-present (non-empty stack set) |
+| `reviewing-framework-best-practices` | Stack-specific idiom violations (ten stacks, including Electron's non-security idiom) | Core-when-present (non-empty stack set) |
 | `reviewing-data-safety` | Destructive/irreversible ops, migrations, data loss | Opt-in: alters stored-data structure or does a destructive/irreversible op |
 | `reviewing-api` | API surface across two lenses: Compatibility (breaking changes to a public contract it provides) and Consumption (over-fetch, client-side filtering, call volume, 429 safety) | Opt-in: alters a public contract others consume, or consumes a remote/HTTP API it does not own |
 | `reviewing-idempotency` | Side effects unsafe to run twice | Opt-in: performs a side effect that may run more than once with no dedup guard |
