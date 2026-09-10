@@ -339,6 +339,14 @@ if [ -f "$TECH" ]; then
 fi
 [ ! -e "$FACETS/reviewing-novelty" ]; check $? "retired reviewing-novelty facet is absent"
 
+# framework-best-practices gains Electron as a stack (idiom half of the retired electron facet)
+FBP="$FACETS/reviewing-framework-best-practices"
+[ -f "$FBP/references/electron.md" ]; check $? "framework-best-practices has an electron stack file"
+if [ -f "$FBP/references/framework-best-practices-index.md" ]; then
+  grep_flat "$FBP/references/framework-best-practices-index.md" "electron.md"; check $? "framework index lists the electron stack"
+fi
+grep_flat "$PLUGIN/skills/code-review/references/stack-signals.md" "Electron signals"; check $? "stack-signals detects Electron"
+
 # --- SPEC-FORMAT consumability refresh ---------------------------------------
 # The spec format cites the one shared consumable-markdown reference rather than restating a
 # house style, and renders its enumerable sections (§3 success criteria, §5 Deferred) as tables

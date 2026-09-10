@@ -81,10 +81,20 @@ directory layout each framework conventionally expects.
 
 - `backbone` present in `package.json`'s `dependencies` or `devDependencies`.
 
+## Electron signals
+
+- `electron` present in `package.json`'s `dependencies` or `devDependencies`.
+- A main-process entry (`app.whenReady()`, `BrowserWindow`, a preload wired via
+  `webPreferences.preload`) or Electron packaging config (electron-builder/forge, an asar).
+
+This stack covers Electron's **non-security idiom** only (main/renderer split, main-thread work,
+lifecycle, packaging). Electron-specific *security* is reviewed by the **Security** facet's
+Electron lens, not proposed through this gate.
+
 ## Classification — the verdict
 
 Emit the **set** of matched stacks — zero or more of: `laravel`, `tailwind`, `symfony`,
-`orocommerce`, `react`, `vue`, `typescript`, `javascript`, `backbone`.
+`orocommerce`, `react`, `vue`, `typescript`, `javascript`, `backbone`, `electron`.
 
 - **Non-empty set** — propose the `reviewing-framework-best-practices` facet, pre-checked.
 - **Empty set** — propose neither; the facet does not appear on the menu at all, mirroring how

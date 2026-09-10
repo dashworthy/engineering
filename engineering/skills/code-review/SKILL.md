@@ -60,7 +60,7 @@ The remaining opt-in facets are pre-checked only when the change's character mat
 **Pre-check when the change…** column of the facet list below. The **tenant-isolation** facet and
 the **Framework Best Practices** facet are **core-when-present** — pre-checked only when the
 repo-level menu-proposal step (workflow step 1) proposes them: the matching tenancy model, or at
-least one covered framework (Laravel and Tailwind today). **Frontend** and **Electron** are opt-in,
+least one covered stack (ten covered today, including Electron's non-security idiom). **Frontend** and **Electron** are opt-in,
 pre-checked by the same character match as the other opt-in facets.
 
 Which of these arrive **pre-checked** on a given run is not a fixed default: it is decided by the
@@ -91,7 +91,7 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
 | [`reviewing-tenant-isolation`](references/facets/reviewing-tenant-isolation/facet.md) | Cross-tenant leaks, branched on DB topology — a shared-schema query that lost its tenant scope, or an isolated-DB operation on the wrong connection | When **step 1 proposed it** (a `shared`/`per-db`/`both` tenancy verdict selects the lens) — on the proposal, not further gated on the change |
 | [`reviewing-frontend`](references/facets/reviewing-frontend/facet.md) | Frontend surface across three lenses — Accessibility (perceivability & operability), Data presentation (identity ambiguity), Internationalization (translatability) | alters a user-facing surface — rendered output/markup/interaction, how records are labeled or identified, or localized user-facing text |
 | [`reviewing-electron`](references/facets/reviewing-electron/facet.md) | Electron: process-model & security hardening (renderer isolation, preload/context-bridge exposure, IPC trust, navigation, shell/protocol, insecure content) plus non-security best practices (main/renderer split, main-thread blocking, lifecycle, packaging) | touches an Electron process-model or security surface — renderer isolation, preload/context-bridge, IPC, navigation, shell/protocol, packaging, or the main/renderer split |
-| [`reviewing-framework-best-practices`](references/facets/reviewing-framework-best-practices/facet.md) | Stack-specific idiom violations for the detected framework(s) — Laravel and Tailwind today | When **step 1 proposed it** (at least one covered stack detected) — on the proposal |
+| [`reviewing-framework-best-practices`](references/facets/reviewing-framework-best-practices/facet.md) | Stack-specific idiom violations for the detected stack(s) — ten covered, including Electron's non-security idiom (Electron security is the Security facet's) | When **step 1 proposed it** (at least one covered stack detected) — on the proposal |
 
 ## The workflow
 

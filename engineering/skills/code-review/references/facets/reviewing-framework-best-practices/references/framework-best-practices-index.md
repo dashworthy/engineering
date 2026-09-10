@@ -18,6 +18,7 @@ the stack(s) a change actually touches.
 | TypeScript | `.ts`/`.tsx` files, a `tsconfig.json` in the touched project | [`references/typescript.md`](typescript.md) |
 | JavaScript | `.js` files outside a more specific detected framework's own directory | [`references/javascript.md`](javascript.md) |
 | Backbone   | `Backbone.View`/`Backbone.Model` usage, `.extend({...})` view/model definitions | [`references/backbone.md`](backbone.md) |
+| Electron   | an `electron` dependency in `package.json`; a main-process entry (`app.whenReady`, `BrowserWindow`), preload scripts, or Electron packaging/asar config — the **idiom** surface only (Electron *security* is the Security facet's) | [`references/electron.md`](electron.md) |
 
 A change can match more than one row — read every matched stack's file, not just the first match.
 For example, a Blade template touching both Laravel and Tailwind conventions reads both files; an
