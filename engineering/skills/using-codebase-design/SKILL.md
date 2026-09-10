@@ -154,13 +154,13 @@ where a lens fires, its remedy usually names a pattern.
 `references/PATTERN-MATRIX.md` is the **selectable** half: the 23 Gang-of-Four
 patterns, each with the one trigger condition under which it is the appropriate shape. Consult it
 for the boundary in front of you. **When — and only when — a named trigger genuinely describes
-this boundary**, propose that pattern to the developer as a structured choice, using a tool to ask
-it where one is available, the
+this boundary**, propose that pattern to the developer as a structured choice — following
+`engineering:using-questions` for how to shape and ask it and its degraded-run fallback — the
 way `brainstorming` proposes an approach: the pattern as the recommended option, its rationale
 tied to *this* session — why this pattern, for this boundary, now, in the words of the design you
 are actually shaping — with **"plain shape, no pattern"** always present and the default whenever
-no trigger fires. A free-form escape leaves room for a different pattern or a
-correction. No such tool: present the same options as plain text and say the run is degraded.
+no trigger fires. The free-form escape leaves room for a different pattern or a
+correction.
 
 The default is load-bearing. A pattern is worth proposing only when its trigger fires on its
 own; running the whole catalog against every boundary and offering the closest match is how a

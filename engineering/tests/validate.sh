@@ -349,4 +349,24 @@ check $? "spec gate keeps its silence-is-not-approval semantics at the site"
 grep_flat "$PLUGIN/skills/plan/SKILL.md" "treat silence as not-approved"
 check $? "plan gate keeps its silence-is-not-approval semantics at the site"
 
+# The design/mechanics sites delegate the ask-a-human mechanics too. interrogating-requirements
+# additionally KEEPS its interrogation strategy at the site — delegating how-to-ask must not
+# rewrite the probe families or correction-mining (a stated non-goal).
+for f in using-codebase-design using-documentation documenting; do
+  grep_flat "$PLUGIN/skills/$f/SKILL.md" "using-questions"
+  check $? "$f delegates the ask-a-human mechanics to using-questions"
+done
+# brainstorming has TWO independent delegation sites; a plain count is not enough (the approach
+# site alone mentions using-questions twice), so anchor each site on a phrase unique to it, so a
+# revert of either one is caught.
+BS="$PLUGIN/skills/brainstorming/SKILL.md"
+grep_flat "$BS" "recommendation first — following \`engineering:using-questions\`"
+check $? "brainstorming delegates its approach-choice question to using-questions"
+grep_flat "$BS" "structured choice, following \`engineering:using-questions\`"
+check $? "brainstorming delegates its spec-skip question to using-questions"
+IR="$PLUGIN/references/interrogating-requirements.md"
+grep_flat "$IR" "using-questions"; check $? "interrogating-requirements delegates the mechanics to using-questions"
+grep_flat "$IR" "Probe Families"; check $? "interrogating-requirements keeps its Probe Families strategy"
+grep_flat "$IR" "corrected-not-dug"; check $? "interrogating-requirements keeps its correction-mining thread kinds"
+
 exit $fail

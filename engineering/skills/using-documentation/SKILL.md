@@ -53,9 +53,9 @@ Render the feature doc from `references/FEATURE-DOC-TEMPLATE.md` and the toc row
 
 The agent **never invents** a domain or a feature name. When a new feature doc (or a new domain)
 is needed, propose the name — with a recommended answer derived from the spec's topic and the
-work's shape — as a structured choice, using a tool to ask it where one is available; a free-form
-escape lets the human name it themselves. No such tool: present the recommendation as plain text
-and say the run is degraded. The same holds for offering to document an adjacent
+work's shape — as a structured choice, following `engineering:using-questions` for how to shape
+and ask it and its degraded-run fallback; the free-form escape lets the human name it themselves. The same
+holds for offering to document an adjacent
 established-but-undocumented feature the change sat next to: it is a proposal the human opts into
 per feature, never a doc written unasked. Minting a domain or a feature is a human decision.
 
