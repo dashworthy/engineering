@@ -3,7 +3,7 @@
 The Oro-platform lens for the framework best-practices facet. OroCommerce is a Symfony
 application, but these classes of defect are specific to the Oro platform's own extension
 mechanisms — not generic Symfony idioms (`symfony.md`'s job), not the generic reinvention/
-inefficiency classes Novelty and Technical already own. The reach is the diff: a pattern visible
+inefficiency classes the Technical facet already owns. The reach is the diff: a pattern visible
 in the changed code, not a proactive audit of the whole application. Authored directly from
 well-established public Oro platform conventions — no Boost-style source material exists for this
 stack. Contents:
@@ -75,7 +75,7 @@ platform upgrade instead of colliding with it.
   present, is it expressed through Oro's own ACL mechanism (`#[Acl]` annotations, the voter
   system), not whether protection exists in the first place.
 - A reinvention of an existing Oro/Symfony capability with no Oro-specific placement/shape
-  angle — the **Novelty** facet owns reuse over reinvention generically.
+  angle — the **Technical** facet's reuse lens owns reuse over reinvention generically.
 - A generic inefficiency (an N+1 shape, an unbounded load) with nothing Oro-specific about it —
   the **Technical** facet already covers inefficient data access in the abstract.
 - A generic Symfony idiom with nothing Oro-platform-specific about it (dependency injection,

@@ -56,7 +56,7 @@ for this stack. Contents:
 ## What is not a finding
 
 - A reinvention of an existing React capability with no React-specific placement/shape angle —
-  the **Novelty** facet owns reuse over reinvention generically.
+  the **Technical** facet's reuse lens owns reuse over reinvention generically.
 - A generic inefficiency (an N+1 shape, an unbounded load) with nothing React-specific about it —
   the **Technical** facet already covers inefficient data access in the abstract.
 - Inertia's own page-navigation and page-prop conventions (`router.visit`, shared data, page

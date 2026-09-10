@@ -48,7 +48,7 @@ conventions — no Boost-style source material exists for this stack. Contents:
 ## What is not a finding
 
 - A reinvention of an existing JavaScript/standard-library capability with no placement/shape
-  angle specific to this checklist — the **Novelty** facet owns reuse over reinvention
+  angle specific to this checklist — the **Technical** facet's reuse lens owns reuse over reinvention
   generically.
 - A generic inefficiency (an N+1 shape, an unbounded load) with nothing specific to these idioms —
   the **Technical** facet already covers inefficient data access in the abstract.

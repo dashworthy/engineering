@@ -3,8 +3,8 @@
 The lens for the technical facet. Language-agnostic: these are classes of defect to reason about in
 whatever stack the change is written in, not a rule table for one framework. The reach is the diff
 and a glance at the public surface of already-imported modules — **no proactive repo-wide scan**.
-Reinvention of an existing capability is a sibling lens the **Novelty** facet owns; flag it there,
-not here. Contents:
+Reinvention of an existing capability is this facet's **other** lens (Reuse over reinvention,
+`novelty-checklist.md`); flag it there, not in this checklist. Contents:
 
 - Inefficient data access
 - Correctness-scoped best practices
@@ -41,7 +41,8 @@ Keep the floor honest — these belong to other facets, to a linter, or to no on
 
 - A style / formatting / naming preference with no correctness consequence — a linter owns it, or
   nobody does.
-- A reinvention of an existing capability — the **Novelty** facet owns reuse over reinvention.
+- A reinvention of an existing capability — this facet's Reuse-over-reinvention lens
+  (`novelty-checklist.md`) owns it, not this efficiency/correctness checklist.
 - A micro-optimization with no measured or reasoned cost on the change's actual path (below the
   confidence floor).
 - A security or architectural concern — the Security or Architectural facet owns it, not this one.

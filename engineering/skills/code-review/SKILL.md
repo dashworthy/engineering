@@ -50,11 +50,12 @@ its default. If a token is genuinely ambiguous, ask once rather than guess.
 
 ## The facets
 
-Fifteen facets exist; each is one lens, defined in a reference file under
+Fourteen facets exist; each is one lens, defined in a reference file under
 [references/facets/](references/facets/) (`references/facets/<facet>/facet.md`), and dispatched as
-an independent reviewer — not a standalone skill. Eight **core** facets — **Security**, **Novelty**,
-**Technical**, **Architectural**, **Error Handling & Resilience**, **Test Quality**, **Concurrency &
-Race Safety**, and **Numeric Precision & Units** — are **always** pre-checked, whatever the change.
+an independent reviewer — not a standalone skill. Seven **core** facets — **Security**,
+**Technical** (efficiency/correctness **and** reuse over reinvention), **Architectural**, **Error
+Handling & Resilience**, **Test Quality**, **Concurrency & Race Safety**, and **Numeric Precision &
+Units** — are **always** pre-checked, whatever the change.
 The remaining opt-in facets are pre-checked only when the change's character matches, per the
 **Pre-check when the change…** column of the facet list below. The **tenant-isolation** facet and
 the **Framework Best Practices** facet are **core-when-present** — pre-checked only when the
@@ -78,8 +79,7 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
 | Facet (file) | Lens | Pre-check when the change… |
 |---|---|---|
 | [`reviewing-security`](references/facets/reviewing-security/facet.md) | OWASP best practices; authorization enforced, not assumed | **Always** (core) |
-| [`reviewing-novelty`](references/facets/reviewing-novelty/facet.md) | Reuse over reinvention: reinventing what the framework, standard library, a depended-on library, or an already-imported module already provides | **Always** (core) |
-| [`reviewing-technical`](references/facets/reviewing-technical/facet.md) | Inefficient data access (N+1, unbounded queries); correctness-scoped best practice | **Always** (core) |
+| [`reviewing-technical`](references/facets/reviewing-technical/facet.md) | Two lenses — Efficiency & correctness (N+1, unbounded queries, correctness-scoped best practice) and Reuse over reinvention (rebuilding what a framework/stdlib/library/imported module already provides) | **Always** (core) |
 | [`reviewing-architectural`](references/facets/reviewing-architectural/facet.md) | Sustainable architecture: coupling, dependency direction, cohesion, leaky abstractions | **Always** (core) |
 | [`reviewing-error-handling`](references/facets/reviewing-error-handling/facet.md) | Silent failures, swallowed exceptions, bad fallbacks | **Always** (core) |
 | [`reviewing-test-quality`](references/facets/reviewing-test-quality/facet.md) | Do tests exercise the change and fail if it breaks? | **Always** (core) |

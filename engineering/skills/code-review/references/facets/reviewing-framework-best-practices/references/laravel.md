@@ -2,7 +2,7 @@
 
 The Laravel lens for the framework best-practices facet. These are classes of defect specific to
 how Laravel expects an application to be shaped — not the generic reinvention/inefficiency
-classes the Novelty and Technical facets already own. The reach is the diff: a pattern visible in
+classes the Technical facet already owns. The reach is the diff: a pattern visible in
 the changed code, not a proactive audit of the whole application. Adapted from this shop's own
 Laravel Boost-derived guidance (`laravel-best-practices`, `pest-testing`,
 `inertia-react-development`). Contents:
@@ -110,7 +110,7 @@ reuse, test, and audit.
 ## What is not a finding
 
 - A reinvention of an existing Laravel capability with no Laravel-specific placement/shape angle —
-  the **Novelty** facet owns reuse over reinvention generically; this facet's job is idiom
+  the **Technical** facet's reuse lens owns reuse over reinvention generically; this facet's job is idiom
   placement and shape, not "did we reinvent the wheel."
 - A generic inefficiency (an N+1 shape, an unbounded load) with nothing Laravel-specific about
   it — the **Technical** facet already covers inefficient data access in the abstract.

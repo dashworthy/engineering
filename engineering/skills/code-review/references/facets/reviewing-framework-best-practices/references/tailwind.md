@@ -45,7 +45,7 @@ A project on Tailwind v4 that still reaches for v3-only idioms:
 
 - A visual/design preference with no established project convention to depart from — this facet
   flags inconsistency and deprecated-API usage, not taste.
-- A reinvention with no Tailwind-specific angle — the **Novelty** facet already owns reuse over
+- A reinvention with no Tailwind-specific angle — the **Technical** facet's reuse lens already owns reuse over
   reinvention generically; this facet's job is Tailwind idiom and version currency, not "did we
   reinvent CSS."
 - A pre-existing pattern in a file the change doesn't touch — this facet reviews the diff, not

@@ -2,7 +2,7 @@
 
 The generic-Symfony lens for the framework best-practices facet. These are classes of defect
 specific to how Symfony expects an application to be shaped — not the generic
-reinvention/inefficiency classes the Novelty and Technical facets already own, and not the
+reinvention/inefficiency classes the Technical facet already owns, and not the
 Oro-platform-specific idioms `orocommerce.md` owns for an OroCommerce app built on top of Symfony.
 The reach is the diff: a pattern visible in the changed code, not a proactive audit of the whole
 application. Authored directly from well-established public Symfony conventions — no Boost-style
@@ -97,7 +97,7 @@ reaching around that is harder to test and swap.
 ## What is not a finding
 
 - A reinvention of an existing Symfony capability with no Symfony-specific placement/shape
-  angle — the **Novelty** facet owns reuse over reinvention generically; this facet's job is
+  angle — the **Technical** facet's reuse lens owns reuse over reinvention generically; this facet's job is
   idiom placement and shape, not "did we reinvent the wheel."
 - A generic inefficiency (an N+1 shape, an unbounded load) with nothing Symfony-specific about
   it — the **Technical** facet already covers inefficient data access in the abstract.
