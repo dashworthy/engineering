@@ -17,8 +17,8 @@ guides the next piece of work on the way in.
   one-line skip reason and moves on. If yes, it writes (or surgically updates) the feature's doc and
   adds it to this table of contents, then checks the doc is right before handing to `finish`.
   Independently of that judged call, the phase always writes the run's retrospective into the
-  committed [spec ledger](../spec-ledger/README.md) — `docs/specs/<run-id>/retro.md` — and flips
-  that run's ledger row to shipped.
+  committed [spec ledger](../spec-ledger/README.md) — `docs/specs/<run-id>/retro.md`, the companion
+  to the frozen spec.
 - **Consuming.** When `brainstorming` starts a new design, it reads `docs/toc.md` *first*, follows
   it to the relevant feature docs, and uses them to aim its reading of the actual code — instead of
   grepping the whole tree blind. The docs it consulted get cited in the spec.

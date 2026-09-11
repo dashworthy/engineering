@@ -119,7 +119,7 @@ analyzer no stable keys to aggregate across runs.
     ## §3 Success Criteria — underspecified
     "indexed/discoverable" didn't pin the index format; resolved late during build.
     ## §6 Approach — drifted
-    Wrote retro.md in documenting as planned, but the index moved from a toc row to docs/specs/toc.md.
+    Wrote retro.md in documenting as planned, but the ledger key changed from a bare slug to the full dated run id.
 
     ## Process friction & cost
     - Burned several rounds re-deriving where docs/ lived and how documenting writes it.
@@ -131,4 +131,4 @@ analyzer no stable keys to aggregate across runs.
     ## Gate correction load
     - Spec gate: 1 "request changes" (retro axes). Plan gate: nothing notable.
     ## Assumption & open-question outcomes
-    - §8 slug-collision: resolved in plan. Baseline "index = toc row": wrong, revised to docs/specs/toc.md.
+    - §8 slug-collision: resolved in plan. Baseline "bare slug key": wrong, revised to the full dated run id.

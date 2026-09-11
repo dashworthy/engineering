@@ -50,8 +50,7 @@ in the gitignored run dir. Beside it this skill also writes the run-scoped appro
 that the spec cleared the gate.
 
 **On approval, the spec also becomes a committed artifact.** A frozen copy is published to the
-tracked ledger at `docs/specs/<run-id>/spec.md`, and a row is upserted into the ledger index
-`docs/specs/toc.md` (see the spec-gate step below and `references/SPECS-TOC-FORMAT.md`).
+tracked ledger at `docs/specs/<run-id>/spec.md` (see the spec-gate step below).
 `<run-id>` is the **full** run id — the entire `.engineering/.current-run` value,
 `<YYYY-MM-DD>-<slug>`, date prefix included — so each run gets its own ledger directory and two
 runs can never collide (this resolves the spec's slug-collision open question: the date-stripped
@@ -112,12 +111,11 @@ skill does not stamp `Approved` on faith:
    this skill implies one.
 4. **On that same approval, commit the frozen copy to the ledger.** Write the approved spec
    verbatim to `docs/specs/<run-id>/spec.md` — a **frozen**, immutable snapshot, never edited later
-   (outcome and drift live in the companion `retro.md` the `documenting` phase writes, not here) —
-   and upsert its row into the ledger index `docs/specs/toc.md` per
-   `references/SPECS-TOC-FORMAT.md`. The ledger directory is `docs/specs/<run-id>/`, where
-   `<run-id>` is the **full** `.engineering/.current-run` value (`<YYYY-MM-DD>-<slug>`, date prefix
-   included) — collision-free, one directory per run. Upsert the row with `Shipped: —` (the run has
-   not shipped yet at approval; `documenting` flips it at ship). Unlike the gitignored
+   (outcome and drift live in the companion `retro.md` the `documenting` phase writes, not here).
+   The ledger directory is `docs/specs/<run-id>/`, where `<run-id>` is the **full**
+   `.engineering/.current-run` value (`<YYYY-MM-DD>-<slug>`, date prefix included) — collision-free,
+   one directory per run. There is no separate index file: the dated `<run-id>` directories *are*
+   the ledger, and they list in chronological order on their own. Unlike the gitignored
    `.engineering/<run>/spec/` copy, this one is tracked: it rides the run's working branch and
    **lands on** the trunk only when the run's pull request merges — so an approved-but-abandoned
    run leaves no orphan spec on the trunk. Do this only on approval, alongside the marker, never
