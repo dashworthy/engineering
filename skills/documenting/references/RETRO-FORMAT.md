@@ -4,7 +4,7 @@
 finished work against the spec on two fronts (how each spec section held up, plus five cross-cutting
 axes) so the spec ledger records not just what we said we'd build but how it actually went.** This
 reference is the contract `documenting` composes to write
-`docs/specs/{slug}/retro.md`; it is *read* later by the standalone `engineering-retro` analyzer,
+`docs/specs/<run-id>/retro.md`; it is *read* later by the standalone `engineering-retro` analyzer,
 which scans the last several `spec.md` + `retro.md` pairs to find where specs fell short and propose
 pipeline improvements. So the format is a **producer/consumer boundary**, shaped to be human-readable
 *and* aggregable across runs — without freezing a taxonomy the analyzer is meant to discover.
@@ -15,19 +15,20 @@ Render it per the shared conventions in `../../../references/consumable-markdown
 
 ## Where it lives
 
-`docs/specs/{slug}/retro.md`, beside the frozen `docs/specs/{slug}/spec.md`. `{slug}` is the run
-slug (see the `spec` skill). `documenting` writes it on the green branch from the run's **approved
+`docs/specs/<run-id>/retro.md`, beside the frozen `docs/specs/<run-id>/spec.md`. `<run-id>` is the
+full run id — the `.engineering/.current-run` value `<YYYY-MM-DD>-<slug>`, date prefix included, one
+directory per run (see the `spec` skill). `documenting` writes it on the green branch from the run's **approved
 spec** plus the **shipped whole-branch diff** — so the retro describes what actually landed, not what
 was intended.
 
 ## The shape
 
     ---
-    spec: <slug>
+    spec: <run-id>
     shipped: <true|false>
     diff: <base>..<tip> (PR #NNN)
     ---
-    # Retro — <slug>
+    # Retro — <run-id>
 
     ## §0 ELI5 — <verdict>
     <prose: the why>
@@ -54,7 +55,7 @@ committing the format to anything speculative.
 
 | Key | Meaning |
 |---|---|
-| `spec:` | The paired spec slug — the **join key** to `docs/specs/{slug}/spec.md`. |
+| `spec:` | The paired run id (`<YYYY-MM-DD>-<slug>`) — the **join key** to `docs/specs/<run-id>/spec.md`. |
 | `shipped:` | Boolean — did the run actually ship. |
 | `diff:` | The shipped-diff reference (commit range and/or PR number) the retro was judged against. |
 
