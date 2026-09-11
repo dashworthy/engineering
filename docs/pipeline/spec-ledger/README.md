@@ -13,22 +13,22 @@ The **spec ledger** fixes that. It is a tracked directory, `docs/specs/`, with o
 - **`spec.md`** — a **frozen** copy of the approved spec, written by the `spec` phase at the moment it clears the spec gate. It is an immutable snapshot: never edited afterwards.
 - **`retro.md`** — a **retrospective** written by the `documenting` phase when the work ships, judging what actually landed against that frozen spec. It is where drift and lessons live, so the spec stays frozen and the retro carries the outcome.
 
-A ledger index, **`docs/specs/toc.md`**, lists every entry (newest first) so the ledger is browsable rather than a pile of directories.
+The `docs/specs/` directories **are** the ledger: each is named by the full dated `<run-id>`, so a plain listing sorts them in chronological order on its own — no separate index file to write, flip, or keep in sync.
 
 Two phases write to the ledger, each the one that holds the right inputs — the spec phase knows the approved spec; the documenting phase, running on the green branch, knows what actually shipped:
 
 ```mermaid
 flowchart TD
-    A[spec gate: human approves] --> B["spec phase writes<br/>docs/specs/&lt;run-id&gt;/spec.md (frozen)<br/>+ upserts docs/specs/toc.md row (Shipped: —)"]
+    A[spec gate: human approves] --> B["spec phase writes<br/>docs/specs/&lt;run-id&gt;/spec.md (frozen)"]
     B --> P[plan · build]
     P --> G{branch green}
     G --> D[documenting phase]
-    D --> R["writes docs/specs/&lt;run-id&gt;/retro.md<br/>+ flips the toc row Shipped → yes"]
+    D --> R["writes docs/specs/&lt;run-id&gt;/retro.md"]
     R --> F[finish: open PR]
     F --> M[human merges → ledger lands on trunk]
 ```
 
-**Worked example — this very feature.** The run that built the spec ledger is itself in the ledger: `docs/specs/2026-09-11-commit-specs-retro/spec.md` is its frozen spec, `retro.md` its retrospective (which records, among other things, that the ledger's directory key changed during the build), and `docs/specs/toc.md` carries its row with `Shipped: yes`.
+**Worked example — this very feature.** The run that built the spec ledger is itself in the ledger: `docs/specs/2026-09-11-commit-specs-retro/spec.md` is its frozen spec, `retro.md` its retrospective (which records, among other things, that the ledger's directory key changed during the build, and that the ledger's browsable index was cut as a follow-on).
 
 The `retro.md` is worth reading even when a spec was accurate. Beyond a per-section accuracy verdict, it records five cross-cutting axes — the raw material a future retrospective analysis reads to improve the pipeline:
 
@@ -46,21 +46,18 @@ The detail a reader who will change this needs.
 
   ```
   docs/specs/
-    toc.md                                  # the ledger index (Date | Spec | Shipped | Links)
-    <YYYY-MM-DD>-<slug>/
+    <YYYY-MM-DD>-<slug>/                     # one directory per run; the dated names sort chronologically
       spec.md                               # frozen approved spec (written at approval)
       retro.md                              # retrospective (written at ship)
   ```
 
-- **Architecture.** Five units do the work, split between the two writing phases and the two format references they compose:
+- **Architecture.** Three units do the work, split between the two writing phases and the retro format they compose:
 
   | Area | Unit | Responsibility |
   |---|---|---|
-  | Writer (approval) | `skills/spec/SKILL.md` | At the spec gate, alongside minting the approval marker, writes the frozen `docs/specs/<run-id>/spec.md` and upserts its `docs/specs/toc.md` row with `Shipped: —`. |
-  | Writer (ship) | `skills/documenting/SKILL.md` | On the green branch, **unconditionally** writes `docs/specs/<run-id>/retro.md` and flips the toc row's `Shipped` to `yes` — separate from, and not gated by, the judged feature-doc path. |
+  | Writer (approval) | `skills/spec/SKILL.md` | At the spec gate, alongside minting the approval marker, writes the frozen `docs/specs/<run-id>/spec.md`. |
+  | Writer (ship) | `skills/documenting/SKILL.md` | On the green branch, **unconditionally** writes `docs/specs/<run-id>/retro.md` — separate from, and not gated by, the judged feature-doc path. |
   | Retro format | `skills/documenting/references/RETRO-FORMAT.md` | The `retro.md` contract: front-matter spine (`spec`/`shipped`/`diff`), per-section accuracy verdicts mirroring the spec's sections, and five cross-cutting axis sections. |
-  | Index format | `skills/spec/references/SPECS-TOC-FORMAT.md` | The `docs/specs/toc.md` row shape (`Date \| Spec \| Shipped \| Links`), a dedicated genre kept separate from the feature-doc `docs/toc.md`. |
-  | Index | `docs/specs/toc.md` | The browsable ledger index, upserted by the `spec` phase and updated by `documenting`. |
 
 - **Boundaries & invariants.**
 
@@ -71,7 +68,7 @@ The detail a reader who will change this needs.
   | retro.md is unconditional | Every green run leaves a `retro.md`, even one whose feature-doc step was skipped; it is terse-by-default, so an axis with nothing notable gets one line. |
   | No orphan on trunk | The committed spec rides the run's branch and lands on trunk only when the PR merges; an approved-but-abandoned run leaves nothing on trunk. |
   | No new gate | Both writes are unattended — the plan gate already authorized the run. |
-  | `SPEC-FORMAT.md` unchanged | The ledger adds the `retro.md`/index formats; it does not change the spec format itself. |
+  | `SPEC-FORMAT.md` unchanged | The ledger adds the `retro.md` format; it does not change the spec format itself. |
 
 ## 🚀 Development & testing
 
@@ -83,9 +80,9 @@ sh tests/suite.sh
 
 # The checks specific to the spec ledger
 sh tests/retro-format.sh       # the retro.md contract (RETRO-FORMAT.md)
-sh tests/committed-specs.sh    # the spec skill's approval-time write, SPECS-TOC-FORMAT.md, the toc scaffold,
-                               # and that documenting flips the row's Shipped column
+sh tests/committed-specs.sh    # the spec skill's approval-time frozen-copy write, the full-run-id key,
+                               # and that the once-built ledger index stays removed
 sh tests/documenting-phase.sh  # the unconditional retro step in the documenting phase
 ```
 
-To change the retro record's shape, edit `skills/documenting/references/RETRO-FORMAT.md`; to change the index row, edit `skills/spec/references/SPECS-TOC-FORMAT.md`. The two writing behaviors live in `skills/spec/SKILL.md` (approval) and `skills/documenting/SKILL.md` (ship).
+To change the retro record's shape, edit `skills/documenting/references/RETRO-FORMAT.md`. The two writing behaviors live in `skills/spec/SKILL.md` (approval) and `skills/documenting/SKILL.md` (ship).

@@ -1,53 +1,35 @@
 #!/bin/sh
 # Committed specs: the `spec` skill, at the approval gate, writes the frozen approved spec to
-# docs/specs/{slug}/spec.md and upserts its row into the dedicated ledger index docs/specs/toc.md
-# (its own genre, kept separate from the feature-keyed docs/toc.md). This asserts the three moving
-# parts: the row-format reference, the spec skill's approval-time write, and the ledger index scaffold.
+# docs/specs/<run-id>/spec.md — a tracked, immutable snapshot beside the run's gitignored working
+# copy. There is no ledger index file: the dated <run-id> directories are the ledger. This asserts
+# the spec skill's approval-time write, that both writers key on the full dated run id, and that the
+# once-built index stays removed.
 set -e
 ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
 
-STF="$ROOT/skills/spec/references/SPECS-TOC-FORMAT.md"
 SPEC="$ROOT/skills/spec/SKILL.md"
-TOC="$ROOT/docs/specs/toc.md"
+DOC="$ROOT/skills/documenting/SKILL.md"
 
-# (a) the ledger index row-format reference exists and defines its columns / upsert rule ----------
-[ -f "$STF" ] || { echo "FAIL: $STF does not exist"; exit 1; }
-stf() { tr '\n' ' ' < "$STF" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: SPECS-TOC-FORMAT.md missing anchor: $1"; exit 1; }; }
-stf "Date"
-stf "Shipped"
-stf "spec.md"
-stf "retro.md"
-stf "upsert"        # rows are upserted (not appended blindly)
-stf "full run id"   # keyed by the FULL dated run id, not the bare slug (collision-free)
-
-# (b) the spec skill writes the committed copy + index row at the approval gate --------------------
+# (a) the spec skill writes the frozen committed copy at the approval gate -------------------------
 sp() { tr '\n' ' ' < "$SPEC" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: spec SKILL.md missing anchor: $1"; exit 1; }; }
-sp "docs/specs/"          # writes docs/specs/{slug}/spec.md
+sp "docs/specs/"          # writes docs/specs/<run-id>/spec.md
 sp "same approval"        # the write is tied to the approval gate (unique to the new step)
 sp "frozen"               # a frozen/immutable committed copy
-sp "docs/specs/toc.md"    # upserts the ledger index row
-sp "SPECS-TOC-FORMAT.md"  # composes the row-format reference
 sp "lands on"             # rides the branch; lands on the trunk only when the PR merges (no orphan)
 
-# (c) the ledger index scaffold exists with its header -------------------------------------------
-[ -f "$TOC" ] || { echo "FAIL: $TOC does not exist"; exit 1; }
-grep -qiF "Shipped" "$TOC" || { echo "FAIL: docs/specs/toc.md missing its header row"; exit 1; }
-
-# (d) the loop closes: documenting flips the run's Shipped column at ship -------------------------
-# The spec skill writes the row with Shipped: — ; documenting must update it to yes when it ships,
-# or the row-format's Shipped promise is dead. Guard that documenting owns that update.
-DOC="$ROOT/skills/documenting/SKILL.md"
-dp() { tr '\n' ' ' < "$DOC" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: documenting SKILL.md missing anchor: $1"; exit 1; }; }
-dp "docs/specs/toc.md"     # documenting updates the ledger index row
-dp "flip its"              # flips the Shipped column (unique to the row-update sentence)
-dp "SPECS-TOC-FORMAT.md"   # per the row-format reference
-
-# (e) the ledger directory key is the FULL dated run id, not the bare slug (collision-free) --------
+# (b) the ledger directory key is the FULL dated run id, not the bare slug (collision-free) --------
 # The bare <topic> slug can collide across days and silently overwrite spec.md; the resolved rule is
-# the full <YYYY-MM-DD>-<slug> run id. Both writers AND the row-format reference must agree on it —
-# a bare-slug key in the format ref would still satisfy an "slug" substring grep, so pin <run-id>.
+# the full <YYYY-MM-DD>-<slug> run id. Both the spec writer and the documenting retro writer agree.
 grep -qiF "<run-id>" "$SPEC" || { echo "FAIL: spec SKILL.md must key the ledger dir on the full run id"; exit 1; }
 grep -qiF "<run-id>" "$DOC"  || { echo "FAIL: documenting SKILL.md must key the ledger dir on the full run id"; exit 1; }
-grep -qiF "<run-id>" "$STF"  || { echo "FAIL: SPECS-TOC-FORMAT.md must key the ledger row on the full run id"; exit 1; }
+
+# (c) there is no ledger index — the dated directories are the ledger ------------------------------
+# The browsable toc index and its format reference were dropped; discovery is by listing the
+# date-prefixed docs/specs/<run-id>/ directories. Guard that the index stays gone and that neither
+# writer resurrects a toc row.
+[ -e "$ROOT/skills/spec/references/SPECS-TOC-FORMAT.md" ] && { echo "FAIL: SPECS-TOC-FORMAT.md should have been removed with the index"; exit 1; }
+[ -e "$ROOT/docs/specs/toc.md" ] && { echo "FAIL: docs/specs/toc.md should have been removed (no ledger index)"; exit 1; }
+grep -qiF "docs/specs/toc.md" "$SPEC" && { echo "FAIL: spec SKILL.md still references the removed ledger index"; exit 1; }
+grep -qiF "docs/specs/toc.md" "$DOC"  && { echo "FAIL: documenting SKILL.md still references the removed ledger index"; exit 1; }
 
 echo "PASS committed-specs.sh"

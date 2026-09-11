@@ -81,12 +81,10 @@ whole-branch diff** (the same diff the accuracy validation reads): the front-mat
 per-section accuracy verdicts, and the five cross-cutting axis sections. Keep it terse-by-default —
 an axis with nothing notable gets one line — so writing it every run is never a chore.
 
-Reaching this phase on a green branch means the run shipped, so **update the run's row in the
-ledger index `docs/specs/toc.md`** in the same step — flip its `Shipped` column from `—` to `yes`
-per `references/SPECS-TOC-FORMAT.md` — closing the loop the `spec` phase opened when it wrote the
-row with `Shipped: —` at approval. The retro and the row-update ride the tip of the stack as their
-own commit, like the feature docs; they add no human gate (the plan gate already authorized the
-run).
+The retro rides the tip of the stack as its own commit, like the feature docs; it adds no human
+gate (the plan gate already authorized the run). Reaching this phase on a green branch means the
+run shipped, so the retro's front-matter `shipped:` field records that — there is no separate
+ledger index to update.
 
 ## Hand off
 
