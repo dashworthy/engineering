@@ -50,4 +50,16 @@ grep -qiF "no standalone documentation phase to schedule here" "$PLAN" && { echo
 grep -qiF "documenting" "$RMENG" || { echo "FAIL: engineering/README does not list the documenting phase"; exit 1; }
 grep -qiF "documenting" "$RMROOT" || { echo "FAIL: root README does not mention the documenting phase"; exit 1; }
 
+# --- unconditional retro ledger entry (commit-specs-retro) --------------------
+# documenting writes docs/specs/{slug}/retro.md on EVERY green run — separate from, and not gated
+# by, the judged feature-doc path — from the approved spec + shipped diff, per RETRO-FORMAT.md.
+flat "retro.md"                 # writes the run's retro record
+flat "docs/specs/"              # at docs/specs/{slug}/retro.md
+flat "unconditional"            # every run, distinct from the judged/skip feature-doc path
+flat "RETRO-FORMAT.md"          # composes the format reference (Task 1)
+# anchor unique to the retro section (the parent's feature-doc path also says "shipped whole-branch
+# diff"), so this guards the retro is judged from the approved spec + the shipped diff, not that path:
+flat "against its approved spec and the"
+[ -f "$ROOT/skills/documenting/references/RETRO-FORMAT.md" ] || { echo "FAIL: RETRO-FORMAT.md missing (Task 1 dependency)"; exit 1; }
+
 echo "PASS documenting-phase.sh"
