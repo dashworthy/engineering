@@ -15,7 +15,7 @@ are deliberately kept apart rather than sharing one row shape.
     # Committed specs — ledger index
     | Date | Spec | Shipped | Links |
     |------|------|---------|-------|
-    | <YYYY-MM-DD> | <run-id> | <yes / no / —> | [spec](<run-id>/spec.md) · [retro](<run-id>/retro.md) |
+    | <YYYY-MM-DD> | <run-id> | <— / yes> | [spec](<run-id>/spec.md) · [retro](<run-id>/retro.md) |
 
 | Column | Meaning |
 |---|---|

@@ -18,7 +18,7 @@ stf "Shipped"
 stf "spec.md"
 stf "retro.md"
 stf "upsert"        # rows are upserted (not appended blindly)
-stf "slug"          # keyed by the run slug
+stf "full run id"   # keyed by the FULL dated run id, not the bare slug (collision-free)
 
 # (b) the spec skill writes the committed copy + index row at the approval gate --------------------
 sp() { tr '\n' ' ' < "$SPEC" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: spec SKILL.md missing anchor: $1"; exit 1; }; }
@@ -44,8 +44,10 @@ dp "SPECS-TOC-FORMAT.md"   # per the row-format reference
 
 # (e) the ledger directory key is the FULL dated run id, not the bare slug (collision-free) --------
 # The bare <topic> slug can collide across days and silently overwrite spec.md; the resolved rule is
-# the full <YYYY-MM-DD>-<slug> run id. Both writers must agree on it.
+# the full <YYYY-MM-DD>-<slug> run id. Both writers AND the row-format reference must agree on it —
+# a bare-slug key in the format ref would still satisfy an "slug" substring grep, so pin <run-id>.
 grep -qiF "<run-id>" "$SPEC" || { echo "FAIL: spec SKILL.md must key the ledger dir on the full run id"; exit 1; }
 grep -qiF "<run-id>" "$DOC"  || { echo "FAIL: documenting SKILL.md must key the ledger dir on the full run id"; exit 1; }
+grep -qiF "<run-id>" "$STF"  || { echo "FAIL: SPECS-TOC-FORMAT.md must key the ledger row on the full run id"; exit 1; }
 
 echo "PASS committed-specs.sh"
