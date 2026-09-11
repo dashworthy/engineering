@@ -4,8 +4,8 @@
 # paths; the skill runs on the current branch, redirects artifacts to .engineering/, writes brief.md §1–§6,
 # and hands the brief to engineering:brainstorming (the design dialogue), with the spec phase downstream.
 set -e
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-cd "$ROOT/engineering"
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+cd "$ROOT"
 fail=0
 SKILL=skills/signal/SKILL.md
 INTERROGATE=references/interrogating-requirements.md

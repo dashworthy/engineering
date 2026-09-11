@@ -1,6 +1,6 @@
 {
-  "name": "dashworthy",
-  "description": "dashworthy plugin marketplace",
+  "name": "engineering",
+  "description": "engineering plugin marketplace",
   "owner": {
     "name": "Andrew Leach",
     "email": "7387639+andyleach@users.noreply.github.com"
@@ -9,8 +9,8 @@
     {
       "name": "engineering",
       "description": "Full software-development pipeline: discovery, triage, or received code review, then design dialogue, spec, plan, TDD build, docs hardening. File-based, no tracker.",
-      "version": "0.28.1",
-      "source": "./engineering",
+      "version": "0.29.0",
+      "source": ".",
       "author": {
         "name": "Andrew Leach",
         "email": "7387639+andyleach@users.noreply.github.com"

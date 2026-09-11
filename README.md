@@ -6,8 +6,8 @@ File-based from end to end: every artifact the pipeline produces is a file on di
 The pipeline ends at a green, documented branch — deployment, release, and rollback
 are deliberately out of scope.
 
-This repository is the `dashworthy` Claude Code marketplace. Its primary plugin,
-`engineering`, carries the whole pipeline. [`skillsmith`](https://github.com/dashworthy/skillsmith)
+This repository is the `engineering` Claude Code marketplace: a single plugin, `engineering`,
+that carries the whole pipeline. [`skillsmith`](https://github.com/dashworthy/skillsmith)
 (author, test, and audit Claude skills) ships as its own marketplace, in its own repository. An
 in-depth, opt-in code-review gate ships inside `engineering` itself, as the `code-review` skill.
 
@@ -15,7 +15,7 @@ in-depth, opt-in code-review gate ships inside `engineering` itself, as the `cod
 
 ```
 /plugin marketplace add https://github.com/dashworthy/engineering
-/plugin install engineering@dashworthy
+/plugin install engineering@engineering
 ```
 
 One install: `engineering` carries the whole pipeline.
@@ -184,7 +184,7 @@ by name — `using-codebase-design` (the shape lenses), for instance, is invoked
 a boundary and by `plan`'s arch-lens review to judge one.
 
 The full index lives at
-[engineering/skills/README.md](engineering/skills/README.md).
+[skills/README.md](skills/README.md).
 
 ### Entry points
 

@@ -10,17 +10,12 @@ permissions:
 
 jobs:
   suite:
-    name: ${{ matrix.plugin }}
+    name: engineering
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        # Each plugin that ships a self-contained foundation suite.
-        plugin: [engineering]
     steps:
       - uses: actions/checkout@v4
 
-      # The suites are POSIX sh and drive JSON parsing through python3 (stdlib
+      # The suite is POSIX sh and drives JSON parsing through python3 (stdlib
       # only, never jq); both ship on ubuntu-latest, so no extra setup is needed.
-      - name: Run ${{ matrix.plugin }} foundation suite
-        run: sh ${{ matrix.plugin }}/tests/suite.sh
+      - name: Run the engineering foundation suite
+        run: sh tests/suite.sh

@@ -4,8 +4,8 @@
 # Isolate beat; receiving-code-review adds one leading beat the others don't — checking out the review
 # branch. None invokes another entrance — the three converge on design, never on each other.
 set -e
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-cd "$ROOT/engineering"
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+cd "$ROOT"
 fail=0
 
 ENTRANCES="signal triage receiving-code-review"

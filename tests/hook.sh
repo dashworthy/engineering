@@ -1,8 +1,8 @@
 #!/bin/sh
 # Verifies the entrance-bootstrap hook emits valid JSON that names all three entrance
 # skills and points at using-skills. No install required.
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-OUT=$(CLAUDE_PLUGIN_ROOT="$ROOT/engineering" sh "$ROOT/engineering/hooks/session-start.sh") || { echo "FAIL: hook exited non-zero"; exit 1; }
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+OUT=$(CLAUDE_PLUGIN_ROOT="$ROOT" sh "$ROOT/hooks/session-start.sh") || { echo "FAIL: hook exited non-zero"; exit 1; }
 printf '%s' "$OUT" | python3 -c '
 import json,sys
 d=json.load(sys.stdin)

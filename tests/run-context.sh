@@ -1,8 +1,8 @@
 #!/bin/sh
 # Two invocations in one session must resolve to the SAME <run> (G7).
 set -e
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-SCRIPT="$ROOT/engineering/scripts/run-context.sh"
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+SCRIPT="$ROOT/scripts/run-context.sh"
 TMP=$(mktemp -d)
 cd "$TMP"
 A=$(sh "$SCRIPT" signal my-feature)

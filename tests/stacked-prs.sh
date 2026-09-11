@@ -3,7 +3,7 @@
 # the feature touches via flattened fixed-string anchors, in the same idiom as validate.sh.
 # Prose is line-wrapped for readability, so every check flattens newlines before matching;
 # a check must not depend on where a cosmetic wrap happens to fall.
-# Run from anywhere: sh engineering/tests/stacked-prs.sh
+# Run from anywhere: sh tests/stacked-prs.sh
 set -e
 PLUGIN=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
 fail=0

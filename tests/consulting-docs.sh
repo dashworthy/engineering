@@ -3,9 +3,9 @@
 # to read the docs index BEFORE greps, use it to target (not replace) code reading, and record
 # which docs were consulted so the spec can cite them.
 set -e
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-REF="$ROOT/engineering/skills/brainstorming/references/consulting-documentation.md"
-BS="$ROOT/engineering/skills/brainstorming/SKILL.md"
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+REF="$ROOT/skills/brainstorming/references/consulting-documentation.md"
+BS="$ROOT/skills/brainstorming/SKILL.md"
 
 [ -f "$REF" ] || { echo "FAIL: $REF does not exist"; exit 1; }
 
@@ -21,8 +21,8 @@ bflat() { tr '\n' ' ' < "$BS" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: b
 bflat "consulting-documentation"
 
 # --- spec §7 cites the consulted docs (Task 9) --------------------------------
-SF="$ROOT/engineering/skills/spec/references/SPEC-FORMAT.md"
-SSK="$ROOT/engineering/skills/spec/SKILL.md"
+SF="$ROOT/skills/spec/references/SPEC-FORMAT.md"
+SSK="$ROOT/skills/spec/SKILL.md"
 sfflat() { tr '\n' ' ' < "$SF" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: SPEC-FORMAT §7 missing: $1"; exit 1; }; }
 ssflat() { tr '\n' ' ' < "$SSK" | tr -s ' ' | grep -qiF -- "$1" || { echo "FAIL: spec SKILL missing: $1"; exit 1; }; }
 sfflat "cite"                 # §7 requires citing the docs consulted
