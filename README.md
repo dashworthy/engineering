@@ -7,11 +7,11 @@ The pipeline ends at a green, documented branch — deployment, release, and rol
 are deliberately out of scope.
 
 This repository is the `dashworthy` Claude Code marketplace. Its primary plugin,
-`engineering`, carries the whole pipeline; companion plugins ship alongside it, each
-installed separately — [`skillsmith`](skillsmith/README.md) (author, test, and audit Claude
-skills) and [`verity`](verity/README.md) (standalone test-hardening: harden an arbitrary
-branch via `/harden`). An in-depth, opt-in code-review gate ships inside `engineering` itself,
-as the `code-review` skill.
+`engineering`, carries the whole pipeline; [`verity`](verity/README.md) (standalone
+test-hardening: harden an arbitrary branch via `/harden`) ships alongside it, installed
+separately. [`skillsmith`](https://github.com/dashworthy/skillsmith) (author, test, and audit
+Claude skills) now ships as its own marketplace, in its own repository. An in-depth, opt-in
+code-review gate ships inside `engineering` itself, as the `code-review` skill.
 
 ## Install
 
