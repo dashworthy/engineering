@@ -20,3 +20,4 @@ the coarse grouping (and the top path segment).
 | [Finish phase](pipeline/finish/README.md) | Reviews the whole green branch once, then opens a pull request or stacked PR set to re-enter the repo; never merges | pipeline |
 | [Planning phase](pipeline/planning/README.md) | Turns one approved spec into a single ordered, stacked implementation plan and holds the pipeline's second human gate | pipeline |
 | [Run directories](pipeline/run-directories/README.md) | The gitignored per-run directory model — run-context.sh mints or joins a run, each phase owns a subdir, and gates leave marker files as their trace | pipeline |
+| [Spec ledger](pipeline/spec-ledger/README.md) | The committed record of every approved spec — a frozen spec.md written at approval and a companion retro.md written at ship, under docs/specs/ with its own index | pipeline |

@@ -14,3 +14,4 @@ separate index from the feature-doc table of contents at `../toc.md`.
 
 | Date | Spec | Shipped | Links |
 |------|------|---------|-------|
+| 2026-09-11 | 2026-09-11-commit-specs-retro | yes | [spec](2026-09-11-commit-specs-retro/spec.md) · [retro](2026-09-11-commit-specs-retro/retro.md) |
