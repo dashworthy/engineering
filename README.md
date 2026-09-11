@@ -7,11 +7,9 @@ The pipeline ends at a green, documented branch — deployment, release, and rol
 are deliberately out of scope.
 
 This repository is the `dashworthy` Claude Code marketplace. Its primary plugin,
-`engineering`, carries the whole pipeline; [`verity`](verity/README.md) (standalone
-test-hardening: harden an arbitrary branch via `/harden`) ships alongside it, installed
-separately. [`skillsmith`](https://github.com/dashworthy/skillsmith) (author, test, and audit
-Claude skills) now ships as its own marketplace, in its own repository. An in-depth, opt-in
-code-review gate ships inside `engineering` itself, as the `code-review` skill.
+`engineering`, carries the whole pipeline. [`skillsmith`](https://github.com/dashworthy/skillsmith)
+(author, test, and audit Claude skills) ships as its own marketplace, in its own repository. An
+in-depth, opt-in code-review gate ships inside `engineering` itself, as the `code-review` skill.
 
 ## Install
 
@@ -147,8 +145,7 @@ that surfaces prose a reader outside the team couldn't follow — and its findin
 task's own diff. Once the branch is green, `documenting` runs on it: it judges whether the run
 changed documented behavior and, when it did, writes or surgically updates the feature's docs under
 `docs/` from what actually shipped and validates them through a four-lens fan-out, before `finish`
-integrates the branch. (Test hardening is now its own standalone plugin, `verity` — run `/harden`
-against a branch when you want it.)
+integrates the branch.
 
 ```mermaid
 flowchart LR
