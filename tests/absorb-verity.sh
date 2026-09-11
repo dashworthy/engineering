@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-cd "$ROOT/engineering"
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+cd "$ROOT"
 fail=0
 if grep -rn "\.verity" skills; then echo "FAIL: stale .verity path"; fail=1; fi
 # Anchor on a word boundary so this catches the `verity:` plugin namespace (e.g. verity:harden)

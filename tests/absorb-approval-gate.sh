@@ -11,10 +11,10 @@
 # approval — the plan gate still holds on that path. Prose-anchor checks over the shipped SKILL
 # bodies (the suite's convention for model-executed skills). No script enforces the gates at
 # runtime by design; these assertions keep the enforcing prose from silently regressing.
-# POSIX sh. Run from anywhere: sh engineering/tests/absorb-approval-gate.sh
+# POSIX sh. Run from anywhere: sh tests/absorb-approval-gate.sh
 
-ROOT=$(cd "$(dirname "$0")/../.." && pwd)
-PLUGIN="$ROOT/engineering"
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+PLUGIN="$ROOT"
 fail=0
 
 ok()   { printf 'ok   - %s\n' "$1"; }

@@ -1,10 +1,10 @@
 #!/bin/sh
 # Structural and behavioural validation for the engineering plugin.
 # POSIX sh. Uses python3 (stdlib only) for JSON. Never requires jq.
-# Run from anywhere: sh engineering/tests/validate.sh
+# Run from anywhere: sh tests/validate.sh
 
-ROOT=$(cd "$(dirname "$0")/../.." && pwd)
-PLUGIN="$ROOT/engineering"
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+PLUGIN="$ROOT"
 fail=0
 
 ok()   { printf 'ok   - %s\n' "$1"; }
@@ -46,7 +46,7 @@ d=json.load(open(sys.argv[1]))
 names=[p["name"] for p in d["plugins"]]
 assert "engineering" in names, f"engineering not registered; found {names}"
 e=[p for p in d["plugins"] if p["name"]=="engineering"][0]
-assert e["source"]=="./engineering", f'source is {e["source"]!r}'
+assert e["source"]==".", f'source is {e["source"]!r}'
 pv=json.load(open(sys.argv[2]))["version"]
 assert e["version"]==pv, f'marketplace version {e["version"]!r} != plugin.json {pv!r}'
 PY

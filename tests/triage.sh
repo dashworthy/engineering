@@ -7,8 +7,8 @@
 # decoupled — triage never hands off to signal (the entrances converge on design, never on
 # each other).
 set -e
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-cd "$ROOT/engineering"
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+cd "$ROOT"
 fail=0
 
 SKILL=skills/triage/SKILL.md

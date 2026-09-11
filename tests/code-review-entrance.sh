@@ -9,8 +9,8 @@
 # use abstract review-thread operations backed by whichever CLI is present. The retired /to-signal
 # command and the old /receiving-code-review command are both gone.
 set -e
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-cd "$ROOT/engineering"
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+cd "$ROOT"
 fail=0
 
 SKILL=skills/receiving-code-review/SKILL.md

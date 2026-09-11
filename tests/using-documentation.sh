@@ -4,8 +4,8 @@
 # minting, and composition with using-diagrams. (Task 4 extends this file to assert the three
 # format references once they exist.)
 set -e
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-SK="$ROOT/engineering/skills/using-documentation/SKILL.md"
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+SK="$ROOT/skills/using-documentation/SKILL.md"
 
 [ -f "$SK" ] || { echo "FAIL: $SK does not exist"; exit 1; }
 grep -q '^name: using-documentation$' "$SK" || { echo "FAIL: SKILL.md frontmatter must name using-documentation"; exit 1; }
@@ -20,7 +20,7 @@ flat "never invent"          # user-only minting: agent never invents a domain/f
 flat "using-diagrams"
 
 # The three format references the producer renders from.
-REFS="$ROOT/engineering/skills/using-documentation/references"
+REFS="$ROOT/skills/using-documentation/references"
 for r in FEATURE-DOC-TEMPLATE.md TOC-FORMAT.md REFERENCE-TABLE-FORMAT.md; do
   [ -f "$REFS/$r" ] || { echo "FAIL: missing reference $r"; exit 1; }
 done

@@ -2,8 +2,8 @@
 # The shared consumable-markdown reference must exist and carry its load-bearing conventions,
 # so both SPEC-FORMAT and the feature-doc template can cite one source of truth.
 set -e
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-REF="$ROOT/engineering/references/consumable-markdown.md"
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+REF="$ROOT/references/consumable-markdown.md"
 
 [ -f "$REF" ] || { echo "FAIL: $REF does not exist"; exit 1; }
 

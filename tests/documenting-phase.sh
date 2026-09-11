@@ -4,8 +4,8 @@
 # to produce, validates via its validation-protocol fan-out, and adds no new human gate.
 # (Task 6 extends this file to assert the validation-protocol orchestrator and four lens docs.)
 set -e
-ROOT=$(CDPATH= cd "$(dirname "$0")/../.." && pwd)
-SK="$ROOT/engineering/skills/documenting/SKILL.md"
+ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
+SK="$ROOT/skills/documenting/SKILL.md"
 
 [ -f "$SK" ] || { echo "FAIL: $SK does not exist"; exit 1; }
 grep -q '^name: documenting$' "$SK" || { echo "FAIL: SKILL.md frontmatter must name documenting"; exit 1; }
@@ -21,7 +21,7 @@ flat "skip"                 # judged skip with a recorded reason
 flat "plan gate already"    # no new human gate — the plan gate already authorized the run
 
 # --- validation-protocol orchestrator + four lens docs (Task 6) ---------------
-REFS="$ROOT/engineering/skills/documenting/references"
+REFS="$ROOT/skills/documenting/references"
 VP="$REFS/validation-protocol.md"
 [ -f "$VP" ] || { echo "FAIL: validation-protocol.md does not exist"; exit 1; }
 for lens in accuracy structure links scope; do
@@ -38,10 +38,10 @@ grep -qiF "claudish" "$REFS/lenses/structure.md" || { echo "FAIL: structure lens
 grep -qiF "diff" "$REFS/lenses/accuracy.md" || { echo "FAIL: accuracy lens must check against the shipped diff"; exit 1; }
 
 # --- pipeline wiring: build -> documenting -> finish (Task 7) ------------------
-BUILD="$ROOT/engineering/skills/build/SKILL.md"
-PLAN="$ROOT/engineering/skills/plan/SKILL.md"
+BUILD="$ROOT/skills/build/SKILL.md"
+PLAN="$ROOT/skills/plan/SKILL.md"
 RMROOT="$ROOT/README.md"
-RMENG="$ROOT/engineering/README.md"
+RMENG="$ROOT/README.md"
 wire() { tr '\n' ' ' < "$1" | tr -s ' ' | grep -qiF -- "$2" || { echo "FAIL: $(basename "$(dirname "$1")")/$(basename "$1") missing: $2"; exit 1; }; }
 
 wire "$BUILD" "engineering:documenting"   # build now hands to documenting, not straight to finish
