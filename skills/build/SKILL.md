@@ -132,6 +132,14 @@ skill adds no PR logic of its own beyond running the plan's steps in order. Run 
 opening step before its commit steps, so its commits land on that task's own branch rather
 than the previous task's by accident.
 
+Build and push **every task, as it finishes** — the submit step runs the moment a task's box is
+checked, before the next task starts, so each task's branch and PR go up on their own. Never
+batch the pushes to the end of the run, and **never pause to ask** whether to build the PR now
+or wait — there is no checkpoint here. The plan gate already authorized the whole stack; a task
+that is committed and gated is a task whose PR goes up immediately, without a "want me to push
+this one?" The run is unattended by design (see "What this guarantees") — asking along the way
+is the one thing it must not do.
+
 ## What this does not do
 
 - It does not **write the plan.** The tasks and their order were all decided during
