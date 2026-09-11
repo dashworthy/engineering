@@ -19,7 +19,7 @@ One thing: given a green branch at the end of `build`, this phase either leaves 
 documentation current — the feature doc written or surgically updated and validated, the
 `docs/toc.md` row upserted — or records a one-line reason it did not. It never leaves the docs
 silently stale and never leaves what it wrote unvalidated. Independently of that judged call, it
-always leaves the run's **retro ledger entry** on disk — `docs/specs/{slug}/retro.md`, the
+always leaves the run's **retro ledger entry** on disk — `docs/specs/<run-id>/retro.md`, the
 companion to the committed spec — so the spec ledger records how the run actually went.
 
 ## No new gate
@@ -69,18 +69,24 @@ diff. The docs do not leave this phase with an open finding.
 ## Commit the run's retro (unconditional)
 
 Separate from — and not gated by — the judged feature-doc decision above, this phase **always**
-writes the run's retro ledger entry: `docs/specs/{slug}/retro.md`, the companion to the frozen
-`docs/specs/{slug}/spec.md` the `spec` phase committed at approval. `{slug}` is the run slug (the
-`<slug>` portion of `.engineering/.current-run`, as the `spec` skill derives it).
+writes the run's retro ledger entry: `docs/specs/<run-id>/retro.md`, the companion to the frozen
+`docs/specs/<run-id>/spec.md` the `spec` phase committed at approval. `<run-id>` is the **full**
+`.engineering/.current-run` value (`<YYYY-MM-DD>-<slug>`, date prefix included) — the same
+collision-free directory the `spec` phase used, one per run.
 
 This write is **unconditional**: it happens on every green run, whether or not a feature doc was
 warranted — a run that records a docs **skip** still leaves a retro. Compose it per
 `references/RETRO-FORMAT.md`, judging the run against its approved spec and the **shipped
 whole-branch diff** (the same diff the accuracy validation reads): the front-matter spine, the
 per-section accuracy verdicts, and the five cross-cutting axis sections. Keep it terse-by-default —
-an axis with nothing notable gets one line — so writing it every run is never a chore. The retro
-rides the tip of the stack as its own commit, like the feature docs; it adds no human gate (the
-plan gate already authorized the run).
+an axis with nothing notable gets one line — so writing it every run is never a chore.
+
+Reaching this phase on a green branch means the run shipped, so **update the run's row in the
+ledger index `docs/specs/toc.md`** in the same step — flip its `Shipped` column from `—` to `yes`
+per `references/SPECS-TOC-FORMAT.md` — closing the loop the `spec` phase opened when it wrote the
+row with `Shipped: —` at approval. The retro and the row-update ride the tip of the stack as their
+own commit, like the feature docs; they add no human gate (the plan gate already authorized the
+run).
 
 ## Hand off
 
