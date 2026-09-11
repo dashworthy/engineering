@@ -11,6 +11,7 @@ sh "$d/validate.sh"
 sh "$d/consumable-markdown.sh"
 sh "$d/using-documentation.sh"
 sh "$d/documenting-phase.sh"
+sh "$d/retro-format.sh"
 sh "$d/consulting-docs.sh"
 for name in signal triage receiving-code-review brainstorming spec using-codebase-design plan build finish code-review using-documentation documenting; do
   sh "$d/frontmatter.sh" "$d/../skills/$name"
