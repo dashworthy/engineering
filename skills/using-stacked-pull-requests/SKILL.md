@@ -67,6 +67,11 @@ omitting it targets the default branch and collapses the stack. Take the PR's ti
 from the task itself, the same way the commit message came from the task's final step. Re-running
 this on a task that already has a PR updates that PR rather than opening a second one.
 
+Do this **per task, the moment its work is committed** — not batched at the end of the run, and
+never gated by a question. Building and pushing the PR is an automatic step of finishing a task,
+not a decision to put to the human: do not ask whether to push now or wait, and do not hold the
+push until later tasks are done. Each task's PR goes up as that task lands.
+
 ## Keep the stack current (restack)
 
 When a lower pull request changes — a review pushes a fix into it, or it lands and its commits
