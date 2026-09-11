@@ -15,8 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Each plugin that ships a self-contained foundation suite. Plugins
-        # without a tests/suite.sh (laravel) are intentionally absent.
+        # Each plugin that ships a self-contained foundation suite.
         plugin: [engineering, skillsmith, verity]
     steps:
       - uses: actions/checkout@v4
