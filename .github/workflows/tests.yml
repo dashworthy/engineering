@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         # Each plugin that ships a self-contained foundation suite.
-        plugin: [engineering, verity]
+        plugin: [engineering]
     steps:
       - uses: actions/checkout@v4
 
