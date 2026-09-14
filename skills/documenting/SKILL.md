@@ -18,9 +18,7 @@ reviewed docs to `finish`.
 One thing: given a green branch at the end of `build`, this phase either leaves the run's
 documentation current — the feature doc written or surgically updated and validated, the
 `docs/toc.md` row upserted — or records a one-line reason it did not. It never leaves the docs
-silently stale and never leaves what it wrote unvalidated. Independently of that judged call, it
-always leaves the run's **retro ledger entry** on disk — `docs/specs/<run-id>/retro.md`, the
-companion to the committed spec — so the spec ledger records how the run actually went.
+silently stale and never leaves what it wrote unvalidated.
 
 ## No new gate
 
@@ -66,30 +64,10 @@ finding in the docs (a stale claim corrected, a broken link fixed, a bloated sec
 re-validate the corrected docs, exactly as `build` resolves a review finding in the task's own
 diff. The docs do not leave this phase with an open finding.
 
-## Commit the run's retro (unconditional)
-
-Separate from — and not gated by — the judged feature-doc decision above, this phase **always**
-writes the run's retro ledger entry: `docs/specs/<run-id>/retro.md`, the companion to the frozen
-`docs/specs/<run-id>/spec.md` the `spec` phase committed at approval. `<run-id>` is the **full**
-`.engineering/.current-run` value (`<YYYY-MM-DD>-<slug>`, date prefix included) — the same
-collision-free directory the `spec` phase used, one per run.
-
-This write is **unconditional**: it happens on every green run, whether or not a feature doc was
-warranted — a run that records a docs **skip** still leaves a retro. Compose it per
-`references/RETRO-FORMAT.md`, judging the run against its approved spec and the **shipped
-whole-branch diff** (the same diff the accuracy validation reads): the front-matter spine, the
-per-section accuracy verdicts, and the five cross-cutting axis sections. Keep it terse-by-default —
-an axis with nothing notable gets one line — so writing it every run is never a chore.
-
-The retro rides the tip of the stack as its own commit, like the feature docs; it adds no human
-gate (the plan gate already authorized the run). Reaching this phase on a green branch means the
-run shipped, so the retro's front-matter `shipped:` field records that — there is no separate
-ledger index to update.
-
 ## Hand off
 
-Once the docs are produced and validated — or the run was skip-recorded — and the retro is
-written, **hand off to `engineering:finish` now**. The documentation rides the tip of the stack as its own commit/PR;
+Once the docs are produced and validated — or the run was skip-recorded — **hand off to
+`engineering:finish` now**. The documentation rides the tip of the stack as its own commit/PR;
 `finish` opens or refreshes the stack and never merges. There is no gate at this seam: reaching
 `finish` is the next act, take it.
 

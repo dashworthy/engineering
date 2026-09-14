@@ -15,11 +15,8 @@ which `plan` reads as its precondition.
 ## What this guarantees
 
 One thing: given an entrance's finished material, this stage writes exactly one Tier-1
-spec, in exactly one format. Its authoritative working copy lives at exactly one path —
-the run's spec dir, `.engineering/<run>/spec/`, which this skill is the only one permitted to
-write — and, on approval, a frozen copy of that same spec is published to the tracked ledger
-under `docs/specs/` (below). One spec, one format; a working copy and, once approved, its
-published snapshot.
+spec, in exactly one format, at exactly one path. It is the only skill in this plugin
+permitted to write to the run's spec dir, `.engineering/<run>/spec/`.
 
 ## Inputs
 
@@ -43,20 +40,11 @@ pointer value, or the date is duplicated in the filename. When no run is active,
 slug derived from the spec's own title. `<YYYY-MM-DD>` in the filename is today's date, not the
 run's start date, if the two differ.
 
-While it is being written and gated, the spec is a run-scoped artifact: the working copy lives
-under `.engineering/<run>/spec/`, alongside the run's other working state (plan, markers, scratch)
-in the gitignored run dir. Beside it this skill also writes the run-scoped approval marker
-(`.engineering/<run>/to-spec/APPROVED.md`), minted at the spec gate below — the marker is the trace
-that the spec cleared the gate.
-
-**On approval, the spec also becomes a committed artifact.** A frozen copy is published to the
-tracked ledger at `docs/specs/<run-id>/spec.md` (see the spec-gate step below).
-`<run-id>` is the **full** run id — the entire `.engineering/.current-run` value,
-`<YYYY-MM-DD>-<slug>`, date prefix included — so each run gets its own ledger directory and two
-runs can never collide (this resolves the spec's slug-collision open question: the date-stripped
-`<topic>` used for the filename is not collision-free, the full dated run id is). The
-`.engineering/<run>/spec/` copy remains the working copy; the `docs/specs/` copy is the durable,
-tracked snapshot the repository keeps.
+The spec is a run-scoped artifact: it lives under `.engineering/<run>/spec/`, alongside the
+run's other working state, not in the repository's tracked docs tree — the run dir is the
+single home for a run's spec, plan, markers, and scratch. Beside the spec this skill
+also writes the run-scoped approval marker (`.engineering/<run>/to-spec/APPROVED.md`), minted at
+the spec gate below — the marker is the trace that the spec cleared the gate.
 
 ## How it renders
 
@@ -109,17 +97,6 @@ skill does not stamp `Approved` on faith:
    spec cleared the gate. Then flip the status line from `Status: Draft` to `Status: Approved`.
    The marker's existence *is* the approval; never write it on the assumption that reaching
    this skill implies one.
-4. **On that same approval, commit the frozen copy to the ledger.** Write the approved spec
-   verbatim to `docs/specs/<run-id>/spec.md` — a **frozen**, immutable snapshot, never edited later
-   (outcome and drift live in the companion `retro.md` the `documenting` phase writes, not here).
-   The ledger directory is `docs/specs/<run-id>/`, where `<run-id>` is the **full**
-   `.engineering/.current-run` value (`<YYYY-MM-DD>-<slug>`, date prefix included) — collision-free,
-   one directory per run. There is no separate index file: the dated `<run-id>` directories *are*
-   the ledger, and they list in chronological order on their own. Unlike the gitignored
-   `.engineering/<run>/spec/` copy, this one is tracked: it rides the run's working branch and
-   **lands on** the trunk only when the run's pull request merges — so an approved-but-abandoned
-   run leaves no orphan spec on the trunk. Do this only on approval, alongside the marker, never
-   on a draft.
 
 `plan` reads that marker as its precondition: an `Approved` status with no
 `.engineering/<run>/to-spec/APPROVED.md` behind it is refused downstream, so the marker and
