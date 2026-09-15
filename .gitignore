@@ -6,3 +6,6 @@
 # with the repo. settings.local.json stays personal: it holds machine-specific absolute paths.
 .claude/settings.local.json
 .engineering/
+
+# Behavioral-eval run output (scores, HTML reports, scaffold temp) — regenerated each run.
+evals/results/
