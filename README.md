@@ -195,6 +195,19 @@ not a separate entry point — invoke `engineering:build` directly; a thin wrapp
 existing skill would add a name and nothing else. (Docblock quality is no longer a phase of its
 own: the build's per-task review carries an ELI5 lens that flags docblocks needing plainer prose.)
 
+## Testing
+
+Two complementary layers:
+
+- **Static suite** (`tests/`, run with `sh tests/suite.sh`) — file layout, frontmatter, and prose
+  anchors. Runs no model, needs no credentials, gates CI.
+- **Behavioral evals** ([`evals/`](evals/README.md), run with `claude plugin eval`) — run a model
+  against the plugin **two-arm** (with and without it) and prove the plugin *caused* a behavior
+  (with-arm ≥ 0.80 and positive delta), rather than that a skill file merely contains the right
+  words. Local and manual; five invocation-outcome cases cover the entrances, code-review,
+  stacked-PRs, and documenting. See [`evals/README.md`](evals/README.md) — including the finding on
+  which *discipline* behaviors a two-arm eval can and can't isolate against a frontier base model.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).

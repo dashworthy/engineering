@@ -1,5 +1,8 @@
 #!/bin/sh
-# Foundation suite: every non-live check. (e2e.sh is live/CI-only and excluded here.)
+# Foundation suite: every static, non-model check (file layout, frontmatter, prose anchors).
+# The complementary *behavioral* layer — which runs a model against the plugin two-arm and is not
+# part of this suite — lives under evals/ (see evals/README.md), run manually with
+# `claude plugin eval`. This suite runs no model and needs no credentials.
 set -e
 d=$(CDPATH= cd "$(dirname "$0")" && pwd)
 sh "$d/hook.sh"
