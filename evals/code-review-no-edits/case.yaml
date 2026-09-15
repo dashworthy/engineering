@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: code-review-no-edits
+# Prompt from prompt.md; graders from graders/. Scaffold drops a small buggy report.py into the
+# working dir (run with --scaffold) so there is a concrete change to review.
+context:
+  scaffold_script: scaffold.sh
