@@ -35,4 +35,11 @@ done
 # receiving-code-review adds a leading base-selection beat the others don't.
 grep -q "^## 1\. Check out the review branch" "skills/receiving-code-review/SKILL.md" || { echo "FAIL: receiving-code-review must check out the review branch first (base selection)"; fail=1; }
 
+# receiving-code-review's §3 verification fans out above an inline floor, like code-review does —
+# rcr-specific, NOT in the shared loop above (signal is interactive and triage does not fan out).
+RCR="skills/receiving-code-review/SKILL.md"
+grep -qE "using-parallel-agents|dispatching-parallel-agents" "$RCR" || { echo "FAIL: receiving-code-review must cite the shared fan-out primitive for its §3 verification"; fail=1; }
+grep -qiE "fan[ -]?out" "$RCR" || { echo "FAIL: receiving-code-review §3 must describe fanning verification out to subagents"; fail=1; }
+grep -qiE "fan[ -]?out vs\.? inline|small reception" "$RCR" || { echo "FAIL: receiving-code-review §3 must carry the inline-vs-fan-out decision (a floor keeping a small reception inline)"; fail=1; }
+
 [ "$fail" = 0 ] && echo "PASS entrances-parallel.sh" || exit 1
