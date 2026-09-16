@@ -51,7 +51,7 @@ The detail a reader who will change the wiring needs.
   | The primitive | `skills/using-parallel-agents/SKILL.md` | States the independence gate, sends the whole wave of `Agent` calls at once, and gathers every return whole before synthesis. Owns the mechanics; owns no task, split, or reconcile shape. |
   | Consumer — doc validation | `skills/documenting/references/validation-protocol.md` | Orchestrates the four-lens doc review: supplies the split (one lens each) and each lens's slice, fans out via this skill, reconciles the returns into one report. |
   | Consumer — build review | `skills/build/references/review-protocol.md` | Orchestrates the per-axis code review the same way: one sub-reviewer per lens above the inline floor, fanned out via this skill, reconciled into one report. |
-  | Registry | `skills/README.md` | Lists `using-parallel-agents` among the cross-cutting skills any phase may invoke. |
+  | Registry | `README.md` | Lists `using-parallel-agents` among the cross-cutting skills any phase may invoke. |
 
 - **Boundaries & invariants.** The rules a caller must respect — stated here so the next reader does not learn them by breaking one.
 

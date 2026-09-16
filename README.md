@@ -182,8 +182,23 @@ list is what keeps the suite compact; a piece stays a skill when more than one c
 by name — `using-codebase-design` (the shape lenses), for instance, is invoked by `brainstorming` to shape
 a boundary and by `plan`'s arch-lens review to judge one.
 
-The full index lives at
-[skills/README.md](skills/README.md).
+Skills live flat in `skills/` — the plugin loader scans one level deep — and a directory earns
+its own `SKILL.md` only when it must be discovered on its own, where no conductor is already
+driving it. Everything else a conductor needs is a **reference file** it loads:
+
+| Owner | References |
+|---|---|
+| `spec` | `references/SPEC-FORMAT.md` |
+| `using-codebase-design` | `references/SHAPE-REVIEW.md`, `DESIGN-IT-TWICE.md`, `PATTERN-MATRIX.md`, `DEEPENING.md`, `TENANCY-ISOLATED-DB.md`, `TENANCY-SHARED-DB.md` |
+| `plan` | `references/arch-lens.md` |
+| `build` | `references/establishing-workspace.md`, `tdd-loop.md` (+ `mocking.md`, `tests.md`), `review-protocol.md` + `lenses/standards.md`, `spec.md`, `eli5.md` |
+| `documenting` | `references/validation-protocol.md`, `lenses/` |
+| `using-documentation` | `references/FEATURE-DOC-TEMPLATE.md`, `REFERENCE-TABLE-FORMAT.md`, `TOC-FORMAT.md` |
+| `finish` | `references/pr-description.md` |
+| `triage` | `references/diagnosing.md` |
+| `receiving-code-review` | `references/review-comment.md` |
+| `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet) |
+| shared (plugin `references/`) | `interrogating-requirements.md` (loaded by all three entrances) |
 
 ### Entry points
 

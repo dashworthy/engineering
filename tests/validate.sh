@@ -395,8 +395,8 @@ if [ -f "$UQ" ]; then
   grep_flat "$UQ" "Hermes Agent"; check $? "harness table names Hermes Agent"
   grep_flat "$UQ" "Codex CLI"; check $? "harness table names Codex CLI"
 fi
-# using-questions is registered as a cross-cutting skill in both READMEs.
-grep_flat "$PLUGIN/skills/README.md" "using-questions"; check $? "engineering skills README lists using-questions"
+# using-questions is registered as a cross-cutting skill in the root README (the skill index
+# was merged into the root README; there is no longer a separate skills/README.md).
 grep_flat "$ROOT/README.md" "using-questions"; check $? "root README lists using-questions"
 
 # The in-scope sites delegate the ask-a-human mechanics to using-questions instead of restating
