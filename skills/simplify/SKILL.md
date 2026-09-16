@@ -7,18 +7,13 @@ description: "The refactor entrance: interrogate disliked existing code into nam
 
 Say this first, plainly: `Using the simplify skill to interrogate the perceived problem into a brief.`
 
-Run the simplify refactor pipeline for the code in hand. simplify is one of the engineering
-entrances: it **shapes context** from a piece of existing code the developer dislikes —
-interrogating *what* is disliked and *why*, through language-neutral quality lenses, into named
-target qualities each paired with an observable check — then hands that context to the shared
-design dialogue. It runs the same beats every entrance does — establish a run, shape context, hand
-to the design dialogue — and only how it shapes context is particular to simplify. Interrogate the
-perceived problem into a brief rather than proposing refactors yourself; proposing the refactor
-approaches is the design dialogue's job, not this entrance's.
+Use this on existing code a developer dislikes — *"I don't like this code, make it more to my
+liking."* Interrogate *what* they dislike and *why* through language-neutral quality lenses, into
+named target qualities each paired with an observable check, then hand that to the design dialogue.
+Don't propose the refactors yourself — that is the design dialogue's job.
 
-This is the entrance for *"I don't like this code — make it more to my liking."* It never rewrites
-the code, and it is **not** the base `simplify` skill (which reviews the current diff and applies
-cleanups); this entrance interrogates a perceived problem and hands off, applying nothing.
+This is **not** the base `simplify` skill (which reviews the current diff and applies cleanups): it
+interrogates a perceived problem and hands off, changing no code.
 
 Work the beats in order.
 
@@ -43,36 +38,28 @@ mean before interrogating it.
 
 ## 2. Shape context — interrogate the perceived problem
 
-This is the beat particular to simplify, and simplify always runs it. Load
-`references/refactoring-lenses.md` and drive it in the main thread (it is interactive; it cannot run
-as a dispatched subagent). Supply it the run directory and
-the target code. It carries the language-neutral quality lenses and self-drives a lens-guided
-interrogation that turns each expressed dislike into a **named target quality paired with an
-observable check** — refusing to hand off while "better" is still an unmeasured preference — and,
-the moment its gate is met, writes `brief.md` §1–§6 (the disliked code as §1 Problem, the target
-qualities and their checks as §3 Success Criteria). That file is the deliverable, and the brief ends
-at §6.
+Load `references/refactoring-lenses.md` and drive it in the main thread (it is interactive; it
+cannot run as a dispatched subagent), supplying the run directory and the target code. It carries
+the language-neutral quality lenses and drives a lens-guided interrogation that turns each expressed
+dislike into a **named target quality paired with an observable check** — refusing to hand off while
+"better" is still an unmeasured preference — and, once its gate is met, writes `brief.md` §1–§6 (the
+disliked code as §1 Problem, the target qualities and their checks as §3 Success Criteria). The
+brief is the deliverable and ends at §6.
 
-Where the interrogation needs generic requirement-mining that the lenses do not cover — an unclear
+Where the interrogation needs generic requirement-mining the lenses do not cover — an unclear
 stakeholder, a success criterion the lenses cannot name — fall back to the shared discovery
-reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) and drive it for that
-gap. This is this entrance's own discovery leg — it is **not** a hand-off to another entrance; the
-entrances are distinct and never invoke one another.
+reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) for that gap. That is
+your own discovery leg, not a hand-off — never invoke another entrance.
 
 If the request is genuinely trivial — a rename, a one-liner the user could make faster than describe
-— the interrogation says so in one sentence and exits with no brief.
+— say so in one sentence and exit with no brief.
 
 ## 3. Hand to design
 
-Once `brief.md` §1–§6 is on disk, hand its path to `engineering:brainstorming` — the shared design
-dialogue — in the main thread; simplify does not propose refactor approaches, write a spec, or
-change any code.
-
-**simplify ends at the brief and hands it to `engineering:brainstorming`.** Once `brief.md` is on
-disk, report its path and **invoke `engineering:brainstorming` now.** "Stop" means stop
-interrogating and do not design, plan, or build yourself — it is not a stop to ask whether to
-proceed. There is no gate at this seam; parking the brief with a "want me to propose refactors?" is
-not an available move — design is the next act, take it.
+Once `brief.md` §1–§6 is on disk, report its path and **invoke `engineering:brainstorming` now** —
+the shared design dialogue, in the main thread. Propose no refactor approaches, write no spec, and
+change no code; that is downstream. "Stop" here means stop interrogating, not stop to ask whether to
+proceed — there is no gate at this seam, and handing off is the next act.
 
 If the request in hand is unclear or empty, ask the user which code they want reshaped before
 proceeding.

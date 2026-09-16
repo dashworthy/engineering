@@ -94,9 +94,8 @@ The lenses cover what a developer dislikes about code's *shape*. They do not cov
 requirement dimensions a brief still needs — who owns the code and signs off, a success criterion
 the lenses cannot name, a constraint from outside the code. Where the interrogation needs that
 generic mining, load the shared discovery reference
-(`references/interrogating-requirements.md`) and drive it for that gap. This is the simplify
-entrance's own discovery leg — it is **not** a hand-off to another entrance; the entrances are
-distinct and never invoke one another.
+(`references/interrogating-requirements.md`) and drive it for that gap yourself — it is your own
+discovery leg, not a hand-off to another entrance.
 
 ## The advancement gate
 
@@ -128,9 +127,9 @@ know. The six dimensions mean something particular for disliked existing code; m
 §3 — say so to the developer rather than softening an aspiration into prose that then passes as a
 criterion.
 
-The brief ends at §6. simplify does not propose refactor approaches, write a spec, or change any
-code — it hands `brief.md` to `engineering:brainstorming`, where the refactor approaches are
-proposed for the developer to accept or reject.
+The brief ends at §6. Propose no refactor approaches and change no code — hand `brief.md` to
+`engineering:brainstorming`, where the approaches are proposed for the developer to accept or
+reject.
 
 ## Red flags — stop, do not advance
 
