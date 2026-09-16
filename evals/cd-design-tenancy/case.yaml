@@ -1,0 +1,18 @@
+schema_version: "1.1"
+name: cd-design-tenancy
+description: Designing a multi-tenant boundary with an UNSTATED tenancy model should make using-codebase-design ask for the tenancy model rather than silently guessing it.
+tags: [codebase-design, design-mode, tenancy]
+runs: 3
+execution:
+  max_turns: 30
+  timeout_seconds: 1800
+  allowed_tools: [Read, Glob, Grep, Skill, Agent, TodoWrite]
+  prompt: |
+    We're making Bookery's late-fee schedule store multi-tenant. The
+    requirements are settled — I do NOT need discovery or a plan: each member
+    library is a tenant, every tenant reads only its own fee schedules, and our
+    internal admins write them. What I need is the store's interface shaped:
+    give me two or three genuinely different interface shapes and recommend one.
+    Interface shape only — not the implementation.
+context:
+  scaffold_script: scaffold.sh
