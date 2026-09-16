@@ -163,10 +163,10 @@ grep_flat "$CDSK" "force the tenant-boundary decision"; check $? "Tenancy bounda
 # --- no personal emails (GitHub addresses only) ------------------------------
 # Convention: people (stakeholders, sign-off, approvers, authors) are identified by name or
 # GitHub handle — never a personal or business email. The only email form allowed anywhere in
-# the suite is a GitHub address. interrogating-requirements carries the rule at the capture
-# point; this guard enforces it across every tracked skill and command.
-grep_flat "$PLUGIN/references/interrogating-requirements.md" "Never record a personal email"
-check $? "interrogating-requirements forbids recording a personal email"
+# the suite is a GitHub address. The using-requirements-gathering skill carries the rule at the
+# capture point; this guard enforces it across every tracked skill and command.
+grep_flat "$PLUGIN/skills/using-requirements-gathering/SKILL.md" "Never record a personal email"
+check $? "using-requirements-gathering forbids recording a personal email"
 personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$PLUGIN/skills" "$PLUGIN/references" "$PLUGIN/commands" 2>/dev/null | grep -viE '@users\.noreply\.github\.com$' | sort -u)
 [ -z "$personal_email" ]; check $? "no personal email address appears in any skill/command (GitHub addresses only)"
 
@@ -411,8 +411,8 @@ check $? "spec gate keeps its silence-is-not-approval semantics at the site"
 grep_flat "$PLUGIN/skills/plan/SKILL.md" "treat silence as not-approved"
 check $? "plan gate keeps its silence-is-not-approval semantics at the site"
 
-# The design/mechanics sites delegate the ask-a-human mechanics too. interrogating-requirements
-# additionally KEEPS its interrogation strategy at the site — delegating how-to-ask must not
+# The design/mechanics sites delegate the ask-a-human mechanics too. The using-requirements-gathering
+# skill additionally KEEPS its interrogation strategy at the site — delegating how-to-ask must not
 # rewrite the probe families or correction-mining (a stated non-goal).
 for f in using-codebase-design using-documentation documenting; do
   grep_flat "$PLUGIN/skills/$f/SKILL.md" "using-questions"
@@ -426,10 +426,10 @@ grep_flat "$BS" "recommendation first — following \`engineering:using-question
 check $? "brainstorming delegates its approach-choice question to using-questions"
 grep_flat "$BS" "structured choice, following \`engineering:using-questions\`"
 check $? "brainstorming delegates its spec-skip question to using-questions"
-IR="$PLUGIN/references/interrogating-requirements.md"
-grep_flat "$IR" "using-questions"; check $? "interrogating-requirements delegates the mechanics to using-questions"
-grep_flat "$IR" "Probe Families"; check $? "interrogating-requirements keeps its Probe Families strategy"
-grep_flat "$IR" "corrected-not-dug"; check $? "interrogating-requirements keeps its correction-mining thread kinds"
+IR="$PLUGIN/skills/using-requirements-gathering/SKILL.md"
+grep_flat "$IR" "using-questions"; check $? "using-requirements-gathering delegates the mechanics to using-questions"
+grep_flat "$IR" "Probe Families"; check $? "using-requirements-gathering keeps its Probe Families strategy"
+grep_flat "$IR" "corrected-not-dug"; check $? "using-requirements-gathering keeps its correction-mining thread kinds"
 
 # --- simplify: language-neutral refactoring-lens reference ---------------------
 # The simplify entrance shapes context through a fixed set of language-neutral quality lenses,
