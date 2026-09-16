@@ -34,10 +34,27 @@ work; `dropped` counts what the *cap* set aside, not what the floor excluded.)
 
 ## 3. Confidence / severity floor
 
-The facet drops any finding weaker than `caps.floor` — low-confidence guesses and cosmetic nits do
-not reach the report. The floor applies to the *weaker* of a finding's severity and confidence, so
-a high-severity but low-confidence hunch is held, not asserted. Fewer, higher-signal findings beat
-a long list a reader has to triage.
+The facet drops any finding weaker than `caps.floor` before it returns — low-confidence guesses
+and cosmetic nits do not reach the report. The floor applies to the **weaker** of a finding's
+severity and confidence: a high-severity but low-confidence hunch scores `low` on the weaker axis
+and is held, not asserted, exactly as a low-severity/high-confidence nit is.
+
+This is a drop, not a hedge. A facet does not get to keep a sub-floor finding by wording it
+cautiously — "possibly," "might be worth a look," "low confidence, but…". A finding whose weaker
+axis is below the floor is not reported at all; a report that carries one has *failed* the floor,
+which is the single most common way a facet over-reports. Reaching for a hedged, below-floor
+finding rather than returning an empty list is itself the failure mode the floor exists to prevent:
+a clean change is a valid, expected result (see `facet-contract.md`), and manufacturing a weak
+finding to avoid an empty report is exactly what the floor stops.
+
+**Speculation guard.** A hazard is only as real as the code that would trigger it. A finding whose
+realization depends on code *outside the change under review* — a hypothetical caller, an unproven
+path, a value some absent code might pass — is capped at **low confidence**, because nothing in the
+diff demonstrates it. At a floor of `med` or above, that cap drops it. This is what stops a facet
+from reporting, for instance, an authorization hazard about a caller that does not exist in the
+change: the review judges the code in front of it, not code it imagines around it.
+
+Fewer, higher-signal findings beat a long list a reader has to triage.
 
 ## Together
 
