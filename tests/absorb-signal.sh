@@ -20,7 +20,7 @@ if grep -rn "\.signal/" skills; then
 for gone in conducting-discovery expanding-scope sequencing-requirements; do
   [ -e "skills/$gone" ] && { echo "FAIL: skills/$gone should have been removed"; fail=1; }
 done
-grep -q "references/interrogating-requirements.md" "$SKILL" || { echo "FAIL: signal skill must load the shared interrogating-requirements reference"; fail=1; }
+grep -q "engineering:using-requirements-gathering" "$SKILL" || { echo "FAIL: signal skill must invoke the shared using-requirements-gathering skill"; fail=1; }
 if grep -q "engineering:conducting-discovery" "$SKILL"; then echo "FAIL: signal must not name the removed conductor"; fail=1; fi
 grep -q "\.engineering/" "$SKILL" || { echo "FAIL: run dir not redirected to .engineering/"; fail=1; }
 # Isolation moved to build: signal runs on the current branch and carries no Isolate beat.

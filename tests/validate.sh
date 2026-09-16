@@ -444,7 +444,7 @@ if [ -f "$RL" ]; then
     tr '\n' ' ' < "$RL" | grep -qiF -- "$lens"; check $? "simplify: lens '$lens' present"
   done
   grep_flat "$RL" "observable check"; check $? "simplify: names the observable-check obligation"
-  grep_flat "$RL" "references/interrogating-requirements.md"; check $? "simplify: keeps the shared-interrogation fallback"
+  grep_flat "$RL" "engineering:using-requirements-gathering"; check $? "simplify: delegates the shared interrogation to using-requirements-gathering"
 fi
 SK="$PLUGIN/skills/simplify/SKILL.md"
 for f in "$RL" "$SK"; do
