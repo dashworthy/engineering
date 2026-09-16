@@ -22,7 +22,11 @@ whole reason there are three.
   under its own control and **isolates** it to a domain concept before anyone designs a fix.
 - **`receiving-code-review`** is the review-feedback door. A set of review comments enters here, and
   the entrance **aggregates**, **verifies**, and **impact-checks** them before anyone designs the
-  changes.
+  changes. Aggregation stays on the main thread — the comments interrelate and must be read as one
+  set — but the per-comment verify and impact-check follow an inline-vs-fan-out floor: a small
+  reception, roughly three or fewer comments, is checked inline, while a larger one fans each comment
+  (or a tight cluster) out to a subagent that shares only a read of the review branch, then
+  reconciles the verdicts. Reply and resolve stay on the main thread.
 
 **Worked example.** Someone drops in: *"Admins keep asking for a way to pull the audit log out of the
 system — can we add an export?"* That is a vague feature ask, so it goes to `signal`. Signal's first
@@ -71,7 +75,7 @@ establish their run through one script.
 | Discovery entrance | `skills/signal/SKILL.md` | Interrogates a vague ask into `brief.md` §1–§6, then hands the brief path to design. Owns no design decision; always runs the interrogation beat. |
 | Defect entrance | `skills/triage/SKILL.md` | Reproduces a reported failure, isolates it to a domain concept, records the disposition, and hands the isolation to design — or closes the report when it does not reproduce, is already fixed, or was already rejected. |
 | Root-cause depth | `skills/triage/references/diagnosing.md` | Loaded by triage only when the hand-off needs the exact mechanism pinned: reproduce, hypothesize, isolate, confirm with evidence. Finds *why*; does not choose the fix's design. |
-| Review-feedback entrance | `skills/receiving-code-review/SKILL.md` | Checks out the original review branch, aggregates the comments, verifies each against the codebase, impact-checks beyond the commented line, and carries two standing instructions (reply per thread; stack each fix's PR onto the review branch) into the shaped context. |
+| Review-feedback entrance | `skills/receiving-code-review/SKILL.md` | Checks out the original review branch, aggregates the comments, verifies each against the codebase (inline for a small reception of roughly three or fewer comments, otherwise fanned out one subagent per comment/cluster, then reconciled), impact-checks beyond the commented line, and carries two standing instructions (reply per thread; stack each fix's PR onto the review branch) into the shaped context. |
 | Review-reply text | `skills/receiving-code-review/references/review-comment.md` | Phrases the reply for each thread in plain language — no performative agreement, no skill or process names, never signed. Phrases only; does not decide whether a comment is correct or whether to resolve its thread. |
 | Shared interrogation | `references/interrogating-requirements.md` | The relentless requirement extractor both `signal` and (on demand) `triage` and `receiving-code-review` drive. Interactive, main-thread only; writes `brief.md` §1–§6 and `open-threads.md`. Cannot run as a dispatched subagent. |
 | Run establishment | `scripts/run-context.sh` | Prints and creates `.engineering/<run>/<entrance>/`, creating the run on the first caller and joining it on later ones. The active run id lives in `.engineering/.current-run`. |

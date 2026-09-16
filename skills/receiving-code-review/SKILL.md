@@ -70,6 +70,20 @@ unscoped query repeated elsewhere. For each verified issue, look for the same sh
 commented** line and fold the wider fix into what gets designed, rather than patching only the spot
 the reviewer happened to point at.
 
+**Decide fan-out vs inline — verify and impact-check.** The two checks just above — verifying each
+claim and checking each issue beyond its commented line — are independent per-comment
+investigations, and how they run depends on the size of the reception. A **small reception** —
+roughly three or fewer comments — is cheaper to work inline than to spin up subagents for; do it
+inline. Above that floor, **fan out**: dispatch one subagent per comment, or per tight
+cluster of comments sharing a locus (same file or function), following `dispatching-parallel-agents`
+— each agent shares only a *read* of the review branch and the aggregated comment list, so the
+independence gate holds, no agent reads what another writes. Each agent verifies its comment(s)
+against the codebase, runs the beyond-the-commented-line impact-check, and returns its verdict —
+fixed, pushed-back, or needs-a-question, with the technical reason and any same-shape hits it found.
+Then **reconcile** the verdicts in the main context before designing. Aggregation stays inline — the
+set must be read whole — and so do reply and resolve below, which touch threads and are partly the
+user's call.
+
 **Interrogate only when needed.** When how to proceed on a comment genuinely needs the user — an
 ambiguous ask, a conflict with a decision already made, expected behavior that must be synthesized —
 and only then, load the shared discovery reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) and drive it (it
