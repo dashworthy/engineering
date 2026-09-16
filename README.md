@@ -7,9 +7,8 @@ The pipeline ends at a green, documented branch — deployment, release, and rol
 are deliberately out of scope.
 
 This repository is the `engineering` Claude Code marketplace: a single plugin, `engineering`,
-that carries the whole pipeline. [`skillsmith`](https://github.com/dashworthy/skillsmith)
-(author, test, and audit Claude skills) ships as its own marketplace, in its own repository. An
-in-depth, opt-in code-review gate ships inside `engineering` itself, as the `code-review` skill.
+that carries the whole pipeline. An in-depth, opt-in code-review gate ships inside
+`engineering` itself, as the `code-review` skill.
 
 ## Install
 
@@ -194,6 +193,23 @@ Claude-specific command syntax. The three entrances open the work: `engineering:
 not a separate entry point — invoke `engineering:build` directly; a thin wrapper skill over an
 existing skill would add a name and nothing else. (Docblock quality is no longer a phase of its
 own: the build's per-task review carries an ELI5 lens that flags docblocks needing plainer prose.)
+
+## Evals
+
+The pipeline's behavior is pinned by a native `claude plugin eval` suite under
+[`evals/`](evals/README.md) — 16 behavioral cases across three groups:
+
+- **routing** — does the right entrance fire for a request (`signal` / `triage` /
+  `receiving-code-review`), and does nothing fire for a plain question?
+- **code-review** — does the `code-review` gate catch planted defects (security,
+  correctness, efficiency, reuse, concurrency), stay report-only, and *not* manufacture
+  findings on a clean diff?
+- **codebase-design** — does `using-codebase-design` shape a deep interface from competing
+  shapes and judge a sketched one without redesigning it?
+
+Each case is scored against a no-plugin baseline (two-arm ablation), so every number says
+what the plugin *adds* over plain Claude. Run per group at `-j 1` — the how, the fixture
+design, and the case inventory live in [evals/README.md](evals/README.md).
 
 ## License
 
