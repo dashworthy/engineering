@@ -7,9 +7,8 @@ The pipeline ends at a green, documented branch — deployment, release, and rol
 are deliberately out of scope.
 
 This repository is the `engineering` Claude Code marketplace: a single plugin, `engineering`,
-that carries the whole pipeline. [`skillsmith`](https://github.com/dashworthy/skillsmith)
-(author, test, and audit Claude skills) ships as its own marketplace, in its own repository. An
-in-depth, opt-in code-review gate ships inside `engineering` itself, as the `code-review` skill.
+that carries the whole pipeline. An in-depth, opt-in code-review gate ships inside
+`engineering` itself, as the `code-review` skill.
 
 ## Install
 
@@ -183,8 +182,23 @@ list is what keeps the suite compact; a piece stays a skill when more than one c
 by name — `using-codebase-design` (the shape lenses), for instance, is invoked by `brainstorming` to shape
 a boundary and by `plan`'s arch-lens review to judge one.
 
-The full index lives at
-[skills/README.md](skills/README.md).
+Skills live flat in `skills/` — the plugin loader scans one level deep — and a directory earns
+its own `SKILL.md` only when it must be discovered on its own, where no conductor is already
+driving it. Everything else a conductor needs is a **reference file** it loads:
+
+| Owner | References |
+|---|---|
+| `spec` | `references/SPEC-FORMAT.md` |
+| `using-codebase-design` | `references/SHAPE-REVIEW.md`, `DESIGN-IT-TWICE.md`, `PATTERN-MATRIX.md`, `DEEPENING.md`, `TENANCY-ISOLATED-DB.md`, `TENANCY-SHARED-DB.md` |
+| `plan` | `references/arch-lens.md` |
+| `build` | `references/establishing-workspace.md`, `tdd-loop.md` (+ `mocking.md`, `tests.md`), `review-protocol.md` + `lenses/standards.md`, `spec.md`, `eli5.md` |
+| `documenting` | `references/validation-protocol.md`, `lenses/` |
+| `using-documentation` | `references/FEATURE-DOC-TEMPLATE.md`, `REFERENCE-TABLE-FORMAT.md`, `TOC-FORMAT.md` |
+| `finish` | `references/pr-description.md` |
+| `triage` | `references/diagnosing.md` |
+| `receiving-code-review` | `references/review-comment.md` |
+| `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet) |
+| shared (plugin `references/`) | `interrogating-requirements.md` (loaded by all three entrances) |
 
 ### Entry points
 
@@ -194,6 +208,23 @@ Claude-specific command syntax. The three entrances open the work: `engineering:
 not a separate entry point — invoke `engineering:build` directly; a thin wrapper skill over an
 existing skill would add a name and nothing else. (Docblock quality is no longer a phase of its
 own: the build's per-task review carries an ELI5 lens that flags docblocks needing plainer prose.)
+
+## Evals
+
+The pipeline's behavior is pinned by a native `claude plugin eval` suite under
+[`evals/`](evals/README.md) — 16 behavioral cases across three groups:
+
+- **routing** — does the right entrance fire for a request (`signal` / `triage` /
+  `receiving-code-review`), and does nothing fire for a plain question?
+- **code-review** — does the `code-review` gate catch planted defects (security,
+  correctness, efficiency, reuse, concurrency), stay report-only, and *not* manufacture
+  findings on a clean diff?
+- **codebase-design** — does `using-codebase-design` shape a deep interface from competing
+  shapes and judge a sketched one without redesigning it?
+
+Each case is scored against a no-plugin baseline (two-arm ablation), so every number says
+what the plugin *adds* over plain Claude. Run per group at `-j 1` — the how, the fixture
+design, and the case inventory live in [evals/README.md](evals/README.md).
 
 ## License
 

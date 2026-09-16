@@ -40,7 +40,7 @@ The convention set is small and mostly enforced by one shell test.
 |---|---|---|
 | Foundation skill | `skills/using-skills/SKILL.md` | Finds and invokes the skill that owns a request before the first move; models the conventions the others follow; reports a gap when no skill's scope covers the request rather than forcing a fit. |
 | Frontmatter test | `tests/frontmatter.sh` | Asserts every `SKILL.md` has a frontmatter block, that `name` equals the skill's directory, and that a non-empty `description` is present. Runs over one skill dir or every skill under `skills/`. |
-| Skill index | `skills/README.md` | Human map of which skill belongs to which process group; records that skills live flat (the loader scans one level deep) and that supporting detail lives under each skill's own `references/`. |
+| Skill index | `README.md` | Human map of which skill belongs to which process group; records that skills live flat (the loader scans one level deep) and that supporting detail lives under each skill's own `references/`. |
 
 **The conventions.**
 
@@ -51,7 +51,7 @@ The convention set is small and mostly enforced by one shell test.
 | "Say this first, plainly:" preamble | The body opens with a fixed announcement naming the skill now in use, so the hand-off shows in the transcript. | Authoring convention |
 | "What this guarantees" | A section stating the single promise the skill makes. | Authoring convention |
 | "What this does not do" | A section naming the skill's non-goals, so its boundary is explicit rather than learned by overreach. | Authoring convention |
-| References one level deep | Supporting material lives in a sibling `references/` directory, not nested further; the `SKILL.md` stays the entry point. | Layout convention (`skills/README.md`) |
+| References one level deep | Supporting material lives in a sibling `references/` directory, not nested further; the `SKILL.md` stays the entry point. | Layout convention (`README.md`) |
 
 **Boundaries & invariants.**
 
