@@ -34,6 +34,13 @@ facet, so the discipline is tuned in one place.
 }
 ```
 
+A clean change returns `findings: []`. That is a valid, complete result — not a facet that
+gave up or missed something. The failure mode to guard against is the opposite reflex: reaching
+for a hedged, sub-floor finding so the list is not empty. Padding a clean result with a finding
+whose weaker of {severity, confidence} sits below `caps.floor` is not thoroughness — it is the
+over-reporting the floor exists to stop. If the only thing a facet can find is below the floor,
+the honest result is `[]`.
+
 ## Finding — the shared schema, every facet
 
 ```
