@@ -1,8 +1,9 @@
 # Pipeline entrances
 
-**The three doors work enters the pipeline through — `signal` for a vague ask, `triage` for a
-reported defect, `receiving-code-review` for review feedback — each of which shapes raw context into
-something designable and hands it to the same design dialogue.**
+**The four doors work enters the pipeline through — `signal` for a vague ask, `triage` for a
+reported defect, `receiving-code-review` for review feedback, `simplify` for existing code you
+dislike — each of which shapes raw context into something designable and hands it to the same
+design dialogue.**
 
 ---
 
@@ -12,9 +13,9 @@ Work does not arrive at the pipeline ready to design. A feature request is a sen
 in a hurry; a bug report is a symptom and a guess at its cause; a batch of review comments is a pile
 of claims, some right and some not. An **entrance** is the skill that takes one of those raw inputs
 and does the work of turning it into context a designer can act on — then gets out of the way. There
-are exactly three, one per kind of input, and they share a spine: **establish a run**, **shape
+are exactly four, one per kind of input, and they share a spine: **establish a run**, **shape
 context**, **hand to the design dialogue**. Only the middle beat differs, and that difference is the
-whole reason there are three.
+whole reason there are four.
 
 - **`signal`** is the discovery door. A vague or open-ended ask enters here, and signal
   **interrogates** it into a **brief** before anyone designs against it.
@@ -27,6 +28,11 @@ whole reason there are three.
   reception, roughly three or fewer comments, is checked inline, while a larger one fans each comment
   (or a tight cluster) out to a subagent that shares only a read of the review branch, then
   reconciles the verdicts. Reply and resolve stay on the main thread.
+- **`simplify`** is the refactor door. Existing code the developer dislikes enters here, and the
+  entrance **interrogates** the perceived problem through a fixed set of **language-neutral quality
+  lenses**, turning each dislike into a **named target quality paired with an observable check**
+  before anyone proposes a refactor. It is distinct from the base `simplify` skill (which reviews
+  the current diff and applies cleanups); this entrance shapes context and changes no code.
 
 **Worked example.** Someone drops in: *"Admins keep asking for a way to pull the audit log out of the
 system — can we add an export?"* That is a vague feature ask, so it goes to `signal`. Signal's first
@@ -44,11 +50,14 @@ dialogue is arguing about the right thing.
 
 Had the same run arrived as *"the audit-log export throws on any log over 10k rows,"* it would have
 gone to `triage` instead: reproduce the throw, narrow it to the concept that owns it ("the export's
-in-memory buffering blows up past a threshold"), and hand that isolation to design. And a batch of
-comments on the export's pull request would enter through `receiving-code-review`. Different middle
-beat, same destination.
+in-memory buffering blows up past a threshold"), and hand that isolation to design. A batch of
+comments on the export's pull request would enter through `receiving-code-review`. And *"nothing's
+broken, but I can't stand how the export code is written — reshape it"* would enter through
+`simplify`: read the code, offer the quality lenses it trips, and pin each dislike to a target
+quality with an observable check before handing that brief to design. Different middle beat, same
+destination.
 
-All three converge on the shared design dialogue — `engineering:brainstorming` — and nothing routes
+All four converge on the shared design dialogue — `engineering:brainstorming` — and nothing routes
 sideways. An entrance never invokes another entrance; when `triage` finds it needs to pin down
 expected behavior, it drives the *same* interrogation reference itself rather than handing off to
 `signal`.
@@ -58,17 +67,20 @@ flowchart TD
     A[Vague ask / feature] --> S[signal<br/>interrogate into a brief]
     B[Reported defect] --> T[triage<br/>reproduce &amp; isolate]
     C[Review feedback] --> R[receiving-code-review<br/>aggregate, verify, impact-check]
+    E[Disliked existing code] --> U[simplify<br/>interrogate via quality lenses]
     S --> D{{engineering:brainstorming<br/>the shared design dialogue}}
     T --> D
     R --> D
+    U --> D
     D --> SP[spec &rarr; plan &rarr; build]
 ```
 
 ## 🛠 Technical reference
 
 Each entrance is a self-contained skill with no backing command. They share a skeleton and diverge
-only in how they shape context; two of them lean on a shared interrogation reference, and all of them
-establish their run through one script.
+only in how they shape context; `signal` drives a shared interrogation reference as its primary
+beat and the other three lean on it only as a fallback, and all of them establish their run through
+one script.
 
 | Area | Unit | Responsibility |
 |---|---|---|
@@ -77,7 +89,9 @@ establish their run through one script.
 | Root-cause depth | `skills/triage/references/diagnosing.md` | Loaded by triage only when the hand-off needs the exact mechanism pinned: reproduce, hypothesize, isolate, confirm with evidence. Finds *why*; does not choose the fix's design. |
 | Review-feedback entrance | `skills/receiving-code-review/SKILL.md` | Checks out the original review branch, aggregates the comments, verifies each against the codebase (inline for a small reception of roughly three or fewer comments, otherwise fanned out one subagent per comment/cluster, then reconciled), impact-checks beyond the commented line, and carries two standing instructions (reply per thread; stack each fix's PR onto the review branch) into the shaped context. |
 | Review-reply text | `skills/receiving-code-review/references/review-comment.md` | Phrases the reply for each thread in plain language — no performative agreement, no skill or process names, never signed. Phrases only; does not decide whether a comment is correct or whether to resolve its thread. |
-| Shared interrogation | `references/interrogating-requirements.md` | The relentless requirement extractor both `signal` and (on demand) `triage` and `receiving-code-review` drive. Interactive, main-thread only; writes `brief.md` §1–§6 and `open-threads.md`. Cannot run as a dispatched subagent. |
+| Refactor entrance | `skills/simplify/SKILL.md` | Interrogates existing code a developer dislikes into `brief.md` §1–§6 — via the quality lenses — then hands the brief to design. Shapes context only; proposes no refactors and changes no code. Distinct from the base `simplify` diff-cleanup skill. |
+| Quality lenses | `skills/simplify/references/refactoring-lenses.md` | The language-neutral lens set the refactor entrance drives — nesting, duplication, naming, dead code, over-abstraction, over-cleverness, single-responsibility, cohesion — turning each dislike into a named target quality paired with an observable check, refusing unmeasured "better". Interactive, main-thread only; falls back to the shared interrogation reference for generic mining. |
+| Shared interrogation | `references/interrogating-requirements.md` | The relentless requirement extractor `signal` drives as its primary beat and `triage`, `receiving-code-review`, and `simplify` drive on demand as a fallback. Interactive, main-thread only; writes `brief.md` §1–§6 and `open-threads.md`. Cannot run as a dispatched subagent. |
 | Run establishment | `scripts/run-context.sh` | Prints and creates `.engineering/<run>/<entrance>/`, creating the run on the first caller and joining it on later ones. The active run id lives in `.engineering/.current-run`. |
 
 **Boundaries & invariants.**
@@ -85,10 +99,10 @@ establish their run through one script.
 - **Every entrance ends at the design dialogue.** Each shapes context and then invokes
   `engineering:brainstorming`; none designs, writes a spec, plans, or builds itself. "Stop" at the
   seam means stop shaping and hand off — not stop to ask whether to proceed.
-- **The three converge on design, never on each other.** No entrance invokes another entrance.
-  `triage` never hands off to `signal`; when it or `receiving-code-review` needs to synthesize
-  expected behavior, it drives `references/interrogating-requirements.md` itself as its own discovery
-  leg.
+- **The four converge on design, never on each other.** No entrance invokes another entrance.
+  `triage` never hands off to `signal`; when `triage`, `receiving-code-review`, or `simplify` needs
+  to synthesize expected behavior or mine a generic requirement, it drives
+  `references/interrogating-requirements.md` itself as its own discovery leg.
 - **No gate at the entrance seam.** There is no approval to collect when handing to design. Approval
   lives downstream — the spec-approval gate in `spec`, the plan-approval gate in `plan`.
 - **The run is established through `run-context.sh`, and artifacts are written as found.**
@@ -110,6 +124,11 @@ establish their run through one script.
 - **A received review carries two standing instructions forward.** Reply on each comment's own
   thread; stack each fix's PR onto the original review branch. Resolving a thread stays the user's
   explicit call, made with the full comment and what was done both in view.
+- **`simplify` refuses unmeasured "better," and proposes nothing.** Every dislike it records is
+  pinned to a named target quality with an observable check before it hands off; a target with no
+  check does not enter the brief's §3. It shapes context only — the refactor approaches are proposed
+  in the design dialogue, for the developer to accept or reject — and its lenses stay
+  language-neutral, naming no language or framework.
 
 ## 🚀 Development & testing
 
@@ -121,13 +140,15 @@ another entrance.
 # Run the full foundation suite (what CI runs)
 sh engineering/tests/suite.sh
 
-# The checks specific to the three entrances
+# The checks specific to the entrances
 sh engineering/tests/absorb-signal.sh        # signal drives the interrogation and writes brief.md §1–§6
 sh engineering/tests/triage.sh               # triage's reproduce/isolate beat; stays decoupled from signal
 sh engineering/tests/code-review-entrance.sh # receiving-code-review's aggregate/verify/impact-check + forge tail
-sh engineering/tests/entrances-parallel.sh   # all three share the establish-run → shape → hand-to-design skeleton
+sh engineering/tests/entrances-parallel.sh   # all four share the establish-run → shape → hand-to-design skeleton
+sh engineering/tests/validate.sh             # includes the simplify lens set + language-neutrality guard
 ```
 
 To change how an entrance shapes context, edit its `SKILL.md`. To change the interrogation the
 discovery leg runs, edit `references/interrogating-requirements.md` (shared — a change there affects
-all three). To change how a run's scratch directory is resolved, edit `scripts/run-context.sh`.
+all four). To change the refactor lenses, edit `skills/simplify/references/refactoring-lenses.md`.
+To change how a run's scratch directory is resolved, edit `scripts/run-context.sh`.
