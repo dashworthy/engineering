@@ -1,7 +1,7 @@
 ---
 type: tool_used
 tool: Skill
-input_match: "engineering:receiving-code-review"
+input_match: '(?:[\w-]+:)?receiving-code-review'
 min: 1
 arm: both
 ---

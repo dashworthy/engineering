@@ -1,7 +1,7 @@
 ---
 type: tool_used
 tool: Skill
-input_match: "engineering:triage"
+input_match: '(?:[\w-]+:)?triage'
 min: 1
 arm: both
 ---
