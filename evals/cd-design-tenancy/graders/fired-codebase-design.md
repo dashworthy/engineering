@@ -1,7 +1,7 @@
 ---
 type: tool_used
 tool: Skill
-input_match: "engineering:using-codebase-design"
+input_match: '(?:[\w-]+:)?using-codebase-design'
 min: 1
 arm: with-only
 ---

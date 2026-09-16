@@ -1,7 +1,7 @@
 ---
 type: tool_used
 tool: Skill
-input_match: "engineering:(signal|triage|receiving-code-review)"
+input_match: '(?:[\w-]+:)?(signal|triage|receiving-code-review)'
 min: 0
 max: 0
 arm: both

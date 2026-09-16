@@ -1,7 +1,7 @@
 ---
 type: tool_used
 tool: Skill
-input_match: "engineering:signal"
+input_match: '(?:[\w-]+:)?signal'
 min: 1
 arm: both
 ---
