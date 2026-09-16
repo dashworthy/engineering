@@ -1,0 +1,20 @@
+schema_version: "1.1"
+name: cd-design-boundary
+description: Shaping a new module's interface should go through using-codebase-design — propose competing shapes, recommend a deep/narrow one, not jump to implementation.
+tags: [codebase-design, design-mode]
+runs: 3
+execution:
+  max_turns: 30
+  timeout_seconds: 1800
+  allowed_tools: [Read, Glob, Grep, Skill, Agent, TodoWrite]
+  prompt: |
+    The requirements for due-date reminder notifications are already settled — I do
+    NOT need discovery, a brief, or a plan. Channels are SMS and email now (push
+    and webhook likely later); transient send failures retry with backoff; a
+    caller just wants to say "remind this member about this loan." What I need
+    is the module's interface shaped well: give me two or three genuinely
+    different interface shapes for this notifications boundary and recommend one,
+    keeping the caller's surface narrow and hiding the channel/retry details
+    behind it. Interface shape only — not the implementation.
+context:
+  scaffold_script: scaffold.sh

@@ -1,0 +1,24 @@
+schema_version: "1.1"
+name: cd-review-nofix
+description: In review mode, using-codebase-design should hand back findings and stop — not redesign the interface or write an implementation.
+tags: [codebase-design, review-mode, restraint]
+runs: 3
+execution:
+  max_turns: 18
+  timeout_seconds: 1800
+  allowed_tools: [Read, Glob, Grep, Skill, Agent, TodoWrite, Write, Edit]
+  prompt: |
+    Quick design review, please — is the shape of this cache interface sound?
+    I just want your read on the design; I'm not asking you to build it.
+
+    ```php
+    interface CatalogCache {
+        // returns the cached book record, or null; caller must then load + set it
+        public function get(string $tenantId, string $bookId): ?array;
+        public function set(string $tenantId, string $bookId, array $book, int $ttl): void;
+        public function forget(string $tenantId, string $bookId): void;
+        public function flushEverything(): void;
+    }
+    ```
+context:
+  scaffold_script: scaffold.sh
