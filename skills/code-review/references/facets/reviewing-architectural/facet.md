@@ -7,7 +7,7 @@ Say this first, plainly: `Using the code-review architectural facet to review th
 
 One thing: given the change under review, this facet looks for the structural defects a diff can
 actually show — a coupling or dependency-direction violation, responsibility/cohesion creep, a
-duplicated abstraction, a leaky abstraction — and returns a short, ordered, self-contained list of
+duplicated abstraction, a leaky abstraction, a needless single-use abstraction — and returns a short, ordered, self-contained list of
 findings, capped and floored, with a durable record written to its artifact. It is **report-only**:
 it never edits code.
 
@@ -33,7 +33,7 @@ this facet chases.
    what keeps most diffs from triggering any architectural work at all.
 
 2. **Apply the lenses.** For a change that moved a boundary, work
-   [references/architectural-checklist.md](references/architectural-checklist.md), across the four
+   [references/architectural-checklist.md](references/architectural-checklist.md), across the five
    diff-visible classes:
    - **Dependency-direction / coupling violation** — a new import that points the wrong way (a lower
      layer reaching up to a higher one) or crosses a boundary it should not.
@@ -42,6 +42,9 @@ this facet chases.
    - **Duplicated abstraction** — a second way to do something the codebase already models.
    - **Leaky abstraction** — a new interface that exposes its internals, forcing callers to know
      implementation detail.
+   - **Needless abstraction / single-use indirection** — the inverse of a leak: a new method, class,
+     or layer that only one call site reaches and that forwards a single call without a decision, so
+     the name restates the call instead of earning the seam.
 
 3. **Floor, then cap, then tally the cap's drops** per hard-stops.md §2–3 — drop below
    `caps.floor`, keep at most `caps.top_n`, and report `dropped` (how many genuine

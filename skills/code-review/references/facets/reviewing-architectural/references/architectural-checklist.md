@@ -10,6 +10,7 @@ not audit. Contents:
 - Responsibility / cohesion creep
 - Duplicated abstraction
 - Leaky abstraction
+- Needless abstraction / single-use indirection — the inverse of a leak
 - What is not a finding
 
 ## Dependency-direction / coupling violation
@@ -69,6 +70,28 @@ When the change adds a new interface or seam, ask whether it hides its inside:
 - **A detail that will force callers to change** — a new seam that passes an implementation choice
   straight through, so a later change inside the module will ripple out to every caller. That is the
   sharpest test that the abstraction is not actually abstracting.
+
+## Needless abstraction / single-use indirection
+
+The inverse of a leaky abstraction: not a seam that hides too little, but a seam drawn where none
+was earned. When the change introduces a new named indirection — a method, class, or layer — ask
+whether it carries its own weight:
+
+- **A single-use wrapper** — a new method or class exactly one call site reaches, whose body only
+  forwards a single call (a `sprintf` and a normalize, a `hash(serialize(...))`) and makes no
+  decision the caller couldn't read inline. The name restates the call rather than naming a concept
+  the caller reasons about, so a reader must open the body to learn it hides nothing. This is the
+  code-review sibling of the design-time judgement `using-codebase-design`'s SHAPE-REVIEW
+  anti-pattern lens makes over a sketched shape — the same "boundary drawn where none was earned"
+  smell, caught here on the diff instead of the sketch.
+- **A pass-through layer** — a new layer whose method calls the equivalent method one level down with
+  the same name and arguments and no added decision, so it forwards without hiding anything.
+
+The remedy is to inline it. Flag it **only** when the indirection earns nothing back — a seam that
+hides genuine complexity, gathers an invariant the call site shouldn't have to restate, or is reached
+from more than one site is *not* a finding: clarity and reuse earn a seam, and relabeling one call
+does not. Keep the floor honest — a name a reader is glad to have is not a defect just because it is
+short.
 
 ## What is not a finding
 
