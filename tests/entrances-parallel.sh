@@ -1,14 +1,14 @@
 #!/bin/sh
-# The three entrances are parallel and self-contained skills sharing an establish-run -> shape-context
+# The four entrances are parallel and self-contained skills sharing an establish-run -> shape-context
 # -> hand-to-engineering:brainstorming skeleton. Isolation moved to build, so no entrance carries an
 # Isolate beat; receiving-code-review adds one leading beat the others don't — checking out the review
-# branch. None invokes another entrance — the three converge on design, never on each other.
+# branch. None invokes another entrance — the four converge on design, never on each other.
 set -e
 ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
 cd "$ROOT"
 fail=0
 
-ENTRANCES="signal triage receiving-code-review"
+ENTRANCES="signal triage receiving-code-review simplify"
 
 for e in $ENTRANCES; do
   CMD="skills/$e/SKILL.md"
