@@ -1,6 +1,6 @@
 ---
 name: receiving-code-review
-description: "The review-feedback entrance: aggregate received code-review comments, verify each against the codebase, reply on each thread, stack the fixes onto the original review branch, and hand the shaped context to the design dialogue. Use when code-review feedback arrives. One of three entrances; converges on brainstorming and never invokes another entrance."
+description: "The review-feedback entrance: aggregate received code-review comments, verify each against the codebase, reply on each thread, stack the fixes onto the original review branch, and hand the shaped context to the design dialogue. Use when code-review feedback arrives. One of four entrances; converges on brainstorming and never invokes another entrance."
 ---
 
 # receiving-code-review
@@ -88,7 +88,7 @@ user's call.
 ambiguous ask, a conflict with a decision already made, expected behavior that must be synthesized —
 and only then, load the shared discovery reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) and drive it (it
 self-drives the interrogation and writes what it learns into this run's directory). This is this
-entrance's own discovery leg — it is **not** a hand-off to another entrance; the three entrances are
+entrance's own discovery leg — it is **not** a hand-off to another entrance; the four entrances are
 distinct and never invoke one another.
 
 ### Two standing instructions to carry forward

@@ -1,6 +1,6 @@
 ---
 name: simplify
-description: "The refactor entrance: interrogate disliked existing code into named target qualities paired with observable checks (via language-neutral quality lenses), write brief.md §1–§6, then hand it to the shared design dialogue. Use when a developer dislikes existing code and wants proposed refactors to accept or reject. One of the pipeline entrances; not the base `simplify` diff-cleanup skill; converges on brainstorming and never invokes another entrance."
+description: "The refactor entrance: interrogate disliked existing code into named target qualities paired with observable checks (via language-neutral quality lenses), write brief.md §1–§6, then hand it to the shared design dialogue. Use when a developer dislikes existing code and wants proposed refactors to accept or reject. One of four entrances; not the base `simplify` diff-cleanup skill; converges on brainstorming and never invokes another entrance."
 ---
 
 # simplify
