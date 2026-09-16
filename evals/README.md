@@ -40,13 +40,19 @@ needing git/Bash of its own.
 
 ## Running
 
-```bash
-# Whole suite, against a no-plugin baseline, HTML report + JSON:
-claude plugin eval . --trust-plugin --scaffold --allow-tools Write Edit \
-  -j 4 --report /tmp/report.html --json /tmp/suite.json
+Run the suite **per group, at `-j 1`** — routing, code-review, and
+codebase-design each as their own pass — never all 16 cases together at `-j 4`.
+The code-review cases fan out sub-reviewers, so each one spawns nested agent
+sessions; run in parallel across the whole suite, those nested sessions multiply
+concurrent usage past the account quota ceiling and cases start erroring on the
+session limit rather than failing on their merits. One group at a time, one
+concurrent run, keeps usage under that ceiling.
 
-# One group, one run each (fast iteration):
-claude plugin eval . --case "routing-*" --runs 1 --trust-plugin --scaffold
+```bash
+# Each group as its own pass, one at a time (the batch discipline):
+claude plugin eval . --case "routing-*"        --runs 1 --trust-plugin --scaffold -j 1
+claude plugin eval . --case "cr-*"             --runs 1 --trust-plugin --scaffold --allow-tools Write Edit -j 1
+claude plugin eval . --case "cd-*"             --runs 1 --trust-plugin --scaffold -j 1
 
 # One case, keep the sandbox for debugging:
 claude plugin eval . --case cr-reuse-reinvent --runs 1 --trust-plugin \
@@ -54,6 +60,7 @@ claude plugin eval . --case cr-reuse-reinvent --runs 1 --trust-plugin \
 ```
 
 Notes:
+- Run **per group at `-j 1`**, not the whole suite at once — see above.
 - `--scaffold` runs author-supplied bash; only ever pass it on a suite you trust.
 - `--allow-tools Write Edit` lets the report-only / no-implementation guards be
   real tests (the skill *could* edit but must not). Do **not** add `Bash`.
