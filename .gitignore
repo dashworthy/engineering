@@ -6,3 +6,7 @@
 # with the repo. settings.local.json stays personal: it holds machine-specific absolute paths.
 .claude/settings.local.json
 .engineering/
+
+# eval run artifacts — `claude plugin eval` writes timestamped reports here on every run;
+# they are outputs, not suite source, so they never get committed.
+evals/results/
