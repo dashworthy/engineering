@@ -32,7 +32,11 @@ This facet self-limits at the source (see `../../hard-stops.md`), under the shar
    - **Authorization enforced, not assumed** — for every privileged action the change adds or
      touches, find the check that actually enforces it on the server for *this* path. A comment, a
      UI-hidden control, or an assumption that "the caller already checked" is not enforcement. A
-     missing or client-only check is a finding.
+     missing or client-only check is a finding — but only for a privileged action the change
+     itself adds or touches. A hazard about a *hypothetical* caller or path absent from the diff
+     (an IDOR that would matter if some other code called this differently) is the speculation
+     guard's low-confidence case per [hard-stops.md](../../hard-stops.md), so a `med` floor drops
+     it — it is not a reportable finding here.
    - **Electron process-model security** — *only when the change touches an Electron surface.* Work
      [references/electron-security-checklist.md](references/electron-security-checklist.md):
      renderer isolation (`nodeIntegration`, `contextIsolation`, `sandbox`); the preload/
