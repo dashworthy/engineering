@@ -33,7 +33,7 @@ grep -q "engineering:brainstorming" "$SKILL" || { echo "FAIL: entrance must hand
 grep -qi "aggregate" "$SKILL" || { echo "FAIL: beat 3 must aggregate the review comments"; fail=1; }
 grep -qi "verify" "$SKILL" || { echo "FAIL: beat 3 must verify each claim against the codebase"; fail=1; }
 grep -qi "beyond the commented" "$SKILL" || { echo "FAIL: beat 3 must check whether an issue reaches beyond the commented area"; fail=1; }
-grep -q "interrogating-requirements" "$SKILL" || { echo "FAIL: beat 3 must drive interrogating-requirements only when the user must be asked"; fail=1; }
+grep -q "using-requirements-gathering" "$SKILL" || { echo "FAIL: beat 3 must invoke using-requirements-gathering only when the user must be asked"; fail=1; }
 
 # The technical-not-performative reception stance survives the move from command to skill.
 grep -qi "verify before implementing" "$SKILL" || { echo "FAIL: entrance must keep the verify-before-implementing stance"; fail=1; }

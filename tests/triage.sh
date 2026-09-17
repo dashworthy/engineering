@@ -28,8 +28,8 @@ for anchor in "reproduce" "Confirmed" "Not reproducible" "Under-specified" "doma
   grep -qi "$anchor" "$SKILL" || { echo "FAIL: triage skill missing folded-in isolation mechanic: $anchor"; fail=1; }
 done
 
-# Interrogation leg (synthesize expected behavior) drives the shared primitive, not a triage-local copy.
-grep -q "interrogating-requirements" "$SKILL" || { echo "FAIL: triage must drive interrogating-requirements when expected behavior must be synthesized"; fail=1; }
+# Interrogation leg (synthesize expected behavior) drives the shared skill, not a triage-local copy.
+grep -q "using-requirements-gathering" "$SKILL" || { echo "FAIL: triage must invoke using-requirements-gathering when expected behavior must be synthesized"; fail=1; }
 
 # Entrance-decoupling: triage never routes to signal.
 grep -qiE "never .*hand|does not .*hand off to .*signal|never invoke" "$SKILL" || { echo "FAIL: triage must state it never hands off to signal"; fail=1; }

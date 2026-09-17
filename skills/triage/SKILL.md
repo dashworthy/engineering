@@ -69,8 +69,8 @@ run that closed it as out of scope? If so, say which prior decision is being fol
 re-litigating it. Finding nothing is the normal result.
 
 **When expected behavior is unclear**, and only then, synthesize it with the user before handing
-off: load the shared discovery reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) and drive it (it self-drives
-the interrogation and writes the requirements, brief.md §1–§6, into this run's `triage/`
+off: invoke `engineering:using-requirements-gathering` and drive it (it self-drives the
+interrogation and writes the requirements, brief.md §1–§6, into this run's `triage/`
 directory). This is triage's own discovery leg — it is **not** a hand-off to `signal`; the two
 entrances are distinct and never invoke each other.
 

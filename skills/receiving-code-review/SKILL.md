@@ -86,7 +86,7 @@ user's call.
 
 **Interrogate only when needed.** When how to proceed on a comment genuinely needs the user — an
 ambiguous ask, a conflict with a decision already made, expected behavior that must be synthesized —
-and only then, load the shared discovery reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) and drive it (it
+and only then, invoke `engineering:using-requirements-gathering` and drive it (it
 self-drives the interrogation and writes what it learns into this run's directory). This is this
 entrance's own discovery leg — it is **not** a hand-off to another entrance; the four entrances are
 distinct and never invoke one another.

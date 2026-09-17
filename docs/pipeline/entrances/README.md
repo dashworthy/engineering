@@ -90,8 +90,8 @@ one script.
 | Review-feedback entrance | `skills/receiving-code-review/SKILL.md` | Checks out the original review branch, aggregates the comments, verifies each against the codebase (inline for a small reception of roughly three or fewer comments, otherwise fanned out one subagent per comment/cluster, then reconciled), impact-checks beyond the commented line, and carries two standing instructions (reply per thread; stack each fix's PR onto the review branch) into the shaped context. |
 | Review-reply text | `skills/receiving-code-review/references/review-comment.md` | Phrases the reply for each thread in plain language — no performative agreement, no skill or process names, never signed. Phrases only; does not decide whether a comment is correct or whether to resolve its thread. |
 | Refactor entrance | `skills/simplify/SKILL.md` | Interrogates existing code a developer dislikes into `brief.md` §1–§6 — via the quality lenses — then hands the brief to design. Shapes context only; proposes no refactors and changes no code. Distinct from the base `simplify` diff-cleanup skill. |
-| Quality lenses | `skills/simplify/references/refactoring-lenses.md` | The language-neutral lens set the refactor entrance drives — nesting, duplication, naming, dead code, over-abstraction, over-cleverness, single-responsibility, cohesion — turning each dislike into a named target quality paired with an observable check, refusing unmeasured "better". Interactive, main-thread only; falls back to the shared interrogation reference for generic mining. |
-| Shared interrogation | `references/interrogating-requirements.md` | The relentless requirement extractor `signal` drives as its primary beat and `triage`, `receiving-code-review`, and `simplify` drive on demand as a fallback. Interactive, main-thread only; writes `brief.md` §1–§6 and `open-threads.md`. Cannot run as a dispatched subagent. |
+| Quality lenses | `skills/simplify/references/refactoring-lenses.md` | The language-neutral lens set the refactor entrance drives — nesting, duplication, naming, dead code, over-abstraction, over-cleverness, single-responsibility, cohesion — turning each dislike into a named target quality paired with an observable check, refusing unmeasured "better". Interactive, main-thread only; delegates the generic interrogation to the shared `using-requirements-gathering` skill. |
+| Shared interrogation | `skills/using-requirements-gathering/SKILL.md` | The relentless requirement extractor `signal` invokes as its primary beat and `triage`, `receiving-code-review`, and `simplify` invoke on demand for generic requirement mining. Interactive, main-thread only; writes `brief.md` §1–§6 and `open-threads.md`. Cannot run as a dispatched subagent. |
 | Run establishment | `scripts/run-context.sh` | Prints and creates `.engineering/<run>/<entrance>/`, creating the run on the first caller and joining it on later ones. The active run id lives in `.engineering/.current-run`. |
 
 **Boundaries & invariants.**
@@ -101,8 +101,8 @@ one script.
   seam means stop shaping and hand off — not stop to ask whether to proceed.
 - **The four converge on design, never on each other.** No entrance invokes another entrance.
   `triage` never hands off to `signal`; when `triage`, `receiving-code-review`, or `simplify` needs
-  to synthesize expected behavior or mine a generic requirement, it drives
-  `references/interrogating-requirements.md` itself as its own discovery leg.
+  to synthesize expected behavior or mine a generic requirement, it invokes
+  `engineering:using-requirements-gathering` itself as its own discovery leg.
 - **No gate at the entrance seam.** There is no approval to collect when handing to design. Approval
   lives downstream — the spec-approval gate in `spec`, the plan-approval gate in `plan`.
 - **The run is established through `run-context.sh`, and artifacts are written as found.**
@@ -149,6 +149,6 @@ sh engineering/tests/validate.sh             # includes the simplify lens set + 
 ```
 
 To change how an entrance shapes context, edit its `SKILL.md`. To change the interrogation the
-discovery leg runs, edit `references/interrogating-requirements.md` (shared — a change there affects
-all four). To change the refactor lenses, edit `skills/simplify/references/refactoring-lenses.md`.
+discovery leg runs, edit `skills/using-requirements-gathering/SKILL.md` (shared — a change there
+affects all four). To change the refactor lenses, edit `skills/simplify/references/refactoring-lenses.md`.
 To change how a run's scratch directory is resolved, edit `scripts/run-context.sh`.
