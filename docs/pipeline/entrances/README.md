@@ -37,8 +37,8 @@ whole reason there are four.
 **Worked example.** Someone drops in: *"Admins keep asking for a way to pull the audit log out of the
 system — can we add an export?"* That is a vague feature ask, so it goes to `signal`. Signal's first
 move is not to sketch an export button. It runs `run-context.sh` to get a scratch directory
-(`.engineering/<run>/signal/`), writes the request verbatim into `00-request.md`, then loads the
-shared interrogation reference and starts asking one pointed question at a time — each posed as a
+(`.engineering/<run>/signal/`), writes the request verbatim into `00-request.md`, then invokes the
+shared interrogation skill and starts asking one pointed question at a time — each posed as a
 short menu with a recommended default and an open escape. *Export to what: CSV (recommended), JSON, a
 scheduled email?* *Who signs off?* *What is explicitly out of scope — filtering, date ranges,
 redaction of PII?* The user picks and corrects; the corrections are where the real requirements hide.
@@ -59,7 +59,7 @@ destination.
 
 All four converge on the shared design dialogue — `engineering:brainstorming` — and nothing routes
 sideways. An entrance never invokes another entrance; when `triage` finds it needs to pin down
-expected behavior, it drives the *same* interrogation reference itself rather than handing off to
+expected behavior, it invokes the *same* interrogation skill itself rather than handing off to
 `signal`.
 
 ```mermaid
@@ -78,9 +78,9 @@ flowchart TD
 ## 🛠 Technical reference
 
 Each entrance is a self-contained skill with no backing command. They share a skeleton and diverge
-only in how they shape context; `signal` drives a shared interrogation reference as its primary
-beat and the other three lean on it only as a fallback, and all of them establish their run through
-one script.
+only in how they shape context; `signal` invokes a shared interrogation skill as its primary
+beat and the other three invoke it on demand for generic requirement mining, and all of them
+establish their run through one script.
 
 | Area | Unit | Responsibility |
 |---|---|---|
@@ -112,7 +112,7 @@ one script.
   `receiving-code-review` is the one exception to touching the branch at all: it *checks out* the
   original review branch first, as a base for verification and stacking — not as a code change — so
   `build` later isolates off the right branch automatically.
-- **The interrogation reference is main-thread only.** It is interactive and cannot run as a
+- **The interrogation skill is main-thread only.** It is interactive and cannot run as a
   dispatched subagent; it hands control back to the entrance that invoked it and never routes onward
   itself.
 - **The brief ends at §6.** `signal`'s deliverable is `brief.md` §1–§6, written the moment the

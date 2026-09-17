@@ -1,5 +1,5 @@
 #!/bin/sh
-# Signal is the discovery SKILL entrance, driving the shared interrogating-requirements primitive:
+# Signal is the discovery SKILL entrance, driving the shared using-requirements-gathering skill:
 # no conductor skill, no expansion beat, no sequencing stage. No stale signal: namespaces or .signal/
 # paths; the skill runs on the current branch, redirects artifacts to .engineering/, writes brief.md §1–§6,
 # and hands the brief to engineering:brainstorming (the design dialogue), with the spec phase downstream.
@@ -8,10 +8,10 @@ ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
 cd "$ROOT"
 fail=0
 SKILL=skills/signal/SKILL.md
-INTERROGATE=references/interrogating-requirements.md
+INTERROGATE=skills/using-requirements-gathering/SKILL.md
 [ -f "$SKILL" ] || { echo "FAIL: skills/signal/SKILL.md must exist (signal is now a skill entrance)"; fail=1; }
 [ ! -e commands/signal.md ] || { echo "FAIL: commands/signal.md must be removed (signal is now a skill entrance)"; fail=1; }
-[ -f "$INTERROGATE" ] || { echo "FAIL: references/interrogating-requirements.md must exist (shared entrance reference)"; fail=1; }
+[ -f "$INTERROGATE" ] || { echo "FAIL: skills/using-requirements-gathering/SKILL.md must exist (shared interrogation skill)"; fail=1; }
 if grep -rn "signal:" "$INTERROGATE" "$SKILL"; then
   echo "FAIL: stale 'signal:' namespace refs"; fail=1; fi
 if grep -rn "\.signal/" skills; then

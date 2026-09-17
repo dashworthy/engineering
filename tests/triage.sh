@@ -2,7 +2,7 @@
 # Triage is a self-contained SKILL entrance — no backing command. It carries the shared entrance
 # skeleton (establish run -> shape context by verify/reproduce/isolate -> hand to design), runs on
 # the current branch (isolation is build's job now), and drives the
-# shared interrogating-requirements primitive only when expected behavior must be synthesized.
+# shared using-requirements-gathering skill only when expected behavior must be synthesized.
 # Everything converges on design: no routing table, no quick-fix row. triage and signal stay
 # decoupled — triage never hands off to signal (the entrances converge on design, never on
 # each other).

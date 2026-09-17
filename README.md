@@ -223,7 +223,7 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 | `receiving-code-review` | `references/review-comment.md` |
 | `simplify` | `references/refactoring-lenses.md` |
 | `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet) |
-| shared (plugin `references/`) | `interrogating-requirements.md` (loaded by `signal` as its primary; a fallback for the other three entrances) |
+| shared (plugin `references/`) | `consumable-markdown.md` (the shared rendering conventions every authored artifact follows) — the interrogation methodology is now the `using-requirements-gathering` cross-cutting skill, above |
 
 ### Entry points
 
