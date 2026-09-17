@@ -431,4 +431,27 @@ grep_flat "$IR" "using-questions"; check $? "interrogating-requirements delegate
 grep_flat "$IR" "Probe Families"; check $? "interrogating-requirements keeps its Probe Families strategy"
 grep_flat "$IR" "corrected-not-dug"; check $? "interrogating-requirements keeps its correction-mining thread kinds"
 
+# --- simplify: language-neutral refactoring-lens reference ---------------------
+# The simplify entrance shapes context through a fixed set of language-neutral quality lenses,
+# turning each dislike into a named target quality paired with an observable check. Guard the
+# reference's lens set and its obligations, and — the entrance's hard requirement — that neither
+# the reference nor the SKILL.md leans on any specific language: no language-tagged code fence and
+# no language/framework name anywhere in the authored files.
+RL="$PLUGIN/skills/simplify/references/refactoring-lenses.md"
+[ -f "$RL" ]; check $? "simplify: refactoring-lenses.md exists"
+if [ -f "$RL" ]; then
+  for lens in "nesting" "duplication" "naming" "dead code" "over-abstraction" "over-cleverness" "single-responsibility" "cohesion"; do
+    tr '\n' ' ' < "$RL" | grep -qiF -- "$lens"; check $? "simplify: lens '$lens' present"
+  done
+  grep_flat "$RL" "observable check"; check $? "simplify: names the observable-check obligation"
+  grep_flat "$RL" "references/interrogating-requirements.md"; check $? "simplify: keeps the shared-interrogation fallback"
+fi
+SK="$PLUGIN/skills/simplify/SKILL.md"
+for f in "$RL" "$SK"; do
+  [ -f "$f" ] || continue
+  bn=$(basename "$f")
+  if grep -qE '^```[A-Za-z]' "$f"; then bad "simplify: $bn has a language-tagged code fence (must be language-agnostic)"; else ok "simplify: $bn has no language-tagged code fence"; fi
+  if grep -qiE '\b(javascript|typescript|react|python|java|php|ruby|golang|rust|kotlin|swift|jsx|tsx|node\.js)\b|c\+\+|c#' "$f"; then bad "simplify: $bn names a specific language/framework (must be language-agnostic)"; else ok "simplify: $bn names no specific language/framework"; fi
+done
+
 exit $fail
