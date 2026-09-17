@@ -11,7 +11,7 @@ Three groups, layered from cheap/objective to subtle/qualitative:
 
 | Group | Cases | Measures |
 | --- | --- | --- |
-| **routing** | 6 | Does the right pipeline *entrance* fire for a request — feature/vague → `signal`, bug → `triage`, review feedback → `receiving-code-review` — and does nothing fire for a plain question? |
+| **routing** | 7 | Does the right pipeline *entrance* fire for a request — feature/vague → `signal`, bug → `triage`, review feedback → `receiving-code-review`, disliked code → `simplify` — and does nothing fire for a plain question? |
 | **code-review** | 6 | Does `engineering:code-review` catch planted defects (security, correctness, efficiency, reuse, concurrency), stay report-only, and *not* manufacture findings on a clean diff? |
 | **codebase-design** | 4 | Does `using-codebase-design` shape a deep/narrow interface from competing shapes (creation mode) and judge a sketched interface against SOLID/anti-patterns without redesigning it (review mode)? |
 
@@ -41,7 +41,7 @@ needing git/Bash of its own.
 ## Running
 
 Run the suite **per group, at `-j 1`** — routing, code-review, and
-codebase-design each as their own pass — never all 16 cases together at `-j 4`.
+codebase-design each as their own pass — never all 17 cases together at `-j 4`.
 The code-review cases fan out sub-reviewers, so each one spawns nested agent
 sessions; run in parallel across the whole suite, those nested sessions multiply
 concurrent usage past the account quota ceiling and cases start erroring on the
@@ -83,6 +83,7 @@ routing-vague-signal        vague ask            -> signal
 routing-bug-triage          reported defect      -> triage
 routing-review-feedback     incoming review      -> receiving-code-review
 routing-review-disagree     skeptical of review  -> receiving-code-review (trap: not triage)
+routing-dislike-simplify    disliked code        -> simplify (trap: not triage/signal)
 routing-plain-question-none conceptual question  -> no entrance fires
 
 cr-security-sqli            SQL injection (PHP)

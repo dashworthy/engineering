@@ -237,10 +237,10 @@ own: the build's per-task review carries an ELI5 lens that flags docblocks needi
 ## Evals
 
 The pipeline's behavior is pinned by a native `claude plugin eval` suite under
-[`evals/`](evals/README.md) — 16 behavioral cases across three groups:
+[`evals/`](evals/README.md) — 17 behavioral cases across three groups:
 
 - **routing** — does the right entrance fire for a request (`signal` / `triage` /
-  `receiving-code-review`), and does nothing fire for a plain question?
+  `receiving-code-review` / `simplify`), and does nothing fire for a plain question?
 - **code-review** — does the `code-review` gate catch planted defects (security,
   correctness, efficiency, reuse, concurrency), stay report-only, and *not* manufacture
   findings on a clean diff?
