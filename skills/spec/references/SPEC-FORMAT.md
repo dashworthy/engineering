@@ -1,7 +1,7 @@
 # Spec format
 
 Every spec renders to this shape, at
-`.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`. One format for all three entrances.
+`.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`. One format for all four entrances.
 
 Render it per the shared conventions in `../../../references/consumable-markdown.md` — a top-line
 hook, progressive disclosure, **bold** key terms on first use, tables for the enumerable sections,

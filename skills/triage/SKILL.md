@@ -1,6 +1,6 @@
 ---
 name: triage
-description: "The defect entrance: verify a reported problem reproduces, isolate it to a domain concept, then hand it to the shared design dialogue. Use when a bug or defect is reported. One of three entrances; converges on brainstorming and never invokes another entrance (never hands off to signal)."
+description: "The defect entrance: verify a reported problem reproduces, isolate it to a domain concept, then hand it to the shared design dialogue. Use when a bug or defect is reported. One of four entrances; converges on brainstorming and never invokes another entrance (never hands off to signal)."
 ---
 
 # triage
