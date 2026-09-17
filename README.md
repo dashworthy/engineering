@@ -21,10 +21,11 @@ One install: `engineering` carries the whole pipeline.
 
 ## What it does
 
-Work enters through one of three doors and leaves through one. A feature or a vague
+Work enters through one of four doors and leaves through one. A feature or a vague
 request enters at **discover** (`engineering:signal`); a reported defect enters at **triage**
 (`engineering:triage`); received review feedback enters at **receiving code review**
-(`engineering:receiving-code-review`). Each door is a skill. All three open onto the same **design dialogue**
+(`engineering:receiving-code-review`); existing code you dislike and want reshaped enters at
+**simplify** (`engineering:simplify`). Each door is a skill. All four open onto the same **design dialogue**
 (`brainstorming`), which recommends a design; the **spec** phase then writes that design into one spec
 document and holds the pipeline's first approval gate — on the spec.
 From that spec, a fixed backbone runs the work to done: **plan** it, behind the second
@@ -40,10 +41,12 @@ flowchart TD
     F(["feature / vague ask"]):::entry --> SIG["signal<br/>discovery"]
     D(["reported defect"]):::entry --> TRI["triage"]
     R(["received review feedback"]):::entry --> RCR["receiving-code-review"]
+    U(["disliked existing code"]):::entry --> SIM["simplify"]
 
     SIG --> DES["design<br/>design dialogue"]
     TRI --> DES
     RCR --> DES
+    SIM --> DES
 
     DES --> SPEC["spec gate"]
     SPEC --> BB["plan · build"]
@@ -114,9 +117,30 @@ flowchart TD
     RC3 --> BR["brainstorming"]
 ```
 
-### 4. Design — `brainstorming` → `spec`
+### 4. Simplify — `simplify`
 
-All three entrances meet at `brainstorming`. It explores the context, proposes two or three
+Existing code a developer dislikes is interrogated into a brief, then handed to the design
+dialogue — the same convergence every entrance makes. Rather than guess what "nicer" means, the
+interrogation drives a fixed set of **language-neutral quality lenses** (nesting, duplication,
+naming, dead code, over-abstraction, over-cleverness, single-responsibility, cohesion), turning
+each expressed dislike into a **named target quality paired with an observable check** and refusing
+to hand off while "better" is still an unmeasured preference. The entrance proposes no refactors and
+changes no code — the shaped brief meets `brainstorming`, where the refactor approaches are proposed
+for the developer to accept or reject. It is distinct from the base `simplify` skill, which reviews
+the current diff and applies cleanups.
+
+```mermaid
+flowchart TD
+    classDef entry fill:#2563eb,stroke:#1e3a8a,color:#fff
+
+    SM(["simplify"]):::entry --> SM1["interrogate via<br/>quality lenses"]
+    SM1 --> SM2["name target qualities<br/>+ observable checks"]
+    SM2 --> BR["brainstorming"]
+```
+
+### 5. Design — `brainstorming` → `spec`
+
+All four entrances meet at `brainstorming`. It explores the context, proposes two or three
 approaches with their trade-offs, recommends one with its reasoning, and shapes any load-bearing
 boundary the approach turns on via `using-codebase-design`. It holds no approval gate of its own: it hands
 the recommended design to the `spec` phase, which writes the spec and holds the spec gate — the
@@ -132,7 +156,7 @@ flowchart LR
     C --> OUT(["recommended design<br/>→ spec + spec gate"]):::done
 ```
 
-### 5. Build backbone — `plan → build → documenting → finish`
+### 6. Build backbone — `plan → build → documenting → finish`
 
 Every spec leaves the same way. `plan` turns it into an ordered, bite-sized
 plan — each task carrying a code sketch of the change it makes — then `plan`'s own arch-lens review runs
@@ -163,14 +187,14 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **19 skills**: a bootstrap, three entrances, six phase conductors, eight
+The plugin ships **20 skills**: a bootstrap, four entrances, six phase conductors, eight
 cross-cutting skills, and an opt-in deep-review orchestrator. Everything else a phase needs lives
 as reference files the conductor loads, not as a separately discoverable skill.
 
 | Group | Skills |
 |---|---|
 | Bootstrap | `using-skills` |
-| Entrances | `signal`, `triage`, `receiving-code-review` |
+| Entrances | `signal`, `triage`, `receiving-code-review`, `simplify` |
 | Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `documenting`, `finish` |
 | Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `using-documentation`, `refusing-deferral` |
 | Deep review | `code-review` |
@@ -197,14 +221,15 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 | `finish` | `references/pr-description.md` |
 | `triage` | `references/diagnosing.md` |
 | `receiving-code-review` | `references/review-comment.md` |
+| `simplify` | `references/refactoring-lenses.md` |
 | `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet) |
-| shared (plugin `references/`) | `interrogating-requirements.md` (loaded by all three entrances) |
+| shared (plugin `references/`) | `interrogating-requirements.md` (loaded by `signal` as its primary; a fallback for the other three entrances) |
 
 ### Entry points
 
 Every entry point is a skill — there are no slash-commands, so nothing here depends on
-Claude-specific command syntax. The three entrances open the work: `engineering:signal`,
-`engineering:triage`, and `engineering:receiving-code-review`. Building an approved plan is
+Claude-specific command syntax. The four entrances open the work: `engineering:signal`,
+`engineering:triage`, `engineering:receiving-code-review`, and `engineering:simplify`. Building an approved plan is
 not a separate entry point — invoke `engineering:build` directly; a thin wrapper skill over an
 existing skill would add a name and nothing else. (Docblock quality is no longer a phase of its
 own: the build's per-task review carries an ELI5 lens that flags docblocks needing plainer prose.)
