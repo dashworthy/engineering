@@ -71,7 +71,7 @@ it.
 flowchart TD
     A[Approved spec<br/>or spec-skip marker] --> B[Shape the plan<br/>ordered, bite-sized tasks + Interfaces blocks]
     B --> C[Self-review<br/>coverage · placeholders · consistency · stacked structure]
-    C --> D[Arch-lens review<br/>architecture check + one-off structure scan]
+    C --> D[Arch-lens review<br/>architecture check · reinvention scan structures + capabilities · unproven-assumption scan]
     D --> E{Plan gate<br/>human}
     E -->|Request changes| B
     E -->|Approve| F[Mint APPROVED.md<br/>record Isolation + finish strategy]
@@ -87,7 +87,7 @@ The detail for a reader who will change how planning works.
 | Area | Unit | Responsibility |
 |---|---|---|
 | Plan phase | `skills/plan/SKILL.md` | Reads the approved spec, checks its approval marker, shapes it into one ordered plan of bite-sized TDD tasks with Interfaces blocks and a Global Constraints block, runs the self-review, invokes the arch-lens review, then holds the plan gate and mints the plan-approval marker on approval. |
-| Plan design review | `skills/plan/references/arch-lens.md` | Runs after self-review, before the gate: an architecture check over the tasks' sketched interfaces (via `engineering:using-codebase-design` in review mode) plus a scan for reinvented data structures, returning the plan revised for what it found. Closes objective shape defects directly; flags one-off structures and genuine trade-offs to the human as explicit choices. |
+| Plan design review | `skills/plan/references/arch-lens.md` | Runs after self-review, before the gate, as three checks: an architecture check over the tasks' sketched interfaces (via `engineering:using-codebase-design` in review mode); a reinvention scan for reinvented data structures **and** task-level capabilities the codebase or framework already provides; and an unproven-assumption scan for a task resting on something the plan/spec never established. Returns the plan revised for what it found. Closes objective shape defects directly; flags reinvented structures/capabilities, unproven assumptions, and genuine trade-offs to the human as explicit choices. The two added checks (capability reinvention, unproven assumptions) are grep-limited — context plus general knowledge, one targeted confirm-grep at most — and never manufacture a finding on a clean plan. |
 | Stacking | `engineering:using-stacked-pull-requests` | Opens and maintains the one-PR-per-task stack the plan's `PR strategy: stacked` marker names. Referenced by every task's branch-start and submit-PR steps; the pipeline opens the stack but never lands it. |
 | Deferral guard | `engineering:refusing-deferral` | Backs the no-scope-renegotiation invariant: the planner escalates a genuine new obstacle rather than punting requested work to a silent "later." |
 
@@ -130,7 +130,8 @@ Constraints verbatim plus three fixed lines every downstream skill reads:
   the spec gate). Approval mints `.engineering/<run>/plan/APPROVED.md` via `run-context.sh plan
   <slug>`; `build` refuses to run without it. The marker is minted only on approval, never before.
 - **Arch-lens runs before the human gate.** The design review is a machine pass — with narrow
-  per-item human approvals for one-off structures — and it completes before the plan is ever presented,
+  per-item human approvals for reinvented structures and capabilities and for unproven assumptions —
+  and it completes before the plan is ever presented,
   so the plan the human approves is the reviewed one. The plan is not presented until the review returns.
 
 ## 🚀 Development & testing
