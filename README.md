@@ -187,7 +187,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **20 skills**: a bootstrap, four entrances, six phase conductors, eight
+The plugin ships **21 skills**: a bootstrap, four entrances, six phase conductors, nine
 cross-cutting skills, and an opt-in deep-review orchestrator. Everything else a phase needs lives
 as reference files the conductor loads, not as a separately discoverable skill.
 
@@ -196,7 +196,7 @@ as reference files the conductor loads, not as a separately discoverable skill.
 | Bootstrap | `using-skills` |
 | Entrances | `signal`, `triage`, `receiving-code-review`, `simplify` |
 | Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `documenting`, `finish` |
-| Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `using-documentation`, `refusing-deferral` |
+| Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `using-documentation`, `refusing-deferral`, `to-doc` |
 | Deep review | `code-review` |
 
 Each phase conductor drives its substages from reference files under its own `references/`
@@ -222,7 +222,7 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 | `triage` | `references/diagnosing.md` |
 | `receiving-code-review` | `references/review-comment.md` |
 | `simplify` | `references/refactoring-lenses.md` |
-| `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet) |
+| `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet), `code-review-handoff.pdf.tsx` (the `to-doc` PDF-handoff template) + `finding-blocks/` (per-type sections) |
 | shared (plugin `references/`) | `interrogating-requirements.md` (loaded by `signal` as its primary; a fallback for the other three entrances) |
 
 ### Entry points
