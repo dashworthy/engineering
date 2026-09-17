@@ -4,11 +4,13 @@
 
 One thing: given a plan already written and self-reviewed, this review returns
 that plan with its design vetted — every interface a task sketches has been run through the
-architecture lens, and every data structure a task introduces is either a reuse of something
-the codebase already has or a bespoke shape a human explicitly approved. It does not rewrite
-the plan's approach or reorder its tasks; it catches the shape defects and the reinvented
-structures that the document-level self-review can't see, and hands back a plan corrected for
-them, so the plan that reaches the human gate is the reviewed one.
+architecture lens, every data structure or capability a task introduces is either a reuse of
+something the codebase or framework already has or a bespoke choice a human explicitly approved,
+and every load-bearing assumption a task rests on has been established or accepted with its risk
+recorded. It does not rewrite the plan's approach or reorder its tasks; it catches the shape
+defects, the reinvented structures and capabilities, and the unproven assumptions that the
+document-level self-review can't see, and hands back a plan corrected for them, so the plan that
+reaches the human gate is the reviewed one.
 
 ## Where this runs
 
@@ -18,12 +20,12 @@ as a document (no placeholders, full spec coverage, consistent task shape) but h
 been shown to a human. Read the plan from the path the conductor is working, or the plan
 already sitting in context.
 
-This review is not a human gate. It is a machine pass with two checks, one of which asks the
-human a narrow question per finding.
+This review is not a human gate. It is a machine pass with three checks, two of which flag their
+findings to the human as an explicit choice per finding.
 
-## The two checks
+## The three checks
 
-Run both over the whole plan before revising anything, so a single revision pass closes
+Run all three over the whole plan before revising anything, so a single revision pass closes
 everything found rather than the plan churning once per finding.
 
 ### 1. The architecture check
@@ -57,7 +59,7 @@ If a finding turns on a genuine trade-off rather than a defect — two defensibl
 lens firing on one axis but not clearly wrong — surface it the same way the one-off scan
 below surfaces its flags: as an explicit choice put to the human, not a silent revision.
 
-### 2. The one-off data structure scan
+### 2. The reinvention scan — data structures, then capabilities
 
 Walk every data structure the plan's tasks introduce — a new type, a class, a record, or a
 bare dict / tuple / array a task uses to carry a set of fields with an invariant. For each
@@ -89,9 +91,53 @@ type you didn't name. When the human picks reuse (or names a different existing 
 the task's Interfaces block and steps to match. When they keep it, leave the structure and
 record the approval in the task so the choice is visible at the gate and afterward.
 
+Then widen the same scan from a single data structure to a whole **task-level capability**: for
+a task that builds a capability — a retry loop, a cache, a parser, a scheduler, a permission
+check — ask the reuse question one level up:
+**does the codebase or the framework already provide this?**
+A task that hand-rolls a capability an existing module or the framework already
+offers is reinvention at the task scale, not just the type scale, and it earns the same flag,
+surfaced to the human the same way.
+
+This task-level judgment is **grep-limited** (per the plan's Global Constraints): reason from
+what is already in context — the spec, the plan, and general knowledge of what the language and
+framework provide — rather than searching the tree. Do not open-scan the codebase for it. At
+most **one targeted confirm-grep** is allowed, and only to verify a *specific* named duplicate
+before asserting it — verify-only, never discovery. If context and general knowledge do not name
+a concrete thing the task duplicates, the honest result is no finding, not a fishing expedition.
+Worked example: a task adds its own exponential-backoff retry loop around an HTTP call; general
+knowledge says the project's HTTP client (or a shared `BackoffRetry` helper the spec mentions)
+already retries, so flag it as capability reinvention and offer reuse. The existing
+data-structure scan above is unchanged — it keeps searching for an existing *type* as it always
+has; only this task-level addition carries the grep limit.
+
+### 3. The unproven-assumption scan — `rests-on-unproven-assumption`
+
+Walk every task for a load-bearing **assumption the plan or spec never established** — a
+dependency assumed present, a data shape assumed available, an upstream behavior assumed
+guaranteed, a migration assumed already run. The question is not "is this well-shaped?"
+(Check 1) or "does this already exist?" (Check 2) but "**does this task only work if something
+unproven is true?**"
+
+This scan is **grep-limited** the same way: judge from the spec, the plan, and general
+knowledge; **one targeted confirm-grep** at most to check a *specific* assumption, never an open
+scan. It is a judgment call, not an objective defect — so **surface each finding to the human as
+an explicit choice**, exactly as the one-off scan above surfaces its flags (a tool where one is
+available; plain text noting a degraded run otherwise). Never silently revise a task over an
+assumption, and never silently let a load-bearing one stand. Name the assumption, name the task
+that rests on it, and offer to either establish it (add a task or check that proves it) or accept
+it with the risk recorded in the task.
+
+A plan that rests on nothing unproven yields **no finding here** — "no strong objection" is a
+complete, valid result. Do not manufacture a doubt to avoid an empty scan; an invented
+assumption is exactly the padding this discipline exists to prevent. Worked example: a task calls
+a `feature_flags` table that no earlier task creates and the spec never lists as pre-existing —
+surface it as a choice (add the migration, or confirm the table already ships) rather than
+assuming it is there.
+
 ## Revising the plan
 
-After both checks, apply everything found in one pass: the architecture defects you're closing
+After all three checks, apply everything found in one pass: the architecture defects you're closing
 directly, and the one-off-structure resolutions the human chose. Edit the plan file in place —
 the Interfaces blocks, the affected steps, and any verification a reshaped interface changes.
 A revision that reshapes a signature but leaves a downstream step calling the old shape has
