@@ -164,10 +164,12 @@ grep_flat "$CDSK" "force the tenant-boundary decision"; check $? "Tenancy bounda
 # Convention: people (stakeholders, sign-off, approvers, authors) are identified by name or
 # GitHub handle — never a personal or business email. The only email form allowed anywhere in
 # the suite is a GitHub address. interrogating-requirements carries the rule at the capture
-# point; this guard enforces it across every tracked skill and command.
+# point; this guard enforces it across every tracked skill and command. node_modules is skipped:
+# a node-based skill (e.g. to-doc) vendors dependencies there, they are gitignored (never
+# committed), and package-author emails in them are not ours to police.
 grep_flat "$PLUGIN/references/interrogating-requirements.md" "Never record a personal email"
 check $? "interrogating-requirements forbids recording a personal email"
-personal_email=$(grep -rhoE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$PLUGIN/skills" "$PLUGIN/references" "$PLUGIN/commands" 2>/dev/null | grep -viE '@users\.noreply\.github\.com$' | sort -u)
+personal_email=$(grep -rhoE --exclude-dir=node_modules '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$PLUGIN/skills" "$PLUGIN/references" "$PLUGIN/commands" 2>/dev/null | grep -viE '@users\.noreply\.github\.com$' | sort -u)
 [ -z "$personal_email" ]; check $? "no personal email address appears in any skill/command (GitHub addresses only)"
 
 # --- entry-point skills and READMEs -------------------------------------------
@@ -198,7 +200,7 @@ done
 
 # The skill count the root README advertises matches the skills on disk.
 claimed=$(grep -oE '[0-9]+ skills' "$ROOT/README.md" | grep -oE '[0-9]+' | head -1)
-actual=$(find "$PLUGIN/skills" -name SKILL.md | wc -l | tr -d ' ')
+actual=$(find "$PLUGIN/skills" -path '*/node_modules/*' -prune -o -name SKILL.md -print | wc -l | tr -d ' ')
 [ "$claimed" = "$actual" ]; check $? "root README skill count ($claimed) matches disk ($actual)"
 
 # No slash-commands remain: the plugin's entry points are all skills now (decoupling from
