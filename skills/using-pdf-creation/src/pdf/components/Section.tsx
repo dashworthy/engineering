@@ -8,11 +8,15 @@ export function Section({
   eyebrow,
   title,
   deck,
+  id,
   children,
 }: {
   eyebrow: string;
   title: string;
   deck?: string;
+  /** A named jump destination for this section's header, so a `Toc` entry can link to it
+   *  (`<Link src="#id" />`). Must be unique in the document. */
+  id?: string;
   children: ReactNode;
 }): JSX.Element {
   const tw = useTw();
@@ -28,7 +32,7 @@ export function Section({
   // than `HEADLINE_MIN_PRESENCE` points (two-fifths of the content height) remain below it.
   return (
     <>
-      <View wrap={false} minPresenceAhead={HEADLINE_MIN_PRESENCE} style={{ marginTop: 22 }}>
+      <View wrap={false} minPresenceAhead={HEADLINE_MIN_PRESENCE} style={{ marginTop: 22 }} {...(id ? { id } : {})}>
         <Eyebrow>{eyebrow}</Eyebrow>
         <Text
           style={[

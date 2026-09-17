@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 // The render wrapper is exercised through its REAL entrypoint — `node --import tsx render.ts <run-dir>` —
 // as a subprocess, not by calling renderRun() under vitest. The seam being proved is Node+tsx rendering
-// an authored doc that lives OUTSIDE the package and imports the bare `@engineering/to-doc`: the wrapper
+// an authored doc that lives OUTSIDE the package and imports the bare `@engineering/using-pdf-creation`: the wrapper
 // stages the doc inside the package's src tree so that import self-references via `exports` and react-pdf
 // resolves correctly. vitest's own resolver would not reproduce that path faithfully, so the test drives
 // the true runtime path end to end.
@@ -17,8 +17,8 @@ const run = promisify(execFile);
 const PKG_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..'); // test/pdf/ -> skills/builder
 const RENDER = resolve(PKG_ROOT, 'src/pdf/render.ts');
 
-// A .engineering/<run>/to-doc/pdf.tsx that imports the builder by the bare specifier the wrapper must resolve.
-const DOC = `import { PdfDoc, Cover } from '@engineering/to-doc';
+// A .engineering/<run>/using-pdf-creation/pdf.tsx that imports the builder by the bare specifier the wrapper must resolve.
+const DOC = `import { PdfDoc, Cover } from '@engineering/using-pdf-creation';
 export default (theme) => (
   <PdfDoc theme={theme} title="t">
     <Cover eyebrow="e" title="t" />
@@ -38,14 +38,14 @@ async function startsWithPdfMagic(path: string): Promise<boolean> {
 describe('renderRun (render <run-dir> wrapper)', () => {
   let root: string; // stands in for a project root holding .engineering/
   beforeAll(async () => {
-    root = await mkdtemp(resolve(tmpdir(), 'to-doc-render-'));
+    root = await mkdtemp(resolve(tmpdir(), 'using-pdf-creation-render-'));
   });
   afterAll(async () => {
     await rm(root, { recursive: true, force: true });
   });
 
   it('renders <run-dir>/pdf.tsx to pdf-light.pdf and pdf-dark.pdf', async () => {
-    const runDir = resolve(root, '.engineering', '2026-09-14-fixture', 'to-doc');
+    const runDir = resolve(root, '.engineering', '2026-09-14-fixture', 'using-pdf-creation');
     await mkdir(runDir, { recursive: true });
     await writeFile(resolve(runDir, 'pdf.tsx'), DOC);
 
@@ -61,7 +61,7 @@ describe('renderRun (render <run-dir> wrapper)', () => {
   }, 60_000);
 
   it('fails with a clear error when the run dir has no pdf.tsx', async () => {
-    const runDir = resolve(root, '.engineering', 'empty-run', 'to-doc');
+    const runDir = resolve(root, '.engineering', 'empty-run', 'using-pdf-creation');
     await mkdir(runDir, { recursive: true });
 
     await expect(renderCli(runDir)).rejects.toMatchObject({

@@ -1,4 +1,4 @@
-import { Text, View } from '@react-pdf/renderer';
+import { Link, Text, View } from '@react-pdf/renderer';
 import { FONT, TYPE, useTw } from '../theme.js';
 
 interface Entry {
@@ -7,6 +7,9 @@ interface Entry {
   page?: string | number;
   /** Nesting depth: 0 = top level, 1 = a sub-entry (indented, muted), … */
   level?: number;
+  /** The `id` of a `Section`/`Subhead` this entry jumps to. When set, the row's title becomes a
+   *  clickable internal link (`<Link src="#link" />`); the look is unchanged, only clickable. */
+  link?: string;
 }
 
 /**
@@ -39,11 +42,18 @@ export function Toc({
       {items.map((it, i) => {
         const level = it.level ?? 0;
         const top = level === 0;
+        const titleStyle = [tw(top ? 'text-foreground' : 'text-fg-muted'), { fontSize: TYPE.cardBody, fontWeight: top ? 600 : 400 }];
         return (
           <View key={i} style={[tw('flex-row items-end'), { marginBottom: 7, paddingLeft: level * 16 }]}>
-            <Text style={[tw(top ? 'text-foreground' : 'text-fg-muted'), { fontSize: TYPE.cardBody, fontWeight: top ? 600 : 400 }]}>
-              {it.title}
-            </Text>
+            {it.link ? (
+              // Internal jump to the matching Section/Subhead id. `textDecoration: none` keeps the
+              // ToC's clean look — a link, not a blue underline — while staying clickable.
+              <Link src={`#${it.link}`} style={[...titleStyle, { textDecoration: 'none' }]}>
+                {it.title}
+              </Link>
+            ) : (
+              <Text style={titleStyle}>{it.title}</Text>
+            )}
             <View
               style={{
                 flex: 1,

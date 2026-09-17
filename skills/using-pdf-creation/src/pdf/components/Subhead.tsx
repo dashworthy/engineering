@@ -8,10 +8,21 @@ import { FONT, TYPE, useTw } from '../theme.js';
  * plus a modest `minPresenceAhead` keep it from being stranded at the foot of a page, ahead of its
  * content. Sits in the content flow (no eyebrow) — that structural kicker belongs to `Section`.
  */
-export function Subhead({ title, deck, rule = true }: { title: string; deck?: string; rule?: boolean }): JSX.Element {
+export function Subhead({
+  title,
+  deck,
+  rule = true,
+  id,
+}: {
+  title: string;
+  deck?: string;
+  rule?: boolean;
+  /** A named jump destination for this subheading, so a `Toc` entry can link to it. Unique per doc. */
+  id?: string;
+}): JSX.Element {
   const tw = useTw();
   return (
-    <View wrap={false} minPresenceAhead={54} style={{ marginTop: 16, marginBottom: deck ? 6 : 9 }}>
+    <View wrap={false} minPresenceAhead={54} style={{ marginTop: 16, marginBottom: deck ? 6 : 9 }} {...(id ? { id } : {})}>
       <Text
         style={[
           tw('text-foreground'),

@@ -1,15 +1,15 @@
-// The `render <run-dir>` wrapper: one command over a `.engineering/<run>/to-doc/` working directory. It renders
+// The `render <run-dir>` wrapper: one command over a `.engineering/<run>/using-pdf-creation/` working directory. It renders
 // that dir's `pdf.tsx` to `pdf-light.pdf` + `pdf-dark.pdf` (both themes by default), reusing the
 // per-theme `generatePdf` from cli.ts, and writes the outputs back into the run dir.
 //
 // Why it stages the doc inside the package. The authored `pdf.tsx` lives in the invoking project
-// (`.engineering/<run>/to-doc/`), outside this package — but `node --import tsx` only applies the package's
+// (`.engineering/<run>/using-pdf-creation/`), outside this package — but `node --import tsx` only applies the package's
 // JSX runtime and module resolution to files under the tsconfig `include` (`src`/`test`); a doc
 // rendered in place gets the classic JSX transform and mis-resolves react-pdf's transitive subpath
 // exports. So the wrapper copies the doc to a temp file under `src/docs/` and renders it there, where
-// the doc's bare `@engineering/to-doc` import resolves by package self-reference (the `exports` field)
+// the doc's bare `@engineering/using-pdf-creation` import resolves by package self-reference (the `exports` field)
 // and react-pdf lays out correctly. The staged copy is removed after each render. The authored file
-// never moves and never learns where the package lives — it names the stable `@engineering/to-doc`
+// never moves and never learns where the package lives — it names the stable `@engineering/using-pdf-creation`
 // specifier and nothing else.
 
 import { resolve } from 'node:path';
@@ -26,7 +26,7 @@ const STAGE_DIR = resolve(PACKAGE_ROOT, 'src/docs');
 const DEFAULT_THEMES: PdfTheme[] = ['light', 'dark'];
 
 export interface RenderRunOptions {
-  /** The `.engineering/<run>/to-doc/` working directory; must contain `pdf.tsx`. */
+  /** The `.engineering/<run>/using-pdf-creation/` working directory; must contain `pdf.tsx`. */
   runDir: string;
   /** Themes to render. Defaults to both. */
   themes?: PdfTheme[];
