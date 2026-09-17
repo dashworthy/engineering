@@ -103,6 +103,3 @@ takes part in.
   branch in the shared checkout — and that single checkout is
   where the whole stack lives; this skill switches branches inside it and never creates isolation
   of its own. (`build`'s Establish-the-workspace step is where that isolation is created.)
-- It does not **land or merge the stack.** The pipeline integrates only by opening pull
-  requests; merging the stack bottom-up is a human's job outside the pipeline, once the PRs are
-  approved. This skill opens and maintains the stack — it never merges it, and is never asked to.

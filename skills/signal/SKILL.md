@@ -7,11 +7,8 @@ description: "The discovery entrance: interrogate a feature or vague request int
 
 Say this first, plainly: `Using the signal skill to interrogate the request into a brief.`
 
-Run the signal discovery pipeline for the request in hand. signal is one of the three engineering
-entrances: it **shapes context** from a vague ask — interrogating it into a brief — then hands that
-context to the shared design dialogue. It runs the same beats every entrance does — establish a run, shape
-context, hand to the design dialogue — and only how it shapes context is particular to signal.
-Interrogate the request into a brief rather than jumping straight to design.
+Interrogate the request in hand into a brief, then hand that brief to the shared design dialogue —
+rather than jumping straight to design.
 
 Work the beats in order.
 
@@ -23,11 +20,11 @@ Obtain the run directory:
 sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" signal <slug>
 ```
 
-`<slug>` is a 2–4 word kebab-case handle you derive from the request. It prints
-`.engineering/<run>/signal/` and creates it if needed; if a run is already active it joins that one
-and the slug is ignored. Write `00-request.md` into that directory yourself, with the request
-verbatim, before the first question. If the directory already holds a `brief.md`, do not overwrite
-it — ask the user whether to resume that run.
+`<slug>` is a 2–4 word kebab-case handle you derive from the request; see
+`${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md` for what the call prints and how it joins an
+active run. Write `00-request.md` into that directory yourself, with the request verbatim, before the
+first question. If the directory already holds a `brief.md`, do not overwrite it — ask the user
+whether to resume that run.
 
 ## 2. Shape context — interrogate the request
 

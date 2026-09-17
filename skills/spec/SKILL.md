@@ -7,16 +7,9 @@ description: "The single writer of Tier-1 specs and holder of the spec-approval 
 
 Say this first, plainly: `Using the spec skill to write the spec.`
 
-The spec phase is the single Tier-1 writer and the pipeline's first human-approval gate. It
-serializes the recommended design it is handed into the one Tier-1 spec, presents it,
-and holds the spec gate. Its run-dir slug stays `to-spec` (`.engineering/<run>/to-spec/APPROVED.md`),
-which `plan` reads as its precondition.
-
-## What this guarantees
-
-One thing: given an entrance's finished material, this stage writes exactly one Tier-1
-spec, in exactly one format, at exactly one path. It is the only skill in this plugin
-permitted to write to the run's spec dir, `.engineering/<run>/spec/`.
+Serialize the recommended design you are handed into the one Tier-1 spec, present it, and hold the
+spec gate. The run-dir slug stays `to-spec` (`.engineering/<run>/to-spec/APPROVED.md`), which `plan`
+reads as its precondition.
 
 ## Inputs
 
@@ -31,7 +24,8 @@ do not go looking for material elsewhere. This skill starts only from what it is
 
 ## Where it writes
 
-Tier-1, and only Tier-1: `.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`.
+Tier-1, and only Tier-1: `.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`. This is the only skill
+permitted to write to the run's spec dir, and it writes exactly one spec there.
 
 `<topic>` is the active run's slug when a run is available. The pointer
 `.engineering/.current-run` holds the full run id in the form `<YYYY-MM-DD>-<slug>`; use only
@@ -72,8 +66,7 @@ section number:
   why the smaller fixes on the table were rejected, not only the one that won.
 
 When §6 Approach or §7 Existing context describes a data model, a flow, or a state machine,
-consider a diagram via `engineering:using-diagrams` — the guard is *consider*, not *always
-draw*; the skill's own earned-its-place test decides whether one is actually drawn.
+consider a diagram via `engineering:using-diagrams`.
 
 ## The spec gate — write a draft, then hold for approval
 
@@ -104,13 +97,6 @@ the status are only ever promoted together, here, at the moment the human approv
 
 ## What this does not do
 
-- It does not **design**. The §6 approach was argued out in `brainstorming` upstream; this
-  skill transcribes that outcome, it does not weigh alternatives itself.
-- It does not **plan**. Breaking the approved approach into steps is `plan`,
-  downstream of the spec this skill produces.
-- It does not **interrogate**. If the material handed to it is missing something a
-  section needs, this skill does not go ask questions to fill the gap — that already
-  happened, or should have, upstream in `signal` or `triage`.
 - It does not invent. Where the source material is thin, the corresponding section says
   so, and the gap goes into §8 as an open question. A confident-sounding sentence with no
   source behind it is worse than an honest blank.

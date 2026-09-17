@@ -7,16 +7,8 @@ description: "The design phase: explore context, propose 2-3 approaches with tra
 
 Say this first, plainly: `Using the brainstorming skill to shape the design.`
 
-brainstorming is the design phase. The dialogue below shapes a
-recommended design — an approach chosen over its alternatives, with any load-bearing boundary shaped
-via `using-codebase-design` — then hands that design to the `spec` phase, which serializes it and holds the
-spec gate. This skill drives the dialogue and hands off; it does not write the spec itself.
-
-## What this guarantees
-
-One thing: given a signal brief or a triage problem, this phase produces a recommended
-design — an approach chosen over its rejected alternatives, with the reasoning laid
-out — then hands it to the `spec` phase to serialize and gate.
+Shape a recommended design here — an approach chosen over its alternatives, with any load-bearing
+boundary shaped via `using-codebase-design` — then hand it to the `spec` phase; do not write the spec.
 
 ## Starting material
 
@@ -148,15 +140,6 @@ otherwise happens at the spec gate, unchanged.
 
 ## What this does not do
 
-- It does not **decide what to build.** Requirements, users, success criteria, and
-  constraints are `signal`'s job — or `triage`'s, for a defect — and are settled before
-  this skill's first question. This skill starts once there's a problem worth designing
-  a solution for; it does not go find one.
-- The **dialogue** does not **shape interfaces itself.** Designing a module's interface is
-  `using-codebase-design`'s work; the dialogue weighs approach, not a single interface's method
-  signatures, and invokes `engineering:using-codebase-design` when the approach turns on a boundary.
-- The **dialogue** does not **write the spec.** Serializing the recommended design is the `spec`
-  phase's job, invoked after the dialogue.
 - It does not **plan or build.** Nothing past the spec is this phase's to
   touch, including sketching what a plan for the design might look like.
 - It is not always required. A triage quick fix with one obvious fix and nothing

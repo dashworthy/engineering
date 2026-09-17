@@ -127,4 +127,7 @@ Fix and re-render until it holds.
 
 - **[references/authoring.md](references/authoring.md)** — the component catalog + when-to-use matrix.
 - **[references/verifying.md](references/verifying.md)** — the inspection protocol.
+- **[references/templates/](references/templates/)** — reusable copy-and-fill templates to start from
+  instead of authoring from scratch. `feature-doc.pdf.tsx` is a feature / architecture handoff doc
+  (the template `engineering:feature-doc` fills).
 - **[README.md](README.md)** — the package reference (component list, styling boundary, CLI).

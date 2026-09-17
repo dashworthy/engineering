@@ -26,10 +26,10 @@ sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" simplify <slug>
 ```
 
 `<slug>` is a 2–4 word kebab-case handle you derive from the target (what is disliked, in a word or
-two). It prints `.engineering/<run>/simplify/` and creates it if needed; if a run is already active
-it joins that one and the slug is ignored. Write `00-request.md` into that directory yourself, with
-the request verbatim — including which code the user pointed at — before the first question. If the
-directory already holds a `brief.md`, do not overwrite it — ask the user whether to resume that run.
+two); see `${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md` for what the call prints and how it
+joins an active run. Write `00-request.md` into that directory yourself, with the request verbatim —
+including which code the user pointed at — before the first question. If the directory already holds
+a `brief.md`, do not overwrite it — ask the user whether to resume that run.
 
 **Target selection.** Work on the code the user explicitly names — a file, function, module, or
 region they call out as disliked. When they point at nothing specific, fall back to the
