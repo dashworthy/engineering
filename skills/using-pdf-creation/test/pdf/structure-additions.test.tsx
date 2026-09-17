@@ -64,4 +64,24 @@ describe('Toc (table of contents)', () => {
     expect(p.colors.has(tw('text-brand-ink').color)).toBe(true); // top-level page number
     expect(p.colors.has(tw('text-fg-muted').color)).toBe(true); // sub-entry
   });
+  it('renders a `link` entry as an internal Link to the matching id, without decoration', () => {
+    const tree = TestRenderer.create(
+      <TwProvider value={tw}>
+        <Toc items={[{ title: 'Intro', page: 1, link: 'intro' }, { title: 'Plain', page: 2 }]} />
+      </TwProvider>,
+    ).toJSON() as any;
+    let link: any = null;
+    let plainCount = 0;
+    const walk = (n: any) => {
+      if (!n || typeof n !== 'object') return;
+      if (n.type === 'LINK') link = n;
+      if (n.type === 'TEXT' && (n.children ?? []).includes('Plain')) plainCount++;
+      (n.children ?? []).forEach(walk);
+    };
+    (Array.isArray(tree) ? tree : [tree]).forEach(walk);
+    expect(link).not.toBeNull();
+    expect(link.props.src).toBe('#intro');
+    expect(flat(link.props.style).textDecoration).toBe('none');
+    expect(plainCount).toBeGreaterThan(0); // the un-linked entry is a plain Text, not a Link
+  });
 });

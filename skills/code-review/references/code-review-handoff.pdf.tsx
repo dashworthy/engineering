@@ -1,14 +1,14 @@
 // Code-Review Finding Doc — SKELETON
 // -----------------------------------------------------------------------------------------------
-// A starting pdf.tsx for a designed code-review PDF handoff, authored with the engineering:to-doc
-// skill. Copy this file to the to-doc run dir as  <RUNDIR>/pdf.tsx , fill in the DATA section,
-// then render with to-doc's step 3 (run it from the to-doc skill dir so tsx + the package resolve):
+// A starting pdf.tsx for a designed code-review PDF handoff, authored with the engineering:using-pdf-creation
+// skill. Copy this file to the using-pdf-creation run dir as  <RUNDIR>/pdf.tsx , fill in the DATA section,
+// then render with using-pdf-creation's step 3 (run it from the using-pdf-creation skill dir so tsx + the package resolve):
 //
-//   cd "${CLAUDE_PLUGIN_ROOT}/skills/to-doc" \
+//   cd "${CLAUDE_PLUGIN_ROOT}/skills/using-pdf-creation" \
 //     && node --import tsx src/pdf/render.ts "<RUNDIR>"
 //
 // where <RUNDIR> is the absolute path printed by
-//   sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" to-doc <slug> --fresh
+//   sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" using-pdf-creation <slug> --fresh
 //
 // Discipline (the code-review handoff route in the code-review skill explains the why):
 //   • EVIDENCE  = real in-repo code (the mechanism). Never a docblock/comment.
@@ -22,7 +22,7 @@
 import {
   PdfDoc, CoverPage, Section, Subhead, Toc, P, B, Muted, Eyebrow, Table, Legend,
   KeyBox, Flow, CodeBlock, highlightCode, type PdfTheme,
-} from '@engineering/to-doc';
+} from '@engineering/using-pdf-creation';
 
 const R = String.raw; // preserves backslashes and $ in PHP/SQL/YAML. NO backticks inside R`...`.
 
@@ -177,22 +177,26 @@ export default async (theme: PdfTheme) => {
           meta={COVER.meta}
         />
       }
+      frontMatter={
+        // Table of contents — its own UNNUMBERED page, right after the cover. Page numbers start on
+        // the first body page below, so a `PAGES` entry is that body-relative number (1 = first
+        // finding page). Auto-built from ENTRIES; page numbers come from PAGES (filled on a 2nd pass).
+        <Section eyebrow="Contents" title="Findings" deck="Every finding, in order, with its page.">
+          <Toc
+            breakAfter={false}
+            items={THEME_ORDER.flatMap((t) => [
+              { title: THEME_META[t].title, level: 0 as const, link: `theme-${t}` },
+              ...ENTRIES.filter((e) => e.theme === t).map((e) => ({
+                title: `${e.id} · ${e.sev} — ${e.title}`,
+                level: 1 as const,
+                page: PAGES[e.id] ?? '—',
+                link: `finding-${e.id}`,
+              })),
+            ])}
+          />
+        </Section>
+      }
     >
-      {/* Table of contents — its own page, right after the cover. Auto-built from ENTRIES; page
-          numbers come from PAGES (filled on a 2nd pass). */}
-      <Section eyebrow="Contents" title="Findings" deck="Every finding, in order, with its page.">
-        <Toc
-          items={THEME_ORDER.flatMap((t) => [
-            { title: THEME_META[t].title, level: 0 as const },
-            ...ENTRIES.filter((e) => e.theme === t).map((e) => ({
-              title: `${e.id} · ${e.sev} — ${e.title}`,
-              level: 1 as const,
-              page: PAGES[e.id] ?? '—',
-            })),
-          ])}
-        />
-      </Section>
-
       <Section eyebrow="Overview" title="How to read this" deck="Findings are grouped into themes, most-actionable first.">
         <P>
           <B>Scope &amp; method:</B> <Muted>{'<what was reviewed, how (facets/effort), and the overall posture>'}</Muted>
@@ -223,9 +227,9 @@ export default async (theme: PdfTheme) => {
         const meta = THEME_META[t];
         const items = ENTRIES.map((e, i) => ({ e, i })).filter(({ e }) => e.theme === t);
         return (
-          <Section key={t} eyebrow={meta.eyebrow} title={meta.title} deck={meta.deck}>
+          <Section key={t} id={`theme-${t}`} eyebrow={meta.eyebrow} title={meta.title} deck={meta.deck}>
             {items.map(({ e, i }) => [
-              <Subhead key={`${e.id}-h`} title={`${e.id}. ${e.title}`} deck={`${e.sev} · ${e.conf} — ${e.loc}`} rule />,
+              <Subhead key={`${e.id}-h`} id={`finding-${e.id}`} title={`${e.id}. ${e.title}`} deck={`${e.sev} · ${e.conf} — ${e.loc}`} rule />,
               <P key={`${e.id}-p`}>{e.problem}</P>,
 
               // ⟨finding-blocks: type-specific sections⟩ — paste a block's render fragment here,

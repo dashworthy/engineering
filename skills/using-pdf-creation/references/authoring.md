@@ -1,6 +1,6 @@
 # Authoring reference — components & when to use each
 
-Every component you compose a `pdf.tsx` from, imported from `@engineering/to-doc`. Props are shown as
+Every component you compose a `pdf.tsx` from, imported from `@engineering/using-pdf-creation`. Props are shown as
 their TypeScript shape. The fixture `src/docs/configurator.pdf.tsx` uses all of them against real
 content — read it as a worked example.
 
@@ -16,11 +16,13 @@ Two rules cut across everything:
 
 | Component | Props | Use it for |
 |---|---|---|
-| `PdfDoc` | `{ theme: PdfTheme; title: string; children }` | The root. Wraps the whole document; owns theme, fonts, page. Exactly one, outermost. |
+| `PdfDoc` | `{ theme: PdfTheme; title: string; cover?: ReactNode; frontMatter?: ReactNode; children }` | The root. Wraps the whole document; owns theme, fonts, page. Exactly one, outermost. `cover` is a full-bleed first page; `frontMatter` (put the `Toc` here) is an inset second page. Both are **unnumbered** — page numbers are automatic and start at 1 on the first body page. |
 | `Cover` | `{ eyebrow: string; title: string; lede?: string; chips?: string[] }` | The title band — the document's hero. `eyebrow` = mono kicker, `chips` = metadata pills. One, first. |
-| `Section` | `{ eyebrow: string; title: string; deck?: string; children }` | A top-level section: accent kicker + display title + optional muted deck, then body. The backbone of the doc. |
-| `Subhead` | `{ title: string; deck?: string; rule?: boolean }` | An h3 subsection heading inside a `Section` body — a bold title over an optional hairline rule, with an optional muted line. Splits a long section into named runs. |
-| `Toc` | `{ title?: string; items: { title; page?; level? }[] }` | A table of contents: entries with dotted leaders to right-aligned page numbers; `level > 0` indents a sub-entry. |
+| `Section` | `{ eyebrow: string; title: string; deck?: string; id?: string; children }` | A top-level section: accent kicker + display title + optional muted deck, then body. The backbone of the doc. `id` makes the header a jump destination a `Toc` entry can link to. |
+| `Subhead` | `{ title: string; deck?: string; rule?: boolean; id?: string }` | An h3 subsection heading inside a `Section` body — a bold title over an optional hairline rule, with an optional muted line. Splits a long section into named runs. `id` makes it a `Toc` link destination. |
+| `Toc` | `{ title?: string; breakAfter?: boolean; items: { title; page?; level?; link? }[] }` | A table of contents: entries with dotted leaders to right-aligned page numbers; `level > 0` indents a sub-entry; `link` = the `id` of a `Section`/`Subhead` the entry jumps to (clickable, no underline). Put it in `PdfDoc`'s `frontMatter` and set `breakAfter={false}` there (it already gets its own page). |
+
+> **Page numbers are automatic.** `PdfDoc` numbers the body pages from 1 (bottom-centered, muted mono); the cover and `frontMatter` pages are unnumbered. Do not add a footer or a page-number element yourself. Because react-pdf resolves a page number only after layout, fill a `Toc`'s `page` values on a **second pass**: render once, read where each section lands, enter the numbers, re-render.
 
 > **Never a page footer.** There is no `Footer` component and you must not hand-roll one. Author / date / confidentiality metadata goes on the cover (`CoverPage`'s `meta` strip or `Cover`'s chips), never a bottom-of-page strip.
 

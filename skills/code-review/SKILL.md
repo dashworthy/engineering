@@ -185,11 +185,11 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
      reconciled findings as the review under consideration, so they flow into that skill's
      aggregate → verify → design → fix pipeline. code-review still never edits code; the hand-off
      only shapes the findings into the pipeline that does.
-   - **Designed PDF handoff (`engineering:to-doc`)** — turn the reconciled findings into a
+   - **Designed PDF handoff (`engineering:using-pdf-creation`)** — turn the reconciled findings into a
      print-ready, ShadCN-styled PDF for a team or leadership, rendered in both light and dark.
-     Invoke `engineering:to-doc` and **start from the template**
+     Invoke `engineering:using-pdf-creation` and **start from the template**
      `references/code-review-handoff.pdf.tsx`: scaffold a run dir
-     (`sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" to-doc <slug> --fresh`), copy the template
+     (`sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" using-pdf-creation <slug> --fresh`), copy the template
      to `<RUNDIR>/pdf.tsx`, fill its DATA section from the reconciled findings — one `Entry` per
      finding, `EVIDENCE` from real in-repo code, `DEV_NOTES` from a docblock at an unverified
      boundary. The template opens with a full-bleed `CoverPage` and an auto-built, page-numbered
@@ -199,7 +199,7 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
      `references/finding-blocks/` (security → an exploit / attack-path section, concurrency → an
      interleaving timeline, data-safety → a before/after state table, api-contract → a
      breaking-change matrix); each is a paste-in fragment, and `references/finding-blocks/README.md`
-     says where each part goes. Then render and *look at both themes* per to-doc's verifying
+     says where each part goes. Then render and *look at both themes* per using-pdf-creation's verifying
      protocol. The same discipline the report holds carries into the doc: evidence — and any exploit
      — is real, a developer note is narration not proof, and every sample keeps its `path:line`
      caption.
