@@ -233,15 +233,17 @@ plan is written and self-reviewed, before a human ever sees it.
 
 **Load `references/arch-lens.md` and run it now, on the plan just written.** It reads the plan's
 Interfaces blocks and code sketches, runs the architecture lens over them (via
-`engineering:using-codebase-design` in review mode), and scans for reinvented data structures — flagging each
-to the human as an explicit choice before it can stand. It hands back the plan revised
+`engineering:using-codebase-design` in review mode), scans for reinvented data structures and
+capabilities, and flags tasks resting on unproven assumptions — surfacing each to the human as
+an explicit choice before it can stand. It hands back the plan revised
 for whatever it found: a signature reshaped to close a leak, a bespoke shape replaced with
-the existing type, or an ad-hoc structure the human explicitly approved. This is why the
+the existing type, an ad-hoc structure the human explicitly approved, or an assumption
+established or accepted with its risk recorded. This is why the
 tasks carry code sketches at all — a plan that only describes its changes in prose gives the
 review phase nothing concrete to judge.
 
 The review phase is not a human gate — it is a machine pass with per-item human approvals
-inside it (the one-off-data-structure flags). The human gate is still the plan gate below,
+inside it (the reinvention and unproven-assumption flags). The human gate is still the plan gate below,
 and it comes after review, so the plan the human approves is the reviewed one. Do not present
 the plan for approval until the arch-lens review has returned.
 
