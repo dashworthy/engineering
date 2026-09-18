@@ -1,5 +1,5 @@
 // The `render <run-dir>` wrapper: one command over a `.engineering/<run>/using-doc-creation/` working directory. It renders
-// that dir's `pdf.tsx` to `pdf-light.pdf` + `pdf-dark.pdf` (both themes by default), reusing the
+// that dir's `pdf.tsx` to `pdf-light.pdf` (light by default; `--theme dark` adds `pdf-dark.pdf`), reusing the
 // per-theme `generatePdf` from cli.ts, and writes the outputs back into the run dir.
 //
 // Why it stages the doc inside the package. The authored `pdf.tsx` lives in the invoking project
@@ -23,7 +23,7 @@ import { parseTheme, type PdfTheme } from './theme.js';
 const PACKAGE_ROOT = resolve(fileURLToPath(import.meta.url), '../../..');
 const STAGE_DIR = resolve(PACKAGE_ROOT, 'src/docs');
 
-const DEFAULT_THEMES: PdfTheme[] = ['light', 'dark'];
+const DEFAULT_THEMES: PdfTheme[] = ['light'];
 
 export interface RenderRunOptions {
   /** The `.engineering/<run>/using-doc-creation/` working directory; must contain `pdf.tsx`. */

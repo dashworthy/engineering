@@ -1,6 +1,6 @@
 ---
 name: using-doc-creation
-description: Author a polished, print-ready PDF from a source document by composing hand-written JSX from the @engineering/using-doc-creation component library — ShadCN-styled (light/dark), with a cover, sections, callouts, badges, tables, comparison/panel/key cards, phase & flow sequences, syntax-highlighted code, and mermaid diagrams rendered as real vector images. Renders both themes into `.engineering/<run>/using-doc-creation/`. Use when asked to make a designed/branded PDF, export a README or doc to PDF, or produce a doc whose mermaid diagrams must appear as real diagrams.
+description: Author a polished, print-ready PDF from a source document by composing hand-written JSX from the @engineering/using-doc-creation component library — ShadCN-styled (light/dark), with a cover, sections, callouts, badges, tables, comparison/panel/key cards, phase & flow sequences, syntax-highlighted code, and mermaid diagrams rendered as real vector images. Renders to light by default (dark via `--theme dark`) into `.engineering/<run>/using-doc-creation/`. Use when asked to make a designed/branded PDF, export a README or doc to PDF, or produce a doc whose mermaid diagrams must appear as real diagrams.
 ---
 
 # using-doc-creation
@@ -104,22 +104,23 @@ page-number element yourself — that is the one piece of page furniture the roo
 to reach for it, is in **[references/authoring.md](references/authoring.md)**. The fixture
 `src/docs/configurator.pdf.tsx` exercises every component and is worth skimming as a worked example.
 
-### 3. Render both themes
+### 3. Render (light by default)
 
 ```bash
 cd "$SKILL" && node --import tsx src/pdf/render.ts "$RUNDIR"
 ```
 
 Run it from `$SKILL` (so `tsx` and the package resolve); `$RUNDIR` is absolute, so the cwd change is
-safe. This reads `$RUNDIR/pdf.tsx` and writes **`$RUNDIR/pdf-light.pdf`** and **`$RUNDIR/pdf-dark.pdf`**. Add
-`--theme light` or `--theme dark` to render just one while iterating. A misspelled theme is rejected
-rather than coerced; a diagram with bad mermaid syntax aborts the render naming it.
+safe. This reads `$RUNDIR/pdf.tsx` and writes **`$RUNDIR/pdf-light.pdf`** — **light is the default**. Add
+`--theme dark` to also render **`$RUNDIR/pdf-dark.pdf`** (or `--theme light` to be explicit). A misspelled
+theme is rejected rather than coerced; a diagram with bad mermaid syntax aborts the render naming it.
 
 ### 4. Verify — always look at the PDF
 
-Do **not** claim success from the exit code alone. Rasterize and inspect both themes, and check
-diagrams render as diagrams (fully inside their cards), nothing overflows the page, and there are no
-large empty gaps. The full protocol is in **[references/verifying.md](references/verifying.md)**.
+Do **not** claim success from the exit code alone. Rasterize and inspect every theme you rendered
+(light by default; both, if you passed `--theme dark`), and check diagrams render as diagrams (fully
+inside their cards), nothing overflows the page, and there are no large empty gaps. The full protocol
+is in **[references/verifying.md](references/verifying.md)**.
 
 Fix and re-render until it holds.
 
