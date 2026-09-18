@@ -40,9 +40,24 @@ single home for a run's spec, plan, markers, and scratch. Beside the spec this s
 also writes the run-scoped approval marker (`.engineering/<run>/to-spec/APPROVED.md`), minted at
 the spec gate below — the marker is the trace that the spec cleared the gate.
 
+## Shaping the spec
+
+Turn the material you were handed — a signal brief, or a triage isolation record, with the
+recommended design from `brainstorming` — into the spec's content by filling **this skill's spec
+template**:
+
+- `references/templates/markdown/spec.md` — the Markdown form, which is also the Tier-1 **format
+  contract**: it carries every section (§0 ELI5 → §8), the source mapping (how a signal brief and a
+  triage record each land on the sections), and the rules. Follow it; do not restate it here.
+- `references/templates/pdf/spec.pdf.tsx` — the PDF form, same sections.
+
+Shape, don't transcribe: §0 ELI5 is a plain-language synthesis written last; §6 Approach is the
+recommended design (the chosen approach, the alternatives it beat, any boundary shaped), not the
+brief. Where the material is thin, the section says so and the gap goes to §8 — never invent.
+
 ## Presentation artifact
 
-Hand the spec's path (`.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`) to
+Hand the filled spec's path (`.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`) to
 `engineering:using-doc-creation`.
 
 ## The spec gate — write a draft, then hold for approval
@@ -50,7 +65,8 @@ Hand the spec's path (`.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`) to
 This is the pipeline's first human-approval gate, and it lives here, on the spec. This
 skill does not stamp `Approved` on faith:
 
-1. **Write it as a draft.** Set the status line to `Status: Draft` (see `${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation/references/spec-format.md`).
+1. **Write it as a draft.** Set the status line to `Status: Draft` (see this skill's spec template,
+   `references/templates/markdown/spec.md`).
 2. **Present the draft, then put the verdict to the human as a structured choice** — `Approve` or
    `Request changes` — following `engineering:using-questions` for how to shape and ask it, and
    for its degraded-run fallback where no question tool exists. Show the

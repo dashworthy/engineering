@@ -182,7 +182,6 @@ the row for your document, then the column for your chosen format.
 
 | Document type | PDF template | Markdown template | Use it for |
 |---|---|---|---|
-| Spec (Tier-1) | `references/templates/pdf/spec.pdf.tsx` | `references/templates/markdown/spec.md` | A Tier-1 spec: cover + page-numbered ToC + §0 ELI5 through §8 open questions (goals & Deferred as tables). The format contract is `references/spec-format.md`. |
 | Plan | `references/templates/pdf/plan.pdf.tsx` | `references/templates/markdown/plan.md` | An implementation plan: cover + ToC, Global Constraints, one section per task (TDD-wired steps + verification), and a Done-when. |
 
 No template fits? PDF — author `pdf.tsx` from the component library directly (step 2 above); Markdown —
@@ -194,5 +193,4 @@ write plain GFM mirroring the closest template's sections.
 - **[references/verifying.md](references/verifying.md)** — the PDF inspection protocol.
 - **[references/templates/pdf/](references/templates/pdf/)** — ready-to-fill PDF templates (see **Templates** above).
 - **[references/templates/markdown/](references/templates/markdown/)** — ready-to-fill Markdown templates.
-- **[references/spec-format.md](references/spec-format.md)** — the Tier-1 spec format contract (relocated here; the `spec` skill reads it).
 - **[README.md](README.md)** — the package reference (component list, styling boundary, CLI).
