@@ -7,7 +7,8 @@ introduction, worked examples. The shape below is genre-generic: it describes *h
 any feature, and carries no content from any one project. Fill every section that earns its place;
 a small feature earns fewer, and OPTIONAL sections are dropped outright when they don't apply.
 
-This is the markdown twin of the designed `feature-doc` PDF (`skills/feature-doc`): the **same
+This is the markdown twin of the designed feature-doc PDF template
+(`skills/using-pdf-creation/references/templates/feature-doc.pdf.tsx`): the **same
 section set and order**, rendered in plain markdown instead of react-pdf components — a component
 map becomes a ```mermaid``` fence, a callout becomes a blockquote, a comparison card becomes a
 two-column table. The three emoji tiers are progressive disclosure made visible — a reader descends
@@ -158,7 +159,7 @@ Notes for the author:
 - **Progressive disclosure is the spine.** Overview before technical reference before dev/testing —
   the newcomer's summary first, the schema and edge cases last. Never make a reader pass the hard
   material to reach the easy overview.
-- **Same shape as the PDF.** The section set and order mirror the `feature-doc` skill's template, so
+- **Same shape as the PDF.** The section set and order mirror the feature-doc PDF template, so
   a feature reads the same whether it is exported as a designed PDF or read as markdown in the repo.
   Drop the OPTIONAL sections a feature doesn't need rather than padding them.
 - **Optimise for agents and humans both.** The reference table and the per-interface implementations

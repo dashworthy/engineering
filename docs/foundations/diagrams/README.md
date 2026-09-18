@@ -110,7 +110,7 @@ The diagram-specific assertions live in two of the suite's checks:
 ```bash
 sh engineering/tests/validate.sh            # diagram-rules width budget + the consider-a-diagram
                                             # obligation on using-diagrams and the authoring phases
-sh engineering/tests/using-documentation.sh # the feature-doc producer composes using-diagrams
+sh engineering/tests/using-documentation.sh # using-documentation composes using-diagrams
 ```
 
 `validate.sh` asserts that `references/diagram-rules.md` exists and states the 72-column width
