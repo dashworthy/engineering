@@ -19,10 +19,20 @@ format first** (below), then follow that format's workflow.
 
 Pick the format the reader actually needs, then jump to its section:
 
-| Format | What it is | Reach for it when | Workflow |
-|---|---|---|---|
-| **PDF** | An A4, designed, print-ready document: cover, ShadCN-styled components, real vector mermaid diagrams. Light by default; dark opt-in. | The doc is a handoff, a leadership/architecture-review artifact, or anything where the *look* matters and the mermaid diagrams must render as diagrams. | [PDF format](#pdf-format) — author `pdf.tsx`, render, inspect. |
-| **Markdown** | Plain portable GFM: headings, tables, fenced code, mermaid as ` ```mermaid ` code-blocks. No styling, no build step. | The doc lives in a repo or wiki, must be version-controlled and diff-able, and needs to render anywhere with nothing installed. | [Markdown format](#markdown-format) — copy a `.md` template, fill it, done. |
+| Format | Selection | What it is | Reach for it when | Workflow |
+|---|---|---|---|---|
+| **PDF** | **Default** | An A4, designed, print-ready document: cover, ShadCN-styled components, real vector mermaid diagrams. Light by default; dark opt-in. | The doc is a handoff, a leadership/architecture-review artifact, or anything where the *look* matters and the mermaid diagrams must render as diagrams. | [PDF format](#pdf-format) — author `pdf.tsx`, render, inspect. |
+| **Markdown** | Fallback | Plain portable GFM: headings, tables, fenced code, mermaid as ` ```mermaid ` code-blocks. No styling, no build step. | The doc lives in a repo or wiki, must be version-controlled and diff-able, and needs to render anywhere with nothing installed. | [Markdown format](#markdown-format) — copy a `.md` template, fill it, done. |
+
+**When a caller defers the choice** — a pipeline phase that hands off its doc *by path* (e.g. `spec`,
+`plan`) rather than a human picking — the format decision is made **here**, not by the caller. That
+caller's Markdown already exists and always ships: it is the artifact downstream phases read (`plan`
+reads the spec, `build` reads the plan), so a concession the pipeline depends on, not a format choice.
+On top of that always-present Markdown, **render the PDF by default** as the designed copy — offer the
+human the choice via `engineering:using-questions`, recommended answer (PDF) first — and **skip the PDF
+only when it can't be produced** (no Node/Chromium, a render failure, or the human declines). Markdown
+always ships; the PDF is the optional presentation copy. The caller supplies only the path; every
+decision about format lives here.
 
 If a ready template fits (see [Templates](#templates)), start from it in the chosen format rather than
 authoring from scratch.

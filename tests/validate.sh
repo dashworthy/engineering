@@ -277,6 +277,14 @@ grep_flat "$SF" "## 0. ELI5"; check $? "SPEC-FORMAT carries the section-0 ELI5 s
 SSK="$PLUGIN/skills/spec/SKILL.md"
 grep_flat "$SSK" "ELI5"; check $? "spec conductor names the ELI5 section"
 
+# --- using-doc-creation: the format matrix owns the default/fallback ----------
+# Format selection is a property of using-doc-creation's "Choose a format" matrix, not restated by
+# each caller: PDF is the default deliverable, Markdown the fallback. spec/plan defer to it (below),
+# so guard the matrix actually carries that deferred-caller selection.
+DCSK="$PLUGIN/skills/using-doc-creation/SKILL.md"
+grep_flat "$DCSK" "Choose a format"; check $? "using-doc-creation carries the format matrix"
+grep_flat "$DCSK" "When a caller defers the choice"; check $? "the format matrix owns the default/fallback for deferred callers"
+
 # --- code-review: opt-in deep review with three findings routes --------------
 # The deep-review orchestrator folded in from guardtower is report-only, but after reconciling it
 # puts the fate of the findings to the human: keep them local, post them to the PR, or hand them to
