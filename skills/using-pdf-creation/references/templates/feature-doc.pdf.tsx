@@ -11,6 +11,16 @@
 // where <RUNDIR> is the absolute path printed by
 //   sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" pdf <slug> --fresh
 //
+// BEFORE FILLING — map the feature from the SOURCE, not from memory:
+//   • Entry points (controllers, commands, endpoints), the core services, and their dependencies.
+//   • The data model (entities, ownership, invariants) — enough for a real ER diagram.
+//   • The process flow from trigger to result — enough for a real pipeline diagram.
+//   • The wire contract (request/response, config payloads) and the class carrying each responsibility.
+//   • The edge cases / failure modes the code actually handles, and how the feature is tested.
+//   A target's own README is a source to verify against the code, not gospel.
+// THEME — ask the reader light or dark (default light) via engineering:using-questions before
+//   rendering, and render only the chosen theme unless they ask for both.
+//
 // This file COMPILES AND RENDERS AS-IS (with placeholder copy) so you can preview the structure
 // before filling it. Discipline:
 //   • Describe what the code ACTUALLY does — read the target, don't invent behavior.
