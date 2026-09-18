@@ -14,9 +14,17 @@
 //   • EVIDENCE  = real in-repo code (the mechanism). Never a docblock/comment.
 //   • DEV_NOTES = a docblock/comment about an EXTERNAL/unverified boundary. Narration, not proof.
 //   • PROOFS    = a REAL passing test only. No test → leave the id out. Never fake a proof note.
-//     Proofs are OPT-IN: they appear only when the human asked for verification tests to be built.
 //   • Every code sample gets a path:line citation in its caption.
 //   • Render BOTH themes and look at the pages before claiming done.
+//
+// Verification tests (PROOFS) are OPT-IN. Before filling the DATA section, ask the human — as a
+// structured choice, following engineering:using-questions for how to shape it and its degraded-run
+// fallback — whether to build verification tests for the findings.
+//   • On YES: write a real characterization test per finding that asserts *current* behaviour (so it
+//     passes today), run them, and fill PROOFS with only the tests that actually pass. A finding whose
+//     test was not built or did not pass simply has no Proof block; never fake a proof. Building
+//     characterization tests writes new test files only — it never edits the reviewed code.
+//   • On NO: leave PROOFS empty and omit every Proof block.
 // -----------------------------------------------------------------------------------------------
 
 import {
