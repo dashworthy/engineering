@@ -14,9 +14,17 @@
 //   • EVIDENCE  = real in-repo code (the mechanism). Never a docblock/comment.
 //   • DEV_NOTES = a docblock/comment about an EXTERNAL/unverified boundary. Narration, not proof.
 //   • PROOFS    = a REAL passing test only. No test → leave the id out. Never fake a proof note.
-//     Proofs are OPT-IN: they appear only when the human asked for verification tests to be built.
 //   • Every code sample gets a path:line citation in its caption.
 //   • Render BOTH themes and look at the pages before claiming done.
+//
+// Verification tests (PROOFS) are OPT-IN. Before filling the DATA section, ask the human — as a
+// structured choice, following engineering:using-questions for how to shape it and its degraded-run
+// fallback — whether to build verification tests for the findings.
+//   • On YES: write a real characterization test per finding that asserts *current* behaviour (so it
+//     passes today), run them, and fill PROOFS with only the tests that actually pass. A finding whose
+//     test was not built or did not pass simply has no Proof block; never fake a proof. Building
+//     characterization tests writes new test files only — it never edits the reviewed code.
+//   • On NO: leave PROOFS empty and omit every Proof block.
 // -----------------------------------------------------------------------------------------------
 
 import {
@@ -117,7 +125,7 @@ const PROOFS: Record<string, Proof> = {
   // },
 };
 
-// ⟨finding-blocks: DATA⟩ — a type-specific block (references/finding-blocks/) pastes its DATA map
+// ⟨finding-blocks: DATA⟩ — a type-specific block (finding-blocks/) pastes its DATA map
 // here, keyed by finding id: EXPLOIT (security), TIMELINE (concurrency), DATA_STATE (data-safety),
 // COMPAT (api-contract). Only findings whose id appears in a block's map render that block.
 
@@ -158,7 +166,7 @@ export default async (theme: PdfTheme) => {
   const proofHl = await hlBy(PROOFS);
   // ⟨finding-blocks: pre-highlight⟩ — a type-specific block that shows code pastes its
   // pre-highlight line here, e.g. (security):  const exploitHl = await hlBy(EXPLOIT);
-  // See references/finding-blocks/README.md.
+  // See finding-blocks/README.md.
 
   const themeRows = THEME_ORDER.map((t) => [
     t, THEME_META[t].focus, String(ENTRIES.filter((e) => e.theme === t).length),
@@ -235,7 +243,7 @@ export default async (theme: PdfTheme) => {
               // ⟨finding-blocks: type-specific sections⟩ — paste a block's render fragment here,
               // right after the problem and before the Evidence/Current/Fix sequence. A finding
               // renders a block only when its id is present in that block's map (e.g. EXPLOIT[e.id]).
-              // See references/finding-blocks/README.md for the catalog.
+              // See finding-blocks/README.md for the catalog.
 
               // Evidence — real code (optional)
               ...(EVIDENCE[e.id] ? [
