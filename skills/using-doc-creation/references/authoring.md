@@ -1,8 +1,9 @@
-# Authoring reference — components & when to use each
+# Authoring reference — PDF components & when to use each
 
-Every component you compose a `pdf.tsx` from, imported from `@engineering/using-doc-creation`. Props are shown as
-their TypeScript shape. The fixture `src/docs/configurator.pdf.tsx` uses all of them against real
-content — read it as a worked example.
+Every component you compose a **PDF** `pdf.tsx` from, imported from `@engineering/using-doc-creation`. (This
+catalog is the PDF format only; the Markdown format is plain GFM authored from its own template — see
+the skill's Markdown section.) Props are shown as their TypeScript shape. The fixture
+`src/docs/gallery.pdf.tsx` uses all of them against real content — read it as a worked example.
 
 Two rules cut across everything:
 

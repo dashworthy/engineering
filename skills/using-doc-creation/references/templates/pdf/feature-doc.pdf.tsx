@@ -9,7 +9,7 @@
 //     && node --import tsx src/pdf/render.ts "<RUNDIR>" --theme <light|dark>
 //
 // where <RUNDIR> is the absolute path printed by
-//   sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" pdf <slug> --fresh
+//   sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" using-doc-creation <slug> --fresh
 //
 // BEFORE FILLING — map the feature from the SOURCE, not from memory:
 //   • Entry points (controllers, commands, endpoints), the core services, and their dependencies.
