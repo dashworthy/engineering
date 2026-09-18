@@ -42,13 +42,13 @@ the spec gate below — the marker is the trace that the spec cleared the gate.
 
 ## How it renders
 
-Follow `references/SPEC-FORMAT.md` — do not restate its shape here or
+Follow `${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation/references/spec-format.md` — do not restate its shape here or
 reinvent it inline. Every section in that file gets filled; a section with nothing to
 say gets a line explaining why, not silence.
 
 §0 ELI5 is not mapped from any source section — it is a plain-language synthesis of the
 finished spec, written last from the completed sections and placed first for easy consumption.
-Every spec carries one; see `references/SPEC-FORMAT.md`.
+Every spec carries one; see `${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation/references/spec-format.md`.
 
 Two source shapes map onto the one format — and the mapping is by meaning, not by
 section number:
@@ -58,7 +58,7 @@ section number:
   off: the chosen approach, the alternatives it beat, and — when the approach turned on a
   boundary — the boundary `using-codebase-design` shaped. Together these are §6's content.
   When that design breaks the work into increments, they travel here too: §6 lays them out as
-  one ordered list (see `references/SPEC-FORMAT.md`), still within this single spec.
+  one ordered list (see `${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation/references/spec-format.md`), still within this single spec.
 - a **triage** isolation record maps onto the same eight sections with two repurposed:
   §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including
   why the smaller fixes on the table were rejected, not only the one that won.
@@ -71,7 +71,7 @@ consider a diagram via `engineering:using-diagrams`.
 This is the pipeline's first human-approval gate, and it lives here, on the spec. This
 skill does not stamp `Approved` on faith:
 
-1. **Write it as a draft.** Set the status line to `Status: Draft` (see `references/SPEC-FORMAT.md`).
+1. **Write it as a draft.** Set the status line to `Status: Draft` (see `${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation/references/spec-format.md`).
 2. **Present the draft, then put the verdict to the human as a structured choice** — `Approve` or
    `Request changes` — following `engineering:using-questions` for how to shape and ask it, and
    for its degraded-run fallback where no question tool exists. Show the

@@ -19,10 +19,20 @@ format first** (below), then follow that format's workflow.
 
 Pick the format the reader actually needs, then jump to its section:
 
-| Format | What it is | Reach for it when | Workflow |
-|---|---|---|---|
-| **PDF** | An A4, designed, print-ready document: cover, ShadCN-styled components, real vector mermaid diagrams. Light by default; dark opt-in. | The doc is a handoff, a leadership/architecture-review artifact, or anything where the *look* matters and the mermaid diagrams must render as diagrams. | [PDF format](#pdf-format) — author `pdf.tsx`, render, inspect. |
-| **Markdown** | Plain portable GFM: headings, tables, fenced code, mermaid as ` ```mermaid ` code-blocks. No styling, no build step. | The doc lives in a repo or wiki, must be version-controlled and diff-able, and needs to render anywhere with nothing installed. | [Markdown format](#markdown-format) — copy a `.md` template, fill it, done. |
+| Format | Selection | What it is | Reach for it when | Workflow |
+|---|---|---|---|---|
+| **PDF** | **Default** | An A4, designed, print-ready document: cover, ShadCN-styled components, real vector mermaid diagrams. Light by default; dark opt-in. | The doc is a handoff, a leadership/architecture-review artifact, or anything where the *look* matters and the mermaid diagrams must render as diagrams. | [PDF format](#pdf-format) — author `pdf.tsx`, render, inspect. |
+| **Markdown** | Fallback | Plain portable GFM: headings, tables, fenced code, mermaid as ` ```mermaid ` code-blocks. No styling, no build step. | The doc lives in a repo or wiki, must be version-controlled and diff-able, and needs to render anywhere with nothing installed. | [Markdown format](#markdown-format) — copy a `.md` template, fill it, done. |
+
+**When a caller defers the choice** — a pipeline phase that hands off its doc *by path* (e.g. `spec`,
+`plan`) rather than a human picking — the format decision is made **here**, not by the caller. That
+caller's Markdown already exists and always ships: it is the artifact downstream phases read (`plan`
+reads the spec, `build` reads the plan), so a concession the pipeline depends on, not a format choice.
+On top of that always-present Markdown, **render the PDF by default** as the designed copy — offer the
+human the choice via `engineering:using-questions`, recommended answer (PDF) first — and **skip the PDF
+only when it can't be produced** (no Node/Chromium, a render failure, or the human declines). Markdown
+always ships; the PDF is the optional presentation copy. The caller supplies only the path; every
+decision about format lives here.
 
 If a ready template fits (see [Templates](#templates)), start from it in the chosen format rather than
 authoring from scratch.
@@ -174,6 +184,8 @@ the row for your document, then the column for your chosen format.
 |---|---|---|---|
 | Feature / architecture handoff | `references/templates/pdf/feature-doc.pdf.tsx` | `references/templates/markdown/feature-doc.md` | A bundle, module, or feature's architecture: plain-language overview, component map, ER model, process flow, wire contract, component responsibilities, edge cases, and how to test it. |
 | Code-review finding handoff | `references/templates/pdf/code-review-handoff.pdf.tsx` | `references/templates/markdown/code-review-handoff.md` | Reconciled code-review findings as a report: cover/title, a contents list, and one section per finding (current code, proposed fix, why it works). The PDF template layers type-specific views from the sibling `references/templates/pdf/finding-blocks/` (security, concurrency, data-safety, api-contract); the Markdown template folds those in inline. |
+| Spec (Tier-1) | `references/templates/pdf/spec.pdf.tsx` | `references/templates/markdown/spec.md` | A Tier-1 spec: cover + page-numbered ToC + §0 ELI5 through §8 open questions (goals & Deferred as tables). The format contract is `references/spec-format.md`. |
+| Plan | `references/templates/pdf/plan.pdf.tsx` | `references/templates/markdown/plan.md` | An implementation plan: cover + ToC, Global Constraints, one section per task (TDD-wired steps + verification), and a Done-when. |
 
 No template fits? PDF — author `pdf.tsx` from the component library directly (step 2 above); Markdown —
 write plain GFM mirroring the closest template's sections.
@@ -184,4 +196,5 @@ write plain GFM mirroring the closest template's sections.
 - **[references/verifying.md](references/verifying.md)** — the PDF inspection protocol.
 - **[references/templates/pdf/](references/templates/pdf/)** — ready-to-fill PDF templates (see **Templates** above).
 - **[references/templates/markdown/](references/templates/markdown/)** — ready-to-fill Markdown templates.
+- **[references/spec-format.md](references/spec-format.md)** — the Tier-1 spec format contract (relocated here; the `spec` skill reads it).
 - **[README.md](README.md)** — the package reference (component list, styling boundary, CLI).

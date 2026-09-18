@@ -50,7 +50,7 @@ if grep -rq "Verity applies once implementation work is finished" "$eng/hooks" 2
 # (brainstorming), which hands the recommended design to the spec phase. The spec skill's run-dir
 # slug stays `to-spec`; the spec is still written under .engineering/<run>/spec/.
 SPECWRITE="$eng/skills/spec/SKILL.md"
-SPECFMT="$eng/skills/spec/references/SPEC-FORMAT.md"
+SPECFMT="$eng/skills/using-doc-creation/references/spec-format.md"
 grep -q ".engineering/<run>/spec/" "$SPECWRITE" || { echo "FAIL: spec-writing stage spec path"; fail=1; }
 grep -q "engineering:brainstorming" "$eng/skills/signal/SKILL.md" || { echo "FAIL: signal skill must hand the brief to the design phase"; fail=1; }
 grep -q "engineering:brainstorming" "$eng/skills/triage/SKILL.md" || { echo "FAIL: triage entrance must reach the design phase"; fail=1; }
