@@ -22,7 +22,10 @@ for gone in conducting-discovery expanding-scope sequencing-requirements; do
 done
 grep -q "references/interrogating-requirements.md" "$SKILL" || { echo "FAIL: signal skill must load the shared interrogating-requirements reference"; fail=1; }
 if grep -q "engineering:conducting-discovery" "$SKILL"; then echo "FAIL: signal must not name the removed conductor"; fail=1; fi
-grep -q "\.engineering/" "$SKILL" || { echo "FAIL: run dir not redirected to .engineering/"; fail=1; }
+# The .engineering/ run-dir convention now lives in the shared establishing-run reference, which
+# run-context.sh returns paths under; signal points to it rather than restating the path inline.
+grep -q "references/establishing-run.md" "$SKILL" || { echo "FAIL: signal must load the shared establishing-run reference"; fail=1; }
+grep -q "\.engineering/" references/establishing-run.md || { echo "FAIL: establishing-run.md must document the .engineering/ run dir"; fail=1; }
 # Isolation moved to build: signal runs on the current branch and carries no Isolate beat.
 ! grep -q "^## 1\. Isolate" "$SKILL" || { echo "FAIL: signal must not carry an Isolate beat (isolation is build's job now)"; fail=1; }
 grep -q "engineering:brainstorming" "$SKILL" || { echo "FAIL: signal must hand the brief to the design design gate"; fail=1; }

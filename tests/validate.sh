@@ -157,7 +157,9 @@ if [ -f "$IDB" ]; then
 fi
 grep_flat "$CDSK" "Tenancy boundary"; check $? "using-codebase-design SKILL.md has a Tenancy boundary section"
 grep_flat "$CDSK" "determine the app's tenancy model"; check $? "Tenancy boundary section states determine-model behavior"
-grep_flat "$CDSK" "consult only the matching companion"; check $? "Tenancy boundary section states consult-only-the-matching behavior"
+# The consult-and-force detail lives in the tenancy-boundary reference the SKILL.md points to.
+grep_flat "$CDSK" "tenancy-boundary.md"; check $? "using-codebase-design SKILL.md points to the tenancy-boundary reference"
+grep_flat "$CD/tenancy-boundary.md" "consult only the matching companion"; check $? "tenancy-boundary reference states consult-only-the-matching behavior"
 grep_flat "$CDSK" "force the tenant-boundary decision"; check $? "Tenancy boundary section states force-when-relevant behavior"
 
 # --- no personal emails (GitHub addresses only) ------------------------------
@@ -233,7 +235,9 @@ grep_flat "$WP" "Interfaces block"; check $? "plan has tasks carry a code-sketch
 # Anti-deferral: plan creation never asks the user to defer requested work, and the self-review
 # pass checks that no requested work was silently dropped from the plan.
 grep_flat "$WP" "deferral menu dropped on the user"; check $? "plan creation does not ask the user to defer requested work"
-grep_flat "$WP" "No deferred request"; check $? "plan self-review checks for silently deferred requested work"
+# The self-review checklist (incl. the No-deferred-request check) lives in the reference plan points to.
+grep_flat "$WP" "self-review-checklist.md"; check $? "plan points to the self-review checklist reference"
+grep_flat "$PLUGIN/skills/plan/references/self-review-checklist.md" "No deferred request"; check $? "plan self-review reference checks for silently deferred requested work"
 grep_flat "$WP" "refusing-deferral"; check $? "plan names engineering:refusing-deferral"
 # The review phase must sit before the plan gate: the arch-lens load appears earlier in the
 # file than the plan-approval marker the gate mints.

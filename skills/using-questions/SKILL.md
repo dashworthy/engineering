@@ -7,6 +7,12 @@ description: "Put a question to a human as a clear, structured choice — a shor
 
 Say this first, plainly: `Using the using-questions skill to put a clear question to the human.`
 
+## What this guarantees
+
+One thing: every question this pipeline puts to a human is a structured choice — the recommended
+answer first, an always-open free-form escape, and a plain-text fallback where no question tool
+exists — worded so the human can answer it without decoding it.
+
 ## The mechanics — how every question is shaped
 
 - **Render it as a structured choice, using a tool to ask it where one is available.** The
