@@ -1,16 +1,17 @@
 # Verifying the PDF — always look at it
 
 A clean exit code means the render did not throw. It does **not** mean the PDF is right. Rasterize
-both themes to images and read them before claiming success.
+every theme you rendered to images and read them before claiming success.
 
 ## Render, then rasterize
 
 ```bash
-# render both themes (from step 3 of the skill)
+# render (light by default; add --theme dark for the dark PDF too) — from step 3 of the skill
 cd "$SKILL" && node --import tsx src/pdf/render.ts "$RUNDIR"
 
 # rasterize to PNGs to inspect (needs poppler: brew install poppler)
 pdftoppm -png -r 110 "$RUNDIR/pdf-light.pdf" /tmp/lt
+# only if you rendered dark:
 pdftoppm -png -r 110 "$RUNDIR/pdf-dark.pdf"  /tmp/dk
 ```
 
@@ -38,5 +39,5 @@ Check **both** themes — a tint that reads in light can wash out in dark and vi
 - **A diagram looks small** — judge it by rasterizing that page at `-r 300` and zooming; the PDF is
   vector, so it stays sharp.
 
-Fix and re-render until all three checks hold in both themes. Iterate on one theme with `--theme
-light` (or `dark`) to shorten the loop, but do a final pass on both.
+Fix and re-render until all three checks hold in every theme you rendered. Light is the default; if
+you also rendered `--theme dark`, do a final pass on both.
