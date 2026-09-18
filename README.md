@@ -208,7 +208,7 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 
 | Owner | References |
 |---|---|
-| `spec` | `references/SPEC-FORMAT.md` |
+| `spec` | `using-doc-creation/references/spec-format.md` (relocated into `using-doc-creation`) |
 | `using-codebase-design` | `references/SHAPE-REVIEW.md`, `DESIGN-IT-TWICE.md`, `PATTERN-MATRIX.md`, `DEEPENING.md`, `TENANCY-ISOLATED-DB.md`, `TENANCY-SHARED-DB.md` |
 | `plan` | `references/arch-lens.md` |
 | `build` | `references/establishing-workspace.md`, `tdd-loop.md` (+ `mocking.md`, `tests.md`), `review-protocol.md` + `lenses/standards.md`, `spec.md`, `eli5.md` |
