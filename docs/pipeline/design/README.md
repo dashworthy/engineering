@@ -15,12 +15,10 @@ in the loop. It runs in three moves that flow into one another: **brainstorming*
 recommends an approach, **using-codebase-design** shapes any interface that approach leans on, and
 **spec** writes the decision down and gates it.
 
-**Brainstorming** is the dialogue. It starts by reading context — but it consults the project's
-feature docs before it greps. Where a `docs/` tree with a `docs/toc.md` index exists (what the
-`documenting` phase produces), brainstorming reads the index first, follows it to the feature docs
-this work touches, and uses their named modules and boundaries to aim its reading of the actual
-code — a narrow read instead of a grep that sprawls the whole tree. The docs it consulted get
-recorded, because the spec will cite them. Then it puts **2–3 genuinely different approaches** on the
+**Brainstorming** is the dialogue. It starts by reading context — the files the work will touch,
+any docs sitting near them, and recent commits in the area — so the approach extends how the
+neighborhood already does things instead of fighting it. Then it puts **2–3 genuinely different
+approaches** on the
 table, each with its real trade-offs — what it costs to build, what it costs to live with, what it
 makes harder later — and recommends one, marked `(Recommended)`, as a structured choice the human
 selects from rather than a wall of prose. One approach becomes one design, one spec, one plan; a
@@ -85,7 +83,6 @@ writer that holds the gate.
 | Area | Unit | Responsibility |
 |---|---|---|
 | Dialogue | `skills/brainstorming/SKILL.md` | Explores context, proposes 2–3 approaches with trade-offs, recommends one as a structured choice, invokes boundary-shaping when the approach turns on a seam, then hands off. Does **not** write the spec, design interface internals, or interrogate requirements. |
-| Doc consult | `skills/brainstorming/references/consulting-documentation.md` | Drives the Explore-context step to read `docs/toc.md` before greps, target code reading with what it finds, and record the docs consulted so the spec's §7 cites them. Docs are a guide; the code is the truth. |
 | Boundary shaping | `skills/using-codebase-design/SKILL.md` | Shapes one module interface deep-not-shallow from two competing sketches (design mode), or judges one supplied shape against the same lenses (argument `review`). Shapes the boundary in front of it; does not audit the codebase, decide what to build, or implement. |
 | Depth & leakage | `skills/using-codebase-design/references/DEEPENING.md`, `SHAPE-REVIEW.md`, `PATTERN-MATRIX.md`, `DESIGN-IT-TWICE.md` | The mechanics: concrete deepening moves, the SOLID + anti-pattern evaluative lens, the 23-pattern selectable matrix (proposed only when a trigger fires), and how to generate a genuinely different second design and choose between the two. |
 | Tenancy | `skills/using-codebase-design/references/TENANCY-SHARED-DB.md`, `TENANCY-ISOLATED-DB.md` | The model-specific isolation decision, forced as a required part of any boundary touching tenant-scoped data in a multi-tenant app — the shared-DB query-scope companion or the isolated-DB connection companion, whichever matches the stated model. |
@@ -125,14 +122,13 @@ and their markers:
 sh engineering/tests/suite.sh
 
 # The checks that bear on the design phase
-sh engineering/tests/consulting-docs.sh        # brainstorming reads docs/toc.md before greps + spec §7 citation
 sh engineering/tests/absorb-approval-gate.sh   # the spec gate is a human gate; the design dialogue holds none
 sh engineering/tests/consumable-markdown.sh    # the shared style reference the spec renders under
 sh engineering/tests/frontmatter.sh            # every skill's frontmatter (global check; covers the three design skills among them)
 ```
 
 To change how the dialogue behaves, edit `skills/brainstorming/SKILL.md` (approach proposal, hand-off,
-right-sizing) or its `references/consulting-documentation.md` (the doc-consult order). To change how a
+right-sizing). To change how a
 boundary is shaped, edit `skills/using-codebase-design/SKILL.md` or its references under
 `skills/using-codebase-design/references/` (deepening moves, the SOLID/anti-pattern lens, the pattern
 matrix, design-it-twice, the two tenancy companions). To change the spec's shape or the gate, edit

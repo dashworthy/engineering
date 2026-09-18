@@ -12,16 +12,15 @@ It owns exactly two guarantees and nothing else. First, the **independence gate*
 
 **The independence gate** is the rule the rest stands on. Two units are independent when neither reads what the other writes and neither writes what the other reads. Two agents editing the same file are not independent. One agent that needs an artifact another produces partway through is not independent. But two agents merely *reading* the same file share nothing that breaks the gate — reading in common is fine; writing, or depending on another's order, is the hazard. The caller must be able to say, for every pair in the batch, which of them touches what the other does; if it can't, the answer is to stop and split the work into ordered waves, never to guess and fan out anyway.
 
-**Worked example — the documentation validation fan-out.** After the `documenting` phase writes a feature doc, it has to check the doc four ways: is every claim accurate against the shipped diff, does the doc follow the template, do its links resolve, does it stay in scope. Those four checks are independent — each one only *reads* the same finished doc plus its own slice of material (the diff, the template, the `docs/` tree, the spec and plan), and none of them writes anything the others read. So the validation protocol hands each check to its own reviewer and dispatches all four at once:
+**Worked example — the build review fan-out.** When a task's diff clears the inline floor, the build phase's review protocol checks it several ways at once: does it stand as good code on its own terms, does it do what the spec asked, and does every docblock read clearly to someone outside the team. Those lenses are independent — each one only *reads* the same finished diff plus its own slice of material (the standards, the spec, the changed prose), and none of them writes anything the others read. So the review protocol hands each lens to its own reviewer and dispatches them all at once:
 
 | Reviewer | Reads (shared + its own slice) | Returns |
 |---|---|---|
-| Accuracy | the doc + the shipped whole-branch diff | claims the diff contradicts |
-| Structure | the doc + the feature-doc template | template and prose problems |
-| Links | the doc + the `docs/` tree and `docs/toc.md` | dead links |
-| Scope | the doc + the run's spec and plan | out-of-scope or duplicated coverage |
+| Standards | the diff + the coding standards | code that is poor on its own terms |
+| Spec | the diff + the run's spec | behavior that misses what was asked |
+| ELI5 | the diff + its changed docblocks | prose an outside reader couldn't follow |
 
-The foundation waits for all four to come back, then reconciles them into one report grouped by reviewer: a reviewer that found nothing is reported as a clean lens, not a missing one; a problem two reviewers both raise is carried once, not twice. The `documenting` phase reads that single report and fixes each finding. Four reviews happened at once instead of one after another, and the caller got back one coherent result rather than four loose ones.
+The foundation waits for all of them to come back, then reconciles them into one report grouped by reviewer: a reviewer that found nothing is reported as a clean lens, not a missing one; a problem two reviewers both raise is carried once, not twice. The build loop reads that single report and fixes each finding in the task's own diff. The reviews happened at once instead of one after another, and the caller got back one coherent result rather than several loose ones.
 
 ```mermaid
 flowchart TD
@@ -49,8 +48,7 @@ The detail a reader who will change the wiring needs.
   | Area | Unit | Responsibility |
   |---|---|---|
   | The primitive | `skills/using-parallel-agents/SKILL.md` | States the independence gate, sends the whole wave of `Agent` calls at once, and gathers every return whole before synthesis. Owns the mechanics; owns no task, split, or reconcile shape. |
-  | Consumer — doc validation | `skills/documenting/references/validation-protocol.md` | Orchestrates the four-lens doc review: supplies the split (one lens each) and each lens's slice, fans out via this skill, reconciles the returns into one report. |
-  | Consumer — build review | `skills/build/references/review-protocol.md` | Orchestrates the per-axis code review the same way: one sub-reviewer per lens above the inline floor, fanned out via this skill, reconciled into one report. |
+  | Consumer — build review | `skills/build/references/review-protocol.md` | Orchestrates the per-axis code review: one sub-reviewer per lens above the inline floor, fanned out via this skill, reconciled into one report. |
   | Registry | `README.md` | Lists `using-parallel-agents` among the cross-cutting skills any phase may invoke. |
 
 - **Boundaries & invariants.** The rules a caller must respect — stated here so the next reader does not learn them by breaking one.
@@ -75,6 +73,5 @@ The checks that bear on this foundation:
 | Test | Asserts |
 |---|---|
 | `engineering/tests/validate.sh` | The build review-protocol orchestrator fans out via `using-parallel-agents` and keeps the small-diff inline floor. |
-| `engineering/tests/documenting-phase.sh` | The documenting phase's validation-protocol references `using-parallel-agents` for its fan-out mechanics. |
 
-To change the fan-out or reconcile contract itself, edit `engineering/skills/using-parallel-agents/SKILL.md`. To change how a specific caller splits its work or where its inline floor sits, edit that caller's orchestrator reference (`validation-protocol.md` or `review-protocol.md`), not the primitive.
+To change the fan-out or reconcile contract itself, edit `engineering/skills/using-parallel-agents/SKILL.md`. To change how a specific caller splits its work or where its inline floor sits, edit that caller's orchestrator reference (`review-protocol.md`), not the primitive.
