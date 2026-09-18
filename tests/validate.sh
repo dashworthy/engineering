@@ -169,7 +169,7 @@ grep_flat "$CDSK" "force the tenant-boundary decision"; check $? "Tenancy bounda
 # point; this guard enforces it across every tracked skill and command. node_modules is skipped:
 # a node-based skill (e.g. using-pdf-creation) vendors dependencies there, they are gitignored (never
 # committed), and package-author emails in them are not ours to police.
-grep_flat "$PLUGIN/references/interrogating-requirements.md" "Never record a personal email"
+grep_flat "$PLUGIN/skills/interrogating-requirements/SKILL.md" "Never record a personal email"
 check $? "interrogating-requirements forbids recording a personal email"
 personal_email=$(grep -rhoE --exclude-dir=node_modules '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' "$PLUGIN/skills" "$PLUGIN/references" "$PLUGIN/commands" 2>/dev/null | grep -viE '@users\.noreply\.github\.com$' | sort -u)
 [ -z "$personal_email" ]; check $? "no personal email address appears in any skill/command (GitHub addresses only)"
@@ -432,7 +432,7 @@ grep_flat "$BS" "recommendation first — following \`engineering:using-question
 check $? "brainstorming delegates its approach-choice question to using-questions"
 grep_flat "$BS" "structured choice, following \`engineering:using-questions\`"
 check $? "brainstorming delegates its spec-skip question to using-questions"
-IR="$PLUGIN/references/interrogating-requirements.md"
+IR="$PLUGIN/skills/interrogating-requirements/SKILL.md"
 grep_flat "$IR" "using-questions"; check $? "interrogating-requirements delegates the mechanics to using-questions"
 grep_flat "$IR" "Probe Families"; check $? "interrogating-requirements keeps its Probe Families strategy"
 grep_flat "$IR" "corrected-not-dug"; check $? "interrogating-requirements keeps its correction-mining thread kinds"
@@ -450,7 +450,7 @@ if [ -f "$RL" ]; then
     tr '\n' ' ' < "$RL" | grep -qiF -- "$lens"; check $? "simplify: lens '$lens' present"
   done
   grep_flat "$RL" "observable check"; check $? "simplify: names the observable-check obligation"
-  grep_flat "$RL" "references/interrogating-requirements.md"; check $? "simplify: keeps the shared-interrogation fallback"
+  grep_flat "$RL" "engineering:interrogating-requirements"; check $? "simplify: keeps the shared-interrogation fallback"
 fi
 SK="$PLUGIN/skills/simplify/SKILL.md"
 for f in "$RL" "$SK"; do

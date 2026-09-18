@@ -28,8 +28,8 @@ whether to resume that run.
 
 ## 2. Shape context — interrogate the request
 
-This is the beat particular to signal, and signal always runs it. Load
-`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md` and drive it in the main thread (it
+This is the beat particular to signal, and signal always runs it. Invoke
+`engineering:interrogating-requirements` and drive it in the main thread (it
 is interactive; it cannot run as a dispatched subagent). Supply it the run directory. It self-drives the interrogation and, the moment its gate is met, writes `brief.md` §1–§6 — the
 whole brief, in the main thread, so it is durable. That file is the deliverable, and the brief ends
 at §6. If the request is genuinely trivial, the interrogation says so in one

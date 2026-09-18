@@ -1,7 +1,15 @@
-# Interrogating Requirements (shared entrance reference)
+---
+name: interrogating-requirements
+description: "The shared requirement interrogator: convert a vague request into hard, unambiguous requirements (brief.md §1–§6) before any design, refusing vagueness across six coverage dimensions. The four entrances drive it as their discovery leg — signal as its primary beat; triage, receiving-code-review, and simplify as a fallback. Interactive and main-thread only; writes brief.md §1–§6 and open-threads.md; cannot run as a dispatched subagent."
+---
 
-> Interactive and main-thread only — this cannot run as a dispatched subagent. It is loaded when a
-> request must be interrogated into hard requirements.
+# interrogating-requirements
+
+Say this first, plainly: `Using the interrogating-requirements skill to convert the request into hard requirements.`
+
+> Interactive and main-thread only — this cannot run as a dispatched subagent. It is driven by the
+> entrances (signal as its primary beat; triage, receiving-code-review, and simplify as a fallback)
+> when a request must be interrogated into hard requirements.
 
 ## Overview
 
