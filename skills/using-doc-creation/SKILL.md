@@ -1,6 +1,6 @@
 ---
 name: using-doc-creation
-description: Turn a source document into shareable documentation in one of two formats — a polished, print-ready **PDF** (hand-written JSX from the @engineering/using-doc-creation component library: ShadCN-styled cover, sections, callouts, badges, tables, comparison/panel/key cards, phase & flow sequences, syntax-highlighted code, and mermaid diagrams as real vector images; light by default, dark via `--theme dark`) or plain portable **Markdown** (GFM: headings, tables, fenced code, mermaid as fenced code-blocks) copied from a ready template. Use when asked to make a designed/branded PDF, export a README or doc to PDF, or produce a portable Markdown doc for a repo or wiki.
+description: Turn a source document into shareable documentation in one of two formats — a polished, print-ready **PDF** (hand-written JSX from the @engineering/using-doc-creation component library: ShadCN-styled cover, sections, callouts, badges, tables, comparison/panel/key cards, phase & flow sequences, syntax-highlighted code, and mermaid diagrams as real vector images; light by default, dark via `--theme dark`) or plain portable **Markdown** (GFM: headings, tables, fenced code, mermaid as fenced code-blocks). It is the rendering toolkit — doc-type templates live with the skill that owns each type (spec, plan, code-review, feature-doc) and are handed here to render. Use when asked to make a designed/branded PDF, export a README or doc to PDF, or produce a portable Markdown doc for a repo or wiki.
 ---
 
 # using-doc-creation
@@ -22,7 +22,7 @@ Pick the format the reader actually needs, then jump to its section:
 | Format | Selection | What it is | Reach for it when | Workflow |
 |---|---|---|---|---|
 | **PDF** | **Default** | An A4, designed, print-ready document: cover, ShadCN-styled components, real vector mermaid diagrams. Light by default; dark opt-in. | The doc is a handoff, a leadership/architecture-review artifact, or anything where the *look* matters and the mermaid diagrams must render as diagrams. | [PDF format](#pdf-format) — author `pdf.tsx`, render, inspect. |
-| **Markdown** | Fallback | Plain portable GFM: headings, tables, fenced code, mermaid as ` ```mermaid ` code-blocks. No styling, no build step. | The doc lives in a repo or wiki, must be version-controlled and diff-able, and needs to render anywhere with nothing installed. | [Markdown format](#markdown-format) — copy a `.md` template, fill it, done. |
+| **Markdown** | Fallback | Plain portable GFM: headings, tables, fenced code, mermaid as ` ```mermaid ` code-blocks. No styling, no build step. | The doc lives in a repo or wiki, must be version-controlled and diff-able, and needs to render anywhere with nothing installed. | [Markdown format](#markdown-format) — fill the owning skill's `.md` template (or write GFM), done. |
 
 **When a caller defers the choice** — a pipeline phase that hands off its doc *by path* (e.g. `spec`,
 `plan`) rather than a human picking — the format decision is made **here**, not by the caller. That
@@ -34,8 +34,8 @@ only when it can't be produced** (no Node/Chromium, a render failure, or the hum
 always ships; the PDF is the optional presentation copy. The caller supplies only the path; every
 decision about format lives here.
 
-If a ready template fits (see [Templates](#templates)), start from it in the chosen format rather than
-authoring from scratch.
+If an owning skill supplies a template for your document (see [Templates](#templates)), start from it
+in the chosen format rather than authoring from scratch.
 
 ---
 
@@ -161,36 +161,35 @@ styling: no callout boxes, badges, or cards, and no embedded HTML/CSS — that i
 
 The workflow is just three moves:
 
-1. **Copy** the matching template from `references/templates/markdown/` (see [Templates](#templates))
-   to wherever the doc belongs (e.g. a repo path, or `$RUNDIR` if you want it beside a PDF).
+1. **Start** from the owning skill's Markdown template where there is one (see [Templates](#templates)
+   for which skill owns which doc type), copied to wherever the doc belongs (e.g. a repo path, or
+   `$RUNDIR` if you want it beside a PDF); otherwise write plain GFM by hand.
 2. **Fill** it: follow the template's header comment, replace every placeholder, and delete any
    section the doc doesn't need. Keep mermaid diagrams as ` ```mermaid ` fenced blocks — do not try to
    render them to images.
 3. **Done.** There is nothing to compile or inspect beyond reading the Markdown back. Preview it in a
    GFM viewer if you want to confirm tables and fenced blocks render.
 
-No template fits? Write the Markdown by hand in plain GFM, mirroring the section shape of whichever
-PDF template is closest.
-
 ---
 
 ## Templates
 
-Start from a ready template instead of authoring from scratch when one fits. Each template carries its
-own fill-in instructions in a header comment. **The same document type exists in both formats** — pick
-the row for your document, then the column for your chosen format.
+This skill ships **no document templates** — it is the rendering toolkit. Each doc-type template lives
+with the skill that owns that document type; that skill fills its own template and hands it here to
+render (PDF or Markdown):
 
-| Document type | PDF template | Markdown template | Use it for |
-|---|---|---|---|
-| Plan | `references/templates/pdf/plan.pdf.tsx` | `references/templates/markdown/plan.md` | An implementation plan: cover + ToC, Global Constraints, one section per task (TDD-wired steps + verification), and a Done-when. |
+| Document type | Owning skill |
+|---|---|
+| Feature / architecture handoff | `engineering:feature-doc` |
+| Code-review finding handoff | `engineering:code-review` |
+| Spec (Tier-1) | `engineering:spec` |
+| Plan | `engineering:plan` |
 
-No template fits? PDF — author `pdf.tsx` from the component library directly (step 2 above); Markdown —
-write plain GFM mirroring the closest template's sections.
+Authoring a doc with no owning skill? Author `pdf.tsx` from the component library directly (PDF,
+step 2 above), or write plain GFM by hand (Markdown).
 
 ## Where the rest lives
 
 - **[references/authoring.md](references/authoring.md)** — the PDF component catalog + when-to-use matrix.
 - **[references/verifying.md](references/verifying.md)** — the PDF inspection protocol.
-- **[references/templates/pdf/](references/templates/pdf/)** — ready-to-fill PDF templates (see **Templates** above).
-- **[references/templates/markdown/](references/templates/markdown/)** — ready-to-fill Markdown templates.
 - **[README.md](README.md)** — the package reference (component list, styling boundary, CLI).

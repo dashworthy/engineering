@@ -202,8 +202,10 @@ the plan for approval until the arch-lens review has returned.
 
 ## Presentation artifact
 
-Hand the plan's path (`.engineering/<run>/plan/<YYYY-MM-DD>-<topic>.md`) to
-`engineering:using-doc-creation`.
+The plan is written by filling **this skill's plan template** —
+`references/templates/markdown/plan.md` (the skeleton every downstream phase reads) or
+`references/templates/pdf/plan.pdf.tsx` (same structure). Hand the filled plan's path
+(`.engineering/<run>/plan/<YYYY-MM-DD>-<topic>.md`) to `engineering:using-doc-creation` to render.
 
 ## The plan gate — present the plan, then hold for approval
 
