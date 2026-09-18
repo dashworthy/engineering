@@ -15,7 +15,7 @@
          • The edge cases / failure modes the code actually handles, and how it is tested.
     3. Replace every <…> placeholder and TODO. Delete any section the feature does not need — a
        shorter true doc beats a padded one. Keep the section HEADINGS that remain unchanged (they are
-       the parity contract with the PDF template; test/templates/parity.test.ts checks them).
+       the parity contract with the PDF template; the repo validation in tests/validate.sh checks them).
     4. Keep mermaid diagrams as ```mermaid fenced code-blocks — do NOT render them to images. GitHub
        renders mermaid fences natively; other viewers show the source, which is still readable.
 
