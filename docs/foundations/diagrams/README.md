@@ -73,7 +73,6 @@ their diagrams at the point of introduction.
 | Width rule | `engineering/skills/using-diagrams/references/diagram-rules.md` | The single width budget for the ASCII-in-a-docblock case — 72 columns including the comment leader, light box-drawing characters only. |
 | Consumer — spec | `engineering/skills/spec/SKILL.md`, `engineering/skills/spec/references/SPEC-FORMAT.md` | Carries the consider-a-diagram obligation and places an ER diagram in §7 (or §6 when the model is the approach) and a process-flow diagram in §6. |
 | Consumer — plan | `engineering/skills/plan/SKILL.md` | Carries the consider-a-diagram obligation for the plan it authors. |
-| Consumer — feature doc | `engineering/skills/using-documentation/references/FEATURE-DOC-TEMPLATE.md`, `engineering/skills/using-documentation/SKILL.md` | Renders ER, flow, and state diagrams via the skill at the point of introduction — an ER diagram in the technical reference, a process-flow diagram in the overview where a flow branches. |
 
 **Boundaries & invariants.**
 
@@ -110,7 +109,6 @@ The diagram-specific assertions live in two of the suite's checks:
 ```bash
 sh engineering/tests/validate.sh            # diagram-rules width budget + the consider-a-diagram
                                             # obligation on using-diagrams and the authoring phases
-sh engineering/tests/using-documentation.sh # using-documentation composes using-diagrams
 ```
 
 `validate.sh` asserts that `references/diagram-rules.md` exists and states the 72-column width

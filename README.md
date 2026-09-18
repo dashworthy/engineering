@@ -156,7 +156,7 @@ flowchart LR
     C --> OUT(["recommended design<br/>→ spec + spec gate"]):::done
 ```
 
-### 6. Build backbone — `plan → build → documenting → finish`
+### 6. Build backbone — `plan → build → finish`
 
 Every spec leaves the same way. `plan` turns it into an ordered, bite-sized
 plan — each task carrying a code sketch of the change it makes — then `plan`'s own arch-lens review runs
@@ -165,10 +165,7 @@ plan reaches the second human gate; `engineering:build` drives each task through
 loop gated by an internal per-task review. That review applies three lenses in parallel —
 standards (good code on its own terms), spec (does what was asked), and an ELI5 docblock lens
 that surfaces prose a reader outside the team couldn't follow — and its findings are fixed in the
-task's own diff. Once the branch is green, `documenting` runs on it: it judges whether the run
-changed documented behavior and, when it did, writes or surgically updates the feature's docs under
-`docs/` from what actually shipped and validates them through a four-lens fan-out, before `finish`
-integrates the branch.
+task's own diff. Once the branch is green, `finish` integrates it.
 
 ```mermaid
 flowchart LR
@@ -181,13 +178,12 @@ flowchart LR
     B -->|"per task"| R{"review gate<br/>(3 lenses)"}
     R -->|"findings"| B
     R -->|"pass"| G(["green branch"]):::done
-    G --> DOC["documenting<br/>(write + validate docs)"]
-    DOC --> FIN["finish<br/>(open stacked PRs)"]
+    G --> FIN["finish<br/>(open stacked PRs)"]
 ```
 
 ## Skill suite
 
-The plugin ships **21 skills**: a bootstrap, four entrances, six phase conductors, nine
+The plugin ships **19 skills**: a bootstrap, four entrances, five phase conductors, eight
 cross-cutting skills, and an opt-in deep-review orchestrator. Everything else a phase needs lives as
 reference files the conductor loads, not as a separately discoverable skill.
 
@@ -195,8 +191,8 @@ reference files the conductor loads, not as a separately discoverable skill.
 |---|---|
 | Bootstrap | `using-skills` |
 | Entrances | `signal`, `triage`, `receiving-code-review`, `simplify` |
-| Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `documenting`, `finish` |
-| Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `using-documentation`, `refusing-deferral`, `using-pdf-creation` |
+| Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `finish` |
+| Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `refusing-deferral`, `using-pdf-creation` |
 | Deep review | `code-review` |
 
 Each phase conductor drives its substages from reference files under its own `references/`
@@ -216,8 +212,6 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 | `using-codebase-design` | `references/SHAPE-REVIEW.md`, `DESIGN-IT-TWICE.md`, `PATTERN-MATRIX.md`, `DEEPENING.md`, `TENANCY-ISOLATED-DB.md`, `TENANCY-SHARED-DB.md` |
 | `plan` | `references/arch-lens.md` |
 | `build` | `references/establishing-workspace.md`, `tdd-loop.md` (+ `mocking.md`, `tests.md`), `review-protocol.md` + `lenses/standards.md`, `spec.md`, `eli5.md` |
-| `documenting` | `references/validation-protocol.md`, `lenses/` |
-| `using-documentation` | `references/FEATURE-DOC-TEMPLATE.md`, `REFERENCE-TABLE-FORMAT.md`, `TOC-FORMAT.md` |
 | `finish` | `references/pr-description.md` |
 | `triage` | `references/diagnosing.md` |
 | `receiving-code-review` | `references/review-comment.md` |

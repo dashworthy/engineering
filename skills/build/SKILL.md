@@ -146,13 +146,10 @@ is the one thing it must not do.
 ## Handoff
 
 Once the last task is checked off, report the plan's path and its final commit, then **hand off
-to `engineering:documenting` now** — the documentation phase, which runs on the green branch
-between build and finish: it judges whether the run changed documented behavior and, when it did,
-writes or updates the feature's docs and validates them before finish integrates the branch.
-`documenting` hands to `engineering:finish` in turn — which carries out the finish strategy the
+to `engineering:finish` now** — which carries out the finish strategy the
 plan gate already authorized (open a pull request, or cleanup — the pipeline never merges) without
 asking again, re-verifying green itself first. Deciding *how* the branch integrates is not this
 skill's job; reaching the phase that comes next is. So don't stop at the checked box and hand
 control back with a "want me to finish the branch?" — there is no gate at this seam (the plan gate
-already settled the finish strategy), the plan is complete, and documenting-then-finishing is the
+already settled the finish strategy), the plan is complete, and finishing is the
 next act. Take it.

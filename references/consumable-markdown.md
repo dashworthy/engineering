@@ -1,8 +1,8 @@
 # Consumable markdown (shared conventions)
 
 One reference, cited by everything in this plugin that renders a document a human or an agent
-has to *consume* — the Tier-1 spec format and the feature-doc template both point here rather
-than each restating a house style that would drift. These are conventions for making a document
+has to *consume* — the Tier-1 spec format points here rather
+than restating a house style that would drift. These are conventions for making a document
 scannable and quick to orient in; they are not a document's structure. The structure belongs to
 whatever cites this file — its sections, its order, its required fields. This file only says how
 to render whatever those sections hold so a reader gets the point fast and finds the detail

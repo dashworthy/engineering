@@ -1,6 +1,6 @@
 #!/bin/sh
 # The shared consumable-markdown reference must exist and carry its load-bearing conventions,
-# so both SPEC-FORMAT and the feature-doc template can cite one source of truth.
+# so SPEC-FORMAT can cite one source of truth.
 set -e
 ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
 REF="$ROOT/references/consumable-markdown.md"

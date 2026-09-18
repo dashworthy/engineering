@@ -420,7 +420,7 @@ check $? "plan gate keeps its silence-is-not-approval semantics at the site"
 # The design/mechanics sites delegate the ask-a-human mechanics too. interrogating-requirements
 # additionally KEEPS its interrogation strategy at the site — delegating how-to-ask must not
 # rewrite the probe families or correction-mining (a stated non-goal).
-for f in using-codebase-design using-documentation documenting; do
+for f in using-codebase-design; do
   grep_flat "$PLUGIN/skills/$f/SKILL.md" "using-questions"
   check $? "$f delegates the ask-a-human mechanics to using-questions"
 done

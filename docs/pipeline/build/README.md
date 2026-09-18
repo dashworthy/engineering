@@ -32,12 +32,12 @@ flowchart TD
     J --> K[Commit — the task's own final step]
     K --> L{More tasks?}
     L -->|yes| A
-    L -->|no| M[Hand off to documenting]
+    L -->|no| M[Hand off to finish]
 ```
 
 When the plan builds as a **stack** — its Global Constraints carry `PR strategy: stacked`, which the pipeline uses for all work — the loop runs the same way, one task at a time, but each task carries two extra steps the plan author already wrote: one at the top that starts the task's branch off the previous task's branch, and one at the bottom that opens and submits that task's own pull request. The stack is linear, so the tasks cannot fan out to parallel agents; build runs them strictly in sequence.
 
-Once the last box is checked, build reports the plan's path and its final commit and hands off — first to **documenting** (which writes or updates the feature's docs on the green branch), which in turn hands to **finish** (which opens the pull request the plan gate already authorized). Build never decides *how* the branch integrates; it only reaches the phase that does.
+Once the last box is checked, build reports the plan's path and its final commit and hands off to **finish** (which opens the pull request the plan gate already authorized). Build never decides *how* the branch integrates; it only reaches the phase that does.
 
 ## 🛠 Technical reference
 
@@ -45,7 +45,7 @@ The phase is one skill plus a set of references it loads at the moments the loop
 
 | Area | Unit | Responsibility |
 |---|---|---|
-| Phase orchestrator | `skills/build/SKILL.md` | Finds and confirms the approved plan, seeds the todo list, runs the per-task loop in order, applies the stacked-PR steps, and hands off to documenting. Owns no TDD or review logic of its own — it loads the references below. |
+| Phase orchestrator | `skills/build/SKILL.md` | Finds and confirms the approved plan, seeds the todo list, runs the per-task loop in order, applies the stacked-PR steps, and hands off to finish. Owns no TDD or review logic of its own — it loads the references below. |
 | Workspace | `skills/build/references/establishing-workspace.md` | Moves the work into isolation before any file changes: detects isolation that already exists and joins it, else creates the recorded kind (worktree — migrating `.engineering/` across — or feature branch), runs project setup, and records a clean pre-build baseline. |
 | TDD loop | `skills/build/references/tdd-loop.md` | Drives each behavior-changing step through strict red-green-refactor: a test written and *watched to fail* for the right reason, then the smallest code that passes it, then a refactor against a green suite. One behavior per cycle. |
 | Test design | `skills/build/references/tests.md` | How to shape the test the loop writes: one behavior per test, arrange-act-assert, naming for the behavior and condition, independence from other tests' state. |
