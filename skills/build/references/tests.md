@@ -5,6 +5,9 @@ making that specification say one true thing clearly, because a red-green cycle 
 meaningful as the test driving it — a vague or tangled test can go from red to green
 without anyone learning whether the right behavior now exists.
 
+Contents: [One behavior per test](#one-behavior-per-test) · [Arrange, act, assert](#arrange-act-assert)
+· [Naming](#naming) · [Independence](#independence).
+
 ## One behavior per test
 
 A test should fail for exactly one reason. If a test can fail for three different reasons,

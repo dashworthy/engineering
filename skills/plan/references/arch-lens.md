@@ -45,11 +45,11 @@ same kind of work that aren't built the same way — one composes through the sk
 a sibling branch reimplements the equivalent behavior on its own instead of using it — is an
 objective flaw in the sketch, not a judgment call. Check this last one deliberately: it's easy
 to approve because the correctly-routed branch reads clean, and the defect is the inconsistency
-between the two, not either branch alone. **Revise the plan's Interfaces block to close it**, the same way you'd
-fix a placeholder the self-review caught: reshape the signature, split the interface, invert
-the dependency. Note the change in the task so a reader sees the sketch changed and why. You
-do not need to ask the human to approve closing a defect the lens objectively fired on; you
-revise it and the reviewed sketch is what they read at the gate.
+between the two, not either branch alone. **Record the fix to close it** — the reshaped signature, the
+split interface, the inverted dependency — and apply it in the single revision pass below (see *Revising
+the plan*), the same way you'd fix a placeholder the self-review caught. Note the change in the task so a
+reader sees the sketch changed and why. You do not need to ask the human to approve closing a defect the
+lens objectively fired on; you close it in that pass and the reviewed sketch is what they read at the gate.
 
 The reinvented / one-off data-structure smell is the one exception: don't close it here — it
 belongs to the one-off scan below, which flags every candidate to the human rather than revising

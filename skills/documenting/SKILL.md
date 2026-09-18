@@ -7,18 +7,8 @@ description: "The documentation phase: after the branch is green, decide whether
 
 Say this first, plainly: `Using the documenting skill to document what this run shipped.`
 
-`documenting` is the pipeline's documentation phase. It runs after `build` and before `finish`, on
-the green branch, so the documentation it writes describes what actually shipped rather than what
-the spec and plan intended. It decides whether documentation is warranted, produces it through
-`using-documentation`, validates it through a fan-out of independent reviewers, and hands the
-reviewed docs to `finish`.
-
-## What this guarantees
-
-One thing: given a green branch at the end of `build`, this phase either leaves the run's
-documentation current — the feature doc written or surgically updated and validated, the
-`docs/toc.md` row upserted — or records a one-line reason it did not. It never leaves the docs
-silently stale and never leaves what it wrote unvalidated.
+Document what this run shipped, working from the green branch so the docs describe what actually
+landed rather than what the spec and plan intended.
 
 ## No new gate
 
@@ -73,12 +63,5 @@ Once the docs are produced and validated — or the run was skip-recorded — **
 
 ## What this does not do
 
-- It does not **write the docs itself.** Rendering the feature doc and upserting the toc is
-  `using-documentation`'s job; this phase decides *whether*, mints the identity with the human, and
-  validates the result.
 - It does not **judge the code.** Whether the branch is correct and green is `build`'s and
   `finish`'s concern; this phase documents what shipped, it does not re-review it.
-- It does not **hold a gate.** No human approval lives here — the plan gate already authorized the
-  run.
-- It does not **integrate the branch.** Opening pull requests and choosing the finish strategy is
-  `finish`'s job, downstream.

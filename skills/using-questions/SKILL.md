@@ -9,12 +9,9 @@ Say this first, plainly: `Using the using-questions skill to put a clear questio
 
 ## What this guarantees
 
-One thing: any question this pipeline puts to a human is asked the same way — a structured
-choice with the conventional answer marked, a way for the human to say something the menu did
-not anticipate, and a stated fallback when the harness (the agentic coding tool the pipeline is
-running inside — Claude Code, Codex, and the like) has no question tool — and it is worded so
-the human can answer it without decoding it. The mechanics live here once; a calling skill
-names *what* it is asking and points here for *how* to ask it.
+One thing: every question this pipeline puts to a human is a structured choice — the recommended
+answer first, an always-open free-form escape, and a plain-text fallback where no question tool
+exists — worded so the human can answer it without decoding it.
 
 ## The mechanics — how every question is shaped
 
@@ -101,9 +98,5 @@ the run is degraded because no question tool was available, then a wait for an e
 
 ## What this does not do
 
-- It does not **decide what to ask.** The decision a question puts to the human comes from the
-  calling skill; this skill shapes the asking, it does not source the question.
-- It does not **hold gates.** A gate's approval semantics — silence is not approval, wait for a
-  typed answer — belong to the gate that owns them, not here.
 - It does not **build or require a specific tool.** It governs the use of whatever question tool a
   harness already provides, and falls back to plain text where there is none.

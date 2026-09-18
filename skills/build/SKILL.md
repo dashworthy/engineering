@@ -7,13 +7,6 @@ description: "The build phase: execute an approved plan task by task — each dr
 
 Say this first, plainly: `Using the build skill to execute the plan.`
 
-## What this guarantees
-
-One thing: given an approved plan, this skill works it task by task, in
-order, until every task is checked off — and for each one that changes behavior, a test
-existed before the code, gated by an independent review before the box gets checked. Nothing
-on the plan gets marked done without going through the cycle the plan was written to enforce.
-
 ## Finding the plan
 
 Accept a plan path directly if the caller supplied one. When `plan` hands off in the same run —
@@ -142,17 +135,13 @@ is the one thing it must not do.
 
 ## What this does not do
 
-- It does not **write the plan.** The tasks and their order were all decided during
-  planning before this skill ever runs; this skill executes what's already on the
-  page, it doesn't add, remove, or reorder a task itself.
 - It does not **decide the plan is finished early.** A plan is done when its last task is
   checked, not when the build tasks look complete or the user seems satisfied partway
   through.
 - It does not **punt a task's own gaps to "later."** A gap a task turns up while being built — a
   finding from its own review gate, a missing case, a follow-up the change plainly needs — is
-  closed in that task's diff, or surfaced as an explicit decision the human can see; it is never
-  left as a `TODO`, a "next steps" note, or a hand-off nobody tracks, for a pass that may never
-  come. See `engineering:refusing-deferral`.
+  closed in that task's diff, or surfaced as an explicit decision the human can see, never punted to
+  a pass that may never come. See `engineering:refusing-deferral`.
 
 ## Handoff
 

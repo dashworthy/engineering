@@ -79,12 +79,5 @@ one updates its row in place; running twice on the same feature never doubles it
 
 ## What this does not do
 
-- It does not **decide whether to document.** The judged call — did this run change documented
-  behavior — belongs to the `documenting` phase, upstream; this skill produces the doc once that call
-  says yes.
-- It does not **validate what it wrote.** Checking the doc for accuracy, structure, links, and
-  scope is the `documenting` phase's fan-out (`references/validation-protocol.md`), not this skill.
-- It does not **invent a taxonomy.** Domain and feature names are minted by the human; this skill
-  proposes and records, it does not name.
 - It does not **open a pull request or commit.** It writes files; the `documenting` phase and `finish`
   own how those files reach the repository.

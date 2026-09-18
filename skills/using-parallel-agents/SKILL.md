@@ -1,6 +1,6 @@
 ---
 name: using-parallel-agents
-description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive — for example, build's review protocol uses it to fan out sub-reviewers per axis."
+description: "Fan out 2+ genuinely independent tasks with no shared state to parallel agents and synthesize their results. Use when subtasks don't depend on each other's output. A general primitive for any independent fan-out."
 ---
 
 # Using Parallel Agents
@@ -80,12 +80,6 @@ What shape the combined result takes — one merged file, a single report, a set
 edits — is the dispatching caller's to decide; this skill's part of the job ends at making
 sure every agent's result is actually in hand, undropped and unaltered, before that shaping
 starts.
-
-## One caller among several
-
-This skill frames nothing itself — no task, checkbox, build loop, or commit. Each caller
-supplies its own split of the work and its own idea of what a dispatched agent owes on
-return; this skill only runs the wave concurrently and brings every result back whole.
 
 ## What this does not do
 

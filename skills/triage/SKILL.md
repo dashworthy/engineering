@@ -7,10 +7,7 @@ description: "The defect entrance: verify a reported problem reproduces, isolate
 
 Say this first, plainly: `Using the triage skill to verify and isolate the defect.`
 
-Triage a reported defect. triage is one of the three engineering entrances: it **shapes context**
-from a defect report — verifying and isolating it — then hands that context to the shared design
-dialogue. It runs the same beats every entrance does — establish a run, shape context, hand to the design
-dialogue — and only how it shapes context is particular to triage.
+Verify and isolate a reported defect, then hand that context to the shared design dialogue.
 
 Work the beats in order.
 
@@ -22,10 +19,9 @@ Before reading the report closely, get somewhere to put what you find:
 sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" triage <slug>
 ```
 
-This prints the absolute path of `.engineering/<run>/triage/` and creates it if it doesn't exist
-yet. If a run is already active — started by `signal`, or by an earlier triage pass on the same
-problem — this call joins it and the `<slug>` you pass is ignored. If nothing is active, it starts
-one, seeded from a kebab-case slug you derive from the report in a couple of words.
+See `${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md` for what the call prints and how it joins
+an active run; derive the `<slug>` from the report in a couple of words. A triage run may join one
+`signal` already started, or an earlier triage pass on the same problem.
 
 Everything triage produces — reproduction notes, isolation, the routing decision and why — goes
 into `.engineering/<run>/triage/` as it's found, not reconstructed afterward from memory.
@@ -71,16 +67,15 @@ re-litigating it. Finding nothing is the normal result.
 **When expected behavior is unclear**, and only then, synthesize it with the user before handing
 off: load the shared discovery reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) and drive it (it self-drives
 the interrogation and writes the requirements, brief.md §1–§6, into this run's `triage/`
-directory). This is triage's own discovery leg — it is **not** a hand-off to `signal`; the two
-entrances are distinct and never invoke each other.
+directory). This is triage's own discovery leg — it is **not** a hand-off to `signal`; an entrance
+never invokes another entrance.
 
 ## 3. Hand to design
 
 Once the defect is verified and isolated far enough to design a fix against, hand that context to
 the shared design dialogue — invoke `engineering:brainstorming` now. Everything converges there;
 there is no routing table and no quick-fix side door, and there is no gate at this seam. Approval
-lives downstream — the spec gate in `spec`, the plan gate in `plan` — never in triage
-and never in brainstorming. Reporting the isolation and asking whether to proceed is not a move
+lives at the downstream gates, never in this entrance or in brainstorming. Reporting the isolation and asking whether to proceed is not a move
 here: once the context is shaped and written into the run, invoke brainstorming.
 
 A report that turns out **Not reproducible**, already fixed, or already rejected does not go to

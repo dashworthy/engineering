@@ -57,7 +57,7 @@ numbered leaf `.engineering/<run>/pdf/<NNN>/`; the command prints its absolute p
 Copy the template in and fill it:
 
 ```bash
-cp "$SKILL/references/feature-doc.pdf.tsx" "$RUNDIR/pdf.tsx"
+cp "$PDF/references/templates/feature-doc.pdf.tsx" "$RUNDIR/pdf.tsx"
 ```
 
 The template is split into a **DATA** block (cover, ToC, diagram sources, code samples) and a
@@ -110,6 +110,7 @@ in **`$PDF/references/verifying.md`**. Fix and re-render until it holds.
 
 ## Where the rest lives
 
-- **`references/feature-doc.pdf.tsx`** — the template you copy and fill.
+- **`$PDF/references/templates/feature-doc.pdf.tsx`** — the template you copy and fill (it lives with
+  the PDF builder skill as a reusable template).
 - **`$PDF/references/authoring.md`** — the component catalog + when-to-use matrix.
 - **`$PDF/references/verifying.md`** — the inspection protocol.

@@ -108,12 +108,11 @@ asked for it.
   addressing them is ordinary fix work under the skills that own it. Its own remaining job is only
   how the reviewed, green branch re-enters the repository.
 - It does not **merge anything.** The pipeline integrates only by opening pull requests; a
-  branch or a stack is landed by a human outside it, never by this skill — no merge option is
-  offered, ever, not even as a prompt for the user to agree to.
+  branch or a stack is landed by a human outside it, never by this skill.
 - It does not **pick the project's integration policy for it.** The finish strategy is the
   human's — authorized at the plan gate, or, for a branch with no plan behind it, asked here;
   never hard-coded to whichever one this skill used last.
 - It does not **let the branch integrate with work parked inside it.** A finding from the
-  whole-branch review is fixed before the branch re-enters the repository, not shipped as a stray
-  `TODO` or a "follow-up PR" nobody has committed to; where something genuinely must wait, it is
-  surfaced as an explicit decision, not buried in the diff. See `engineering:refusing-deferral`.
+  whole-branch review is fixed before the branch re-enters the repository; where something genuinely
+  must wait, it is surfaced as an explicit decision, not buried in the diff. See
+  `engineering:refusing-deferral`.

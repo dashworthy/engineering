@@ -9,8 +9,8 @@ so the menu offers the facet whose idiom-specific findings actually apply.
 This is the **repo-level** gate — the upper of code-review's two gates, the same one
 `multi-tenancy-signals.md` runs for the tenant-isolation facets. It selects which facets appear
 (and pre-checked); the facet then runs its own **per-change relevance gate** on the actual diff,
-narrowed further to the file(s) a change actually touches (see
-[`reviewing-framework-best-practices`'s own index](../../reviewing-framework-best-practices/references/framework-best-practices-index.md)).
+narrowed further to the file(s) a change actually touches (see the *What this facet covers* table in
+[`reviewing-framework-best-practices`'s facet](../../reviewing-framework-best-practices/facet.md)).
 A facet proposed here can still skip itself on a change that touches no stack-relevant surface.
 
 **One structural difference from `multi-tenancy-signals.md`:** that gate emits a single verdict
@@ -18,6 +18,9 @@ from a mutually-exclusive set (`shared`/`per-db`/`both`/`none`/`ambiguous`), bec
 one tenancy model. This gate emits a **set** of matched stacks instead, because stacks are not
 mutually exclusive the way tenancy models are — a repo commonly runs more than one at once (a
 Laravel backend with a Tailwind-styled Blade or Inertia/React frontend, for instance).
+
+Contents: [What to read](#what-to-read) · per-stack signals (Laravel, Tailwind, Symfony, OroCommerce,
+React, Vue, TypeScript, JavaScript, Backbone, Electron) · [Classification — the verdict](#classification--the-verdict).
 
 ## What to read
 

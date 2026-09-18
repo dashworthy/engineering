@@ -7,11 +7,8 @@ description: "The review-feedback entrance: aggregate received code-review comme
 
 Say this first, plainly: `Using the receiving-code-review skill to aggregate, verify, and shape the review.`
 
-Work through code-review feedback. receiving-code-review is one of the three engineering entrances:
-it **shapes context** from a set of review comments — aggregating, verifying, and impact-checking
-them — then hands that context to the shared design dialogue. Beyond getting onto the review branch first,
-it runs the same establish-run, shape-context, and hand-to-design beats as the other entrances;
-only how it shapes context is particular to receiving a review.
+Aggregate, verify, and impact-check the review comments, then hand that context to the shared design
+dialogue — after first getting onto the review branch (beat 1).
 
 Work the beats in order.
 
@@ -38,10 +35,8 @@ Before reading the comments closely, get somewhere to put what you find:
 sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" receiving-code-review <slug>
 ```
 
-This prints the absolute path of `.engineering/<run>/receiving-code-review/` and creates it if it
-doesn't exist yet. If a run is already active this call joins it and the `<slug>` you pass is
-ignored; if nothing is active it starts one, seeded from a kebab-case slug you derive from the
-review in a couple of words.
+See `${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md` for what the call prints and how it joins
+an active run; derive the `<slug>` from the review in a couple of words.
 
 Everything this entrance produces — the aggregated comments, the verification notes, the
 impact-check, the reply and resolve decisions — goes into `.engineering/<run>/receiving-code-review/`
@@ -88,8 +83,8 @@ user's call.
 ambiguous ask, a conflict with a decision already made, expected behavior that must be synthesized —
 and only then, load the shared discovery reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) and drive it (it
 self-drives the interrogation and writes what it learns into this run's directory). This is this
-entrance's own discovery leg — it is **not** a hand-off to another entrance; the four entrances are
-distinct and never invoke one another.
+entrance's own discovery leg — it is **not** a hand-off to another entrance; the entrances never
+invoke one another.
 
 ### Two standing instructions to carry forward
 
@@ -127,8 +122,7 @@ rather than fixed stays open with the reasoning on its thread.
 Once the comments are aggregated, verified, and impact-checked — and the two standing instructions
 are written into the shaped context — hand it to the shared design dialogue: invoke
 `engineering:brainstorming` now. Everything converges there; there is no gate at this seam. Approval
-lives downstream — the spec gate in `spec`, the plan gate in `plan` — never in this
-entrance and never in design. Reporting the findings and asking whether to proceed is not a
+lives at the downstream gates, never in this entrance or in design. Reporting the findings and asking whether to proceed is not a
 move here: once the context is shaped and written into the run, invoke brainstorming.
 
 If no review is in hand, ask the user for the PR, branch, or comments under review before
