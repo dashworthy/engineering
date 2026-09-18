@@ -100,17 +100,17 @@ fi
 [ ! -e "$PLUGIN/skills/requesting-code-review" ]; check $? "retired requesting-code-review skill is absent"
 
 # --- diagrams: authoring phases consider a diagram ---------------------------
-# using-diagrams is *consider*, not *always draw*, so the obligation does not flood. The
-# authoring phases (to-spec, plan) each carry a "consider a diagram" obligation.
+# using-diagrams is *consider*, not *always draw*, so the obligation does not flood. The plan
+# conductor carries the obligation directly; the spec's diagram obligation lives in the spec-format
+# contract (using-doc-creation owns spec creation), not in the spec conductor.
 UD="$PLUGIN/skills/using-diagrams/SKILL.md"
 if [ -f "$UD" ]; then
   grep_flat "$UD" "consider a diagram"; check $? "using-diagrams states the consider-a-diagram authoring obligation"
 fi
-# The spec skill and plan each carry it.
-for f in "$PLUGIN/skills/spec/SKILL.md" "$PLUGIN/skills/plan/SKILL.md"; do
-  grep_flat "$f" "using-diagrams" && grep_flat "$f" "consider a diagram"
-  check $? "$(basename "$(dirname "$f")")/$(basename "$f") carries the consider-a-diagram obligation via using-diagrams"
-done
+grep_flat "$PLUGIN/skills/plan/SKILL.md" "using-diagrams" && grep_flat "$PLUGIN/skills/plan/SKILL.md" "consider a diagram"
+check $? "plan/SKILL.md carries the consider-a-diagram obligation via using-diagrams"
+grep_flat "$PLUGIN/skills/using-doc-creation/references/spec-format.md" "using-diagrams"
+check $? "spec-format contract carries the diagram obligation via using-diagrams"
 
 # --- using-codebase-design companions ----------------------------------------------
 # using-codebase-design states its principle in SKILL.md and carries the mechanics in uppercase
@@ -270,12 +270,12 @@ BR="$PLUGIN/skills/brainstorming/SKILL.md"
 
 # --- spec carries an ELI5 (plain-language summary) -----------------------------
 # Every spec renders a §0 ELI5 up top: a jargon-free synthesis of the whole spec for easy
-# consumption. Guard the format section exists and the spec conductor knows it is synthesized.
+# consumption. That obligation lives in the spec-format contract (using-doc-creation owns spec
+# creation), not in the spec conductor — guard the contract exists and carries it.
 SF="$PLUGIN/skills/using-doc-creation/references/spec-format.md"
 [ -f "$SF" ]; check $? "spec/references/SPEC-FORMAT.md exists"
 grep_flat "$SF" "## 0. ELI5"; check $? "SPEC-FORMAT carries the section-0 ELI5 summary"
 SSK="$PLUGIN/skills/spec/SKILL.md"
-grep_flat "$SSK" "ELI5"; check $? "spec conductor names the ELI5 section"
 
 # --- using-doc-creation: the format matrix owns the default/fallback ----------
 # Format selection is a property of using-doc-creation's "Choose a format" matrix, not restated by
@@ -284,6 +284,14 @@ grep_flat "$SSK" "ELI5"; check $? "spec conductor names the ELI5 section"
 DCSK="$PLUGIN/skills/using-doc-creation/SKILL.md"
 grep_flat "$DCSK" "Choose a format"; check $? "using-doc-creation carries the format matrix"
 grep_flat "$DCSK" "When a caller defers the choice"; check $? "the format matrix owns the default/fallback for deferred callers"
+
+# --- spec: hands off to using-doc-creation, decides no format itself ---------
+# Spec creation makes no format decision: it only hands the spec's path to using-doc-creation, which
+# owns everything about format (guarded above). Guard the handoff is present and that no format
+# decision leaked back into the spec skill — no "PDF" wording, no template path.
+grep_flat "$SSK" "engineering:using-doc-creation"; check $? "spec conductor hands off to using-doc-creation"
+! grep_flat "$SSK" "PDF"; check $? "spec conductor makes no format (PDF) decision"
+! grep_flat "$SSK" "pdf.tsx"; check $? "spec conductor names no using-doc-creation template path"
 
 # --- code-review: opt-in deep review with three findings routes --------------
 # The deep-review orchestrator folded in from guardtower is report-only, but after reconciling it
