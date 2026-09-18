@@ -208,7 +208,7 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 
 | Owner | References |
 |---|---|
-| `spec` | `using-doc-creation/references/spec-format.md` (relocated into `using-doc-creation`) |
+| `spec` | `references/templates/pdf/spec.pdf.tsx`, `references/templates/markdown/spec.md` (the Markdown template is also the Tier-1 format contract; filled here, rendered via `using-doc-creation`) |
 | `feature-doc` | `references/templates/pdf/feature-doc.pdf.tsx`, `references/templates/markdown/feature-doc.md` (filled here, rendered via `using-doc-creation`) |
 | `using-codebase-design` | `references/SHAPE-REVIEW.md`, `DESIGN-IT-TWICE.md`, `PATTERN-MATRIX.md`, `DEEPENING.md`, `TENANCY-ISOLATED-DB.md`, `TENANCY-SHARED-DB.md` |
 | `plan` | `references/arch-lens.md` |
