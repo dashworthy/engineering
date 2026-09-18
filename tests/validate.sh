@@ -292,14 +292,13 @@ grep_flat "$SSK" "engineering:using-doc-creation"; check $? "spec conductor hand
 grep_flat "$SSK" "references/templates/markdown/spec.md"; check $? "spec conductor fills its own spec template"
 ! grep_flat "$SSK" "node --import tsx"; check $? "spec conductor does not restate the render command (using-doc-creation owns rendering)"
 
-# --- plan: hands off to using-doc-creation, decides no format itself ---------
-# Plan creation makes no format decision: it only hands the plan's path to using-doc-creation, which
-# owns everything about format (guarded above). Guard the handoff is present and that no format
-# decision leaked back into the plan skill — no "PDF" wording, no template path.
+# --- plan: shapes content into its own template, hands off rendering ----------
+# The plan conductor shapes the plan (fills its own plan template) and hands the path to
+# using-doc-creation to render; it decides no format and reimplements no render mechanics.
 PSK="$PLUGIN/skills/plan/SKILL.md"
-grep_flat "$PSK" "engineering:using-doc-creation"; check $? "plan conductor hands off to using-doc-creation"
-! grep_flat "$PSK" "PDF"; check $? "plan conductor makes no format (PDF) decision"
-! grep_flat "$PSK" "pdf.tsx"; check $? "plan conductor names no using-doc-creation template path"
+grep_flat "$PSK" "engineering:using-doc-creation"; check $? "plan conductor hands off rendering to using-doc-creation"
+grep_flat "$PSK" "references/templates/markdown/plan.md"; check $? "plan conductor fills its own plan template"
+! grep_flat "$PSK" "node --import tsx"; check $? "plan conductor does not restate the render command (using-doc-creation owns rendering)"
 
 # --- template parity: each doc's Markdown + PDF templates carry the same sections ---------------
 # Templates live with the skill that owns each doc type; both formats of a doc must carry the same
@@ -318,7 +317,6 @@ parity "$FDOC/markdown/feature-doc.md" "$FDOC/pdf/feature-doc.pdf.tsx" \
   "Plain-language overview" "Architecture at a glance" "Data model" "Process flow" \
   "Interfaces & payloads" "Components & responsibilities" "Edge cases & failure modes" \
   "Limits & configuration" "Testing"
-UDT="$PLUGIN/skills/using-doc-creation/references/templates"
 SPT="$PLUGIN/skills/spec/references/templates"
 parity "$SPT/markdown/spec.md" "$SPT/pdf/spec.pdf.tsx" \
   "ELI5" "Problem" "Users & stakeholders" "Goals & success criteria" "Constraints" \
@@ -326,7 +324,8 @@ parity "$SPT/markdown/spec.md" "$SPT/pdf/spec.pdf.tsx" \
 CRT="$PLUGIN/skills/code-review/references/templates"
 parity "$CRT/markdown/code-review-handoff.md" "$CRT/pdf/code-review-handoff.pdf.tsx" \
   "How to read this" "Current code" "Proposed fix" "Why this fixes it"
-parity "$UDT/markdown/plan.md" "$UDT/pdf/plan.pdf.tsx" \
+PLT="$PLUGIN/skills/plan/references/templates"
+parity "$PLT/markdown/plan.md" "$PLT/pdf/plan.pdf.tsx" \
   "Global Constraints" "Done when"
 
 # --- code-review: opt-in deep review with three findings routes --------------
