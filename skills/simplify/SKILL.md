@@ -48,7 +48,7 @@ brief is the deliverable and ends at §6.
 
 Where the interrogation needs generic requirement-mining the lenses do not cover — an unclear
 stakeholder, a success criterion the lenses cannot name — fall back to the shared discovery
-reference (`${CLAUDE_PLUGIN_ROOT}/references/interrogating-requirements.md`) for that gap. That is
+skill (`engineering:interrogating-requirements`) for that gap. That is
 your own discovery leg, not a hand-off — never invoke another entrance.
 
 If the request is genuinely trivial — a rename, a one-liner the user could make faster than describe

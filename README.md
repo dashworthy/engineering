@@ -183,7 +183,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **19 skills**: a bootstrap, four entrances, five phase conductors, eight
+The plugin ships **20 skills**: a bootstrap, four entrances, five phase conductors, nine
 cross-cutting skills, and an opt-in deep-review orchestrator. Everything else a phase needs lives as
 reference files the conductor loads, not as a separately discoverable skill.
 
@@ -192,7 +192,7 @@ reference files the conductor loads, not as a separately discoverable skill.
 | Bootstrap | `using-skills` |
 | Entrances | `signal`, `triage`, `receiving-code-review`, `simplify` |
 | Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `finish` |
-| Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `refusing-deferral`, `using-pdf-creation` |
+| Cross-cutting | `interrogating-requirements`, `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `refusing-deferral`, `using-pdf-creation` |
 | Deep review | `code-review` |
 
 Each phase conductor drives its substages from reference files under its own `references/`
@@ -200,7 +200,8 @@ directory — `build` loads the TDD loop and the review protocol, and so on — 
 subagents where a context firewall or parallelism earns it. Folding most substages out of the skill
 list is what keeps the suite compact; a piece stays a skill when more than one conductor invokes it
 by name — `using-codebase-design` (the shape lenses), for instance, is invoked by `brainstorming` to shape
-a boundary and by `plan`'s arch-lens review to judge one.
+a boundary and by `plan`'s arch-lens review to judge one, and `interrogating-requirements` (the shared
+requirement interrogator) is invoked by all four entrances as their discovery leg.
 
 Skills live flat in `skills/` — the plugin loader scans one level deep — and a directory earns
 its own `SKILL.md` only when it must be discovered on its own, where no conductor is already
@@ -217,7 +218,6 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 | `receiving-code-review` | `references/review-comment.md` |
 | `simplify` | `references/refactoring-lenses.md` |
 | `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet), `code-review-handoff.pdf.tsx` (the `using-pdf-creation` PDF-handoff template) + `finding-blocks/` (per-type sections) |
-| shared (plugin `references/`) | `interrogating-requirements.md` (loaded by `signal` as its primary; a fallback for the other three entrances) |
 
 ### Entry points
 

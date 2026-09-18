@@ -8,10 +8,10 @@ ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
 cd "$ROOT"
 fail=0
 SKILL=skills/signal/SKILL.md
-INTERROGATE=references/interrogating-requirements.md
+INTERROGATE=skills/interrogating-requirements/SKILL.md
 [ -f "$SKILL" ] || { echo "FAIL: skills/signal/SKILL.md must exist (signal is now a skill entrance)"; fail=1; }
 [ ! -e commands/signal.md ] || { echo "FAIL: commands/signal.md must be removed (signal is now a skill entrance)"; fail=1; }
-[ -f "$INTERROGATE" ] || { echo "FAIL: references/interrogating-requirements.md must exist (shared entrance reference)"; fail=1; }
+[ -f "$INTERROGATE" ] || { echo "FAIL: skills/interrogating-requirements/SKILL.md must exist (shared interrogation skill)"; fail=1; }
 if grep -rn "signal:" "$INTERROGATE" "$SKILL"; then
   echo "FAIL: stale 'signal:' namespace refs"; fail=1; fi
 if grep -rn "\.signal/" skills; then
@@ -20,7 +20,7 @@ if grep -rn "\.signal/" skills; then
 for gone in conducting-discovery expanding-scope sequencing-requirements; do
   [ -e "skills/$gone" ] && { echo "FAIL: skills/$gone should have been removed"; fail=1; }
 done
-grep -q "references/interrogating-requirements.md" "$SKILL" || { echo "FAIL: signal skill must load the shared interrogating-requirements reference"; fail=1; }
+grep -q "engineering:interrogating-requirements" "$SKILL" || { echo "FAIL: signal skill must invoke the shared engineering:interrogating-requirements skill"; fail=1; }
 if grep -q "engineering:conducting-discovery" "$SKILL"; then echo "FAIL: signal must not name the removed conductor"; fail=1; fi
 # The .engineering/ run-dir convention now lives in the shared establishing-run reference, which
 # run-context.sh returns paths under; signal points to it rather than restating the path inline.
