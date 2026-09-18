@@ -117,7 +117,7 @@ const PROOFS: Record<string, Proof> = {
   // },
 };
 
-// ⟨finding-blocks: DATA⟩ — a type-specific block (references/finding-blocks/) pastes its DATA map
+// ⟨finding-blocks: DATA⟩ — a type-specific block (finding-blocks/) pastes its DATA map
 // here, keyed by finding id: EXPLOIT (security), TIMELINE (concurrency), DATA_STATE (data-safety),
 // COMPAT (api-contract). Only findings whose id appears in a block's map render that block.
 
@@ -158,7 +158,7 @@ export default async (theme: PdfTheme) => {
   const proofHl = await hlBy(PROOFS);
   // ⟨finding-blocks: pre-highlight⟩ — a type-specific block that shows code pastes its
   // pre-highlight line here, e.g. (security):  const exploitHl = await hlBy(EXPLOIT);
-  // See references/finding-blocks/README.md.
+  // See finding-blocks/README.md.
 
   const themeRows = THEME_ORDER.map((t) => [
     t, THEME_META[t].focus, String(ENTRIES.filter((e) => e.theme === t).length),
@@ -235,7 +235,7 @@ export default async (theme: PdfTheme) => {
               // ⟨finding-blocks: type-specific sections⟩ — paste a block's render fragment here,
               // right after the problem and before the Evidence/Current/Fix sequence. A finding
               // renders a block only when its id is present in that block's map (e.g. EXPLOIT[e.id]).
-              // See references/finding-blocks/README.md for the catalog.
+              // See finding-blocks/README.md for the catalog.
 
               // Evidence — real code (optional)
               ...(EVIDENCE[e.id] ? [

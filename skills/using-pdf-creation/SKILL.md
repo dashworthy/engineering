@@ -132,6 +132,7 @@ Each template file carries its own fill-in instructions in a header comment — 
 | Document type | Template | Use it for |
 |---|---|---|
 | Feature / architecture handoff | `references/templates/feature-doc.pdf.tsx` | A bundle, module, or feature's architecture: plain-language overview, component map, ER model, process flow, wire contract, component responsibilities, edge cases, and how to test it. |
+| Code-review finding handoff | `references/templates/code-review-handoff.pdf.tsx` | Reconciled code-review findings as a print-ready report: full-bleed cover, page-numbered ToC, and one section per finding (current code, proposed fix, why it works). Layer type-specific views from the sibling `references/templates/finding-blocks/` (security, concurrency, data-safety, api-contract). |
 
 No template fits? Author `pdf.tsx` from the component library directly (step 2 above).
 

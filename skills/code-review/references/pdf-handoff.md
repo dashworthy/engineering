@@ -5,8 +5,8 @@ leadership, rendered in both light and dark, via `engineering:using-pdf-creation
 
 ## Build the doc
 
-Invoke `engineering:using-pdf-creation` and **start from the template**
-`references/code-review-handoff.pdf.tsx`:
+Invoke `engineering:using-pdf-creation` and **start from its template**
+`references/templates/code-review-handoff.pdf.tsx`:
 
 1. Scaffold a run dir:
    `sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" using-pdf-creation <slug> --fresh`.
@@ -16,11 +16,11 @@ Invoke `engineering:using-pdf-creation` and **start from the template**
 4. The template opens with a full-bleed `CoverPage` and an auto-built, page-numbered table of
    contents; because react-pdf resolves a page number only after layout, fill the ToC's `PAGES` on
    a **second pass** — render once, read the page each finding lands on, enter it, then re-render.
-5. For finding types that carry a type-specific view, layer the matching block from
-   `references/finding-blocks/` (security → an exploit / attack-path section, concurrency → an
-   interleaving timeline, data-safety → a before/after state table, api-contract → a breaking-change
-   matrix); each is a paste-in fragment, and `references/finding-blocks/README.md` says where each
-   part goes.
+5. For finding types that carry a type-specific view, layer the matching block from the template's
+   sibling `references/templates/finding-blocks/` (security → an exploit / attack-path section,
+   concurrency → an interleaving timeline, data-safety → a before/after state table, api-contract → a
+   breaking-change matrix); each is a paste-in fragment, and
+   `references/templates/finding-blocks/README.md` says where each part goes.
 6. Then render and *look at both themes* per using-pdf-creation's verifying protocol.
 
 The same discipline the report holds carries into the doc: evidence — and any exploit — is real, a
