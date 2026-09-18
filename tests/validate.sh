@@ -271,7 +271,7 @@ BR="$PLUGIN/skills/brainstorming/SKILL.md"
 # --- spec carries an ELI5 (plain-language summary) -----------------------------
 # Every spec renders a §0 ELI5 up top: a jargon-free synthesis of the whole spec for easy
 # consumption. Guard the format section exists and the spec conductor knows it is synthesized.
-SF="$PLUGIN/skills/spec/references/SPEC-FORMAT.md"
+SF="$PLUGIN/skills/using-doc-creation/references/spec-format.md"
 [ -f "$SF" ]; check $? "spec/references/SPEC-FORMAT.md exists"
 grep_flat "$SF" "## 0. ELI5"; check $? "SPEC-FORMAT carries the section-0 ELI5 summary"
 SSK="$PLUGIN/skills/spec/SKILL.md"
