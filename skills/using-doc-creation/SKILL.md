@@ -1,26 +1,44 @@
 ---
 name: using-doc-creation
-description: Author a polished, print-ready PDF from a source document by composing hand-written JSX from the @engineering/using-doc-creation component library — ShadCN-styled (light/dark), with a cover, sections, callouts, badges, tables, comparison/panel/key cards, phase & flow sequences, syntax-highlighted code, and mermaid diagrams rendered as real vector images. Renders to light by default (dark via `--theme dark`) into `.engineering/<run>/using-doc-creation/`. Use when asked to make a designed/branded PDF, export a README or doc to PDF, or produce a doc whose mermaid diagrams must appear as real diagrams.
+description: Turn a source document into shareable documentation in one of two formats — a polished, print-ready **PDF** (hand-written JSX from the @engineering/using-doc-creation component library: ShadCN-styled cover, sections, callouts, badges, tables, comparison/panel/key cards, phase & flow sequences, syntax-highlighted code, and mermaid diagrams as real vector images; light by default, dark via `--theme dark`) or plain portable **Markdown** (GFM: headings, tables, fenced code, mermaid as fenced code-blocks) copied from a ready template. Use when asked to make a designed/branded PDF, export a README or doc to PDF, or produce a portable Markdown doc for a repo or wiki.
 ---
 
 # using-doc-creation
 
-Say this first, plainly: `Using the using-doc-creation skill to author a designed PDF from the source document.`
+Say this first, plainly: `Using the using-doc-creation skill to author documentation from the source document.`
 
-You turn a source document (a README, a spec, a request) into an A4 PDF that looks designed:
-a cover from the doc's title, sectioned prose, ShadCN-styled callouts/badges/tables, comparison
-and key-box cards, phase and flow sequences, syntax-highlighted code, and **real vector mermaid
-diagrams** — light or dark, chosen at render time. You author the document as a small React
-(`*.pdf.tsx`) module using a fixed component library; the builder paginates it to PDF with
-`@react-pdf/renderer` (no HTML, no browser print). Your job is to author it, **render it, then look
-at both PDFs** and iterate.
+You turn a source document (a README, a spec, a request) into shareable documentation. **Decide the
+format first** (below), then follow that format's workflow.
 
-`$SKILL` below is this skill's base directory (shown as "Base directory for this skill" when the
-skill is invoked) — the same as `${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation`. `$PROJECT` is the directory
-you are working in (the invoking project's root). `$RUNDIR` is the per-render working directory the
-run-context script prints in step 1.
+- `$SKILL` is this skill's base directory (shown as "Base directory for this skill" when the skill is
+  invoked) — the same as `${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation`.
+- `$PROJECT` is the directory you are working in (the invoking project's root).
+- `$RUNDIR` is the per-render working directory the run-context script prints (PDF format only).
 
-## One-time setup
+## Choose a format
+
+Pick the format the reader actually needs, then jump to its section:
+
+| Format | What it is | Reach for it when | Workflow |
+|---|---|---|---|
+| **PDF** | An A4, designed, print-ready document: cover, ShadCN-styled components, real vector mermaid diagrams. Light by default; dark opt-in. | The doc is a handoff, a leadership/architecture-review artifact, or anything where the *look* matters and the mermaid diagrams must render as diagrams. | [PDF format](#pdf-format) — author `pdf.tsx`, render, inspect. |
+| **Markdown** | Plain portable GFM: headings, tables, fenced code, mermaid as ` ```mermaid ` code-blocks. No styling, no build step. | The doc lives in a repo or wiki, must be version-controlled and diff-able, and needs to render anywhere with nothing installed. | [Markdown format](#markdown-format) — copy a `.md` template, fill it, done. |
+
+If a ready template fits (see [Templates](#templates)), start from it in the chosen format rather than
+authoring from scratch.
+
+---
+
+## PDF format
+
+An A4 PDF that looks designed: a cover from the doc's title, sectioned prose, ShadCN-styled
+callouts/badges/tables, comparison and key-box cards, phase and flow sequences, syntax-highlighted
+code, and **real vector mermaid diagrams** — light or dark, chosen at render time. You author the
+document as a small React (`*.pdf.tsx`) module using a fixed component library; the builder paginates
+it to PDF with `@react-pdf/renderer` (no HTML, no browser print). Your job is to author it, **render
+it, then look at the PDF** and iterate.
+
+### One-time setup (PDF only)
 
 ```bash
 cd "$SKILL" && npm install
@@ -32,8 +50,6 @@ cd "$SKILL" && npm install
   Chromium). A doc with no diagrams needs no browser. Chrome is used **only** to rasterize diagrams,
   never for page layout.
 - Fonts (Inter + IBM Plex Mono) are bundled and embedded — no network needed to render.
-
-## The workflow
 
 ### 1. Scaffold a run directory
 
@@ -102,7 +118,7 @@ page-number element yourself — that is the one piece of page furniture the roo
 
 **Which component for what** — the full catalog, each with its props and a decision matrix of when
 to reach for it, is in **[references/authoring.md](references/authoring.md)**. The fixture
-`src/docs/configurator.pdf.tsx` exercises every component and is worth skimming as a worked example.
+`src/docs/gallery.pdf.tsx` exercises every component and is worth skimming as a worked example.
 
 ### 3. Render (light by default)
 
@@ -124,22 +140,48 @@ is in **[references/verifying.md](references/verifying.md)**.
 
 Fix and re-render until it holds.
 
+---
+
+## Markdown format
+
+Plain, portable **GitHub-Flavored Markdown** — headings, tables, fenced code, and mermaid kept as
+` ```mermaid ` fenced code-blocks. It renders anywhere (GitHub, a wiki, any Markdown viewer) with **no
+build step, no render, and no run directory**. It deliberately does **not** reproduce the PDF's visual
+styling: no callout boxes, badges, or cards, and no embedded HTML/CSS — that is the price of portability.
+
+The workflow is just three moves:
+
+1. **Copy** the matching template from `references/templates/markdown/` (see [Templates](#templates))
+   to wherever the doc belongs (e.g. a repo path, or `$RUNDIR` if you want it beside a PDF).
+2. **Fill** it: follow the template's header comment, replace every placeholder, and delete any
+   section the doc doesn't need. Keep mermaid diagrams as ` ```mermaid ` fenced blocks — do not try to
+   render them to images.
+3. **Done.** There is nothing to compile or inspect beyond reading the Markdown back. Preview it in a
+   GFM viewer if you want to confirm tables and fenced blocks render.
+
+No template fits? Write the Markdown by hand in plain GFM, mirroring the section shape of whichever
+PDF template is closest.
+
+---
+
 ## Templates
 
-Start from a ready template instead of authoring from scratch when one fits the document you need.
-Each template file carries its own fill-in instructions in a header comment — copy it to
-`<RUNDIR>/pdf.tsx`, follow the header, read the source it documents, and render.
+Start from a ready template instead of authoring from scratch when one fits. Each template carries its
+own fill-in instructions in a header comment. **The same document type exists in both formats** — pick
+the row for your document, then the column for your chosen format.
 
-| Document type | Template | Use it for |
-|---|---|---|
-| Feature / architecture handoff | `references/templates/feature-doc.pdf.tsx` | A bundle, module, or feature's architecture: plain-language overview, component map, ER model, process flow, wire contract, component responsibilities, edge cases, and how to test it. |
-| Code-review finding handoff | `references/templates/code-review-handoff.pdf.tsx` | Reconciled code-review findings as a print-ready report: full-bleed cover, page-numbered ToC, and one section per finding (current code, proposed fix, why it works). Layer type-specific views from the sibling `references/templates/finding-blocks/` (security, concurrency, data-safety, api-contract). |
+| Document type | PDF template | Markdown template | Use it for |
+|---|---|---|---|
+| Feature / architecture handoff | `references/templates/pdf/feature-doc.pdf.tsx` | `references/templates/markdown/feature-doc.md` | A bundle, module, or feature's architecture: plain-language overview, component map, ER model, process flow, wire contract, component responsibilities, edge cases, and how to test it. |
+| Code-review finding handoff | `references/templates/pdf/code-review-handoff.pdf.tsx` | `references/templates/markdown/code-review-handoff.md` | Reconciled code-review findings as a report: cover/title, a contents list, and one section per finding (current code, proposed fix, why it works). The PDF template layers type-specific views from the sibling `references/templates/pdf/finding-blocks/` (security, concurrency, data-safety, api-contract); the Markdown template folds those in inline. |
 
-No template fits? Author `pdf.tsx` from the component library directly (step 2 above).
+No template fits? PDF — author `pdf.tsx` from the component library directly (step 2 above); Markdown —
+write plain GFM mirroring the closest template's sections.
 
 ## Where the rest lives
 
-- **[references/authoring.md](references/authoring.md)** — the component catalog + when-to-use matrix.
-- **[references/verifying.md](references/verifying.md)** — the inspection protocol.
-- **[references/templates/](references/templates/)** — ready-to-fill templates (see **Templates** above).
+- **[references/authoring.md](references/authoring.md)** — the PDF component catalog + when-to-use matrix.
+- **[references/verifying.md](references/verifying.md)** — the PDF inspection protocol.
+- **[references/templates/pdf/](references/templates/pdf/)** — ready-to-fill PDF templates (see **Templates** above).
+- **[references/templates/markdown/](references/templates/markdown/)** — ready-to-fill Markdown templates.
 - **[README.md](README.md)** — the package reference (component list, styling boundary, CLI).
