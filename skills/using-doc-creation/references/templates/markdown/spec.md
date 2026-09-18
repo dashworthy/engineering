@@ -9,7 +9,7 @@
     1. Copy this file to .engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md (or wherever the spec belongs).
     2. Fill the header (Date/Author/Status/Origin) and every section. §0 ELI5 is written LAST, from
        the finished sections, but placed first. Keep the section HEADINGS unchanged — they are the
-       parity contract with the PDF template (test/templates/parity.test.ts checks them) and the
+       parity contract with the PDF template (the repo validation in tests/validate.sh checks them) and the
        Tier-1 format every downstream phase reads.
     3. Status is `Draft` when written; the spec gate flips it to `Approved` after the human approves.
     4. Never invent content the source material does not support; mark unknowns in §8.
