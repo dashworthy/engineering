@@ -3,7 +3,7 @@
 set -e
 d=$(CDPATH= cd "$(dirname "$0")" && pwd)
 eng=$(CDPATH= cd "$d/.." && pwd)
-root=$(CDPATH= cd "$eng/.." && pwd)
+root="$eng"  # the plugin IS the repository root here (single-plugin marketplace), so root == eng
 fail=0
 
 # 1. Prior gates all green (non-live).
@@ -97,7 +97,9 @@ tr '\n' ' ' < "$eng/skills/build/SKILL.md" | grep -qiE "hand[^.]*engineering:fin
 # Word-form namespace match only: the bare pattern "signal:" false-fails on legit prose such as
 # writing-tests-from-brief "...that is the signal: it almost always means...". Requiring a lowercase
 # letter after the colon matches real namespaced refs (signal:foo) but not sentence punctuation.
-if grep -rnE '(signal|verity|vernacular):[a-z]|engineering:document\b|\.signal/|\.verity\b|\.vernacular\b' "$eng/skills" "$eng/hooks" "$eng/scripts" "$eng/README.md"; then echo "FAIL: dangling refs"; fail=1; fi
+# --exclude-dir=node_modules: skills that vendor node deps (using-doc-creation's PDF renderer) would
+# otherwise false-match minified bundles under node_modules (e.g. mermaid), which are gitignored.
+if grep -rnE --exclude-dir=node_modules '(signal|verity|vernacular):[a-z]|engineering:document\b|\.signal/|\.verity\b|\.vernacular\b' "$eng/skills" "$eng/hooks" "$eng/scripts" "$eng/README.md"; then echo "FAIL: dangling refs"; fail=1; fi
 
 # 9. .engineering/ gitignored.
 grep -qxF '.engineering/' "$root/.gitignore" || { echo "FAIL: .engineering not gitignored"; fail=1; }
