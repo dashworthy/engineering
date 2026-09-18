@@ -323,7 +323,8 @@ UDT="$PLUGIN/skills/using-doc-creation/references/templates"
 parity "$UDT/markdown/spec.md" "$UDT/pdf/spec.pdf.tsx" \
   "ELI5" "Problem" "Users & stakeholders" "Goals & success criteria" "Constraints" \
   "Scope" "Approach" "Existing context" "Open questions"
-parity "$UDT/markdown/code-review-handoff.md" "$UDT/pdf/code-review-handoff.pdf.tsx" \
+CRT="$PLUGIN/skills/code-review/references/templates"
+parity "$CRT/markdown/code-review-handoff.md" "$CRT/pdf/code-review-handoff.pdf.tsx" \
   "How to read this" "Current code" "Proposed fix" "Why this fixes it"
 parity "$UDT/markdown/plan.md" "$UDT/pdf/plan.pdf.tsx" \
   "Global Constraints" "Done when"

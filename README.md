@@ -217,7 +217,7 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 | `triage` | `references/diagnosing.md` |
 | `receiving-code-review` | `references/review-comment.md` |
 | `simplify` | `references/refactoring-lenses.md` |
-| `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet), `code-review-handoff.pdf.tsx` (the `using-doc-creation` PDF-handoff template) + `finding-blocks/` (per-type sections) |
+| `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet), `references/templates/pdf/code-review-handoff.pdf.tsx` + `finding-blocks/` and `references/templates/markdown/code-review-handoff.md` (filled here, rendered via `using-doc-creation`) |
 
 ### Entry points
 
