@@ -187,10 +187,9 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **22 skills**: a bootstrap, four entrances, six phase conductors, nine
-cross-cutting skills, an opt-in deep-review orchestrator, and a feature-doc authoring producer.
-Everything else a phase needs lives as reference files the conductor loads, not as a separately
-discoverable skill.
+The plugin ships **21 skills**: a bootstrap, four entrances, six phase conductors, nine
+cross-cutting skills, and an opt-in deep-review orchestrator. Everything else a phase needs lives as
+reference files the conductor loads, not as a separately discoverable skill.
 
 | Group | Skills |
 |---|---|
@@ -199,7 +198,6 @@ discoverable skill.
 | Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `documenting`, `finish` |
 | Cross-cutting | `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `using-documentation`, `refusing-deferral`, `using-pdf-creation` |
 | Deep review | `code-review` |
-| Authoring | `feature-doc` |
 
 Each phase conductor drives its substages from reference files under its own `references/`
 directory — `build` loads the TDD loop and the review protocol, and so on — and hands work to

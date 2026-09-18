@@ -123,11 +123,21 @@ large empty gaps. The full protocol is in **[references/verifying.md](references
 
 Fix and re-render until it holds.
 
+## Templates
+
+Start from a ready template instead of authoring from scratch when one fits the document you need.
+Each template file carries its own fill-in instructions in a header comment — copy it to
+`<RUNDIR>/pdf.tsx`, follow the header, read the source it documents, and render.
+
+| Document type | Template | Use it for |
+|---|---|---|
+| Feature / architecture handoff | `references/templates/feature-doc.pdf.tsx` | A bundle, module, or feature's architecture: plain-language overview, component map, ER model, process flow, wire contract, component responsibilities, edge cases, and how to test it. |
+
+No template fits? Author `pdf.tsx` from the component library directly (step 2 above).
+
 ## Where the rest lives
 
 - **[references/authoring.md](references/authoring.md)** — the component catalog + when-to-use matrix.
 - **[references/verifying.md](references/verifying.md)** — the inspection protocol.
-- **[references/templates/](references/templates/)** — reusable copy-and-fill templates to start from
-  instead of authoring from scratch. `feature-doc.pdf.tsx` is a feature / architecture handoff doc
-  (the template `engineering:feature-doc` fills).
+- **[references/templates/](references/templates/)** — ready-to-fill templates (see **Templates** above).
 - **[README.md](README.md)** — the package reference (component list, styling boundary, CLI).
