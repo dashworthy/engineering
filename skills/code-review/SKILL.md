@@ -185,9 +185,9 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
      reconciled findings as the review under consideration, so they flow into that skill's
      aggregate → verify → design → fix pipeline. code-review still never edits code; the hand-off
      only shapes the findings into the pipeline that does.
-   - **Designed PDF handoff (`engineering:using-pdf-creation`)** — turn the reconciled findings into a
+   - **Designed PDF handoff (`engineering:using-doc-creation`)** — turn the reconciled findings into a
      print-ready, ShadCN-styled PDF for a team or leadership, rendered in both light and dark. Invoke
-     `engineering:using-pdf-creation`; it offers the code-review finding-handoff template, whose header
+     `engineering:using-doc-creation`; it offers the code-review finding-handoff template, whose header
      carries the full procedure (DATA fill, two-pass ToC, finding-blocks, opt-in verification tests).
 
 ## Track each facet as a todo
