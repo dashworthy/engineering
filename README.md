@@ -192,7 +192,7 @@ reference files the conductor loads, not as a separately discoverable skill.
 | Bootstrap | `using-skills` |
 | Entrances | `signal`, `triage`, `receiving-code-review`, `simplify` |
 | Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `finish` |
-| Cross-cutting | `interrogating-requirements`, `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `refusing-deferral`, `using-pdf-creation` |
+| Cross-cutting | `interrogating-requirements`, `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `refusing-deferral`, `using-doc-creation` |
 | Deep review | `code-review` |
 
 Each phase conductor drives its substages from reference files under its own `references/`
@@ -217,7 +217,7 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 | `triage` | `references/diagnosing.md` |
 | `receiving-code-review` | `references/review-comment.md` |
 | `simplify` | `references/refactoring-lenses.md` |
-| `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet), `code-review-handoff.pdf.tsx` (the `using-pdf-creation` PDF-handoff template) + `finding-blocks/` (per-type sections) |
+| `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet), `code-review-handoff.pdf.tsx` (the `using-doc-creation` PDF-handoff template) + `finding-blocks/` (per-type sections) |
 
 ### Entry points
 

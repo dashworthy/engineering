@@ -1,4 +1,4 @@
-# @engineering/using-pdf-creation
+# @engineering/using-doc-creation
 
 A React document builder. You author a document as hand-written JSX using a library of predesigned
 components, and the builder renders it to **PDF** with [`@react-pdf/renderer`](https://react-pdf.org).

@@ -167,7 +167,7 @@ grep_flat "$CDSK" "force the tenant-boundary decision"; check $? "Tenancy bounda
 # GitHub handle — never a personal or business email. The only email form allowed anywhere in
 # the suite is a GitHub address. interrogating-requirements carries the rule at the capture
 # point; this guard enforces it across every tracked skill and command. node_modules is skipped:
-# a node-based skill (e.g. using-pdf-creation) vendors dependencies there, they are gitignored (never
+# a node-based skill (e.g. using-doc-creation) vendors dependencies there, they are gitignored (never
 # committed), and package-author emails in them are not ours to police.
 grep_flat "$PLUGIN/skills/interrogating-requirements/SKILL.md" "Never record a personal email"
 check $? "interrogating-requirements forbids recording a personal email"

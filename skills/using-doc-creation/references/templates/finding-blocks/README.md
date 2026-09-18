@@ -2,7 +2,7 @@
 
 Type-specific sections that layer onto the base handoff template
 [`../code-review-handoff.pdf.tsx`](../code-review-handoff.pdf.tsx). The authored `pdf.tsx` the
-`using-pdf-creation` render wrapper stages **must be a single self-contained file** — it cannot `import` these
+`using-doc-creation` render wrapper stages **must be a single self-contained file** — it cannot `import` these
 at render time. So each block is a **paste-in fragment**, not a runtime module: you copy the base,
 then paste the blocks for the finding types present in your review. A file here will not compile on
 its own.
