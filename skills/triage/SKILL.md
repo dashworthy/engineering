@@ -23,9 +23,8 @@ See `${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md` for what the call pri
 an active run; derive the `<slug>` from the report in a couple of words. A triage run may join one
 `signal` already started, or an earlier triage pass on the same problem.
 
-Everything triage produces — reproduction notes, isolation, the routing decision and why — is
-persisted into `.engineering/<run>/triage/` as found, per the shared setup steps in
-`${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md`.
+Everything triage produces — reproduction notes, isolation, the routing decision and why — goes
+into `.engineering/<run>/triage/` as it's found, not reconstructed afterward from memory.
 
 ## 2. Shape context — verify, reproduce, isolate
 
@@ -68,14 +67,16 @@ re-litigating it. Finding nothing is the normal result.
 **When expected behavior is unclear**, and only then, synthesize it with the user before handing
 off: invoke the shared discovery skill (`engineering:interrogating-requirements`) and drive it (it self-drives
 the interrogation and writes the requirements, brief.md §1–§6, into this run's `triage/`
-directory). This is triage's own discovery leg, not a hand-off to `signal` — see the shared entrance
-contract (`${CLAUDE_PLUGIN_ROOT}/references/entrance-contract.md`).
+directory). This is triage's own discovery leg — it is **not** a hand-off to `signal`; an entrance
+never invokes another entrance.
 
 ## 3. Hand to design
 
 Once the defect is verified and isolated far enough to design a fix against, hand that context to
-the shared design dialogue per the shared entrance contract
-(`${CLAUDE_PLUGIN_ROOT}/references/entrance-contract.md`) — invoke `engineering:brainstorming` now.
+the shared design dialogue — invoke `engineering:brainstorming` now. Everything converges there;
+there is no routing table and no quick-fix side door, and there is no gate at this seam. Approval
+lives at the downstream gates, never in this entrance or in brainstorming. Reporting the isolation and asking whether to proceed is not a move
+here: once the context is shaped and written into the run, invoke brainstorming.
 
 A report that turns out **Not reproducible**, already fixed, or already rejected does not go to
 design — record the disposition in `.engineering/<run>/triage/` and close it with the reason

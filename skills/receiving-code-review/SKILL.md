@@ -39,9 +39,8 @@ See `${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md` for what the call pri
 an active run; derive the `<slug>` from the review in a couple of words.
 
 Everything this entrance produces — the aggregated comments, the verification notes, the
-impact-check, the reply and resolve decisions — is persisted into
-`.engineering/<run>/receiving-code-review/` as found, per the shared setup steps in
-`${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md`.
+impact-check, the reply and resolve decisions — goes into `.engineering/<run>/receiving-code-review/`
+as it's found, not reconstructed afterward from memory.
 
 ## 3. Shape context — aggregate, verify, impact-check
 
@@ -90,8 +89,8 @@ user's call.
 ambiguous ask, a conflict with a decision already made, expected behavior that must be synthesized —
 and only then, invoke the shared discovery skill (`engineering:interrogating-requirements`) and drive it (it
 self-drives the interrogation and writes what it learns into this run's directory). This is this
-entrance's own discovery leg, not a hand-off — see the shared entrance contract
-(`${CLAUDE_PLUGIN_ROOT}/references/entrance-contract.md`).
+entrance's own discovery leg — it is **not** a hand-off to another entrance; the entrances never
+invoke one another.
 
 ### Two standing instructions to carry forward
 
@@ -127,9 +126,10 @@ rather than fixed stays open with the reasoning on its thread.
 ## 4. Hand to design
 
 Once the comments are aggregated, verified, and impact-checked — and the two standing instructions
-are written into the shaped context — hand it to the shared design dialogue per the shared entrance
-contract (`${CLAUDE_PLUGIN_ROOT}/references/entrance-contract.md`): invoke `engineering:brainstorming`
-now.
+are written into the shaped context — hand it to the shared design dialogue: invoke
+`engineering:brainstorming` now. Everything converges there; there is no gate at this seam. Approval
+lives at the downstream gates, never in this entrance or in design. Reporting the findings and asking whether to proceed is not a
+move here: once the context is shaped and written into the run, invoke brainstorming.
 
 If no review is in hand, ask the user for the PR, branch, or comments under review before
 proceeding.
