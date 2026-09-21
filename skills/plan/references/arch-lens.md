@@ -35,9 +35,11 @@ types, and returned shapes the tasks will actually produce (this is why `plan` m
 tasks sketch them). For each boundary a task introduces or reshapes, run it through
 the **shape lenses in review mode**: invoke `engineering:using-codebase-design` with the
 argument `review` and the proposed shape, and it returns the findings from its `SHAPE-REVIEW.md`
-evaluative lenses — the SOLID questions and the anti-pattern table — without running its
-interactive design-it-twice or pattern-proposal machinery. It judges the shape already on the
-page; it does not design a new one.
+evaluative lenses — the SOLID questions and the anti-pattern table — plus any **recommendations**
+it draws from the concrete sketch: where a pattern genuinely fits it, or a deepening move would
+improve it. It does not sketch a second design or choose one — it judges the shape already on the
+page and recommends against it. This is the point in the pipeline where the code is concrete
+enough for a pattern to be judged a real fit rather than guessed at.
 
 A finding that names a clear defect — a leaked call order, a fat interface a caller uses a
 third of, high-level policy bound to a concrete detail, or a task with two branches doing the
@@ -51,6 +53,14 @@ the plan*), the same way you'd fix a placeholder the self-review caught. Note th
 reader sees the sketch changed and why. You do not need to ask the human to approve closing a defect the
 lens objectively fired on; you close it in that pass and the reviewed sketch is what they read at the gate.
 
+**Tenancy is the sharpest must-fix, and it is never an offer.** When a reviewed boundary touches
+tenant-scoped data, review mode forces the isolation decision — determine the tenancy model from
+the spec and plan context (ask if it isn't stated), consult the matching tenancy companion, and
+close the boundary to the required scoped shape in the revision pass. It rides this
+objective-defect path, not the recommendation path below: an isolation leak ships another tenant's
+data, so it is fixed, not put to the human as a choice. This is the one design-time guarantee that
+used to live before the spec gate; it now lands here, unweakened — required, not optional.
+
 The reinvented / one-off data-structure smell is the one exception: don't close it here — it
 belongs to the one-off scan below, which flags every candidate to the human rather than revising
 silently. When the architecture lens fires on it, carry it into that scan instead of revising it.
@@ -58,6 +68,11 @@ silently. When the architecture lens fires on it, carry it into that scan instea
 If a finding turns on a genuine trade-off rather than a defect — two defensible shapes, the
 lens firing on one axis but not clearly wrong — surface it the same way the one-off scan
 below surfaces its flags: as an explicit choice put to the human, not a silent revision.
+
+A **recommendation** the review returns — a pattern that fits the sketch, a deepening move —
+is surfaced the same way: put it to the human as a structured choice via
+`engineering:using-questions`, the recommended change first and plain-shape/no-change always
+present, never applied silently. A recommendation is an offer, not a defect; the human decides.
 
 ### 2. The reinvention scan — data structures, then capabilities
 
@@ -147,13 +162,15 @@ Keep the plan's own shape intact: this pass corrects sketches and swaps structur
 not add tasks, reorder them, or change the approach the spec settled. If a finding can't be
 closed without changing the approach itself — the lens reveals the whole boundary is wrong,
 not just its sketch — that's beyond a plan review; say so and hand it back to `plan`
-to route to `brainstorming` or `using-codebase-design` rather than patching around it here.
+to route to `brainstorming` rather than patching around it here.
 
 ## What this does not do
 
-- It does not **design.** Choosing an approach is the `brainstorming` dialogue; shaping a boundary from two
-  competing designs is the `using-codebase-design` skill. The arch-lens review runs the shape lenses'
-  *evaluative* pass over a shape already chosen and sketched; it does not generate a shape or weigh approaches.
+- It does not **redesign or weigh approaches.** Choosing an approach is the `brainstorming`
+  dialogue. The arch-lens review runs the shape lenses over a shape already sketched: it judges
+  that shape and may recommend a pattern or a deepening move against it (surfaced to the human
+  via `engineering:using-questions`), but it does not sketch a second design or choose one, and
+  it never reopens the approach.
 - It does not **hold the plan gate.** Presenting the plan for human approval and minting the
   plan-approval marker is `plan`. This skill's per-finding flags are explicit-choice
   approvals inside the review, not the gate; it returns the reviewed plan and the gate follows.

@@ -26,10 +26,10 @@ sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" simplify <slug>
 ```
 
 `<slug>` is a 2–4 word kebab-case handle you derive from the target (what is disliked, in a word or
-two); see `${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md` for what the call prints and how it
-joins an active run. Write `00-request.md` into that directory yourself, with the request verbatim —
-including which code the user pointed at — before the first question. If the directory already holds
-a `brief.md`, do not overwrite it — ask the user whether to resume that run.
+two); see `${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md` for what the call prints, how it
+joins an active run, and the shared setup steps that follow — seed `00-request.md` verbatim
+(including which code the user pointed at) before the first question, resume-guard on an existing
+`brief.md`, and persist findings as found.
 
 **Target selection.** Work on the code the user explicitly names — a file, function, module, or
 region they call out as disliked. When they point at nothing specific, fall back to the
@@ -49,7 +49,8 @@ brief is the deliverable and ends at §6.
 Where the interrogation needs generic requirement-mining the lenses do not cover — an unclear
 stakeholder, a success criterion the lenses cannot name — fall back to the shared discovery
 skill (`engineering:interrogating-requirements`) for that gap. That is
-your own discovery leg, not a hand-off — never invoke another entrance.
+your own discovery leg, not a hand-off — see the shared entrance contract
+(`${CLAUDE_PLUGIN_ROOT}/references/entrance-contract.md`).
 
 If the request is genuinely trivial — a rename, a one-liner the user could make faster than describe
 — say so in one sentence and exit with no brief.
@@ -58,8 +59,8 @@ If the request is genuinely trivial — a rename, a one-liner the user could mak
 
 Once `brief.md` §1–§6 is on disk, report its path and **invoke `engineering:brainstorming` now** —
 the shared design dialogue, in the main thread. Propose no refactor approaches, write no spec, and
-change no code; that is downstream. "Stop" here means stop interrogating, not stop to ask whether to
-proceed — there is no gate at this seam, and handing off is the next act.
+change no code; that is downstream. Hand off per the shared entrance contract
+(`${CLAUDE_PLUGIN_ROOT}/references/entrance-contract.md`).
 
 If the request in hand is unclear or empty, ask the user which code they want reshaped before
 proceeding.

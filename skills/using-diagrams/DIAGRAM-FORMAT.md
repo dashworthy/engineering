@@ -1,5 +1,13 @@
 # Diagram format
 
+Contents:
+
+- [GitHub-compatible mermaid](#github-compatible-mermaid)
+- [Diagram craft](#diagram-craft)
+- [ER diagram](#er-diagram) — mermaid and ASCII templates
+- [Process-flow diagram](#process-flow-diagram) — mermaid and ASCII templates
+- [Other shapes](#other-shapes) — sequence and lifecycle, mermaid and ASCII templates
+
 Concrete templates for the two shapes `using-diagrams` anchors on, each in both mediums.
 Copy the one that matches the shape and the destination; adapt the labels to the real
 material. The medium follows the fork in `SKILL.md`.

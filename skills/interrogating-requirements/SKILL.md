@@ -1,6 +1,6 @@
 ---
 name: interrogating-requirements
-description: "The shared requirement interrogator: convert a vague request into hard, unambiguous requirements (brief.md §1–§6) before any design, refusing vagueness across six coverage dimensions. The four entrances drive it as their discovery leg — signal as its primary beat; triage, receiving-code-review, and simplify as a fallback. Interactive and main-thread only; writes brief.md §1–§6 and open-threads.md; cannot run as a dispatched subagent."
+description: "The shared requirement interrogator: convert a vague request into hard, unambiguous requirements (brief.md §1–§6) before any design, refusing vagueness across six coverage dimensions. The pipeline's entrances drive it as their discovery leg. Interactive and main-thread only; writes brief.md §1–§6 and open-threads.md; cannot run as a dispatched subagent."
 ---
 
 # interrogating-requirements
@@ -55,45 +55,7 @@ You write a second file into the run directory: `open-threads.md`, **working sta
 
 **Write it during the interrogation, never in a synthesis pass at the end** — a session that ends mid-round has already banked what it learned. Same argument as writing `brief.md` §1–§6 the moment the gate is met (see `## Write the Moment the Gate Is Met`), one level earlier: work not yet on disk lives only in a conversation a crash can take. Update it whenever a dimension moves, a baseline gets corrected, or you notice something you will not chase this session.
 
-### Shape
-
-```markdown
-# Open Threads — <slug>
-Working state for this run. Not the deliverable; `brief.md` is.
-
-## Coverage So Far
-| Dimension | Status | Established |
-|---|---|---|
-| 1. Problem | filled | Support load from password resets, ~40/wk, felt by the 2-person helpdesk |
-| 2. Users & Stakeholders | thin | Admins named; nobody named as sign-off yet |
-| 3. Success Criteria | empty | — |
-| 4. Constraints | empty | — |
-| 5. Scope | empty | — |
-| 6. Existing Context | empty | — |
-
-## Open Threads
-- [ ] **reset-volume-baseline** — 40/wk was offered with low confidence and never checked
-      *Opened:* 2026-08-18 · *Kind:* unchecked-baseline
-- [ ] **sso-vs-magic-link** — corrected my SSO baseline, never said why magic links were ruled out
-      *Opened:* 2026-08-18 · *Kind:* corrected-not-dug
-```
-
-`Status` is `filled`, `filled (baseline, agreed)`, `thin`, or `empty` (defined in `## The Advancement Gate`): plain `filled` for a dimension the user narrated in their own words, `filled (baseline, agreed)` for one that reached its answer only by agreeing to your offered baseline. `Established` holds what the user actually said in their own words wherever you have it; for a `filled (baseline, agreed)` row, the baseline they agreed to.
-
-### The four thread kinds
-
-| Kind | Means |
-|---|---|
-| `corrected-not-dug` | A baseline was corrected but the reason behind the correction was never mined |
-| `unresolved-conflict` | Two requirements collide and no condition has been found that resolves them |
-| `next-probe` | Something identified as worth pursuing but not pursued — the obviously-next probe when the session ran out of time |
-| `unchecked-baseline` | A figure or assumption offered with low confidence and never checked |
-
-### Obligations
-
-- **Anything noticed and not pulled goes in before the session ends** — the single rule that makes a ten-minute session compound instead of accumulate.
-- **Close a thread by checking it off and moving what it produced into the coverage table. Never delete it.** The record of what was dangling is what makes the next session cheap.
-- **Never draft `brief.md` prose here, and never write threads into `brief.md`.** Two files, two jobs.
+The file's shape, the four thread kinds (`corrected-not-dug`, `unresolved-conflict`, `next-probe`, `unchecked-baseline`), and the obligations for keeping it are in `references/open-threads.md`.
 
 ## How to Interrogate — Offer Choices, Then Mine the Correction
 
@@ -160,16 +122,7 @@ People describe the process they believe they follow — tidier and more princip
 
 ## Returning Sessions
 
-A returning session opens by **offering a choice, never by making one**:
-
-> "Do you want to start from your own spot, or pick up one of the open threads from last time?"
-
-List the open threads underneath, short. They see what is dangling even if they go somewhere else entirely.
-
-- **Do not silently resume where you stopped.** The user's own spot is a legitimate answer, frequently the better one.
-- **Do not re-ask a dimension the coverage table records as `filled`.** Re-asking what is already banked is the exact thing continuity exists to prevent, and it reads as not having listened.
-- **Do re-open a `thin` dimension.** Thin is a gap, not coverage.
-- **A `filled (baseline, agreed)` dimension is the one worth revisiting** — not re-asked mechanically as though it were empty (the user did answer), but offered back as the softest ground: "last time you agreed X was standard; has anything since made you want to revisit it?" This is the pipeline's only structural guard against an unexamined baseline you both waved through.
+How a returning session opens (offer a choice, never make one), what not to re-ask, and why a `filled (baseline, agreed)` dimension is the one worth revisiting: see `references/returning-sessions.md`.
 
 ## When They Ask Whether You Have Enough
 
@@ -189,7 +142,7 @@ If the user refuses to answer after one genuine push-back, do NOT cave and build
 
 ## Write the Moment the Gate Is Met
 
-**The moment the advancement gate is met, write `brief.md` §1–§6** — before anything else can fail. The interrogation is the expensive part of this pipeline, and until it is on disk it exists only in a conversation that a crashed session or a closed terminal takes with it. Writing costs one file operation; not writing costs the whole interrogation.
+**The moment the advancement gate is met, write `brief.md` §1–§6** — before anything else can fail, since until it is on disk the interrogation lives only in a conversation a crash takes.
 
 That write is a complete `brief.md` §1–§6, exactly as specified in `## Output` below. It is the deliverable; the brief ends at §6.
 

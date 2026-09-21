@@ -65,18 +65,8 @@ pre-checked by the same character match as the other opt-in facets. (Electron ha
 facet: its non-security idiom is a Framework Best Practices stack, and its process-model security
 is a lens of the Security facet — each engaged by that facet's own gate.)
 
-Which of these arrive **pre-checked** on a given run is not a fixed default: it is decided by the
-**Pre-check when the change…** column of the facet list below, which the orchestrator reads at
-menu-fill time (workflow step 2) to pre-fill the menu from the character of the change under review.
-Keeping the pre-check condition in the facet list itself — the orchestrator's own doc, already
-loaded — lets the pre-fill decide **without opening any facet's file**; a facet's own doc is read
-only once that facet is actually dispatched (step 5), never merely to guess whether to run it, so a
-review does not pay to load every facet's doc to choose the ones it will use. The condition names
-the **character of the change** — *what the change does* — never a path, file type, directory, or
-glob, since that would falsely skip a facet the moment a repo is laid out or named unexpectedly. Err
-toward pre-checking: a false skip (a lens left off) is the harmful direction, while a false-positive
-self-skips cheaply at dispatch — each facet's own relevance gate stays authoritative there — or the
-human unchecks it. The human still confirms or overrides the pre-filled set.
+Which facets arrive **pre-checked** on a given run is decided at menu-fill time (workflow step 2),
+from the facet list's **Pre-check when the change…** column.
 
 | Facet (file) | Lens | Pre-check when the change… |
 |---|---|---|
@@ -154,8 +144,11 @@ human unchecks it. The human still confirms or overrides the pre-filled set.
    gate holds — no facet reads what another writes). Mark each facet's todo `in_progress` as it
    goes out, or as you begin it inline.
 5. **Hand each facet the contract.** Each selected facet is defined by its file
-   `references/facets/<facet>/facet.md`; dispatch a reviewer by handing it that file to read and
-   apply. Pass every facet the same request and expect the same result shape — see
+   `${CLAUDE_PLUGIN_ROOT}/skills/code-review/references/facets/<facet>/facet.md`; dispatch a reviewer
+   by handing it that **absolute** path to read and apply — named by absolute path so a cold
+   subagent, which boots in a directory it was never told, can resolve it; the facet's own
+   `references/*.md` and `../../*` citations then resolve relative to that file's own directory. Pass
+   every facet the same request and expect the same result shape — see
    [references/facet-contract.md](references/facet-contract.md). Set the request's `caps` (`top_n`,
    `floor`) from the **effort** argument per the table in **Arguments** — the same caps to every
    facet, so the discipline is tuned in one place. Each facet enforces the hard stops

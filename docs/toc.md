@@ -14,7 +14,7 @@ segment).
 | [Verification](foundations/verification/README.md) | The rule that a branch's "green" must be backed by actual command output, re-run when the branch has moved — composed by build and finish | foundations |
 | [Build phase](pipeline/build/README.md) | Executes an approved plan task by task in an isolated workspace, each behavior change test-first and each task's diff gated by an automated three-lens review | pipeline |
 | [Code review](pipeline/code-review/README.md) | The deep, opt-in facet-menu review a human runs on a higher-risk change — pick lenses, fan out self-limiting reviewers, reconcile one report, route the findings | pipeline |
-| [Design phase](pipeline/design/README.md) | The shared dialogue that turns a shaped brief into an approved spec — brainstorming recommends an approach, using-codebase-design shapes its boundary, and spec holds the first human gate | pipeline |
+| [Design phase](pipeline/design/README.md) | The shared dialogue that turns a shaped brief into an approved spec — brainstorming recommends an approach and names any boundary it turns on, and spec holds the first human gate | pipeline |
 | [Entrances](pipeline/entrances/README.md) | The four doors that shape a raw ask, defect, review, or disliked code into designable context and hand it to the design dialogue — signal, triage, receiving-code-review, and simplify | pipeline |
 | [Finish phase](pipeline/finish/README.md) | Reviews the whole green branch once, then opens a pull request or stacked PR set to re-enter the repo; never merges | pipeline |
 | [Planning phase](pipeline/planning/README.md) | Turns one approved spec into a single ordered, stacked implementation plan and holds the pipeline's second human gate | pipeline |

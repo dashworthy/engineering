@@ -21,10 +21,9 @@ sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" signal <slug>
 ```
 
 `<slug>` is a 2–4 word kebab-case handle you derive from the request; see
-`${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md` for what the call prints and how it joins an
-active run. Write `00-request.md` into that directory yourself, with the request verbatim, before the
-first question. If the directory already holds a `brief.md`, do not overwrite it — ask the user
-whether to resume that run.
+`${CLAUDE_PLUGIN_ROOT}/references/establishing-run.md` for what the call prints, how it joins an
+active run, and the shared setup steps that follow — seed `00-request.md` verbatim before the first
+question, resume-guard on an existing `brief.md`, and persist findings as found.
 
 ## 2. Shape context — interrogate the request
 
@@ -41,9 +40,7 @@ Once `brief.md` §1–§6 is on disk, hand its path to `engineering:brainstormin
 dialogue — in the main thread; signal does not write a spec.
 
 **signal ends at the brief and hands it to `engineering:brainstorming`.** Once `brief.md` is on
-disk, report its path and **invoke `engineering:brainstorming` now.** "Stop" means stop
-interrogating and do not design, plan, or build yourself — it is not a stop to ask whether to
-proceed. There is no gate at this seam; parking the brief with a "want me to start design?" is not
-an available move — design is the next act, take it.
+disk, report its path and hand off per the shared entrance contract
+(`${CLAUDE_PLUGIN_ROOT}/references/entrance-contract.md`) — invoke `engineering:brainstorming` now.
 
 If the request in hand is unclear or empty, ask the user what they want built before proceeding.

@@ -52,7 +52,7 @@ template**:
 - `references/templates/pdf/spec.pdf.tsx` — the PDF form, same sections.
 
 Shape, don't transcribe: §0 ELI5 is a plain-language synthesis written last; §6 Approach is the
-recommended design (the chosen approach, the alternatives it beat, any boundary shaped), not the
+recommended design (the chosen approach, the alternatives it beat, any boundary named), not the
 brief. Where the material is thin, the section says so and the gap goes to §8 — never invent.
 
 ## Presentation artifact
