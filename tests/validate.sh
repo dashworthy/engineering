@@ -293,6 +293,15 @@ grep_flat "$SSK" "engineering:using-doc-creation"; check $? "spec conductor hand
 ! grep_flat "$SSK" "PDF"; check $? "spec conductor makes no format (PDF) decision"
 ! grep_flat "$SSK" "pdf.tsx"; check $? "spec conductor names no using-doc-creation template path"
 
+# --- plan: hands off to using-doc-creation, decides no format itself ---------
+# Plan creation makes no format decision: it only hands the plan's path to using-doc-creation, which
+# owns everything about format (guarded above). Guard the handoff is present and that no format
+# decision leaked back into the plan skill — no "PDF" wording, no template path.
+PSK="$PLUGIN/skills/plan/SKILL.md"
+grep_flat "$PSK" "engineering:using-doc-creation"; check $? "plan conductor hands off to using-doc-creation"
+! grep_flat "$PSK" "PDF"; check $? "plan conductor makes no format (PDF) decision"
+! grep_flat "$PSK" "pdf.tsx"; check $? "plan conductor names no using-doc-creation template path"
+
 # --- code-review: opt-in deep review with three findings routes --------------
 # The deep-review orchestrator folded in from guardtower is report-only, but after reconciling it
 # puts the fate of the findings to the human: keep them local, post them to the PR, or hand them to

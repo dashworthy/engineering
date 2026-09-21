@@ -200,6 +200,11 @@ inside it (the reinvention and unproven-assumption flags). The human gate is sti
 and it comes after review, so the plan the human approves is the reviewed one. Do not present
 the plan for approval until the arch-lens review has returned.
 
+## Presentation artifact
+
+Hand the plan's path (`.engineering/<run>/plan/<YYYY-MM-DD>-<topic>.md`) to
+`engineering:using-doc-creation`.
+
 ## The plan gate — present the plan, then hold for approval
 
 The plan gate is the pipeline's second human-approval gate; the first is the spec gate in
