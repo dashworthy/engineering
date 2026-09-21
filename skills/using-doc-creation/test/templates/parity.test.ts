@@ -12,35 +12,47 @@ const SKILL_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel: string) => readFileSync(resolve(SKILL_ROOT, rel), 'utf8');
 const markdownHeadings = (md: string) =>
   [...md.matchAll(/^#{2,6}\s+(.+?)\s*$/gm)].map((m) => m[1].trim());
+// A PDF template's TOC array is `[{ title: '…', page: '…', link: '…' }, …]`. Anchoring on `link:`
+// isolates TOC rows from other `title:` keys (cover, cards) in the file.
+const tocTitles = (pdf: string) => [...pdf.matchAll(/title:\s*'([^']+)'[^}]*link:/g)].map((m) => m[1]);
+
+// TOC-driven templates: a fixed, ordered section list the Markdown must mirror heading-for-heading.
+const TOC_DRIVEN = [
+  { name: 'feature-doc', min: 9 },
+  { name: 'spec', min: 9 },
+];
+
+// Scaffold-driven templates: sections vary with the content (findings, tasks), so parity is on the
+// fixed labels every such document carries. These are literals in the PDF template's WIRING.
+const SCAFFOLD_DRIVEN = [
+  { name: 'code-review-handoff', labels: ['How to read this', 'Current code', 'Proposed fix', 'Why this fixes it'] },
+  { name: 'plan', labels: ['Global Constraints', 'Done when'] },
+];
 
 describe('template parity — Markdown mirrors its PDF sibling', () => {
-  it('feature-doc: every PDF TOC section has a matching Markdown heading', () => {
-    const pdf = read('references/templates/pdf/feature-doc.pdf.tsx');
-    const md = read('references/templates/markdown/feature-doc.md');
+  for (const { name, min } of TOC_DRIVEN) {
+    it(`${name}: every PDF TOC section has a matching Markdown heading`, () => {
+      const pdf = read(`references/templates/pdf/${name}.pdf.tsx`);
+      const md = read(`references/templates/markdown/${name}.md`);
 
-    // The PDF template's TOC array is the canonical, ordered section list. Each row is
-    // `{ title: '…', page: '…', link: '…' }` — anchoring on `link:` isolates the TOC rows from other
-    // `title:` keys (cover, cards) in the file.
-    const tocTitles = [...pdf.matchAll(/title:\s*'([^']+)'[^}]*link:/g)].map((m) => m[1]);
-    expect(tocTitles.length, 'expected the feature-doc PDF TOC to define its sections').toBeGreaterThanOrEqual(9);
+      const titles = tocTitles(pdf);
+      expect(titles.length, `expected the ${name} PDF TOC to define its sections`).toBeGreaterThanOrEqual(min);
 
-    const headings = markdownHeadings(md);
-    for (const title of tocTitles) {
-      expect(headings, `Markdown feature-doc is missing the "${title}" section`).toContain(title);
-    }
-  });
+      const headings = markdownHeadings(md);
+      for (const title of titles) {
+        expect(headings, `Markdown ${name} is missing the "${title}" section`).toContain(title);
+      }
+    });
+  }
 
-  it('code-review-handoff: the finding-report scaffold appears in both formats', () => {
-    const pdf = read('references/templates/pdf/code-review-handoff.pdf.tsx');
-    const md = read('references/templates/markdown/code-review-handoff.md');
-
-    // The handoff is finding-driven (sections vary with the findings), so parity is on the fixed
-    // scaffold every finding report carries. These labels are literals in the PDF template's WIRING;
-    // the Markdown must carry the same ones.
-    const scaffold = ['How to read this', 'Current code', 'Proposed fix', 'Why this fixes it'];
-    for (const label of scaffold) {
-      expect(pdf, `the PDF template no longer carries the "${label}" scaffold label`).toContain(label);
-      expect(md, `Markdown code-review-handoff is missing the "${label}" scaffold`).toContain(label);
-    }
-  });
+  for (const { name, labels } of SCAFFOLD_DRIVEN) {
+    it(`${name}: the document scaffold appears in both formats`, () => {
+      const pdf = read(`references/templates/pdf/${name}.pdf.tsx`);
+      const md = read(`references/templates/markdown/${name}.md`);
+      for (const label of labels) {
+        expect(pdf, `the PDF template no longer carries the "${label}" scaffold label`).toContain(label);
+        expect(md, `Markdown ${name} is missing the "${label}" scaffold`).toContain(label);
+      }
+    });
+  }
 });
