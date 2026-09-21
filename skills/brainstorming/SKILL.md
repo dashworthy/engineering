@@ -72,10 +72,8 @@ it travels with the recommended design into the spec's §6.
 What you do **not** do here is shape that boundary's interface or pick the pattern that fits
 it. That judgment needs concrete code to look at — the signatures the work actually
 produces — and you don't have it yet: at design time "what a caller must know" is a guess,
-and a pattern chosen before you can see the shape it applies to is cargo-culting. Interface
-shape and pattern fit are judged later, at plan-review, where the plan's task sketches give
-`engineering:using-codebase-design` something real to weigh. Leave the boundary named and
-unshaped, and let that decision travel to the plan.
+and a pattern chosen before you can see the shape it applies to is cargo-culting. Leave the
+boundary named and unshaped.
 
 ## Recommend the design, then hand off
 
