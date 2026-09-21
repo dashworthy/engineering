@@ -183,7 +183,7 @@ flowchart LR
 
 ## Skill suite
 
-The plugin ships **19 skills**: four entrances, five phase conductors, nine
+The plugin ships **20 skills**: four entrances, five phase conductors, ten
 cross-cutting skills, and an opt-in deep-review orchestrator. Everything else a phase needs lives as
 reference files the conductor loads, not as a separately discoverable skill.
 
@@ -191,7 +191,7 @@ reference files the conductor loads, not as a separately discoverable skill.
 |---|---|
 | Entrances | `signal`, `triage`, `receiving-code-review`, `simplify` |
 | Phase conductors | `brainstorming`, `spec`, `plan`, `build`, `finish` |
-| Cross-cutting | `interrogating-requirements`, `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `refusing-deferral`, `using-doc-creation` |
+| Cross-cutting | `interrogating-requirements`, `using-codebase-design`, `using-stacked-pull-requests`, `using-diagrams`, `using-questions`, `using-verification`, `using-parallel-agents`, `refusing-deferral`, `using-doc-creation`, `feature-doc` |
 | Deep review | `code-review` |
 
 Each phase conductor drives its substages from reference files under its own `references/`
@@ -209,6 +209,7 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 | Owner | References |
 |---|---|
 | `spec` | `using-doc-creation/references/spec-format.md` (relocated into `using-doc-creation`) |
+| `feature-doc` | `references/templates/pdf/feature-doc.pdf.tsx`, `references/templates/markdown/feature-doc.md` (filled here, rendered via `using-doc-creation`) |
 | `using-codebase-design` | `references/SHAPE-REVIEW.md`, `DESIGN-IT-TWICE.md`, `PATTERN-MATRIX.md`, `DEEPENING.md`, `TENANCY-ISOLATED-DB.md`, `TENANCY-SHARED-DB.md` |
 | `plan` | `references/arch-lens.md` |
 | `build` | `references/establishing-workspace.md`, `tdd-loop.md` (+ `mocking.md`, `tests.md`), `review-protocol.md` + `lenses/standards.md`, `spec.md`, `eli5.md` |

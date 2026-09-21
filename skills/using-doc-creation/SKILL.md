@@ -182,7 +182,6 @@ the row for your document, then the column for your chosen format.
 
 | Document type | PDF template | Markdown template | Use it for |
 |---|---|---|---|
-| Feature / architecture handoff | `references/templates/pdf/feature-doc.pdf.tsx` | `references/templates/markdown/feature-doc.md` | A bundle, module, or feature's architecture: plain-language overview, component map, ER model, process flow, wire contract, component responsibilities, edge cases, and how to test it. |
 | Code-review finding handoff | `references/templates/pdf/code-review-handoff.pdf.tsx` | `references/templates/markdown/code-review-handoff.md` | Reconciled code-review findings as a report: cover/title, a contents list, and one section per finding (current code, proposed fix, why it works). The PDF template layers type-specific views from the sibling `references/templates/pdf/finding-blocks/` (security, concurrency, data-safety, api-contract); the Markdown template folds those in inline. |
 | Spec (Tier-1) | `references/templates/pdf/spec.pdf.tsx` | `references/templates/markdown/spec.md` | A Tier-1 spec: cover + page-numbered ToC + §0 ELI5 through §8 open questions (goals & Deferred as tables). The format contract is `references/spec-format.md`. |
 | Plan | `references/templates/pdf/plan.pdf.tsx` | `references/templates/markdown/plan.md` | An implementation plan: cover + ToC, Global Constraints, one section per task (TDD-wired steps + verification), and a Done-when. |

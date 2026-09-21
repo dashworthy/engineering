@@ -11,7 +11,7 @@
        reconciled finding, grouped into themes most-actionable first.
     3. For EACH finding, keep the three scaffold labels — **Current code**, **Proposed fix**, and
        **Why this fixes it** — they are the parity contract with the PDF template
-       (test/templates/parity.test.ts checks them). Drop the OPTIONAL Evidence / Proof blocks a
+       (the repo validation in tests/validate.sh checks them). Drop the OPTIONAL Evidence / Proof blocks a
        finding does not need.
     4. Type-specific views (security, concurrency, data-safety, api-contract) that the PDF template
        layers from references/templates/pdf/finding-blocks/ are folded in HERE as extra labeled

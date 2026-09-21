@@ -302,6 +302,32 @@ grep_flat "$PSK" "engineering:using-doc-creation"; check $? "plan conductor hand
 ! grep_flat "$PSK" "PDF"; check $? "plan conductor makes no format (PDF) decision"
 ! grep_flat "$PSK" "pdf.tsx"; check $? "plan conductor names no using-doc-creation template path"
 
+# --- template parity: each doc's Markdown + PDF templates carry the same sections ---------------
+# Templates live with the skill that owns each doc type; both formats of a doc must carry the same
+# section list, so a reader gets the same document whichever format is rendered. (Replaces the old
+# using-doc-creation vitest parity test, now that templates are distributed across owning skills.)
+parity() {  # parity <md> <pdf> <label>...
+  _md=$1; _pdf=$2; shift 2
+  { [ -f "$_md" ] && [ -f "$_pdf" ]; }; check $? "parity: templates exist ($(basename "$_md") + $(basename "$_pdf"))"
+  for _l in "$@"; do
+    grep_flat "$_md" "$_l" && grep_flat "$_pdf" "$_l"
+    check $? "parity: \"$_l\" in both $(basename "$_md") and its PDF sibling"
+  done
+}
+FDOC="$PLUGIN/skills/feature-doc/references/templates"
+parity "$FDOC/markdown/feature-doc.md" "$FDOC/pdf/feature-doc.pdf.tsx" \
+  "Plain-language overview" "Architecture at a glance" "Data model" "Process flow" \
+  "Interfaces & payloads" "Components & responsibilities" "Edge cases & failure modes" \
+  "Limits & configuration" "Testing"
+UDT="$PLUGIN/skills/using-doc-creation/references/templates"
+parity "$UDT/markdown/spec.md" "$UDT/pdf/spec.pdf.tsx" \
+  "ELI5" "Problem" "Users & stakeholders" "Goals & success criteria" "Constraints" \
+  "Scope" "Approach" "Existing context" "Open questions"
+parity "$UDT/markdown/code-review-handoff.md" "$UDT/pdf/code-review-handoff.pdf.tsx" \
+  "How to read this" "Current code" "Proposed fix" "Why this fixes it"
+parity "$UDT/markdown/plan.md" "$UDT/pdf/plan.pdf.tsx" \
+  "Global Constraints" "Done when"
+
 # --- code-review: opt-in deep review with three findings routes --------------
 # The deep-review orchestrator folded in from guardtower is report-only, but after reconciling it
 # puts the fate of the findings to the human: keep them local, post them to the PR, or hand them to
