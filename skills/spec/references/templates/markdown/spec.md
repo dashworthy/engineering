@@ -92,12 +92,12 @@ about it, and how we'll know it worked. Written last, from the sections below; p
 <The approved approach and the alternatives weighed against it (for a triage fix, the chosen fix and
 why the smaller options were rejected). Where it turned on a module boundary, name the boundary, its
 chosen shape, and what a caller must know — which boundary and why, not its code. Increments, if any,
-as one ordered list. Include a ```mermaid flow where a forked approach needs one.>
+as one ordered list. Include a ` ```mermaid ` flow where a forked approach needs one.>
 
 ## 7. Existing context
 
 <Relevant modules, prior art, and what the work touches. Cite any docs consulted. Include a
-```mermaid ER diagram where the work turns on the shape of the data.>
+` ```mermaid ` ER diagram where the work turns on the shape of the data.>
 
 ## 8. Open questions
 
