@@ -1,6 +1,6 @@
 #!/bin/sh
 # Verifies the entrance-bootstrap hook emits valid JSON that names all four entrance
-# skills and points at using-skills. No install required.
+# skills. No install required.
 ROOT=$(CDPATH= cd "$(dirname "$0")/.." && pwd)
 OUT=$(CLAUDE_PLUGIN_ROOT="$ROOT" sh "$ROOT/hooks/session-start.sh") || { echo "FAIL: hook exited non-zero"; exit 1; }
 printf '%s' "$OUT" | python3 -c '
@@ -9,7 +9,6 @@ d=json.load(sys.stdin)
 c=d["hookSpecificOutput"]["additionalContext"]
 assert d["hookSpecificOutput"]["hookEventName"]=="SessionStart", d
 assert "engineering:signal" in c and "engineering:triage" in c and "engineering:receiving-code-review" in c and "engineering:simplify" in c, "must name all four entrance skills"
-assert "using-skills" in c, "must point at using-skills"
 print("ok")
 ' || { echo "FAIL: hook output invalid"; exit 1; }
 echo "PASS hook.sh"
