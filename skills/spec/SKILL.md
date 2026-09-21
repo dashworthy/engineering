@@ -40,31 +40,10 @@ single home for a run's spec, plan, markers, and scratch. Beside the spec this s
 also writes the run-scoped approval marker (`.engineering/<run>/to-spec/APPROVED.md`), minted at
 the spec gate below — the marker is the trace that the spec cleared the gate.
 
-## How it renders
+## Presentation artifact
 
-Follow `${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation/references/spec-format.md` — do not restate its shape here or
-reinvent it inline. Every section in that file gets filled; a section with nothing to
-say gets a line explaining why, not silence.
-
-§0 ELI5 is not mapped from any source section — it is a plain-language synthesis of the
-finished spec, written last from the completed sections and placed first for easy consumption.
-Every spec carries one; see `${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation/references/spec-format.md`.
-
-Two source shapes map onto the one format — and the mapping is by meaning, not by
-section number:
-- a **signal** brief supplies §1–§5 in order, and its §6 (Existing Context) becomes
-  the spec's §7. The spec's §6 (Approach) does not come from
-  the brief at all — it is transcribed from the recommended design `brainstorming` hands
-  off: the chosen approach, the alternatives it beat, and — when the approach turned on a
-  boundary — the boundary `using-codebase-design` shaped. Together these are §6's content.
-  When that design breaks the work into increments, they travel here too: §6 lays them out as
-  one ordered list (see `${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation/references/spec-format.md`), still within this single spec.
-- a **triage** isolation record maps onto the same eight sections with two repurposed:
-  §1 becomes the reproduced problem, and §6 becomes the chosen fix approach — including
-  why the smaller fixes on the table were rejected, not only the one that won.
-
-When §6 Approach or §7 Existing context describes a data model, a flow, or a state machine,
-consider a diagram via `engineering:using-diagrams`.
+Hand the spec's path (`.engineering/<run>/spec/<YYYY-MM-DD>-<topic>.md`) to
+`engineering:using-doc-creation`.
 
 ## The spec gate — write a draft, then hold for approval
 
