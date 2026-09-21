@@ -2,7 +2,8 @@
 // -----------------------------------------------------------------------------------------------
 // A starting pdf.tsx for a designed Tier-1 spec, visually consistent with the other templates
 // (full-bleed CoverPage + page-numbered ToC + sections). The Markdown twin is
-// references/templates/markdown/spec.md; the format contract is references/spec-format.md.
+// references/templates/markdown/spec.md, which is also the Tier-1 spec format contract (there is no
+// separate spec-format doc).
 // Copy this file to the render run dir as  <RUNDIR>/pdf.tsx , fill the DATA section, then render
 // (run it from the using-doc-creation skill dir so tsx + the package resolve):
 //

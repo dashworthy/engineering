@@ -31,7 +31,7 @@ TOSPEC="$PLUGIN/skills/spec/SKILL.md"
 PLANS="$PLUGIN/skills/plan/SKILL.md"
 EXEC="$PLUGIN/skills/build/SKILL.md"
 FINISH="$PLUGIN/skills/finish/SKILL.md"
-SPECFMT="$PLUGIN/skills/using-doc-creation/references/spec-format.md"
+SPECFMT="$PLUGIN/skills/spec/references/templates/markdown/spec.md"
 
 # --- design: no gate, no marker -- approval lives at the spec gate ------
 ! grep_flat "$BRAIN" "APPROVED.md"

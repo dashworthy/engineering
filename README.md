@@ -208,16 +208,16 @@ driving it. Everything else a conductor needs is a **reference file** it loads:
 
 | Owner | References |
 |---|---|
-| `spec` | `using-doc-creation/references/spec-format.md` (relocated into `using-doc-creation`) |
+| `spec` | `references/templates/pdf/spec.pdf.tsx`, `references/templates/markdown/spec.md` (the Markdown template is also the Tier-1 format contract; filled here, rendered via `using-doc-creation`) |
 | `feature-doc` | `references/templates/pdf/feature-doc.pdf.tsx`, `references/templates/markdown/feature-doc.md` (filled here, rendered via `using-doc-creation`) |
 | `using-codebase-design` | `references/SHAPE-REVIEW.md`, `DESIGN-IT-TWICE.md`, `PATTERN-MATRIX.md`, `DEEPENING.md`, `TENANCY-ISOLATED-DB.md`, `TENANCY-SHARED-DB.md` |
-| `plan` | `references/arch-lens.md` |
+| `plan` | `references/arch-lens.md`, `references/templates/pdf/plan.pdf.tsx`, `references/templates/markdown/plan.md` (filled here, rendered via `using-doc-creation`) |
 | `build` | `references/establishing-workspace.md`, `tdd-loop.md` (+ `mocking.md`, `tests.md`), `review-protocol.md` + `lenses/standards.md`, `spec.md`, `eli5.md` |
 | `finish` | `references/pr-description.md` |
 | `triage` | `references/diagnosing.md` |
 | `receiving-code-review` | `references/review-comment.md` |
 | `simplify` | `references/refactoring-lenses.md` |
-| `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet), `code-review-handoff.pdf.tsx` (the `using-doc-creation` PDF-handoff template) + `finding-blocks/` (per-type sections) |
+| `code-review` | `references/facet-contract.md`, `hard-stops.md`, `multi-tenancy-signals.md`, `stack-signals.md`, `facets/<facet>/facet.md` (one per facet), `references/templates/pdf/code-review-handoff.pdf.tsx` + `finding-blocks/` and `references/templates/markdown/code-review-handoff.md` (filled here, rendered via `using-doc-creation`) |
 
 ### Entry points
 

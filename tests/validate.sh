@@ -101,16 +101,16 @@ fi
 
 # --- diagrams: authoring phases consider a diagram ---------------------------
 # using-diagrams is *consider*, not *always draw*, so the obligation does not flood. The plan
-# conductor carries the obligation directly; the spec's diagram obligation lives in the spec-format
-# contract (using-doc-creation owns spec creation), not in the spec conductor.
+# conductor carries the obligation directly; the spec's diagram obligation lives in the spec template
+# (skills/spec owns its template), not in the spec conductor.
 UD="$PLUGIN/skills/using-diagrams/SKILL.md"
 if [ -f "$UD" ]; then
   grep_flat "$UD" "consider a diagram"; check $? "using-diagrams states the consider-a-diagram authoring obligation"
 fi
 grep_flat "$PLUGIN/skills/plan/SKILL.md" "using-diagrams" && grep_flat "$PLUGIN/skills/plan/SKILL.md" "consider a diagram"
 check $? "plan/SKILL.md carries the consider-a-diagram obligation via using-diagrams"
-grep_flat "$PLUGIN/skills/using-doc-creation/references/spec-format.md" "using-diagrams"
-check $? "spec-format contract carries the diagram obligation via using-diagrams"
+grep_flat "$PLUGIN/skills/spec/references/templates/markdown/spec.md" "using-diagrams"
+check $? "spec template carries the diagram obligation via using-diagrams"
 
 # --- using-codebase-design companions ----------------------------------------------
 # using-codebase-design states its principle in SKILL.md and carries the mechanics in uppercase
@@ -270,11 +270,11 @@ BR="$PLUGIN/skills/brainstorming/SKILL.md"
 
 # --- spec carries an ELI5 (plain-language summary) -----------------------------
 # Every spec renders a §0 ELI5 up top: a jargon-free synthesis of the whole spec for easy
-# consumption. That obligation lives in the spec-format contract (using-doc-creation owns spec
-# creation), not in the spec conductor — guard the contract exists and carries it.
-SF="$PLUGIN/skills/using-doc-creation/references/spec-format.md"
-[ -f "$SF" ]; check $? "spec/references/SPEC-FORMAT.md exists"
-grep_flat "$SF" "## 0. ELI5"; check $? "SPEC-FORMAT carries the section-0 ELI5 summary"
+# consumption. The Tier-1 format contract now lives IN the spec template (skills/spec owns it; there
+# is no separate spec-format doc) — guard the template exists and carries it.
+SF="$PLUGIN/skills/spec/references/templates/markdown/spec.md"
+[ -f "$SF" ]; check $? "spec template (the Tier-1 format contract) exists"
+grep_flat "$SF" "## 0. ELI5"; check $? "spec template carries the section-0 ELI5 summary"
 SSK="$PLUGIN/skills/spec/SKILL.md"
 
 # --- using-doc-creation: the format matrix owns the default/fallback ----------
@@ -285,22 +285,20 @@ DCSK="$PLUGIN/skills/using-doc-creation/SKILL.md"
 grep_flat "$DCSK" "Choose a format"; check $? "using-doc-creation carries the format matrix"
 grep_flat "$DCSK" "When a caller defers the choice"; check $? "the format matrix owns the default/fallback for deferred callers"
 
-# --- spec: hands off to using-doc-creation, decides no format itself ---------
-# Spec creation makes no format decision: it only hands the spec's path to using-doc-creation, which
-# owns everything about format (guarded above). Guard the handoff is present and that no format
-# decision leaked back into the spec skill — no "PDF" wording, no template path.
-grep_flat "$SSK" "engineering:using-doc-creation"; check $? "spec conductor hands off to using-doc-creation"
-! grep_flat "$SSK" "PDF"; check $? "spec conductor makes no format (PDF) decision"
-! grep_flat "$SSK" "pdf.tsx"; check $? "spec conductor names no using-doc-creation template path"
+# --- spec: shapes content into its own template, hands off rendering ---------
+# The spec conductor shapes the spec (fills its own spec template) and hands the path to
+# using-doc-creation to render; it decides no format and reimplements no render mechanics.
+grep_flat "$SSK" "engineering:using-doc-creation"; check $? "spec conductor hands off rendering to using-doc-creation"
+grep_flat "$SSK" "references/templates/markdown/spec.md"; check $? "spec conductor fills its own spec template"
+! grep_flat "$SSK" "node --import tsx"; check $? "spec conductor does not restate the render command (using-doc-creation owns rendering)"
 
-# --- plan: hands off to using-doc-creation, decides no format itself ---------
-# Plan creation makes no format decision: it only hands the plan's path to using-doc-creation, which
-# owns everything about format (guarded above). Guard the handoff is present and that no format
-# decision leaked back into the plan skill — no "PDF" wording, no template path.
+# --- plan: shapes content into its own template, hands off rendering ----------
+# The plan conductor shapes the plan (fills its own plan template) and hands the path to
+# using-doc-creation to render; it decides no format and reimplements no render mechanics.
 PSK="$PLUGIN/skills/plan/SKILL.md"
-grep_flat "$PSK" "engineering:using-doc-creation"; check $? "plan conductor hands off to using-doc-creation"
-! grep_flat "$PSK" "PDF"; check $? "plan conductor makes no format (PDF) decision"
-! grep_flat "$PSK" "pdf.tsx"; check $? "plan conductor names no using-doc-creation template path"
+grep_flat "$PSK" "engineering:using-doc-creation"; check $? "plan conductor hands off rendering to using-doc-creation"
+grep_flat "$PSK" "references/templates/markdown/plan.md"; check $? "plan conductor fills its own plan template"
+! grep_flat "$PSK" "node --import tsx"; check $? "plan conductor does not restate the render command (using-doc-creation owns rendering)"
 
 # --- template parity: each doc's Markdown + PDF templates carry the same sections ---------------
 # Templates live with the skill that owns each doc type; both formats of a doc must carry the same
@@ -319,13 +317,15 @@ parity "$FDOC/markdown/feature-doc.md" "$FDOC/pdf/feature-doc.pdf.tsx" \
   "Plain-language overview" "Architecture at a glance" "Data model" "Process flow" \
   "Interfaces & payloads" "Components & responsibilities" "Edge cases & failure modes" \
   "Limits & configuration" "Testing"
-UDT="$PLUGIN/skills/using-doc-creation/references/templates"
-parity "$UDT/markdown/spec.md" "$UDT/pdf/spec.pdf.tsx" \
+SPT="$PLUGIN/skills/spec/references/templates"
+parity "$SPT/markdown/spec.md" "$SPT/pdf/spec.pdf.tsx" \
   "ELI5" "Problem" "Users & stakeholders" "Goals & success criteria" "Constraints" \
   "Scope" "Approach" "Existing context" "Open questions"
-parity "$UDT/markdown/code-review-handoff.md" "$UDT/pdf/code-review-handoff.pdf.tsx" \
+CRT="$PLUGIN/skills/code-review/references/templates"
+parity "$CRT/markdown/code-review-handoff.md" "$CRT/pdf/code-review-handoff.pdf.tsx" \
   "How to read this" "Current code" "Proposed fix" "Why this fixes it"
-parity "$UDT/markdown/plan.md" "$UDT/pdf/plan.pdf.tsx" \
+PLT="$PLUGIN/skills/plan/references/templates"
+parity "$PLT/markdown/plan.md" "$PLT/pdf/plan.pdf.tsx" \
   "Global Constraints" "Done when"
 
 # --- code-review: opt-in deep review with three findings routes --------------
@@ -411,13 +411,13 @@ if [ -f "$SEC" ]; then
 fi
 [ ! -e "$FACETS/reviewing-electron" ]; check $? "retired reviewing-electron facet is absent"
 
-# --- SPEC-FORMAT consumability refresh ---------------------------------------
-# The spec format cites the one shared consumable-markdown reference rather than restating a
-# house style, and renders its enumerable sections (§3 success criteria, §5 Deferred) as tables
-# so a reader scans them row against row instead of parsing prose.
-grep_flat "$SF" "consumable-markdown.md"; check $? "SPEC-FORMAT cites the shared consumable-markdown reference"
-grep_flat "$SF" "| How it's checked |"; check $? "SPEC-FORMAT renders §3 success criteria as a table"
-grep_flat "$SF" "| Trigger to revive |"; check $? "SPEC-FORMAT renders §5 Deferred as a table"
+# --- spec template consumability refresh -------------------------------------
+# The spec format (now the spec template) cites the one shared consumable-markdown reference rather
+# than restating a house style, and renders its enumerable sections (§3 success criteria, §5
+# Deferred) as tables so a reader scans them row against row instead of parsing prose.
+grep_flat "$SF" "consumable-markdown.md"; check $? "spec template cites the shared consumable-markdown reference"
+grep_flat "$SF" "| How it's checked |"; check $? "spec template renders §3 success criteria as a table"
+grep_flat "$SF" "| Trigger to revive |"; check $? "spec template renders §5 Deferred as a table"
 
 # --- using-questions: single source of the ask-a-human mechanics + guardrails --
 # The menu mechanics (structured choice, recommended-first, open escape, degraded fallback)
