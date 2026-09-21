@@ -10,8 +10,7 @@
     2. Fill the cover line and "How to read this", then duplicate the "### Finding" block once per
        reconciled finding, grouped into themes most-actionable first.
     3. For EACH finding, keep the three scaffold labels — **Current code**, **Proposed fix**, and
-       **Why this fixes it** — they are the parity contract with the PDF template
-       (the repo validation in tests/validate.sh checks them). Drop the OPTIONAL Evidence / Proof blocks a
+       **Why this fixes it** — they are the parity contract with the PDF template. Drop the OPTIONAL Evidence / Proof blocks a
        finding does not need.
     4. Type-specific views (security, concurrency, data-safety, api-contract) that the PDF template
        layers from references/templates/pdf/finding-blocks/ are folded in HERE as extra labeled

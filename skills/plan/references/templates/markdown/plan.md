@@ -11,7 +11,7 @@
        short run of `- [ ]` steps naming exact file paths, wired into the TDD loop where it changes
        behavior, carrying its own verification command. Close with **Done when**.
     3. Keep the **Global Constraints** and **Done when** headings — they are the parity contract with
-       the PDF template (the repo validation in tests/validate.sh checks them) and every downstream phase reads
+       the PDF template and every downstream phase reads
        them.
   ------------------------------------------------------------------------------------------------
 -->
