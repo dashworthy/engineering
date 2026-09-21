@@ -1,6 +1,6 @@
 ---
 name: spec
-description: "The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Runs on a recommended design already handed off from the design phase; does not self-trigger on arbitrary requests. Run-dir slug stays `to-spec`."
+description: "The single writer of Tier-1 specs and holder of the spec-approval gate. Render the standard spec from an entrance's material (a signal brief or triage record) as a draft, present it, wait for approval, then stamp Approved and mint the spec-approval marker. Runs on a recommended design already handed off from the design phase; does not self-trigger on arbitrary requests."
 ---
 
 # spec

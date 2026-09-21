@@ -17,7 +17,7 @@
     2. Fill the header (Date/Author/Status/Origin) and every section — a section with nothing to say
        gets one line explaining why, not silence. §0 ELI5 is written LAST, from the finished sections,
        but placed first. Keep the section HEADINGS unchanged — they are the parity contract with the
-       PDF template (the repo validation in tests/validate.sh checks them) and the Tier-1 format every
+       PDF template and the Tier-1 format every
        downstream phase reads.
 
   SOURCE MAPPING — the two entrances map onto these same sections, by meaning not section number:

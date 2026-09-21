@@ -10,7 +10,7 @@ This is the **repo-level** gate — the upper of code-review's two gates, the sa
 `multi-tenancy-signals.md` runs for the tenant-isolation facets. It selects which facets appear
 (and pre-checked); the facet then runs its own **per-change relevance gate** on the actual diff,
 narrowed further to the file(s) a change actually touches (see the *What this facet covers* table in
-[`reviewing-framework-best-practices`'s facet](../../reviewing-framework-best-practices/facet.md)).
+[`reviewing-framework-best-practices`'s facet](facets/reviewing-framework-best-practices/facet.md)).
 A facet proposed here can still skip itself on a change that touches no stack-relevant surface.
 
 **One structural difference from `multi-tenancy-signals.md`:** that gate emits a single verdict
