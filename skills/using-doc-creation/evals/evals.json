@@ -1,18 +1,18 @@
 {
-  "skill_name": "builder",
+  "skill_name": "using-doc-creation",
   "evals": [
     {
       "id": 0,
       "name": "plain-readme",
       "prompt": "Can you turn the README at evals/fixtures/plain-readme.md into a nice PDF I can share with the team? It's the readme for our parqet CLI tool. No diagrams in it, just headings, an options table, and a couple of code blocks.",
-      "expected_output": "A designed A4 PDF in both light and dark themes rendered from the parqet README: a cover from the title, sectioned prose, the options table styled, and the install/usage code blocks syntax-highlighted. No content runs off the page.",
+      "expected_output": "A designed A4 PDF in the default light theme rendered from the parqet README: a cover from the title, sectioned prose, the options table styled, and the install/usage code blocks syntax-highlighted. No content runs off the page.",
       "files": [
         "evals/fixtures/plain-readme.md"
       ],
       "assertions": [
-        "Both a light and a dark PDF were produced (two distinct theme variants).",
+        "A light-theme PDF was produced (light is the default; the request did not ask for dark, so no dark PDF is required).",
         "Each PDF is a valid, non-empty PDF that opens and has at least one page.",
-        "No content is clipped or runs off the page edge on any page, in either theme.",
+        "No content is clipped or runs off the page edge on any page in the theme(s) rendered.",
         "Output looks intentionally designed (cover/title treatment, clear section hierarchy, consistent styling) rather than a raw markdown dump.",
         "The options/flags table renders as a real styled table with all its rows and columns intact.",
         "The install and usage code blocks render as syntax-highlighted code blocks (monospaced, distinct from body text).",
@@ -23,14 +23,14 @@
       "id": 1,
       "name": "mermaid-spec",
       "prompt": "I need to export our webhook delivery design spec to a polished PDF for the architecture review. The doc is at evals/fixtures/mermaid-spec.md and it has two mermaid diagrams (a flowchart and a sequence diagram) that absolutely need to show up as real diagrams, not code blocks.",
-      "expected_output": "A designed A4 PDF in both themes where both mermaid diagrams render as actual vector diagrams fully inside their cards (nothing clipped), the prose is sectioned, and the retry/backoff content reads cleanly. No overflow in either theme.",
+      "expected_output": "A designed A4 PDF in the default light theme where both mermaid diagrams render as actual vector diagrams fully inside their cards (nothing clipped), the prose is sectioned, and the retry/backoff content reads cleanly. No overflow.",
       "files": [
         "evals/fixtures/mermaid-spec.md"
       ],
       "assertions": [
-        "Both a light and a dark PDF were produced (two distinct theme variants).",
+        "A light-theme PDF was produced (light is the default; the request did not ask for dark, so no dark PDF is required).",
         "Each PDF is a valid, non-empty PDF that opens and has at least one page.",
-        "No content is clipped or runs off the page edge on any page, in either theme.",
+        "No content is clipped or runs off the page edge on any page in the theme(s) rendered.",
         "Output looks intentionally designed (cover/title treatment, clear section hierarchy, consistent styling) rather than a raw markdown dump.",
         "The delivery flowchart appears as an actual rendered diagram (nodes and arrows), not as a code/text block and not a blank box.",
         "The sequence diagram appears as an actual rendered diagram (participants and messages), not as code and not blank.",
@@ -42,14 +42,14 @@
       "id": 2,
       "name": "rich-designed",
       "prompt": "Make this payments migration decision brief look really sharp as a PDF \u2014 it's going to leadership. It's at evals/fixtures/rich-designed.md. There's a recommendation, a comparison of three options, a side-by-side table, some risks, and a phased rollout plan. Use whatever design elements make it look professional.",
-      "expected_output": "A designed A4 PDF in both themes that reaches for the richer components where they fit: e.g. the option comparison as compare/panel cards, the recommendation/risk callouts as key boxes, badges for status, the rollout as a phase sequence, and the side-by-side as a styled table. Looks designed, not just formatted markdown. No overflow.",
+      "expected_output": "A designed A4 PDF in the default light theme that reaches for the richer components where they fit: e.g. the option comparison as compare/panel cards, the recommendation/risk callouts as key boxes, badges for status, the rollout as a phase sequence, and the side-by-side as a styled table. Looks designed, not just formatted markdown. No overflow.",
       "files": [
         "evals/fixtures/rich-designed.md"
       ],
       "assertions": [
-        "Both a light and a dark PDF were produced (two distinct theme variants).",
+        "A light-theme PDF was produced (light is the default; the request did not ask for dark, so no dark PDF is required).",
         "Each PDF is a valid, non-empty PDF that opens and has at least one page.",
-        "No content is clipped or runs off the page edge on any page, in either theme.",
+        "No content is clipped or runs off the page edge on any page in the theme(s) rendered.",
         "Output looks intentionally designed (cover/title treatment, clear section hierarchy, consistent styling) rather than a raw markdown dump.",
         "The three options (in-house, Stripe, PayPal) are presented as visually distinct cards or panels, not just plain paragraphs.",
         "The recommendation and/or risks are surfaced as styled callouts/key-boxes, not buried in body text.",
@@ -62,18 +62,53 @@
       "id": 3,
       "name": "long-multipage",
       "prompt": "Please render evals/fixtures/long-guide.md as a PDF. It's our Orders service onboarding guide \u2014 pretty long, lots of sections. I want it to paginate nicely across pages without weird huge gaps or anything getting cut off.",
-      "expected_output": "A multi-page designed A4 PDF in both themes that paginates cleanly: sections flow across pages with no content clipped at page edges and no mostly-empty pages / large gaps. Consistent styling throughout both themes.",
+      "expected_output": "A multi-page designed A4 PDF in the default light theme that paginates cleanly: sections flow across pages with no content clipped at page edges and no mostly-empty pages / large gaps. Consistent styling throughout.",
       "files": [
         "evals/fixtures/long-guide.md"
       ],
       "assertions": [
-        "Both a light and a dark PDF were produced (two distinct theme variants).",
+        "A light-theme PDF was produced (light is the default; the request did not ask for dark, so no dark PDF is required).",
         "Each PDF is a valid, non-empty PDF that opens and has at least one page.",
-        "No content is clipped or runs off the page edge on any page, in either theme.",
+        "No content is clipped or runs off the page edge on any page in the theme(s) rendered.",
         "Output looks intentionally designed (cover/title treatment, clear section hierarchy, consistent styling) rather than a raw markdown dump.",
         "The document spans multiple pages (at least 3).",
         "Pagination is tight: no mostly-empty pages or large vertical gaps between sections.",
         "[with_skill only] The authored pdf.tsx imports only from '@engineering/using-doc-creation' with no relative imports or local asset files."
+      ]
+    },
+    {
+      "id": 4,
+      "name": "markdown-mermaid-spec",
+      "prompt": "Can you turn evals/fixtures/mermaid-spec.md into a Markdown doc I can drop into our wiki? It should render on GitHub with nothing installed — I don't want a PDF, just clean portable Markdown. It has two mermaid diagrams (a flowchart and a sequence diagram); keep those as diagrams.",
+      "expected_output": "A single plain-GFM Markdown document (no build step) covering the webhook delivery spec: a title, sectioned prose with headings, and the two mermaid diagrams preserved as ```mermaid fenced code-blocks (NOT rasterized to images and NOT dropped). No embedded HTML/CSS styling, no callout/badge/card markup — just portable Markdown.",
+      "files": [
+        "evals/fixtures/mermaid-spec.md"
+      ],
+      "assertions": [
+        "The output is a Markdown document (not a PDF and not a pdf.tsx / React file).",
+        "It is valid, portable GitHub-Flavored Markdown: headings, and prose, that would render on GitHub with no build step.",
+        "Both mermaid diagrams are present as ```mermaid fenced code-blocks (the flowchart and the sequence diagram), not rasterized images and not omitted.",
+        "No section of the source spec is dropped — the retry/backoff delivery content is all represented.",
+        "The document contains no embedded HTML/CSS and no ShadCN-style callout/badge/card markup — it is plain Markdown only.",
+        "[with_skill only] No pdf.tsx was authored and no PDF was rendered for this request — the Markdown format needs neither."
+      ]
+    },
+    {
+      "id": 5,
+      "name": "markdown-plain-readme",
+      "prompt": "Please turn evals/fixtures/plain-readme.md into a tidy Markdown doc for our repo — plain Markdown, not a PDF. It's the readme for our parqet CLI: headings, an options table, and a couple of code blocks.",
+      "expected_output": "A single plain-GFM Markdown document rendered from the parqet README: a title, sectioned headings, the options/flags as a real GFM table (pipes and rows intact), and the install/usage code as ```fenced code-blocks. Portable Markdown, no styling, no build step.",
+      "files": [
+        "evals/fixtures/plain-readme.md"
+      ],
+      "assertions": [
+        "The output is a Markdown document (not a PDF and not a pdf.tsx / React file).",
+        "It is valid, portable GitHub-Flavored Markdown that would render on GitHub with no build step.",
+        "The options/flags render as a real GFM table (header row, separator row, and all data rows with pipes), not prose.",
+        "The install and usage code appear as ```fenced code-blocks.",
+        "No section of the source README is dropped from the Markdown.",
+        "The document contains no embedded HTML/CSS and no ShadCN-style callout/badge/card markup — it is plain Markdown only.",
+        "[with_skill only] No pdf.tsx was authored and no PDF was rendered for this request."
       ]
     }
   ]
