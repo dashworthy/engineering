@@ -1,14 +1,14 @@
 // Code-Review Finding Doc — SKELETON
 // -----------------------------------------------------------------------------------------------
-// A starting pdf.tsx for a designed code-review PDF handoff, authored with the engineering:using-pdf-creation
-// skill. Copy this file to the using-pdf-creation run dir as  <RUNDIR>/pdf.tsx , fill in the DATA section,
-// then render with using-pdf-creation's step 3 (run it from the using-pdf-creation skill dir so tsx + the package resolve):
+// A starting pdf.tsx for a designed code-review PDF handoff, authored with the engineering:using-doc-creation
+// skill. Copy this file to the using-doc-creation run dir as  <RUNDIR>/pdf.tsx , fill in the DATA section,
+// then render with using-doc-creation's step 3 (run it from the using-doc-creation skill dir so tsx + the package resolve):
 //
-//   cd "${CLAUDE_PLUGIN_ROOT}/skills/using-pdf-creation" \
+//   cd "${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation" \
 //     && node --import tsx src/pdf/render.ts "<RUNDIR>"
 //
 // where <RUNDIR> is the absolute path printed by
-//   sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" using-pdf-creation <slug> --fresh
+//   sh "${CLAUDE_PLUGIN_ROOT}/scripts/run-context.sh" using-doc-creation <slug> --fresh
 //
 // Discipline (the code-review handoff route in the code-review skill explains the why):
 //   • EVIDENCE  = real in-repo code (the mechanism). Never a docblock/comment.
@@ -30,7 +30,7 @@
 import {
   PdfDoc, CoverPage, Section, Subhead, Toc, P, B, Muted, Eyebrow, Table, Legend,
   KeyBox, Flow, CodeBlock, highlightCode, type PdfTheme,
-} from '@engineering/using-pdf-creation';
+} from '@engineering/using-doc-creation';
 
 const R = String.raw; // preserves backslashes and $ in PHP/SQL/YAML. NO backticks inside R`...`.
 

@@ -1,11 +1,11 @@
 // Feature / Architecture Doc — SKELETON
 // -----------------------------------------------------------------------------------------------
 // A starting pdf.tsx for a designed feature/architecture document, authored with the
-// engineering:using-pdf-creation skill. Copy this file to the render run dir as  <RUNDIR>/pdf.tsx ,
+// engineering:using-doc-creation skill. Copy this file to the render run dir as  <RUNDIR>/pdf.tsx ,
 // fill in the DATA section + replace the guidance prose, then render (run it from the
-// using-pdf-creation skill dir so tsx + the package resolve):
+// using-doc-creation skill dir so tsx + the package resolve):
 //
-//   cd "${CLAUDE_PLUGIN_ROOT}/skills/using-pdf-creation" \
+//   cd "${CLAUDE_PLUGIN_ROOT}/skills/using-doc-creation" \
 //     && node --import tsx src/pdf/render.ts "<RUNDIR>" --theme <light|dark>
 //
 // where <RUNDIR> is the absolute path printed by
@@ -30,7 +30,7 @@
 //     section; fill the ToC's `page` values on a SECOND pass (render once, read where each lands).
 //   • Replace every `<...>` angle placeholder and TODO line, or delete the line. Drop any OPTIONAL
 //     section the feature doesn't need — a shorter true doc beats a padded one.
-//   • Render the chosen theme and LOOK at the PDF before claiming done (using-pdf-creation step 4).
+//   • Render the chosen theme and LOOK at the PDF before claiming done (using-doc-creation step 4).
 // -----------------------------------------------------------------------------------------------
 
 import {
@@ -55,7 +55,7 @@ import {
   highlightCode,
   rasterizeMermaid,
   type PdfTheme,
-} from '@engineering/using-pdf-creation';
+} from '@engineering/using-doc-creation';
 
 const R = String.raw; // preserves backslashes and $ in PHP/SQL/YAML. NO backticks inside R`...`.
 
