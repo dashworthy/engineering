@@ -93,8 +93,8 @@ guardrails all live there. This reference adds only what is particular to a refa
 The lenses cover what a developer dislikes about code's *shape*. They do not cover the generic
 requirement dimensions a brief still needs — who owns the code and signs off, a success criterion
 the lenses cannot name, a constraint from outside the code. Where the interrogation needs that
-generic mining, load the shared discovery reference
-(`references/interrogating-requirements.md`) and drive it for that gap yourself — it is your own
+generic mining, invoke the shared discovery skill
+(`engineering:interrogating-requirements`) and drive it for that gap yourself — it is your own
 discovery leg, not a hand-off to another entrance.
 
 ## The advancement gate
