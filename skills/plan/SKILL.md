@@ -77,9 +77,9 @@ Global Constraints, this uses X," not repeat the reasoning for X.
 
 ## Show the code, not just the intent
 
-The plan owns the concrete code. The spec's §6 named the boundary at decision altitude —
-which boundary, its chosen shape, what a caller must know — and deliberately stopped short of
-the exact signature; typing it out is the plan's job. So where §6 committed to a boundary, a
+The plan owns the concrete code. The spec's §6 named the boundary — which seam, what falls on
+each side — but not its shape; shaping it is the plan's job, and the arch-lens review below
+judges that shape via `engineering:using-codebase-design`. So where §6 committed to a boundary, a
 task here realizes it: the signature, the fields, the returned shape.
 
 A task that changes an interface or adds a type describes it in prose *and* shows it. Carry
@@ -89,22 +89,11 @@ data returned, or the one assertion the task's test turns on. Enough that a read
 change the task will actually make, not so much that the task becomes the implementation
 written ahead of time.
 
-A sketch is an illustration, not the finished code: name the signature and the fields, elide
-the body with a comment (`# walk the rule set once, return the Decision`) rather than writing
-it out. Show the surface a reader needs to judge the change — the signature a caller will
-type, the type a caller will hold, the assertion that proves the behavior — and stop there. A task
-whose change is pure scaffolding (a directory, an empty stub) has no shape to sketch and
+A task whose change is pure scaffolding (a directory, an empty stub) has no shape to sketch and
 carries none; a task that introduces or reshapes a boundary always does, because the code
 sketch is what the review phase below reads to judge the boundary's shape and catch a one-off
-data structure before a human ever sees the plan.
-
-Fence every sketch as a code block so it survives the review phase and the human read intact:
-
-```
-check(user, resource, action) -> Decision
-# Decision.allowed: bool
-# Decision.reason: str | None   — populated only when allowed is False
-```
+data structure before a human ever sees the plan. For how to shape and fence the sketch, see
+`references/interfaces-block.md`.
 
 ## Consider a diagram for a task's shape
 
@@ -116,15 +105,15 @@ than one that leaves every builder to reconstruct it.
 
 Every task closes the same way, and the plan spells the closing steps out rather than leaving
 them to whoever executes it. After a task's build steps and their commits — the tree now clean —
-and before the task hands off to the next one (or, in a stacked plan, to its own PR):
+and before the task hands off to the next one (or, in a stacked plan, to its own PR), the closing
+steps are, in order:
 
-Docblock quality is **not** a separate closing step: the build phase's per-task review gate runs
-an ELI5 lens that surfaces any docblock whose prose reads badly (or a public symbol missing one)
-as a finding, which the build loop then resolves in the task's own diff — the same path every
-other review finding takes.
-
-The commit of the task's work, and — in a stacked plan — the submit-PR step, follow it (see
-PR strategy).
+1. **Docblock quality is not a separate step.** The build phase's per-task review gate runs an
+   ELI5 lens that surfaces any docblock whose prose reads badly (or a public symbol missing one)
+   as a finding, which the build loop then resolves in the task's own diff — the same path every
+   other review finding takes.
+2. **Run the task's commit** — the commit of the task's work.
+3. **In a stacked plan, run the submit-PR step** (see PR strategy).
 
 ## PR strategy — always stacked
 
@@ -191,9 +180,7 @@ capabilities, and flags tasks resting on unproven assumptions — surfacing each
 an explicit choice before it can stand. It hands back the plan revised
 for whatever it found: a signature reshaped to close a leak, a bespoke shape replaced with
 the existing type, an ad-hoc structure the human explicitly approved, or an assumption
-established or accepted with its risk recorded. This is why the
-tasks carry code sketches at all — a plan that only describes its changes in prose gives the
-review phase nothing concrete to judge.
+established or accepted with its risk recorded.
 
 The review phase is not a human gate — it is a machine pass with per-item human approvals
 inside it (the reinvention and unproven-assumption flags). The human gate is still the plan gate below,

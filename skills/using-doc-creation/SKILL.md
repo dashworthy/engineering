@@ -1,6 +1,6 @@
 ---
 name: using-doc-creation
-description: Turn a source document into shareable documentation in one of two formats — a polished, print-ready **PDF** (hand-written JSX from the @engineering/using-doc-creation component library: ShadCN-styled cover, sections, callouts, badges, tables, comparison/panel/key cards, phase & flow sequences, syntax-highlighted code, and mermaid diagrams as real vector images; light by default, dark via `--theme dark`) or plain portable **Markdown** (GFM: headings, tables, fenced code, mermaid as fenced code-blocks). It is the rendering toolkit — doc-type templates live with the skill that owns each type (spec, plan, code-review, feature-doc) and are handed here to render. Use when asked to make a designed/branded PDF, export a README or doc to PDF, or produce a portable Markdown doc for a repo or wiki.
+description: Turn a source document into shareable documentation in one of two formats — a polished, print-ready **PDF** (hand-written JSX from the @engineering/using-doc-creation component library, ShadCN-styled with real vector mermaid diagrams) or plain portable **Markdown** (GFM: headings, tables, fenced code, mermaid as fenced code-blocks). It is the rendering toolkit — doc-type templates live with the skill that owns each type (spec, plan, code-review, feature-doc) and are handed here to render. Use when asked to make a designed/branded PDF, export a README or doc to PDF, or produce a portable Markdown doc for a repo or wiki.
 ---
 
 # using-doc-creation
@@ -41,9 +41,8 @@ in the chosen format rather than authoring from scratch.
 
 ## PDF format
 
-An A4 PDF that looks designed: a cover from the doc's title, sectioned prose, ShadCN-styled
-callouts/badges/tables, comparison and key-box cards, phase and flow sequences, syntax-highlighted
-code, and **real vector mermaid diagrams** — light or dark, chosen at render time. You author the
+An A4 PDF that looks designed: ShadCN-styled components and **real vector mermaid diagrams** — light
+or dark, chosen at render time. You author the
 document as a small React (`*.pdf.tsx`) module using a fixed component library; the builder paginates
 it to PDF with `@react-pdf/renderer` (no HTML, no browser print). Your job is to author it, **render
 it, then look at the PDF** and iterate.

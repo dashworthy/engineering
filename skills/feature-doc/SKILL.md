@@ -1,6 +1,6 @@
 ---
 name: feature-doc
-description: Produce a designed feature / architecture document for a target — a bundle, module, directory, or named feature. Reads the real code, fills this skill's structured template (plain-language overview, architecture & data-model diagrams, process flow, interfaces/payloads, component responsibilities, edge cases, limits, testing), then hands it to engineering:using-doc-creation to render. Use when asked to write up, document, or hand off a feature or a module's architecture as a polished document.
+description: Produce a designed feature / architecture document for a target — a bundle, module, directory, or named feature. Reads the real code, fills this skill's structured architecture document, then hands it to engineering:using-doc-creation to render. Use when asked to write up, document, or hand off a feature or a module's architecture as a polished document.
 ---
 
 # feature-doc

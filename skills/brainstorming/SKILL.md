@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "The design phase: explore context, propose 2-3 approaches with trade-offs, recommend one, and shape any boundary the approach turns on (via using-codebase-design). Use once a request has been interrogated into a brief or a defect isolated; hands the recommended design to spec. Weighs approach; does not interrogate requirements (the entrances' job) or design module internals (that is using-codebase-design)."
+description: "The design phase: explore context, propose 2-3 approaches with trade-offs, recommend one, and name any boundary the approach turns on. Use once a request has been interrogated into a brief or a defect isolated; hands the recommended design to spec. Weighs approach; does not interrogate requirements (the entrances' job) or shape module interfaces (that is using-codebase-design at plan-review)."
 ---
 
 # brainstorming
@@ -8,7 +8,7 @@ description: "The design phase: explore context, propose 2-3 approaches with tra
 Say this first, plainly: `Using the brainstorming skill to shape the design.`
 
 Shape a recommended design here — an approach chosen over its alternatives, with any load-bearing
-boundary shaped via `using-codebase-design` — then hand it to the `spec` phase; do not write the spec.
+boundary named (its interface shaped later, at plan-review) — then hand it to the `spec` phase; do not write the spec.
 
 ## Starting material
 
@@ -62,25 +62,18 @@ fit it in a single design, that is a signal its *scope* is drawn too wide — na
 approach, or raise the scope as a question for your human partner, rather than stretching the
 increment list to absorb work that doesn't belong.
 
-## Shape the interface when the approach turns on a boundary
+## Name the boundary, don't shape it
 
-Some approaches are settled the moment one is picked. Others turn on a module
-boundary — a new interface, or an existing seam the approach reshapes — where the
-load-bearing decision isn't *which* approach but *what the interface looks like*. When the
-recommended approach is that second kind, shape that interface here, before the spec phase, by
-invoking `engineering:using-codebase-design` on the boundary: it designs the interface
-from at least two competing shapes and judges them on what a caller has to know. Apply it once per
-boundary the approach introduces — a design that stands up three modules applies it three
-times — and let the shaped interfaces travel with the recommended design into the spec,
-where they become part of §6's Approach.
+Some approaches turn on a module boundary — introducing a new seam, or moving an existing
+one. When that's the approach's substance, **name** it: say where the seam sits and what
+falls on each side, as part of the approach itself. That's a decision you can make now, and
+it travels with the recommended design into the spec's §6.
 
-Shaping the interface here, not later, is deliberate: the spec gate (held by the `spec` phase)
-is the first human approval, and an interface is usually the
-highest-leverage decision in a design. Deferring it past that gate would mean the human
-approved an approach whose real shape was still open. An approach with no new or reshaped
-boundary — a behavior change on an existing path, a config move, most quick fixes — has
-nothing for `using-codebase-design` to shape and skips it; this is a call the approach earns, not
-a step every design takes.
+What you do **not** do here is shape that boundary's interface or pick the pattern that fits
+it. That judgment needs concrete code to look at — the signatures the work actually
+produces — and you don't have it yet: at design time "what a caller must know" is a guess,
+and a pattern chosen before you can see the shape it applies to is cargo-culting. Leave the
+boundary named and unshaped.
 
 ## Recommend the design, then hand off
 

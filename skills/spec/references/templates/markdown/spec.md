@@ -23,7 +23,7 @@
   SOURCE MAPPING — the two entrances map onto these same sections, by meaning not section number:
     • signal (a brief): §1 problem and §2–§5 come from the brief in order; §6 Approach is the
       recommended design brainstorming handed off (the chosen approach, the alternatives it beat, and
-      any module boundary shaped); the brief's Existing Context becomes §7.
+      any module boundary named); the brief's Existing Context becomes §7.
     • triage (an isolated defect): §1 is the reproduced problem and §6 is the chosen fix approach —
       including why the smaller fixes were rejected. Every other section is still filled.
 
@@ -90,8 +90,9 @@ about it, and how we'll know it worked. Written last, from the sections below; p
 ## 6. Approach
 
 <The approved approach and the alternatives weighed against it (for a triage fix, the chosen fix and
-why the smaller options were rejected). Where it turned on a module boundary, name the boundary, its
-chosen shape, and what a caller must know — which boundary and why, not its code. Increments, if any,
+why the smaller options were rejected). Where it turned on a module boundary, name the boundary —
+which seam, what falls on each side, and why — not its shape or its code; the interface is shaped
+later, at plan-review. Increments, if any,
 as one ordered list. Include a ` ```mermaid ` flow where a forked approach needs one.>
 
 ## 7. Existing context

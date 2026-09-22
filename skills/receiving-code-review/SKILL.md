@@ -69,10 +69,16 @@ the reviewer happened to point at.
 claim and checking each issue beyond its commented line — are independent per-comment
 investigations, and how they run depends on the size of the reception. A **small reception** —
 roughly three or fewer comments — is cheaper to work inline than to spin up subagents for; do it
-inline. Above that floor, **fan out**: dispatch one subagent per comment, or per tight
-cluster of comments sharing a locus (same file or function), following `dispatching-parallel-agents`
-— each agent shares only a *read* of the review branch and the aggregated comment list, so the
-independence gate holds, no agent reads what another writes. Each agent verifies its comment(s)
+inline. Above that floor, **fan out** — but size the dispatch unit to clear break-even, not to
+one-per-comment by default. A subagent's fixed cost is its own system-prompt boot, so its payload
+must be worth that cost: **batch small comments together** into one subagent, and reserve **one
+subagent per comment** for a comment whose own verify-plus-beyond-the-line impact-check is genuinely
+large. A batch may span several files when each comment's investigation is small — the unit is sized
+by payload, not only by shared locus. This is the batch-small-items rule: match the split to what's
+actually independent, not to a round number, and don't spawn an agent whose payload is smaller than
+its own fixed cost. Follow `dispatching-parallel-agents` — each agent shares only a *read* of the
+review branch and the aggregated comment list, so the independence gate holds, no agent reads what
+another writes. Each agent verifies its comment(s)
 against the codebase, runs the beyond-the-commented-line impact-check, and returns its verdict —
 fixed, pushed-back, or needs-a-question, with the technical reason and any same-shape hits it found.
 Then **reconcile** the verdicts in the main context before designing. Aggregation stays inline — the

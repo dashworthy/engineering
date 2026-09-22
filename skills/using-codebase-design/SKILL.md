@@ -13,9 +13,10 @@ two modes: design mode (default) shapes a boundary an approach turns on; review 
 Its companion references (`references/DEEPENING.md`, `references/DESIGN-IT-TWICE.md`,
 `references/PATTERN-MATRIX.md`, `references/SHAPE-REVIEW.md`, `references/TENANCY-*.md`) carry the mechanics.
 
-**If invoked with the argument `review`, go straight to *Review mode* at the end and skip every
-generative step above** — you judge one supplied shape, with no second sketch, no pattern-matrix
-proposal, and no choosing.
+**If invoked with the argument `review`, go straight to *Review mode* at the end and skip the
+generative steps above** — you judge one supplied shape, with no second sketch and no choosing.
+You may still *recommend* a pattern the matrix triggers on for that supplied shape; you just do
+not run the full design-it-twice-and-choose flow.
 
 ## What this guarantees
 
@@ -103,16 +104,18 @@ leaks another customer's data, not just a private field.
    the designer decides, from what `brainstorming` established about the application, whether it
    is **shared-database** (one schema, rows told apart by a discriminator column), **isolated
    database** (a database or schema per tenant), or **single-tenant** (not multi-tenant at all).
-   This is a stated fact, not an auto-detection: this skill runs at design time with a
-   human present, so there is no signal-scanning step and no dependency on any other plugin's
-   detection machinery. If you cannot state the model from context, ask — do not guess.
+   This is a stated fact, not an auto-detection: this skill runs with a human reachable — whether
+   shaping at design time or reviewing at plan-review — so there is no signal-scanning step and no
+   dependency on any other plugin's detection machinery. If you cannot state the model from
+   context, ask — do not guess.
 
 2. **Consult the matching companion, then force the decision.** Consult only the companion for the
    model determined in step 1 — `references/TENANCY-SHARED-DB.md` for shared-database,
    `references/TENANCY-ISOLATED-DB.md` for isolated-database — and leave the other closed; their
    failure modes are near-disjoint. Then force the tenant-boundary decision it frames as a
-   **required** part of the shaped interface (travelling into the spec's §6), because an optional
-   isolation lens is one a design under time pressure skips, and the skip is the exact omission that
+   **required** part of the shaped interface — carried into the sketch the plan hands the human,
+   not left as an option — because an optional
+   isolation lens is one a review under time pressure skips, and the skip is the exact omission that
    ships the leak. For a single-tenant app, or a boundary touching no tenant-scoped data, there is
    nothing to decide — skip it with no ceremony. Full consult-and-force detail:
    `references/tenancy-boundary.md`.
@@ -169,13 +172,19 @@ Enter review mode when invoked with the argument `review` and a proposed shape t
   only makes sense with inside knowledge, a required call order, repeated call-site choreography,
   a change inside forcing a change outside. A sketched interface leaks the same way a built one
   does, and the sketch is the cheapest place to catch it.
-- **Skip the generative machinery.** Do not sketch a second design, do not run the pattern
-  matrix's proposal-as-a-structured-choice flow, do not choose between shapes — there is one
-  shape, supplied, and the job is to judge it, not to replace it. Return the findings and let the
-  caller decide what to revise.
+- **Force the tenancy decision when the boundary touches tenant-scoped data** exactly as *Tenancy
+  boundary* above, returning the scoped shape as a **must-fix**, not an offer.
+- **Judge and recommend; don't redesign.** There is one shape, supplied — do not sketch a
+  second design and do not choose between shapes; the job is to judge what's there, not replace
+  it. But go past flagging defects: where a `references/PATTERN-MATRIX.md` trigger genuinely fires
+  on the supplied shape, or a `references/DEEPENING.md` move would deepen it, return that as a
+  **recommendation** — the pattern or move, tied to this boundary, with plain-shape/no-change as
+  the standing default. You return recommendations; you do not run the interactive
+  proposal flow yourself — the caller surfaces them to the human via `engineering:using-questions`.
 
-Review mode judges a shape; it does not own the fix. The caller decides which
-findings to close and which to surface to the human. Hand back the findings and stop.
+Review mode judges a shape; it does not own the fix. The caller decides which findings to close,
+which to surface, and puts the recommendations to the human. Hand back the findings and
+recommendations, and stop.
 
 ## Boundaries — what this does not do
 
@@ -184,11 +193,11 @@ findings to close and which to surface to the human. Hand back the findings and 
   this skill's vocabulary at a different scale. This skill shapes the one boundary in
   front of it and stops there.
 - It does not **decide what to build.** Whether a feature is worth building, and which
-  approach it takes, is settled in `brainstorming`; this skill does not weigh in on product
-  direction. It starts once an approach has named a boundary that needs shaping — a module
-  new or existing, one that nothing may have built yet — before the spec is written. A
-  boundary to shape, not a module already sitting in the tree, is what this skill needs to
-  begin.
+  approach it takes, is settled in `brainstorming`, which *names* the boundary; this skill does not
+  weigh in on product direction. It runs at plan-review, over the plan's task sketches, to shape
+  and vet the boundary that approach named — a module new or existing, one that nothing may have
+  built yet. A boundary to shape, not a module already sitting in the tree, is what this skill needs
+  to begin.
 - It does not **implement.** Sketching interface shapes and choosing between them is not
   writing the module. Once a shape is chosen, building it is ordinary implementation work,
   outside this skill.
