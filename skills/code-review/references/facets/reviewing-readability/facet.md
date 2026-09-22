@@ -1,11 +1,9 @@
 
 # Reviewing — Readability facet
 
-Say this first, plainly: `Using the code-review readability facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for the readability defects a diff can
+Given the change under review, this facet looks for the readability defects a diff can
 actually show — unearned abstraction that costs more to follow than it returns, and defensive code
 guarding conditions that cannot or realistically will not happen — and returns a short, ordered,
 self-contained list of findings, capped and floored, with a durable record written to its artifact.

@@ -5,8 +5,6 @@ description: "The refactor entrance: interrogate disliked existing code into nam
 
 # simplify
 
-Say this first, plainly: `Using the simplify skill to interrogate the perceived problem into a brief.`
-
 Use this on existing code a developer dislikes — *"I don't like this code, make it more to my
 liking."* Interrogate *what* they dislike and *why* through language-neutral quality lenses, into
 named target qualities each paired with an observable check, then hand that to the design dialogue.

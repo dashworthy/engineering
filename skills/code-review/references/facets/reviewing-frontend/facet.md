@@ -1,11 +1,9 @@
 
 # Reviewing — Frontend facet
 
-Say this first, plainly: `Using the code-review frontend facet to review this change.`
-
 ## What this guarantees
 
-One thing: given a change that renders a user-facing surface, this facet reviews that surface
+Given a change that renders a user-facing surface, this facet reviews that surface
 across three lenses — **Accessibility** (perceivability & operability), **Data presentation**
 (identity ambiguity), and **Internationalization** (translatability) — and returns a short,
 ordered, self-contained list of findings, capped and floored, with a durable record written to

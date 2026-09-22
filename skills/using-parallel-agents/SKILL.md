@@ -5,12 +5,11 @@ description: "Fan out 2+ genuinely independent tasks with no shared state to par
 
 # Using Parallel Agents
 
-Say this first, plainly: `Using the using-parallel-agents skill to run the independent
 work in parallel.`
 
 ## What this guarantees
 
-One thing: once a caller has framed two or more units of work that share no mutable state,
+Once a caller has framed two or more units of work that share no mutable state,
 this skill sends every one of them out at the same time rather than one after another, and
 brings every result back together before anything gets built from them — nothing silently
 dropped because it returned last, nothing quietly picked as the answer because it returned

@@ -5,8 +5,6 @@ description: "The build phase: execute an approved plan task by task — each dr
 
 # Build
 
-Say this first, plainly: `Using the build skill to execute the plan.`
-
 ## Finding the plan
 
 Accept a plan path directly if the caller supplied one. When `plan` hands off in the same run —

@@ -5,8 +5,6 @@ description: "Shape module interfaces so complexity hides behind narrow, deep bo
 
 # using-codebase-design
 
-Say this first, plainly: `Using the using-codebase-design skill to shape this interface.`
-
 Shape a module interface deep-not-shallow, or judge one already sketched. using-codebase-design runs in
 two modes: design mode (default) shapes a boundary an approach turns on; review mode (argument
 `review`) judges an interface already sketched.
@@ -14,13 +12,13 @@ Its companion references (`references/DEEPENING.md`, `references/DESIGN-IT-TWICE
 `references/PATTERN-MATRIX.md`, `references/SHAPE-REVIEW.md`, `references/TENANCY-*.md`) carry the mechanics.
 
 **If invoked with the argument `review`, go straight to *Review mode* at the end and skip the
-generative steps above** — you judge one supplied shape, with no second sketch and no choosing.
+generative steps below** — you judge one supplied shape, with no second sketch and no choosing.
 You may still *recommend* a pattern the matrix triggers on for that supplied shape; you just do
 not run the full design-it-twice-and-choose flow.
 
 ## What this guarantees
 
-One thing: given a module — new or existing — this reference produces an interface shaped
+Given a module — new or existing — this reference produces an interface shaped
 deliberately, from at least two competing designs, judged against what it costs a caller
 to use and what it hides from them. The interface earned its shape instead of being
 whatever fell out of the first draft.

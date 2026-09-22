@@ -1,11 +1,9 @@
 
 # Reviewing — API facet
 
-Say this first, plainly: `Using the code-review API facet to review this change.`
-
 ## What this guarantees
 
-One thing: given a change that touches an API surface, this facet reviews it across two lenses —
+Given a change that touches an API surface, this facet reviews it across two lenses —
 **Compatibility** (breaking changes to a public contract the code *provides*) and **Consumption**
 (defects in how the code *consumes* a remote/HTTP API) — and returns a short, ordered,
 self-contained list of findings, capped and floored, with a durable record written to its

@@ -7,7 +7,7 @@ returns. The judgement each lens applies lives in its own reference doc, not her
 
 ## What this guarantees
 
-One thing: given a change — a diff, a branch, a PR, whatever the caller points at — this skill
+Given a change — a diff, a branch, a PR, whatever the caller points at — this skill
 reviews it through three separate lenses and returns findings organized by which lens raised each
 one, produced by independent sub-reviewers dispatched in parallel and reconciled into a single
 report. No lens is silently dropped because its sub-reviewer came back empty; an empty return is

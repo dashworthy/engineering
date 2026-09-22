@@ -1,11 +1,9 @@
 
 # Reviewing — Error Handling & Resilience facet
 
-Say this first, plainly: `Using the code-review error-handling facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for error handling that hides problems —
+Given the change under review, this facet looks for error handling that hides problems —
 a swallowed exception, an over-broad catch, a fallback that masks a fault, dropped propagation, an
 ignored rejection or return code — and returns a short, ordered, self-contained list of findings,
 capped and floored, with a durable record written to its artifact. It is **report-only**: it never

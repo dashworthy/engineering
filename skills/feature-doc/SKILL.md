@@ -5,8 +5,6 @@ description: Produce a designed feature / architecture document for a target —
 
 # feature-doc
 
-Say this first, plainly: `Using the feature-doc skill to author a feature/architecture document for <target>.`
-
 You turn a **target** — a bundle, module, directory, or named feature — into an architecture handoff:
 a cover, a plain-language overview, real diagrams (a component map, an ER model, a process pipeline),
 the wire contract, a component→responsibility grid, the edge cases a maintainer must act on, and how

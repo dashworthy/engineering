@@ -1,11 +1,9 @@
 
 # Reviewing — Technical facet
 
-Say this first, plainly: `Using the code-review technical facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for technical defects across two
+Given the change under review, this facet looks for technical defects across two
 lenses — **Efficiency & correctness** (inefficient data access and correctness-scoped
 best-practice lapses) and **Reuse over reinvention** (new code that rebuilds a capability the
 stack already provides) — and returns a short, ordered, self-contained list of findings, capped

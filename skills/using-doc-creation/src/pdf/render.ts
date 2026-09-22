@@ -28,7 +28,7 @@ const DEFAULT_THEMES: PdfTheme[] = ['light'];
 export interface RenderRunOptions {
   /** The `.engineering/<run>/using-doc-creation/` working directory; must contain `pdf.tsx`. */
   runDir: string;
-  /** Themes to render. Defaults to both. */
+  /** Themes to render. Defaults to light only. */
   themes?: PdfTheme[];
 }
 

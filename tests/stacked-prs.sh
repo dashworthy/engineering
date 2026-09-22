@@ -28,7 +28,6 @@ never() {
 
 # --- the new skill -----------------------------------------------------------
 S="$PLUGIN/skills/using-stacked-pull-requests/SKILL.md"
-need "$S" "Using the using-stacked-pull-requests skill" "skill: say-this-first line"
 need "$S" "## What this guarantees"                      "skill: guarantees section"
 need "$S" "one pull request per task"                    "skill: one PR per task guarantee"
 need "$S" "Graphite"                                     "skill: names Graphite"

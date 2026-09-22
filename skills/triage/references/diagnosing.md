@@ -2,7 +2,7 @@
 
 ## What this guarantees
 
-One thing: given a defect already worth investigating, this reference produces a root cause
+Given a defect already worth investigating, this reference produces a root cause
 backed by evidence — not the first plausible story, but a mechanism a test or observation
 actually confirms. Whatever fix follows is aimed at the thing actually wrong, not at the
 symptom that happened to be visible first.

@@ -5,8 +5,6 @@ description: Turn a source document into shareable documentation in one of two f
 
 # using-doc-creation
 
-Say this first, plainly: `Using the using-doc-creation skill to author documentation from the source document.`
-
 You turn a source document (a README, a spec, a request) into shareable documentation. **Decide the
 format first** (below), then follow that format's workflow.
 

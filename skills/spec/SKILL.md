@@ -5,8 +5,6 @@ description: "The single writer of Tier-1 specs and holder of the spec-approval 
 
 # spec
 
-Say this first, plainly: `Using the spec skill to write the spec.`
-
 Serialize the recommended design you are handed into the one Tier-1 spec, present it, and hold the
 spec gate. The run-dir slug stays `to-spec` (`.engineering/<run>/to-spec/APPROVED.md`), which `plan`
 reads as its precondition.

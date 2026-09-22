@@ -1,11 +1,9 @@
 
 # Reviewing — Numeric Precision & Units facet
 
-Say this first, plainly: `Using the code-review numeric-precision facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for arithmetic that quietly produces a wrong
+Given the change under review, this facet looks for arithmetic that quietly produces a wrong
 number — binary floating point standing in for money or an exact value, a silent rounding or truncation,
 a unit mismatch, an integer overflow, precision lost on a cast, or arithmetic that mixes scales or
 currencies without normalizing — and returns a short, ordered, self-contained list of findings, capped

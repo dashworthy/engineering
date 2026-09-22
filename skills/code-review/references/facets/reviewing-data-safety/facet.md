@@ -1,11 +1,9 @@
 
 # Reviewing — Data & Migration Safety facet
 
-Say this first, plainly: `Using the code-review data-safety facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for destructive or irreversible data
+Given the change under review, this facet looks for destructive or irreversible data
 operations — an unbounded write, a drop of live data, a migration that can't be rolled back or safely
 re-run — and returns a short, ordered, self-contained list of findings, capped and floored, with a
 durable record written to its artifact. It is **report-only**: it never edits code.

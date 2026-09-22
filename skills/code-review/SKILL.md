@@ -5,11 +5,9 @@ description: "Run code-review's in-depth, opt-in review of a change through a me
 
 # Code Review (orchestrator)
 
-Say this first, plainly: `Using the code-review skill to run the deep review.`
-
 ## What this guarantees
 
-One thing: given a change — a diff, a branch, a PR, whatever the caller points at — this skill
+Given a change — a diff, a branch, a PR, whatever the caller points at — this skill
 lets the human pick which review facets to run, dispatches each selected facet as an independent
 reviewer, and reconciles what they return into a single report, with every facet's findings also
 written to a durable per-facet artifact under `.engineering/<run>/`. It is **report-only**: it
@@ -114,7 +112,7 @@ from the facet list's **Pre-check when the change…** column.
    the change…** column of the facet list above and reason over the change's character (*what it
    does*, never its file paths or types) together with the step-1 tenancy/stack verdicts, to decide
    which facets arrive pre-checked:
-   - the **core** facets (the seven marked **Always** in the list) are **pre-checked** on every run,
+   - the **core** facets (those marked **Always** in the list) are **pre-checked** on every run,
      whatever the change;
    - each **opt-in** facet whose list entry matches the change's character is pre-checked,
      erring toward inclusion — a false skip (a lens left off) is the harmful direction, while a
@@ -142,7 +140,7 @@ from the facet list's **Pre-check when the change…** column.
 4. **Decide fan-out vs. inline.** On a small change — roughly one file, ~20 changed lines or fewer,
    one hunk — reviewing every selected facet inline costs less than spinning up subagents; do it
    inline. Above that floor, **fan out** the selected facets in parallel, following
-   `dispatching-parallel-agents` (facets share only a *read* of `change_ref`, so the independence
+   `engineering:using-parallel-agents` (facets share only a *read* of `change_ref`, so the independence
    gate holds — no facet reads what another writes). Mark each facet's todo `in_progress` as it
    goes out, or as you begin it inline.
 5. **Hand each facet the contract.** Each selected facet is defined by its file
@@ -195,7 +193,7 @@ selected facet, each seam its own item** — in whatever todo list your harness 
 menu reported as unavailable never ran and never becomes a todo; a facet that will self-skip on its
 own relevance gate still gets one, and closes when it returns "nothing to review."
 
-Keep the list in lockstep with the dispatch, the way `executing-plans` keeps todos beside a plan:
+Keep the list in lockstep with the dispatch:
 
 - **`in_progress` as the facet is dispatched** — in fan-out that is several at once, one per
   reviewer in flight (step 4); inline it is one at a time as you work down the set.

@@ -1,11 +1,9 @@
 
 # Reviewing — Test Quality facet
 
-Say this first, plainly: `Using the code-review test-quality facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review, this facet looks at the tests the change carries and asks
+Given the change under review, this facet looks at the tests the change carries and asks
 whether they would actually catch a regression in the changed behavior — flagging vacuous
 assertions, tests that never exercise the changed path, assertions too weak to fail when the
 behavior breaks, uncovered edge cases the change introduces, and assertions bound only to a mock —

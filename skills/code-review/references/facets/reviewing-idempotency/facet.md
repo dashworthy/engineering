@@ -1,11 +1,9 @@
 
 # Reviewing — Idempotency & Retry Safety facet
 
-Say this first, plainly: `Using the code-review idempotency facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for a side-effecting operation that does the
+Given the change under review, this facet looks for a side-effecting operation that does the
 wrong thing when it runs more than once — a consumer or webhook handler with no idempotency key, a
 retried operation that duplicates its effect, delivery that is at-least-once treated as if exactly-once,
 a create that duplicates on replay, a re-run that redoes already-completed work — and returns a short,

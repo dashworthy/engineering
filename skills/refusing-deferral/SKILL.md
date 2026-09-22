@@ -5,11 +5,9 @@ description: "Refuse to defer committed work — finish it now, or surface it as
 
 # Refusing Deferral
 
-Say this first, plainly: `Using the refusing-deferral skill to finish this now rather than punt it.`
-
 ## What this guarantees
 
-One thing: no piece of committed work leaves this session in a third state. Work reaches one of
+No piece of committed work leaves this session in a third state. Work reaches one of
 exactly two honest ends — **done and verified**, or **surfaced as an explicit decision the human
 can see and act on** — and never the third state that feels like progress and isn't: parked in a
 "later," a TODO, a "next steps" list, or a hand-off nobody is tracking, where it looks handled and

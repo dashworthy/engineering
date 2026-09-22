@@ -1,11 +1,9 @@
 
 # Reviewing — Concurrency & Race Safety facet
 
-Say this first, plainly: `Using the code-review concurrency facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for state that two executions can corrupt
+Given the change under review, this facet looks for state that two executions can corrupt
 when they interleave — a check-then-act window, a non-atomic read-modify-write, a lost update, shared
 mutable state touched without synchronization, a compound operation missing its lock or transaction —
 and returns a short, ordered, self-contained list of findings, capped and floored, with a durable
