@@ -5,8 +5,6 @@ description: "The defect entrance: verify a reported problem reproduces, isolate
 
 # triage
 
-Say this first, plainly: `Using the triage skill to verify and isolate the defect.`
-
 Verify and isolate a reported defect, then hand that context to the shared design dialogue.
 
 Work the beats in order.

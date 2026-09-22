@@ -1,11 +1,9 @@
 
 # Reviewing — Security facet
 
-Say this first, plainly: `Using the code-review security facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for security defects — OWASP-class
+Given the change under review, this facet looks for security defects — OWASP-class
 vulnerabilities, authorization that is assumed rather than enforced, and (when the change touches
 an Electron process-model surface) Electron-specific security defects — and returns a short,
 ordered, self-contained list of findings, capped and floored, with a durable record written to its

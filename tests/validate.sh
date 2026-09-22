@@ -446,7 +446,6 @@ UQ="$PLUGIN/skills/using-questions/SKILL.md"
 [ -f "$UQ" ]; check $? "skills/using-questions/SKILL.md exists"
 if [ -f "$UQ" ]; then
   grep -q '^name: using-questions$' "$UQ"; check $? "using-questions frontmatter names itself"
-  grep_flat "$UQ" "Say this first, plainly"; check $? "using-questions carries the say-this-first opener"
   grep_flat "$UQ" "What this guarantees"; check $? "using-questions carries a What-this-guarantees clause"
   # The shared mechanics, stated once here. Each anchor is chosen to be unique to the mechanics
   # bullet it guards — not a phrase that also appears in the frontmatter blurb or worked example,

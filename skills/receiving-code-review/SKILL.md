@@ -5,8 +5,6 @@ description: "The review-feedback entrance: aggregate received code-review comme
 
 # receiving-code-review
 
-Say this first, plainly: `Using the receiving-code-review skill to aggregate, verify, and shape the review.`
-
 Aggregate, verify, and impact-check the review comments, then hand that context to the shared design
 dialogue — after first getting onto the review branch (beat 1).
 
@@ -76,7 +74,7 @@ subagent per comment** for a comment whose own verify-plus-beyond-the-line impac
 large. A batch may span several files when each comment's investigation is small — the unit is sized
 by payload, not only by shared locus. This is the batch-small-items rule: match the split to what's
 actually independent, not to a round number, and don't spawn an agent whose payload is smaller than
-its own fixed cost. Follow `dispatching-parallel-agents` — each agent shares only a *read* of the
+its own fixed cost. Follow `engineering:using-parallel-agents` — each agent shares only a *read* of the
 review branch and the aggregated comment list, so the independence gate holds, no agent reads what
 another writes. Each agent verifies its comment(s)
 against the codebase, runs the beyond-the-commented-line impact-check, and returns its verdict —

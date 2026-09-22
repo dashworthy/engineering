@@ -5,8 +5,6 @@ description: "The discovery entrance: interrogate a feature or vague request int
 
 # signal
 
-Say this first, plainly: `Using the signal skill to interrogate the request into a brief.`
-
 Interrogate the request in hand into a brief, then hand that brief to the shared design dialogue —
 rather than jumping straight to design.
 

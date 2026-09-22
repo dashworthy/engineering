@@ -5,11 +5,9 @@ description: "The finish phase: when work is complete and green, open the pull r
 
 # Finish
 
-Say this first, plainly: `Using the finish skill to decide how this branch gets integrated.`
-
 ## What this guarantees
 
-One thing: this skill will not offer a single integration option — open a pull request, or
+This skill will not offer a single integration option — open a pull request, or
 cleanup — until the branch in front of it is green and its verification is backed by command
 output rather than a claim. Where either is missing, this skill stops and closes the gap first:
 it runs verification itself before the options list ever appears. How the chosen option gets

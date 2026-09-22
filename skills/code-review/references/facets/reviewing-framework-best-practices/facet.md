@@ -1,12 +1,11 @@
 
 # Reviewing — Framework Best Practices facet
 
-Say this first, plainly: `Using the code-review framework best-practices facet to review this
 change.`
 
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for stack-specific idiom
+Given the change under review, this facet looks for stack-specific idiom
 violations — conventions particular to a detected framework, not the general principles every
 other facet already reasons about — and returns a short, ordered, self-contained list of
 findings, capped and floored, with a durable record written to its artifact. It is

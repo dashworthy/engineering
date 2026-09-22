@@ -3,6 +3,13 @@
 > Interactive and main-thread only — this cannot run as a dispatched subagent. It is loaded when a
 > developer points the `simplify` entrance at existing code they dislike.
 
+Contents:
+
+- Overview, Core principle — what this converts, and why
+- The lenses, How to interrogate — the quality lenses and the interrogation loop
+- Falling back to generic interrogation, The advancement gate
+- Writing the brief, Red flags — the output, and when to stop
+
 ## Overview
 
 Turn a subjective *"I don't like this code"* into hard, checkable refactor goals **before** any

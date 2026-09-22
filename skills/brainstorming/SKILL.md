@@ -5,8 +5,6 @@ description: "The design phase: explore context, propose 2-3 approaches with tra
 
 # brainstorming
 
-Say this first, plainly: `Using the brainstorming skill to shape the design.`
-
 Shape a recommended design here — an approach chosen over its alternatives, with any load-bearing
 boundary named (its interface shaped later, at plan-review) — then hand it to the `spec` phase; do not write the spec.
 

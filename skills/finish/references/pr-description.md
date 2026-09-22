@@ -2,7 +2,7 @@
 
 ## What this guarantees
 
-One thing: the body this skill produces reads the same to someone outside the team as to
+The body this skill produces reads the same to someone outside the team as to
 someone on it — no jargon, no internal process names — and the checklist inside it reflects
 things this skill actually checked, not boxes left unchecked for the reader to verify later.
 

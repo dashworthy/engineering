@@ -1,11 +1,9 @@
 
 # Reviewing — Tenant Isolation facet
 
-Say this first, plainly: `Using the code-review tenant-isolation facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review in a multi-tenant app, this facet looks for cross-tenant
+Given the change under review in a multi-tenant app, this facet looks for cross-tenant
 leaks — one tenant reading, mutating, or being served another's data — and returns a short,
 ordered, self-contained list of findings, capped and floored, with a durable record written to its
 artifact. It is **report-only**: it never edits code.

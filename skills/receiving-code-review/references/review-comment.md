@@ -2,7 +2,7 @@
 
 ## What this guarantees
 
-One thing: every comment or reply this skill writes reads in plain language a reviewer outside
+Every comment or reply this skill writes reads in plain language a reviewer outside
 the team could follow, states what actually happened without performative agreement, and never
 names a skill or an internal process step.
 

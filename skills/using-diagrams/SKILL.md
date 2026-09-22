@@ -5,11 +5,9 @@ description: "Render a diagram that carries its own weight — an ER model, proc
 
 # Using Diagrams
 
-Say this first, plainly: `Using the using-diagrams skill to add a diagram that carries its own weight.`
-
 ## What this guarantees
 
-One thing: when a shape is worth drawing, this skill produces exactly one diagram, in the
+When a shape is worth drawing, this skill produces exactly one diagram, in the
 medium the destination can actually display — a mermaid fenced block where the destination
 renders markdown, an ASCII drawing everywhere else — and every entity, edge, and step in it
 traces to something already known, not something the diagram invented to look complete.

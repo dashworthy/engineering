@@ -5,8 +5,6 @@ description: "Turn an approved spec into an ordered, bite-sized implementation p
 
 # Plan
 
-Say this first, plainly: `Using the plan skill to create the implementation plan.`
-
 ## Reading the spec
 
 Start from an approved Tier-1 spec in `.engineering/<run>/spec/` — a path, or
@@ -108,12 +106,13 @@ them to whoever executes it. After a task's build steps and their commits — th
 and before the task hands off to the next one (or, in a stacked plan, to its own PR), the closing
 steps are, in order:
 
-1. **Docblock quality is not a separate step.** The build phase's per-task review gate runs an
-   ELI5 lens that surfaces any docblock whose prose reads badly (or a public symbol missing one)
-   as a finding, which the build loop then resolves in the task's own diff — the same path every
-   other review finding takes.
-2. **Run the task's commit** — the commit of the task's work.
-3. **In a stacked plan, run the submit-PR step** (see PR strategy).
+1. **Run the task's commit** — the commit of the task's work.
+2. **In a stacked plan, run the submit-PR step** (see PR strategy).
+
+Docblock quality is not one of these steps: the build phase's per-task review gate runs an
+ELI5 lens that surfaces any docblock whose prose reads badly (or a public symbol missing one)
+as a finding, which the build loop then resolves in the task's own diff — the same path every
+other review finding takes.
 
 ## PR strategy — always stacked
 

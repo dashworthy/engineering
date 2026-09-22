@@ -1,11 +1,9 @@
 
 # Reviewing — Architectural facet
 
-Say this first, plainly: `Using the code-review architectural facet to review this change.`
-
 ## What this guarantees
 
-One thing: given the change under review, this facet looks for the structural defects a diff can
+Given the change under review, this facet looks for the structural defects a diff can
 actually show — a coupling or dependency-direction violation, responsibility/cohesion creep, a
 duplicated abstraction, a leaky abstraction, a needless single-use abstraction — and returns a short, ordered, self-contained list of
 findings, capped and floored, with a durable record written to its artifact. It is **report-only**:

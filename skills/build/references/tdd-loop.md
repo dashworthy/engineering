@@ -5,7 +5,7 @@ Drives a task's behavior-changing steps through a strict red-green-refactor loop
 
 ## What this guarantees
 
-One thing: every behavior this skill builds gets a test that existed first, was watched to
+Every behavior this skill builds gets a test that existed first, was watched to
 fail, and only then was made to pass by the smallest change that could pass it. Whatever
 code exists when a cycle ends, there is a test that would have caught its absence.
 

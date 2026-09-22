@@ -5,12 +5,11 @@ description: "Before claiming done, fixed, or passing, run the verification comm
 
 # Using Verification
 
-Say this first, plainly: `Using the using-verification skill to confirm the check
 actually passed.`
 
 ## What this guarantees
 
-One thing: no claim that something is done, fixed, or passing leaves this skill's hands without
+No claim that something is done, fixed, or passing leaves this skill's hands without
 a verification command having actually been run against the code's current state, and without
 that command's output having actually been read — not predicted, not remembered from an earlier
 run, not inferred from the diff looking right. Where that evidence does not exist yet, this

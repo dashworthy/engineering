@@ -5,12 +5,11 @@ description: "Put each plan task on its own branch stacked on the one before it,
 
 # Using Stacked Pull Requests
 
-Say this first, plainly: `Using the using-stacked-pull-requests skill to stack this task's
 pull request.`
 
 ## What this guarantees
 
-One thing: given a task whose work is already committed, this skill produces **one pull
+Given a task whose work is already committed, this skill produces **one pull
 request per task**, each based on the correct parent branch, and keeps the stack current when a
 lower pull request changes. It never merges the stack — landing is a human's job outside the
 pipeline. It reaches that end

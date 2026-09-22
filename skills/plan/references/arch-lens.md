@@ -1,8 +1,14 @@
 # Reviewing Plans (arch-lens reference)
 
+Contents:
+
+- What this guarantees, Where this runs — what the review returns, and when it runs
+- The four checks — 1 architecture · 2 reinvention · 3 unproven-assumption · 4 over-engineering
+- Revising the plan, What this does not do
+
 ## What this guarantees
 
-One thing: given a plan already written and self-reviewed, this review returns
+Given a plan already written and self-reviewed, this review returns
 that plan with its design vetted — every interface a task sketches has been run through the
 architecture lens, every data structure or capability a task introduces is either a reuse of
 something the codebase or framework already has or a bespoke choice a human explicitly approved,
@@ -90,8 +96,9 @@ task's structure is genuinely new. Reuse over reinvention is the default; a new 
 to earn its place against what already exists.
 
 **Flag each candidate one-off structure to the human as an explicit choice**, using a tool to ask
-it where one is available; no such tool, present the choice as plain text and note the run is
-degraded. Do not
+it where one is available; no such tool, present the choice as plain text, note the run is
+degraded, and hold for the human's answer before revising — a degraded run still waits on the
+decision, it does not proceed on an assumed one. Do not
 silently revise these, and do not silently let them stand. Frame the question around the one
 structure: name the bespoke shape the task introduces, name the existing type it could reuse
 (if one exists), and offer:
