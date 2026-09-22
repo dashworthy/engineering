@@ -228,6 +228,12 @@ if [ -f "$RP" ]; then
   # the harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
   grep_flat "$RP" "explicit choice"; check $? "arch-lens review flags one-off data structures as an explicit choice"
   ! grep_flat "$RP" "AskUserQuestion"; check $? "arch-lens review names no harness-specific question tool"
+  # The over-engineering scan reviews the PLAN (not code) for design the spec didn't buy — its two
+  # lenses parallel the code-review readability facet but are judged against the requirements.
+  grep_flat "$RP" "The over-engineering scan"; check $? "arch-lens review carries the over-engineering scan"
+  grep_flat "$RP" "Unearned abstraction"; check $? "over-engineering scan carries the unearned-abstraction lens"
+  grep_flat "$RP" "Speculative or over-defensive scope"; check $? "over-engineering scan carries the speculative/over-defensive-scope lens"
+  grep_flat "$RP" "The four checks"; check $? "arch-lens review now runs four checks"
 fi
 WP="$PLUGIN/skills/plan/SKILL.md"
 grep_flat "$WP" "arch-lens.md"; check $? "plan loads the arch-lens review reference"
@@ -410,6 +416,17 @@ if [ -f "$SEC" ]; then
   grep_flat "$SEC" "Electron"; check $? "security facet carries the Electron-security lens"
 fi
 [ ! -e "$FACETS/reviewing-electron" ]; check $? "retired reviewing-electron facet is absent"
+
+# readability = unearned abstraction + over-defensive programming (core facet, always pre-checked)
+READ="$FACETS/reviewing-readability/facet.md"
+[ -f "$READ" ]; check $? "reviewing-readability facet exists"
+if [ -f "$READ" ]; then
+  grep_flat "$READ" "Unearned abstraction"; check $? "readability facet carries the unearned-abstraction lens"
+  grep_flat "$READ" "Over-defensive programming"; check $? "readability facet carries the over-defensive-programming lens"
+fi
+[ -f "$FACETS/reviewing-readability/references/readability-checklist.md" ]; check $? "readability facet ships its checklist"
+grep_flat "$PLUGIN/skills/code-review/SKILL.md" "reviewing-readability"; check $? "code-review facet list includes reviewing-readability"
+grep_flat "$PLUGIN/skills/code-review/SKILL.md" "Eight **core** facets"; check $? "code-review names readability among the eight core facets"
 
 # --- spec template consumability refresh -------------------------------------
 # The spec format (now the spec template) cites the one shared consumable-markdown reference rather

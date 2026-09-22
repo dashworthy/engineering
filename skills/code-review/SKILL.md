@@ -50,10 +50,11 @@ its default. If a token is genuinely ambiguous, ask once rather than guess.
 
 ## The facets
 
-Thirteen facets exist; each is one lens, defined in a reference file under
+Fourteen facets exist; each is one lens, defined in a reference file under
 [references/facets/](references/facets/) (`references/facets/<facet>/facet.md`), and dispatched as
-an independent reviewer — not a standalone skill. Seven **core** facets — **Security**,
-**Technical** (efficiency/correctness **and** reuse over reinvention), **Architectural**, **Error
+an independent reviewer — not a standalone skill. Eight **core** facets — **Security**,
+**Technical** (efficiency/correctness **and** reuse over reinvention), **Architectural**,
+**Readability** (unearned abstraction **and** over-defensive programming), **Error
 Handling & Resilience**, **Test Quality**, **Concurrency & Race Safety**, and **Numeric Precision &
 Units** — are **always** pre-checked, whatever the change.
 The remaining opt-in facets are pre-checked only when the change's character matches, per the
@@ -73,6 +74,7 @@ from the facet list's **Pre-check when the change…** column.
 | [`reviewing-security`](references/facets/reviewing-security/facet.md) | OWASP best practices; authorization enforced, not assumed; plus Electron process-model security (renderer isolation, preload/IPC, navigation, shell/protocol) when the change touches an Electron surface | **Always** (core) |
 | [`reviewing-technical`](references/facets/reviewing-technical/facet.md) | Two lenses — Efficiency & correctness (N+1, unbounded queries, correctness-scoped best practice) and Reuse over reinvention (rebuilding what a framework/stdlib/library/imported module already provides) | **Always** (core) |
 | [`reviewing-architectural`](references/facets/reviewing-architectural/facet.md) | Sustainable architecture: coupling, dependency direction, cohesion, leaky abstractions | **Always** (core) |
+| [`reviewing-readability`](references/facets/reviewing-readability/facet.md) | Human readability across two lenses — Unearned abstraction (single-use indirection, premature generalization, speculative flexibility) and Over-defensive programming (guards for conditions the code's own invariants rule out) | **Always** (core) |
 | [`reviewing-error-handling`](references/facets/reviewing-error-handling/facet.md) | Silent failures, swallowed exceptions, bad fallbacks | **Always** (core) |
 | [`reviewing-test-quality`](references/facets/reviewing-test-quality/facet.md) | Do tests exercise the change and fail if it breaks? | **Always** (core) |
 | [`reviewing-data-safety`](references/facets/reviewing-data-safety/facet.md) | Destructive/irreversible ops, migrations, data loss | alters stored-data structure or performs a destructive or irreversible data operation — a migration, a bulk update/delete, a drop |
