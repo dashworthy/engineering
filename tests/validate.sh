@@ -411,6 +411,17 @@ if [ -f "$SEC" ]; then
 fi
 [ ! -e "$FACETS/reviewing-electron" ]; check $? "retired reviewing-electron facet is absent"
 
+# readability = unearned abstraction + over-defensive programming (core facet, always pre-checked)
+READ="$FACETS/reviewing-readability/facet.md"
+[ -f "$READ" ]; check $? "reviewing-readability facet exists"
+if [ -f "$READ" ]; then
+  grep_flat "$READ" "Unearned abstraction"; check $? "readability facet carries the unearned-abstraction lens"
+  grep_flat "$READ" "Over-defensive programming"; check $? "readability facet carries the over-defensive-programming lens"
+fi
+[ -f "$FACETS/reviewing-readability/references/readability-checklist.md" ]; check $? "readability facet ships its checklist"
+grep_flat "$PLUGIN/skills/code-review/SKILL.md" "reviewing-readability"; check $? "code-review facet list includes reviewing-readability"
+grep_flat "$PLUGIN/skills/code-review/SKILL.md" "Eight **core** facets"; check $? "code-review names readability among the eight core facets"
+
 # --- spec template consumability refresh -------------------------------------
 # The spec format (now the spec template) cites the one shared consumable-markdown reference rather
 # than restating a house style, and renders its enumerable sections (§3 success criteria, §5
