@@ -228,6 +228,12 @@ if [ -f "$RP" ]; then
   # the harness, so guard the tool-agnostic phrasing, not a harness-specific question tool.
   grep_flat "$RP" "explicit choice"; check $? "arch-lens review flags one-off data structures as an explicit choice"
   ! grep_flat "$RP" "AskUserQuestion"; check $? "arch-lens review names no harness-specific question tool"
+  # The over-engineering scan reviews the PLAN (not code) for design the spec didn't buy — its two
+  # lenses parallel the code-review readability facet but are judged against the requirements.
+  grep_flat "$RP" "The over-engineering scan"; check $? "arch-lens review carries the over-engineering scan"
+  grep_flat "$RP" "Unearned abstraction"; check $? "over-engineering scan carries the unearned-abstraction lens"
+  grep_flat "$RP" "Speculative or over-defensive scope"; check $? "over-engineering scan carries the speculative/over-defensive-scope lens"
+  grep_flat "$RP" "The four checks"; check $? "arch-lens review now runs four checks"
 fi
 WP="$PLUGIN/skills/plan/SKILL.md"
 grep_flat "$WP" "arch-lens.md"; check $? "plan loads the arch-lens review reference"

@@ -20,12 +20,12 @@ as a document (no placeholders, full spec coverage, consistent task shape) but h
 been shown to a human. Read the plan from the path the conductor is working, or the plan
 already sitting in context.
 
-This review is not a human gate. It is a machine pass with three checks, two of which flag their
+This review is not a human gate. It is a machine pass with four checks, three of which flag their
 findings to the human as an explicit choice per finding.
 
-## The three checks
+## The four checks
 
-Run all three over the whole plan before revising anything, so a single revision pass closes
+Run all four over the whole plan before revising anything, so a single revision pass closes
 everything found rather than the plan churning once per finding.
 
 ### 1. The architecture check
@@ -150,10 +150,47 @@ a `feature_flags` table that no earlier task creates and the spec never lists as
 surface it as a choice (add the migration, or confirm the table already ships) rather than
 assuming it is there.
 
+### 4. The over-engineering scan — unearned abstraction and speculative scope
+
+Walk every task for design the spec does not warrant — the plan proposing more structure or more
+handling than the requirements need. Where Check 1 asks whether a sketched shape is *sound* and
+Check 2 whether it *reinvents* something that exists, this asks the proportionality question:
+**does this task carry more than the spec bought?** Two shapes, both judged against what the spec
+actually asks for:
+
+- **Unearned abstraction** — a task that introduces indirection or generalization the requirements
+  don't call for: an interface, base class, strategy, or generic with a single implementation and no
+  second caller the spec names; a parameter, flag, or config point for something that never varies; an
+  extension seam or callback nothing in the spec consumes. The abstraction is paid for in the plan and
+  used never. (Whether such an abstraction's *shape* is wrong is Check 1's; whether it should exist at
+  all, given the requirements, is this scan's.)
+- **Speculative or over-defensive scope** — a task that plans guards, validation, fallback handling,
+  or whole sub-tasks for conditions the spec's own invariants make impossible or that it never lists:
+  handling an input the spec rules out, a retry/cache/queue the requirements don't ask for, error
+  paths for a failure mode the design forecloses, "future-proofing" nothing in scope needs. Scope the
+  plan carries that the spec did not buy.
+
+This scan is **grep-limited** the same way — judge from the spec, the plan, and general knowledge;
+**one targeted confirm-grep** at most, verify-only, never an open scan. It is a judgment call, not an
+objective defect, so **surface each finding to the human as an explicit choice**, exactly as the scans
+above do (a tool where one is available; plain text noting a degraded run otherwise). Never silently
+strip a task's design over this, and never silently let over-engineering stand. Name the unearned
+abstraction or the speculative scope, name the requirement it exceeds, and offer to either **simplify**
+the task to what the spec needs (the recommended option) or **keep** it, the human justifying the extra
+design so the plan records why it earns its place. A free-form escape leaves room for a third shape.
+
+A plan that carries no more than its requirements need yields **no finding here** — a lean plan is a
+complete, valid result. Do not invent an over-engineering flag to avoid an empty scan; a manufactured
+"simplify" is exactly the noise this discipline exists to keep out. Worked example: a task adds a
+`NotificationStrategy` interface with a single `EmailNotifier` implementation though the spec names
+only email — flag it as unearned abstraction and offer to collapse it to a direct call until a second
+channel is actually required.
+
 ## Revising the plan
 
-After all three checks, apply everything found in one pass: the architecture defects you're closing
-directly, and the one-off-structure resolutions the human chose. Edit the plan file in place —
+After all four checks, apply everything found in one pass: the architecture defects you're closing
+directly, the one-off-structure resolutions the human chose, and any over-engineering the human chose
+to simplify. Edit the plan file in place —
 the Interfaces blocks, the affected steps, and any verification a reshaped interface changes.
 A revision that reshapes a signature but leaves a downstream step calling the old shape has
 left the plan inconsistent; walk the tasks that touch a changed boundary and bring them along.
